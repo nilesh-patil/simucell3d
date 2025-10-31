@@ -6,3 +6,4 @@ venv*
 env*
 artificial_image_generation/
 simulation_results/
+.claude/*
