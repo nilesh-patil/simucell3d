@@ -6,5 +6,7 @@ venv*
 env*
 artificial_image_generation/
 simulation_results/
-.claude/*# Experimental benchmarks (not production-ready)
+.claude/*
+
+# Experimental benchmarks (not production-ready)
 benchmark_contact_detection
