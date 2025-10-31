@@ -423,6 +423,8 @@ class cell: public std::enable_shared_from_this<cell> {
         double get_division_volume() const noexcept {return division_volume_;}
         double get_growth_rate() const noexcept {return growth_rate_;}
         void set_growth_rate(const double growth_rate) noexcept {growth_rate_ = growth_rate;}
+        void set_division_volume(const double division_volume) noexcept {division_volume_ = division_volume;}
+        void set_static(const bool is_static) noexcept {is_static_ = is_static;}
         double get_area() const noexcept {return area_;}
         double get_volume() const noexcept {return volume_;}
         double get_pressure() const noexcept {return pressure_;}
@@ -454,11 +456,30 @@ class cell: public std::enable_shared_from_this<cell> {
                 return std::accumulate(face_lst_.begin(), face_lst_.end(), 0., [](auto acc, const auto& f){
                     return acc + f.get_repulsion_energy();
                 });
-            } 
+            }
         #endif
 
-
-
+        /**
+         * @brief Restore cell state from checkpoint data
+         *
+         * Used by checkpoint_reader to reconstruct cells from saved state.
+         *
+         * @param node_positions Vector of node positions
+         * @param face_node_indices Vector of face connectivity (triplets of node indices)
+         * @param face_type_ids Vector of face type IDs
+         * @param growth_rate Growth rate to restore
+         * @param division_volume Division volume to restore
+         * @param target_volume Target volume to restore
+         * @param is_static Whether cell is static
+         */
+        void restore_from_checkpoint(
+            const std::vector<vec3>& node_positions,
+            const std::vector<std::array<unsigned, 3>>& face_node_indices,
+            const std::vector<unsigned short>& face_type_ids,
+            double growth_rate,
+            double division_volume,
+            double target_volume,
+            bool is_static) noexcept(false);
 
 };
 

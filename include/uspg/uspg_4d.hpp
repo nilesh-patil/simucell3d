@@ -98,6 +98,12 @@ class uspg_4d: public uspg_abstract
         size_t voxel_id = get_voxel_index(voxel_x_id, voxel_y_id, voxel_z_id);
         return voxel_lst_[voxel_id];
     }
+
+    //Returns a constant reference of the content of the voxel by flat index
+    const std::forward_list<T>& get_voxel_content(const size_t voxel_id) const noexcept{
+        assert(voxel_id < voxel_lst_.size());
+        return voxel_lst_[voxel_id];
+    }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 

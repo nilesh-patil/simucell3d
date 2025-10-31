@@ -1899,3 +1899,50 @@ face* cell::get_face(const unsigned n1_id, const unsigned n2_id, const unsigned 
     return nullptr;
 }
 //---------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------
+void cell::restore_from_checkpoint(
+    const std::vector<vec3>& node_positions,
+    const std::vector<std::array<unsigned, 3>>& face_node_indices,
+    const std::vector<unsigned short>& face_type_ids,
+    double growth_rate,
+    double division_volume,
+    double target_volume,
+    bool is_static) noexcept(false) {
+
+    // Clear existing data
+    node_lst_.clear();
+    face_lst_.clear();
+    edge_set_.clear();
+    free_node_queue_.clear();
+    free_face_queue_.clear();
+
+    // Restore nodes
+    node_lst_.reserve(node_positions.size());
+    for (unsigned i = 0; i < node_positions.size(); ++i) {
+        node_lst_.emplace_back(node_positions[i], i);
+    }
+
+    // Restore faces
+    face_lst_.reserve(face_node_indices.size());
+    for (unsigned i = 0; i < face_node_indices.size(); ++i) {
+        const auto& indices = face_node_indices[i];
+        face_lst_.emplace_back(
+            indices[0], indices[1], indices[2],  // Node IDs
+            i                                     // Local face ID
+        );
+        // Set face type after construction
+        face_lst_.back().set_face_type_id(face_type_ids[i]);
+    }
+
+    // Restore properties
+    growth_rate_ = growth_rate;
+    division_volume_ = division_volume;
+    target_volume_ = target_volume;
+    is_static_ = is_static;
+
+    // Rebuild topology
+    generate_edge_set();
+    initialize_cell_properties(true);
+}
+//---------------------------------------------------------------------------------------------------------
