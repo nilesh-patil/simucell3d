@@ -6,14 +6,14 @@
  * spatial hash data structure that uses Morton encoding for better cache locality.
  *
  * Key improvements over USPG:
- * - Flat vector storage with Morton encoding (Z-order curve) for spatial coherence
- * - Binary search for O(log N) voxel lookup instead of O(1) but with better cache
- * - Better memory layout: contiguous storage instead of nested vectors
+ * - Hash table storage with Morton encoding keys for O(1) access
+ * - Sparse storage: only allocated voxels consume memory
+ * - O(1) average insertion and lookup instead of O(N) vector insertion
  * - Thread-safe insertion (optional, for parallel grid building)
  *
  * Performance characteristics:
- * - Insertion: O(log N) + O(M) where N = number of non-empty voxels, M = objects/voxel
- * - Neighborhood query: O(27 * log N * M) for 27-neighbor search
+ * - Insertion: O(1) average, O(M) where M = objects/voxel
+ * - Neighborhood query: O(27 * M) for 27-neighbor search (27 hash lookups)
  * - Memory: O(N * M) where N = non-empty voxels (sparse storage)
  *
  * @author SimuCell3D Optimization Team
@@ -25,7 +25,7 @@
 
 #include "uspg_abstract.hpp"
 #include "morton_encoding.hpp"
-#include <vector>
+#include <unordered_map>
 #include <forward_list>
 #include <algorithm>
 #include <cassert>
@@ -40,30 +40,9 @@ template <typename T>
 class spatial_hash : public uspg_abstract
 {
 private:
-    /**
-     * @brief Hash table entry storing a Morton key and associated objects
-     *
-     * Objects in the same spatial voxel are stored in a forward_list for
-     * cache-friendly iteration. The vector of entries is kept sorted by
-     * morton_key for binary search.
-     */
-    struct HashEntry {
-        uint64_t morton_key;           ///< Morton code of this voxel
-        std::forward_list<T> objects;  ///< Objects in this voxel
-
-        /// Comparison operator for binary search
-        bool operator<(const HashEntry& other) const noexcept {
-            return morton_key < other.morton_key;
-        }
-
-        /// Comparison with uint64_t for binary search
-        bool operator<(uint64_t key) const noexcept {
-            return morton_key < key;
-        }
-    };
-
-    /// Flat, sorted array of hash entries (sparse storage)
-    std::vector<HashEntry> hash_table_;
+    /// Hash table mapping Morton keys to object lists (sparse storage)
+    /// Uses uint64_t Morton codes as keys for O(1) average lookup
+    std::unordered_map<uint64_t, std::forward_list<T>> hash_table_;
 
     /// Friend classes that need direct access to internal data structures
     friend class contact_model_abstract;
@@ -180,8 +159,8 @@ public:
     /**
      * @brief Insert object at given coordinates
      *
-     * Computes Morton code for the voxel and inserts into sorted hash table.
-     * If voxel doesn't exist, creates new entry. Maintains sorted order.
+     * Computes Morton code for the voxel and inserts into hash table.
+     * If voxel doesn't exist, creates new entry. O(1) average time.
      *
      * @param object Object to insert
      * @param pos_x X coordinate
@@ -197,23 +176,8 @@ public:
         // Compute Morton code for this voxel
         const uint64_t morton_key = morton::encode_3d(voxel_x_id, voxel_y_id, voxel_z_id);
 
-        // Binary search for existing entry
-        auto it = std::lower_bound(hash_table_.begin(), hash_table_.end(), morton_key,
-                                  [](const HashEntry& entry, uint64_t key) {
-                                      return entry.morton_key < key;
-                                  });
-
-        // If voxel exists, add to its list
-        if (it != hash_table_.end() && it->morton_key == morton_key) {
-            it->objects.push_front(object);
-        }
-        else {
-            // Create new entry and insert at correct position
-            HashEntry new_entry;
-            new_entry.morton_key = morton_key;
-            new_entry.objects.push_front(object);
-            hash_table_.insert(it, std::move(new_entry));
-        }
+        // Hash table lookup and insert - O(1) average
+        hash_table_[morton_key].push_front(object);
     }
 
     /**
@@ -228,23 +192,9 @@ public:
         const unsigned voxel_y_id = (voxel_id / nb_voxels_x_) % nb_voxels_y_;
         const unsigned voxel_z_id = voxel_id / (nb_voxels_x_ * nb_voxels_y_);
 
-        // Compute Morton code and insert
+        // Compute Morton code and insert - O(1) average
         const uint64_t morton_key = morton::encode_3d(voxel_x_id, voxel_y_id, voxel_z_id);
-
-        auto it = std::lower_bound(hash_table_.begin(), hash_table_.end(), morton_key,
-                                  [](const HashEntry& entry, uint64_t key) {
-                                      return entry.morton_key < key;
-                                  });
-
-        if (it != hash_table_.end() && it->morton_key == morton_key) {
-            it->objects.push_front(object);
-        }
-        else {
-            HashEntry new_entry;
-            new_entry.morton_key = morton_key;
-            new_entry.objects.push_front(object);
-            hash_table_.insert(it, std::move(new_entry));
-        }
+        hash_table_[morton_key].push_front(object);
     }
 
     //------------------------------------------------------------------------------------
@@ -288,7 +238,7 @@ public:
      * @brief Get neighborhood from voxel indices
      *
      * Core neighborhood query implementation. Iterates through 27 voxels
-     * (3x3x3 cube) and collects all objects.
+     * (3x3x3 cube) and collects all objects. O(27) hash lookups.
      *
      * @param object_voxel_x_id Center voxel X index
      * @param object_voxel_y_id Center voxel Y index
@@ -319,17 +269,13 @@ public:
                         static_cast<uint32_t>(iy),
                         static_cast<uint32_t>(iz));
 
-                    // Binary search for this voxel's entry
-                    auto it = std::lower_bound(hash_table_.begin(), hash_table_.end(),
-                                              morton_key,
-                                              [](const HashEntry& entry, uint64_t key) {
-                                                  return entry.morton_key < key;
-                                              });
+                    // Hash table lookup - O(1) average
+                    auto it = hash_table_.find(morton_key);
 
                     // If voxel exists and contains objects, add them to result
-                    if (it != hash_table_.end() && it->morton_key == morton_key) {
-                        // Splice objects from this voxel into result list
-                        for (const auto& obj : it->objects) {
+                    if (it != hash_table_.end()) {
+                        // Add objects from this voxel to result list
+                        for (const auto& obj : it->second) {
                             neighboring_objects.push_front(obj);
                         }
                     }
@@ -357,13 +303,11 @@ public:
                                                    const unsigned voxel_z_id) const noexcept {
         const uint64_t morton_key = morton::encode_3d(voxel_x_id, voxel_y_id, voxel_z_id);
 
-        auto it = std::lower_bound(hash_table_.begin(), hash_table_.end(), morton_key,
-                                  [](const HashEntry& entry, uint64_t key) {
-                                      return entry.morton_key < key;
-                                  });
+        // Hash table lookup - O(1) average
+        auto it = hash_table_.find(morton_key);
 
-        if (it != hash_table_.end() && it->morton_key == morton_key) {
-            return it->objects;
+        if (it != hash_table_.end()) {
+            return it->second;
         }
 
         // Return empty list if voxel doesn't exist
@@ -397,8 +341,8 @@ public:
     std::forward_list<T> get_grid_content() const noexcept {
         std::forward_list<T> all_objects;
 
-        for (const auto& entry : hash_table_) {
-            for (const auto& obj : entry.objects) {
+        for (const auto& [morton_key, objects] : hash_table_) {
+            for (const auto& obj : objects) {
                 all_objects.push_front(obj);
             }
         }
@@ -426,8 +370,8 @@ public:
      */
     size_t get_total_objects() const noexcept {
         size_t count = 0;
-        for (const auto& entry : hash_table_) {
-            count += std::distance(entry.objects.begin(), entry.objects.end());
+        for (const auto& [morton_key, objects] : hash_table_) {
+            count += std::distance(objects.begin(), objects.end());
         }
         return count;
     }
