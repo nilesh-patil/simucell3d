@@ -53,9 +53,32 @@ add_executable(simucell3d main.cpp)
 add_definitions(-DPROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 
 #Link the lib, include and source libraries with the main library
-target_link_libraries(simucell3d PUBLIC 
+target_link_libraries(simucell3d PUBLIC
     src
     OpenMP::OpenMP_CXX
+)
+
+#Create benchmark executables for contact detection performance
+add_executable(benchmark_contact_detection benchmark_contact_detection.cpp)
+target_include_directories(benchmark_contact_detection PUBLIC
+    "${PROJECT_SOURCE_DIR}/include"
+    "${PROJECT_SOURCE_DIR}/include/uspg"
+    "${PROJECT_SOURCE_DIR}/include/math_modules"
+)
+target_link_libraries(benchmark_contact_detection PUBLIC
+    uspg
+    math_modules
+)
+
+add_executable(benchmark_simple benchmark_simple.cpp)
+target_include_directories(benchmark_simple PUBLIC
+    "${PROJECT_SOURCE_DIR}/include"
+    "${PROJECT_SOURCE_DIR}/include/uspg"
+    "${PROJECT_SOURCE_DIR}/include/math_modules"
+)
+target_link_libraries(benchmark_simple PUBLIC
+    uspg
+    math_modules
 )
 
 #In debog mode, we do not use openMP
