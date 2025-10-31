@@ -372,6 +372,24 @@ public:
     }
 
     /**
+     * @brief Get objects in a voxel by flat index (for compatibility with uspg_4d)
+     *
+     * This method provides compatibility with code that accesses voxels by flat index.
+     * Converts flat index to 3D coordinates and queries the hash table.
+     *
+     * @param voxel_id Flattened voxel index (z * nx*ny + y * nx + x)
+     * @return Const reference to object list (empty if voxel doesn't exist)
+     */
+    const std::forward_list<T>& get_voxel_content(const size_t voxel_id) const noexcept {
+        // Convert flat index to 3D coordinates
+        const unsigned voxel_x_id = voxel_id % nb_voxels_x_;
+        const unsigned voxel_y_id = (voxel_id / nb_voxels_x_) % nb_voxels_y_;
+        const unsigned voxel_z_id = voxel_id / (nb_voxels_x_ * nb_voxels_y_);
+
+        return get_voxel_content(voxel_x_id, voxel_y_id, voxel_z_id);
+    }
+
+    /**
      * @brief Get all objects in the entire grid
      *
      * @return Forward list containing all objects

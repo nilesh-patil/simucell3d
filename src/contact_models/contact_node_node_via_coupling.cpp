@@ -97,10 +97,10 @@ void contact_node_node_via_coupling::resolve_all_contacts(const std::vector<cell
 
                 //Get the ID of the voxel in the space partitionning grid
                 const size_t voxel_id = grid_.get_voxel_index(voxel_1_x, voxel_1_y, voxel_1_z);
-                assert(voxel_id < grid_.voxel_lst_.size());
 
                 //Get the list of faces stored in this voxel
-                for(face* f: grid_.voxel_lst_[voxel_id]){
+                const auto& voxel_faces = grid_.get_voxel_content(voxel_id);
+                for(face* f: voxel_faces){
                     assert(f != nullptr);
                     cell_ptr c2 = f->get_owner_cell();
 

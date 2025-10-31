@@ -17,6 +17,11 @@
 #include "face.hpp"
 #include "uspg_4d.hpp"
 
+// Conditional compilation: use spatial_hash if USE_SPATIAL_HASH is defined
+#ifdef USE_SPATIAL_HASH
+#include "spatial_hash.hpp"
+#endif
+
 
 
 
@@ -44,7 +49,11 @@ class contact_model_abstract{
                 double global_max_x_, global_max_y_, global_max_z_;
 
                 //The uniform space partitionning grid that will store the faces of the mesh
-                uspg_4d<face*> grid_;
+                #ifdef USE_SPATIAL_HASH
+                spatial_hash<face*> grid_;  // Optimized spatial hash implementation
+                #else
+                uspg_4d<face*> grid_;       // Original USPG implementation
+                #endif
 
                 //Store the Axis Aligned Bounding Boxes of the face in this vector
                 std::vector<double> face_aabb_lst_;

@@ -18,6 +18,18 @@ else()
     message(STATUS "Python bindings disabled")
 endif()
 
+#Check if spatial hash should be used for contact detection (optimization)
+if(NOT DEFINED USE_SPATIAL_HASH)
+    set(USE_SPATIAL_HASH FALSE)
+endif()
+
+if(USE_SPATIAL_HASH)
+    message(STATUS "Contact detection: Using optimized spatial_hash")
+    add_definitions(-DUSE_SPATIAL_HASH)
+else()
+    message(STATUS "Contact detection: Using standard USPG")
+endif()
+
 
 #Activate unit testing
 enable_testing()

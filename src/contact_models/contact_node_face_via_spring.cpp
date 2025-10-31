@@ -103,10 +103,10 @@ void contact_node_face_via_spring::resolve_contacts(const std::vector<cell_ptr>&
 
                 //Get the ID of the voxel in the space partitionning grid
                 const size_t voxel_id = grid_.get_voxel_index(voxel_1_x, voxel_1_y, voxel_1_z);
-                assert(voxel_id < grid_.voxel_lst_.size());
 
                 //Get the list of faces stored in this voxel
-                for(face* f: grid_.voxel_lst_[voxel_id]){
+                const auto& voxel_faces = grid_.get_voxel_content(voxel_id);
+                for(face* f: voxel_faces){
                     assert(f != nullptr);
 
                     if(c1->get_id() != f->get_owner_cell()->get_id()){
