@@ -463,8 +463,10 @@ class cell: public std::enable_shared_from_this<cell> {
          * @brief Restore cell state from checkpoint data
          *
          * Used by checkpoint_reader to reconstruct cells from saved state.
+         * Preserves node indexing by saving all nodes (used and unused).
          *
-         * @param node_positions Vector of node positions
+         * @param node_positions Vector of ALL node positions
+         * @param node_used_flags Vector of used flags for each node
          * @param face_node_indices Vector of face connectivity (triplets of node indices)
          * @param face_type_ids Vector of face type IDs
          * @param growth_rate Growth rate to restore
@@ -474,6 +476,7 @@ class cell: public std::enable_shared_from_this<cell> {
          */
         void restore_from_checkpoint(
             const std::vector<vec3>& node_positions,
+            const std::vector<bool>& node_used_flags,
             const std::vector<std::array<unsigned, 3>>& face_node_indices,
             const std::vector<unsigned short>& face_type_ids,
             double growth_rate,

@@ -219,28 +219,29 @@ private:
         cell_ptr c = std::make_shared<cell>(empty_nodes, empty_faces, cell_id,
                                              cell_type_params[cell_type_id]);
 
-        // Read nodes
+        // Read nodes (all nodes, including unused, to preserve indexing)
         uint32_t num_nodes;
         file.read(reinterpret_cast<char*>(&num_nodes), sizeof(num_nodes));
 
         std::vector<vec3> node_positions;
-        std::vector<vec3> node_forces;
-        std::vector<unsigned> node_ids;
+        std::vector<bool> node_used_flags;
 
         #if DYNAMIC_MODEL_INDEX == 1
         std::vector<vec3> node_momenta;
         #endif
 
+        node_positions.reserve(num_nodes);
+        node_used_flags.reserve(num_nodes);
+
         for (uint32_t i = 0; i < num_nodes; ++i) {
-            unsigned node_id;
-            file.read(reinterpret_cast<char*>(&node_id), sizeof(node_id));
+            bool is_used;
+            file.read(reinterpret_cast<char*>(&is_used), sizeof(is_used));
 
             vec3 pos = read_vec3(file);
-            vec3 force = read_vec3(file);
+            vec3 force = read_vec3(file);  // Read but don't use (will be recomputed)
 
-            node_ids.push_back(node_id);
             node_positions.push_back(pos);
-            node_forces.push_back(force);
+            node_used_flags.push_back(is_used);
 
             #if DYNAMIC_MODEL_INDEX == 1
             vec3 momentum = read_vec3(file);
@@ -270,7 +271,7 @@ private:
         }
 
         // Reconstruct cell mesh
-        c->restore_from_checkpoint(node_positions, face_node_indices, face_type_ids,
+        c->restore_from_checkpoint(node_positions, node_used_flags, face_node_indices, face_type_ids,
                                    growth_rate, division_volume, target_volume, is_static);
 
         return c;

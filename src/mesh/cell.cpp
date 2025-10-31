@@ -1903,12 +1903,15 @@ face* cell::get_face(const unsigned n1_id, const unsigned n2_id, const unsigned 
 //---------------------------------------------------------------------------------------------------------
 void cell::restore_from_checkpoint(
     const std::vector<vec3>& node_positions,
+    const std::vector<bool>& node_used_flags,
     const std::vector<std::array<unsigned, 3>>& face_node_indices,
     const std::vector<unsigned short>& face_type_ids,
     double growth_rate,
     double division_volume,
     double target_volume,
     bool is_static) noexcept(false) {
+
+    assert(node_positions.size() == node_used_flags.size());
 
     // Clear existing data
     node_lst_.clear();
@@ -1917,10 +1920,13 @@ void cell::restore_from_checkpoint(
     free_node_queue_.clear();
     free_face_queue_.clear();
 
-    // Restore nodes
+    // Restore ALL nodes (preserving original indexing)
     node_lst_.reserve(node_positions.size());
     for (unsigned i = 0; i < node_positions.size(); ++i) {
         node_lst_.emplace_back(node_positions[i], i);
+        // Mark as used/unused based on saved state
+        node_lst_.back().set_is_used(node_used_flags[i]);
+        // Don't populate free_node_queue_ - will be managed by cell methods
     }
 
     // Restore faces
@@ -1928,7 +1934,7 @@ void cell::restore_from_checkpoint(
     for (unsigned i = 0; i < face_node_indices.size(); ++i) {
         const auto& indices = face_node_indices[i];
         face_lst_.emplace_back(
-            indices[0], indices[1], indices[2],  // Node IDs
+            indices[0], indices[1], indices[2],  // Node IDs (original indices preserved)
             i                                     // Local face ID
         );
         // Set face type after construction
@@ -1941,8 +1947,17 @@ void cell::restore_from_checkpoint(
     target_volume_ = target_volume;
     is_static_ = is_static;
 
-    // Rebuild topology
+    // Rebuild topology manually (avoid initialize_cell_properties conflicts)
+    set_local_ids();
     generate_edge_set();
-    initialize_cell_properties(true);
+    set_face_owner_cell();
+    update_all_face_normals_and_areas();
+
+    // Update cell properties
+    area_ = compute_area();
+    target_area_ = area_;
+    volume_ = compute_volume();
+    update_centroid();
+    update_pressure();
 }
 //---------------------------------------------------------------------------------------------------------

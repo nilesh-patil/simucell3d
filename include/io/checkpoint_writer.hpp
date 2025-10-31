@@ -140,26 +140,19 @@ public:
         // Centroid
         write_vec3(file, c.get_centroid());
 
-        // Mesh data - nodes
+        // Mesh data - nodes (save ALL nodes to preserve indexing)
         const auto& nodes = c.get_node_lst();
-        uint32_t num_used_nodes = 0;
+        uint32_t num_nodes = static_cast<uint32_t>(nodes.size());
 
-        // Count used nodes
-        for (const auto& node : nodes) {
-            if (node.is_used()) num_used_nodes++;
-        }
+        file.write(reinterpret_cast<const char*>(&num_nodes), sizeof(num_nodes));
 
-        file.write(reinterpret_cast<const char*>(&num_used_nodes), sizeof(num_used_nodes));
-
-        // Write used nodes
+        // Write all nodes (including unused, to preserve indices for face connectivity)
         for (unsigned i = 0; i < nodes.size(); ++i) {
-            if (!nodes[i].is_used()) continue;
+            // Write is_used flag
+            bool is_used = nodes[i].is_used();
+            file.write(reinterpret_cast<const char*>(&is_used), sizeof(is_used));
 
-            // Node ID
-            unsigned node_id = nodes[i].get_local_id();
-            file.write(reinterpret_cast<const char*>(&node_id), sizeof(node_id));
-
-            // Position and force
+            // Always write position and force (even for unused nodes)
             write_vec3(file, nodes[i].pos());
             write_vec3(file, nodes[i].force());
 
