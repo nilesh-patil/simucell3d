@@ -128,14 +128,12 @@ public:
         double volume = c.get_volume();
         double area = c.get_area();
         double target_volume = c.get_target_volume();
-        double target_area = c.get_target_area();
         double growth_rate = c.get_growth_rate();
         double division_volume = c.get_division_volume();
 
         file.write(reinterpret_cast<const char*>(&volume), sizeof(volume));
         file.write(reinterpret_cast<const char*>(&area), sizeof(area));
         file.write(reinterpret_cast<const char*>(&target_volume), sizeof(target_volume));
-        file.write(reinterpret_cast<const char*>(&target_area), sizeof(target_area));
         file.write(reinterpret_cast<const char*>(&growth_rate), sizeof(growth_rate));
         file.write(reinterpret_cast<const char*>(&division_volume), sizeof(division_volume));
 
@@ -158,7 +156,7 @@ public:
             if (!nodes[i].is_used()) continue;
 
             // Node ID
-            unsigned node_id = nodes[i].get_id();
+            unsigned node_id = nodes[i].get_local_id();
             file.write(reinterpret_cast<const char*>(&node_id), sizeof(node_id));
 
             // Position and force
@@ -188,10 +186,10 @@ public:
 
             // Face ID and node indices
             unsigned face_id = faces[i].get_local_id();
-            unsigned n1 = faces[i].get_node_1_id();
-            unsigned n2 = faces[i].get_node_2_id();
-            unsigned n3 = faces[i].get_node_3_id();
-            unsigned short type_id = faces[i].get_type_id();
+            unsigned n1 = faces[i].n1_id();
+            unsigned n2 = faces[i].n2_id();
+            unsigned n3 = faces[i].n3_id();
+            unsigned short type_id = faces[i].get_local_face_type_id();
 
             file.write(reinterpret_cast<const char*>(&face_id), sizeof(face_id));
             file.write(reinterpret_cast<const char*>(&n1), sizeof(n1));

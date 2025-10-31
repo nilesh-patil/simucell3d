@@ -202,20 +202,22 @@ private:
         }
 
         // Read cell properties
-        double volume, area, target_volume, target_area, growth_rate, division_volume;
+        double volume, area, target_volume, growth_rate, division_volume;
 
         file.read(reinterpret_cast<char*>(&volume), sizeof(volume));
         file.read(reinterpret_cast<char*>(&area), sizeof(area));
         file.read(reinterpret_cast<char*>(&target_volume), sizeof(target_volume));
-        file.read(reinterpret_cast<char*>(&target_area), sizeof(target_area));
         file.read(reinterpret_cast<char*>(&growth_rate), sizeof(growth_rate));
         file.read(reinterpret_cast<char*>(&division_volume), sizeof(division_volume));
 
         // Read centroid
         vec3 centroid = read_vec3(file);
 
-        // Create cell
-        cell_ptr c = std::make_shared<cell>(cell_type_params[cell_type_id], cell_id);
+        // Create cell with empty mesh (will be populated by restore_from_checkpoint)
+        std::vector<node> empty_nodes;
+        std::vector<face> empty_faces;
+        cell_ptr c = std::make_shared<cell>(empty_nodes, empty_faces, cell_id,
+                                             cell_type_params[cell_type_id]);
 
         // Read nodes
         uint32_t num_nodes;

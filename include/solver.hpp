@@ -35,6 +35,9 @@
 #include "contact_node_face_via_spring.hpp"
 #include "contact_face_face_via_coupling.hpp"
 
+#include "checkpoint_writer.hpp"
+#include "checkpoint_reader.hpp"
+
 
 //--------------------------------------------------------------------------------------------------------------------------
 class solver{
@@ -80,6 +83,11 @@ class solver{
         //If true, the program will print some information about the simulation progress
         bool verbose_;
 
+        //Checkpoint configuration
+        std::string parameter_file_path_;
+        unsigned int checkpoint_interval_ = 0;  // 0 = disabled
+        std::string checkpoint_directory_ = "./checkpoints/";
+        std::vector<cell_type_param_ptr> cell_type_parameters_;  // Needed for checkpoint loading
 
     public:
         solver() = default;                          //default constructor
@@ -111,10 +119,18 @@ class solver{
         const global_simulation_parameters& get_sim_parameters() const noexcept{return sim_parameters_;}
 
 
-        //If the simulation statistics have been written in a string, then 
-        //returns the string. Do not call this function if you have 
+        //If the simulation statistics have been written in a string, then
+        //returns the string. Do not call this function if you have
         //constructed the solver with write_cell_stats_in_string_ = false
         std::string get_simulation_statistics() const noexcept(false);
+
+        //Checkpoint management
+        void set_checkpoint_interval(unsigned int interval) noexcept {checkpoint_interval_ = interval;}
+        void set_checkpoint_directory(const std::string& dir) noexcept {checkpoint_directory_ = dir;}
+        void set_parameter_file_path(const std::string& path) noexcept {parameter_file_path_ = path;}
+
+        void save_checkpoint() const noexcept(false);
+        void load_checkpoint(const std::string& checkpoint_file) noexcept(false);
 
 };
 //--------------------------------------------------------------------------------------------------------------------------

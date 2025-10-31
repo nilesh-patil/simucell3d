@@ -1,4 +1,7 @@
 #include "solver.hpp"
+#include <sstream>
+#include <iomanip>
+#include <set>
 
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -68,6 +71,13 @@ solver::solver(
         statistic_writer_ptr_ = std::make_unique<csv_file_statistics_writer>(sim_parameters_.output_folder_path_ + "/simulation_statistics.csv");
     }
 
+
+    // Extract unique cell types from cells (needed for checkpoint loading)
+    std::set<cell_type_param_ptr> unique_types;
+    for(const auto& c : cell_lst_){
+        unique_types.insert(c->get_cell_type());
+    }
+    cell_type_parameters_.assign(unique_types.begin(), unique_types.end());
 
     //Set the initial pressure of all the cells
     for(cell_ptr c: cell_lst_){
@@ -163,8 +173,13 @@ void solver::run_iteration() noexcept(false){
     );
 
     //Print the progression of the program
-    if(verbose_ && !time_integrator_ptr_->is_step_tmp()) printf("Progression %d%%, iteration: %d, file number %d, nb cells %d\n", 
+    if(verbose_ && !time_integrator_ptr_->is_step_tmp()) printf("Progression %d%%, iteration: %d, file number %d, nb cells %d\n",
     static_cast<unsigned short>(100. * time_integrator_ptr_->get_simulation_time() / sim_parameters_.simulation_duration_),  iteration_, file_number_, static_cast<int>(cell_lst_.size()));
+
+    //Save checkpoint if interval is set
+    if(checkpoint_interval_ > 0 && iteration_ % checkpoint_interval_ == 0){
+        save_checkpoint();
+    }
 
     //Update the iteration number
     iteration_++;
@@ -215,5 +230,70 @@ std::string solver::get_simulation_statistics() const noexcept(false){
     const string_statistics_writer* string_writer = dynamic_cast<const string_statistics_writer*>(statistic_writer_ptr_.get());
     if(string_writer == nullptr) throw std::runtime_error("The simulation statistics have not been written in a string");
     return string_writer->get_string();
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+void solver::save_checkpoint() const noexcept(false){
+    // Create checkpoint directory if it doesn't exist
+    std::filesystem::create_directories(checkpoint_directory_);
+
+    // Generate checkpoint filename
+    std::ostringstream filename;
+    filename << checkpoint_directory_ << "/checkpoint_"
+             << std::setw(8) << std::setfill('0') << iteration_ << ".simchk";
+
+    if(verbose_){
+        std::cout << "Saving checkpoint: " << filename.str()
+                  << " (step " << iteration_
+                  << ", time " << simulation_time_ << ")" << std::endl;
+    }
+
+    // Write checkpoint
+    checkpoint_writer writer;
+    writer.write_checkpoint(filename.str(), cell_lst_, iteration_,
+                           simulation_time_, parameter_file_path_);
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+void solver::load_checkpoint(const std::string& checkpoint_file) noexcept(false){
+    if(verbose_){
+        std::cout << "Loading checkpoint: " << checkpoint_file << std::endl;
+    }
+
+    // Read checkpoint metadata first
+    checkpoint_reader reader;
+    auto metadata = reader.read_metadata(checkpoint_file);
+
+    if(verbose_){
+        std::cout << "  Checkpoint version: " << metadata.version_major
+                  << "." << metadata.version_minor << std::endl;
+        std::cout << "  Iteration: " << metadata.iteration << std::endl;
+        std::cout << "  Time: " << metadata.simulation_time << std::endl;
+        std::cout << "  Cells: " << metadata.num_cells << std::endl;
+    }
+
+    // Load full checkpoint
+    cell_lst_ = reader.read_checkpoint(checkpoint_file, cell_type_parameters_,
+                                       iteration_, simulation_time_);
+
+    // Update local IDs
+    for(unsigned i = 0; i < cell_lst_.size(); ++i){
+        cell_lst_[i]->set_local_id(i);
+    }
+
+    // Update max_cell_id
+    max_cell_id_ = 0;
+    for(const auto& cell : cell_lst_){
+        if(cell->get_id() > max_cell_id_){
+            max_cell_id_ = cell->get_id();
+        }
+    }
+
+    if(verbose_){
+        std::cout << "Checkpoint loaded successfully. Resuming from step "
+                  << iteration_ << std::endl;
+    }
 }
 //--------------------------------------------------------------------------------------------------------------------------
