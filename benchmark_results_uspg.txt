@@ -1,0 +1,26 @@
+Contact Detection Performance Benchmark
+========================================
+
+Implementation: USPG (Baseline)
+
+Small  (1K particles):
+  Domain: 100³, Voxel: 5
+  Running 50 iterations...
+  Insert:  0.038 ms
+  Search:  0.234 ms
+  Voxels:  8000
+
+Medium (5K particles):
+  Domain: 100.000³, Voxel: 5.000
+  Running 20 iterations...
+  Insert:  0.228 ms
+  Search:  4.474 ms
+  Voxels:  8000
+
+Large (10K particles):
+  Domain: 100.000³, Voxel: 5.000
+  Running 10 iterations...
+  Insert:  0.542 ms
+  Search:  16.693 ms
+  Voxels:  8000
+

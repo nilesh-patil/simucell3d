@@ -1,0 +1,26 @@
+Contact Detection Performance Benchmark
+========================================
+
+Implementation: Spatial Hash (Optimized)
+
+Small  (1K particles):
+  Domain: 100³, Voxel: 5
+  Running 50 iterations...
+  Insert:  0.709 ms
+  Search:  2.197 ms
+  Voxels:  936
+
+Medium (5K particles):
+  Domain: 100.000³, Voxel: 5.000
+  Running 20 iterations...
+  Insert:  9.434 ms
+  Search:  16.623 ms
+  Voxels:  3720
+
+Large (10K particles):
+  Domain: 100.000³, Voxel: 5.000
+  Running 10 iterations...
+  Insert:  22.575 ms
+  Search:  42.777 ms
+  Voxels:  5717
+

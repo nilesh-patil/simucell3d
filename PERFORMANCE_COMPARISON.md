@@ -15,6 +15,33 @@ This document compares the performance of two contact detection algorithms:
 
 ---
 
+## Quick Summary: USPG vs Spatial Hash
+
+### Overall Performance (Total Time)
+
+| Configuration | Small (1K) | Medium (5K) | Large (10K) | Trend |
+|---------------|------------|-------------|-------------|-------|
+| **USPG (Baseline)** | 0.272 ms | 4.702 ms | 17.235 ms | ✓ **Fastest** |
+| **Spatial Hash** | 2.906 ms | 26.057 ms | 65.352 ms | 3.8-10.7x slower |
+| **Speedup Factor** | 10.7x slower | 5.5x slower | 3.8x slower | Gap narrowing |
+
+### Memory Efficiency (Voxel Allocation)
+
+| Configuration | Small (1K) | Medium (5K) | Large (10K) | Advantage |
+|---------------|------------|-------------|-------------|-----------|
+| **USPG (Baseline)** | 8,000 voxels | 8,000 voxels | 8,000 voxels | Simple |
+| **Spatial Hash** | 936 voxels | 3,720 voxels | 5,717 voxels | ✓ **Sparse** |
+| **Memory Savings** | 88.3% | 53.5% | 28.5% | Better for sparse |
+
+### Verdict
+
+- **USPG wins on speed** (3.8-10.7x faster for dense distributions)
+- **Spatial Hash wins on memory** (28-88% savings via sparse storage)
+- **Both production-ready** with 133/133 tests passing
+- **Use case dependent** - compile-time selection available
+
+---
+
 ## Test Configuration
 
 ### Benchmark Parameters
@@ -37,9 +64,9 @@ This document compares the performance of two contact detection algorithms:
 
 | Test Case | Particles | USPG (ms) | Spatial Hash (ms) | Ratio | Winner |
 |-----------|-----------|-----------|-------------------|-------|--------|
-| Small     | 1,000     | 0.052     | 0.686             | 13.2x slower | **USPG** ✓ |
-| Medium    | 5,000     | 0.273     | 9.484             | 34.7x slower | **USPG** ✓ |
-| Large     | 10,000    | 0.511     | 21.544            | 42.2x slower | **USPG** ✓ |
+| Small     | 1,000     | 0.038     | 0.709             | 18.7x slower | **USPG** ✓ |
+| Medium    | 5,000     | 0.228     | 9.434             | 41.4x slower | **USPG** ✓ |
+| Large     | 10,000    | 0.542     | 22.575            | 41.6x slower | **USPG** ✓ |
 
 **Analysis:**
 - USPG dominates insertion performance due to O(1) array access
@@ -53,9 +80,9 @@ This document compares the performance of two contact detection algorithms:
 
 | Test Case | Particles | USPG (ms) | Spatial Hash (ms) | Ratio | Winner |
 |-----------|-----------|-----------|-------------------|-------|--------|
-| Small     | 1,000     | 0.280     | 2.154             | 7.7x slower | **USPG** ✓ |
-| Medium    | 5,000     | 4.843     | 16.362            | 3.4x slower | **USPG** ✓ |
-| Large     | 10,000    | 16.654    | 41.789            | 2.5x slower | **USPG** ✓ |
+| Small     | 1,000     | 0.234     | 2.197             | 9.4x slower | **USPG** ✓ |
+| Medium    | 5,000     | 4.474     | 16.623            | 3.7x slower | **USPG** ✓ |
+| Large     | 10,000    | 16.693    | 42.777            | 2.6x slower | **USPG** ✓ |
 
 **Analysis:**
 - USPG has faster neighbor queries for these test cases
@@ -90,23 +117,23 @@ This document compares the performance of two contact detection algorithms:
 
 | Test Case | Particles | USPG Total (ms) | Spatial Hash Total (ms) | Ratio | Winner |
 |-----------|-----------|-----------------|-------------------------|-------|--------|
-| Small     | 1,000     | 0.332           | 2.840                   | 8.6x slower | **USPG** ✓ |
-| Medium    | 5,000     | 5.116           | 25.846                  | 5.1x slower | **USPG** ✓ |
-| Large     | 10,000    | 17.165          | 63.333                  | 3.7x slower | **USPG** ✓ |
+| Small     | 1,000     | 0.272           | 2.906                   | 10.7x slower | **USPG** ✓ |
+| Medium    | 5,000     | 4.702           | 26.057                  | 5.5x slower | **USPG** ✓ |
+| Large     | 10,000    | 17.235          | 65.352                  | 3.8x slower | **USPG** ✓ |
 
 **Weighted Performance:**
 ```
 Total Time = Insert Time + Search Time
 
 USPG:
-  Small:  0.052 + 0.280  = 0.332 ms
-  Medium: 0.273 + 4.843  = 5.116 ms
-  Large:  0.511 + 16.654 = 17.165 ms
+  Small:  0.038 + 0.234  = 0.272 ms
+  Medium: 0.228 + 4.474  = 4.702 ms
+  Large:  0.542 + 16.693 = 17.235 ms
 
 Spatial Hash:
-  Small:  0.686 + 2.154  = 2.840 ms
-  Medium: 9.484 + 16.362 = 25.846 ms
-  Large:  21.544 + 41.789 = 63.333 ms
+  Small:  0.709 + 2.197  = 2.906 ms
+  Medium: 9.434 + 16.623 = 26.057 ms
+  Large:  22.575 + 42.777 = 65.352 ms
 ```
 
 ---
@@ -300,16 +327,16 @@ To improve Spatial Hash performance:
 
 ### USPG (Baseline) Results:
 ```
-Small  (1K particles):  Insert: 0.052 ms, Search: 0.280 ms, Voxels: 8000
-Medium (5K particles):  Insert: 0.273 ms, Search: 4.843 ms, Voxels: 8000
-Large (10K particles):  Insert: 0.511 ms, Search: 16.654 ms, Voxels: 8000
+Small  (1K particles):  Insert: 0.038 ms, Search: 0.234 ms, Voxels: 8000
+Medium (5K particles):  Insert: 0.228 ms, Search: 4.474 ms, Voxels: 8000
+Large (10K particles):  Insert: 0.542 ms, Search: 16.693 ms, Voxels: 8000
 ```
 
 ### Spatial Hash (Optimized) Results:
 ```
-Small  (1K particles):  Insert: 0.686 ms, Search: 2.154 ms, Voxels: 936
-Medium (5K particles):  Insert: 9.484 ms, Search: 16.362 ms, Voxels: 3720
-Large (10K particles):  Insert: 21.544 ms, Search: 41.789 ms, Voxels: 5717
+Small  (1K particles):  Insert: 0.709 ms, Search: 2.197 ms, Voxels: 936
+Medium (5K particles):  Insert: 9.434 ms, Search: 16.623 ms, Voxels: 3720
+Large (10K particles):  Insert: 22.575 ms, Search: 42.777 ms, Voxels: 5717
 ```
 
 ---
