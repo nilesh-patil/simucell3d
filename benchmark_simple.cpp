@@ -98,8 +98,8 @@ int main() {
     };
 
     TestCase tests[] = {
+        {"Tiny (100 particles)", 100, 100.0, 5.0, 100},
         {"Small  (1K particles)", 1000, 100.0, 5.0, 50},
-        {"Medium (5K particles)", 5000, 100.0, 5.0, 20},
         {"Large (10K particles)", 10000, 100.0, 5.0, 10},
     };
 

@@ -19,24 +19,24 @@ This document compares the performance of two contact detection algorithms:
 
 ### Overall Performance (Total Time)
 
-| Configuration | Small (1K) | Medium (5K) | Large (10K) | Trend |
+| Configuration | Tiny (100) | Small (1K) | Large (10K) | Trend |
 |---------------|------------|-------------|-------------|-------|
-| **USPG (Baseline)** | 0.272 ms | 4.702 ms | 17.235 ms | ✓ **Fastest** |
-| **Spatial Hash** | 2.906 ms | 26.057 ms | 65.352 ms | 3.8-10.7x slower |
-| **Speedup Factor** | 10.7x slower | 5.5x slower | 3.8x slower | Gap narrowing |
+| **USPG (Baseline)** | 0.014 ms | 0.288 ms | 14.645 ms | ✓ **Fastest** |
+| **Spatial Hash** | 0.117 ms | 2.514 ms | 54.248 ms | 3.7-8.4x slower |
+| **Speedup Factor** | 8.4x slower | 8.7x slower | 3.7x slower | Gap narrowing |
 
 ### Memory Efficiency (Voxel Allocation)
 
-| Configuration | Small (1K) | Medium (5K) | Large (10K) | Advantage |
+| Configuration | Tiny (100) | Small (1K) | Large (10K) | Advantage |
 |---------------|------------|-------------|-------------|-----------|
 | **USPG (Baseline)** | 8,000 voxels | 8,000 voxels | 8,000 voxels | Simple |
-| **Spatial Hash** | 936 voxels | 3,720 voxels | 5,717 voxels | ✓ **Sparse** |
-| **Memory Savings** | 88.3% | 53.5% | 28.5% | Better for sparse |
+| **Spatial Hash** | 100 voxels | 936 voxels | 5,717 voxels | ✓ **Sparse** |
+| **Memory Savings** | 98.8% | 88.3% | 28.5% | Better for sparse |
 
 ### Verdict
 
-- **USPG wins on speed** (3.8-10.7x faster for dense distributions)
-- **Spatial Hash wins on memory** (28-88% savings via sparse storage)
+- **USPG wins on speed** (3.7-8.7x faster for dense distributions)
+- **Spatial Hash wins on memory** (28-99% savings via sparse storage)
 - **Both production-ready** with 133/133 tests passing
 - **Use case dependent** - compile-time selection available
 
@@ -47,8 +47,8 @@ This document compares the performance of two contact detection algorithms:
 ### Benchmark Parameters
 - **Domain Size:** 100³ units
 - **Voxel Size:** 5 units
-- **Test Cases:** Small (1K), Medium (5K), Large (10K particles)
-- **Methodology:** Average over multiple iterations (50/20/10 for small/medium/large)
+- **Test Cases:** Tiny (100), Small (1K), Large (10K particles)
+- **Methodology:** Average over multiple iterations (100/50/10 for tiny/small/large)
 
 ### Metrics Measured
 1. **Insert Time:** Time to place all particles into the spatial data structure
@@ -64,14 +64,14 @@ This document compares the performance of two contact detection algorithms:
 
 | Test Case | Particles | USPG (ms) | Spatial Hash (ms) | Ratio | Winner |
 |-----------|-----------|-----------|-------------------|-------|--------|
-| Small     | 1,000     | 0.038     | 0.709             | 18.7x slower | **USPG** ✓ |
-| Medium    | 5,000     | 0.228     | 9.434             | 41.4x slower | **USPG** ✓ |
-| Large     | 10,000    | 0.542     | 22.575            | 41.6x slower | **USPG** ✓ |
+| Tiny      | 100       | 0.004     | 0.016             | 4.0x slower | **USPG** ✓ |
+| Small     | 1,000     | 0.037     | 0.563             | 15.2x slower | **USPG** ✓ |
+| Large     | 10,000    | 0.371     | 17.988            | 48.5x slower | **USPG** ✓ |
 
 **Analysis:**
 - USPG dominates insertion performance due to O(1) array access
 - Spatial Hash suffers from O(log N) binary search for each insertion
-- Insertion overhead increases with particle count for Spatial Hash
+- Insertion overhead increases significantly with particle count for Spatial Hash (4x → 48.5x)
 - For dense particle distributions, USPG's flat array is significantly faster
 
 ---
@@ -80,14 +80,14 @@ This document compares the performance of two contact detection algorithms:
 
 | Test Case | Particles | USPG (ms) | Spatial Hash (ms) | Ratio | Winner |
 |-----------|-----------|-----------|-------------------|-------|--------|
-| Small     | 1,000     | 0.234     | 2.197             | 9.4x slower | **USPG** ✓ |
-| Medium    | 5,000     | 4.474     | 16.623            | 3.7x slower | **USPG** ✓ |
-| Large     | 10,000    | 16.693    | 42.777            | 2.6x slower | **USPG** ✓ |
+| Tiny      | 100       | 0.010     | 0.101             | 10.1x slower | **USPG** ✓ |
+| Small     | 1,000     | 0.251     | 1.951             | 7.8x slower | **USPG** ✓ |
+| Large     | 10,000    | 14.274    | 36.260            | 2.5x slower | **USPG** ✓ |
 
 **Analysis:**
 - USPG has faster neighbor queries for these test cases
 - Spatial Hash overhead: binary search per query + Morton encoding
-- Gap narrows with particle count (7.7x → 2.5x), suggesting better scaling
+- Gap narrows significantly with particle count (10.1x → 2.5x), suggesting better scaling
 - Dense distributions favor USPG's contiguous memory layout
 
 ---
@@ -96,13 +96,13 @@ This document compares the performance of two contact detection algorithms:
 
 | Test Case | Total Voxels | USPG Occupied | Spatial Hash Occupied | USPG Occupancy | Spatial Hash Occupancy |
 |-----------|--------------|---------------|-----------------------|----------------|------------------------|
+| Tiny      | 8,000        | 8,000 (100%)  | 100 (1.3%)            | 100%           | 1.3%                   |
 | Small     | 8,000        | 8,000 (100%)  | 936 (11.7%)           | 100%           | 11.7%                  |
-| Medium    | 8,000        | 8,000 (100%)  | 3,720 (46.5%)         | 100%           | 46.5%                  |
 | Large     | 8,000        | 8,000 (100%)  | 5,717 (71.5%)         | 100%           | 71.5%                  |
 
 **Memory Savings:**
+- **Tiny:** Spatial Hash uses **98.8% less memory** (100 vs 8,000 voxels)
 - **Small:** Spatial Hash uses **88.3% less memory** (936 vs 8,000 voxels)
-- **Medium:** Spatial Hash uses **53.5% less memory** (3,720 vs 8,000 voxels)
 - **Large:** Spatial Hash uses **28.5% less memory** (5,717 vs 8,000 voxels)
 
 **Analysis:**
@@ -117,23 +117,23 @@ This document compares the performance of two contact detection algorithms:
 
 | Test Case | Particles | USPG Total (ms) | Spatial Hash Total (ms) | Ratio | Winner |
 |-----------|-----------|-----------------|-------------------------|-------|--------|
-| Small     | 1,000     | 0.272           | 2.906                   | 10.7x slower | **USPG** ✓ |
-| Medium    | 5,000     | 4.702           | 26.057                  | 5.5x slower | **USPG** ✓ |
-| Large     | 10,000    | 17.235          | 65.352                  | 3.8x slower | **USPG** ✓ |
+| Tiny      | 100       | 0.014           | 0.117                   | 8.4x slower | **USPG** ✓ |
+| Small     | 1,000     | 0.288           | 2.514                   | 8.7x slower | **USPG** ✓ |
+| Large     | 10,000    | 14.645          | 54.248                  | 3.7x slower | **USPG** ✓ |
 
 **Weighted Performance:**
 ```
 Total Time = Insert Time + Search Time
 
 USPG:
-  Small:  0.038 + 0.234  = 0.272 ms
-  Medium: 0.228 + 4.474  = 4.702 ms
-  Large:  0.542 + 16.693 = 17.235 ms
+  Tiny:   0.004 + 0.010  = 0.014 ms
+  Small:  0.037 + 0.251  = 0.288 ms
+  Large:  0.371 + 14.274 = 14.645 ms
 
 Spatial Hash:
-  Small:  0.709 + 2.197  = 2.906 ms
-  Medium: 9.434 + 16.623 = 26.057 ms
-  Large:  22.575 + 42.777 = 65.352 ms
+  Tiny:   0.016 + 0.101  = 0.117 ms
+  Small:  0.563 + 1.951  = 2.514 ms
+  Large:  17.988 + 36.260 = 54.248 ms
 ```
 
 ---
@@ -158,7 +158,8 @@ Spatial Hash:
 
 #### 4. **Binary Search Overhead**
 - Each operation requires log(N) comparisons
-- For N=5717 voxels: log₂(5717) ≈ 12.5 comparisons per query
+- For N=5717 voxels (large test): log₂(5717) ≈ 12.5 comparisons per query
+- For N=936 voxels (small test): log₂(936) ≈ 10 comparisons per query
 
 ### When Would Spatial Hash Excel?
 
@@ -285,15 +286,17 @@ cmake -DUSE_SPATIAL_HASH=ON ..
 
 ## Conclusions
 
-1. **USPG outperforms Spatial Hash for dense distributions** (confirmed by benchmarks)
+1. **USPG outperforms Spatial Hash for dense distributions** (3.7-8.7x faster, confirmed by benchmarks)
 
-2. **Spatial Hash provides 28-88% memory savings** (sparse storage working as designed)
+2. **Spatial Hash provides 28-99% memory savings** (sparse storage working as designed)
 
-3. **Trade-off is worthwhile for large-scale simulations** where memory is the bottleneck
+3. **Performance gap narrows with scale**: insertion overhead grows (4x → 48.5x), but search improves (10.1x → 2.5x)
 
-4. **Implementation is correct and production-ready** (133/133 tests passing)
+4. **Trade-off is worthwhile for large-scale simulations** where memory is the bottleneck
 
-5. **Both implementations have their place** - compile-time selection enables optimal configuration per use case
+5. **Implementation is correct and production-ready** (133/133 tests passing)
+
+6. **Both implementations have their place** - compile-time selection enables optimal configuration per use case
 
 ---
 
@@ -327,16 +330,16 @@ To improve Spatial Hash performance:
 
 ### USPG (Baseline) Results:
 ```
-Small  (1K particles):  Insert: 0.038 ms, Search: 0.234 ms, Voxels: 8000
-Medium (5K particles):  Insert: 0.228 ms, Search: 4.474 ms, Voxels: 8000
-Large (10K particles):  Insert: 0.542 ms, Search: 16.693 ms, Voxels: 8000
+Tiny  (100 particles):  Insert: 0.004 ms, Search: 0.010 ms, Voxels: 8000
+Small  (1K particles):  Insert: 0.037 ms, Search: 0.251 ms, Voxels: 8000
+Large (10K particles):  Insert: 0.371 ms, Search: 14.274 ms, Voxels: 8000
 ```
 
 ### Spatial Hash (Optimized) Results:
 ```
-Small  (1K particles):  Insert: 0.709 ms, Search: 2.197 ms, Voxels: 936
-Medium (5K particles):  Insert: 9.434 ms, Search: 16.623 ms, Voxels: 3720
-Large (10K particles):  Insert: 22.575 ms, Search: 42.777 ms, Voxels: 5717
+Tiny  (100 particles):  Insert: 0.016 ms, Search: 0.101 ms, Voxels: 100
+Small  (1K particles):  Insert: 0.563 ms, Search: 1.951 ms, Voxels: 936
+Large (10K particles):  Insert: 17.988 ms, Search: 36.260 ms, Voxels: 5717
 ```
 
 ---
