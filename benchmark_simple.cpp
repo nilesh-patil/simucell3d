@@ -98,9 +98,10 @@ int main() {
     };
 
     TestCase tests[] = {
-        {"Tiny (100 particles)", 100, 100.0, 5.0, 100},
-        {"Small  (1K particles)", 1000, 100.0, 5.0, 50},
-        {"Large (10K particles)", 10000, 100.0, 5.0, 10},
+        {"Small (1K particles)", 1000, 100.0, 5.0, 50},
+        {"Medium (10K particles)", 10000, 100.0, 5.0, 20},
+        {"Large (100K particles)", 100000, 100.0, 5.0, 5},
+        {"XLarge (200K particles)", 200000, 100.0, 5.0, 3},
     };
 
     for (const auto& test : tests) {

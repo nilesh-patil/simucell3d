@@ -4,9 +4,13 @@ build*
 venv*
 *env
 env*
+.claude/*
+
 artificial_image_generation/
 simulation_results/
-.claude/*
 
 # Experimental benchmarks (not production-ready)
 benchmark_contact_detection
+checkpoints/*
+test_checkpoints/*
+roundtrip_test_checkpoints/*
