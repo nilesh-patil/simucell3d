@@ -1,10 +1,15 @@
 #The version of cmake required
 cmake_minimum_required(VERSION 3.0)
 
-FILE(GLOB SRC "*.cpp")
+# Explicit source file list
+set(SRC_FILES
+    uspg_3d.cpp
+    uspg_4d.cpp
+    uspg_abstract.cpp
+)
 
 #Create the source library
-add_library(uspg ${SRC})
+add_library(uspg ${SRC_FILES})
 
 
 target_include_directories(uspg PUBLIC  "${PROJECT_SOURCE_DIR}/include/"

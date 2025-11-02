@@ -1,10 +1,17 @@
 #The version of cmake required
 cmake_minimum_required(VERSION 3.0)
 
-FILE(GLOB SRC "*.cpp")
+# Explicit source file list
+set(SRC_FILES
+    mesh_reader.cpp
+    mesh_writer.cpp
+    parameter_reader.cpp
+    simulation_initializer.cpp
+    statistics_writer.cpp
+)
 
 #Create the source library
-add_library(io ${SRC})
+add_library(io ${SRC_FILES})
 
 #Locate the openMP library to parallelize the code
 find_package(OpenMP REQUIRED)

@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
-
-FILE(GLOB SRC "*.cpp")
-
-#Create the source library
-#add_library(python_bindings ${SRC})
+# Note: This module uses pybind11_add_module instead of add_library
+# The source file is explicitly specified in the pybind11_add_module call below
 
 
 #Find the python library

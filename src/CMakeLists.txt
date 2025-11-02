@@ -15,10 +15,13 @@ if(ENABLE_PYTHON_BINDINGS)
 endif()
 
 
-FILE(GLOB SRC "*.cpp")
+# Explicit source file list (more reliable than GLOB)
+set(SRC_FILES
+    solver.cpp
+)
 
 #Create the source library
-add_library(src ${SRC})
+add_library(src ${SRC_FILES})
 
 #Add all the header files required to run the root file of the project
 target_include_directories(src PUBLIC 

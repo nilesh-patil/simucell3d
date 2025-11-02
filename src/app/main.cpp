@@ -1,4 +1,3 @@
-
 #include <iostream>
 
 #include "simulation_initializer.hpp"
@@ -34,7 +33,7 @@ int main (int argc, char** argv){
         //Run the simulation
         solver_.run();
     }
-    
+
     //Catch and print any exception
     catch(std::exception const& e){
         std::cerr << e.what() << std::endl;

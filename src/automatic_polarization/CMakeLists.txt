@@ -1,10 +1,14 @@
-#The verscontact_modelsn of cmake required
+#The version of cmake required
 cmake_minimum_required(VERSION 3.0)
 
-FILE(GLOB SRC "*.cpp")
+# Explicit source file list
+set(SRC_FILES
+    automatic_polarization_writer.cpp
+    automatic_polarizer.cpp
+)
 
 #Create the source library
-add_library(automatic_polarization ${SRC})
+add_library(automatic_polarization ${SRC_FILES})
 
 #Locate the openMP library to parallelize the code
 find_package(OpenMP REQUIRED)
