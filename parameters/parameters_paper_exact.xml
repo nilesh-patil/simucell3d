@@ -1,0 +1,277 @@
+
+<?xml version="1.0"?>
+
+
+<!--
+    V1.0 Default Dynamic Configuration: SimuCell3D
+
+    Source: parameters_default_dynamic.xml from v1.0 repository
+
+    This parameter file uses V1.0's STABLE default values, which use a coarser
+    mesh resolution for numerical stability during cell division.
+
+    Required compile-time settings in /include/global_configuration.hpp:
+        POLARIZATION_MODE_INDEX:    1
+        CONTACT_MODEL_INDEX:        1  (Node-Node contact - V1.0 default)
+        DYNAMIC_MODEL_INDEX:        0  (Dynamic equations of motion)
+
+    Key differences from Paper Table 2:
+        - min_edge_length: 7.5e-7 m (vs 2e-7) - coarser mesh for stability
+        - contact_cutoff: 5e-7 m (vs 2e-7) - larger contact range
+        - damping: 5e-10 kg/s (vs 2.5e-10) - more damping
+        - division_volume: 1.4e-14 m³ (vs 1.4e-15) - 10× larger cells at division
+-->
+
+
+
+<numerical_parameters>
+    <!-- The mesh file containing the initial configuration - single cell -->
+    <input_mesh_file_path>data/input_meshes/big_sphere.vtk</input_mesh_file_path>
+
+    <!-- The path where the mesh files will be written -->
+    <output_mesh_folder_path>../simulation_results/paper_exact</output_mesh_folder_path>
+
+    <!-- If equals 0 the cells will not be triangulated at the beginning of the simulation -->
+    <perform_initial_triangulation>1</perform_initial_triangulation>
+
+    <!-- If set to 1, the triangles with very high aspect ratio will be removed from the mesh -->
+    <enable_edge_swap_operation>0</enable_edge_swap_operation>
+
+    <!-- V1.0 DEFAULT: damping coefficient = 5e-10 kg/s [M/T] -->
+    <damping_coefficient>5e-10</damping_coefficient>
+
+    <!-- Simulation duration [s] - benchmark duration -->
+    <simulation_duration>5e-2</simulation_duration>
+
+    <!-- The time between each mesh file saving [s] -->
+    <sampling_period>1e-4</sampling_period>
+
+    <!-- V1.0 DEFAULT: time step = 1e-7 s = 100 ns [T] -->
+    <time_step>1e-7</time_step>
+
+    <!-- V1.0 DEFAULT: min edge length = 7.5e-7 m = 750 nm [L] (coarser for stability) -->
+    <min_edge_length>7.5e-7</min_edge_length>
+
+    <!-- V1.0 DEFAULT: contact cutoff = 5e-7 m = 500 nm [L] -->
+    <contact_cutoff_adhesion>5e-7</contact_cutoff_adhesion>
+    <contact_cutoff_repulsion>5e-7</contact_cutoff_repulsion>
+</numerical_parameters>
+
+
+
+<cell_types>
+    <cell_type>
+        <!-- The name of the cell type -->
+        <cell_type_name>epithelial</cell_type_name>
+
+        <!-- The ID of the cell type -->
+        <global_cell_id>0</global_cell_id>
+
+        <!-- V1.0 DEFAULT: mass density = 1000 kg/m³ [M/L³] -->
+        <cell_mass_density>1.0e3</cell_mass_density>
+
+        <!-- V1.0 DEFAULT: bulk modulus = 2500 Pa [M/LT²] -->
+        <cell_bulk_modulus>2.5e3</cell_bulk_modulus>
+
+        <!-- V1.0 DEFAULT: max internal pressure = 2500 Pa [M/LT²] -->
+        <max_inner_pressure>2.5e3</max_inner_pressure>
+
+        <!-- V1.0 DEFAULT: growth rate = 2e-11 m³/s [L³/T] -->
+        <avg_growth_rate>2e-11</avg_growth_rate>
+        <std_growth_rate>2e-12</std_growth_rate>
+
+        <!-- V1.0 DEFAULT: target isoperimetric ratio = 250 [-] -->
+        <target_isoperimetric_ratio>250</target_isoperimetric_ratio>
+
+        <!-- V1.0 DEFAULT: area elasticity modulus = 1e-15 J [ML²/T²] -->
+        <area_elasticity_modulus>1e-15</area_elasticity_modulus>
+
+        <!-- Used to make sure triangle angles are ~60 deg -->
+        <angle_regularization_factor>0</angle_regularization_factor>
+
+        <!-- V1.0 DEFAULT: division volume = 1.4e-14 m³ [L³] (10× larger than paper) -->
+        <avg_division_volume>1.4e-14</avg_division_volume>
+        <std_division_volume>1.4e-15</std_division_volume>
+
+        <!-- V1.0 DEFAULT: max coupling curvature = 2.5e6 m⁻¹ [1/L] -->
+        <surface_coupling_max_curvature>2.5e6</surface_coupling_max_curvature>
+
+        <!-- V1.0 DEFAULT: min volume (apoptosis) = 3.7e-17 m³ [L³] -->
+        <min_vol>3.7e-17</min_vol>
+
+        <!-- Cell face types with mechanical properties (V1.0 defaults) -->
+        <face_types>
+            <face_type>
+                <global_face_id>0</global_face_id>
+                <face_type_name>apical</face_type_name>
+
+                <!-- V1.0 DEFAULT: adhesion strength = 1e9 Pa/m -->
+                <adherence_strength>1e9</adherence_strength>
+
+                <!-- V1.0 DEFAULT: repulsion strength = 1e9 Pa/m -->
+                <repulsion_strength>1e9</repulsion_strength>
+
+                <!-- V1.0 DEFAULT: surface tension = 1e-3 N/m -->
+                <surface_tension>1e-3</surface_tension>
+
+                <!-- V1.0 DEFAULT: bending modulus = 0 (disabled) -->
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+
+            <face_type>
+                <global_face_id>1</global_face_id>
+                <face_type_name>lateral</face_type_name>
+
+                <adherence_strength>1e9</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <!-- V1.0 DEFAULT: lateral tension = 8e-4 N/m -->
+                <surface_tension>8e-4</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+
+            <face_type>
+                <global_face_id>2</global_face_id>
+                <face_type_name>basal</face_type_name>
+
+                <!-- Basal: no adhesion (faces ECM) -->
+                <adherence_strength>0</adherence_strength>
+                <repulsion_strength>5e8</repulsion_strength>
+                <surface_tension>1e-3</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+    <cell_type>
+        <!-- ECM (Extracellular Matrix) - non-growing boundary structure -->
+        <global_cell_id>1</global_cell_id>
+        <cell_type_name>ecm</cell_type_name>
+
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <!-- ECM: K=0 means no internal pressure -->
+        <cell_bulk_modulus>0.0</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <!-- V1.0 DEFAULT: H_max = 1e7 m⁻¹ -->
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+        <min_vol>1e-18</min_vol>
+
+        <face_types>
+            <face_type>
+                <global_face_id>3</global_face_id>
+                <face_type_name>ecm_face</face_type_name>
+                <adherence_strength>0</adherence_strength>
+                <repulsion_strength>2e9</repulsion_strength>
+                <surface_tension>5.0e-4</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+
+    <cell_type>
+        <!-- Lumen - fluid cavity inside tissue (e.g., vesicle interior) -->
+        <global_cell_id>2</global_cell_id>
+        <cell_type_name>lumen</cell_type_name>
+
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <!-- V1.0 DEFAULT: K = 2500 Pa -->
+        <cell_bulk_modulus>2.5e3</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <!-- V1.0 DEFAULT: H_max = 1e7 m⁻¹ -->
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+        <min_vol>1e-18</min_vol>
+
+        <face_types>
+            <face_type>
+                <global_face_id>4</global_face_id>
+                <face_type_name>lumen_face</face_type_name>
+                <adherence_strength>0.0</adherence_strength>
+                <repulsion_strength>5.0e9</repulsion_strength>
+                <surface_tension>4e-4</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+    <cell_type>
+        <!-- Nucleus - intracellular organelle -->
+        <global_cell_id>3</global_cell_id>
+        <cell_type_name>nucleus</cell_type_name>
+
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <!-- V1.0 DEFAULT: K = 2500 Pa -->
+        <cell_bulk_modulus>2500</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <!-- V1.0 DEFAULT: H_max = 1e7 m⁻¹ -->
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+        <min_vol>1e-18</min_vol>
+        <INMForce>0</INMForce>
+
+        <face_types>
+            <face_type>
+                <global_face_id>5</global_face_id>
+                <face_type_name>nucleus_face</face_type_name>
+                <!-- V1.0 DEFAULT: non-adhesive nuclei -->
+                <adherence_strength>0.0</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>0</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+    <cell_type>
+        <!-- Static cell - boundary cells that don't move -->
+        <global_cell_id>4</global_cell_id>
+        <cell_type_name>static_cell</cell_type_name>
+
+        <!-- V1.0 DEFAULT: mass density = 1.04 kg/m³ -->
+        <cell_mass_density>1.04</cell_mass_density>
+        <!-- V1.0 DEFAULT: very low K for static boundary behavior -->
+        <cell_bulk_modulus>2.5e-7</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0</avg_growth_rate>
+        <std_growth_rate>0</std_growth_rate>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <avg_division_volume>0</avg_division_volume>
+        <std_division_volume>0</std_division_volume>
+        <min_vol>1e-18</min_vol>
+        <!-- V1.0 DEFAULT: H_max = 1e7 m⁻¹ -->
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+
+        <face_types>
+            <face_type>
+                <global_face_id>6</global_face_id>
+                <face_type_name>static_face</face_type_name>
+                <adherence_strength>0</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>0.2e-10</surface_tension>
+                <bending_modulus>0.0e-10</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+</cell_types>
+
