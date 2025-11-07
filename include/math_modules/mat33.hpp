@@ -82,7 +82,7 @@ class mat33
         std::pair<vec3, mat33> eigen_decomposition() const noexcept;
 
 
-        mat33 inverse() const noexcept;
+        mat33 inverse() const;
 
 
         //Overload substraction operator
