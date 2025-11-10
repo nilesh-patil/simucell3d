@@ -117,6 +117,7 @@ class cell: public std::enable_shared_from_this<cell> {
         friend class node_tester;
         friend class local_mesh_refiner;
         friend class local_mesh_refiner_tester;
+        friend class time_integration_test_helper;
 
  
         void add_free_node(const unsigned node_id) noexcept;
