@@ -307,10 +307,10 @@ unsigned short automatic_polarizer::get_region_in_contact_with_face(cell_ptr c, 
     //Get the index of the first voxel that is intersected by the ray
     auto [i,j,k] = grid_.get_3d_voxel_index(ray_origin);
 
-    // Determine in which primary direction to step
-    unsigned di = ((x1 < x2) ? 1 : ((x1 > x2) ? -1 : 0));
-    unsigned dj = ((y1 < y2) ? 1 : ((y1 > y2) ? -1 : 0));
-    unsigned dk = ((z1 < z2) ? 1 : ((z1 > z2) ? -1 : 0));
+    // Determine in which primary direction to step (use signed int for -1, 0, 1)
+    int di = ((x1 < x2) ? 1 : ((x1 > x2) ? -1 : 0));
+    int dj = ((y1 < y2) ? 1 : ((y1 > y2) ? -1 : 0));
+    int dk = ((z1 < z2) ? 1 : ((z1 > z2) ? -1 : 0));
 
 
     //Determine how far we should advance along the ray to be in the next voxel of the grid which is along the ray

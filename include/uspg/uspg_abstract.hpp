@@ -95,7 +95,9 @@ class uspg_abstract
         assert(voxel_z_id < nb_voxels_z_);
 
         //The position of the object in the 1D grid
-        const size_t voxel_id = voxel_z_id * nb_voxels_x_ * nb_voxels_y_ + voxel_y_id * nb_voxels_x_ + voxel_x_id;
+        //Cast first operand to size_t to prevent 32-bit overflow when multiplying
+        const size_t voxel_id = static_cast<size_t>(voxel_z_id) * nb_voxels_x_ * nb_voxels_y_ +
+                                static_cast<size_t>(voxel_y_id) * nb_voxels_x_ + voxel_x_id;
         return voxel_id;
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
