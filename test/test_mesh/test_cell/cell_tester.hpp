@@ -25,7 +25,6 @@ class cell_tester
         int trivial_default_constructor_1_test();
         int trivial_default_constructor_2_test();
         int instantiation_from_mesh_test();
-        int connect_cell_to_nodes_and_faces();
         int edge_set_generation_test();
         int rebase_node_test();
         int rebase_face_test();

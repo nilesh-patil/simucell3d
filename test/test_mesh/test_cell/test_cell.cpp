@@ -90,9 +90,9 @@ int cell_tester::trivial_default_constructor_1_test(){
     for(size_t i = 0; i < cell_node_lst.size(); i++){
 
         const auto& n = cell_node_lst[i];
-        if(n.pos().dx() != node_lst[i].pos().dx()) t3 == false;
-        if(n.pos().dy() != node_lst[i].pos().dy()) t3 == false;
-        if(n.pos().dz() != node_lst[i].pos().dz()) t3 == false;
+        if(n.pos().dx() != node_lst[i].pos().dx()) t3 = false;
+        if(n.pos().dy() != node_lst[i].pos().dy()) t3 = false;
+        if(n.pos().dz() != node_lst[i].pos().dz()) t3 = false;
         if(t3 == false) break;
     }
 
@@ -150,9 +150,9 @@ int cell_tester::trivial_default_constructor_2_test(){
 
         const auto& n = cell_node_lst[i];
 
-        if(n.pos().dx() != node_pos_lst[i * 3 + 0]) t3 == false;
-        if(n.pos().dy() != node_pos_lst[i * 3 + 1]) t3 == false;
-        if(n.pos().dz() != node_pos_lst[i * 3 + 2]) t3 == false;
+        if(n.pos().dx() != node_pos_lst[i * 3 + 0]) t3 = false;
+        if(n.pos().dy() != node_pos_lst[i * 3 + 1]) t3 = false;
+        if(n.pos().dz() != node_pos_lst[i * 3 + 2]) t3 = false;
 
         if(t3 == false) break;
     }
@@ -168,9 +168,9 @@ int cell_tester::trivial_default_constructor_2_test(){
         const auto& [n1, n2, n3] = f.get_node_ids();
 
         //Check that each face has the correct ids
-        if(n1 != node_pos_lst[i * 3 + 0]) t4 == false;
-        if(n2 != node_pos_lst[i * 3 + 1]) t4 == false;
-        if(n3 != node_pos_lst[i * 3 + 2]) t4 == false;
+        if(n1 != face_node_lst[i * 3 + 0]) t4 = false;
+        if(n2 != face_node_lst[i * 3 + 1]) t4 = false;
+        if(n3 != face_node_lst[i * 3 + 2]) t4 = false;
         if(t4 == false) break;
     }
 
