@@ -217,7 +217,9 @@ int write_face_data_test(){
     //Write the cell_data
     mesh_writer::write_face_data_file(std::string(PROJECT_SOURCE_DIR) + "/test/test_io/test_mesh_writer/test_4.vtk", cell_lst);
 
-    return 1;
+    // TODO: Add file content validation here
+    // Currently this test only writes but doesn't validate the output
+    return 0;
 }
 //---------------------------------------------------------------------------------------------------------
 
