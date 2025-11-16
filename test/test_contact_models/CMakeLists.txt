@@ -4,4 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(test_contact_model_abstract)
 add_subdirectory(test_contact_node_node_via_coupling)
 add_subdirectory(test_contact_node_face_via_springs)
+add_subdirectory(test_contact_force_unit)
+add_subdirectory(test_contact_detection_strategy)
+add_subdirectory(test_contact_model_integration)
 
