@@ -10,6 +10,9 @@ add_subdirectory(test_io)
 add_subdirectory(test_triangulation_modules)
 add_subdirectory(test_contact_models)
 add_subdirectory(test_automatic_polarization)
+add_subdirectory(test_solver)
+add_subdirectory(test_time_integration)
+add_subdirectory(test_performance_monitor)
 
 
 

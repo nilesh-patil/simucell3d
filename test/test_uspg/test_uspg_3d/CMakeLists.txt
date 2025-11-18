@@ -18,11 +18,12 @@ target_include_directories(test_uspg_3d PUBLIC
 
 
 #Run the test
-add_test(NAME uspg_3d_update_dimensions_test        COMMAND test_uspg_3d update_dimensions_test)
-add_test(NAME uspg_3d_get_neighborhood_test         COMMAND test_uspg_3d get_neighborhood_test)
-add_test(NAME uspg_3d_place_object_test             COMMAND test_uspg_3d place_object_test)
-add_test(NAME uspg_3d_get_grid_content_test         COMMAND test_uspg_3d get_grid_content_test)
-add_test(NAME uspg_3d_update_voxel_test             COMMAND test_uspg_3d update_voxel_test)
+add_test(NAME uspg_3d_update_dimensions_test          COMMAND test_uspg_3d update_dimensions_test)
+add_test(NAME uspg_3d_get_neighborhood_test           COMMAND test_uspg_3d get_neighborhood_test)
+add_test(NAME uspg_3d_place_object_test               COMMAND test_uspg_3d place_object_test)
+add_test(NAME uspg_3d_get_grid_content_test           COMMAND test_uspg_3d get_grid_content_test)
+add_test(NAME uspg_3d_update_voxel_test               COMMAND test_uspg_3d update_voxel_test)
+add_test(NAME uspg_3d_large_grid_index_overflow_test  COMMAND test_uspg_3d large_grid_index_overflow_test)
 
 
 

@@ -26,6 +26,8 @@ add_test(NAME math_modules_mat33_operator_minus_test        COMMAND mat33_test o
 add_test(NAME math_modules_mat33_operator_plus_test         COMMAND mat33_test operator_plus_test)
 add_test(NAME math_modules_mat33_operator_multiply_test     COMMAND mat33_test operator_multiply_test)
 add_test(NAME math_modules_mat33_identity_test              COMMAND mat33_test identity_test)
+add_test(NAME math_modules_mat33_inverse_singular_matrix_test COMMAND mat33_test inverse_singular_matrix_test)
+add_test(NAME math_modules_mat33_inverse_near_singular_test COMMAND mat33_test inverse_near_singular_matrix_test)
 
 
 

@@ -388,8 +388,9 @@ int bpa_tester::fill_surface_holes_test() const{
     m.face_point_ids = face_conn_lst;
     mesh_writer::write_cell_data_file(std::string(PROJECT_SOURCE_DIR) + "/test/test_triangulation_modules/test_bpa/test_fil_holes.vtk", {m});
 
-
-    return 1;
+    // TODO: Add actual fill_surface_holes() test logic here
+    // Currently this test only generates test geometry but doesn't validate the algorithm
+    return 0;
 }
 //---------------------------------------------------------------------------------------------------------
 

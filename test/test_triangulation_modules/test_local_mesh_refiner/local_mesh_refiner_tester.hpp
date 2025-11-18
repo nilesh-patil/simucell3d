@@ -20,12 +20,9 @@ class local_mesh_refiner_tester
     public:
 
         int can_be_merged_test();
-        //int prepare_merger_test_1();
-        //int prepare_merger_test_2();
         int edge_swap_test();
         int split_edge_test();
         int merge_edge_test();
-        int merge_edge_test_2();
         int get_triangle_score_test();
 
 };

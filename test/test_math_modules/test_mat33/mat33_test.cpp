@@ -248,6 +248,84 @@ int identity_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// Bug #2: Test that inverse() throws for singular matrices (det = 0)
+int inverse_singular_matrix_test(){
+    // Create a singular matrix (rows are linearly dependent, det = 0)
+    mat33 singular(
+        {1., 2., 3.},
+        {2., 4., 6.},  // Row 2 = 2 * Row 1
+        {1., 1., 1.}
+    );
+
+    // Verify determinant is zero
+    double det = singular.determinant();
+    if (std::abs(det) > 1e-10) {
+        std::cerr << "Test setup error: matrix is not singular, det = " << det << std::endl;
+        return 1;
+    }
+
+    // Try to invert - should throw std::domain_error
+    try {
+        mat33 inv = singular.inverse();
+        // If we get here, the function didn't throw - this is the bug!
+        std::cerr << "FAIL: inverse() should throw for singular matrix but didn't" << std::endl;
+        return 1;
+    } catch (const std::domain_error& e) {
+        // Expected behavior - test passes
+        std::cout << "PASS: inverse() correctly threw std::domain_error: " << e.what() << std::endl;
+        return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "FAIL: Wrong exception type: " << e.what() << std::endl;
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+// Bug #2: Test that inverse() throws for near-singular matrices
+int inverse_near_singular_matrix_test(){
+    // Create a near-singular matrix (determinant very close to zero)
+    mat33 near_singular(
+        {1., 2., 3.},
+        {2., 4.0000000001, 6.},  // Almost linearly dependent
+        {1., 1., 1.}
+    );
+
+    double det = near_singular.determinant();
+    std::cout << "Near-singular matrix determinant: " << det << std::endl;
+
+    // The determinant should be very small
+    if (std::abs(det) > 1e-8) {
+        std::cerr << "Test setup warning: matrix may not be near-singular enough" << std::endl;
+    }
+
+    // Try to invert - should throw for numerical stability
+    try {
+        mat33 inv = near_singular.inverse();
+        // Check if result is reasonable (not inf/nan)
+        vec3 row0 = inv.get_row(0);
+        if (!std::isfinite(row0.dx()) || !std::isfinite(row0.dy()) || !std::isfinite(row0.dz())) {
+            std::cerr << "FAIL: inverse() produced inf/nan values" << std::endl;
+            return 1;
+        }
+        // Even if finite, values should not be astronomically large
+        if (std::abs(row0.dx()) > 1e12) {
+            std::cerr << "FAIL: inverse() produced numerically unstable values" << std::endl;
+            return 1;
+        }
+        std::cout << "PASS: inverse() handled near-singular matrix safely" << std::endl;
+        return 0;
+    } catch (const std::domain_error& e) {
+        // Also acceptable - throwing for numerical safety
+        std::cout << "PASS: inverse() correctly threw for near-singular: " << e.what() << std::endl;
+        return 0;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
@@ -269,6 +347,8 @@ int main (int argc, char** argv){
     if (test_name == "operator_plus_test")              return operator_plus_test();
     if (test_name == "operator_multiply_test")          return operator_multiply_test();
     if (test_name == "identity_test")                   return identity_test();
+    if (test_name == "inverse_singular_matrix_test")    return inverse_singular_matrix_test();
+    if (test_name == "inverse_near_singular_matrix_test") return inverse_near_singular_matrix_test();
 
 
 

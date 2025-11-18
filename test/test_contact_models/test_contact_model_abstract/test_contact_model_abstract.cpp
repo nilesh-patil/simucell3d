@@ -181,19 +181,87 @@ int tester_contact_model_abstract::compute_node_triangle_distance_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// Bug #1: Test that closest point for interior projection is computed correctly
+// The bug is on line 268: "a + ab * v + a + ac * w" adds 'a' twice
+// This bug is hidden when A = origin because 2*(0,0,0) = (0,0,0)
+// Correct formula: cpa = a + ab * v + ac * w
+int tester_contact_model_abstract::compute_node_triangle_distance_interior_point_test(){
+    // Use a triangle NOT at the origin to expose the double-add bug
+    vec3 A(1., 1., 0.);  // Not at origin!
+    vec3 B(2., 1., 0.);
+    vec3 C(1., 2., 0.);
+
+    // Point directly above the centroid of the triangle
+    // Centroid = (A + B + C) / 3 = (1+2+1, 1+1+2, 0) / 3 = (4/3, 4/3, 0)
+    vec3 p(4./3., 4./3., 1.);  // 1 unit above centroid
+
+    const auto [dist_sq, bary] = contact_model_abstract::compute_node_triangle_distance(p, A, B, C);
+
+    // The closest point on the triangle should be the centroid (4/3, 4/3, 0)
+    // Distance should be 1.0 (height above triangle)
+    // Squared distance should be 1.0
+
+    std::cout << "Point p: (" << p.dx() << ", " << p.dy() << ", " << p.dz() << ")" << std::endl;
+    std::cout << "Computed squared distance: " << dist_sq << std::endl;
+    std::cout << "Expected squared distance: 1.0" << std::endl;
+    std::cout << "Barycentric coords: (" << bary.dx() << ", " << bary.dy() << ", " << bary.dz() << ")" << std::endl;
+
+    // Reconstruct the CPA from barycentric coordinates
+    vec3 cpa_from_bary = A * bary.dx() + B * bary.dy() + C * bary.dz();
+    std::cout << "CPA from bary: (" << cpa_from_bary.dx() << ", " << cpa_from_bary.dy() << ", " << cpa_from_bary.dz() << ")" << std::endl;
+    std::cout << "Expected CPA: (1.333, 1.333, 0)" << std::endl;
+
+    // With the bug, the CPA is computed as:
+    // cpa = a + ab*v + a + ac*w = 2*a + ab*v + ac*w
+    // This would give: 2*(1,1,0) + ... = (2,2,0) + ...
+    // The distance would be wrong
+
+    // Check that squared distance is approximately 1.0
+    bool dist_ok = std::abs(dist_sq - 1.0) < 1e-10;
+    if (!dist_ok) {
+        std::cerr << "FAIL: Expected squared distance 1.0, got " << dist_sq << std::endl;
+        std::cerr << "This indicates the 'duplicate a' bug in closest point calculation" << std::endl;
+        return 1;
+    }
+
+    // Check barycentric coordinates sum to 1
+    double bary_sum = bary.dx() + bary.dy() + bary.dz();
+    bool bary_sum_ok = std::abs(bary_sum - 1.0) < 1e-10;
+    if (!bary_sum_ok) {
+        std::cerr << "FAIL: Barycentric coordinates don't sum to 1: " << bary_sum << std::endl;
+        return 1;
+    }
+
+    // Check CPA is actually the centroid (for a point above centroid, CPA should be centroid)
+    bool cpa_ok = std::abs(cpa_from_bary.dx() - 4./3.) < 1e-10 &&
+                  std::abs(cpa_from_bary.dy() - 4./3.) < 1e-10 &&
+                  std::abs(cpa_from_bary.dz() - 0.0) < 1e-10;
+    if (!cpa_ok) {
+        std::cerr << "FAIL: CPA should be at centroid (1.333, 1.333, 0)" << std::endl;
+        return 1;
+    }
+
+    std::cout << "PASS: Interior point distance computed correctly" << std::endl;
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
     //Check that the command line input is correctly formatted
-    assert(argc == 2); 
+    assert(argc == 2);
 
     //Get the name of the test to run
     std::string test_name = argv[1];
-    
+
     //Run the selected test
     tester_contact_model_abstract tester;
 
     if (test_name == "compute_node_triangle_distance_test")               return tester.compute_node_triangle_distance_test();
+    if (test_name == "compute_node_triangle_distance_interior_point_test") return tester.compute_node_triangle_distance_interior_point_test();
 
     std::cout << "TEST NAME :" << test_name << " DOES NOT EXIST" << std::endl;
     return 1;

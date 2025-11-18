@@ -6,5 +6,6 @@ add_subdirectory(test_node)
 add_subdirectory(test_edge)
 add_subdirectory(test_face)
 add_subdirectory(test_cell)
+add_subdirectory(test_cell_types)
 
 

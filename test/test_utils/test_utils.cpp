@@ -34,7 +34,7 @@ int flatten_vector_test(){
 
     std::vector<int> flattened_vec = flatten(test_vec);
 
-    std::vector<double> correct_result{1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<int> correct_result{1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     bool t1 = std::equal(correct_result.begin(), correct_result.end(), flattened_vec.begin());
     

@@ -3,3 +3,5 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(test_vec3)
 add_subdirectory(test_mat33)
+add_subdirectory(test_quaternion)
+add_subdirectory(test_eigen_solver)
