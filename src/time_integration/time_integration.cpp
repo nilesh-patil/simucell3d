@@ -21,7 +21,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
     //If we use the contact model that uses springs between faces and vertices
     #if CONTACT_MODEL_INDEX == 0
 
-        #pragma omp parallel for schedule(static)
+        #pragma omp parallel for schedule(runtime)
         for(size_t c1_id = 0; c1_id < cell_lst.size(); c1_id++){
             cell_ptr c1 = cell_lst[c1_id];
 
@@ -72,7 +72,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
     //If we use the contact model that mechanically couples nodes of adjacent cells
     #elif CONTACT_MODEL_INDEX == 1
 
-    #pragma omp parallel for schedule(static)
+    #pragma omp parallel for schedule(runtime)
     for(size_t c1_id = 0; c1_id < cell_lst.size(); c1_id++){
         cell_ptr c1 = cell_lst[c1_id];
         if(c1->is_static_){continue;}

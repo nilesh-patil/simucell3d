@@ -77,7 +77,7 @@ void contact_node_node_via_coupling::run(const std::vector<cell_ptr>& cell_lst) 
 void contact_node_node_via_coupling::resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept{
 
     //Loop over the cells in parallel
-    #pragma omp parallel for
+    #pragma omp parallel for schedule(runtime)
     for(size_t cell_id = 0; cell_id < cell_lst.size(); cell_id++){
         cell_ptr c1 = cell_lst[cell_id];
 
