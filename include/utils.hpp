@@ -137,7 +137,7 @@ inline std::string lower_string(std::string& str){
 
 
 //---------------------------------------------------------------------------------------
-//This function launches a loop in parallel. If an exception is thrown, the handler stores it 
+//This function launches a loop in parallel. If an exception is thrown, the handler stores it
 //and wait for the other threads to finish. Then it rethrows the exception. It prevents the
 //program from crashing when an exception is thrown in a parallel loop. Note that the
 template<typename T>
@@ -149,7 +149,8 @@ inline void parallel_exception_handler(
     //Create an exception pointer
     std::exception_ptr e_ptr;
 
-    #pragma omp parallel for
+    // Use runtime scheduling to benefit from adaptive chunk sizing
+    #pragma omp parallel for schedule(runtime)
     for(size_t i = 0; i < vec.size(); i++){
 
         try{
@@ -159,11 +160,11 @@ inline void parallel_exception_handler(
 
         //Capture the exception thrown by func
         catch(...){
-        
+
             #pragma omp critical
             {
                 //Store the exception
-                e_ptr = std::current_exception(); 
+                e_ptr = std::current_exception();
             }
         }
     }
