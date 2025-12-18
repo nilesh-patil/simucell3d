@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<numerical_parameters>
+    <input_mesh_file_path>../data/Geometries/Cube.vtk</input_mesh_file_path>
+    <output_mesh_folder_path>./simulation_results</output_mesh_folder_path>
+    <perform_initial_triangulation>1</perform_initial_triangulation>
+    <damping_coefficient>1000000.0</damping_coefficient>
+    <simulation_duration>0.001</simulation_duration>
+    <sampling_period>1e-06</sampling_period>
+    <time_step>1e-07</time_step>
+    <min_edge_length>2.5e-07</min_edge_length>
+    <contact_cutoff_adhesion>2.5e-07</contact_cutoff_adhesion>
+    <contact_cutoff_repulsion>2.5e-07</contact_cutoff_repulsion>
+    <enable_edge_swap_operation>1</enable_edge_swap_operation>
+    <contact_detection_algorithm>adaptive</contact_detection_algorithm>
+</numerical_parameters>
+<cell_types>
+    <cell_type>
+        <cell_type_name>test_cell</cell_type_name>
+        <global_cell_id>0</global_cell_id>
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <cell_bulk_modulus>2500</cell_bulk_modulus>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <target_isoperimetric_ratio>130</target_isoperimetric_ratio>
+        <angle_regularization_factor>5e-17</angle_regularization_factor>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <min_vol>1e-18</min_vol>
+        <face_types>
+            <face_type>
+                <global_face_id>0</global_face_id>
+                <face_type_name>test_face</face_type_name>
+                <adherence_strength>2.2e9</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>1e-3</surface_tension>
+                <bending_modulus>2e-18</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+</cell_types>

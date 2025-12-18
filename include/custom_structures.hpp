@@ -12,6 +12,17 @@
 #include "vec3.hpp"
 
 
+//---------------------------------------------------------------------------------------
+// Contact detection algorithm selection
+enum class ContactDetectionAlgorithm {
+    USPG,              // Current uniform spatial grid (default)
+    SWEEP_AND_PRUNE,   // 3-axis sweep and prune with AABB filtering
+    ADAPTIVE           // Auto-select based on cell count (USPG < threshold, SAP >= threshold)
+};
+
+// Default threshold for ADAPTIVE mode: use SAP when cell count >= this value
+constexpr size_t ADAPTIVE_SAP_CELL_THRESHOLD = 500;
+//---------------------------------------------------------------------------------------
 
 
 
@@ -50,6 +61,9 @@ struct global_simulation_parameters{
     //The distance between 2 cells above which cell contact forces are zero
     double contact_cutoff_adhesion_;
     double contact_cutoff_repulsion_;
+
+    //The contact detection algorithm to use (default: USPG for backward compatibility)
+    ContactDetectionAlgorithm contact_detection_algorithm_ = ContactDetectionAlgorithm::USPG;
 };
 //---------------------------------------------------------------------------------------
 

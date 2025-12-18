@@ -157,6 +157,24 @@ global_simulation_parameters parameter_reader::read_numerical_parameters() noexc
     if(!enable_edge_swap_operation_opt.has_value()) throw parameter_reader_exception("The xml markup \"enable_edge_swap_operation\" was not found in the parameter file.");
     sim_parameters.enable_edge_swap_operation_ = (std::stoi(enable_edge_swap_operation_opt.value()) == 0) ? false : true;
 
+    //Get the contact detection algorithm (optional, defaults to USPG)
+    auto contact_detection_algorithm_opt = get_string_value(io_section, "contact_detection_algorithm", true);
+    if(contact_detection_algorithm_opt.has_value()){
+        std::string algo = contact_detection_algorithm_opt.value();
+        if(algo == "uspg"){
+            sim_parameters.contact_detection_algorithm_ = ContactDetectionAlgorithm::USPG;
+        } else if(algo == "sweep_and_prune"){
+            sim_parameters.contact_detection_algorithm_ = ContactDetectionAlgorithm::SWEEP_AND_PRUNE;
+        } else if(algo == "adaptive"){
+            sim_parameters.contact_detection_algorithm_ = ContactDetectionAlgorithm::ADAPTIVE;
+        } else {
+            throw parameter_reader_exception(
+                "Invalid contact_detection_algorithm: '" + algo + "'. "
+                "Valid values: 'uspg', 'sweep_and_prune', 'adaptive'"
+            );
+        }
+    }
+    // If not specified, uses default (USPG) from struct initialization
 
     return sim_parameters;
 }   
