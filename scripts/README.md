@@ -15,7 +15,6 @@ This directory contains automated scripts for comparing performance between Simu
 ```
 scripts/
 ├── README.md                    # This file
-├── COMPARISON_GUIDE.md          # Detailed guide for choosing comparisons
 ├── 12hour_comparison/           # 12-hour comparison scripts
 │   ├── README.md               # Complete documentation
 │   ├── QUICKSTART.md           # One-page quick start
@@ -35,15 +34,7 @@ scripts/
 
 ## Getting Started
 
-### 1. Read the Comparison Guide
-
-```bash
-cat COMPARISON_GUIDE.md
-```
-
-This helps you choose the right comparison for your needs.
-
-### 2. For 12-Hour Comparison
+### 1. For 12-Hour Comparison
 
 ```bash
 cd 12hour_comparison
@@ -51,7 +42,7 @@ cd 12hour_comparison
 ./launch_12hour_comparison.sh
 ```
 
-### 3. For 24-Hour Comparison (Recommended)
+### 2. For 24-Hour Comparison (Recommended)
 
 ```bash
 cd 24hour_comparison
@@ -66,7 +57,7 @@ cd 24hour_comparison
 - **Want sustained performance validation?** → 12-hour (16 cores)
 - **Need publication-quality results?** → **24-hour (16 cores)** ⭐
 
-See `COMPARISON_GUIDE.md` for detailed decision criteria.
+See the comparison directory READMEs for detailed decision criteria.
 
 ## Prerequisites
 
@@ -121,7 +112,6 @@ All comparison scripts include:
 ## Documentation
 
 ### Main Guides
-- `COMPARISON_GUIDE.md` - Choosing the right comparison
 - `12hour_comparison/README.md` - Complete 12-hour documentation
 - `24hour_comparison/README.md` - Complete 24-hour documentation
 
