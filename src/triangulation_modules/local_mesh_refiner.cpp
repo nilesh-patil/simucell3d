@@ -481,6 +481,13 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
     #endif 
 
 
+    // Cache node positions before add_node() to prevent dangling references
+    // (add_node can trigger vector reallocation, invalidating node references)
+    const vec3 n_a_pos = n_a.pos();
+    const vec3 n_b_pos = n_b.pos();
+    const vec3 n_c_pos = n_c.pos();
+    const vec3 n_d_pos = n_d.pos();
+
     //Add the new node to the cell
     const unsigned id_n_e = c->add_node(n_e);
 
@@ -504,7 +511,7 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
 
     //Create the faces 3 and 5 such that they have the normal pointing in
     //the same direction as the normal of f1
-    if ((n_a - n_c).cross(n_b - n_c).dot(f1_normal) >= 0.){
+    if ((n_a_pos - n_c_pos).cross(n_b_pos - n_c_pos).dot(f1_normal) >= 0.){
         f_3_id = c->create_face(id_n_c, id_n_a, id_n_e);
         f_5_id = c->create_face(id_n_c, id_n_e, id_n_b);
     }else{
@@ -516,7 +523,7 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
 
     //Create the faces 4 and 6 such that they have the normal pointing in
     //the same direction as the normal of f2
-    if ((n_a - n_d).cross(n_b - n_d).dot(f2_normal) >= 0.){
+    if ((n_a_pos - n_d_pos).cross(n_b_pos - n_d_pos).dot(f2_normal) >= 0.){
         f_4_id = c->create_face(id_n_d, id_n_a, id_n_e);
         f_6_id = c->create_face(id_n_d, id_n_e, id_n_b);
     }else{
