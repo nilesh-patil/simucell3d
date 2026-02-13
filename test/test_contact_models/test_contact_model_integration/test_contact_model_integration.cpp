@@ -683,7 +683,7 @@ int ContactModelIntegrationTester::strategy_factory_overhead_negligible() {
         }
     });
 
-    bool test1 = time_ms < 1.0;  // Less than 1 millisecond total
+    bool test1 = time_ms < 5.0;  // Less than 5 milliseconds (conservative threshold for ASAN builds)
 
     std::cout << "  Creation time for 1000 strategies: " << time_ms << " ms" << std::endl;
     print_test_result("overhead_negligible", test1);
