@@ -39,10 +39,11 @@ class abstract_statistics_writer{
 
     public:
         abstract_statistics_writer() = default;                                              //default constructor
+        virtual ~abstract_statistics_writer() = default;                                     //virtual destructor for polymorphic deletion
         abstract_statistics_writer(const abstract_statistics_writer& v) = delete;            //copy constructor
         abstract_statistics_writer(abstract_statistics_writer&& v) = delete;                 //move constructor
         abstract_statistics_writer& operator=(const abstract_statistics_writer& v) = delete; //copy assignment operator
-        abstract_statistics_writer& operator=(abstract_statistics_writer&& v) = default;     //move assignment operator 
+        abstract_statistics_writer& operator=(abstract_statistics_writer&& v) = default;     //move assignment operator
 
         virtual void write_data(
             const unsigned iteration, 

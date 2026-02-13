@@ -1,23 +1,23 @@
 #include "contact_detection_uspg_strategy.hpp"
 
 #include <algorithm>
-#include <limits>
 #include <cmath>
+#include <limits>
 #include "morton_code.hpp"
-
 
 //---------------------------------------------------------------------------------------------
 // Constructor: Initialize USPG strategy from simulation parameters
 //---------------------------------------------------------------------------------------------
-contact_detection_uspg_strategy::contact_detection_uspg_strategy(
-    const global_simulation_parameters& params
-) noexcept
-    : grid_(nullptr)
-    , voxel_size_(0.0)
-    , aabb_padding_(0.0)
-    , global_min_x_(0.0), global_min_y_(0.0), global_min_z_(0.0)
-    , global_max_x_(0.0), global_max_y_(0.0), global_max_z_(0.0)
-{
+contact_detection_uspg_strategy::contact_detection_uspg_strategy(const global_simulation_parameters& params) noexcept
+    : grid_(nullptr),
+      voxel_size_(0.0),
+      aabb_padding_(0.0),
+      global_min_x_(0.0),
+      global_min_y_(0.0),
+      global_min_z_(0.0),
+      global_max_x_(0.0),
+      global_max_y_(0.0),
+      global_max_z_(0.0) {
     // Compute AABB padding from contact cutoffs
     // This ensures faces within interaction distance are found
     aabb_padding_ = std::max(params.contact_cutoff_repulsion_, params.contact_cutoff_adhesion_);
@@ -29,16 +29,11 @@ contact_detection_uspg_strategy::contact_detection_uspg_strategy(
 }
 //---------------------------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------------------------
 // Prepare the USPG grid with current face data
 //---------------------------------------------------------------------------------------------
-void contact_detection_uspg_strategy::prepare(
-    const std::vector<cell*>& cells,
-    const std::vector<face*>& faces,
-    const std::vector<aabb>& aabbs,
-    const vec3& bounds
-) noexcept {
+void contact_detection_uspg_strategy::prepare(const std::vector<cell*>& cells, const std::vector<face*>& faces,
+                                              const std::vector<aabb>& aabbs, const vec3& bounds) noexcept {
     // Handle empty input gracefully
     if (faces.empty()) {
         face_lst_.clear();
@@ -75,17 +70,23 @@ void contact_detection_uspg_strategy::prepare(
         const double face_max_z = box.max_corner.dz() + aabb_padding_;
 
         // Update global bounds
-        if (face_min_x < global_min_x_) global_min_x_ = face_min_x;
-        if (face_min_y < global_min_y_) global_min_y_ = face_min_y;
-        if (face_min_z < global_min_z_) global_min_z_ = face_min_z;
+        if (face_min_x < global_min_x_)
+            global_min_x_ = face_min_x;
+        if (face_min_y < global_min_y_)
+            global_min_y_ = face_min_y;
+        if (face_min_z < global_min_z_)
+            global_min_z_ = face_min_z;
 
-        if (face_max_x > global_max_x_) global_max_x_ = face_max_x;
-        if (face_max_y > global_max_y_) global_max_y_ = face_max_y;
-        if (face_max_z > global_max_z_) global_max_z_ = face_max_z;
+        if (face_max_x > global_max_x_)
+            global_max_x_ = face_max_x;
+        if (face_max_y > global_max_y_)
+            global_max_y_ = face_max_y;
+        if (face_max_z > global_max_z_)
+            global_max_z_ = face_max_z;
 
         // Store AABB in flat format
         face_aabb_lst_.insert(face_aabb_lst_.end(),
-            {face_min_x, face_min_y, face_min_z, face_max_x, face_max_y, face_max_z});
+                              {face_min_x, face_min_y, face_min_z, face_max_x, face_max_y, face_max_z});
     }
 
     // Add padding to global bounds to ensure boundary faces are handled correctly
@@ -98,17 +99,13 @@ void contact_detection_uspg_strategy::prepare(
 }
 //---------------------------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------------------------
 // Store all faces in the USPG grid with Morton code sorting for cache locality
 //---------------------------------------------------------------------------------------------
 void contact_detection_uspg_strategy::store_faces_in_grid() noexcept {
     // Create a new grid with proper dimensions using unique_ptr
-    grid_ = std::make_unique<uspg_4d<face*>>(
-        global_min_x_, global_min_y_, global_min_z_,
-        global_max_x_, global_max_y_, global_max_z_,
-        voxel_size_, face_lst_.size()
-    );
+    grid_ = std::make_unique<uspg_4d<face*>>(global_min_x_, global_min_y_, global_min_z_, global_max_x_, global_max_y_,
+                                             global_max_z_, voxel_size_, face_lst_.size());
 
     // Get grid parameters via public accessors
     const auto [grid_min_x, grid_min_y, grid_min_z] = grid_->get_min_corner();
@@ -124,14 +121,12 @@ void contact_detection_uspg_strategy::store_faces_in_grid() noexcept {
     sorted_faces.reserve(face_lst_.size());
 
     // Compute global bounds for Morton encoding
-    const double bounds[6] = {
-        global_min_x_, global_min_y_, global_min_z_,
-        global_max_x_, global_max_y_, global_max_z_
-    };
+    const double bounds[6] = {global_min_x_, global_min_y_, global_min_z_, global_max_x_, global_max_y_, global_max_z_};
 
     for (size_t i = 0; i < face_lst_.size(); ++i) {
         face* f = face_lst_[i];
-        if (f == nullptr || !f->is_used()) continue;
+        if (f == nullptr || !f->is_used())
+            continue;
 
         // Compute face centroid from AABB center
         const size_t aabb_pos = i * 6;
@@ -167,19 +162,13 @@ void contact_detection_uspg_strategy::store_faces_in_grid() noexcept {
         const double face_max_z = face_aabb_lst_[aabb_pos + 5];
 
         // Compute voxel range for this face's AABB
-        const unsigned voxel_x_start = static_cast<unsigned>(
-            std::floor((face_min_x - grid_min_x) / grid_voxel_size));
-        const unsigned voxel_y_start = static_cast<unsigned>(
-            std::floor((face_min_y - grid_min_y) / grid_voxel_size));
-        const unsigned voxel_z_start = static_cast<unsigned>(
-            std::floor((face_min_z - grid_min_z) / grid_voxel_size));
+        const unsigned voxel_x_start = static_cast<unsigned>(std::floor((face_min_x - grid_min_x) / grid_voxel_size));
+        const unsigned voxel_y_start = static_cast<unsigned>(std::floor((face_min_y - grid_min_y) / grid_voxel_size));
+        const unsigned voxel_z_start = static_cast<unsigned>(std::floor((face_min_z - grid_min_z) / grid_voxel_size));
 
-        const unsigned voxel_x_stop = static_cast<unsigned>(
-            std::floor((face_max_x - grid_min_x) / grid_voxel_size));
-        const unsigned voxel_y_stop = static_cast<unsigned>(
-            std::floor((face_max_y - grid_min_y) / grid_voxel_size));
-        const unsigned voxel_z_stop = static_cast<unsigned>(
-            std::floor((face_max_z - grid_min_z) / grid_voxel_size));
+        const unsigned voxel_x_stop = static_cast<unsigned>(std::floor((face_max_x - grid_min_x) / grid_voxel_size));
+        const unsigned voxel_y_stop = static_cast<unsigned>(std::floor((face_max_y - grid_min_y) / grid_voxel_size));
+        const unsigned voxel_z_stop = static_cast<unsigned>(std::floor((face_max_z - grid_min_z) / grid_voxel_size));
 
         // Insert face into all overlapping voxels using public place_object method
         for (unsigned voxel_x = voxel_x_start; voxel_x <= voxel_x_stop; ++voxel_x) {
@@ -194,14 +183,11 @@ void contact_detection_uspg_strategy::store_faces_in_grid() noexcept {
 }
 //---------------------------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------------------------
 // Get candidate faces near a query position
 //---------------------------------------------------------------------------------------------
-std::vector<face*> contact_detection_uspg_strategy::get_candidate_faces(
-    const vec3& query_pos,
-    cell* query_cell
-) const noexcept {
+std::vector<face*> contact_detection_uspg_strategy::get_candidate_faces(const vec3& query_pos,
+                                                                        cell* query_cell) const noexcept {
     std::vector<face*> candidates;
     candidates.reserve(64);  // Preallocate for typical neighborhood size
 
@@ -215,9 +201,8 @@ std::vector<face*> contact_detection_uspg_strategy::get_candidate_faces(
     const auto [grid_max_x, grid_max_y, grid_max_z] = grid_->get_max_corner();
 
     // Check if query position is within grid bounds
-    if (query_pos.dx() < grid_min_x || query_pos.dx() > grid_max_x ||
-        query_pos.dy() < grid_min_y || query_pos.dy() > grid_max_y ||
-        query_pos.dz() < grid_min_z || query_pos.dz() > grid_max_z) {
+    if (query_pos.dx() < grid_min_x || query_pos.dx() > grid_max_x || query_pos.dy() < grid_min_y ||
+        query_pos.dy() > grid_max_y || query_pos.dz() < grid_min_z || query_pos.dz() > grid_max_z) {
         return candidates;
     }
 
@@ -227,7 +212,8 @@ std::vector<face*> contact_detection_uspg_strategy::get_candidate_faces(
 
     // Filter to exclude self-contact (faces from the same cell)
     for (face* f : neighbors) {
-        if (f == nullptr || !f->is_used()) continue;
+        if (f == nullptr || !f->is_used())
+            continue;
 
         // Skip faces belonging to the query cell (no self-contact)
         if (query_cell != nullptr) {
@@ -244,20 +230,16 @@ std::vector<face*> contact_detection_uspg_strategy::get_candidate_faces(
 }
 //---------------------------------------------------------------------------------------------
 
-
 //---------------------------------------------------------------------------------------------
 // Check if a point is within a face's AABB
 //---------------------------------------------------------------------------------------------
-bool contact_detection_uspg_strategy::point_in_aabb(
-    size_t face_aabb_pos,
-    const vec3& point
-) const noexcept {
-    if (point.dx() < face_aabb_lst_[face_aabb_pos] ||
-        point.dx() > face_aabb_lst_[face_aabb_pos + 3]) return false;
-    if (point.dy() < face_aabb_lst_[face_aabb_pos + 1] ||
-        point.dy() > face_aabb_lst_[face_aabb_pos + 4]) return false;
-    if (point.dz() < face_aabb_lst_[face_aabb_pos + 2] ||
-        point.dz() > face_aabb_lst_[face_aabb_pos + 5]) return false;
+bool contact_detection_uspg_strategy::point_in_aabb(size_t face_aabb_pos, const vec3& point) const noexcept {
+    if (point.dx() < face_aabb_lst_[face_aabb_pos] || point.dx() > face_aabb_lst_[face_aabb_pos + 3])
+        return false;
+    if (point.dy() < face_aabb_lst_[face_aabb_pos + 1] || point.dy() > face_aabb_lst_[face_aabb_pos + 4])
+        return false;
+    if (point.dz() < face_aabb_lst_[face_aabb_pos + 2] || point.dz() > face_aabb_lst_[face_aabb_pos + 5])
+        return false;
     return true;
 }
 //---------------------------------------------------------------------------------------------
