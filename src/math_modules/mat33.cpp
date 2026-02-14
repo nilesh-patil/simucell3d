@@ -262,7 +262,7 @@ std::pair<vec3, mat33> mat33::eigen_decomposition() const noexcept{
 
 
 //----------------------------------------------------------------------
-mat33 mat33::inverse() const noexcept{
+mat33 mat33::inverse() const{
     mat33 result;
     double a = row_1_[0];
     double b = row_1_[1];
@@ -275,6 +275,13 @@ mat33 mat33::inverse() const noexcept{
     double i = row_3_[2];
 
     double det = determinant();
+
+    // Check for singular or near-singular matrix
+    constexpr double epsilon = 1e-12;
+    if (std::abs(det) < epsilon) {
+        throw std::domain_error("Cannot invert singular matrix (determinant is zero or near-zero)");
+    }
+
     result.row_1_[0] = (e*i - f*h)/det;
     result.row_1_[1] = (c*h - b*i)/det;
     result.row_1_[2] = (b*f - c*e)/det;

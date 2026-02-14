@@ -18,6 +18,7 @@ class uspg_3d_tester
         int get_neighborhood_test() const;
         int get_grid_content_test() const;
         int update_voxel_test() const;
+        int large_grid_index_overflow_test() const;
 
 
 

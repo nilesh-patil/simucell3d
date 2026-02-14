@@ -1,14 +1,21 @@
 #The version of cmake required
 cmake_minimum_required(VERSION 3.0)
 
-FILE(GLOB SRC "*.cpp")
+# Explicit source file list
+set(SRC_FILES
+    ball_pivoting_algorithm.cpp
+    cell_divider.cpp
+    initial_triangulation.cpp
+    local_mesh_refiner.cpp
+    poisson_sampling.cpp
+)
 
 #Indicate to main the path to project source directory
 add_definitions(-DPROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 
 
 #Create the source library
-add_library(triangulation_modules ${SRC})
+add_library(triangulation_modules ${SRC_FILES})
 
 
 #Locate the openMP library to parallelize the code

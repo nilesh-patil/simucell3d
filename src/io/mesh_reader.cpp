@@ -12,8 +12,8 @@ mesh_reader::mesh_reader(const std::string& mesh_file_path, const bool verbose) 
     std::stringstream buffer;
     
 
-    //If the given path does not exist
-    if(stream_absolute.good()) {
+    //Use is_open() for clearer file open detection (good() doesn't distinguish errors)
+    if(stream_absolute.is_open() && stream_absolute.good()) {
         buffer << stream_absolute.rdbuf();
     }
     //Else try to load the file with a relative path
@@ -24,11 +24,11 @@ mesh_reader::mesh_reader(const std::string& mesh_file_path, const bool verbose) 
         if(verbose) std::cerr << "WARNING: the absolute mesh file path: " << mesh_file_path << " was not found" << std::endl;
         if(verbose) std::cerr << "The program will try instead the relative path: " << relative_path << std::endl << std::endl;
 
-        if(stream_relative.good()) {
+        if(stream_relative.is_open() && stream_relative.good()) {
             buffer << stream_relative.rdbuf();
         }
         else{
-            throw mesh_reader_exception("ERROR: input mesh file " + mesh_file_path + " not found"); 
+            throw mesh_reader_exception("ERROR: input mesh file " + mesh_file_path + " not found");
         }
     }
 
@@ -149,10 +149,10 @@ std::vector<double> mesh_reader::get_node_pos() const noexcept(false){
     }
 
     //Check that the correct number of nodes have been loaded
-            //Make sure the number is finite and not NA
-        if((int) node_pos.size() / 3 != nb_nodes){
-            throw mesh_reader_exception("ERROR mesh_reader: not all the nodes were loaded. Some node coordinates probably are NA values"); 
-        }
+    //Compare as size_t to avoid narrowing conversion from size_t to int
+    if(node_pos.size() / 3 != static_cast<size_t>(nb_nodes)){
+        throw mesh_reader_exception("ERROR mesh_reader: not all the nodes were loaded. Some node coordinates probably are NA values");
+    }
 
     //Return the loaded node coordinates
     return node_pos;
@@ -424,7 +424,9 @@ std::vector<mesh>  mesh_reader::get_cell_mesh(
             local_node_id++;
 
             //Copy the node position in the mesh.node_pos_lst
-            std::copy(node_pos.begin()+global_node_id*3, node_pos.begin()+global_node_id*3+3, std::back_inserter(m.node_pos_lst));
+            //Cast to size_t to prevent overflow in pointer arithmetic
+            const size_t offset = static_cast<size_t>(global_node_id) * 3;
+            std::copy(node_pos.begin()+offset, node_pos.begin()+offset+3, std::back_inserter(m.node_pos_lst));
         }
 
         //Go through the faces stored in the cell and modify the global node ids to the local node ids

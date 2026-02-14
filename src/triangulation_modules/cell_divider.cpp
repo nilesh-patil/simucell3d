@@ -1,4 +1,6 @@
 #include "cell_divider.hpp"
+#include <cmath>
+#include <iostream>
 
 
 
@@ -15,17 +17,21 @@ void cell_divider::run(
 ) noexcept{
 
 
-    //Keep track of the ids of the cells to delete 
+    //Keep track of the ids of the cells to delete
     std::vector<unsigned> cells_to_delete_lst;
 
-    //Loop over the cells
-    #pragma omp parallel for
-    for(size_t i = 0; i < cell_lst.size(); i++){
+    //Capture the initial size to avoid data race - vector may grow during parallel execution
+    const size_t initial_cell_count = cell_lst.size();
 
-        bool is_ready_to_divide = cell_lst[i]->is_ready_to_divide();
+    //Loop over the cells (only iterate over cells that existed at loop start)
+    #pragma omp parallel for
+    for(size_t i = 0; i < initial_cell_count; i++){
+
+        //Check if the cell is ready to be divided (use result to avoid redundant call)
+        const bool is_ready_to_divide = cell_lst[i]->is_ready_to_divide();
 
         //If the cell is ready to be divided
-        if(cell_lst[i]->is_ready_to_divide()){
+        if(is_ready_to_divide){
 
 
             auto division_result  = divide_cell(cell_lst[i], l_min, lmr);
@@ -156,7 +162,11 @@ std::optional<std::pair<cell_ptr, cell_ptr>>  cell_divider::divide_cell(
         return std::make_pair(daughter_cell_1, daughter_cell_2);
     }
 
-    catch(std::exception& e){return std::nullopt;}
+    catch(const std::exception& e){
+        // Log the exception details for debugging before returning nullopt
+        std::cerr << "Cell division failed: " << e.what() << std::endl;
+        return std::nullopt;
+    }
 }
 //-----------------------------------------------------------------------------------------------
 
@@ -201,8 +211,11 @@ mesh cell_divider::add_intersection_points(
             const unsigned f_1_id = e.f1();
             const unsigned f_2_id = e.f2();
 
-            //Get the id of the intersection point
-            const unsigned intersection_point_id = static_cast<double>(m.node_pos_lst.size()/3.) - 1;
+            //Get the id of the intersection point (size must be >= 3 for at least one node)
+            if (m.node_pos_lst.size() < 3) {
+                throw division_exception("Mesh has no nodes when computing intersection point id");
+            }
+            const unsigned intersection_point_id = static_cast<unsigned>(m.node_pos_lst.size() / 3) - 1;
      
             //Add the intersection point to the 2 faces
             add_point_to_face(m, f_1_id, e.n1(), e.n2(), intersection_point_id);
@@ -260,8 +273,11 @@ mesh cell_divider::add_intersection_points(
         //Add the inetsection point to the mesh object
         m.node_pos_lst.insert(m.node_pos_lst.end(), {intersection_point.dx(), intersection_point.dy(), intersection_point.dz()});
 
-        //Add the intersection point to the 2 faces
-        const unsigned intersection_point_id = static_cast<double>(m.node_pos_lst.size()/3.) - 1;
+        //Add the intersection point to the 2 faces (size must be >= 3 for at least one node)
+        if (m.node_pos_lst.size() < 3) {
+            throw division_exception("Mesh has no nodes when computing intersection point id");
+        }
+        const unsigned intersection_point_id = static_cast<unsigned>(m.node_pos_lst.size() / 3) - 1;
         add_point_to_face(m, edge_to_cut.f1(), edge_to_cut.n1(), edge_to_cut.n2(), intersection_point_id);
         add_point_to_face(m, edge_to_cut.f2(), edge_to_cut.n1(), edge_to_cut.n2(), intersection_point_id);
 
@@ -366,7 +382,9 @@ std::optional<vec3> cell_divider::find_edge_plane_intersection(
     const double dot2 = n.dot(e2 - e1);
 
     double t;
-    if(dot2 == 0.0){return std::nullopt;} //The edge is colinear with the plane
+    //Use epsilon comparison for floating-point safety (edge nearly parallel to plane)
+    constexpr double epsilon = 1e-12;
+    if(std::abs(dot2) < epsilon){return std::nullopt;} //The edge is colinear with the plane
     else{t = dot1 / dot2;}
     if(t < 0.0 || t > 1.0){return std::nullopt;}
     
@@ -419,14 +437,21 @@ void cell_divider::add_point_to_face(
     const unsigned n_b_id,
     const unsigned n_p_id) noexcept(false){
 
-    assert(face_id < m.face_point_ids.size());
+    //Runtime validation (assert is disabled in release builds)
+    if (face_id >= m.face_point_ids.size()) {
+        throw division_exception("Invalid face_id in add_point_to_face");
+    }
 
     //Get the face
     auto& f = m.face_point_ids[face_id];
-    assert(f.size() >= 3);
 
-    //Loop over the edges of the face
-    for(unsigned i = f.size() -1, j = 0; j < f.size(); i = j++){
+    //Runtime validation - face must have at least 3 nodes to form edges
+    if (f.size() < 3) {
+        throw division_exception("Face has fewer than 3 nodes in add_point_to_face");
+    }
+
+    //Loop over the edges of the face (f.size() >= 3 guaranteed above, so f.size()-1 is safe)
+    for(unsigned i = static_cast<unsigned>(f.size() - 1), j = 0; j < f.size(); i = j++){
         //If the edge is the one between n_a and n_b
         if((f[i] == n_a_id && f[j] == n_b_id) || (f[i] == n_b_id && f[j] == n_a_id)){
             //Insert the point between the two nodes
@@ -643,7 +668,8 @@ void cell_divider::triangulate_division_interface(
         }
 
     } catch (const std::exception& e) {
-        throw division_exception("The Delaunay algorithm failed to triangulate the division interface.");
+        // Include original error message for better diagnostics
+        throw division_exception(std::string("Delaunay triangulation failed: ") + e.what());
     }
     //catch (const std::runtime_error& error) {
     //    throw division_exception("The Delaunay algorithm failed to triangulate the division interface.");

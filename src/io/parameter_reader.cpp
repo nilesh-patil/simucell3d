@@ -1,4 +1,31 @@
 #include "parameter_reader.hpp"
+#include <stdexcept>
+
+
+//----------------------------------------------------------------------------------------------------------------------
+// Helper functions for safe string-to-number conversion with descriptive error messages
+namespace {
+    double safe_stod(const std::string& str, const std::string& param_name) {
+        try {
+            return std::stod(str);
+        } catch (const std::invalid_argument& e) {
+            throw parameter_reader_exception("Invalid value for parameter '" + param_name + "': '" + str + "' is not a valid number");
+        } catch (const std::out_of_range& e) {
+            throw parameter_reader_exception("Value out of range for parameter '" + param_name + "': '" + str + "'");
+        }
+    }
+
+    int safe_stoi(const std::string& str, const std::string& param_name) {
+        try {
+            return std::stoi(str);
+        } catch (const std::invalid_argument& e) {
+            throw parameter_reader_exception("Invalid value for parameter '" + param_name + "': '" + str + "' is not a valid integer");
+        } catch (const std::out_of_range& e) {
+            throw parameter_reader_exception("Value out of range for parameter '" + param_name + "': '" + str + "'");
+        }
+    }
+}
+//----------------------------------------------------------------------------------------------------------------------
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -28,8 +55,12 @@ std::optional<std::string> parameter_reader::get_string_value(const tinyxml2::XM
     //If the XML marrkup was not found
     if(sting_value == nullptr) return std::nullopt;
 
+    //GetText() can return nullptr if element has no text content
+    const char* text = sting_value->GetText();
+    if(text == nullptr) return std::nullopt;
+
     //Convert the XML markup to a string
-    std::string str = sting_value->GetText();
+    std::string str = text;
     return (to_lower_case) ? lower_string(str) : str;
 }
 //----------------------------------------------------------------------------------------------------------------------
@@ -125,6 +156,25 @@ global_simulation_parameters parameter_reader::read_numerical_parameters() noexc
     auto enable_edge_swap_operation_opt = get_string_value(io_section, "enable_edge_swap_operation");
     if(!enable_edge_swap_operation_opt.has_value()) throw parameter_reader_exception("The xml markup \"enable_edge_swap_operation\" was not found in the parameter file.");
     sim_parameters.enable_edge_swap_operation_ = (std::stoi(enable_edge_swap_operation_opt.value()) == 0) ? false : true;
+
+    //Get the contact detection algorithm (optional, defaults to USPG)
+    auto contact_detection_algorithm_opt = get_string_value(io_section, "contact_detection_algorithm", true);
+    if(contact_detection_algorithm_opt.has_value()){
+        std::string algo = contact_detection_algorithm_opt.value();
+        if(algo == "uspg"){
+            sim_parameters.contact_detection_algorithm_ = ContactDetectionAlgorithm::USPG;
+        } else if(algo == "sweep_and_prune"){
+            sim_parameters.contact_detection_algorithm_ = ContactDetectionAlgorithm::SWEEP_AND_PRUNE;
+        } else if(algo == "adaptive"){
+            sim_parameters.contact_detection_algorithm_ = ContactDetectionAlgorithm::ADAPTIVE;
+        } else {
+            throw parameter_reader_exception(
+                "Invalid contact_detection_algorithm: '" + algo + "'. "
+                "Valid values: 'uspg', 'sweep_and_prune', 'adaptive'"
+            );
+        }
+    }
+    // If not specified, uses default (USPG) from struct initialization
 
     return sim_parameters;
 }   

@@ -339,6 +339,131 @@ int rotate_around_axis_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// Bug #3: Test that get_angle_with returns 0 for zero-length vectors
+// Zero vectors are treated as parallel (angle = 0) to handle mesh refinement edge cases
+int get_angle_with_zero_vector_test(){
+    vec3 v1(1., 0., 0.);
+    vec3 zero(0., 0., 0.);
+
+    // Angle with zero vector should return 0 (treated as parallel)
+    double angle = v1.get_angle_with(zero);
+
+    // Should not return 1.0 (the old buggy value from NaN suppression)
+    if (almost_equal(angle, 1.0)) {
+        std::cerr << "FAIL: get_angle_with(zero) returned 1.0 (old NaN suppression bug)" << std::endl;
+        return 1;
+    }
+
+    // Should return 0.0
+    if (!almost_equal(angle, 0.0)) {
+        std::cerr << "FAIL: get_angle_with(zero) returned " << angle << ", expected 0.0" << std::endl;
+        return 1;
+    }
+
+    std::cout << "PASS: get_angle_with(zero) correctly returned 0.0" << std::endl;
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+// Bug #3: Test get_angle_with for zero vector as 'this' (rvalue overload)
+int get_angle_with_rvalue_zero_vector_test(){
+    vec3 zero(0., 0., 0.);
+
+    // Call rvalue overload: zero.get_angle_with(vec3(...))
+    double angle = zero.get_angle_with(vec3(1., 0., 0.));
+
+    if (!std::isfinite(angle)) {
+        std::cerr << "FAIL: get_angle_with returned non-finite: " << angle << std::endl;
+        return 1;
+    }
+
+    // Should not return 1.0 (the old buggy value)
+    if (almost_equal(angle, 1.0)) {
+        std::cerr << "FAIL: zero.get_angle_with() returned 1.0 (old NaN suppression bug)" << std::endl;
+        return 1;
+    }
+
+    // Should return 0.0
+    if (!almost_equal(angle, 0.0)) {
+        std::cerr << "FAIL: zero.get_angle_with() returned " << angle << ", expected 0.0" << std::endl;
+        return 1;
+    }
+
+    std::cout << "PASS: zero.get_angle_with() correctly returned 0.0" << std::endl;
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+// Bug #3: Test get_angle_with numerical stability for nearly parallel vectors
+int get_angle_with_nearly_parallel_test(){
+    // Vectors that are almost parallel (angle very close to 0)
+    vec3 v1(1., 0., 0.);
+    vec3 v2(1., 1e-15, 0.);  // Nearly the same direction
+
+    try {
+        double angle = v1.get_angle_with(v2);
+
+        // Should be very close to 0
+        if (!std::isfinite(angle)) {
+            std::cerr << "FAIL: angle is not finite: " << angle << std::endl;
+            return 1;
+        }
+
+        if (angle < 0 || angle > M_PI) {
+            std::cerr << "FAIL: angle " << angle << " out of valid range [0, pi]" << std::endl;
+            return 1;
+        }
+
+        // Angle should be very small (close to 0)
+        if (angle > 1e-10) {
+            std::cerr << "WARNING: angle " << angle << " larger than expected for nearly parallel vectors" << std::endl;
+        }
+
+        std::cout << "PASS: nearly parallel vectors angle = " << angle << std::endl;
+        return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "FAIL: unexpected exception: " << e.what() << std::endl;
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+// Bug #3: Test get_angle_with for anti-parallel vectors (edge case for acos domain)
+int get_angle_with_antiparallel_test(){
+    vec3 v1(1., 0., 0.);
+    vec3 v2(-1., 0., 0.);  // Opposite direction
+
+    try {
+        double angle = v1.get_angle_with(v2);
+
+        if (!std::isfinite(angle)) {
+            std::cerr << "FAIL: angle is not finite: " << angle << std::endl;
+            return 1;
+        }
+
+        // Should be exactly pi (180 degrees)
+        if (!almost_equal(angle, M_PI)) {
+            std::cerr << "FAIL: anti-parallel angle should be pi, got " << angle << std::endl;
+            return 1;
+        }
+
+        std::cout << "PASS: anti-parallel vectors angle = " << angle << std::endl;
+        return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "FAIL: unexpected exception: " << e.what() << std::endl;
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
@@ -367,6 +492,10 @@ int main (int argc, char** argv){
     if (test_name == "get_angle_with_test")             return get_angle_with_test();
     if (test_name == "rotate_around_axis_test")         return rotate_around_axis_test();
     if (test_name == "cap_test")                        return cap_test();
+    if (test_name == "get_angle_with_zero_vector_test")      return get_angle_with_zero_vector_test();
+    if (test_name == "get_angle_with_rvalue_zero_vector_test") return get_angle_with_rvalue_zero_vector_test();
+    if (test_name == "get_angle_with_nearly_parallel_test")  return get_angle_with_nearly_parallel_test();
+    if (test_name == "get_angle_with_antiparallel_test")     return get_angle_with_antiparallel_test();
 
 
 

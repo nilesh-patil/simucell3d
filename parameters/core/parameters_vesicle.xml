@@ -6,7 +6,7 @@
     To run the following simimulation, make sure that the configuration file at /include/global_configuration.hpp has the following settings:
 
         POLARIZATION_MODE_INDEX:    1
-        CONTACT_MODEL_INDEX:        1
+        CONTACT_MODEL_INDEX:        2
         DYNAMIC_MODEL_INDEX:        0
 
 <! -->
@@ -16,13 +16,13 @@
 <numerical_parameters>
     <!-- The mesh file containing the initial configuration <! -->
 
-    <input_mesh_file_path>/data/input_meshes/big_sphere.vtk</input_mesh_file_path> 
+    <input_mesh_file_path>data/input_meshes/fig_3_vesicle.vtk</input_mesh_file_path> 
 
     <!-- The path where the mesh files will be written <! -->
-    <output_mesh_folder_path>../simulation_results/dynamic_simulation</output_mesh_folder_path> 
+    <output_mesh_folder_path>../simulation_results/simulation_vesicle</output_mesh_folder_path> 
 
     <!-- If equals 0 the cells will not be triangulated at the beginning of the simulation \<! -->
-    <perform_initial_triangulation>1</perform_initial_triangulation> 
+    <perform_initial_triangulation>0</perform_initial_triangulation> 
 
     <!-- If set to 1, the triangles with very high aspect ratio will be removed from the mesh \<! -->
     <!-- with the edge swap operation. \<!-->
@@ -41,13 +41,13 @@
     <time_step>1e-7</time_step> 
 
     <!-- The minimum edge length allowed [L] <! -->
-    <min_edge_length>7.5e-7</min_edge_length> 
+    <min_edge_length>4e-7</min_edge_length> 
 
     <!-- The interaction cutoff distance above which cell-cell adhesions forces are 0[L]<! -->
-    <contact_cutoff_adhesion>5e-7</contact_cutoff_adhesion> 
+    <contact_cutoff_adhesion>2e-7</contact_cutoff_adhesion> 
 
     <!-- The interaction cutoff distance above which cell-cell adhesions forces are 0[L]<! -->
-    <contact_cutoff_repulsion>5e-7</contact_cutoff_repulsion> 
+    <contact_cutoff_repulsion>2e-7</contact_cutoff_repulsion> 
 </numerical_parameters>
 
 
@@ -70,22 +70,22 @@
         <max_inner_pressure>2.5e3</max_inner_pressure> 
 
         <!-- Growth rate = cellDivisionTargetVolume / cellCycleDuration [L^3 / T] Default: 3e-12 <! -->
-        <avg_growth_rate>2e-11</avg_growth_rate> 
-        <std_growth_rate>2e-12</std_growth_rate> 
+        <avg_growth_rate>1e-12</avg_growth_rate> 
+        <std_growth_rate>0.0</std_growth_rate> 
 
         <!-- Isoperimetric ratio = cellArea^3 / cellVolume^2 <! -->
         <target_isoperimetric_ratio>250</target_isoperimetric_ratio> 
 
         <!-- The elastic modulus of the cell membranes [M / (T^2 L^2)] <! -->
         <!-- Default = 2e-17<! -->
-        <area_elasticity_modulus>1e-15</area_elasticity_modulus> 
+        <area_elasticity_modulus>0</area_elasticity_modulus> 
 
         <!-- Used to make sure that the angles of the triangular faces are all approximately 60 deg [M L^2 / T^2] <! -->
         <angle_regularization_factor>0</angle_regularization_factor> 
 
         <!-- The volume that the cell has to reach before division [L^3] (Drawn from a normal distribution)<! -->
-        <avg_division_volume>1.4e-14</avg_division_volume> 
-        <std_division_volume>1.4e-15</std_division_volume> 
+        <avg_division_volume>inf</avg_division_volume> 
+        <std_division_volume>inf</std_division_volume> 
 
         <!-- If the absolute value of the mean curvature at a point is above this value, then the point cannot be coupled to another cell surface [1 / L] <! -->
         <surface_coupling_max_curvature>2.5e6</surface_coupling_max_curvature>
@@ -126,7 +126,7 @@
                 <repulsion_strength>1e9</repulsion_strength> 
 
                 <!-- The surface tension of the cell membranes [M / T^2] <! -->
-                <surface_tension>8e-4</surface_tension> 
+                <surface_tension>4e-4</surface_tension> 
 
                 <!-- The bending elasticity of the cell surface [M L^2 / T^2] <! -->
                 <bending_modulus>0</bending_modulus> 

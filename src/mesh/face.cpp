@@ -1,4 +1,5 @@
 #include "face.hpp"
+#include <limits>
 
 
 /*
@@ -113,7 +114,8 @@ unsigned face::get_opposite_node(const unsigned n1, const unsigned n2) const noe
     assert(n1 == n1_id_ || n1 == n2_id_ || n1 == n3_id_);
     assert(n2 == n1_id_ || n2 == n2_id_ || n2 == n3_id_);
 
-    unsigned opposite_node_id;
+    //Initialize to sentinel value to detect if no opposite node found
+    unsigned opposite_node_id = std::numeric_limits<unsigned>::max();
 
     for(const auto node_id: get_node_ids()){
         if(node_id != n1 && node_id != n2){
@@ -121,6 +123,9 @@ unsigned face::get_opposite_node(const unsigned n1, const unsigned n2) const noe
             break;
         }
     }
+
+    //Validate that an opposite node was actually found
+    assert(opposite_node_id != std::numeric_limits<unsigned>::max() && "No opposite node found in face");
     return opposite_node_id;
 }
 //---------------------------------------------------------------------------------------------------------

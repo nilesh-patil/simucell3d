@@ -5,5 +5,6 @@ add_subdirectory(test_mesh_reader)
 add_subdirectory(test_mesh_writer)
 add_subdirectory(test_parameter_reader)
 add_subdirectory(test_simulation_initializer)
+add_subdirectory(test_statistics_writer)
 
 

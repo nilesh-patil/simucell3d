@@ -33,6 +33,10 @@ add_test(NAME math_modules_vec3_translate                   COMMAND vec3_test tr
 add_test(NAME math_modules_vec3_get_angle_with_test         COMMAND vec3_test get_angle_with_test)
 add_test(NAME math_modules_vec3_rotate_around_axis_test     COMMAND vec3_test rotate_around_axis_test)
 add_test(NAME math_modules_vec3_cap_test                    COMMAND vec3_test cap_test)
+add_test(NAME math_modules_vec3_get_angle_with_zero_vector  COMMAND vec3_test get_angle_with_zero_vector_test)
+add_test(NAME math_modules_vec3_get_angle_with_rvalue_zero  COMMAND vec3_test get_angle_with_rvalue_zero_vector_test)
+add_test(NAME math_modules_vec3_get_angle_nearly_parallel   COMMAND vec3_test get_angle_with_nearly_parallel_test)
+add_test(NAME math_modules_vec3_get_angle_antiparallel      COMMAND vec3_test get_angle_with_antiparallel_test)
 
 
 

@@ -1,10 +1,19 @@
 #The verscontact_modelsn of cmake required
 cmake_minimum_required(VERSION 3.0)
 
-FILE(GLOB SRC "*.cpp")
+# Explicit source file list
+set(SRC_FILES
+    contact_face_face_via_coupling.cpp
+    contact_model_abstract.cpp
+    contact_node_face_via_spring.cpp
+    contact_node_node_via_coupling.cpp
+    contact_detection_strategy.cpp
+    contact_detection_uspg_strategy.cpp
+    contact_detection_sap_strategy.cpp
+)
 
 #Create the source library
-add_library(contact_models ${SRC})
+add_library(contact_models ${SRC_FILES})
 
 #Locate the openMP library to parallelize the code
 find_package(OpenMP REQUIRED)

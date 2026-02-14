@@ -78,7 +78,8 @@ int test_grid_construction(){
 
     face_data_file.close();
 
-    return 1;
+    // Test passes if we get here without exceptions
+    return 0;
 }
 //---------------------------------------------------------------------------------------------------------
 

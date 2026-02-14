@@ -59,9 +59,9 @@ void csv_file_statistics_writer::write_data(
     const size_t mm = (static_cast<size_t>(elapsed_seconds/60))%60;
     const size_t ss =  static_cast<size_t>(elapsed_seconds%60);
 
-    //Stores the computation time in a string
+    //Stores the computation time in a string (use %zu for size_t portability)
     char buffer[50];
-    int n = sprintf(buffer, "%02ld:%02ld:%02ld", hh, mm, ss);
+    int n = snprintf(buffer, sizeof(buffer), "%02zu:%02zu:%02zu", hh, mm, ss);
     std::string computation_time_str(buffer);
 
     //Loop over the cells
@@ -80,8 +80,12 @@ void csv_file_statistics_writer::write_data(
         file_stream << "\n";
     }
 
+    //Check for I/O errors after writes
+    if(file_stream.fail()){
+        throw intialization_exception("Failed to write data to csv file: " + output_file_path_);
+    }
 
-    //Close the file 
+    //Close the file
     file_stream.close();
 
 }
@@ -127,8 +131,9 @@ void string_statistics_writer::write_data(
     const size_t mm = (static_cast<size_t>(elapsed_seconds/60))%60;
     const size_t ss =  static_cast<size_t>(elapsed_seconds%60);
 
+    //Use %zu for size_t portability
     char buffer[50];
-    int n = sprintf(buffer, "%02ld:%02ld:%02ld", hh, mm, ss);
+    int n = snprintf(buffer, sizeof(buffer), "%02zu:%02zu:%02zu", hh, mm, ss);
     std::string computation_time_str(buffer);
 
     //Loop over the cells

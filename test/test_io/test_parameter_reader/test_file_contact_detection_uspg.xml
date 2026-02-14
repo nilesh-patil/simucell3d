@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<!-- Test file for contact detection algorithm: explicitly set to "uspg" -->
+<numerical_parameters>
+    <!-- The mesh file containing the initial configuration -->
+    <input_mesh_file_path>../data/Geometries/Cube.vtk</input_mesh_file_path>
+
+    <!-- The path where the mesh files will be written -->
+    <output_mesh_folder_path>./simulation_results</output_mesh_folder_path>
+
+    <!-- If equals 0 the cells will not be triangulated at the beginning of the simulation -->
+    <perform_initial_triangulation>1</perform_initial_triangulation>
+
+    <!-- The damping coefficients [M / T] -->
+    <damping_coefficient>1000000.0</damping_coefficient>
+
+    <!-- The total simulation time [T] -->
+    <simulation_duration>0.001</simulation_duration>
+
+    <!-- The time between each mesh file saving [T] -->
+    <sampling_period>1e-06</sampling_period>
+
+    <!-- The simulation time step [T] -->
+    <time_step>1e-07</time_step>
+
+    <!-- The minimum edge length allowed [L] -->
+    <min_edge_length>2.5e-07</min_edge_length>
+
+    <!-- The interaction cutoff distance above which cell-cell interactions are not considered anymore [L] -->
+    <contact_cutoff_adhesion>2.5e-07</contact_cutoff_adhesion>
+    <contact_cutoff_repulsion>2.5e-07</contact_cutoff_repulsion>
+
+    <!-- Enable edge swap operation -->
+    <enable_edge_swap_operation>1</enable_edge_swap_operation>
+
+    <!-- Contact detection algorithm selection: uspg (default) or sweep_and_prune -->
+    <contact_detection_algorithm>uspg</contact_detection_algorithm>
+</numerical_parameters>
+
+<cell_types>
+    <!-- Minimal cell_types section for test validity -->
+    <cell_type>
+        <cell_type_name>test_cell</cell_type_name>
+        <global_cell_id>0</global_cell_id>
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <cell_bulk_modulus>2500</cell_bulk_modulus>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <target_isoperimetric_ratio>130</target_isoperimetric_ratio>
+        <angle_regularization_factor>5e-17</angle_regularization_factor>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <min_vol>1e-18</min_vol>
+
+        <face_types>
+            <face_type>
+                <global_face_id>0</global_face_id>
+                <face_type_name>test_face</face_type_name>
+                <adherence_strength>2.2e9</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>1e-3</surface_tension>
+                <bending_modulus>2e-18</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+</cell_types>

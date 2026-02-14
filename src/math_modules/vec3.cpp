@@ -118,12 +118,20 @@ double vec3::get_angle_with(const vec3& v) const{
     //Get the norm of the 2 vectors
     const double norm1 = this->norm();
     const double norm2 = v.norm();
-    double angle = std::acos(dot(v) / (norm1 * norm2));
 
-    //Prevent erros due to numerical precision
-    if(std::isnan(angle)) angle = 1.;
+    // Handle zero-length vectors gracefully - return 0 (parallel/coincident)
+    // This can occur in simulations during mesh refinement when nodes coincide
+    constexpr double epsilon = 1e-14;
+    if (norm1 < epsilon || norm2 < epsilon) {
+        return 0.0;  // Treat zero vectors as parallel (angle = 0)
+    }
 
-    return angle;
+    // Clamp dot product to [-1, 1] to handle numerical precision issues
+    // (dot/(norm1*norm2) can slightly exceed [-1,1] due to floating-point errors)
+    double cos_angle = dot(v) / (norm1 * norm2);
+    cos_angle = std::clamp(cos_angle, -1.0, 1.0);
+
+    return std::acos(cos_angle);
 }
 
 double vec3::get_angle_with(vec3&& v) const{
@@ -131,12 +139,18 @@ double vec3::get_angle_with(vec3&& v) const{
     //Get the norm of the 2 vectors
     const double norm1 = this->norm();
     const double norm2 = v.norm();
-    double angle = std::acos(dot(v) / (norm1 * norm2));
 
-    //Prevent erros due to numerical precision
-    if(!std::isfinite(angle)) angle = 1.;
+    // Handle zero-length vectors gracefully - return 0 (parallel/coincident)
+    constexpr double epsilon = 1e-14;
+    if (norm1 < epsilon || norm2 < epsilon) {
+        return 0.0;  // Treat zero vectors as parallel (angle = 0)
+    }
 
-    return angle;
+    // Clamp dot product to [-1, 1] to handle numerical precision issues
+    double cos_angle = dot(v) / (norm1 * norm2);
+    cos_angle = std::clamp(cos_angle, -1.0, 1.0);
+
+    return std::acos(cos_angle);
 }
 //--------------------------------------------------------------------------------------------------------------------------
 

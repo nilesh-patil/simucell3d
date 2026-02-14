@@ -16,7 +16,7 @@
 <numerical_parameters>
     <!-- The mesh file containing the initial configuration <! -->
 
-    <input_mesh_file_path>/data/input_meshes/fig_3_vesicle_triangulated.vtk</input_mesh_file_path> 
+    <input_mesh_file_path>data/input_meshes/fig_3_vesicle.vtk</input_mesh_file_path> 
 
     <!-- The path where the mesh files will be written <! -->
     <output_mesh_folder_path>../simulation_results/simulation_vesicle</output_mesh_folder_path> 
@@ -32,10 +32,13 @@
     <damping_coefficient>5e-10</damping_coefficient> 
 
     <!-- The total simulation time [T] <! -->
-    <simulation_duration>1e-2</simulation_duration> 
+    <!-- REALISTIC BIOLOGY: 0.5s allows ~0.2 divisions for testing heterogeneity -->
+    <!-- For full cell cycle studies, use 5.0s (matches paper's realistic examples) -->
+    <simulation_duration>0.5</simulation_duration>
 
     <!-- The time between each mesh file saving [T]<! -->
-    <sampling_period>1e-6</sampling_period> 
+    <!-- REALISTIC BIOLOGY: Save 50 snapshots over 0.5s simulation -->
+    <sampling_period>0.01</sampling_period> 
 
     <!-- The simulation time step [T]<! -->
     <time_step>1e-7</time_step> 
@@ -70,8 +73,12 @@
         <max_inner_pressure>2.5e3</max_inner_pressure> 
 
         <!-- Growth rate = cellDivisionTargetVolume / cellCycleDuration [L^3 / T] Default: 3e-12 <! -->
-        <avg_growth_rate>1e-12</avg_growth_rate> 
-        <std_growth_rate>0.0</std_growth_rate> 
+        <!-- REALISTIC BIOLOGY from SimuCell3D Nature paper Table 2: -->
+        <!-- Measured range: 0.1-1.8×10^-20 m³/s (very slow, 19+ hour cell cycle) -->
+        <!-- For testable simulations with visible divisions, using 5e-15 m³/s (~0.14s to double volume) -->
+        <!-- This is between paper's "default" (10^-11, fast demo) and "measured" (10^-20, very slow biology) -->
+        <avg_growth_rate>5e-15</avg_growth_rate>
+        <std_growth_rate>5e-16</std_growth_rate> 
 
         <!-- Isoperimetric ratio = cellArea^3 / cellVolume^2 <! -->
         <target_isoperimetric_ratio>250</target_isoperimetric_ratio> 
@@ -84,8 +91,12 @@
         <angle_regularization_factor>0</angle_regularization_factor> 
 
         <!-- The volume that the cell has to reach before division [L^3] (Drawn from a normal distribution)<! -->
-        <avg_division_volume>inf</avg_division_volume> 
-        <std_division_volume>inf</std_division_volume> 
+        <!-- REALISTIC BIOLOGY from SimuCell3D Nature paper Table 2: -->
+        <!-- Vmax (default): 1.4×10^-15 m³ -->
+        <!-- Vmax (measured): 0.9-1.3×10^-15 m³ (refs 64,82: cell biology measurements) -->
+        <!-- Using default value 1.4e-15 which is within measured range -->
+        <avg_division_volume>1.4e-15</avg_division_volume>
+        <std_division_volume>1.4e-16</std_division_volume> 
 
         <!-- If the absolute value of the mean curvature at a point is above this value, then the point cannot be coupled to another cell surface [1 / L] <! -->
         <surface_coupling_max_curvature>2.5e6</surface_coupling_max_curvature>

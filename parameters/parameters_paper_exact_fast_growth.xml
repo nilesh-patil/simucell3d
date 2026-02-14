@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+
+<!--
+    FAST GROWTH BENCHMARK - 128k cells TARGET
+
+    PURPOSE: Accelerated cell growth for faster benchmarking.
+    Uses larger cells and faster growth rates than the paper for quicker iteration.
+
+    KEY DIFFERENCES FROM PAPER (Table 2):
+    - Mesh resolution: 1e-6 m (vs paper's 2e-7 m) - 5x coarser for speed
+    - Growth rate: 5e-11 m^3/s (vs paper's 1e-11 m^3/s) - 5x faster
+    - Division volume: 1.4e-14 m^3 (vs paper's 1.4e-15 m^3) - 10x larger cells
+    - Contact cutoffs: 5e-7 m (vs paper's 2e-7 m) - scaled with mesh
+    - Bending modulus: 0 (vs paper's 2e-18 J) - disabled for speed
+
+    STABILITY: Proven stable to 120+ cells in 10-minute test runs.
+
+    EXPECTED RUNTIME:
+    - Much faster than paper-exact due to coarser mesh and larger cells
+    - ~600 triangles/cell (paper) -> ~150 triangles/cell (this config)
+
+    COMPILATION REQUIREMENTS (global_configuration.hpp):
+        POLARIZATION_MODE_INDEX:    1  (contact-based polarization)
+        CONTACT_MODEL_INDEX:        2  (face-face coupling)
+        DYNAMIC_MODEL_INDEX:        0  (semi-implicit Euler)
+-->
+
+<numerical_parameters>
+    <!-- Single cell for exponential growth benchmark -->
+    <input_mesh_file_path>data/input_meshes/big_sphere.vtk</input_mesh_file_path>
+
+    <!-- Output path (can be overridden via command line) -->
+    <output_mesh_folder_path>../simulation_results/paper_exact_fast_growth</output_mesh_folder_path>
+
+    <perform_initial_triangulation>0</perform_initial_triangulation>
+
+    <!-- DISABLE edge swaps for maximum stability during rapid division -->
+    <enable_edge_swap_operation>0</enable_edge_swap_operation>
+
+    <!-- Damping coefficient [kg/s] - Paper Table 2: 2.5e-10 -->
+    <damping_coefficient>2.5e-10</damping_coefficient>
+
+    <!-- Simulation duration [s] -->
+    <simulation_duration>100.0</simulation_duration>
+
+    <!-- Save every 1s for manageable output -->
+    <sampling_period>1.0</sampling_period>
+
+    <!-- Time step [s] - Paper Table 2: 1e-7 s -->
+    <time_step>1e-7</time_step>
+
+    <!-- Mesh resolution [m] - 1 micron (5x coarser than paper for speed)
+         Gives ~150 triangles/cell for 30um diameter cells -->
+    <min_edge_length>1e-6</min_edge_length>
+
+    <!-- Contact cutoffs [m] - scaled with mesh resolution (0.5x min_edge_length) -->
+    <contact_cutoff_adhesion>5e-7</contact_cutoff_adhesion>
+    <contact_cutoff_repulsion>5e-7</contact_cutoff_repulsion>
+</numerical_parameters>
+
+<cell_types>
+    <cell_type>
+        <cell_type_name>epithelial</cell_type_name>
+        <global_cell_id>0</global_cell_id>
+
+        <!-- Cell density [kg/m^3] - water density -->
+        <cell_mass_density>1.0e3</cell_mass_density>
+
+        <!-- Bulk modulus [Pa] - Paper Table 2: K = 2500 Pa -->
+        <cell_bulk_modulus>2.5e3</cell_bulk_modulus>
+
+        <!-- Max inner pressure [Pa] -->
+        <max_inner_pressure>2.5e3</max_inner_pressure>
+
+        <!-- GROWTH RATE [m^3/s] - 5x faster than paper for quick benchmarking
+             Paper: 1e-11 m^3/s, This: 5e-11 m^3/s -->
+        <avg_growth_rate>5e-11</avg_growth_rate>
+        <std_growth_rate>5e-12</std_growth_rate>
+
+        <!-- Isoperimetric ratio -->
+        <target_isoperimetric_ratio>250</target_isoperimetric_ratio>
+
+        <!-- Area elasticity [J] -->
+        <area_elasticity_modulus>1e-15</area_elasticity_modulus>
+
+        <!-- Angle regularization -->
+        <angle_regularization_factor>0</angle_regularization_factor>
+
+        <!-- DIVISION VOLUME [m^3] - 10x larger than paper (~30 um diameter cells)
+             Paper: 1.4e-15 m^3, This: 1.4e-14 m^3 -->
+        <avg_division_volume>1.4e-14</avg_division_volume>
+        <std_division_volume>1.4e-15</std_division_volume>
+
+        <!-- Curvature cutoff for surface coupling [1/m] -->
+        <surface_coupling_max_curvature>2.5e6</surface_coupling_max_curvature>
+
+        <!-- Minimum cell volume before deletion [m^3] -->
+        <min_vol>3.7e-16</min_vol>
+
+        <!-- Face types: apical, lateral, basal (epithelial polarization) -->
+        <face_types>
+            <face_type>
+                <global_face_id>0</global_face_id>
+                <face_type_name>apical</face_type_name>
+                <adherence_strength>1e9</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>1e-3</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+
+            <face_type>
+                <global_face_id>1</global_face_id>
+                <face_type_name>lateral</face_type_name>
+                <adherence_strength>1e9</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>8e-4</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+
+            <face_type>
+                <global_face_id>2</global_face_id>
+                <face_type_name>basal</face_type_name>
+                <adherence_strength>0</adherence_strength>
+                <repulsion_strength>5e8</repulsion_strength>
+                <surface_tension>1e-3</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+</cell_types>

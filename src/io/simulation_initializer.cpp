@@ -179,11 +179,12 @@ cell_ptr simulation_initializer::triangulate_surface(
         catch(const std::exception& e){
             #pragma omp critical
             {
-                 std::cerr << "Triangulation of cell "+ std::to_string(cell_id) + " will be restarted. "
+                 std::cerr << "Triangulation of cell "+ std::to_string(cell_id) + " will be restarted (attempt "
+                + std::to_string(i + 1) + "/" + std::to_string(max_nb_tries) + "). "
                 + std::string("Reason: ") + e.what() << std::endl;
-            }   
+            }
         }
-        if(i == max_nb_tries - 1) throw intialization_exception("The cell " + std::to_string(cell_id) + " could not be triangulated");  
+        if(i == max_nb_tries - 1) throw intialization_exception("The cell " + std::to_string(cell_id) + " could not be triangulated after " + std::to_string(max_nb_tries) + " attempts");  
     } 
 
     return c0;

@@ -66,7 +66,8 @@ class uspg_3d: public uspg_abstract
             nb_voxels_x_ = static_cast<unsigned>(std::ceil((max_x + delta - min_x) / voxel_size_));
             nb_voxels_y_ = static_cast<unsigned>(std::ceil((max_y + delta - min_y) / voxel_size_));
             nb_voxels_z_ = static_cast<unsigned>(std::ceil((max_z + delta - min_z) / voxel_size_));
-            const size_t total_nb_voxels = nb_voxels_x_ * nb_voxels_y_ * nb_voxels_z_;
+            //Cast first operand to size_t to prevent 32-bit overflow when multiplying
+            const size_t total_nb_voxels = static_cast<size_t>(nb_voxels_x_) * nb_voxels_y_ * nb_voxels_z_;
 
             //The new grid dimensions
             min_x_ = min_x - delta; 

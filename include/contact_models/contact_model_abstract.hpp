@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <memory>
 #include <omp.h>
 
 #include "global_configuration.hpp"
@@ -16,6 +17,7 @@
 #include "cell.hpp"
 #include "face.hpp"
 #include "uspg_4d.hpp"
+#include "contact_detection_strategy.hpp"
 
 
 
@@ -55,6 +57,19 @@ class contact_model_abstract{
                 //The extra padding added to the AABB of the faces, to check for potential contacts
                 double aabb_padding_;
 
+                // The contact detection strategy (USPG or SAP)
+                // Initialized based on contact_detection_algorithm_ parameter
+                std::unique_ptr<contact_detection_strategy> detection_strategy_;
+
+                // Store the configured algorithm for dynamic switching support
+                ContactDetectionAlgorithm configured_algorithm_;
+
+                // Cached simulation parameters for strategy recreation in adaptive mode
+                global_simulation_parameters sim_parameters_;
+
+                // Select the appropriate algorithm based on cell count (for ADAPTIVE mode)
+                ContactDetectionAlgorithm select_algorithm_for_cell_count(size_t cell_count) const noexcept;
+
         public:
                 contact_model_abstract() = default;                                         //default constructor
                 contact_model_abstract(const contact_model_abstract& v) = delete;           //copy constructor
@@ -82,11 +97,14 @@ class contact_model_abstract{
                 //Find the closest point on a triangle to a given point, and return as well
                 //the minimal squared distance between the point and the triangle
                 static std::pair<double, vec3> compute_node_triangle_distance(
-                        const vec3& p, 
-                        const vec3& a, 
-                        const vec3& b, 
+                        const vec3& p,
+                        const vec3& a,
+                        const vec3& b,
                         const vec3& c
                 ) noexcept;
+
+                // Get the current detection strategy (for testing and diagnostics)
+                const contact_detection_strategy* get_detection_strategy() const noexcept { return detection_strategy_.get(); }
 
 };
 //--------------------------------------------------------------------------------------------------------------------------------

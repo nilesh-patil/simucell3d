@@ -6,3 +6,16 @@ venv*
 env*
 artificial_image_generation/
 simulation_results/
+
+# Local IDE settings
+test_output/
+
+# Temporary working files and benchmark logs
+doc/working/
+
+# Test/draft scripts
+doc/developer/proposals/*
+.cache
+
+# Git worktrees for isolated development
+.worktrees/

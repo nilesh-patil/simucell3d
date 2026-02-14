@@ -1,10 +1,14 @@
 #The version of cmake required
 cmake_minimum_required(VERSION 3.0)
 
-FILE(GLOB SRC "*.cpp")
+# Explicit source file list
+set(SRC_FILES
+    mat33.cpp
+    vec3.cpp
+)
 
 #Create the source library
-add_library(math_modules ${SRC})
+add_library(math_modules ${SRC_FILES})
 
 
 target_include_directories(math_modules PUBLIC  "${PROJECT_SOURCE_DIR}/include/"

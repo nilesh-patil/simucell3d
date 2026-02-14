@@ -21,7 +21,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
     //If we use the contact model that uses springs between faces and vertices
     #if CONTACT_MODEL_INDEX == 0
 
-        #pragma omp parallel for schedule(static)
+        #pragma omp parallel for schedule(runtime)
         for(size_t c1_id = 0; c1_id < cell_lst.size(); c1_id++){
             cell_ptr c1 = cell_lst[c1_id];
 
@@ -72,7 +72,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
     //If we use the contact model that mechanically couples nodes of adjacent cells
     #elif CONTACT_MODEL_INDEX == 1
 
-    #pragma omp parallel for schedule(static)
+    #pragma omp parallel for schedule(runtime)
     for(size_t c1_id = 0; c1_id < cell_lst.size(); c1_id++){
         cell_ptr c1 = cell_lst[c1_id];
         if(c1->is_static_){continue;}
@@ -261,23 +261,47 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
                 //If we use the dynamic model that solves the full equations of motion
                 #if DYNAMIC_MODEL_INDEX == 0
                     avg_momentum = avg_momentum  / (n1.get_nb_coupled_nodes() + 1);
-                    const double kinetic_energy_node = 0.5 * avg_momentum.squared_norm() / avg_node_mass;
-                
-                    //Update the position and momentum of the node n1
+
+                    //Update the momentum of the node n1 first (semi-implicit Euler: update momentum before position)
                     n1.momentum_.translate((avg_force - (avg_momentum * (damping_coeff_ / avg_node_mass))) * dt_);
-                    n1.pos_.translate(avg_momentum* (dt_ / avg_node_mass)); 
+
+                    //Update the momentum of all coupled nodes before computing new average
+                    for(auto it = n1.coupled_nodes_map_.begin() ; it != n1.coupled_nodes_map_.end(); it++){
+                        const unsigned c2_local_id = it->first;
+                        const unsigned n2_local_id = it->second.first;
+                        assert(c2_local_id < cell_lst.size());
+                        cell_ptr c2 = cell_lst[c2_local_id];
+                        assert(n2_local_id < c2->node_lst_.size());
+                        node& n2 = c2->node_lst_[n2_local_id];
+                        n2.momentum_.translate((avg_force - (avg_momentum * (damping_coeff_ / avg_node_mass))) * dt_);
+                    }
+
+                    //Compute the NEW average momentum after all momentum updates (semi-implicit Euler)
+                    vec3 avg_momentum_new = n1.momentum_;
+                    for(auto it = n1.coupled_nodes_map_.begin() ; it != n1.coupled_nodes_map_.end(); it++){
+                        const unsigned c2_local_id = it->first;
+                        const unsigned n2_local_id = it->second.first;
+                        cell_ptr c2 = cell_lst[c2_local_id];
+                        node& n2 = c2->node_lst_[n2_local_id];
+                        avg_momentum_new = avg_momentum_new + n2.momentum_;
+                    }
+                    avg_momentum_new = avg_momentum_new / (n1.get_nb_coupled_nodes() + 1);
+
+                    //Use the NEW average momentum for position updates (correct semi-implicit Euler)
+                    const double kinetic_energy_node = 0.5 * avg_momentum_new.squared_norm() / avg_node_mass;
+                    n1.pos_.translate(avg_momentum_new * (dt_ / avg_node_mass));
 
                 #elif DYNAMIC_MODEL_INDEX == 1
 
                     const double kinetic_energy_node = 0.5 * (avg_force * (avg_node_mass / damping_coeff_)).squared_norm() ;
-                    
+
                     //Update the position of the node n1
                     n1.pos_.translate(avg_force * (dt_ / damping_coeff_));
-                    
+
 
                 #else
                     std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
-                #endif 
+                #endif
 
                 c1->kinetic_energy_ += kinetic_energy_node;
                 n1.force_.reset();
@@ -296,10 +320,10 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
                     //Get the coupled node in the adjacent cell
                     assert(n2_local_id < c2->node_lst_.size());
                     node& n2 = c2->node_lst_[n2_local_id];
-                    
+
                     #if DYNAMIC_MODEL_INDEX == 0
-                        n2.momentum_.translate((avg_force- (avg_momentum * (damping_coeff_ / avg_node_mass))) * dt_);
-                        n2.pos_.translate(avg_momentum * (dt_ / avg_node_mass)); 
+                        //Position update using NEW average momentum (momentum already updated above)
+                        n2.pos_.translate(avg_momentum_new * (dt_ / avg_node_mass));
 
                     #elif DYNAMIC_MODEL_INDEX == 1
                         n2.pos_.translate(avg_force * (dt_ / damping_coeff_));

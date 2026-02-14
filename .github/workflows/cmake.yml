@@ -1,37 +1,88 @@
-name: CMake
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main, develop, version-cpp-next]
   pull_request:
-    branches: [ "main" ]
-
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+    branches: [main]
 
 jobs:
-  build:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    name: ubuntu-latest,
+  # Release build - primary CI check
+  build-release:
+    name: Release Build
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory.
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
+      - name: Configure CMake (Release)
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config Release
+      - name: Build
+        run: cmake --build build -j$(nproc)
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C Release
+      - name: Test
+        working-directory: build
+        run: ctest --output-on-failure
 
+  # Debug build - catches debug-only issues
+  build-debug:
+    name: Debug Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake (Debug)
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build
+        run: cmake --build build -j$(nproc)
+
+      - name: Test
+        working-directory: build
+        run: ctest --output-on-failure
+
+  # Sanitizer builds - catch memory errors and undefined behavior
+  sanitizers:
+    name: Sanitizer (${{ matrix.sanitizer }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address, undefined]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake with ${{ matrix.sanitizer }} sanitizer
+        run: |
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_CXX_FLAGS="-fsanitize=${{ matrix.sanitizer }} -fno-omit-frame-pointer" \
+            -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=${{ matrix.sanitizer }}"
+
+      - name: Build
+        run: cmake --build build -j$(nproc)
+
+      - name: Test
+        working-directory: build
+        env:
+          # Disable leak detection - test fixtures intentionally don't free all memory
+          # ASan still catches use-after-free, buffer overflows, etc.
+          ASAN_OPTIONS: detect_leaks=0
+        run: ctest --output-on-failure
+
+  # Code formatting check
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+
+      - name: Check formatting (sample)
+        run: |
+          # Check a sample of files to avoid timeout on large codebase
+          # Full format enforcement is opt-in during development
+          find src include -name '*.cpp' -o -name '*.hpp' | head -10 | xargs clang-format --dry-run -Werror 2>&1 || echo "::warning::Some files need formatting. Run: clang-format -i src/**/*.cpp include/**/*.hpp"
+        continue-on-error: true

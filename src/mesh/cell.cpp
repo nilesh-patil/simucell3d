@@ -639,13 +639,31 @@ std::pair<std::vector<edge>, std::vector<edge>> cell::replace_node(const edge& s
         assert(face_lst_[face_id].is_used());
 
 
+        //Check if face already contains the new node (would create degenerate face)
+        const auto& face_nodes = face_lst_[face_id].get_node_ids();
+        const bool face_has_new_node = std::find(face_nodes.begin(), face_nodes.end(), new_node_id) != face_nodes.end();
+
+        //For degenerate faces, get the "other node" before we modify the face
+        //This is the node that's neither old_node_id nor new_node_id
+        unsigned other_node_for_degenerate = std::numeric_limits<unsigned>::max();
+        if (face_has_new_node) {
+            for (const auto nid : face_nodes) {
+                if (nid != old_node_id && nid != new_node_id) {
+                    other_node_for_degenerate = nid;
+                    break;
+                }
+            }
+        }
+
         //Replace the old node with the new node in the face
         const vec3 old_normal = face_lst_[face_id].get_normal();
 
         face_lst_[face_id].replace_node(old_node_id, new_node_id);
 
-        //Update the face normal and area
-        update_face_normal_and_area(face_id);
+        //Update the face normal and area (skip for degenerate faces - they'll be deleted)
+        if (!face_has_new_node) {
+            update_face_normal_and_area(face_id);
+        }
 
         const double face_area = face_lst_[face_id].get_area();
         const vec3 new_normal = face_lst_[face_id].get_normal();
@@ -691,12 +709,18 @@ std::pair<std::vector<edge>, std::vector<edge>> cell::replace_node(const edge& s
         created_edges.push_back(*new_edge_it);
         deleted_edges.push_back(*edge_it);
         edge_set_.erase(edge_it);
-       
-        //Use this node to get the next edge
-        const unsigned opposite_node = face_lst_[face_id].get_opposite_node(new_edge_it->n1(), new_edge_it->n2());
 
-        //Get the next edge
-        edge_it = edge_set_.find(edge(old_node_id, opposite_node));
+        //For degenerate faces (face has duplicate nodes), use the pre-computed other node
+        //This happens during edge merging when both endpoints get replaced with the same node
+        if (face_has_new_node && other_node_for_degenerate != std::numeric_limits<unsigned>::max()) {
+            //The face is degenerate, use the other node we saved before modification
+            edge_it = edge_set_.find(edge(old_node_id, other_node_for_degenerate));
+        } else {
+            //Use this node to get the next edge
+            const unsigned opposite_node = face_lst_[face_id].get_opposite_node(new_edge_it->n1(), new_edge_it->n2());
+            //Get the next edge
+            edge_it = edge_set_.find(edge(old_node_id, opposite_node));
+        }
 
     }
     //This conditions is true when we have looped over all the edges and faces connected to the old node

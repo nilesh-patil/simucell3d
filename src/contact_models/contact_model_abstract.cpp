@@ -27,6 +27,37 @@ contact_model_abstract::contact_model_abstract(const global_simulation_parameter
         //The length size of each voxel used to instantiate the uniform space partiotionning grid
         grid_.voxel_size_ = sim_parameters.min_edge_len_ * 3.0 + 2. * aabb_padding_;
 
+        // Store parameters for dynamic switching in ADAPTIVE mode
+        configured_algorithm_ = sim_parameters.contact_detection_algorithm_;
+        sim_parameters_ = sim_parameters;
+
+        // Initialize the contact detection strategy
+        // For ADAPTIVE mode, start with USPG (will switch dynamically based on cell count)
+        ContactDetectionAlgorithm initial_algo = configured_algorithm_;
+        if (initial_algo == ContactDetectionAlgorithm::ADAPTIVE) {
+            initial_algo = ContactDetectionAlgorithm::USPG;  // Default to USPG until we know cell count
+        }
+        detection_strategy_ = contact_detection_strategy::create(initial_algo, sim_parameters);
+
+}
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Select the appropriate algorithm based on cell count (for ADAPTIVE mode)
+ContactDetectionAlgorithm contact_model_abstract::select_algorithm_for_cell_count(size_t cell_count) const noexcept {
+    if (configured_algorithm_ != ContactDetectionAlgorithm::ADAPTIVE) {
+        // Not in adaptive mode - return the configured algorithm
+        return configured_algorithm_;
+    }
+
+    // ADAPTIVE mode: select based on cell count threshold
+    // Use SAP for large cell counts, USPG for small
+    if (cell_count >= ADAPTIVE_SAP_CELL_THRESHOLD) {
+        return ContactDetectionAlgorithm::SWEEP_AND_PRUNE;
+    } else {
+        return ContactDetectionAlgorithm::USPG;
+    }
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -234,7 +265,7 @@ std::pair<double, vec3> contact_model_abstract::compute_node_triangle_distance(
     const double denom = 1.0 / (va + vb + vc);
     const double v = vb * denom;
     const double w = vc * denom;
-    const vec3 cpa = a + ab * v + a + ac * w;
+    const vec3 cpa = a + ab * v + ac * w;  // Fix: removed duplicate '+ a'
     return {(p - cpa).squared_norm(), vec3(1.0-v-w, v, w)}; // = u*a + v*b + w*c, u = va * denom = 1.0-v-w
 }
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -65,10 +65,10 @@ int uspg_4d_tester::place_object_test() const{
     const auto voxel_222_content  = grid.get_voxel_content(2, 2, 2);
 
 
-    //Make sure the voxel has one object in it
-    bool t1 = std::distance(voxel_000_content.begin(), voxel_000_content.end()) == 1;
-    bool t2 = std::distance(voxel_111_content.begin(), voxel_111_content.end()) == 1;
-    bool t3 = std::distance(voxel_222_content.begin(), voxel_222_content.end()) == 1;
+    //Make sure the voxel has one object in it (using O(1) .size() with vector)
+    bool t1 = voxel_000_content.size() == 1;
+    bool t2 = voxel_111_content.size() == 1;
+    bool t3 = voxel_222_content.size() == 1;
 
     //Make sure the content is correct
     bool t4 = false, t5 = false, t6 = false;
@@ -169,16 +169,13 @@ int uspg_4d_tester::get_grid_content_test() const{
         counter++;
     }}}
 
-    const std::forward_list<int>  grid_content = grid.get_grid_content();
+    const std::vector<int> grid_content = grid.get_grid_content();
 
-    //Create a copy of the grid content
-    std::vector<int> grid_content_copy;
-    for(auto obj: grid_content) grid_content_copy.push_back(obj);
+    //Create a sorted copy of the grid content for comparison
+    std::vector<int> grid_content_sorted = grid_content;
+    std::sort(grid_content_sorted.begin(), grid_content_sorted.end());
 
-    //Sort the grid content
-    std::sort(grid_content_copy.begin(), grid_content_copy.end());
-
-    return !(std::equal(int_lst.begin(), int_lst.end(), grid_content_copy.begin()));
+    return !(std::equal(int_lst.begin(), int_lst.end(), grid_content_sorted.begin()));
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -186,25 +183,195 @@ int uspg_4d_tester::get_grid_content_test() const{
 
 
 //---------------------------------------------------------------------------------------------------------
+// New tests for vector storage optimization (Phase 1)
+//---------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------
+// Test that .size() returns the correct count (validates vector API)
+int uspg_4d_tester::vector_storage_size_test() const {
+    // Setup: 3x3x3 grid
+    double min_x = 0., max_x = 3.;
+    double min_y = 0., max_y = 3.;
+    double min_z = 0., max_z = 3.;
+    unsigned nb_objects = 10;
+    double voxel_size = 1.;
+
+    uspg_4d<int> grid(min_x, min_y, min_z, max_x, max_y, max_z, voxel_size, nb_objects);
+
+    // Insert 3 objects into voxel (0,0,0)
+    grid.place_object(1, 0.1, 0.1, 0.1);
+    grid.place_object(2, 0.2, 0.2, 0.2);
+    grid.place_object(3, 0.3, 0.3, 0.3);
+
+    // Verify .size() returns 3
+    const auto& voxel_content = grid.get_voxel_content(0, 0, 0);
+    bool t1 = voxel_content.size() == 3;
+
+    // Insert 1 object into voxel (1,1,1)
+    grid.place_object(4, 1.5, 1.5, 1.5);
+    const auto& voxel_111 = grid.get_voxel_content(1, 1, 1);
+    bool t2 = voxel_111.size() == 1;
+
+    return !(t1 && t2);
+}
+//---------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------
+// Test that push_back maintains insertion order (vector-specific behavior)
+int uspg_4d_tester::vector_push_back_ordering_test() const {
+    double min_x = 0., max_x = 3.;
+    double min_y = 0., max_y = 3.;
+    double min_z = 0., max_z = 3.;
+    unsigned nb_objects = 10;
+    double voxel_size = 1.;
+
+    uspg_4d<int> grid(min_x, min_y, min_z, max_x, max_y, max_z, voxel_size, nb_objects);
+
+    // Insert objects in order: 10, 20, 30
+    grid.place_object(10, 0.1, 0.1, 0.1);
+    grid.place_object(20, 0.2, 0.2, 0.2);
+    grid.place_object(30, 0.3, 0.3, 0.3);
+
+    const auto& voxel_content = grid.get_voxel_content(0, 0, 0);
+
+    // With vector and push_back, order should be: 10, 20, 30
+    // Convert to vector for easy checking
+    std::vector<int> content_vec(voxel_content.begin(), voxel_content.end());
+
+    // Check size and values
+    bool t1 = content_vec.size() == 3;
+    bool t2 = content_vec[0] == 10;  // First inserted
+    bool t3 = content_vec[1] == 20;  // Second inserted
+    bool t4 = content_vec[2] == 30;  // Third inserted
+
+    return !(t1 && t2 && t3 && t4);
+}
+//---------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------
+// Test that empty voxels return an empty container (not null or undefined)
+int uspg_4d_tester::empty_voxel_returns_empty_vector_test() const {
+    double min_x = 0., max_x = 3.;
+    double min_y = 0., max_y = 3.;
+    double min_z = 0., max_z = 3.;
+    unsigned nb_objects = 10;
+    double voxel_size = 1.;
+
+    uspg_4d<int> grid(min_x, min_y, min_z, max_x, max_y, max_z, voxel_size, nb_objects);
+
+    // Don't insert anything - all voxels should be empty
+    const auto& voxel_content = grid.get_voxel_content(0, 0, 0);
+
+    // Verify empty() returns true and size() returns 0
+    bool t1 = voxel_content.empty();
+    bool t2 = voxel_content.size() == 0;
+
+    // Check another voxel
+    const auto& voxel_222 = grid.get_voxel_content(2, 2, 2);
+    bool t3 = voxel_222.empty();
+
+    return !(t1 && t2 && t3);
+}
+//---------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------
+// Test multiple insertions into the same voxel
+int uspg_4d_tester::multiple_insertions_same_voxel_test() const {
+    double min_x = 0., max_x = 3.;
+    double min_y = 0., max_y = 3.;
+    double min_z = 0., max_z = 3.;
+    unsigned nb_objects = 100;
+    double voxel_size = 1.;
+
+    uspg_4d<int> grid(min_x, min_y, min_z, max_x, max_y, max_z, voxel_size, nb_objects);
+
+    // Insert 50 objects into the same voxel
+    for (int i = 0; i < 50; ++i) {
+        grid.place_object(i, 0.5, 0.5, 0.5);
+    }
+
+    const auto& voxel_content = grid.get_voxel_content(0, 0, 0);
+
+    // Verify all 50 objects are present
+    bool t1 = voxel_content.size() == 50;
+
+    // Verify sum of all elements (0+1+2+...+49 = 1225)
+    int sum = 0;
+    for (int val : voxel_content) {
+        sum += val;
+    }
+    bool t2 = sum == 1225;
+
+    return !(t1 && t2);
+}
+//---------------------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------------------
+// Test that get_neighborhood returns a vector with all expected elements
+int uspg_4d_tester::neighborhood_returns_vector_test() const {
+    double min_x = 0., max_x = 3.;
+    double min_y = 0., max_y = 3.;
+    double min_z = 0., max_z = 3.;
+    unsigned nb_objects = 27;
+    double voxel_size = 1.;
+
+    uspg_4d<int> grid(min_x, min_y, min_z, max_x, max_y, max_z, voxel_size, nb_objects);
+
+    // Place one object in each of the 27 voxels
+    std::vector<int> int_lst(27);
+    std::iota(int_lst.begin(), int_lst.end(), 1);
+
+    int counter = 0;
+    for (int z = 0; z < 3; z++) {
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                grid.place_object(int_lst[counter], x + 0.5, y + 0.5, z + 0.5);
+                counter++;
+            }
+        }
+    }
+
+    // Get neighborhood of center voxel (1,1,1) - should contain all 27 objects
+    auto neighborhood = grid.get_neighborhood((unsigned)1, (unsigned)1, (unsigned)1);
+
+    // Verify neighborhood is the correct type and has correct elements
+    // Sort for comparison
+    std::vector<int> neighborhood_sorted(neighborhood.begin(), neighborhood.end());
+    std::sort(neighborhood_sorted.begin(), neighborhood_sorted.end());
+
+    bool t1 = neighborhood_sorted.size() == 27;
+    bool t2 = std::equal(int_lst.begin(), int_lst.end(), neighborhood_sorted.begin());
+
+    return !(t1 && t2);
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
     //Check that the command line input is correctly formatted
-    assert(argc == 2); 
+    assert(argc == 2);
 
     //Get the name of the test to run
     std::string test_name = argv[1];
-    
+
     //Run the selected test
     uspg_4d_tester tester;
 
+    // Existing tests
     if (test_name == "update_dimensions_test")     return tester.update_dimensions_test();
     if (test_name == "get_neighborhood_test")           return tester.get_neighborhood_test();
     if (test_name == "place_object_test")               return tester.place_object_test();
     if (test_name == "get_grid_content_test")           return tester.get_grid_content_test();
 
-
-
+    // New tests for vector storage optimization (Phase 1)
+    if (test_name == "vector_storage_size_test")        return tester.vector_storage_size_test();
+    if (test_name == "vector_push_back_ordering_test")  return tester.vector_push_back_ordering_test();
+    if (test_name == "empty_voxel_returns_empty_vector_test") return tester.empty_voxel_returns_empty_vector_test();
+    if (test_name == "multiple_insertions_same_voxel_test")   return tester.multiple_insertions_same_voxel_test();
+    if (test_name == "neighborhood_returns_vector_test")      return tester.neighborhood_returns_vector_test();
 
     std::cout << "TEST NAME :" << test_name << " DOES NOT EXIST" << std::endl;
     return 1;

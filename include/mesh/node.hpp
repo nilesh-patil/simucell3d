@@ -6,6 +6,7 @@
 #include <memory>
 #include <optional>
 #include <map>
+#include <mutex>
 
 #include <omp.h>
 
@@ -69,8 +70,9 @@ class node final
             //Curvature of the cell surface at the node
             double curvature_;
 
-            //Create a lock
-            omp_lock_t lock_;
+            // std::mutex for thread-safe coupling updates (replaces omp_lock_t to avoid
+            // conflicts with omp_set_schedule() - std::mutex uses pthreads, not OpenMP ICVs)
+            mutable std::mutex mutex_;
 
 
         #endif
@@ -116,15 +118,24 @@ class node final
 
     public:
 
-        //Default constructor, everything is set to 0
-        node() = default;
-        node(const node& n) = default;           //copy constructor
-        node(node&& n) = default;                //move constructor
-        node& operator=(const node& n) = default;//copy assignment operator
-        node& operator=(node&& n) = default;     //move assignment operator 
+        //Default constructor
+        node() noexcept;
+
+        // Custom copy constructor - MUST initialize new lock, not copy the old one
+        // Copying omp_lock_t is undefined behavior (it contains pthread_mutex_t internal state)
+        node(const node& n) noexcept;
+
+        // Custom move constructor - initialize new lock, move other members
+        node(node&& n) noexcept;
+
+        // Custom copy assignment - initialize new lock if needed, copy other members
+        node& operator=(const node& n) noexcept;
+
+        // Custom move assignment - initialize new lock if needed, move other members
+        node& operator=(node&& n) noexcept;
 
         //Leave the position of the node to (0., 0., 0.)
-        explicit node(const unsigned node_id) noexcept : node_id_(node_id){};
+        explicit node(const unsigned node_id) noexcept;
 
         //Specify node coordinates at instantiation
         explicit node(const double dx, const double dy, const double dz, const unsigned node_id) noexcept;
@@ -146,8 +157,8 @@ class node final
 
             vec3 get_normal() const noexcept {return normal_;}
 
-            // Destroy the lock in the destructor
-            ~node(){omp_destroy_lock(&lock_);}
+            // std::mutex destructor is automatic (RAII)
+            ~node() = default;
 
         #endif
 
@@ -160,14 +171,10 @@ class node final
 
             //Indicate to this node that it is coupled to another node
             void set_coupled_node_and_min_distance(const std::pair<unsigned, unsigned>& coupled_node, const double min_dist) noexcept {
-
-                //Make sure that one thread at the time can access this function
-                omp_set_lock(&lock_);
-
+                //Make sure that one thread at a time can access this function
+                std::lock_guard<std::mutex> guard(mutex_);
                 coupled_node_ = coupled_node;
                 squared_distance_to_closest_node_ = min_dist;
-
-                omp_unset_lock(&lock_); 
             }
 
         //If we link pairs of adjacent faces
@@ -183,25 +190,22 @@ class node final
                 /*
                 Store the information that this node is coupled to a node with the local id `coupled_node_local_id` on the cell with the local id `coupled_cell_local_id`.
                 */
-                
-                //Make sure that one thread at the time can access this function
-                omp_set_lock(&lock_);
+
+                //Make sure that one thread at a time can access this function
+                std::lock_guard<std::mutex> guard(mutex_);
 
                 //Check if this node has already been coupled to a node on the second cell
                 auto it = coupled_nodes_map_.find(coupled_cell_local_id);
 
                 //If this node has already been coupled to a node on the second cell
                 if(it != coupled_nodes_map_.end()){
-
                     //Change the node to which this node is coupled on the second cell
                     it->second = std::make_pair(coupled_node_local_id, squared_distance);
                 }
-
                 //If this node has not yet been coupled to nodes on the cell c2
                 else{
                     coupled_nodes_map_[coupled_cell_local_id] = std::make_pair(coupled_node_local_id, squared_distance);
                 }
-                omp_unset_lock(&lock_); 
             }
         #endif
 

@@ -88,7 +88,7 @@ void contact_node_face_via_spring::resolve_contacts(const std::vector<cell_ptr>&
 
 
     //Loop over the cells in parallel
-    #pragma omp parallel for
+    #pragma omp parallel for schedule(runtime)
     for(size_t cell_id = 0; cell_id < cell_lst.size(); cell_id++){
         cell_ptr c1 = cell_lst[cell_id];
 
@@ -107,7 +107,10 @@ void contact_node_face_via_spring::resolve_contacts(const std::vector<cell_ptr>&
 
                 //Get the list of faces stored in this voxel
                 for(face* f: grid_.voxel_lst_[voxel_id]){
-                    assert(f != nullptr);
+                    // Runtime null check (assert is disabled in release builds)
+                    if (f == nullptr) {
+                        continue;  // Skip null faces safely
+                    }
 
                     if(c1->get_id() != f->get_owner_cell()->get_id()){
  

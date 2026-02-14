@@ -68,8 +68,53 @@ void contact_face_face_via_coupling::run(const std::vector<cell_ptr>& cell_lst) 
 //-----------------------------------------------------------------------------------------------
 void contact_face_face_via_coupling::resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept{
 
-    //Loop over the cells in parallel
-    #pragma omp parallel for
+    // ADAPTIVE mode: dynamically select algorithm based on cell count
+    const size_t cell_count = cell_lst.size();
+    const ContactDetectionAlgorithm selected_algo = select_algorithm_for_cell_count(cell_count);
+
+    // Check if we need to switch strategies (only in ADAPTIVE mode)
+    if (configured_algorithm_ == ContactDetectionAlgorithm::ADAPTIVE) {
+        const ContactDetectionAlgorithm current_algo = detection_strategy_ ?
+            detection_strategy_->algorithm_type() : ContactDetectionAlgorithm::USPG;
+
+        if (current_algo != selected_algo) {
+            // Recreate strategy with the new algorithm
+            detection_strategy_ = contact_detection_strategy::create(selected_algo, sim_parameters_);
+        }
+    }
+
+    // Determine if we should use SAP (Sweep-and-Prune) or USPG (Uniform Space Partitioning Grid)
+    // USPG uses optimized direct grid access; SAP uses the strategy interface
+    const bool use_sap = (detection_strategy_ &&
+                          detection_strategy_->algorithm_type() == ContactDetectionAlgorithm::SWEEP_AND_PRUNE);
+
+    // If using SAP, prepare the strategy with current face data
+    if (use_sap) {
+        // Convert face_aabb_lst_ (flat vector of 6 doubles per face) to vector<aabb> format
+        std::vector<aabb> aabbs;
+        aabbs.reserve(face_lst_.size());
+        for (size_t i = 0; i < face_lst_.size(); i++) {
+            const size_t pos = i * 6;
+            aabbs.emplace_back(
+                face_aabb_lst_[pos], face_aabb_lst_[pos + 1], face_aabb_lst_[pos + 2],
+                face_aabb_lst_[pos + 3], face_aabb_lst_[pos + 4], face_aabb_lst_[pos + 5]
+            );
+        }
+
+        // Build cell pointer vector for the strategy
+        std::vector<cell*> cells;
+        cells.reserve(cell_lst.size());
+        for (const auto& c : cell_lst) {
+            cells.push_back(c.get());
+        }
+
+        // Prepare the SAP strategy with current simulation state
+        vec3 bounds(global_max_x_, global_max_y_, global_max_z_);
+        detection_strategy_->prepare(cells, face_lst_, aabbs, bounds);
+    }
+
+    // Loop over the cells in parallel
+    #pragma omp parallel for schedule(runtime)
     for(size_t cell_id = 0; cell_id < cell_lst.size(); cell_id++){
         cell_ptr c1 = cell_lst[cell_id];
 
@@ -82,33 +127,57 @@ void contact_face_face_via_coupling::resolve_all_contacts(const std::vector<cell
 
             if(n.is_used() && n.curvature_ < surface_coupling_max_curvature){
 
-                //Get the position of the node in the space partitioning grid
-                const unsigned voxel_1_x = std::floor((n.pos().dx() - grid_.min_x_) / grid_.voxel_size_);
-                const unsigned voxel_1_y = std::floor((n.pos().dy() - grid_.min_y_) / grid_.voxel_size_);
-                const unsigned voxel_1_z = std::floor((n.pos().dz() - grid_.min_z_) / grid_.voxel_size_);
+                if (use_sap) {
+                    // SAP path: use the detection strategy to get candidate faces
+                    // The strategy returns faces from cells whose AABBs overlap with c1's AABB
+                    // It already excludes faces from the query cell (c1)
+                    std::vector<face*> candidates = detection_strategy_->get_candidate_faces(
+                        n.pos(), c1.get()
+                    );
 
-                //Get the ID of the voxel in the space partitionning grid
-                const size_t voxel_id = grid_.get_voxel_index(voxel_1_x, voxel_1_y, voxel_1_z);
-                assert(voxel_id < grid_.voxel_lst_.size());
+                    for (face* f : candidates) {
+                        assert(f != nullptr);
+                        cell_ptr c2 = f->get_owner_cell();
 
-                //Get the list of faces stored in this voxel
-                for(face* f: grid_.voxel_lst_[voxel_id]){
-                    assert(f != nullptr);
-                    cell_ptr c2 = f->get_owner_cell();
-
-                    if(c1->get_id() != c2->get_id()){
-
-                        //Check if the node is located in the AABB of the face
-                        if(
-                            
-                            aabb_intersection_check(f->global_face_id_ * 6, n.pos()) &&
-                            n.normal_.dot(f->normal_) < max_dot_product_repulsion_
-                        ){
+                        // AABB intersection check for face-level precision
+                        // (SAP uses cell-level AABBs, so we still need face-level check)
+                        // Also check that normals are facing each other
+                        if (aabb_intersection_check(f->global_face_id_ * 6, n.pos()) &&
+                            n.normal_.dot(f->normal_) < max_dot_product_repulsion_) {
                             resolve_contact(c1, c2, n, f);
                         }
                     }
+                } else {
+                    // USPG path: existing optimized code using direct grid access
+                    // This path is kept unchanged for backward compatibility and performance
+
+                    //Get the position of the node in the space partitioning grid
+                    const unsigned voxel_1_x = std::floor((n.pos().dx() - grid_.min_x_) / grid_.voxel_size_);
+                    const unsigned voxel_1_y = std::floor((n.pos().dy() - grid_.min_y_) / grid_.voxel_size_);
+                    const unsigned voxel_1_z = std::floor((n.pos().dz() - grid_.min_z_) / grid_.voxel_size_);
+
+                    //Get the ID of the voxel in the space partitionning grid
+                    const size_t voxel_id = grid_.get_voxel_index(voxel_1_x, voxel_1_y, voxel_1_z);
+                    assert(voxel_id < grid_.voxel_lst_.size());
+
+                    //Get the list of faces stored in this voxel
+                    for(face* f: grid_.voxel_lst_[voxel_id]){
+                        assert(f != nullptr);
+                        cell_ptr c2 = f->get_owner_cell();
+
+                        if(c1->get_id() != c2->get_id()){
+
+                            //Check if the node is located in the AABB of the face
+                            if(
+                                aabb_intersection_check(f->global_face_id_ * 6, n.pos()) &&
+                                n.normal_.dot(f->normal_) < max_dot_product_repulsion_
+                            ){
+                                resolve_contact(c1, c2, n, f);
+                            }
+                        }
+                    }
                 }
-            }  
+            }
         }
     }
 

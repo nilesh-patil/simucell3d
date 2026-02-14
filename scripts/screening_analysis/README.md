@@ -42,11 +42,11 @@ The dashboard reports also the simulation runs that have failed, the ones in whi
 
 <table>
   <tr>
-    <td><img src="https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/screening_dashboard_type_1_v1.jpg" alt="Type 1 dashboard">
+    <td><img src="../../doc/assets/img/screening_dashboard_type_1_v1.jpg" alt="Type 1 dashboard">
         <p align="center">Dashboard for one single screening parameter</p></td>
-    <td><img src="https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/screening_dashboard_type_2_v1.jpg">
+    <td><img src="../../doc/assets/img/screening_dashboard_type_2_v1.jpg">
         <p align="center">Dashboard for a pair of screening parameters</p></td>
-    <td><img src="https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/screening_dashboard_type_3_v1.jpg" alt="Type 3 dashboard">
+    <td><img src="../../doc/assets/img/screening_dashboard_type_3_v1.jpg" alt="Type 3 dashboard">
         <p align="center">Dashboard for more than two screening parameters</p></td>
   </tr>
 </table>
@@ -79,7 +79,7 @@ To analyze this screening I implemented this simplified version of the dashboard
 
 <table>
   <tr>
-    <td><img src="https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/mech_props_plot.png" alt="Mech props dashboard">
+    <td><img src="../../doc/assets/img/mech_props_plot.png" alt="Mech props dashboard">
         <p align="center">Simplified Dashboard for mechanical properties</p></td>
   </tr>
 </table>
