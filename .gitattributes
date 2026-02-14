@@ -1,0 +1,2 @@
+baselines/**/*.vtk filter=lfs diff=lfs merge=lfs -text
+doc/working/*.db filter=lfs diff=lfs merge=lfs -text
