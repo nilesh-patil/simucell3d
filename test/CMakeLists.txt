@@ -14,5 +14,5 @@ add_subdirectory(test_solver)
 add_subdirectory(test_time_integration)
 add_subdirectory(test_performance_monitor)
 add_subdirectory(test_scientific_benchmarks)
-
+add_subdirectory(test_stability)
 

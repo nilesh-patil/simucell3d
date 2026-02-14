@@ -1,0 +1,36 @@
+# Valgrind suppressions for SimuCell3D stability tests
+#
+# Suppress known false positives from system libraries and OpenMP runtime.
+
+# OpenMP runtime internal allocations (not leaks — managed by runtime)
+{
+   omp_runtime_init
+   Memcheck:Leak
+   ...
+   fun:*gomp*
+}
+
+{
+   omp_runtime_init_2
+   Memcheck:Leak
+   ...
+   fun:*GOMP*
+}
+
+# libstdc++ internal allocations (locale, iostream init)
+{
+   libstdcxx_locale
+   Memcheck:Leak
+   ...
+   fun:*locale*
+   ...
+   obj:*/libstdc++*
+}
+
+# TinyXML parser allocations (vendored library, not our concern)
+{
+   tinyxml_parse
+   Memcheck:Leak
+   ...
+   fun:*TiXml*
+}
