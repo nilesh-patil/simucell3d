@@ -19,6 +19,8 @@ doc/developer/proposals/*
 
 # Git worktrees for isolated development
 .worktrees/
+benchmark_run.log
+*.log
 
 # CTest artifacts
 Testing/

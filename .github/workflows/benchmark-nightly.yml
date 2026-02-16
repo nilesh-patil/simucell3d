@@ -1,0 +1,114 @@
+name: Nightly Benchmark
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM UTC daily
+  workflow_dispatch:
+    inputs:
+      scheduler:
+        description: 'Scheduler to test'
+        default: 'all'
+        type: choice
+        options: [all, adaptive, static, dynamic, guided]
+
+jobs:
+  nightly-benchmark:
+    name: Nightly ${{ matrix.scheduler }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        scheduler: [adaptive, static, dynamic]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libomp-dev python3-pip
+          pip3 install pandas numpy scipy matplotlib
+
+      - name: Build (Release)
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j$(nproc)
+
+      - name: Run comprehensive benchmark
+        run: |
+          export OMP_NUM_THREADS=$(nproc)
+          export OMP_PROC_BIND=close
+          export OMP_PLACES=cores
+          export OMP_WAIT_POLICY=passive
+          export OMP_DYNAMIC=false
+
+          BENCH_DIR="benchmark_nightly_$(date +%Y%m%d)"
+          mkdir -p "$BENCH_DIR/sim_${{ matrix.scheduler }}"
+
+          timeout 6000 ./build/simucell3d \
+            parameters/core/parameters_default_dynamic.xml \
+            --schedule=${{ matrix.scheduler }} \
+            --diagnostics-csv="$BENCH_DIR/sim_${{ matrix.scheduler }}/performance_diagnostics.csv" \
+            || true
+
+          echo "BENCH_DIR=$BENCH_DIR" >> "$GITHUB_ENV"
+
+      - name: Preprocess & ingest metrics
+        run: |
+          python3 scripts/preprocess_benchmark_metrics.py "$BENCH_DIR" || true
+
+          DB_PATH="doc/working/benchmark_metrics.db"
+
+          if [ ! -f "$DB_PATH" ]; then
+            mkdir -p doc/working
+            python3 -c "
+          import sqlite3, sys
+          sys.path.insert(0, 'scripts')
+          from ci.aggregate_results import create_schema
+          conn = sqlite3.connect('$DB_PATH')
+          create_schema(conn)
+          conn.close()
+          "
+          fi
+
+          cd scripts && python3 -m ci.aggregate_results \
+            --db "../$DB_PATH" \
+            --benchmark-dir "../$BENCH_DIR" \
+            --commit "$(git rev-parse HEAD)" \
+            --branch "$(git branch --show-current)" \
+            --scheduler "${{ matrix.scheduler }}" \
+            --omp-threads $(nproc) \
+            --hostname "github-actions-nightly" || true
+          cd ..
+
+      - name: Generate plots
+        run: |
+          python3 scripts/plot_benchmark_unified.py "$BENCH_DIR" \
+            --quality draft --no-latex || true
+
+      - name: Run regression detector
+        run: |
+          cd scripts && python3 -m ci.regression_detector \
+            --db "../doc/working/benchmark_metrics.db" \
+            --scheduler "${{ matrix.scheduler }}" \
+            --output "../regression_${{ matrix.scheduler }}.md" || true
+          cd ..
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-${{ matrix.scheduler }}-${{ github.run_number }}
+          path: |
+            ${{ env.BENCH_DIR }}/plots-unified/
+            ${{ env.BENCH_DIR }}/metrics/
+            regression_${{ matrix.scheduler }}.md
+          retention-days: 30
+
+      - name: Upload database
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-db-${{ matrix.scheduler }}-${{ github.run_number }}
+          path: doc/working/benchmark_metrics.db
+          retention-days: 90

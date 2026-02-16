@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+
+<!--
+    Nature Figure 3e: Monolayer configuration (low gamma_tilde)
+
+    Configuration: POLARIZATION_MODE_INDEX=1, CONTACT_MODEL_INDEX=2, DYNAMIC_MODEL_INDEX=0
+
+    This parameter set produces a monolayer epithelium. The surface tension ratio
+    gamma_tilde = gamma_apical / gamma_lateral is set below the transition threshold (~0.05).
+    Low apical surface tension relative to lateral tension favors monolayer organization.
+-->
+
+<numerical_parameters>
+    <input_mesh_file_path>data/input_meshes/fig_3_vesicle.vtk</input_mesh_file_path>
+    <output_mesh_folder_path>../simulation_results/nature_fig3e/monolayer</output_mesh_folder_path>
+    <perform_initial_triangulation>0</perform_initial_triangulation>
+    <enable_edge_swap_operation>0</enable_edge_swap_operation>
+    <damping_coefficient>5e-10</damping_coefficient>
+    <simulation_duration>1e-2</simulation_duration>
+    <sampling_period>1e-4</sampling_period>
+    <time_step>1e-7</time_step>
+    <min_edge_length>4e-7</min_edge_length>
+    <contact_cutoff_adhesion>2e-7</contact_cutoff_adhesion>
+    <contact_cutoff_repulsion>2e-7</contact_cutoff_repulsion>
+</numerical_parameters>
+
+<cell_types>
+    <cell_type>
+        <cell_type_name>epithelial</cell_type_name>
+        <global_cell_id>0</global_cell_id>
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <cell_bulk_modulus>2.5e3</cell_bulk_modulus>
+        <max_inner_pressure>2.5e3</max_inner_pressure>
+        <avg_growth_rate>1e-12</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <target_isoperimetric_ratio>250</target_isoperimetric_ratio>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <avg_division_volume>inf</avg_division_volume>
+        <std_division_volume>inf</std_division_volume>
+        <surface_coupling_max_curvature>2.5e6</surface_coupling_max_curvature>
+        <min_vol>3.7e-17</min_vol>
+        <face_types>
+            <face_type>
+                <global_face_id>0</global_face_id>
+                <face_type_name>apical</face_type_name>
+                <!-- Low apical tension for monolayer: gamma_tilde < 0.05 -->
+                <adherence_strength>1e9</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>1e-5</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+            <face_type>
+                <global_face_id>1</global_face_id>
+                <face_type_name>lateral</face_type_name>
+                <adherence_strength>1e9</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>4e-4</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+            <face_type>
+                <global_face_id>2</global_face_id>
+                <face_type_name>basal</face_type_name>
+                <adherence_strength>0</adherence_strength>
+                <repulsion_strength>5e8</repulsion_strength>
+                <surface_tension>1e-3</surface_tension>
+                <bending_modulus>0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+    <cell_type>
+        <global_cell_id>1</global_cell_id>
+        <cell_type_name>ecm</cell_type_name>
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <cell_bulk_modulus>0.0</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+        <min_vol>1e-18</min_vol>
+        <face_types>
+            <face_type>
+                <global_face_id>3</global_face_id>
+                <face_type_name>ecm_face</face_type_name>
+                <adherence_strength>0</adherence_strength>
+                <repulsion_strength>2e9</repulsion_strength>
+                <surface_tension>5.0e-4</surface_tension>
+                <bending_modulus>0.0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+    <cell_type>
+        <global_cell_id>2</global_cell_id>
+        <cell_type_name>lumen</cell_type_name>
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <cell_bulk_modulus>2.5e3</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+        <min_vol>1e-18</min_vol>
+        <face_types>
+            <face_type>
+                <global_face_id>4</global_face_id>
+                <face_type_name>lumen_face</face_type_name>
+                <adherence_strength>0.0</adherence_strength>
+                <repulsion_strength>5.0e9</repulsion_strength>
+                <surface_tension>4e-4</surface_tension>
+                <bending_modulus>0.0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+    <cell_type>
+        <global_cell_id>3</global_cell_id>
+        <cell_type_name>nucleus</cell_type_name>
+        <cell_mass_density>1.0e3</cell_mass_density>
+        <cell_bulk_modulus>2500</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0.0</avg_growth_rate>
+        <std_growth_rate>0.0</std_growth_rate>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <avg_division_volume>0.0</avg_division_volume>
+        <std_division_volume>0.0</std_division_volume>
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+        <min_vol>1e-18</min_vol>
+        <INMForce>0</INMForce>
+        <face_types>
+            <face_type>
+                <global_face_id>5</global_face_id>
+                <face_type_name>nucleus_face</face_type_name>
+                <adherence_strength>0.0</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>0</surface_tension>
+                <bending_modulus>0.0</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+
+    <cell_type>
+        <global_cell_id>4</global_cell_id>
+        <cell_type_name>static_cell</cell_type_name>
+        <cell_mass_density>1.04</cell_mass_density>
+        <cell_bulk_modulus>2.5e-7</cell_bulk_modulus>
+        <max_inner_pressure>INF</max_inner_pressure>
+        <avg_growth_rate>0</avg_growth_rate>
+        <std_growth_rate>0</std_growth_rate>
+        <target_isoperimetric_ratio>1</target_isoperimetric_ratio>
+        <area_elasticity_modulus>0</area_elasticity_modulus>
+        <angle_regularization_factor>0</angle_regularization_factor>
+        <avg_division_volume>0</avg_division_volume>
+        <std_division_volume>0</std_division_volume>
+        <min_vol>1e-18</min_vol>
+        <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
+        <face_types>
+            <face_type>
+                <global_face_id>6</global_face_id>
+                <face_type_name>static_face</face_type_name>
+                <adherence_strength>0</adherence_strength>
+                <repulsion_strength>1e9</repulsion_strength>
+                <surface_tension>0.2e-10</surface_tension>
+                <bending_modulus>0.0e-10</bending_modulus>
+            </face_type>
+        </face_types>
+    </cell_type>
+</cell_types>

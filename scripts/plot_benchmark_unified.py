@@ -1826,6 +1826,433 @@ def plot_biological_dashboard(data: Dict, style: Dict, output_dir: Path,
 
 
 # =============================================================================
+# CI/CD Dashboard Plots (Phase 4)
+# =============================================================================
+
+@register_plot(
+    id='13',
+    name='cache_efficiency',
+    narrative='computational',
+    requires=['computational'],
+    description='Cache efficiency proxy: time-per-cell vs cell count'
+)
+def plot_cache_efficiency(data: Dict, style: Dict, output_dir: Path,
+                          use_latex: bool = True) -> bool:
+    """Plot cache efficiency proxy: time per cell vs cell count."""
+    print("  Plotting: 13_cache_efficiency")
+    fig, ax = plt.subplots(figsize=FIGSIZE_DOUBLE)
+
+    has_data = False
+    scatter = None
+    for sched in data.get('schedulers', []):
+        accessor = SchedulerDataAccessor(data, sched.name, 'computational')
+        if not accessor.is_available():
+            continue
+
+        df = accessor.get_raw_dataframe()
+        if df is None or len(df) < 5:
+            continue
+
+        cells_col = accessor.get_column(['cells', 'num_cells'])
+        ips_col = accessor.get_column(['iter_per_sec', 'ips'])
+
+        if not cells_col or not ips_col:
+            continue
+
+        cells = df[cells_col].values
+        ips = df[ips_col].values
+
+        valid = (cells > 0) & (ips > 0) & np.isfinite(cells) & np.isfinite(ips)
+        if np.sum(valid) < 5:
+            continue
+
+        cells_v = cells[valid]
+        ips_v = ips[valid]
+        time_per_cell = 1000.0 / (ips_v * cells_v)  # ms per cell per iteration
+
+        color = style['colors'].get(sched.name, cm.viridis(0.5))
+        label = style['labels'].get(sched.name, sched.name)
+
+        scatter = ax.scatter(cells_v, time_per_cell, c=np.arange(len(cells_v)),
+                             cmap='viridis', s=10, alpha=0.6, label=label)
+        has_data = True
+
+    if not has_data:
+        plt.close(fig)
+        print("    Skipped: No computational data")
+        return False
+
+    ax.set_xlabel('Cell Count')
+    ax.set_ylabel('Time per Cell (ms)')
+    ax.set_title('Cache Efficiency: Time per Cell vs Population Size')
+    ax.legend(loc='upper left', frameon=False)
+    if scatter is not None:
+        plt.colorbar(scatter, ax=ax, label='Iteration Index')
+    apply_tufte_style(ax, grid=True)
+
+    save_figure(fig, output_dir / '13_cache_efficiency')
+    return True
+
+
+@register_plot(
+    id='14',
+    name='energy_conservation_timeline',
+    narrative='biological',
+    requires=['biological'],
+    description='Energy conservation analysis with drift detection across schedulers'
+)
+def plot_energy_conservation_timeline(data: Dict, style: Dict, output_dir: Path,
+                                      use_latex: bool = True) -> bool:
+    """Plot energy conservation timeline with statistical drift analysis."""
+    print("  Plotting: 14_energy_conservation_timeline")
+    fig, axes = plt.subplots(1, 2, figsize=FIGSIZE_WIDE)
+
+    has_data = False
+    drift_rates = []
+
+    for sched in data.get('schedulers', []):
+        accessor = SchedulerDataAccessor(data, sched.name, 'biological')
+        if not accessor.is_available():
+            continue
+
+        bio_df = accessor.get_raw_dataframe()
+        if bio_df is None:
+            continue
+
+        ke_col = accessor.get_column(['total_kinetic_energy', 'kinetic_energy', 'mean_kinetic_energy'])
+        pe_col = accessor.get_column(['total_potential_energy', 'potential_energy', 'mean_potential_energy'])
+
+        if not ke_col or not pe_col:
+            continue
+
+        t = compute_time_seconds(bio_df)
+        E_total = bio_df[ke_col].values + bio_df[pe_col].values
+        valid = np.isfinite(E_total) & np.isfinite(t)
+
+        if np.sum(valid) < 10:
+            continue
+
+        t_v = t[valid]
+        E_v = E_total[valid]
+
+        color = style['colors'].get(sched.name, cm.viridis(0.5))
+        label = style['labels'].get(sched.name, sched.name)
+
+        # Left panel: normalized energy over time
+        E_norm = E_v / E_v[0] if E_v[0] != 0 else E_v
+        axes[0].plot(t_v, E_norm, color=color, linewidth=1.0, label=label)
+
+        try:
+            result = test_energy_conservation(t_v, E_v)
+            drift_rates.append({
+                'scheduler': sched.name,
+                'label': label,
+                'drift_rate': result.rel_drift_rate,
+                'conserved': result.is_conserved,
+                'color': color,
+            })
+        except (ValueError, Exception):
+            pass
+
+        has_data = True
+
+    if not has_data:
+        plt.close(fig)
+        print("    Skipped: No energy data")
+        return False
+
+    axes[0].axhline(y=1.0, color='gray', linestyle='--', linewidth=0.5, alpha=0.5)
+    axes[0].set_xlabel('Time (s)')
+    axes[0].set_ylabel('E(t) / E(0)')
+    axes[0].set_title('A. Normalized Total Energy')
+    axes[0].legend(loc='best', frameon=False, fontsize=7)
+    apply_tufte_style(axes[0], grid=True, integer_time_axis=True)
+
+    if drift_rates:
+        names = [d['label'] for d in drift_rates]
+        rates = [abs(d['drift_rate']) for d in drift_rates]
+        colors_bar = [d['color'] for d in drift_rates]
+        conserved = [d['conserved'] for d in drift_rates]
+
+        bars = axes[1].barh(names, rates, color=colors_bar, alpha=0.7)
+        for bar, cons in zip(bars, conserved):
+            marker = 'PASS' if cons else 'FAIL'
+            axes[1].text(bar.get_width() * 1.05, bar.get_y() + bar.get_height() / 2,
+                         marker, va='center', fontsize=7,
+                         color='green' if cons else 'red')
+
+        axes[1].axvline(x=1e-6, color='red', linestyle='--', linewidth=0.8, label='Threshold')
+        axes[1].set_xlabel('|Relative Drift Rate| (1/s)')
+        axes[1].set_xscale('log')
+        axes[1].set_title('B. Conservation Test')
+        axes[1].legend(loc='best', frameon=False, fontsize=7)
+        apply_tufte_style(axes[1], grid=True)
+
+    plt.tight_layout()
+    save_figure(fig, output_dir / '14_energy_conservation_timeline')
+    return True
+
+
+@register_plot(
+    id='15',
+    name='roofline_trajectory',
+    narrative='computational',
+    requires=['computational', 'phase'],
+    description='Operational intensity trajectory over simulation time'
+)
+def plot_roofline_trajectory(data: Dict, style: Dict, output_dir: Path,
+                             use_latex: bool = True) -> bool:
+    """Plot roofline trajectory: operational intensity over time."""
+    print("  Plotting: 15_roofline_trajectory")
+    fig, ax = plt.subplots(figsize=FIGSIZE_DOUBLE)
+
+    has_data = False
+    for sched in data.get('schedulers', []):
+        accessor = SchedulerDataAccessor(data, sched.name, 'computational')
+        phase_accessor = SchedulerDataAccessor(data, sched.name, 'phase')
+
+        if not accessor.is_available() or not phase_accessor.is_available():
+            continue
+
+        comp_df = accessor.get_raw_dataframe()
+        phase_df = phase_accessor.get_raw_dataframe()
+
+        if comp_df is None or phase_df is None:
+            continue
+
+        cells_col = accessor.get_column(['cells'])
+        total_col = phase_accessor.get_column(['total_iteration_ms'])
+
+        if not cells_col or not total_col:
+            continue
+
+        cells = comp_df[cells_col].values
+        total_ms = phase_df[total_col].values
+        min_len = min(len(cells), len(total_ms))
+
+        if min_len < 5:
+            continue
+
+        cells = cells[:min_len]
+        total_ms = total_ms[:min_len]
+
+        # Operational intensity proxy
+        flops_proxy = cells ** (4.0 / 3.0)
+        bytes_proxy = cells * 200.0
+        operational_intensity = flops_proxy / bytes_proxy
+        throughput = flops_proxy / (total_ms / 1000.0)
+
+        valid = np.isfinite(operational_intensity) & np.isfinite(throughput) & (throughput > 0)
+        if np.sum(valid) < 5:
+            continue
+
+        color = style['colors'].get(sched.name, cm.viridis(0.5))
+        label = style['labels'].get(sched.name, sched.name)
+
+        oi = operational_intensity[valid]
+        tp = throughput[valid]
+        ax.scatter(oi, tp, c=np.arange(np.sum(valid)), cmap='viridis',
+                   s=10, alpha=0.6, label=label)
+
+        if len(oi) > 2:
+            ax.annotate('', xy=(oi[-1], tp[-1]), xytext=(oi[0], tp[0]),
+                        arrowprops=dict(arrowstyle='->', color=color, lw=1.5))
+
+        has_data = True
+
+    if not has_data:
+        plt.close(fig)
+        print("    Skipped: Insufficient data")
+        return False
+
+    ax.set_xlabel('Operational Intensity (FLOP/byte)')
+    ax.set_ylabel('Throughput (interactions/s)')
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    ax.set_title('Roofline Trajectory Over Simulation Time')
+    ax.legend(loc='upper left', frameon=False)
+    apply_tufte_style(ax, grid=True)
+
+    save_figure(fig, output_dir / '15_roofline_trajectory')
+    return True
+
+
+@register_plot(
+    id='16',
+    name='contact_angle_distribution',
+    narrative='biological',
+    requires=['biological'],
+    description='Contact fraction distribution for biological validation'
+)
+def plot_contact_angle_distribution(data: Dict, style: Dict, output_dir: Path,
+                                     use_latex: bool = True) -> bool:
+    """Plot contact angle/fraction distribution across schedulers."""
+    print("  Plotting: 16_contact_angle_distribution")
+    fig, axes = plt.subplots(1, 2, figsize=FIGSIZE_WIDE)
+
+    has_data = False
+    for sched in data.get('schedulers', []):
+        accessor = SchedulerDataAccessor(data, sched.name, 'biological')
+        if not accessor.is_available():
+            continue
+
+        bio_df = accessor.get_raw_dataframe()
+        if bio_df is None or len(bio_df) < 5:
+            continue
+
+        color = style['colors'].get(sched.name, cm.viridis(0.5))
+        label = style['labels'].get(sched.name, sched.name)
+
+        cf_col = accessor.get_column(['mean_contact_fraction', 'contact_fraction',
+                                       'cell_contact_area_fraction'])
+        if cf_col:
+            t = compute_time_seconds(bio_df)
+            cf = bio_df[cf_col].values
+            valid = np.isfinite(cf) & np.isfinite(t)
+            if np.sum(valid) > 5:
+                axes[0].plot(t[valid], cf[valid], color=color, linewidth=1.0, label=label)
+                has_data = True
+
+                steady = cf[valid][len(cf[valid]) // 2:]
+                if len(steady) > 5:
+                    axes[1].hist(steady, bins=20, color=color, alpha=0.5,
+                                 edgecolor='black', linewidth=0.3, label=label)
+
+    if not has_data:
+        plt.close(fig)
+        print("    Skipped: No contact fraction data")
+        return False
+
+    axes[0].set_xlabel('Time (s)')
+    axes[0].set_ylabel('Mean Contact Fraction')
+    axes[0].set_title('A. Contact Fraction Evolution')
+    axes[0].legend(loc='best', frameon=False, fontsize=7)
+    apply_tufte_style(axes[0], grid=True, integer_time_axis=True)
+
+    axes[1].set_xlabel('Contact Fraction')
+    axes[1].set_ylabel('Frequency')
+    axes[1].set_title('B. Steady-State Distribution')
+    axes[1].legend(loc='best', frameon=False, fontsize=7)
+    apply_tufte_style(axes[1], grid=True)
+
+    plt.tight_layout()
+    save_figure(fig, output_dir / '16_contact_angle_distribution')
+    return True
+
+
+@register_plot(
+    id='17',
+    name='ips_regression_timeline',
+    narrative='computational',
+    requires=['computational'],
+    description='Historical IPS performance across benchmark runs for regression tracking'
+)
+def plot_ips_regression_timeline(data: Dict, style: Dict, output_dir: Path,
+                                 use_latex: bool = True) -> bool:
+    """Plot IPS regression timeline from SQLite database or current run data."""
+    print("  Plotting: 17_ips_regression_timeline")
+
+    db_path = Path('doc/working/benchmark_metrics.db')
+    if not db_path.exists():
+        # Fallback: use current run data only
+        fig, ax = plt.subplots(figsize=FIGSIZE_DOUBLE)
+
+        has_data = False
+        for sched in data.get('schedulers', []):
+            accessor = SchedulerDataAccessor(data, sched.name, 'computational')
+            if not accessor.is_available():
+                continue
+
+            ts = accessor.get_time_series(
+                value_cols=['iter_per_sec', 'ips'],
+                min_points=5
+            )
+            if ts is None:
+                continue
+
+            color = style['colors'].get(sched.name, cm.viridis(0.5))
+            label = style['labels'].get(sched.name, sched.name)
+
+            window = max(5, len(ts.values) // 20)
+            rolling_ips = pd.Series(ts.values).rolling(window=window, min_periods=1).mean().values
+
+            ax.plot(ts.time, rolling_ips, color=color, linewidth=1.2, label=label)
+            q25 = pd.Series(ts.values).rolling(window=window, min_periods=1).quantile(0.25).values
+            q75 = pd.Series(ts.values).rolling(window=window, min_periods=1).quantile(0.75).values
+            ax.fill_between(ts.time, q25, q75, color=color, alpha=0.15)
+            has_data = True
+
+        if not has_data:
+            plt.close(fig)
+            print("    Skipped: No IPS data")
+            return False
+
+        ax.set_xlabel('Simulation Time (s)')
+        ax.set_ylabel('Iterations per Second')
+        ax.set_title('IPS Performance (Current Run)')
+        ax.legend(loc='best', frameon=False)
+        apply_tufte_style(ax, grid=True, integer_time_axis=True)
+
+        save_figure(fig, output_dir / '17_ips_regression_timeline')
+        return True
+
+    # Load historical data from SQLite
+    import sqlite3
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+
+    fig, ax = plt.subplots(figsize=FIGSIZE_DOUBLE)
+
+    cursor = conn.execute("""
+        SELECT r.id, r.git_commit, r.run_timestamp, r.scheduler,
+               AVG(c.iter_per_sec) as avg_ips,
+               MIN(c.iter_per_sec) as min_ips,
+               MAX(c.iter_per_sec) as max_ips
+        FROM benchmark_runs r
+        JOIN computational_metrics c ON r.id = c.run_id
+        WHERE c.iter_per_sec > 0
+        GROUP BY r.id
+        ORDER BY r.id ASC
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+
+    if not rows:
+        plt.close(fig)
+        print("    Skipped: No historical data in database")
+        return False
+
+    sched_data = {}
+    for row in rows:
+        sched = row['scheduler']
+        if sched not in sched_data:
+            sched_data[sched] = {'runs': [], 'avg_ips': [], 'min_ips': [], 'max_ips': []}
+        sched_data[sched]['runs'].append(row['id'])
+        sched_data[sched]['avg_ips'].append(row['avg_ips'])
+        sched_data[sched]['min_ips'].append(row['min_ips'])
+        sched_data[sched]['max_ips'].append(row['max_ips'])
+
+    for sched, sd in sched_data.items():
+        x = range(len(sd['runs']))
+        color = style['colors'].get(sched, cm.viridis(0.5))
+        label = style['labels'].get(sched, sched)
+
+        ax.plot(list(x), sd['avg_ips'], 'o-', color=color, linewidth=1.2,
+                markersize=4, label=label)
+        ax.fill_between(list(x), sd['min_ips'], sd['max_ips'],
+                         color=color, alpha=0.15)
+
+    ax.set_xlabel('Benchmark Run #')
+    ax.set_ylabel('Average IPS')
+    ax.set_title('Historical IPS Performance')
+    ax.legend(loc='best', frameon=False)
+    apply_tufte_style(ax, grid=True)
+
+    save_figure(fig, output_dir / '17_ips_regression_timeline')
+    return True
+
+
+# =============================================================================
 # Ongoing Simulation Detection
 # =============================================================================
 

@@ -1,0 +1,101 @@
+name: Weekly Stress Test
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Midnight UTC every Sunday
+  workflow_dispatch:
+
+jobs:
+  stress-test:
+    name: Weekly Stress (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 1440  # 24 hours
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: scaling-large
+            param_file: parameters/core/parameters_default_dynamic.xml
+            scheduler: adaptive
+            description: "Large-scale scaling test"
+          - name: all-schedulers
+            param_file: parameters/core/parameters_default_dynamic.xml
+            scheduler: guided
+            description: "Guided scheduler stress test"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libomp-dev python3-pip
+          pip3 install pandas numpy scipy matplotlib
+
+      - name: Build (Release)
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j$(nproc)
+
+      - name: Run stress test
+        run: |
+          export OMP_NUM_THREADS=$(nproc)
+          export OMP_PROC_BIND=close
+          export OMP_PLACES=cores
+          export OMP_WAIT_POLICY=passive
+          export OMP_DYNAMIC=false
+
+          BENCH_DIR="benchmark_weekly_$(date +%Y%m%d)"
+          SCHED="${{ matrix.scheduler }}"
+          mkdir -p "$BENCH_DIR/sim_${SCHED}"
+
+          timeout 82800 ./build/simucell3d \
+            ${{ matrix.param_file }} \
+            --schedule=${SCHED} \
+            --diagnostics-csv="$BENCH_DIR/sim_${SCHED}/performance_diagnostics.csv" \
+            || true
+
+          echo "BENCH_DIR=$BENCH_DIR" >> "$GITHUB_ENV"
+
+      - name: Process results
+        run: |
+          python3 scripts/preprocess_benchmark_metrics.py "$BENCH_DIR" || true
+
+          DB_PATH="doc/working/benchmark_metrics.db"
+
+          if [ ! -f "$DB_PATH" ]; then
+            mkdir -p doc/working
+            python3 -c "
+          import sqlite3, sys
+          sys.path.insert(0, 'scripts')
+          from ci.aggregate_results import create_schema
+          conn = sqlite3.connect('$DB_PATH')
+          create_schema(conn)
+          conn.close()
+          "
+          fi
+
+          cd scripts && python3 -m ci.aggregate_results \
+            --db "../$DB_PATH" \
+            --benchmark-dir "../$BENCH_DIR" \
+            --commit "$(git rev-parse HEAD)" \
+            --branch "$(git branch --show-current)" \
+            --scheduler "${{ matrix.scheduler }}" \
+            --omp-threads $(nproc) \
+            --hostname "github-actions-weekly" || true
+          cd ..
+
+      - name: Generate full plot suite
+        run: |
+          python3 scripts/plot_benchmark_unified.py "$BENCH_DIR" \
+            --quality publication --no-latex || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-${{ matrix.name }}-${{ github.run_number }}
+          path: |
+            ${{ env.BENCH_DIR }}/plots-unified/
+            ${{ env.BENCH_DIR }}/metrics/
+          retention-days: 90

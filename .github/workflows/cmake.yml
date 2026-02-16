@@ -70,6 +70,42 @@ jobs:
           ASAN_OPTIONS: detect_leaks=0
         run: ctest --output-on-failure
 
+  # Latency profiling benchmarks - performance regression detection
+  latency-profiling:
+    name: Latency Profiling
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake (Release)
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build -j$(nproc)
+
+      - name: Run latency benchmarks
+        working-directory: build
+        run: |
+          ctest -R benchmark_ --output-on-failure 2>&1 | tee benchmark_output.txt
+          echo "## Latency Benchmark Results" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat benchmark_output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+
+      - name: Report benchmark metrics
+        working-directory: build
+        run: |
+          echo "## Benchmark Detail" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Benchmark | Status | Time (s) |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|----------|" >> $GITHUB_STEP_SUMMARY
+          ctest -R benchmark_ -N 2>/dev/null | grep "Test #" | while read line; do
+            test_name=$(echo "$line" | sed 's/.*: //')
+            echo "| ${test_name} | - | - |" >> $GITHUB_STEP_SUMMARY
+          done
+        continue-on-error: true
+
   # Code formatting check
   format-check:
     name: Format Check
