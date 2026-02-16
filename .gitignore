@@ -21,3 +21,9 @@ doc/developer/proposals/*
 .worktrees/
 benchmark_run.log
 *.log
+
+# CTest artifacts
+Testing/
+
+# Generated analysis reports
+codebase-analysis-report.md
