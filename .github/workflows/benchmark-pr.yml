@@ -56,6 +56,7 @@ jobs:
         id: regression
         run: |
           DB_PATH="doc/working/benchmark_metrics.db"
+          mkdir -p "$(dirname "$DB_PATH")"
 
           # Initialize DB if it doesn't exist
           if [ ! -f "$DB_PATH" ]; then
