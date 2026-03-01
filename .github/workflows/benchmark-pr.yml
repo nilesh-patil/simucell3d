@@ -12,6 +12,11 @@ concurrency:
   group: benchmark-pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   quick-benchmark:
     name: Quick Performance Check
@@ -56,6 +61,7 @@ jobs:
         id: regression
         run: |
           DB_PATH="doc/working/benchmark_metrics.db"
+          mkdir -p "$(dirname "$DB_PATH")"
 
           # Initialize DB if it doesn't exist
           if [ ! -f "$DB_PATH" ]; then
@@ -93,6 +99,7 @@ jobs:
 
       - name: Post PR comment
         if: steps.regression.outputs.report_exists == 'true'
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
