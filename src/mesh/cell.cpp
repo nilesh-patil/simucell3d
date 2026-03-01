@@ -1316,6 +1316,14 @@ void cell::update_target_volume(const double time_step) noexcept{
 void cell::update_pressure() noexcept{
     assert(cell_type_ != nullptr);
 
+    // When bulk_modulus is zero there is no pressure regulation.
+    // Skip the log computation to avoid 0 * -inf = NaN when volume → 0.
+    if(cell_type_->bulk_modulus_ == 0.0){
+        pressure_ = 0.0;
+        pressure_energy_ = 0.0;
+        return;
+    }
+
     pressure_ = - cell_type_->bulk_modulus_ * std::log(volume_ / target_volume_);
     assert(std::isfinite(pressure_)); //throw unstable_simulation_exception("The pressure is not finite. Cell volume = " + format_number(volume_, "%.2e") + ", target volume = " + format_number(target_volume_, "%.2e"));
 

@@ -58,10 +58,12 @@ class uspg_4d: public uspg_abstract
     //Update the grid dimensions
     void update_dimensions(const size_t nb_objects, const double min_x, const double min_y, const double min_z, 
     const double max_x, const double max_y, const double max_z) noexcept(false) override{
-        assert(min_x < max_x);
-        assert(min_y < max_y);
-        assert(min_z < max_z);
-        
+        //Ensure non-degenerate bounding box (cells may collapse to a point under extreme parameters)
+        constexpr double min_extent = 1e-10;
+        const double safe_max_x = (max_x <= min_x) ? min_x + min_extent : max_x;
+        const double safe_max_y = (max_y <= min_y) ? min_y + min_extent : max_y;
+        const double safe_max_z = (max_z <= min_z) ? min_z + min_extent : max_z;
+
         //Clear the grid
         voxel_lst_.clear();
 
@@ -69,9 +71,9 @@ class uspg_4d: public uspg_abstract
         constexpr double delta = std::numeric_limits<double>::epsilon();
 
         //Recompute the number of voxels in the grid
-        nb_voxels_x_ = static_cast<unsigned>(std::ceil((max_x + delta - min_x) / voxel_size_));
-        nb_voxels_y_ = static_cast<unsigned>(std::ceil((max_y + delta - min_y) / voxel_size_));
-        nb_voxels_z_ = static_cast<unsigned>(std::ceil((max_z + delta - min_z) / voxel_size_));
+        nb_voxels_x_ = static_cast<unsigned>(std::ceil((safe_max_x + delta - min_x) / voxel_size_));
+        nb_voxels_y_ = static_cast<unsigned>(std::ceil((safe_max_y + delta - min_y) / voxel_size_));
+        nb_voxels_z_ = static_cast<unsigned>(std::ceil((safe_max_z + delta - min_z) / voxel_size_));
         //Cast first operand to size_t to prevent 32-bit overflow when multiplying
         const size_t total_nb_voxels = static_cast<size_t>(nb_voxels_x_) * nb_voxels_y_ * nb_voxels_z_;
 
