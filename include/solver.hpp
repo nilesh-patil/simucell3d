@@ -134,7 +134,8 @@ class solver{
         //Phase state tracking
         SimulationPhase current_phase_;
         unsigned int last_division_check_iteration_;
-        unsigned int recent_division_count_;  // Divisions in last 50 iterations
+        unsigned int recent_division_count_;  // Divisions in last COV_UPDATE_INTERVAL iters (drives phase detection; reset every 50 iters)
+        unsigned int diag_division_count_;    // Divisions in current diagnostics window (reset every 100 iters, after CSV export)
 
         //Optional custom path for diagnostics CSV export (for growth benchmarks)
         std::string diagnostics_csv_path_;  // If non-empty, use this path instead of default
