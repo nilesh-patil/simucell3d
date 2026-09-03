@@ -1387,8 +1387,8 @@ void cell::apply_surface_tension_and_membrane_elasticity() noexcept{
     target_area_ = std::cbrt(cell_type_->target_isoperimetric_ratio_ * volume_ * volume_);
     const double membrane_elasticity_factor =  -(cell_type_->area_elasticity_modulus_ / target_area_) * ((area_ / target_area_) - 1.);
 
-    //Reset the membrane elasticity and surface tension energy  
-    membrane_elasticity_energy_ = 0.;
+    //Whole-cell membrane elasticity energy: U_m = k_a/2 * (A/A_0 - 1)^2 (eq. 1 of the paper)
+    membrane_elasticity_energy_ = 0.5 * cell_type_->area_elasticity_modulus_ * std::pow((area_ / target_area_) - 1., 2.);
     surface_tension_energy_ = 0.;
 
     //Loop over the faces
@@ -1432,8 +1432,7 @@ void cell::apply_surface_tension_and_membrane_elasticity() noexcept{
             n2.add_force(force_n2);
             n3.add_force(force_n3);
 
-            //Update the membrane elasticity energy and surface tension energy
-            //membrane_elasticity_energy_ += 0.5 * cell_type_->area_elasticity_modulus_ * std::pow((f.get_area() / target_area_face) - 1., 2.);
+            //Update the surface tension energy
             surface_tension_energy_     += 0.5 * face_type.surface_tension_ * f.get_area();
         }
     }

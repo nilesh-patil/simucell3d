@@ -688,6 +688,7 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
     current_phase_ = SimulationPhase::INITIALIZATION;  // Start in initialization phase
     last_division_check_iteration_ = 0;
     recent_division_count_ = 0;
+    diag_division_count_ = 0;
 
     // Set up OpenMP scheduling based on the schedule_mode parameter
     if (schedule_mode_ == "static") {
@@ -1000,7 +1001,8 @@ void solver::run_iteration() noexcept(false) {
         // omp_set_schedule() now, the next parallel region (line 1035) may access
         // stale pointers due to vector reallocation during push_back().
         if (num_divisions > 0) {
-            recent_division_count_ += num_divisions;
+            recent_division_count_ += num_divisions;  // scheduling window (reset every 50 iters)
+            diag_division_count_ += num_divisions;    // diagnostics window (reset every 100 iters, after CSV export)
             pending_division_update_ = true;
             pending_division_count_ = num_divisions;
             // handle_division_event() will be called at start of NEXT iteration
@@ -1096,6 +1098,11 @@ void solver::run_iteration() noexcept(false) {
 
         // Reset performance monitor counters for next measurement window
         perf_monitor_.reset();
+
+        // Reset diagnostics division counter now that this window's count is written.
+        // (Kept separate from recent_division_count_, which the 50-iter scheduling
+        //  update resets and would otherwise zero before every 100-iter CSV export.)
+        diag_division_count_ = 0;
     }
 
 // FIX: Synchronization point before cell removal to prevent node lock destruction race.
@@ -1190,10 +1197,9 @@ solver::SimulationPhase solver::detect_simulation_phase() {
         return SimulationPhase::INITIALIZATION;
     }
 
-    // Calculate division rate (divisions per cell per iteration)
-    // Fixed BUG #9: Use symbolic constant instead of magic number
-    double division_rate =
-        static_cast<double>(recent_division_count_) / (num_cells * static_cast<double>(COV_UPDATE_INTERVAL));
+    // Calculate division rate: fraction of cells that divided in the current
+    // COV_UPDATE_INTERVAL window (recent_division_count_ is reset every window)
+    double division_rate = static_cast<double>(recent_division_count_) / static_cast<double>(num_cells);
 
     // GROWTH: Active cell division (>1% of cells dividing per COV_UPDATE_INTERVAL iterations)
     // This captures normal proliferation (typical growth: 1-3% division rate)
@@ -1396,7 +1402,7 @@ void solver::export_diagnostics(unsigned iteration, const std::string& csv_path)
 
     // Write data row
     csv_file << std::fixed << std::setprecision(3) << sim_time << "," << wall_epoch << "," << iteration << ","
-             << cell_lst_.size() << "," << recent_division_count_ << "," << std::setprecision(4) << heterogeneity_cov_
+             << cell_lst_.size() << "," << diag_division_count_ << "," << std::setprecision(4) << heterogeneity_cov_
              << "," << phase_name << "," << std::setprecision(2) << mesh_time_ms << "," << contact_time_ms << ","
              << polarization_time_ms << "," << integration_time_ms << "," << total_time_ms << ","
              << std::setprecision(1) << thread_imbalance_pct << "\n";
