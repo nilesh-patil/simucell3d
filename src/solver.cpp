@@ -808,7 +808,7 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
     // Set the ids of all the cells
     for (size_t i = 0; i < cell_lst_.size(); i++) {
         cell_lst_[i]->set_id(max_cell_id_++);
-        cell_lst_[i]->set_local_id(cell_lst_[i]->get_id());
+        cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
     }
 
     // Initialize the local mesh refiner
@@ -1119,6 +1119,7 @@ void solver::run_iteration() noexcept(false) {
 #endif
 
     // Remove the cells that have a volume smaller than the minimum volume
+    const size_t nb_cells_before_removal = cell_lst_.size();
     cell_lst_.erase(std::remove_if(cell_lst_.begin(), cell_lst_.end(),
                                    [](const cell_ptr& c) {
                                        // Clear the data of the cell if it is below the minimum volume
@@ -1129,6 +1130,15 @@ void solver::run_iteration() noexcept(false) {
                                        return c->is_below_min_vol();
                                    }),
                     cell_lst_.end());
+
+    // The contact model (CONTACT_MODEL_INDEX == 2) keys its node-coupling map by cell local id
+    // and indexes cell_lst_ with it, so local ids must equal the cell's position in cell_lst_.
+    // Only cell_divider::run() reassigned them (and only when a division occurred), which left
+    // every cell after a removed one with a stale, off-by-one local id until the next division.
+    if (cell_lst_.size() != nb_cells_before_removal) {
+        for (size_t i = 0; i < cell_lst_.size(); i++)
+            cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
+    }
 
     // Print the progression of the program
     if (verbose_ && !time_integrator_ptr_->is_step_tmp())

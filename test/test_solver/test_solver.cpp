@@ -23,6 +23,7 @@
 #include <unistd.h>  // For getpid()
 
 #include "solver.hpp"
+#include "cell_types/epithelial_cell.hpp"
 #include "simulation_initializer.hpp"
 #include "utils.hpp"
 
@@ -492,6 +493,111 @@ int test_workload_heterogeneity_calculation() {
 
 
 //---------------------------------------------------------------------------------------------------------
+/**
+ * @brief Regression test: cell local ids must equal the cell's index in cell_lst_ after a cell removal
+ *
+ * The contact model (CONTACT_MODEL_INDEX == 2) and epithelial_cell::special_polarization_update
+ * key the node-coupling map by cell local id and index cell_lst_ with it. When a cell dropped below
+ * its min_vol and was erased from cell_lst_, every cell after it kept a stale local id (off by one)
+ * until the next division re-synced them, which produced an out-of-bounds cell_lst_ access and a
+ * segfault in long runs.
+ *
+ * Setup: [cell0, doomed, cell1] where "doomed" is a copy of cell1 with its own cell type whose
+ * min_vol_ is impossibly large, so one run_iteration() removes it. cell1 then sits at index 1 and
+ * must report local id 1 (not the stale 2).
+ *
+ * @return 0 on success, 1 on failure
+ */
+int test_local_ids_resynced_after_cell_removal() {
+    std::cout << "Running test_local_ids_resynced_after_cell_removal..." << std::endl;
+
+    std::string test_output_dir = create_unique_output_dir("local_ids_after_removal");
+
+    try {
+        std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+
+        if (loaded.size() < 2) {
+            std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        // A private cell type whose min_vol_ is far above any achievable volume, so the doomed cell is
+        // erased at the end of the very first iteration while the others are kept.
+        auto doomed_type = std::make_shared<cell_type_parameters>(*loaded[1]->get_cell_type());
+        doomed_type->min_vol_ = 1.0;
+        doomed_type->avg_division_vol_ = 1.0;  // never ready to divide
+
+        // Offset the doomed cell's mesh away from its source so the two do not overlap during the iteration
+        mesh doomed_mesh = loaded[1]->get_mesh();
+        for (size_t i = 0; i < doomed_mesh.node_pos_lst.size(); i += 3) doomed_mesh.node_pos_lst[i] += 1e-4;
+
+        const unsigned doomed_id = 1000;
+        cell_ptr doomed = std::make_shared<epithelial_cell>(doomed_mesh, doomed_id, doomed_type);
+        doomed->initialize_cell_properties();  // the simulation_initializer does this for loaded cells
+
+        std::vector<cell_ptr> cell_lst = {loaded[0], doomed, loaded[1]};
+
+        solver s(sim_params, cell_lst, 1, true, false, "static");
+
+        // Local ids must match the position in the list right after construction
+        for (size_t i = 0; i < s.get_cell_lst().size(); i++) {
+            if (s.get_cell_lst()[i]->get_local_id() != i) {
+                std::cout << "FAILED: local id " << s.get_cell_lst()[i]->get_local_id()
+                          << " at index " << i << " after construction" << std::endl;
+                cleanup_output_dir(test_output_dir);
+                return 1;
+            }
+        }
+
+        s.run_iteration();
+
+        const std::vector<cell_ptr>& after = s.get_cell_lst();
+        bool t1 = (after.size() == 2);
+        std::cout << "  t1 (doomed cell removed, 2 cells remain): " << t1
+                  << " (cells: " << after.size() << ")" << std::endl;
+        if (!t1) {
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        // The solver renumbers global ids 0..N-1 at construction, so compare cell identities, not ids
+        bool t2 = (after[0] == loaded[0] && after[1] == loaded[1]);
+        std::cout << "  t2 (the two loaded cells survived, in order): " << t2 << std::endl;
+        if (!t2) {
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        bool t3 = true;
+        for (size_t i = 0; i < after.size(); i++) {
+            if (after[i]->get_local_id() != i) {
+                std::cout << "  stale local id " << after[i]->get_local_id() << " at index " << i << std::endl;
+                t3 = false;
+            }
+        }
+        std::cout << "  t3 (local ids equal list index after removal): " << t3 << std::endl;
+        if (!t3) {
+            std::cout << "FAILED: local ids were not re-synced after cell removal" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        std::cout << "test_local_ids_resynced_after_cell_removal PASSED" << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main(int argc, char** argv) {
 
@@ -505,6 +611,7 @@ int main(int argc, char** argv) {
     if (test_name == "test_solver_construction")              return test_solver_construction();
     if (test_name == "test_detect_simulation_phase")          return test_detect_simulation_phase();
     if (test_name == "test_workload_heterogeneity_calculation") return test_workload_heterogeneity_calculation();
+    if (test_name == "test_local_ids_resynced_after_cell_removal") return test_local_ids_resynced_after_cell_removal();
 
     std::cout << "TEST NAME: " << test_name << " DOES NOT EXIST" << std::endl;
     return 1;
