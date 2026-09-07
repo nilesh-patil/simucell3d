@@ -42,3 +42,4 @@ target_include_directories(test_solver PUBLIC
 add_test(NAME solver_test_solver_construction                 COMMAND test_solver test_solver_construction)
 add_test(NAME solver_test_detect_simulation_phase             COMMAND test_solver test_detect_simulation_phase)
 add_test(NAME solver_test_workload_heterogeneity_calculation  COMMAND test_solver test_workload_heterogeneity_calculation)
+add_test(NAME solver_test_local_ids_resynced_after_cell_removal COMMAND test_solver test_local_ids_resynced_after_cell_removal)
