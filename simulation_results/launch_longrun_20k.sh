@@ -19,20 +19,23 @@ mkdir -p "$OUT" "$LOGDIR"
 
 cd "$PROJECT/build"
 
-# OpenMP environment matching the benchmark runner
-export OMP_NUM_THREADS=8
-export OMP_PROC_BIND=close
+# Thread count and placement are chosen by the binary itself: one pinned thread per
+# physical core the process is allowed to use (see include/cpu_topology.hpp).
+# Do NOT set OMP_PROC_BIND/OMP_PLACES or taskset here: OMP_PROC_BIND=close without
+# OMP_PLACES used to land 4 threads on 2 physical cores, and taskset would cap the
+# core count on bigger machines. Override with THREADS=N to use hyperthreads.
 export OMP_WAIT_POLICY=passive
 export OMP_DYNAMIC=false
+THREADS_FLAG=""
+if [[ -n "${THREADS:-}" ]]; then THREADS_FLAG="--threads=$THREADS"; fi
 
 # No wall-clock cap: run indefinitely (beyond 24h) until it completes or is stopped manually.
-# Pinned to all 8 cores. run.log lives OUTSIDE the output dir because the binary
-# wipes --output-dir at startup.
-nohup taskset -c 0-7 \
-    /usr/bin/time -v ./simucell3d \
+# run.log lives OUTSIDE the output dir because the binary wipes --output-dir at startup.
+nohup /usr/bin/time -v ./simucell3d \
     --schedule=adaptive \
     --output-dir="$OUT" \
     --diagnostics-csv="$OUT/performance_diagnostics.csv" \
+    $THREADS_FLAG \
     "$PARAM" \
     > "$LOGDIR/run.log" 2>&1 &
 
