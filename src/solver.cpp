@@ -418,6 +418,8 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
     last_division_check_iteration_ = 0;
     recent_division_count_ = 0;
     diag_division_count_ = 0;
+    diag_unstable_cell_count_ = 0;
+    nb_unstable_cells_removed_ = 0;
 
     // Set up OpenMP scheduling based on the schedule_mode parameter
     if (schedule_mode_ == "static") {
@@ -824,6 +826,7 @@ void solver::run_iteration() noexcept(false) {
         // (Kept separate from recent_division_count_, which the 50-iter scheduling
         //  update resets and would otherwise zero before every 100-iter CSV export.)
         diag_division_count_ = 0;
+        diag_unstable_cell_count_ = 0;
     }
 
 // FIX: Synchronization point before cell removal to prevent node lock destruction race.
@@ -839,16 +842,53 @@ void solver::run_iteration() noexcept(false) {
     }
 #endif
 
-    // Remove the cells that have a volume smaller than the minimum volume
-    const size_t nb_cells_before_removal = cell_lst_.size();
-    cell_lst_.erase(std::remove_if(cell_lst_.begin(), cell_lst_.end(),
-                                   [](const cell_ptr& c) {
-                                       // Clear the data of the cell if it is below the minimum volume
-                                       if (c->is_below_min_vol())
-                                           c->clear_data();
+    // Remove the cells that have shrunk below the minimum volume or whose mesh has diverged
+    remove_dead_cells();
 
-                                       // Return true if the cell is below the minimum volume
-                                       return c->is_below_min_vol();
+    // Print the progression of the program
+    if (verbose_ && !time_integrator_ptr_->is_step_tmp())
+        printf("Progression %d%%, iteration: %d, file number %d, nb cells %d\n",
+               static_cast<unsigned short>(100. * time_integrator_ptr_->get_simulation_time() /
+                                           sim_parameters_.simulation_duration_),
+               iteration_, file_number_, static_cast<int>(cell_lst_.size()));
+
+    // Update the iteration number
+    iteration_++;
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+// Erase the cells that are below the minimum volume, plus the cells whose explicit integration has blown up
+// (non-finite node coordinates, or a bounding box ~10x wider than the cell should be). Left in the tissue,
+// one such cell grows to ~1e19 m within a few dozen iterations: its faces then poison the global AABB of the
+// contact model, the USPG voxel count overflows and every subsequent contact-detection call degenerates into
+// an O(nodes x faces) scan that never returns. Dropping the cell costs one cell; keeping it costs the run.
+void solver::remove_dead_cells() noexcept {
+    const size_t nb_cells_before_removal = cell_lst_.size();
+
+    cell_lst_.erase(std::remove_if(cell_lst_.begin(), cell_lst_.end(),
+                                   [this](const cell_ptr& c) {
+                                       bool remove = c->is_below_min_vol();
+
+                                       if (!remove) {
+                                           const cell::stability_report report = c->check_numerical_stability();
+                                           if (report.unstable) {
+                                               remove = true;
+                                               diag_unstable_cell_count_++;
+                                               nb_unstable_cells_removed_++;
+                                               // cerr is unbuffered: this line lands in the log before any crash
+                                               std::cerr << "Removing numerically unstable cell " << c->get_id()
+                                                         << " at iteration " << iteration_
+                                                         << ": extent " << report.extent << " m (max " << report.max_extent
+                                                         << " m), volume " << c->get_volume()
+                                                         << " m^3, target volume " << c->get_target_volume()
+                                                         << " m^3, " << report.nb_non_finite_nodes << " non-finite nodes"
+                                                         << std::endl;
+                                           }
+                                       }
+
+                                       if (remove) c->clear_data();
+                                       return remove;
                                    }),
                     cell_lst_.end());
 
@@ -860,16 +900,6 @@ void solver::run_iteration() noexcept(false) {
         for (size_t i = 0; i < cell_lst_.size(); i++)
             cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
     }
-
-    // Print the progression of the program
-    if (verbose_ && !time_integrator_ptr_->is_step_tmp())
-        printf("Progression %d%%, iteration: %d, file number %d, nb cells %d\n",
-               static_cast<unsigned short>(100. * time_integrator_ptr_->get_simulation_time() /
-                                           sim_parameters_.simulation_duration_),
-               iteration_, file_number_, static_cast<int>(cell_lst_.size()));
-
-    // Update the iteration number
-    iteration_++;
 }
 //--------------------------------------------------------------------------------------------------------------------------
 
@@ -1091,7 +1121,7 @@ void solver::export_diagnostics(unsigned iteration, const std::string& csv_path)
         csv_file << "sim_time,wall_epoch,iteration,cells,divisions,cov,phase,"
                  << "mesh_refinement_ms,contact_detection_ms,"
                  << "polarization_internal_forces_ms,time_integration_ms,"
-                 << "total_iteration_ms,thread_imbalance_pct\n";
+                 << "total_iteration_ms,thread_imbalance_pct,unstable_cells_removed\n";
     }
 
     // Calculate simulation timestamp (seconds since simulation start)
@@ -1136,7 +1166,7 @@ void solver::export_diagnostics(unsigned iteration, const std::string& csv_path)
              << cell_lst_.size() << "," << diag_division_count_ << "," << std::setprecision(4) << heterogeneity_cov_
              << "," << phase_name << "," << std::setprecision(2) << mesh_time_ms << "," << contact_time_ms << ","
              << polarization_time_ms << "," << integration_time_ms << "," << total_time_ms << ","
-             << std::setprecision(1) << thread_imbalance_pct << "\n";
+             << std::setprecision(1) << thread_imbalance_pct << "," << diag_unstable_cell_count_ << "\n";
 
     csv_file.flush();
 }

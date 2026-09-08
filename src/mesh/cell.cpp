@@ -1301,6 +1301,37 @@ std::array<double, 6> cell::get_aabb() const noexcept{
 
 
 //---------------------------------------------------------------------------------------------------------
+//Detect a cell whose mesh has diverged (see cell.hpp). Deliberately measured against the target volume
+//and not the current one: a blown-up mesh has a meaningless (huge, negative or NaN) volume.
+cell::stability_report cell::check_numerical_stability(const double max_extent_ratio) const noexcept{
+    stability_report report;
+
+    unsigned nb_used_nodes = 0;
+    for(const node& n: node_lst_){
+        if(!n.is_used()) continue;
+        nb_used_nodes++;
+        const auto [n_x, n_y, n_z] = n.pos_.to_array();
+        if(!std::isfinite(n_x) || !std::isfinite(n_y) || !std::isfinite(n_z)) report.nb_non_finite_nodes++;
+    }
+    if(nb_used_nodes == 0) return report; //nothing to integrate, nothing to diverge
+
+    //get_aabb() skips non-finite coordinates (NaN compares false), so the extent stays meaningful
+    const auto [min_x, min_y, min_z, max_x, max_y, max_z] = get_aabb();
+    report.extent = std::max({max_x - min_x, max_y - min_y, max_z - min_z});
+
+    //Cells created without a target volume (e.g. static cells) fall back on their current volume
+    const double reference_volume = (std::isfinite(target_volume_) && target_volume_ > 0.) ? target_volume_ : volume_;
+    report.max_extent = (std::isfinite(reference_volume) && reference_volume > 0.) ?
+                            max_extent_ratio * std::cbrt(reference_volume) :
+                            std::numeric_limits<double>::infinity();
+
+    report.unstable = report.nb_non_finite_nodes > 0 || !std::isfinite(report.extent) || report.extent > report.max_extent;
+    return report;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 void cell::update_target_volume(const double time_step) noexcept{
     assert(cell_type_ != nullptr);
     target_volume_ += time_step * growth_rate_;

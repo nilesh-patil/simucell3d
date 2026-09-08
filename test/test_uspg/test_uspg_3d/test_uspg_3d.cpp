@@ -35,6 +35,46 @@ int uspg_3d_tester::update_dimensions_test() const{
 //---------------------------------------------------------------------------------------------------------
 
 
+//---------------------------------------------------------------------------------------------------------
+// A diverged (~1e19 m) or non-finite domain must throw an unstable_simulation_exception instead of
+// wrapping the voxel count to 0 (see uspg_abstract::compute_nb_voxels)
+int uspg_3d_tester::diverged_domain_test() const{
+
+    uspg_3d<int> grid(0., 0., 0., 10., 10., 10., 1., 10);
+
+    auto throws_unstable = [&grid](double max_x, double max_y, double max_z){
+        try{
+            grid.update_dimensions(10, 0., 0., 0., max_x, max_y, max_z);
+        }
+        catch(const unstable_simulation_exception& e){
+            return std::string(e.what()).find("unstable") != std::string::npos;
+        }
+        catch(...){
+            return false;
+        }
+        return false;
+    };
+
+    bool t1 = throws_unstable(1e19, 10., 10.);
+    bool t2 = throws_unstable(10., 1e19, 10.);
+    bool t3 = throws_unstable(std::numeric_limits<double>::infinity(), 10., 10.);
+    bool t4 = throws_unstable(std::numeric_limits<double>::quiet_NaN(), 10., 10.);
+
+    bool t5 = true;
+    try{
+        grid.update_dimensions(10, 0., 0., 0., 10., 9.5, 9.);
+        t5 = grid.nb_voxels_x_ == 10 && grid.nb_voxels_y_ == 10 && grid.nb_voxels_z_ == 9 && grid.voxel_lst_.size() == 900;
+    }
+    catch(...){
+        t5 = false;
+    }
+
+    std::cout << "  t1..t5: " << t1 << t2 << t3 << t4 << t5 << std::endl;
+    return !(t1 && t2 && t3 && t4 && t5);
+}
+//---------------------------------------------------------------------------------------------------------
+
+
 
 //---------------------------------------------------------------------------------------------------------
 int uspg_3d_tester::place_object_test() const{
@@ -263,6 +303,7 @@ int main (int argc, char** argv){
     uspg_3d_tester tester;
 
     if (test_name == "update_dimensions_test")          return tester.update_dimensions_test();
+    if (test_name == "diverged_domain_test")            return tester.diverged_domain_test();
     if (test_name == "get_neighborhood_test")           return tester.get_neighborhood_test();
     if (test_name == "place_object_test")               return tester.place_object_test();
     if (test_name == "get_grid_content_test")           return tester.get_grid_content_test();
