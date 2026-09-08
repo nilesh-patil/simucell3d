@@ -19,10 +19,13 @@
 #include <cmath>
 #include <vector>
 #include <memory>
+#include <set>
+#include <algorithm>
 #include <filesystem>
 #include <unistd.h>  // For getpid()
 
 #include "solver.hpp"
+#include "cpu_topology.hpp"
 #include "cell_types/epithelial_cell.hpp"
 #include "simulation_initializer.hpp"
 #include "utils.hpp"
@@ -598,6 +601,87 @@ int test_local_ids_resynced_after_cell_removal() {
 
 
 //---------------------------------------------------------------------------------------------------------
+/**
+ * @brief Thread count and placement chosen by the solver constructor
+ *
+ * Regression for the 4-core/8-thread placement bug: with OMP_PROC_BIND=close and no OMP_PLACES,
+ * libgomp put 4 threads on CPUs 0,4,1,5 = two physical cores. The solver now pins threads itself:
+ * the default thread count is the number of physical cores the process may use, and no two of
+ * those threads share a physical core. An explicit nb_threads must be honoured verbatim.
+ */
+int test_thread_placement() {
+    std::cout << "Running test_thread_placement..." << std::endl;
+
+    std::string test_output_dir = create_unique_output_dir("thread_placement");
+
+    try {
+        std::vector<cell_ptr> cell_lst = create_test_cells_from_parameter_file();
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+
+        const cpu_topology::topology topo = cpu_topology::detect(cpu_topology::allowed_cpus());
+        const int nb_physical_cores = topo.nb_physical_cores();
+
+        // Explicit thread count is honoured
+        bool t1;
+        {
+            solver s(sim_params, cell_lst, 2, true, false, "static");
+            t1 = (s.get_nb_threads() == 2 && omp_get_max_threads() == 2);
+            std::cout << "  t1 (nb_threads=2 honoured): " << t1 << std::endl;
+        }
+
+        // Default (-1) = one thread per physical core, each on its own core
+        solver s(sim_params, cell_lst, -1, true, false, "static");
+        bool t2 = (s.get_nb_threads() == nb_physical_cores);
+        std::cout << "  t2 (default thread count " << s.get_nb_threads() << " == physical cores "
+                  << nb_physical_cores << "): " << t2 << std::endl;
+
+        std::vector<int> thread_cpu(s.get_nb_threads(), -1);
+#pragma omp parallel
+        {
+            thread_cpu[omp_get_thread_num()] = cpu_topology::current_thread_cpu();
+        }
+
+        bool t3 = true;  // every thread pinned to exactly one allowed CPU
+        bool t4 = true;  // no two threads on the same physical core
+        std::set<std::pair<int, int>> cores_used;
+        for (int cpu : thread_cpu) {
+            auto it = std::find_if(topo.cpus.begin(), topo.cpus.end(),
+                                   [cpu](const cpu_topology::logical_cpu& c) { return c.id == cpu; });
+            if (cpu < 0 || it == topo.cpus.end()) {
+                t3 = false;
+                continue;
+            }
+            if (!cores_used.insert({it->package, it->core}).second) t4 = false;
+        }
+        std::cout << "  thread -> cpu:";
+        for (int cpu : thread_cpu) std::cout << " " << cpu;
+        std::cout << std::endl;
+        if (!cpu_topology::pinning_requested()) {
+            std::cout << "  (pinning disabled by environment; skipping t3/t4)" << std::endl;
+            t3 = t4 = true;
+        }
+        std::cout << "  t3 (each thread pinned to an allowed CPU): " << t3 << std::endl;
+        std::cout << "  t4 (threads on distinct physical cores): " << t4 << std::endl;
+
+        if (!(t1 && t2 && t3 && t4)) {
+            std::cout << "test_thread_placement FAILED" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+        std::cout << "test_thread_placement PASSED" << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main(int argc, char** argv) {
 
@@ -612,6 +696,7 @@ int main(int argc, char** argv) {
     if (test_name == "test_detect_simulation_phase")          return test_detect_simulation_phase();
     if (test_name == "test_workload_heterogeneity_calculation") return test_workload_heterogeneity_calculation();
     if (test_name == "test_local_ids_resynced_after_cell_removal") return test_local_ids_resynced_after_cell_removal();
+    if (test_name == "test_thread_placement") return test_thread_placement();
 
     std::cout << "TEST NAME: " << test_name << " DOES NOT EXIST" << std::endl;
     return 1;

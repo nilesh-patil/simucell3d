@@ -178,6 +178,7 @@ class solver{
         void save_mesh() noexcept(false);
 
         const std::vector<cell_ptr>& get_cell_lst() const noexcept{return cell_lst_;}
+        unsigned short int get_nb_threads() const noexcept{return nb_threads_;}
         const global_simulation_parameters& get_sim_parameters() const noexcept{return sim_parameters_;}
 
 

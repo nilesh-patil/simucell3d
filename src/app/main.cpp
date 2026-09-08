@@ -5,37 +5,14 @@
 #include "solver.hpp"
 #include "mesh_writer.hpp"
 
-#ifdef __linux__
-#include <sched.h>  // For CPU affinity detection
-#endif
-
-// External reference to global variable defined in solver.cpp
-// We capture the original CPU count VERY EARLY in main() before OpenMP initialization
-extern int g_original_cpu_count;
-
 int main (int argc, char** argv){
-
-    // Capture CPU affinity early in main() for CPU restriction detection
-    // The static initializer in solver.cpp also captures this, but we update here
-    // in case the affinity changes between static init and main()
-    #ifdef __linux__
-    cpu_set_t original_mask;
-    CPU_ZERO(&original_mask);
-    if (sched_getaffinity(0, sizeof(original_mask), &original_mask) == 0) {
-        int current_count = CPU_COUNT(&original_mask);
-        // Use the maximum of what static initializer captured vs what we see now
-        // This handles the case where OpenMP modifies affinity after static init
-        if (g_original_cpu_count < current_count) {
-            g_original_cpu_count = current_count;
-        }
-    }
-    #endif
 
     //Get the path to the input parameter file and optional scheduling mode
 	std::string path_parameter_file;
     std::string schedule_mode = "adaptive"; // default to adaptive (intelligent per-loop) scheduling
     std::string diagnostics_csv_path = ""; // default: no custom diagnostics path
     std::string custom_output_dir = ""; // default: use XML output_mesh_folder_path
+    int nb_threads = -1; // default: one thread per physical core (see cpu_topology.hpp)
 
     if (argc >= 2){
         // Parse all arguments - flags can appear anywhere, parameter file is the non-flag argument
@@ -75,6 +52,7 @@ int main (int argc, char** argv){
                     std::cout << "  --schedule=MODE        : adaptive (default), static, dynamic, guided" << std::endl;
                     std::cout << "  --output-dir=PATH      : Override output directory" << std::endl;
                     std::cout << "  --diagnostics-csv=PATH : Export diagnostics to CSV" << std::endl;
+                    std::cout << "  --threads=N            : Number of OpenMP threads (default: physical cores)" << std::endl;
                     return 1;
                 }
             }
@@ -82,6 +60,18 @@ int main (int argc, char** argv){
                 diagnostics_csv_path = arg.substr(18); // Extract value after "--diagnostics-csv="
                 if(diagnostics_csv_path.empty()){
                     std::cerr << "Error: --diagnostics-csv requires a file path" << std::endl;
+                    return 1;
+                }
+            }
+            else if(arg.find("--threads=") == 0){
+                const std::string value = arg.substr(10); // Extract value after "--threads="
+                try{
+                    size_t consumed = 0;
+                    nb_threads = std::stoi(value, &consumed);
+                    if(consumed != value.size() || nb_threads <= 0) throw std::invalid_argument(value);
+                }
+                catch(const std::exception&){
+                    std::cerr << "Error: --threads requires a positive integer, got '" << value << "'" << std::endl;
                     return 1;
                 }
             }
@@ -153,6 +143,10 @@ int main (int argc, char** argv){
         std::cout << "\nOutput options:" << std::endl;
         std::cout << "  --output-dir=PATH      : Override output directory from XML" << std::endl;
         std::cout << "  --diagnostics-csv=PATH : Export metrics to CSV (every 100 iterations)" << std::endl;
+        std::cout << "\nParallelism:" << std::endl;
+        std::cout << "  --threads=N            : OpenMP threads (default: one per physical core allowed" << std::endl;
+        std::cout << "                           by taskset/cgroups; threads are pinned one per core," << std::endl;
+        std::cout << "                           SIMUCELL3D_PIN_THREADS=0 disables pinning)" << std::endl;
 
         return 1;
     }
@@ -171,7 +165,7 @@ int main (int argc, char** argv){
         }
 
         //Initialize the solver with scheduling mode and optional diagnostics path
-        solver_ =  solver(sim_params, sim_init.get_cell_lst(), -1, false, true, schedule_mode, diagnostics_csv_path);
+        solver_ =  solver(sim_params, sim_init.get_cell_lst(), nb_threads, false, true, schedule_mode, diagnostics_csv_path);
 
         //Run the simulation
         solver_.run();
