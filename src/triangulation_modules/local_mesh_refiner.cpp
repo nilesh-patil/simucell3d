@@ -1,5 +1,8 @@
 #include "local_mesh_refiner.hpp"
 
+#include <atomic>
+#include <iostream>
+
 
 
 /*
@@ -140,8 +143,20 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
     // This is expected with fine meshes and small cells - the mesh is "good enough" even if
     // not perfectly converged to the l_min/l_max constraints
     if(oscillation_detected){
-        // Mesh oscillation detected but simulation can continue
-        // The mesh quality is acceptable even without full convergence
+        // Mesh oscillation detected but simulation can continue.
+        // The bail-out abandons every edge still in edge_to_check_set, so the cell can leave this
+        // call with edges outside [l_min, l_max] and with sliver triangles. That is silent by
+        // construction, which made it impossible to tell from a production log whether it ever
+        // fires. Count it and report the first occurrences so the hypothesis can be checked
+        // against a real run instead of guessed at.
+        static std::atomic<unsigned long> nb_bailouts{0};
+        const unsigned long n = ++nb_bailouts;
+        if(n <= 20 || n % 1000 == 0){
+            std::cerr << "local_mesh_refiner: oscillation bail-out on cell " << c->get_id()
+                      << " after " << iteration << " operations, "
+                      << edge_to_check_set.size() << " edges left unchecked"
+                      << " (occurrence " << n << ")" << std::endl;
+        }
         return;
     }
 
