@@ -52,9 +52,12 @@ class uspg_3d: public uspg_abstract
     void update_dimensions(const size_t nb_objects, const double min_x, const double min_y, const double min_z, 
         const double max_x, const double max_y, const double max_z) noexcept(false) override{
 
-            assert(min_x < max_x);
-            assert(min_y < max_y);
-            assert(min_z < max_z);
+            //Nothing to store: one empty voxel
+            if(set_empty_grid(nb_objects, min_x, min_y, min_z, max_x, max_y, max_z)){
+                voxel_lst_.clear();
+                voxel_lst_.resize(1);
+                return;
+            }
 
             //Clear the grid
             voxel_lst_.clear();
@@ -62,10 +65,15 @@ class uspg_3d: public uspg_abstract
             //Add a small padding to make sure that the point (max_x, max_y, max_z) is in the grid
             constexpr double delta = std::numeric_limits<double>::epsilon();
 
-            //Recompute the number of voxels in the grid
-            nb_voxels_x_ = static_cast<unsigned>(std::ceil((max_x + delta - min_x) / voxel_size_));
-            nb_voxels_y_ = static_cast<unsigned>(std::ceil((max_y + delta - min_y) / voxel_size_));
-            nb_voxels_z_ = static_cast<unsigned>(std::ceil((max_z + delta - min_z) / voxel_size_));
+            //Recompute the number of voxels in the grid (throws if the domain has diverged or is not finite,
+            //before the asserts below would abort a Debug build on a NaN bound)
+            nb_voxels_x_ = compute_nb_voxels(min_x, max_x, 'x');
+            nb_voxels_y_ = compute_nb_voxels(min_y, max_y, 'y');
+            nb_voxels_z_ = compute_nb_voxels(min_z, max_z, 'z');
+
+            assert(min_x < max_x);
+            assert(min_y < max_y);
+            assert(min_z < max_z);
             //Cast first operand to size_t to prevent 32-bit overflow when multiplying
             const size_t total_nb_voxels = static_cast<size_t>(nb_voxels_x_) * nb_voxels_y_ * nb_voxels_z_;
 
@@ -80,7 +88,12 @@ class uspg_3d: public uspg_abstract
 
 
             //Resize the grid
-            voxel_lst_.resize(total_nb_voxels);
+            try{
+                voxel_lst_.resize(total_nb_voxels);
+            }
+            catch(const std::bad_alloc& e){
+                throw unstable_simulation_exception("The mesh is too large, the simulation is probably unstable. Reducing the time step might help.");
+            }
     }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 

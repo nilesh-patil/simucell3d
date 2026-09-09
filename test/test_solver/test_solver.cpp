@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include <limits>
 #include <vector>
 #include <memory>
 #include <set>
@@ -602,6 +603,125 @@ int test_local_ids_resynced_after_cell_removal() {
 
 //---------------------------------------------------------------------------------------------------------
 /**
+ * @brief Numerically unstable cells are dropped at the removal step, like below-min_vol cells
+ *
+ * Regression for the 20-hour "hang" of the paper-config run at ~11k iterations / 15k cells: a single
+ * cell went unstable, its nodes diverged to ~1e19 m, and from then on the contact model's USPG could
+ * not be built (voxel count overflow) so every iteration degenerated into an O(N^2) scan. The solver
+ * now removes a cell as soon as its AABB is > 10x wider than its target volume implies, or any node
+ * coordinate is non-finite, and counts the removal for performance_diagnostics.csv.
+ *
+ * Setup: [cell0, runaway, cell1] where "runaway" is a copy of cell1 with one node pulled far away
+ * (target volume reset to the healthy value, as the solver keeps it across the mesh blowing up).
+ * remove_dead_cells() is called directly: a full run_iteration() would first refine the giant
+ * triangles, which is not what is under test.
+ *
+ * @return 0 on success, 1 on failure
+ */
+int test_unstable_cell_removed() {
+    std::cout << "Running test_unstable_cell_removed..." << std::endl;
+
+    std::string test_output_dir = create_unique_output_dir("unstable_cell_removed");
+
+    try {
+        std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+
+        if (loaded.size() < 2) {
+            std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        const double healthy_volume = loaded[1]->get_volume();
+        const double healthy_extent = loaded[1]->check_numerical_stability().extent;
+
+        // A healthy cell is nowhere near the threshold (its extent is ~1.2-2 V^(1/3), the limit is 10 V^(1/3))
+        cell::stability_report healthy = loaded[1]->check_numerical_stability();
+        bool t1 = !healthy.unstable && healthy.nb_non_finite_nodes == 0 && healthy.extent < 0.5 * healthy.max_extent;
+        std::cout << "  t1 (healthy cell passes: extent " << healthy.extent << " < max " << healthy.max_extent
+                  << "): " << t1 << std::endl;
+        if (!t1) {
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        // Pull one node of a copy of cell1 far away (1000x the cell size), keep the healthy target volume
+        mesh runaway_mesh = loaded[1]->get_mesh();
+        runaway_mesh.node_pos_lst[0] += 1000. * healthy_extent;
+        cell_ptr runaway = std::make_shared<epithelial_cell>(runaway_mesh, 1000u, loaded[1]->get_cell_type());
+        runaway->initialize_cell_properties();
+        runaway->set_target_volume(healthy_volume);
+
+        cell::stability_report report = runaway->check_numerical_stability();
+        bool t2 = report.unstable && report.nb_non_finite_nodes == 0 && report.extent > report.max_extent;
+        std::cout << "  t2 (displaced node flagged: extent " << report.extent << " > max " << report.max_extent
+                  << "): " << t2 << std::endl;
+        if (!t2) {
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        // A NaN coordinate is flagged whatever the extent (NaN is skipped by the AABB)
+        mesh nan_mesh = loaded[1]->get_mesh();
+        nan_mesh.node_pos_lst[1] = std::numeric_limits<double>::quiet_NaN();
+        cell_ptr nan_cell = std::make_shared<epithelial_cell>(nan_mesh, 1001u, loaded[1]->get_cell_type());
+        nan_cell->initialize_cell_properties(false);
+        cell::stability_report nan_report = nan_cell->check_numerical_stability();
+        bool t3 = nan_report.unstable && nan_report.nb_non_finite_nodes == 1;
+        std::cout << "  t3 (NaN node flagged, " << nan_report.nb_non_finite_nodes << " non-finite): " << t3 << std::endl;
+        if (!t3) {
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        std::vector<cell_ptr> cell_lst = {loaded[0], runaway, loaded[1]};
+        solver s(sim_params, cell_lst, 1, true, false, "static");
+
+        // The solver constructor must not have touched the target volume we set
+        runaway->set_target_volume(healthy_volume);
+        s.remove_dead_cells();
+
+        const std::vector<cell_ptr>& after = s.get_cell_lst();
+        bool t4 = after.size() == 2 && after[0] == loaded[0] && after[1] == loaded[1];
+        std::cout << "  t4 (runaway cell removed, the two healthy cells survive in order): " << t4
+                  << " (cells: " << after.size() << ")" << std::endl;
+
+        bool t5 = s.get_nb_unstable_cells_removed() == 1;
+        std::cout << "  t5 (removal counted for the diagnostics CSV): " << t5 << std::endl;
+
+        bool t6 = true;
+        for (size_t i = 0; i < after.size(); i++) {
+            if (after[i]->get_local_id() != i) t6 = false;
+        }
+        std::cout << "  t6 (local ids equal list index after removal): " << t6 << std::endl;
+
+        // Nothing else is removed on a second pass
+        s.remove_dead_cells();
+        bool t7 = s.get_cell_lst().size() == 2 && s.get_nb_unstable_cells_removed() == 1;
+        std::cout << "  t7 (healthy cells kept on the next pass): " << t7 << std::endl;
+
+        if (!(t4 && t5 && t6 && t7)) {
+            std::cout << "FAILED: unstable cell removal" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        std::cout << "test_unstable_cell_removed PASSED" << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+/**
  * @brief Thread count and placement chosen by the solver constructor
  *
  * Regression for the 4-core/8-thread placement bug: with OMP_PROC_BIND=close and no OMP_PLACES,
@@ -696,6 +816,7 @@ int main(int argc, char** argv) {
     if (test_name == "test_detect_simulation_phase")          return test_detect_simulation_phase();
     if (test_name == "test_workload_heterogeneity_calculation") return test_workload_heterogeneity_calculation();
     if (test_name == "test_local_ids_resynced_after_cell_removal") return test_local_ids_resynced_after_cell_removal();
+    if (test_name == "test_unstable_cell_removed") return test_unstable_cell_removed();
     if (test_name == "test_thread_placement") return test_thread_placement();
 
     std::cout << "TEST NAME: " << test_name << " DOES NOT EXIST" << std::endl;

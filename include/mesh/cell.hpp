@@ -216,9 +216,22 @@ class cell: public std::enable_shared_from_this<cell> {
         //Make sure that all the nodes are used by the faces and that the cell is not storing unsued nodes
         void remove_unused_nodes() noexcept;
 
-        //Returns wether or not the cell is below the minimum allowed cell volume 
+        //Returns wether or not the cell is below the minimum allowed cell volume
         bool is_below_min_vol() const noexcept{assert(cell_type_ != nullptr); return volume_ < cell_type_->min_vol_;}
         bool is_static() const noexcept {return is_static_;}
+
+        //Outcome of check_numerical_stability(): why (and how badly) a cell's mesh has diverged
+        struct stability_report{
+            bool unstable = false;
+            double extent = 0.;              //largest side of the cell AABB
+            double max_extent = 0.;          //the extent above which the cell is declared unstable
+            unsigned nb_non_finite_nodes = 0;//nodes with a NaN or infinite coordinate
+        };
+
+        //A cell whose explicit integration has blown up: any node with a non-finite coordinate, or an AABB
+        //wider than max_extent_ratio times the cube root of its target volume (a healthy cell of target
+        //volume V spans ~1.2 V^(1/3); 10 V^(1/3) is well beyond any flattened or dividing epithelial cell).
+        stability_report check_numerical_stability(const double max_extent_ratio = 10.) const noexcept;
 
         //Apply a force on all the nodes of the cell
         void add_force(const vec3& force) noexcept{
