@@ -1,6 +1,70 @@
 #include "cell_divider.hpp"
 #include <cmath>
 #include <iostream>
+#include <set>
+#include <map>
+#include <array>
+#include <algorithm>
+#include <numeric>
+
+
+namespace {
+
+//-----------------------------------------------------------------------------------------------
+//Triangulate a simple 2D polygon (z ignored) by ear clipping. Returns triplets of indices into the
+//polygon, or an empty vector if no ear can be found (the polygon is not simple)
+std::vector<std::array<unsigned, 3>> triangulate_polygon_by_ear_clipping(const std::vector<vec3>& polygon){
+
+    auto cross_z = [](const vec3& a, const vec3& b, const vec3& c){
+        return (b.dx() - a.dx()) * (c.dy() - a.dy()) - (b.dy() - a.dy()) * (c.dx() - a.dx());
+    };
+
+    //Orientation of the polygon, from the sign of its area
+    double twice_area = 0.;
+    for(size_t i = 0; i < polygon.size(); i++){
+        const vec3& a = polygon[i];
+        const vec3& b = polygon[(i + 1) % polygon.size()];
+        twice_area += a.dx() * b.dy() - b.dx() * a.dy();
+    }
+    const double orientation = twice_area > 0. ? 1. : -1.;
+
+    std::vector<unsigned> remaining(polygon.size());
+    std::iota(remaining.begin(), remaining.end(), 0);
+
+    std::vector<std::array<unsigned, 3>> triangle_lst;
+    while(remaining.size() > 3){
+        bool ear_found = false;
+        for(size_t k = 0; k < remaining.size() && !ear_found; k++){
+            const unsigned i_prev = remaining[(k + remaining.size() - 1) % remaining.size()];
+            const unsigned i_curr = remaining[k];
+            const unsigned i_next = remaining[(k + 1) % remaining.size()];
+            const vec3& a = polygon[i_prev];
+            const vec3& b = polygon[i_curr];
+            const vec3& c = polygon[i_next];
+
+            //The corner must be convex and the triangle must not be degenerate
+            if(orientation * cross_z(a, b, c) <= 0.) continue;
+
+            //No other corner of the polygon may lie in the triangle
+            const bool triangle_is_empty = std::none_of(remaining.begin(), remaining.end(), [&](const unsigned i){
+                if(i == i_prev || i == i_curr || i == i_next) return false;
+                const vec3& q = polygon[i];
+                return orientation * cross_z(a, b, q) >= 0. && orientation * cross_z(b, c, q) >= 0. && orientation * cross_z(c, a, q) >= 0.;
+            });
+            if(!triangle_is_empty) continue;
+
+            triangle_lst.push_back({i_prev, i_curr, i_next});
+            remaining.erase(remaining.begin() + k);
+            ear_found = true;
+        }
+        if(!ear_found) return {};
+    }
+    triangle_lst.push_back({remaining[0], remaining[1], remaining[2]});
+    return triangle_lst;
+}
+//-----------------------------------------------------------------------------------------------
+
+}
 
 
 
@@ -197,45 +261,83 @@ mesh cell_divider::add_intersection_points(
     //the mother cell will continue to exist
     mesh m = c->get_mesh();
 
-    //Find one first edge that is intersected by the plane
-    std::optional<edge> seed_edge_opt;
+    //The plane can meet the surface along several closed curves, e.g. when it also slices a thin
+    //protrusion of the cell. Trace all of them, then cut the mother along the longest one only.
+    //The cut used to follow whichever curve contained the first intersected edge found in the edge
+    //set, which could slice a sub-micron protrusion off instead of dividing the cell body.
+    std::vector<std::vector<std::pair<edge, vec3>>> loop_lst;
+    std::set<std::pair<unsigned, unsigned>> traced_edges;
+    auto edge_key = [](const edge& e){return std::make_pair(std::min(e.n1(), e.n2()), std::max(e.n1(), e.n2()));};
+
     for(const edge& e : c->get_edge_set()){
+        if(traced_edges.count(edge_key(e)) != 0) continue;
 
         //Get the nodes of the edge
         const vec3& n1_pos = c->get_node(e.n1()).pos();
         const vec3& n2_pos = c->get_node(e.n2()).pos();
-        std::optional<vec3> intersection_point_opt = find_edge_plane_intersection(n1_pos, n2_pos, p, n);
+        if(!find_edge_plane_intersection(n1_pos, n2_pos, p, n).has_value()) continue;
 
-        if(intersection_point_opt.has_value()){
-            seed_edge_opt = e;
-            const vec3 intersection_point = intersection_point_opt.value();
-            m.node_pos_lst.insert(m.node_pos_lst.end(), {intersection_point.dx(), intersection_point.dy(), intersection_point.dz()});
-            
-            //Add the intersection point to the 2 faces that share the edge
-            const unsigned f_1_id = e.f1();
-            const unsigned f_2_id = e.f2();
-
-            //Get the id of the intersection point (size must be >= 3 for at least one node)
-            if (m.node_pos_lst.size() < 3) {
-                throw division_exception("Mesh has no nodes when computing intersection point id");
-            }
-            const unsigned intersection_point_id = static_cast<unsigned>(m.node_pos_lst.size() / 3) - 1;
-     
-            //Add the intersection point to the 2 faces
-            add_point_to_face(m, f_1_id, e.n1(), e.n2(), intersection_point_id);
-            add_point_to_face(m, f_2_id, e.n1(), e.n2(), intersection_point_id);
-            
-            break;
+        traced_edges.insert(edge_key(e));
+        try{
+            std::vector<std::pair<edge, vec3>> loop = trace_cut_loop(c, e, p, n);
+            for(const auto& [loop_edge, intersection_point] : loop) traced_edges.insert(edge_key(loop_edge));
+            loop_lst.push_back(std::move(loop));
         }
+        //A curve that cannot be followed (e.g. the plane goes exactly through a node) only matters if
+        //it is the one the cell must be cut along: skip it, and fail below if no curve is left
+        catch(const division_exception&){}
     }
-    if(!seed_edge_opt.has_value()){throw division_exception("The plane does not intersect with the cell");}
-    edge edge_to_cut = seed_edge_opt.value();
+    if(loop_lst.empty()){throw division_exception("The plane does not intersect with the cell");}
+
+    auto loop_length = [](const std::vector<std::pair<edge, vec3>>& loop){
+        double length = 0.;
+        for(size_t i = 0; i < loop.size(); i++) length += (loop[(i + 1) % loop.size()].second - loop[i].second).norm();
+        return length;
+    };
+    const auto& loop_to_cut = *std::max_element(loop_lst.begin(), loop_lst.end(),
+        [&loop_length](const auto& l1, const auto& l2){return loop_length(l1) < loop_length(l2);});
+
+    //Add the intersection points of that curve to the mesh and to the 2 faces sharing each cut edge
+    for(const auto& [edge_to_cut, intersection_point] : loop_to_cut){
+        m.node_pos_lst.insert(m.node_pos_lst.end(), {intersection_point.dx(), intersection_point.dy(), intersection_point.dz()});
+
+        //Get the id of the intersection point (size must be >= 3 for at least one node)
+        if (m.node_pos_lst.size() < 3) {
+            throw division_exception("Mesh has no nodes when computing intersection point id");
+        }
+        const unsigned intersection_point_id = static_cast<unsigned>(m.node_pos_lst.size() / 3) - 1;
+        add_point_to_face(m, edge_to_cut.f1(), edge_to_cut.n1(), edge_to_cut.n2(), intersection_point_id);
+        add_point_to_face(m, edge_to_cut.f2(), edge_to_cut.n1(), edge_to_cut.n2(), intersection_point_id);
+    }
+
+    return m;
+}
+//-----------------------------------------------------------------------------------------------
+
+
+
+
+//-----------------------------------------------------------------------------------------------
+//Follow the closed curve along which the plane cuts the surface of the cell, starting from an edge
+//that the plane intersects. Returns the cut edges in order, each with its intersection point.
+std::vector<std::pair<edge, vec3>> cell_divider::trace_cut_loop(
+    cell_ptr c,
+    const edge& seed_edge,  //An edge intersected by the plane
+    const vec3& p,          //Position of a point on the plane
+    const vec3& n           //Normal vector of the plane
+) noexcept(false){
+
+    std::optional<vec3> seed_point = find_edge_plane_intersection(c->get_node(seed_edge.n1()).pos(), c->get_node(seed_edge.n2()).pos(), p, n);
+    if(!seed_point.has_value()){throw division_exception("The plane does not intersect with the cell");}
+
+    std::vector<std::pair<edge, vec3>> loop{{seed_edge, seed_point.value()}};
+    edge edge_to_cut = seed_edge;
 
     //We cut the cell starting from f2 and when the cut reaches f1 we stop
     const face stop_face   = c->get_face(edge_to_cut.f1());
     face face_to_cut       = c->get_face(edge_to_cut.f2());
 
-    //This loop goes through all the edges that are intersected by the plane
+    //This loop goes through all the edges of the curve that are intersected by the plane
     unsigned iteration = 0;
     while(face_to_cut != stop_face){
 
@@ -274,16 +376,7 @@ mesh cell_divider::add_intersection_points(
         }
         else{throw division_exception("The plane does not intersect with the cell");}
 
-        //Add the inetsection point to the mesh object
-        m.node_pos_lst.insert(m.node_pos_lst.end(), {intersection_point.dx(), intersection_point.dy(), intersection_point.dz()});
-
-        //Add the intersection point to the 2 faces (size must be >= 3 for at least one node)
-        if (m.node_pos_lst.size() < 3) {
-            throw division_exception("Mesh has no nodes when computing intersection point id");
-        }
-        const unsigned intersection_point_id = static_cast<unsigned>(m.node_pos_lst.size() / 3) - 1;
-        add_point_to_face(m, edge_to_cut.f1(), edge_to_cut.n1(), edge_to_cut.n2(), intersection_point_id);
-        add_point_to_face(m, edge_to_cut.f2(), edge_to_cut.n1(), edge_to_cut.n2(), intersection_point_id);
+        loop.emplace_back(edge_to_cut, intersection_point);
 
         //Get the next face which is cut by the plane
         const unsigned face_to_cut_id = (edge_to_cut.f1() == face_to_cut.get_local_id()) ? edge_to_cut.f2() : edge_to_cut.f1();
@@ -293,7 +386,7 @@ mesh cell_divider::add_intersection_points(
         iteration++;
     }
 
-    return m; 
+    return loop;
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -675,6 +768,36 @@ void cell_divider::triangulate_division_interface(
         // Include original error message for better diagnostics
         throw division_exception(std::string("Delaunay triangulation failed: ") + e.what());
     }
+
+    //The Delaunay triangulation is not constrained by the boundary of the interface: when the boundary
+    //polygon is not convex, some of its sides can be missing from the triangles kept above, which leaves
+    //a hole between the interface and the rest of the surface of each daughter cell. In that case the
+    //boundary polygon alone is triangulated by ear clipping; its long edges are split afterwards, when
+    //the meshes of the daughter cells are refined.
+    const unsigned nb_boundary_points = static_cast<unsigned>(division_face_points_coords.size());
+    std::set<std::pair<unsigned, unsigned>> interface_edges;
+    for(unsigned f_id = division_face_ids_threshold; f_id < m.face_point_ids.size(); f_id++){
+        const auto& f = m.face_point_ids[f_id];
+        for(unsigned k = 0; k < 3; k++){
+            interface_edges.insert(std::make_pair(std::min(f[k], f[(k + 1) % 3]), std::max(f[k], f[(k + 1) % 3])));
+        }
+    }
+    bool boundary_is_covered = true;
+    for(unsigned i = 0; i < nb_boundary_points && boundary_is_covered; i++){
+        const unsigned a = division_point_ids_threshold + i;
+        const unsigned b = division_point_ids_threshold + (i + 1) % nb_boundary_points;
+        boundary_is_covered = interface_edges.count(std::make_pair(std::min(a, b), std::max(a, b))) != 0;
+    }
+
+    if(!boundary_is_covered){
+        const auto triangle_lst = triangulate_polygon_by_ear_clipping(division_face_points_coords);
+        if(triangle_lst.empty()){throw division_exception("The division interface could not be triangulated");}
+
+        m.face_point_ids.erase(m.face_point_ids.begin() + division_face_ids_threshold, m.face_point_ids.end());
+        for(const auto& [i1, i2, i3] : triangle_lst){
+            m.face_point_ids.insert(m.face_point_ids.end(), {division_point_ids_threshold + i1, division_point_ids_threshold + i2, division_point_ids_threshold + i3});
+        }
+    }
     //catch (const std::runtime_error& error) {
     //    throw division_exception("The Delaunay algorithm failed to triangulate the division interface.");
     //}
@@ -760,21 +883,67 @@ std::pair<cell_ptr, cell_ptr> cell_divider::create_daughter_cells(
         daughter_cell_2_node_lst[i] = mother_cell_node_lst[i];
     }
 
-    //For each daughter cell, we remove all the faces that are on a given side of the division plane
+    //Hand each face of the mother to one daughter by walking over the surface from face to face without
+    //crossing the cut (the edges joining two division points): one closed cut splits the surface into
+    //exactly two pieces. Faces used to be handed out by the side of the plane they lie on, which broke
+    //every cell that the plane meets along more than one curve: the faces around the curves that were
+    //not cut straddle the plane, and splitting them between the daughters left a hole in each.
+    const auto& mother_face_lst = daughter_cell_1->face_lst_;
+    const unsigned nb_mother_faces = static_cast<unsigned>(mother_face_lst.size());
+
+    std::map<std::pair<unsigned, unsigned>, std::vector<unsigned>> edge_face_map;
+    for(unsigned f_id = 0; f_id < nb_mother_faces; f_id++){
+        auto [n1_id, n2_id, n3_id] = mother_face_lst[f_id].get_node_ids();
+        for(auto [a, b] : {std::make_pair(n1_id, n2_id), std::make_pair(n2_id, n3_id), std::make_pair(n3_id, n1_id)}){
+            edge_face_map[std::make_pair(std::min(a, b), std::max(a, b))].push_back(f_id);
+        }
+    }
+
+    std::vector<int> piece_lst(nb_mother_faces, -1);
+    int nb_pieces = 0;
+    for(unsigned seed_face_id = 0; seed_face_id < nb_mother_faces; seed_face_id++){
+        if(piece_lst[seed_face_id] != -1) continue;
+        if(nb_pieces == 2){throw division_exception("The division cut does not split the surface of the cell in two");}
+
+        std::vector<unsigned> face_stack{seed_face_id};
+        piece_lst[seed_face_id] = nb_pieces;
+        while(!face_stack.empty()){
+            const unsigned f_id = face_stack.back();
+            face_stack.pop_back();
+
+            auto [n1_id, n2_id, n3_id] = mother_face_lst[f_id].get_node_ids();
+            for(auto [a, b] : {std::make_pair(n1_id, n2_id), std::make_pair(n2_id, n3_id), std::make_pair(n3_id, n1_id)}){
+                //Do not cross the cut
+                if(a >= division_point_ids_threshold && b >= division_point_ids_threshold) continue;
+
+                for(const unsigned neighbor_face_id : edge_face_map[std::make_pair(std::min(a, b), std::max(a, b))]){
+                    if(piece_lst[neighbor_face_id] == -1){
+                        piece_lst[neighbor_face_id] = nb_pieces;
+                        face_stack.push_back(neighbor_face_id);
+                    }
+                }
+            }
+        }
+        nb_pieces++;
+    }
+    if(nb_pieces != 2){throw division_exception("The division cut does not split the surface of the cell in two");}
+
+    //As before, daughter 1 keeps the piece lying on the negative side of the plane
+    std::array<double, 2> nb_faces_in_piece{0., 0.};
+    std::array<double, 2> nb_positive_faces_in_piece{0., 0.};
+    for(unsigned f_id = 0; f_id < nb_mother_faces; f_id++){
+        nb_faces_in_piece[piece_lst[f_id]] += 1.;
+        if(cell_divider::face_side_wrt_plane(mother_face_lst[f_id], daughter_cell_1, division_plane_origin, division_plane_normal)){
+            nb_positive_faces_in_piece[piece_lst[f_id]] += 1.;
+        }
+    }
+    const int positive_piece = (nb_positive_faces_in_piece[0] / nb_faces_in_piece[0] > nb_positive_faces_in_piece[1] / nb_faces_in_piece[1]) ? 0 : 1;
+
     std::vector<unsigned> faces_to_remove_1;
     std::vector<unsigned> faces_to_remove_2;
-
-    for(unsigned f_id = 0; f_id < daughter_cell_1->face_lst_.size(); f_id++){
-        //Get the side of the face with respect to the division plane
-        const face& f =  daughter_cell_1->face_lst_[f_id];
-
-        //If the face 1 is not deleted in the daughter cell 1, then it is deleted in the daughter cell 2
-        if(cell_divider::face_side_wrt_plane(f, daughter_cell_1, division_plane_origin, division_plane_normal)){
-            faces_to_remove_1.push_back(f_id);
-        }
-        else{
-            faces_to_remove_2.push_back(f_id);
-        }
+    for(unsigned f_id = 0; f_id < nb_mother_faces; f_id++){
+        if(piece_lst[f_id] == positive_piece) faces_to_remove_1.push_back(f_id);
+        else                                  faces_to_remove_2.push_back(f_id);
     }
     assert(faces_to_remove_1.size() != 0 && faces_to_remove_2.size() != 0);
     
