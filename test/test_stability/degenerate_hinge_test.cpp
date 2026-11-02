@@ -13,7 +13,7 @@
 
 /*
     Regression tests for the numerical blow-up observed in the paper-config growth run
-    (simulation_results/longrun_20k_fast_growth.xml) around 13k cells: individual cells
+    (parameters/longrun_fast_growth.xml) around 13k cells: individual cells
     acquire a near-degenerate ("cap") triangle that the local mesh refiner does not remove,
     and cell::apply_bending_forces() then returns a nodal force many orders of magnitude
     above the physiological scale.
@@ -39,7 +39,7 @@
 
 //---------------------------------------------------------------------------------------------------------
 // Paper-config material parameters (Runser et al. 2024, Table 2 - dynamic column),
-// mirrored from simulation_results/longrun_20k_fast_growth.xml
+// mirrored from parameters/longrun_fast_growth.xml
 static constexpr double PAPER_BENDING_MODULUS   = 2e-18;   // k_b [J]
 static constexpr double PAPER_AREA_ELASTICITY   = 1e-15;   // k_a [J]
 static constexpr double PAPER_SURFACE_TENSION   = 1e-3;    // gamma [N/m]
