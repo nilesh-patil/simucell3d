@@ -20,12 +20,14 @@ void cell_divider::run(
     //Keep track of the ids of the cells to delete
     std::vector<unsigned> cells_to_delete_lst;
 
-    //Capture the initial size to avoid data race - vector may grow during parallel execution
-    const size_t initial_cell_count = cell_lst.size();
+    //The daughter cells are collected here and appended to cell_lst only after the parallel
+    //loop: pushing them into cell_lst from inside the loop can reallocate its storage while
+    //other threads are still reading cell_lst[i].
+    std::vector<cell_ptr> daughter_lst;
 
-    //Loop over the cells (only iterate over cells that existed at loop start)
+    //Loop over the cells
     #pragma omp parallel for
-    for(size_t i = 0; i < initial_cell_count; i++){
+    for(size_t i = 0; i < cell_lst.size(); i++){
 
         //Check if the cell is ready to be divided (use result to avoid redundant call)
         const bool is_ready_to_divide = cell_lst[i]->is_ready_to_divide();
@@ -44,21 +46,23 @@ void cell_divider::run(
                     auto [daughter_1, daughter_2] = division_result.value();
 
                     //Erase all the faces and nodes of the mother cell to avoid cyclic dependencies
-                    cell_lst[i]->clear_data(); 
+                    cell_lst[i]->clear_data();
 
                     cells_to_delete_lst.push_back(i);
 
                     daughter_1->cell_id_ = max_cell_id_++;
-                    daughter_2->cell_id_ = max_cell_id_++;                
-                    
-                    cell_lst.push_back(daughter_1);
-                    cell_lst.push_back(daughter_2);
-                } 
+                    daughter_2->cell_id_ = max_cell_id_++;
+
+                    daughter_lst.push_back(daughter_1);
+                    daughter_lst.push_back(daughter_2);
+                }
             }
         }
     }
 
-    //Remove the mother cells at the end of the parallel loop 
+    cell_lst.insert(cell_lst.end(), daughter_lst.begin(), daughter_lst.end());
+
+    //Remove the mother cells at the end of the parallel loop
     if(cells_to_delete_lst.size() > 0){
         std::sort(cells_to_delete_lst.begin(), cells_to_delete_lst.end(), std::less<unsigned>());
         remove_index(cell_lst, cells_to_delete_lst);

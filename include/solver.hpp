@@ -136,6 +136,8 @@ class solver{
         unsigned int last_division_check_iteration_;
         unsigned int recent_division_count_;  // Divisions in last COV_UPDATE_INTERVAL iters (drives phase detection; reset every 50 iters)
         unsigned int diag_division_count_;    // Divisions in current diagnostics window (reset every 100 iters, after CSV export)
+        unsigned int diag_unstable_cell_count_;  // Numerically unstable cells removed in the current diagnostics window
+        unsigned int nb_unstable_cells_removed_; // ... and over the whole run
 
         //Optional custom path for diagnostics CSV export (for growth benchmarks)
         std::string diagnostics_csv_path_;  // If non-empty, use this path instead of default
@@ -177,7 +179,11 @@ class solver{
         //Write the output file
         void save_mesh() noexcept(false);
 
+        //Erase the cells below the minimum volume and the numerically unstable ones (last step of run_iteration)
+        void remove_dead_cells() noexcept;
+
         const std::vector<cell_ptr>& get_cell_lst() const noexcept{return cell_lst_;}
+        unsigned int get_nb_unstable_cells_removed() const noexcept{return nb_unstable_cells_removed_;}
         const global_simulation_parameters& get_sim_parameters() const noexcept{return sim_parameters_;}
 
 

@@ -14,6 +14,7 @@ class uspg_3d_tester
         uspg_3d_tester() = default;
 
         int update_dimensions_test() const;
+        int diverged_domain_test() const;   // Diverged / non-finite domain must throw, not overflow
         int place_object_test() const;
         int get_neighborhood_test() const;
         int get_grid_content_test() const;
