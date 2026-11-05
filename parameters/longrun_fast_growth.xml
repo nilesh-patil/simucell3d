@@ -53,7 +53,7 @@
     <input_mesh_file_path>data/input_meshes/paper_sphere.vtk</input_mesh_file_path>
 
     <!-- Output path (can be overridden via command line) -->
-    <output_mesh_folder_path>/home/nilesh-patil/projects/simucell3d/simulation_results/longrun_20k_fast_growth</output_mesh_folder_path>
+    <output_mesh_folder_path>../simulation_results/longrun_20k_fast_growth</output_mesh_folder_path>
 
     <!-- Re-triangulate the input at l_min (paper's Poisson-disc init, Supp. Fig. 1) -->
     <perform_initial_triangulation>1</perform_initial_triangulation>

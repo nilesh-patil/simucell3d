@@ -3,11 +3,11 @@
 # reproduces the ~20K-cell fast-growth benchmark (parallel_benchmark_20260124_091702).
 set -euo pipefail
 
-PROJECT=/home/nilesh-patil/projects/simucell3d
+PROJECT="$(cd "$(dirname "$0")/../.." && pwd)"
 RUN=longrun_20k_fast_growth
 OUT="$PROJECT/simulation_results/$RUN"
 LOGDIR="$PROJECT/simulation_results/${RUN}_logs"
-PARAM="$PROJECT/simulation_results/$RUN.xml"
+PARAM="$PROJECT/parameters/longrun_fast_growth.xml"
 
 # Make sure no stale instance is running
 pkill -9 -f "simucell3d --schedule=adaptive --output-dir=$OUT" 2>/dev/null || true
