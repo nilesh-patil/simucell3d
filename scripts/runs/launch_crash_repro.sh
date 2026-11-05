@@ -3,15 +3,15 @@
 # using a Release-equivalent binary built with debug symbols (build-dbg/).
 # Prints all-thread backtraces on SIGSEGV; also enables core dumps as backup.
 #
-# Usage: bash simulation_results/launch_crash_repro.sh [build-dir] [run-name]
+# Usage: bash scripts/runs/launch_crash_repro.sh [build-dir] [run-name]
 set -euo pipefail
 
-PROJECT="$(cd "$(dirname "$0")/.." && pwd)"
+PROJECT="$(cd "$(dirname "$0")/../.." && pwd)"
 BUILD_DIR="${1:-build-dbg}"
 RUN="${2:-crash_repro_dbg}"
 OUT="$PROJECT/simulation_results/$RUN"
 LOGDIR="$PROJECT/simulation_results/${RUN}_logs"
-PARAM="$PROJECT/simulation_results/longrun_20k_fast_growth.xml"
+PARAM="$PROJECT/parameters/longrun_fast_growth.xml"
 
 pkill -9 -f "simucell3d --schedule=adaptive --output-dir=$OUT" 2>/dev/null || true
 sleep 1
