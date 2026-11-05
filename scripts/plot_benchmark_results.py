@@ -21,6 +21,7 @@ Output:
 
 import sys
 import re
+import json
 from pathlib import Path
 from typing import Optional, Callable, Any, List, Dict, Tuple
 from functools import wraps
@@ -66,6 +67,9 @@ COLORS = {
 
 LABELS = {
     'v1': 'v1.0 Baseline',
+    'v1r2': 'v1.0 Baseline (r2)',
+    'v1fix': 'v1.0 + Local-id Fix',
+    'fix113r2': 'Fix113 (r2)',
     'static': 'Static Scheduler',
     'adaptive': 'Adaptive Scheduler',
 }
@@ -390,6 +394,17 @@ def load_all_data(bench_dir: Path) -> dict:
     for sched in schedulers:
         data[f'{sched.name}_log'] = parse_log_for_cells(logs_dir / f"{sched.name}.log")
 
+    # Optional per-run facts the CSVs cannot carry (commit, machine, outcome, log-derived
+    # counters); written by the staging script, keyed by scheduler name
+    notes_file = bench_dir / "run_notes.json"
+    data['run_notes'] = {}
+    if notes_file.exists():
+        try:
+            with open(notes_file) as f:
+                data['run_notes'] = json.load(f)
+        except (OSError, ValueError) as e:
+            print(f"    Warning: Could not load {notes_file}: {e}")
+
     return data
 
 
@@ -497,6 +512,53 @@ def add_stats_box(ax, text: str, position: tuple = (0.02, 0.98), fontsize: int =
 def power_law(x, a, b):
     """Power law function for curve fitting: y = a * x^b"""
     return a * np.power(x, b)
+
+
+def derive_divisions(df: pd.DataFrame, cells_col: str = 'cells',
+                     div_col: str = 'divisions') -> Tuple[Optional[pd.Series], str]:
+    """Return a per-row divisions Series and the method used to obtain it.
+
+    The simulator's logged ``divisions`` column is reset by the 50-iteration
+    adaptive-scheduling update immediately before every 100-iteration diagnostics
+    export, so it is structurally always 0 in older runs. When the logged column
+    carries no signal we fall back to Δcells: every division nets +1 cell (two
+    daughters replace one mother), so the positive change in cell count between
+    consecutive samples is a faithful estimate of divisions in that window.
+
+    Args:
+        df: DataFrame with at least a cell-count column.
+        cells_col: Name of the cell-count column.
+        div_col: Name of the logged divisions column (used if it carries signal).
+
+    Returns:
+        Tuple of (divisions Series aligned to df.index, method string). Method is
+        'logged' when the recorded column is used, 'delta_cells' for the fallback,
+        or 'unavailable' when no cell-count column is present (Series is None).
+    """
+    if df is None or cells_col not in df.columns:
+        return None, 'unavailable'
+
+    if div_col in df.columns:
+        logged = df[div_col].fillna(0)
+        if logged.abs().sum() > 0:
+            return logged.clip(lower=0), 'logged'
+
+    # Fallback: divisions approx. positive change in cell count between samples
+    return df[cells_col].diff().fillna(0).clip(lower=0), 'delta_cells'
+
+
+def get_division_source(data: dict, name: str, min_rows: int = 10) -> Optional[pd.DataFrame]:
+    """Pick the best available per-scheduler source for division dynamics.
+
+    Prefers performance_diagnostics (regular iteration/cells sampling, present for
+    live-snapshot runs), then the parsed log, then computational metrics. All carry
+    'iteration' and 'cells', which is all :func:`derive_divisions` needs.
+    """
+    for key in (f'{name}_perf_diag', f'{name}_log', f'{name}_computational'):
+        df = data.get(key)
+        if df is not None and 'cells' in df.columns and len(df) >= min_rows:
+            return df
+    return None
 
 
 def sample_dataframe(df: pd.DataFrame, max_points: int = 500) -> pd.DataFrame:
@@ -618,7 +680,7 @@ def plot_02_iteration_rate_vs_cells(data: dict, output_dir: Path) -> None:
     for sched in schedulers:
         cols = get_scheduler_columns(df, sched)
         if 'cells' in cols and 'ips' in cols:
-            df_sched = df[(df[cols['ips']] > 0.1) & (df[cols['cells']] > 0)]
+            df_sched = df[(df[cols['ips']] > 0) & (df[cols['cells']] > 0)]
             if len(df_sched) > 0:
                 color = colors.get(sched, COLORS.get(sched, '#888888'))
                 scheduler_data[sched] = (df_sched, cols['cells'], cols['ips'], color)
@@ -1237,7 +1299,8 @@ def plot_06_cell_population_growth(data: dict, output_dir: Path) -> None:
         else:
             cols = get_scheduler_columns(src_df, sched)
             if 'iter' in cols and 'cells' in cols:
-                final_cells = src_df[cols['cells']].iloc[-1]
+                # Runs of unequal length leave trailing NaNs in the merged comparison
+                final_cells = src_df[cols['cells']].dropna().iloc[-1]
                 axes[0, 0].plot(src_df[cols['iter']], src_df[cols['cells']],
                                label=f"{label} (final: {int(final_cells):,})",
                                color=color, linewidth=1.5, alpha=0.8)
@@ -1670,24 +1733,39 @@ def plot_09_volume_error_vs_target(data: dict, output_dir: Path) -> None:
     plt.close()
 
 
-@requires_data('comparison')
 def plot_10_division_dynamics(data: dict, output_dir: Path) -> None:
-    """Plot 10: Division dynamics analysis."""
+    """Plot 10: Division dynamics analysis.
+
+    Divisions are taken from the logged ``divisions`` column when it carries signal,
+    otherwise reconstructed from Δcells (see :func:`derive_divisions`). This keeps the
+    plot meaningful for runs whose logged column is structurally zero.
+    """
     fig, axes = plt.subplots(2, 2, figsize=FIGSIZE_2x2)
 
     # Use log data for cell count changes - iterate over detected schedulers
     style = data.get('style_config', {})
     colors = style.get('colors', COLORS)
 
+    window = 100  # default; refined per-scheduler below, used in axis label outside the loop
+    methods_used = set()  # track 'logged' vs 'delta_cells' for an on-figure note
+    plotted_any = False
+
     for name, color, label in iter_schedulers(data):
-        df = data.get(f'{name}_log')
-        if df is None or len(df) < 10:
+        df = get_division_source(data, name)
+        if df is None:
             continue
 
-        # Calculate divisions (cell count increases)
+        # Calculate divisions (logged column if it has signal, else Δcells fallback)
         df = df.copy()
+        if 'iteration' in df.columns:
+            df = df.sort_values('iteration').reset_index(drop=True)
+        divisions, method = derive_divisions(df)
+        if divisions is None:
+            continue
+        methods_used.add(method)
+        plotted_any = True
         df['cell_diff'] = df['cells'].diff().fillna(0)
-        df['divisions'] = df['cell_diff'].clip(lower=0)
+        df['divisions'] = divisions.values
 
         # Panel A: Inter-division intervals
         division_events = df[df['divisions'] > 0]
@@ -1740,8 +1818,25 @@ def plot_10_division_dynamics(data: dict, output_dir: Path) -> None:
     axes[1, 1].legend(fontsize=9)
     axes[1, 1].grid(True, alpha=0.3)
 
+    if not plotted_any:
+        for ax in axes.flat:
+            ax.text(0.5, 0.5, 'No cell-count data available\nfor division reconstruction',
+                    ha='center', va='center', transform=ax.transAxes, fontsize=11, color='gray')
+
     plt.suptitle('Cell Division Dynamics', fontsize=14, fontweight='bold')
-    plt.tight_layout()
+
+    # Note how divisions were obtained so the plot is not mistaken for logged counts
+    if 'delta_cells' in methods_used:
+        note = ('Divisions reconstructed from Δcells (logged divisions column is '
+                'structurally 0 in this run)')
+    elif 'logged' in methods_used:
+        note = 'Divisions from logged divisions column'
+    else:
+        note = None
+    if note:
+        fig.text(0.5, 0.005, note, ha='center', fontsize=8, style='italic', alpha=0.7)
+
+    plt.tight_layout(rect=[0, 0.02, 1, 1])
     plt.savefig(output_dir / "10_division_dynamics.png", dpi=DPI, bbox_inches='tight')
     plt.close()
 
@@ -1944,8 +2039,8 @@ def plot_14_pv_phase_space(data: dict, output_dir: Path) -> None:
         return
 
     fig, axes = plt.subplots(1, max(2, len(modes)), figsize=(7 * max(2, len(modes)), 6))
-    if len(modes) == 1:
-        axes = [axes]
+    # subplots always returns a >=2-element array here (cols = max(2, len(modes))),
+    # so axes[idx] is already a single Axes; no wrapping needed.
 
     for idx, (name, (df, color)) in enumerate(modes.items()):
         if df is None or 'volume' not in df.columns or 'pressure' not in df.columns:
@@ -2229,8 +2324,8 @@ def plot_16_pressure_volume_correlation(data: dict, output_dir: Path) -> None:
         return
 
     fig, axes = plt.subplots(1, max(2, len(modes)), figsize=(7 * max(2, len(modes)), 6))
-    if len(modes) == 1:
-        axes = [axes]
+    # subplots always returns a >=2-element array here (cols = max(2, len(modes))),
+    # so axes[idx] is already a single Axes; no wrapping needed.
 
     for idx, (name, (df, color)) in enumerate(modes.items()):
         if df is None or 'volume' not in df.columns or 'pressure' not in df.columns:
@@ -2446,7 +2541,7 @@ def plot_18_speedup_analysis(data: dict, output_dir: Path) -> None:
 
     # Calculate speedups
     if 'ips' in cols1 and 'ips' in cols2:
-        df_valid = df[(df[cols1['ips']] > 0.1) & (df[cols2['ips']] > 0.1)].copy()
+        df_valid = df[(df[cols1['ips']] > 0) & (df[cols2['ips']] > 0)].copy()
 
         if len(df_valid) > 0:
             df_valid['speedup'] = df_valid[cols2['ips']] / df_valid[cols1['ips']]
@@ -2518,7 +2613,7 @@ def plot_19_complexity_analysis(data: dict, output_dir: Path) -> None:
         if df is None:
             continue
 
-        df_valid = df[(df['cells'] > 10) & (df['iter_per_sec'] > 0.1)].copy()
+        df_valid = df[(df['cells'] > 10) & (df['iter_per_sec'] > 0)].copy()
         if len(df_valid) < 10:
             continue
 
@@ -2667,7 +2762,7 @@ def plot_20_summary_dashboard(data: dict, output_dir: Path) -> None:
         cols = sd['cols']
         ips_col = cols.get('ips')
         if ips_col and ips_col in df.columns:
-            df_ips = df[df[ips_col] > 0.1]
+            df_ips = df[df[ips_col] > 0]
             if len(df_ips) > 0:
                 if 'timestamp' in df_ips.columns and df_ips['timestamp'].notna().any():
                     x = to_minutes_since_start(df_ips['timestamp'])
@@ -2689,7 +2784,7 @@ def plot_20_summary_dashboard(data: dict, output_dir: Path) -> None:
 
     iter_rate_ratio = 0
     if base_ips_col and opt_ips_col and base_ips_col in df.columns and opt_ips_col in df.columns:
-        valid_mask = df[base_ips_col] > 0.1
+        valid_mask = df[base_ips_col] > 0
         if valid_mask.any():
             iter_rate_ratio = (df.loc[valid_mask, opt_ips_col] / df.loc[valid_mask, base_ips_col]).mean()
 
@@ -2762,7 +2857,7 @@ def plot_21_roofline_analysis(data: dict, output_dir: Path) -> None:
     else:
         df = df_comp.copy()
 
-    df_valid = df[(df['cells'] > 10) & (df['iter_per_sec'] > 0.1)].copy()
+    df_valid = df[(df['cells'] > 10) & (df['iter_per_sec'] > 0)].copy()
     if len(df_valid) < 10:
         plt.close()
         return
@@ -2895,6 +2990,115 @@ def plot_21_roofline_analysis(data: dict, output_dir: Path) -> None:
 # SECTION 9: Summary Statistics Generator
 # =============================================================================
 
+def _run_table_rows(data: dict, milestones=(10_000, 50_000, 100_000)) -> List[dict]:
+    """One dict per run for the SUMMARY_STATS run tables, from its raw performance_diagnostics
+    (falls back to the computational metrics) plus the optional run_notes.json facts."""
+    notes_all = data.get('run_notes') or {}
+    rows = []
+    for name, _color, label in iter_schedulers(data):
+        d = data.get(f'{name}_perf_diag')
+        if d is None or len(d) == 0:
+            d = data.get(f'{name}_computational')
+            if d is None or len(d) == 0:
+                continue
+            d = d.rename(columns={'epoch': 'wall_epoch'})
+            if 'iter_per_sec' in d.columns:
+                d['total_iteration_ms'] = 1000.0 / d['iter_per_sec'].replace(0, np.nan)
+        d = d.dropna(subset=['iteration']).sort_values('iteration')
+        notes = notes_all.get(name, {})
+        has_epoch = 'wall_epoch' in d.columns and d['wall_epoch'].notna().any()
+        t0 = d['wall_epoch'].iloc[0] if has_epoch else np.nan
+        hours = (d['wall_epoch'] - t0) / 3600.0 if has_epoch else pd.Series(np.nan, index=d.index)
+        r = {
+            'label': label,
+            'commit': notes.get('commit', '—'),
+            'cores': notes.get('cores', '—'),
+            'outcome': notes.get('outcome', '—'),
+            'final_iter': int(d['iteration'].iloc[-1]),
+            'final_cells': int(d['cells'].iloc[-1]) if 'cells' in d.columns else None,
+            'wall_h': float(hours.iloc[-1]) if has_epoch else np.nan,
+            'peak_rss_gb': (notes['peak_rss_kb'] / 1e6) if notes.get('peak_rss_kb') else np.nan,
+            'removals': notes.get('unstable_removals'),
+        }
+        # Hours to reach each cell-count milestone (first diagnostics row at or past it)
+        for m in milestones:
+            hit = d[d['cells'] >= m] if 'cells' in d.columns else d.iloc[0:0]
+            r[f'h_to_{m}'] = float(hours.loc[hit.index[0]]) if len(hit) else np.nan
+        tot = d['total_iteration_ms'] if 'total_iteration_ms' in d.columns else pd.Series(np.nan, index=d.index)
+        valid = tot.notna() & (tot > 0)
+        if valid.any():
+            i_last = tot[valid].index[-1]
+            r['final_s_iter'] = float(tot.loc[i_last]) / 1000.0
+            # Per-cell cost strips the size difference between runs that ended at different N
+            r['final_ms_per_cell'] = float(tot.loc[i_last]) / float(d.loc[i_last, 'cells']) if 'cells' in d.columns else np.nan
+            if 'contact_detection_ms' in d.columns and pd.notna(d.loc[i_last, 'contact_detection_ms']):
+                r['final_contact_pct'] = float(d.loc[i_last, 'contact_detection_ms']) / float(tot.loc[i_last]) * 100.0
+            else:
+                r['final_contact_pct'] = np.nan
+        else:
+            r['final_s_iter'] = r['final_ms_per_cell'] = r['final_contact_pct'] = np.nan
+        # Cost at matched sizes: s/iter on the first row at or past 50k / 100k cells
+        for m in (50_000, 100_000):
+            at_m = d[valid & (d['cells'] >= m)] if 'cells' in d.columns else d.iloc[0:0]
+            r[f's_iter_at_{m}'] = float(tot.loc[at_m.index[0]]) / 1000.0 if len(at_m) else np.nan
+        if 'cov' in d.columns and d['cov'].notna().any():
+            i_cov = d['cov'].idxmax()
+            r['max_cov'] = float(d.loc[i_cov, 'cov'])
+            r['max_cov_at'] = int(d.loc[i_cov, 'iteration'])
+        else:
+            r['max_cov'] = np.nan
+            r['max_cov_at'] = None
+        if r['removals'] is None and 'unstable_cells_removed' in d.columns:
+            r['removals'] = int(d['unstable_cells_removed'].fillna(0).sum())
+        rows.append(r)
+    return rows
+
+
+def _fmt(v, spec: str = '', suffix: str = '') -> str:
+    """Markdown cell: '—' for missing values, else formatted with the given spec."""
+    if v is None or (isinstance(v, float) and np.isnan(v)):
+        return '—'
+    return f"{v:{spec}}{suffix}"
+
+
+def generate_run_tables(data: dict) -> List[str]:
+    """Markdown run-summary and performance-observation tables (one row per run)."""
+    rows = _run_table_rows(data)
+    if not rows:
+        return []
+    lines = ["\n## Run Summary\n"]
+    lines.append("| Run | Code | Cores | Final iter | Final cells | Wall time (h) | h → 10k cells | h → 50k | h → 100k | Peak RSS (GB) | Outcome |")
+    lines.append("|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|")
+    for r in rows:
+        lines.append(
+            f"| {r['label']} | {r['commit']} | {r['cores']} | {_fmt(r['final_iter'], ',')} | {_fmt(r['final_cells'], ',')} "
+            f"| {_fmt(r['wall_h'], '.1f')} | {_fmt(r['h_to_10000'], '.1f')} | {_fmt(r['h_to_50000'], '.1f')} "
+            f"| {_fmt(r['h_to_100000'], '.1f')} | {_fmt(r['peak_rss_gb'], '.1f')} | {r['outcome']} |"
+        )
+    lines.append("")
+    lines.append("Wall time is measured between the first and last performance-diagnostics rows (every 100 iterations), "
+                 "so it stops short of the true end by up to 99 iterations. Peak RSS comes from `/usr/bin/time -v`, "
+                 "which only reports for runs that ended under the wrapper.")
+    lines.append("\n## Performance Observations\n")
+    lines.append("| Run | s/iter at 50k cells | s/iter at 100k | Final s/iter | Final ms per cell-iter | Contact-detection share (final) | Max workload CoV (at iter) | Unstable cells removed |")
+    lines.append("|---|---:|---:|---:|---:|---:|---:|---:|")
+    for r in rows:
+        cov = _fmt(r['max_cov'], '.2f')
+        if r['max_cov_at'] is not None and cov != '—':
+            cov += f" ({r['max_cov_at']:,})"
+        lines.append(
+            f"| {r['label']} | {_fmt(r['s_iter_at_50000'], '.1f')} | {_fmt(r['s_iter_at_100000'], '.1f')} "
+            f"| {_fmt(r['final_s_iter'], '.1f')} | {_fmt(r['final_ms_per_cell'], '.2f')} "
+            f"| {_fmt(r['final_contact_pct'], '.0f', '%')} | {cov} | {_fmt(r['removals'], ',')} |"
+        )
+    lines.append("")
+    lines.append("Workload CoV is the per-thread contact-detection work heterogeneity (`solver::calculate_workload_heterogeneity`); "
+                 "a jump from ~0.2–0.5 to >2 marks the single-thread contact-detection crawl. Unstable-cell removals are "
+                 "counted from `Removing numerically unstable` lines in run.log when run_notes.json is present, otherwise "
+                 "summed from the diagnostics column (which only samples one iteration per row).")
+    return lines
+
+
 def generate_summary_stats(data: dict, output_dir: Path) -> str:
     """Generate comprehensive SUMMARY_STATS.md file."""
 
@@ -2905,6 +3109,8 @@ def generate_summary_stats(data: dict, output_dir: Path) -> str:
     # Get style config for labels
     style = data.get('style_config', {})
     labels = style.get('labels', LABELS)
+
+    lines.extend(generate_run_tables(data))
 
     # Run information
     df = data.get('comparison')
@@ -2931,10 +3137,11 @@ def generate_summary_stats(data: dict, output_dir: Path) -> str:
             cols = get_scheduler_columns(df, sched)
             label = labels.get(sched, sched.title())
             lines.append(f"### {label}")
-            if cols.get('iter') and cols['iter'] in df.columns:
-                lines.append(f"- Final Iteration: {int(final[cols['iter']]):,}")
-            if cols.get('cells') and cols['cells'] in df.columns:
-                lines.append(f"- Final Cell Count: {int(final[cols['cells']]):,}")
+            # Per-scheduler last valid row: shorter runs have trailing NaNs in the merge
+            if cols.get('iter') and cols['iter'] in df.columns and df[cols['iter']].notna().any():
+                lines.append(f"- Final Iteration: {int(df[cols['iter']].dropna().iloc[-1]):,}")
+            if cols.get('cells') and cols['cells'] in df.columns and df[cols['cells']].notna().any():
+                lines.append(f"- Final Cell Count: {int(df[cols['cells']].dropna().iloc[-1]):,}")
             lines.append("")
 
         # Performance metrics - dynamically iterate over detected schedulers
@@ -2944,7 +3151,7 @@ def generate_summary_stats(data: dict, output_dir: Path) -> str:
             label = labels.get(sched, sched.title())
             ips_col = cols.get('ips')
             if ips_col and ips_col in df.columns:
-                df_valid = df[df[ips_col] > 0.1]
+                df_valid = df[df[ips_col] > 0]
                 if len(df_valid) > 0:
                     lines.append(f"### {label}")
                     lines.append(f"- Avg Iteration Rate: {df_valid[ips_col].mean():.2f} iter/sec")

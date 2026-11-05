@@ -13,6 +13,7 @@ Usage:
     python preprocess_benchmark_metrics.py <benchmark_directory>
 """
 
+import os
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -154,12 +155,21 @@ def create_workload(perf_diag: pd.DataFrame) -> pd.DataFrame:
 
 
 def create_comparison(all_computational: Dict[str, pd.DataFrame]) -> Optional[pd.DataFrame]:
-    """Create cross-scheduler comparison from all computational data."""
+    """Create cross-scheduler comparison from all computational data.
+
+    Rows are aligned by wall-clock epoch (runs launched together, compared at the
+    same instant). Set BENCH_ALIGN=iteration to align by iteration instead, for
+    runs recorded at different times (e.g. the same config on different machines);
+    the first scheduler's epoch/timestamp is kept for compatibility.
+    """
     if not all_computational:
         return None
 
+    align_by_iteration = os.environ.get('BENCH_ALIGN', 'epoch') == 'iteration'
+
     # Start with the first scheduler's data
     result = None
+    base_iter = None
     for name, df in all_computational.items():
         if df is None or len(df) == 0:
             continue
@@ -174,6 +184,14 @@ def create_comparison(all_computational: Dict[str, pd.DataFrame]) -> Optional[pd
 
         if result is None:
             result = cols
+            base_iter = f'{name}_iter'
+        elif align_by_iteration:
+            # Outer join on iteration; keep every scheduler's own iteration column
+            # so per-scheduler plots still work where one run outlasts the other
+            cols = cols.drop(columns=['timestamp']).rename(columns={'epoch': f'epoch_{name}'})
+            cols['_key'] = cols[f'{name}_iter']
+            result['_key'] = result['_key'] if '_key' in result.columns else result[base_iter]
+            result = pd.merge(result, cols, on='_key', how='outer').sort_values('_key')
         else:
             # Merge on epoch with nearest match (tolerance 60 seconds)
             result = pd.merge_asof(
@@ -185,6 +203,8 @@ def create_comparison(all_computational: Dict[str, pd.DataFrame]) -> Optional[pd
                 suffixes=('', f'_{name}')
             )
 
+    if result is not None and '_key' in result.columns:
+        result = result.drop(columns=['_key']).reset_index(drop=True)
     return result
 
 

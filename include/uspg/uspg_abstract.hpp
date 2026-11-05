@@ -5,6 +5,9 @@
 #include <forward_list>
 #include <string>
 #include <iterator>
+#include <cmath>
+#include <limits>
+#include <sstream>
 
 #include "utils.hpp"
 #include "custom_exception.hpp"
@@ -103,8 +106,48 @@ class uspg_abstract
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    virtual void update_dimensions(const size_t nb_objects, const double min_x, const double min_y, const double min_z, 
+    virtual void update_dimensions(const size_t nb_objects, const double min_x, const double min_y, const double min_z,
     const double max_x, const double max_y, const double max_z) noexcept(false) = 0;
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------
+    //Number of voxels needed to cover [min, max] along one axis. Throws unstable_simulation_exception instead of
+    //letting the count wrap: a cell whose nodes have diverged to ~1e19 m gives an extent / voxel_size that does not
+    //fit in an unsigned, and static_cast<unsigned> of such a value is UB (in practice 0 voxels, after which every
+    //voxel lookup indexes an empty vector). Called from noexcept contact-model code, so the throw terminates the run
+    //with the extent in the message rather than hanging in an O(N^2) fallback.
+    unsigned compute_nb_voxels(const double min, const double max, const char axis) const noexcept(false){
+        //Add a small padding to make sure that the point (max_x, max_y, max_z) is in the grid
+        constexpr double delta = std::numeric_limits<double>::epsilon();
+        const double extent = max + delta - min;
+        const double nb_voxels = std::ceil(extent / voxel_size_);
+
+        //Anything past this is not a tissue, it is a diverging mesh (2^31 voxels of 3.4 um = 7 km)
+        constexpr double max_nb_voxels = static_cast<double>(std::numeric_limits<unsigned>::max() / 2);
+        if(!std::isfinite(min) || !std::isfinite(max) || !std::isfinite(nb_voxels) || nb_voxels < 0. || nb_voxels > max_nb_voxels){
+            std::ostringstream msg;
+            msg << "The bounding box of the simulation along the " << axis << " axis is [" << min << ", " << max
+                << "] (" << nb_voxels << " voxels of size " << voxel_size_
+                << "). The simulation is unstable: at least one cell has diverged. Reducing the time step might help.";
+            throw unstable_simulation_exception(msg.str());
+        }
+        return static_cast<unsigned>(nb_voxels);
+    }
+
+    //With nothing to store (e.g. every cell has been removed) the contact model passes the inverted (+inf, -inf)
+    //bounding box of an empty face list: collapse the grid to a single voxel at the origin instead of treating
+    //that as a diverged domain. Returns true if the grid was set up this way.
+    bool set_empty_grid(const size_t nb_objects, const double min_x, const double min_y, const double min_z,
+    const double max_x, const double max_y, const double max_z) noexcept{
+        const bool proper_box = std::isfinite(min_x) && std::isfinite(min_y) && std::isfinite(min_z) &&
+                                std::isfinite(max_x) && std::isfinite(max_y) && std::isfinite(max_z) &&
+                                min_x <= max_x && min_y <= max_y && min_z <= max_z;
+        if(nb_objects != 0 || proper_box) return false;
+        nb_voxels_x_ = nb_voxels_y_ = nb_voxels_z_ = 1;
+        min_x_ = min_y_ = min_z_ = 0.;
+        max_x_ = max_y_ = max_z_ = voxel_size_;
+        return true;
+    }
 //----------------------------------------------------------------------------------------------------------------------------------------------------
         
 //----------------------------------------------------------------------------------------------------------------------------------------------------

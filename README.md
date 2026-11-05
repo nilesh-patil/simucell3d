@@ -163,7 +163,7 @@ This fork focuses **exclusively on OpenMP scheduling optimizations**. No new sci
 |---------|-------------|
 | **Adaptive scheduling** | Intelligent mode selection based on 52 empirical benchmarks |
 | **Runtime mode selection** | `--schedule=adaptive\|static\|dynamic\|guided` flag |
-| **Hardware topology detection** | NUMA awareness, hyperthreading detection, taskset/cgroup handling |
+| **Hardware topology detection** | One pinned thread per physical core by default (honours taskset/cgroups, spreads across sockets); `--threads=N` overrides |
 | **Per-loop custom scheduling** | Phase-specific schedules (contact=dynamic, integration=guided, mesh=static) |
 | **Performance monitoring** | CSV diagnostics export via `--diagnostics-csv` flag |
 | **Unified benchmark framework** | Crash recovery, live monitoring, HTML reports |
@@ -223,10 +223,11 @@ cd build
 **Production Run (Optimized):**
 ```bash
 cd build
-export OMP_NUM_THREADS=$(nproc)  # Use all available physical cores
-export OMP_PROC_BIND=close       # Bind threads to cores for better cache locality
+export OMP_WAIT_POLICY=passive   # Reduce CPU spinning when idle
 ./simucell3d ../parameters/core/parameters_default_dynamic.xml --schedule=adaptive
 ```
+
+The binary detects the physical cores it is allowed to use (respecting `taskset`/cgroups) and pins one thread to each; `--threads=N` overrides the count (e.g. to use hyperthreads).
 
 > **Note:** The `--schedule=adaptive` flag enables intelligent scheduling that adapts to your workload. Omitting it still works (backward compatible) but may be slower. See [Production Usage](#production-usage) below for advanced configuration.
 
@@ -242,11 +243,15 @@ For production simulations with maximum performance, configure OpenMP environmen
 cd build
 
 # Configure OpenMP for optimal performance
-export OMP_NUM_THREADS=16                # Set to your physical core count (not hyperthreaded)
-export OMP_PROC_BIND=close              # Bind threads to cores for cache locality
-export OMP_PLACES=cores                 # Use physical cores only
 export OMP_WAIT_POLICY=passive          # Reduce CPU spinning when idle
 export OMP_DYNAMIC=false                # Disable dynamic thread adjustment
+
+# Thread count and placement are chosen by the binary: one thread pinned to each
+# physical core the process may use. Do not combine with OMP_PROC_BIND alone
+# (without OMP_PLACES, libgomp's default place order doubles threads up on
+# hyperthread siblings). Setting OMP_PLACES yourself, or SIMUCELL3D_PIN_THREADS=0,
+# hands placement back to the OpenMP runtime.
+#   --threads=N   override the thread count (e.g. N = logical CPUs to use hyperthreads)
 
 # Run with auto-scheduler (recommended)
 ./simucell3d ../parameters/core/parameters_default_dynamic.xml --schedule=adaptive

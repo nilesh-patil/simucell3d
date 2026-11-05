@@ -280,8 +280,19 @@ void contact_face_face_via_coupling::resolve_contact(cell_ptr c1, cell_ptr c2, n
         double squared_distance_f_n2 = (n1.pos() - f_n2_pos).squared_norm();
         double squared_distance_f_n3 = (n1.pos() - f_n3_pos).squared_norm();
 
-        //Check if the node of c1 has already been coupled to a node of c2
-        auto it_n1 = n1.coupled_nodes_map_.find(c2->get_id());
+        //Check if the node of c1 has already been coupled to a node of c2.
+        //GitHub issue #113: coupled_nodes_map_ is keyed by the coupled cell's LOCAL id
+        //(see set_coupled_node_and_min_distance() below, and run()/time_integration which
+        //index cell_lst with the key). Looking it up by the GLOBAL id missed on every cell
+        //whose global id had drifted from its local id - i.e. on every cell once the tissue
+        //started dividing - so previous_min_squared_distance stayed DBL_MAX, the
+        //"keep the closest partner" test at the bottom of this block always passed, and the
+        //coupling partner became whichever candidate the threads happened to visit last.
+        //Coupled nodes are then teleported onto their common average position by run() and
+        //by the integrator, so a non-nearest partner shears the mesh by up to the adhesion
+        //cutoff every iteration - five orders of magnitude more than the per-step motion the
+        //forces produce - which is how sub-l_min edges and sliver triangles are seeded.
+        auto it_n1 = n1.coupled_nodes_map_.find(c2->get_local_id());
 
         //Save the previous shortest distance between the node n1 and the nodes of the cell
         const double previous_min_squared_distance = (it_n1 != n1.coupled_nodes_map_.end()) ? it_n1->second.second : std::numeric_limits<double>::max();
@@ -305,9 +316,10 @@ void contact_face_face_via_coupling::resolve_contact(cell_ptr c1, cell_ptr c2, n
         if(n1.normal_.dot(f_n3.normal_) > max_dot_product_adhesion_){squared_distance_f_n3 = std::numeric_limits<double>::max();}
 
         //Check if the nodes of the face are already coupled to other nodes on c1
-        auto it_f_n1 = f_n1.coupled_nodes_map_.find(c1->get_id());
-        auto it_f_n2 = f_n2.coupled_nodes_map_.find(c1->get_id());
-        auto it_f_n3 = f_n3.coupled_nodes_map_.find(c1->get_id());
+        //Same key mismatch as above (issue #113): the map is keyed by local, not global, cell id
+        auto it_f_n1 = f_n1.coupled_nodes_map_.find(c1->get_local_id());
+        auto it_f_n2 = f_n2.coupled_nodes_map_.find(c1->get_local_id());
+        auto it_f_n3 = f_n3.coupled_nodes_map_.find(c1->get_local_id());
 
         //If the nodes of the face are already coupled to other nodes on c1, and if the distance with these nodes is smaller than the distance with the node n1
         if(it_f_n1 !=  f_n1.coupled_nodes_map_.end() && it_f_n1->second.second < squared_distance_f_n1){squared_distance_f_n1 = std::numeric_limits<double>::max();}
