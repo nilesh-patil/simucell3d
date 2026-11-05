@@ -5,6 +5,11 @@ on:
     - cron: '0 0 * * 0'  # Midnight UTC every Sunday
   workflow_dispatch:
 
+env:
+  # CMake 4 (ubuntu-latest) rejects cmake_minimum_required(VERSION < 3.5),
+  # which 70 of our CMakeLists.txt still declare.
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
 jobs:
   stress-test:
     name: Weekly Stress (${{ matrix.name }})
