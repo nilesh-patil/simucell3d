@@ -35,6 +35,61 @@ int uspg_4d_tester::update_dimensions_test() const{
 //---------------------------------------------------------------------------------------------------------
 
 
+//---------------------------------------------------------------------------------------------------------
+// Regression for the 20-hour "hang" of the paper-config run: a cell whose nodes had diverged to ~1e19 m
+// gave a domain extent / voxel_size that does not fit in an unsigned, static_cast<unsigned> wrapped
+// to 0 voxels, and every voxel lookup then indexed an empty vector. The grid must now refuse such a
+// domain with an unstable_simulation_exception (and likewise for non-finite bounds).
+int uspg_4d_tester::diverged_domain_test() const{
+
+    uspg_4d<int> grid(0., 0., 0., 10., 10., 10., 1., 10);
+
+    auto throws_unstable = [&grid](double max_x, double max_y, double max_z){
+        try{
+            grid.update_dimensions(10, 0., 0., 0., max_x, max_y, max_z);
+        }
+        catch(const unstable_simulation_exception& e){
+            return std::string(e.what()).find("unstable") != std::string::npos;
+        }
+        catch(...){
+            return false;
+        }
+        return false;
+    };
+
+    bool t1 = throws_unstable(1e19, 10., 10.);   // the production failure: unsigned overflow on one axis
+    bool t2 = throws_unstable(10., 10., 1e19);
+    bool t3 = throws_unstable(std::numeric_limits<double>::infinity(), 10., 10.);
+    bool t4 = throws_unstable(std::numeric_limits<double>::quiet_NaN(), 10., 10.);
+
+    // A sane domain still works afterwards: the guard must not leave the grid in a broken state
+    bool t5 = true;
+    try{
+        grid.update_dimensions(10, 0., 0., 0., 10., 9.5, 9.);
+        t5 = grid.nb_voxels_x_ == 10 && grid.nb_voxels_y_ == 10 && grid.nb_voxels_z_ == 9 && grid.voxel_lst_.size() == 900;
+    }
+    catch(...){
+        t5 = false;
+    }
+
+    // An empty tissue (every cell removed) hands the grid the inverted (+inf, -inf) box of an empty face
+    // list: that is not a diverged domain, it must give a single empty voxel
+    bool t6 = true;
+    try{
+        constexpr double inf = std::numeric_limits<double>::infinity();
+        grid.update_dimensions(0, inf, inf, inf, -inf, -inf, -inf);
+        t6 = grid.nb_voxels_x_ == 1 && grid.nb_voxels_y_ == 1 && grid.nb_voxels_z_ == 1 && grid.voxel_lst_.size() == 1;
+    }
+    catch(...){
+        t6 = false;
+    }
+
+    std::cout << "  t1..t6: " << t1 << t2 << t3 << t4 << t5 << t6 << std::endl;
+    return !(t1 && t2 && t3 && t4 && t5 && t6);
+}
+//---------------------------------------------------------------------------------------------------------
+
+
 
 //---------------------------------------------------------------------------------------------------------
 int uspg_4d_tester::place_object_test() const{
@@ -362,6 +417,7 @@ int main (int argc, char** argv){
 
     // Existing tests
     if (test_name == "update_dimensions_test")     return tester.update_dimensions_test();
+    if (test_name == "diverged_domain_test")            return tester.diverged_domain_test();
     if (test_name == "get_neighborhood_test")           return tester.get_neighborhood_test();
     if (test_name == "place_object_test")               return tester.place_object_test();
     if (test_name == "get_grid_content_test")           return tester.get_grid_content_test();
