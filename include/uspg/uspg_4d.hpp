@@ -58,6 +58,13 @@ class uspg_4d: public uspg_abstract
     //Update the grid dimensions
     void update_dimensions(const size_t nb_objects, const double min_x, const double min_y, const double min_z, 
     const double max_x, const double max_y, const double max_z) noexcept(false) override{
+        //Nothing to store: one empty voxel
+        if(set_empty_grid(nb_objects, min_x, min_y, min_z, max_x, max_y, max_z)){
+            voxel_lst_.clear();
+            voxel_lst_.resize(1);
+            return;
+        }
+
         //Ensure non-degenerate bounding box (cells may collapse to a point under extreme parameters)
         constexpr double min_extent = 1e-10;
         const double safe_max_x = (max_x <= min_x) ? min_x + min_extent : max_x;
@@ -70,10 +77,10 @@ class uspg_4d: public uspg_abstract
         //Add a small padding to make sure that the point (max_x, max_y, max_z) is in the grid
         constexpr double delta = std::numeric_limits<double>::epsilon();
 
-        //Recompute the number of voxels in the grid
-        nb_voxels_x_ = static_cast<unsigned>(std::ceil((safe_max_x + delta - min_x) / voxel_size_));
-        nb_voxels_y_ = static_cast<unsigned>(std::ceil((safe_max_y + delta - min_y) / voxel_size_));
-        nb_voxels_z_ = static_cast<unsigned>(std::ceil((safe_max_z + delta - min_z) / voxel_size_));
+        //Recompute the number of voxels in the grid (throws if the domain has diverged)
+        nb_voxels_x_ = compute_nb_voxels(min_x, safe_max_x, 'x');
+        nb_voxels_y_ = compute_nb_voxels(min_y, safe_max_y, 'y');
+        nb_voxels_z_ = compute_nb_voxels(min_z, safe_max_z, 'z');
         //Cast first operand to size_t to prevent 32-bit overflow when multiplying
         const size_t total_nb_voxels = static_cast<size_t>(nb_voxels_x_) * nb_voxels_y_ * nb_voxels_z_;
 

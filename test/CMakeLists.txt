@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 
 add_subdirectory(test_utils)
+add_subdirectory(test_cpu_topology)
 add_subdirectory(test_uspg)
 add_subdirectory(test_math_modules)
 add_subdirectory(test_mesh)

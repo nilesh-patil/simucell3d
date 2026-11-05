@@ -1301,6 +1301,37 @@ std::array<double, 6> cell::get_aabb() const noexcept{
 
 
 //---------------------------------------------------------------------------------------------------------
+//Detect a cell whose mesh has diverged (see cell.hpp). Deliberately measured against the target volume
+//and not the current one: a blown-up mesh has a meaningless (huge, negative or NaN) volume.
+cell::stability_report cell::check_numerical_stability(const double max_extent_ratio) const noexcept{
+    stability_report report;
+
+    unsigned nb_used_nodes = 0;
+    for(const node& n: node_lst_){
+        if(!n.is_used()) continue;
+        nb_used_nodes++;
+        const auto [n_x, n_y, n_z] = n.pos_.to_array();
+        if(!std::isfinite(n_x) || !std::isfinite(n_y) || !std::isfinite(n_z)) report.nb_non_finite_nodes++;
+    }
+    if(nb_used_nodes == 0) return report; //nothing to integrate, nothing to diverge
+
+    //get_aabb() skips non-finite coordinates (NaN compares false), so the extent stays meaningful
+    const auto [min_x, min_y, min_z, max_x, max_y, max_z] = get_aabb();
+    report.extent = std::max({max_x - min_x, max_y - min_y, max_z - min_z});
+
+    //Cells created without a target volume (e.g. static cells) fall back on their current volume
+    const double reference_volume = (std::isfinite(target_volume_) && target_volume_ > 0.) ? target_volume_ : volume_;
+    report.max_extent = (std::isfinite(reference_volume) && reference_volume > 0.) ?
+                            max_extent_ratio * std::cbrt(reference_volume) :
+                            std::numeric_limits<double>::infinity();
+
+    report.unstable = report.nb_non_finite_nodes > 0 || !std::isfinite(report.extent) || report.extent > report.max_extent;
+    return report;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 void cell::update_target_volume(const double time_step) noexcept{
     assert(cell_type_ != nullptr);
     target_volume_ += time_step * growth_rate_;
@@ -1387,8 +1418,8 @@ void cell::apply_surface_tension_and_membrane_elasticity() noexcept{
     target_area_ = std::cbrt(cell_type_->target_isoperimetric_ratio_ * volume_ * volume_);
     const double membrane_elasticity_factor =  -(cell_type_->area_elasticity_modulus_ / target_area_) * ((area_ / target_area_) - 1.);
 
-    //Reset the membrane elasticity and surface tension energy  
-    membrane_elasticity_energy_ = 0.;
+    //Whole-cell membrane elasticity energy: U_m = k_a/2 * (A/A_0 - 1)^2 (eq. 1 of the paper)
+    membrane_elasticity_energy_ = 0.5 * cell_type_->area_elasticity_modulus_ * std::pow((area_ / target_area_) - 1., 2.);
     surface_tension_energy_ = 0.;
 
     //Loop over the faces
@@ -1432,8 +1463,7 @@ void cell::apply_surface_tension_and_membrane_elasticity() noexcept{
             n2.add_force(force_n2);
             n3.add_force(force_n3);
 
-            //Update the membrane elasticity energy and surface tension energy
-            //membrane_elasticity_energy_ += 0.5 * cell_type_->area_elasticity_modulus_ * std::pow((f.get_area() / target_area_face) - 1., 2.);
+            //Update the surface tension energy
             surface_tension_energy_     += 0.5 * face_type.surface_tension_ * f.get_area();
         }
     }
