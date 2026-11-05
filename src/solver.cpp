@@ -1,28 +1,6 @@
 #include "solver.hpp"
-#include <pthread.h>  // For pthread_setaffinity_np
-#include <sched.h>    // For cpu_set_t
+#include "cpu_topology.hpp"
 #include <iomanip>    // For std::setprecision
-#include <set>        // For std::set (hardware topology detection)
-
-// Global variable to store original CPU count captured before OpenMP initialization
-// Defined here so it's accessible from both main.cpp and solver.cpp
-int g_original_cpu_count = -1;
-
-// Static initializer to capture CPU affinity BEFORE any OpenMP initialization
-// This runs during C++ static initialization, before main() and before OpenMP runtime init
-#ifdef __linux__
-struct EarlyCPUCapture {
-    EarlyCPUCapture() {
-        cpu_set_t mask;
-        CPU_ZERO(&mask);
-        if (sched_getaffinity(0, sizeof(mask), &mask) == 0) {
-            g_original_cpu_count = CPU_COUNT(&mask);
-        }
-    }
-};
-// Create a static instance to trigger the constructor before main()
-static EarlyCPUCapture early_capture;
-#endif
 
 //--------------------------------------------------------------------------------------------------------------------------
 // Helper function: Calculate coefficient of variation for workload heterogeneity
@@ -314,268 +292,6 @@ static std::string multi_factor_heuristic(size_t num_cells, int num_threads, con
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Hardware topology detection helper functions
-struct HardwareTopology {
-    int num_logical_cpus;    // Total logical CPUs (with hyperthreading)
-    int num_physical_cores;  // Physical cores only
-    int threads_per_core;    // Hyperthreading factor (usually 1 or 2)
-    int num_numa_nodes;      // NUMA topology
-    bool is_single_socket;   // True if single-socket system
-};
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Detect hardware topology
-static HardwareTopology detect_hardware_topology() {
-    HardwareTopology topology;
-
-    // Get logical CPU count from OpenMP
-    topology.num_logical_cpus = omp_get_num_procs();
-
-    // Detect threads per core and physical cores
-    // Method 1: Try reading from /sys/devices/system/cpu/cpu0/topology/thread_siblings_list
-    std::ifstream topology_file("/sys/devices/system/cpu/cpu0/topology/thread_siblings_list");
-    if (topology_file.is_open()) {
-        std::string siblings;
-        std::getline(topology_file, siblings);
-        topology_file.close();
-
-        // Count commas to determine threads per core
-        int comma_count = std::count(siblings.begin(), siblings.end(), ',');
-        topology.threads_per_core = comma_count + 1;
-        topology.num_physical_cores = topology.num_logical_cpus / topology.threads_per_core;
-    } else {
-        // Fallback: Try reading /proc/cpuinfo to count unique physical cores
-        // Fixed BUG #8: Don't assume HT based on CPU count (fails on 32+ core systems)
-        std::ifstream cpuinfo("/proc/cpuinfo");
-        std::set<int> physical_cores;
-        bool found_physical_id = false;
-
-        if (cpuinfo.is_open()) {
-            std::string line;
-            while (std::getline(cpuinfo, line)) {
-                if (line.find("core id") == 0) {
-                    size_t colon_pos = line.find(':');
-                    if (colon_pos != std::string::npos) {
-                        int core_id = std::stoi(line.substr(colon_pos + 1));
-                        physical_cores.insert(core_id);
-                        found_physical_id = true;
-                    }
-                }
-            }
-            cpuinfo.close();
-
-            if (found_physical_id && !physical_cores.empty()) {
-                topology.num_physical_cores = physical_cores.size();
-                topology.threads_per_core = topology.num_logical_cpus / topology.num_physical_cores;
-            } else {
-                // Final fallback: Assume no hyperthreading (safest assumption)
-                topology.threads_per_core = 1;
-                topology.num_physical_cores = topology.num_logical_cpus;
-            }
-        } else {
-            // Cannot read any topology files: assume no hyperthreading
-            topology.threads_per_core = 1;
-            topology.num_physical_cores = topology.num_logical_cpus;
-        }
-    }
-
-    // Detect NUMA nodes
-    topology.num_numa_nodes = 1;  // Default assumption
-    std::ifstream numa_file("/sys/devices/system/node/online");
-    if (numa_file.is_open()) {
-        std::string numa_range;
-        std::getline(numa_file, numa_range);
-        numa_file.close();
-
-        // Parse range like "0" or "0-1" or "0-3"
-        size_t dash_pos = numa_range.find('-');
-        if (dash_pos != std::string::npos) {
-            int max_node = std::stoi(numa_range.substr(dash_pos + 1));
-            topology.num_numa_nodes = max_node + 1;
-        }
-    }
-
-    topology.is_single_socket = (topology.num_numa_nodes == 1);
-
-    return topology;
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Detect if running under CPU restrictions (taskset, cgroups, cpusets)
-static bool is_cpu_restricted(int topology_physical_cores, bool verbose) {
-#ifdef __linux__
-    // Use the CPU count captured in main() BEFORE OpenMP initialization
-    // This avoids the race condition where OMP_PROC_BIND=close modifies the affinity
-    // mask before we can detect the original taskset restrictions
-    int allowed_cpus = g_original_cpu_count;
-
-    // Fallback: If g_original_cpu_count wasn't captured (shouldn't happen), query now
-    if (allowed_cpus < 0) {
-        cpu_set_t mask;
-        CPU_ZERO(&mask);
-        int result = sched_getaffinity(0, sizeof(mask), &mask);
-        if (result != 0) {
-            if (verbose) {
-                std::cout << "CPU Restriction Detection: Failed to query affinity (errno: " << errno << ")"
-                          << std::endl;
-                std::cout << "  Assuming unrestricted execution" << std::endl;
-            }
-            return false;
-        }
-        allowed_cpus = CPU_COUNT(&mask);
-    }
-
-    // Get system-wide CPU count (not affected by taskset/cgroup restrictions)
-    // This reads /sys/devices/system/cpu/present which shows the actual hardware
-    int system_total_cpus = allowed_cpus;  // Default fallback
-    std::ifstream cpu_present("/sys/devices/system/cpu/present");
-    if (cpu_present.is_open()) {
-        std::string line;
-        if (std::getline(cpu_present, line)) {
-            // Format: "0-15" or "0-7,16-23" etc.
-            size_t dash = line.find('-');
-            if (dash != std::string::npos) {
-                try {
-                    int max_cpu = std::stoi(line.substr(dash + 1));
-                    system_total_cpus = max_cpu + 1;
-                } catch (...) {
-                    // Fallback to allowed_cpus on parse error
-                }
-            }
-        }
-        cpu_present.close();
-    }
-
-    bool is_restricted = (allowed_cpus < system_total_cpus);
-
-    if (verbose) {
-        std::cout << "CPU Restriction Detection:" << std::endl;
-        std::cout << "  System total CPUs: " << system_total_cpus << std::endl;
-        std::cout << "  Available to process: " << allowed_cpus << std::endl;
-        std::cout << "  Status: " << (is_restricted ? "RESTRICTED (taskset/cgroup/cpuset active)" : "UNRESTRICTED")
-                  << std::endl;
-
-        if (is_restricted) {
-            std::cout << "  Note: Process constrained to " << allowed_cpus << "/" << system_total_cpus << " cores"
-                      << std::endl;
-            std::cout << "        OpenMP placement strategy will adapt to avoid thread collapse" << std::endl;
-        }
-    }
-
-    return is_restricted;
-
-#else
-    // Non-Linux systems: assume unrestricted
-    if (verbose) {
-        std::cout << "CPU Restriction Detection: Non-Linux platform, assuming unrestricted" << std::endl;
-    }
-    return false;
-#endif
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Configure OpenMP for optimal CPU utilization
-static void configure_cpu_optimization(const HardwareTopology& topology, bool verbose) {
-    if (topology.is_single_socket) {
-        // Single-socket optimization: Use physical cores only, bind threads to cores
-        if (verbose) {
-            std::cout << "CPU Optimization: Single-socket detected" << std::endl;
-            std::cout << "  Logical CPUs: " << topology.num_logical_cpus << std::endl;
-            std::cout << "  Physical cores: " << topology.num_physical_cores << std::endl;
-            std::cout << "  Threads/core: " << topology.threads_per_core << std::endl;
-
-            if (topology.threads_per_core > 1) {
-                std::cout << "  Strategy: Using physical cores only (disabling hyperthreading)" << std::endl;
-                std::cout << "  Rationale: Compute-intensive workloads perform better without HT contention"
-                          << std::endl;
-            }
-        }
-
-        // Set thread affinity to bind threads to physical cores
-        // OMP_PROC_BIND=close: Bind threads to consecutive cores
-        // OMP_PLACES=cores: Map to physical cores, not logical threads
-        setenv("OMP_PROC_BIND", "close", 0);  // Don't overwrite if already set
-        setenv("OMP_PLACES", "cores", 0);
-
-    } else {
-        // Multi-socket NUMA optimization
-        if (verbose) {
-            std::cout << "CPU Optimization: Multi-socket NUMA detected" << std::endl;
-            std::cout << "  NUMA nodes: " << topology.num_numa_nodes << std::endl;
-        }
-
-        // Check if running under CPU restrictions (taskset, cgroups, cpusets)
-        bool is_taskset_restricted = is_cpu_restricted(topology.num_physical_cores, verbose);
-
-        if (is_taskset_restricted) {
-            // TASKSET MODE: Core restrictions detected
-            // Problem: OMP_PLACES=sockets conflicts with taskset, causing thread collapse
-            // Solution: Use OMP_PLACES=cores for compatibility with kernel core restrictions
-            if (verbose) {
-                std::cout << "  Strategy: Core-level binding (adapting to CPU restrictions)" << std::endl;
-                std::cout << "  Rationale: OMP_PLACES=sockets conflicts with taskset/cgroup constraints" << std::endl;
-                std::cout << "             Using OMP_PLACES=cores to spread threads across allocated cores"
-                          << std::endl;
-            }
-            setenv("OMP_PROC_BIND", "close", 0);
-            setenv("OMP_PLACES", "cores", 0);
-
-        } else {
-            // UNRESTRICTED MODE: Full NUMA optimization
-            // Spread threads across NUMA nodes for better memory bandwidth
-            if (verbose) {
-                std::cout << "  Strategy: Spread threads across NUMA nodes (unrestricted execution)" << std::endl;
-                std::cout << "  Rationale: Maximize memory bandwidth by distributing across sockets" << std::endl;
-            }
-            setenv("OMP_PROC_BIND", "spread", 0);
-            setenv("OMP_PLACES", "sockets", 0);
-        }
-    }
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Pin threads to specific cores for deterministic performance
-static void pin_threads_to_cores(int num_threads, bool verbose) {
-#ifdef __linux__
-#pragma omp parallel
-    {
-        int tid = omp_get_thread_num();
-
-        // Create CPU set for affinity
-        cpu_set_t cpuset;
-        CPU_ZERO(&cpuset);
-
-        // Pin thread to specific core
-        // Thread 0 → Core 0, Thread 1 → Core 1, etc.
-        CPU_SET(tid, &cpuset);
-
-        // Apply affinity to current thread
-        int result = pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
-
-        if (result != 0 && verbose && tid == 0) {
-            std::cerr << "Warning: Failed to set thread affinity (error: " << result << ")" << std::endl;
-            std::cerr << "Performance may be less predictable due to thread migration" << std::endl;
-        }
-
-        // Verify affinity was set (only print from thread 0 to avoid output spam)
-        if (verbose && tid == 0) {
-            cpu_set_t verify_set;
-            CPU_ZERO(&verify_set);
-            pthread_getaffinity_np(pthread_self(), sizeof(verify_set), &verify_set);
-
-            std::cout << "Thread Pinning: Enabled (threads pinned to specific cores)" << std::endl;
-            std::cout << "  Benefit: Eliminates performance variability from thread migration" << std::endl;
-            std::cout << "  Expected: 30-40% reduction in performance variance" << std::endl;
-        }
-    }
-#else
-    if (verbose) {
-        std::cout << "Thread Pinning: Not available on this platform (Linux only)" << std::endl;
-    }
-#endif
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
 // Helper function: Calculate optimal chunk size based on problem characteristics
 static int calculate_optimal_chunk_size(size_t num_cells, int num_threads, double heterogeneity_cov,
                                         const std::string& schedule_mode) {
@@ -642,40 +358,53 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
 
     assert(cell_lst_.size() > 0);
 
-    // Detect hardware topology and configure CPU optimization
-    HardwareTopology hw_topology = detect_hardware_topology();
-    configure_cpu_optimization(hw_topology, verbose_);
+    // Thread count and placement. See cpu_topology.hpp for why the solver pins its own
+    // threads instead of relying on OMP_PROC_BIND/OMP_PLACES.
+    const std::vector<int> allowed_cpus = cpu_topology::allowed_cpus();
+    const cpu_topology::topology topo = cpu_topology::detect(allowed_cpus);
+    const int nb_physical_cores = std::max(1, topo.nb_physical_cores());
 
-    // By default use physical cores only (better for compute-intensive workloads)
-    // User can override by specifying nb_threads explicitly
+    // By default use one thread per physical core (hyperthread siblings compete for the
+    // same execution units in this compute-bound kernel). Override with nb_threads > 0.
     if (nb_threads <= 0) {
-        nb_threads_ = hw_topology.num_physical_cores;
+        nb_threads_ = static_cast<unsigned short>(nb_physical_cores);
         if (verbose_) {
             std::cout << "Thread count: Using " << nb_threads_ << " physical cores "
-                      << "(out of " << hw_topology.num_logical_cpus << " logical CPUs)" << std::endl;
+                      << "(out of " << allowed_cpus.size() << " allowed logical CPUs, "
+                      << topo.threads_per_core() << " threads/core, " << topo.nb_packages() << " socket(s))"
+                      << std::endl;
         }
     } else {
-        nb_threads_ = nb_threads;
+        nb_threads_ = static_cast<unsigned short>(nb_threads);
         if (verbose_) {
-            std::cout << "Thread count: User-specified " << nb_threads_ << " threads" << std::endl;
+            std::cout << "Thread count: User-specified " << nb_threads_ << " threads "
+                      << "(" << nb_physical_cores << " physical cores, " << allowed_cpus.size()
+                      << " allowed logical CPUs)" << std::endl;
         }
     }
 
     // Set OpenMP thread count
     omp_set_num_threads(nb_threads_);
 
-    // Optional: Pin threads to specific cores for deterministic performance
-    // DISABLED BY DEFAULT due to initialization issues causing SIGSEGV
-    // Enable with: export SIMUCELL3D_PIN_THREADS=1
-    const char* pin_env = std::getenv("SIMUCELL3D_PIN_THREADS");
-    bool enable_pinning = (pin_env != nullptr && std::string(pin_env) == "1");
-
-    if (enable_pinning) {
-        pin_threads_to_cores(nb_threads_, verbose_);
+    // Pin thread i to the i-th CPU of the placement order: one thread per physical core
+    // until the cores are exhausted, then the hyperthread siblings.
+    if (cpu_topology::pinning_requested()) {
+        const std::vector<int> order = cpu_topology::placement_order(topo);
+        int nb_pin_failures = 0;
+#pragma omp parallel reduction(+ : nb_pin_failures)
+        {
+            const int cpu_id = order[static_cast<size_t>(omp_get_thread_num()) % order.size()];
+            if (!cpu_topology::pin_current_thread(cpu_id)) nb_pin_failures++;
+        }
+        if (verbose_) {
+            std::cout << "Thread pinning: enabled, thread i -> CPU";
+            for (int i = 0; i < nb_threads_; i++) std::cout << (i ? "," : " ") << order[i % order.size()];
+            std::cout << (nb_pin_failures ? "  (WARNING: " + std::to_string(nb_pin_failures) + " threads could not be pinned)" : "")
+                      << std::endl;
+        }
     } else if (verbose_) {
-        std::cout << "Thread Pinning: Disabled (default)" << std::endl;
-        std::cout << "  To enable: export SIMUCELL3D_PIN_THREADS=1" << std::endl;
-        std::cout << "  Note: Experimental feature, may cause crashes" << std::endl;
+        std::cout << "Thread pinning: disabled (SIMUCELL3D_PIN_THREADS=0 or OMP_PLACES set); "
+                  << "placement left to the OpenMP runtime" << std::endl;
     }
 
     // Measure workload heterogeneity (Phase 1: will be updated every 50 iterations)
@@ -866,14 +595,6 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
 
     // Set the number of threads (already computed earlier in constructor)
     omp_set_num_threads(nb_threads_);
-
-    // Configure NUMA awareness for better multi-socket performance
-    // Note: Thread affinity can also be set via environment variable:
-    //   export OMP_PROC_BIND=close
-    //   export OMP_PLACES=cores
-    // The omp_set_proc_bind() function is only available in OpenMP 4.0+
-    // and may not be available in all implementations, so we rely on
-    // environment variables for NUMA configuration.
 
     // Set the OpenMP schedule for runtime scheduling
     omp_set_schedule(schedule_kind_, schedule_chunk_size_);

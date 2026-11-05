@@ -44,3 +44,4 @@ add_test(NAME solver_test_detect_simulation_phase             COMMAND test_solve
 add_test(NAME solver_test_workload_heterogeneity_calculation  COMMAND test_solver test_workload_heterogeneity_calculation)
 add_test(NAME solver_test_local_ids_resynced_after_cell_removal COMMAND test_solver test_local_ids_resynced_after_cell_removal)
 add_test(NAME solver_test_unstable_cell_removed              COMMAND test_solver test_unstable_cell_removed)
+add_test(NAME solver_test_thread_placement                    COMMAND test_solver test_thread_placement)

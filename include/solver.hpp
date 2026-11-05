@@ -183,6 +183,7 @@ class solver{
         void remove_dead_cells() noexcept;
 
         const std::vector<cell_ptr>& get_cell_lst() const noexcept{return cell_lst_;}
+        unsigned short int get_nb_threads() const noexcept{return nb_threads_;}
         unsigned int get_nb_unstable_cells_removed() const noexcept{return nb_unstable_cells_removed_;}
         const global_simulation_parameters& get_sim_parameters() const noexcept{return sim_parameters_;}
 
