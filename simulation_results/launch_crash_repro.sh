@@ -6,7 +6,7 @@
 # Usage: bash simulation_results/launch_crash_repro.sh [build-dir] [run-name]
 set -euo pipefail
 
-PROJECT=/home/nilesh-patil/projects/simucell3d
+PROJECT="$(cd "$(dirname "$0")/.." && pwd)"
 BUILD_DIR="${1:-build-dbg}"
 RUN="${2:-crash_repro_dbg}"
 OUT="$PROJECT/simulation_results/$RUN"
