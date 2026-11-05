@@ -1481,6 +1481,36 @@ void cell::apply_bending_forces() noexcept{
    //Angle threshold below which we don't apply any bending force on the nodes of the hinge, to prevent numerical instabilities
    constexpr double max_angle_threshold = 135. * M_PI / 180.;
 
+   /* DEGENERACY GUARD (root-cause fix for the paper-config divergence at ~13k cells).
+
+      The discrete bending gradient below carries three singularities that are artefacts of the
+      discretisation, not physics:
+
+          grad_x2_theta = normal_1 * (edge_length / (2 * f1.get_area()))          ~ 1/A
+          grad_x0_theta = (... cot(alpha_3) + ... cot(alpha_4)) * (-1/edge_length) ~ cot(alpha)
+          prefactor_3   = edge_length^2 / (2 * sum_face_areas^2)                   ~ 1/A^2
+
+      The only guards upstream ships are exact-equality tests (area == 0., alpha == 0.), which
+      never fire for a triangle of area 1e-21 m^2 with an interior angle of 1e-8 rad. Measured on
+      a paper-sized cell (test/test_stability/degenerate_hinge_test.cpp): flattening one triangle
+      to 1.7e-21 m^2 multiplies the largest nodal force by 2.2e6 (1.0e-10 N -> 2.3e-4 N), and one
+      semi-implicit Euler step (dt = 1e-7 s, node mass ~ 8e-17 kg) then moves that node by 2.8e-2 m
+      - 5900 cell diameters in a single time step. That is the observed jump from ~1e-4 m to
+      1e6-1e19 m between two consecutive stability checks.
+
+      A hinge whose incident triangles are flatter than min_triangle_quality * l_max^2 is skipped,
+      and cot(alpha) is clamped. A refiner-maintained mesh has a worst triangle quality of ~0.05
+      (equilateral = 0.433), i.e. 500x above the threshold, so every well-shaped hinge - which is
+      all of them in the published configurations - produces bit-identical forces to the unguarded
+      code. Only hinges the mesh refiner has already failed to repair are affected. */
+   constexpr double min_triangle_quality = 1e-4;  //area / l_max^2; equilateral = 0.433
+   constexpr double max_cotangent        = 1e3;   //|cot(alpha)|, i.e. alpha clamped to [1e-3, pi-1e-3] rad
+   const auto clamped_cot = [max_cotangent](const double angle) noexcept {
+        const double c = cot(angle);
+        if(!std::isfinite(c)) return 0.;
+        return std::max(-max_cotangent, std::min(max_cotangent, c));
+   };
+
    //Only apply if some of the face types have a bending rigidicty greater than 0
    if(std::all_of(cell_type_->face_types_.begin(), cell_type_->face_types_.end(), [](const face_type_parameters& f){return f.bending_modulus_ ==  0.;})) return;
 
@@ -1565,9 +1595,17 @@ void cell::apply_bending_forces() noexcept{
         if(edge_length == 0. || f1.get_area() == 0 || f2.get_area() == 0.) continue;
         if(alpha_1 == 0. || alpha_2 == 0. || alpha_3 == 0. || alpha_4 == 0.) continue;
 
+        //DEGENERACY GUARD: skip the hinge when either incident triangle is a sliver. The bending
+        //gradient is 1/area and 1/area^2 in those triangles; see the comment at the top of the method.
+        const double l_max_f1 = std::max({edge_length, e1.norm(), e3.norm()});
+        const double l_max_f2 = std::max({edge_length, e2.norm(), e4.norm()});
+        if(f1.get_area() < min_triangle_quality * l_max_f1 * l_max_f1) continue;
+        if(f2.get_area() < min_triangle_quality * l_max_f2 * l_max_f2) continue;
+
         //Compute the gradient of the angle theta wrt the position of each node position
-        const vec3 grad_x0_theta = (normal_1 * cot(alpha_3)   + normal_1 * cot(alpha_4)) * (-1. / edge_length);
-        const vec3 grad_x1_theta = (normal_1 * cot(alpha_1)   + normal_1 * cot(alpha_2)) * (-1. / edge_length);
+        //(cot() is clamped: it diverges for the near-collinear triangles the refiner cannot repair)
+        const vec3 grad_x0_theta = (normal_1 * clamped_cot(alpha_3) + normal_1 * clamped_cot(alpha_4)) * (-1. / edge_length);
+        const vec3 grad_x1_theta = (normal_1 * clamped_cot(alpha_1) + normal_1 * clamped_cot(alpha_2)) * (-1. / edge_length);
         const vec3 grad_x2_theta = normal_1 * (edge_length / (2. * f1.get_area()));
         const vec3 grad_x3_theta = normal_2 * (edge_length / (2. * f2.get_area()));
 

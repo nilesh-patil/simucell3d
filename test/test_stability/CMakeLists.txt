@@ -54,6 +54,26 @@ target_include_directories(extreme_parameters_test PUBLIC
     "${PROJECT_SOURCE_DIR}/include/triangulation_modules"
     "${PROJECT_SOURCE_DIR}/include/math_modules"
 )
+# --- Degenerate hinge / bending force blow-up test ---
+# Root-cause regression for the paper-config growth run divergence at ~13k cells:
+# a near-degenerate triangle must not produce an unbounded bending force.
+add_executable(degenerate_hinge_test degenerate_hinge_test.cpp)
+target_link_libraries(degenerate_hinge_test PUBLIC
+    src mesh io contact_models time_integration triangulation_modules
+)
+target_include_directories(degenerate_hinge_test PUBLIC
+    "${PROJECT_SOURCE_DIR}/include/"
+    "${PROJECT_SOURCE_DIR}/include/mesh"
+    "${PROJECT_SOURCE_DIR}/include/io"
+    "${PROJECT_SOURCE_DIR}/include/contact_models"
+    "${PROJECT_SOURCE_DIR}/include/time_integration"
+    "${PROJECT_SOURCE_DIR}/include/triangulation_modules"
+    "${PROJECT_SOURCE_DIR}/include/math_modules"
+)
+add_test(NAME stability_degenerate_hinge_force_bounded       COMMAND degenerate_hinge_test test_degenerate_hinge_force_is_bounded)
+add_test(NAME stability_degenerate_hinge_force_saturates     COMMAND degenerate_hinge_test test_degenerate_hinge_force_saturates)
+add_test(NAME stability_healthy_mesh_untouched_by_guard      COMMAND degenerate_hinge_test test_healthy_mesh_untouched_by_guard)
+
 add_test(NAME stability_extreme_zero_bulk_modulus            COMMAND extreme_parameters_test test_zero_bulk_modulus)
 add_test(NAME stability_extreme_high_pressure                COMMAND extreme_parameters_test test_high_pressure)
 add_test(NAME stability_extreme_degenerate_mesh              COMMAND extreme_parameters_test test_degenerate_mesh)

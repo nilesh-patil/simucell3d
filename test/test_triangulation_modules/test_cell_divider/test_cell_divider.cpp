@@ -623,6 +623,59 @@ int delaunay_exception_message_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// Division of a cell whose division plane cuts its surface along more than one closed curve.
+// The two fixtures are mothers taken from iteration 13000 of a paper-config growth run, where they had
+// failed to divide on every iteration for 27 and 108 iterations ("The surface of cell N is not properly
+// triangulated"). Each carries a thin, sheet-like protrusion that the plane (through the centroid, normal
+// to the longest axis) also slices, so the plane meets the surface in a large loop and a sub-micron one.
+// The divider used to cut along only one loop and then hand faces to the daughters by the side of the
+// plane they lie on, which split the uncut protrusion between both daughters and left holes in each.
+int divide_cell_multi_loop_plane_test(){
+
+    auto cell_parameters = create_cell_type_parameters();
+    const double l_min = 1e-6;
+    local_mesh_refiner lmr(l_min, 3. * l_min, true);
+
+    int nb_failures = 0;
+    for(const std::string cell_name : {"stuck_mother_60905", "stuck_mother_45093"}){
+
+        mesh_reader reader(std::string(PROJECT_SOURCE_DIR) + "/test/test_triangulation_modules/test_cell_divider/" + cell_name + ".vtk");
+        std::vector<mesh> cell_mesh_lst = reader.read();
+        assert(cell_mesh_lst.size() == 1);
+
+        cell_ptr c = std::make_shared<epithelial_cell>(cell_mesh_lst[0], 0, cell_parameters);
+        c->initialize_cell_properties();
+        const double mother_volume = c->compute_volume();
+
+        auto division_result = cell_divider::divide_cell(c, l_min, lmr);
+        if(!division_result.has_value()){
+            std::cout << "FAIL: " << cell_name << " could not be divided" << std::endl;
+            nb_failures++;
+            continue;
+        }
+
+        auto [daughter_1, daughter_2] = division_result.value();
+        const double v1 = daughter_1->compute_volume();
+        const double v2 = daughter_2->compute_volume();
+
+        //The daughters must share the mother's volume, and the cut must go through the cell body,
+        //not through the protrusion (which would give one daughter a sliver of the mother)
+        const bool volume_conserved = std::abs(v1 + v2 - mother_volume) < 0.05 * mother_volume;
+        const bool body_was_cut = std::min(v1, v2) > 0.2 * mother_volume;
+
+        std::cout << cell_name << ": mother " << mother_volume << " m^3, daughters " << v1 << " and " << v2 << " m^3" << std::endl;
+        if(!volume_conserved || !body_was_cut){
+            std::cout << "FAIL: " << cell_name << " was divided into the wrong pieces" << std::endl;
+            nb_failures++;
+        }
+    }
+
+    return nb_failures;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
@@ -647,6 +700,7 @@ int main (int argc, char** argv){
     if (test_name == "add_point_to_face_insufficient_nodes_test") return add_point_to_face_insufficient_nodes_test();
     if (test_name == "unused_variable_efficiency_test")         return unused_variable_efficiency_test();
     if (test_name == "delaunay_exception_message_test")         return delaunay_exception_message_test();
+    if (test_name == "divide_cell_multi_loop_plane_test")       return divide_cell_multi_loop_plane_test();
 
 
     
