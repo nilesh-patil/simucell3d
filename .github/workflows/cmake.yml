@@ -5,6 +5,17 @@ on:
     branches: [main, develop, version-cpp-next]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch, tag or SHA to build and test (e.g. a stacked layer)'
+        required: true
+        default: main
+
+env:
+  # CMake 4 (ubuntu-latest) rejects cmake_minimum_required(VERSION < 3.5),
+  # which 70 of our CMakeLists.txt still declare.
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
 
 jobs:
   # Release build - primary CI check
@@ -13,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}   # empty on push/pull_request: the event's ref
 
       - name: Configure CMake (Release)
         run: cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -30,6 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}   # empty on push/pull_request: the event's ref
 
       - name: Configure CMake (Debug)
         run: cmake -B build -DCMAKE_BUILD_TYPE=Debug
@@ -51,6 +66,8 @@ jobs:
         sanitizer: [address, undefined]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}   # empty on push/pull_request: the event's ref
 
       - name: Configure CMake with ${{ matrix.sanitizer }} sanitizer
         run: |
@@ -76,6 +93,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}   # empty on push/pull_request: the event's ref
 
       - name: Configure CMake (Release)
         run: cmake -B build -DCMAKE_BUILD_TYPE=Release
@@ -112,6 +131,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}   # empty on push/pull_request: the event's ref
 
       - name: Install clang-format
         run: sudo apt-get update && sudo apt-get install -y clang-format

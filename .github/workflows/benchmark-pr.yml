@@ -17,6 +17,11 @@ permissions:
   pull-requests: write
   issues: write
 
+env:
+  # CMake 4 (ubuntu-latest) rejects cmake_minimum_required(VERSION < 3.5),
+  # which 70 of our CMakeLists.txt still declare.
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
 jobs:
   quick-benchmark:
     name: Quick Performance Check
