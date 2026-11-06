@@ -96,6 +96,9 @@ is reported so that you can see how often it acted.
   resolution before this fix and none after.
 - An error raised during contact detection (for example a diverged domain) now reaches the
   error handler instead of aborting the program with SIGABRT.
+- Undefined behaviour when the solver was destroyed: the contact model base class had no virtual
+  destructor, so the derived contact model was deleted without its destructor and its face grid
+  was never freed. AddressSanitizer reported it as a new-delete type mismatch.
 
 ### Performance
 

@@ -235,7 +235,7 @@ def main():
     parser.add_argument('--n-baseline', type=int, default=5,
                         help='Number of baseline runs to compare against')
     parser.add_argument('--threshold', type=float, default=10.0,
-                        help='Minimum % change to flag as regression')
+                        help='Minimum %% change to flag as regression')
 
     args = parser.parse_args()
 

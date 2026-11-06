@@ -663,7 +663,11 @@ int test_unstable_cell_removed() {
             return 1;
         }
 
-        // A NaN coordinate is flagged whatever the extent (NaN is skipped by the AABB)
+        // A NaN coordinate is flagged whatever the extent (NaN is skipped by the AABB).
+        // Release builds only: in a Debug build node::node() asserts that its coordinates are finite, so a NaN
+        // node aborts at construction (the intended debug trap) and the removal path cannot be reached. A NaN
+        // cannot be produced through the asserting public API either (finite translations only reach +inf).
+#ifdef NDEBUG
         mesh nan_mesh = loaded[1]->get_mesh();
         nan_mesh.node_pos_lst[1] = std::numeric_limits<double>::quiet_NaN();
         cell_ptr nan_cell = std::make_shared<epithelial_cell>(nan_mesh, 1001u, loaded[1]->get_cell_type());
@@ -675,6 +679,10 @@ int test_unstable_cell_removed() {
             cleanup_output_dir(test_output_dir);
             return 1;
         }
+#else
+        std::cout << "  t3 (NaN node flagged): skipped in this Debug build, node::node() asserts finite coordinates"
+                  << std::endl;
+#endif
 
         std::vector<cell_ptr> cell_lst = {loaded[0], runaway, loaded[1]};
         solver s(sim_params, cell_lst, 1, true, false, "static");
@@ -808,9 +816,12 @@ int test_thread_placement() {
  *
  * contact_model_abstract::run() used to be declared noexcept while the face grid it builds throws when the
  * bounding box of the tissue is not finite: the exception became std::terminate (SIGABRT) instead of reaching
- * the handler in main(). Setup: the cells of the test parameter file plus a copy of cell 1 with one node at
- * +inf, passed to contact_face_face_via_coupling::run() directly (a full run_iteration() would first try to
- * refine the infinite edges).
+ * the handler in main(). Setup: the cells of the test parameter file plus a copy of cell 1 that is pushed to
+ * x = +inf by two finite translations of DBL_MAX, i.e. by overflow, as an exploding integration step does. Built
+ * from a mesh with an infinite node instead, the copy would abort on the node::node() finiteness assert of Debug
+ * builds; the overflow route behaves the same in Debug and Release. The cells are passed to
+ * contact_face_face_via_coupling::run() directly (a full run_iteration() would first try to refine the
+ * infinite edges).
  *
  * @return 0 on success, 1 on failure (and an abort before the fix)
  */
@@ -831,10 +842,22 @@ int test_contact_model_throws_on_diverged_domain() {
             return 1;
         }
 
-        mesh diverged_mesh = loaded[1]->get_mesh();
-        diverged_mesh.node_pos_lst[0] = std::numeric_limits<double>::infinity();
-        cell_ptr diverged = std::make_shared<epithelial_cell>(diverged_mesh, 1000u, loaded[1]->get_cell_type());
+        // cell::translate() is protected: this test-only subclass makes it callable
+        struct translatable_epithelial_cell : public epithelial_cell {
+            using epithelial_cell::epithelial_cell;
+            using cell::translate;
+        };
+        auto diverged = std::make_shared<translatable_epithelial_cell>(loaded[1]->get_mesh(), 1000u, loaded[1]->get_cell_type());
         diverged->initialize_cell_properties(false);
+        const vec3 huge_step(std::numeric_limits<double>::max(), 0., 0.);
+        diverged->translate(huge_step);
+        diverged->translate(huge_step);  // DBL_MAX + DBL_MAX overflows: every node is now at x = +inf
+        const vec3& p0 = diverged->get_node_lst()[0].pos();
+        if (!std::isinf(p0.dx()) || !std::isfinite(p0.dy()) || !std::isfinite(p0.dz())) {
+            std::cout << "FAILED: the translations did not push the cell to x = +inf" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
 
         std::vector<cell_ptr> cell_lst = {loaded[0], diverged};
         for (size_t i = 0; i < cell_lst.size(); i++) cell_lst[i]->set_local_id(static_cast<unsigned>(i));
