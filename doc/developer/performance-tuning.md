@@ -926,6 +926,6 @@ Report performance issues if:
 
 - **Source code:** `src/solver.cpp` (OpenMP scheduling implementation)
 - **Benchmark data:** `doc/working/parallel_benchmark_*/`
-- **Comparison document:** [v1.0 vs Current Branch](../v1.0_vs_current_comparison.md)
+- **Changelog:** [CHANGELOG.md](../../CHANGELOG.md)
 - **FAQ:** [Performance troubleshooting](../getting-started/faq.md#performance-issues)
 - **OpenMP specification:** https://www.openmp.org/specifications/
