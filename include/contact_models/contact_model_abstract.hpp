@@ -75,7 +75,11 @@ class contact_model_abstract{
                 contact_model_abstract(const contact_model_abstract& v) = delete;           //copy constructor
                 contact_model_abstract(contact_model_abstract&& v) = delete;                //move constructor
                 contact_model_abstract& operator=(const contact_model_abstract& v) = delete;//copy assignment operator
-                contact_model_abstract& operator=(contact_model_abstract&& v) = default;    //move assignment operator 
+                contact_model_abstract& operator=(contact_model_abstract&& v) = default;    //move assignment operator
+
+                //The solver owns the model through a std::unique_ptr<contact_model_abstract>: without a virtual
+                //destructor, deleting it skipped the derived destructor (UB; the face grid buffers leaked)
+                virtual ~contact_model_abstract() = default;
 
                 //The trivial constructor of the contact model
                 contact_model_abstract(const global_simulation_parameters& sim_parameters) noexcept(false);
