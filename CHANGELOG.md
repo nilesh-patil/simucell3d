@@ -60,6 +60,10 @@ is reported so that you can see how often it acted.
 - **Unstable cells are deleted.** A cell is removed if any node coordinate is not a finite number,
   or if its bounding box is wider than 10 times the cube root of its target volume. Each removal
   is logged to stderr and counted in the `unstable_cells_removed` column of the diagnostics CSV.
+- **Inside-out and self-intersecting cells are deleted too.** A cell is also removed if its signed
+  volume is zero or negative (the whole cell is inside out), or if its volume exceeds the volume
+  of its bounding box (its surface passes through itself). The log line names the reason
+  (`negative volume`, `volume exceeds bounding box`). Static cells are exempt.
 - **The mesh refiner gives up on an oscillating cell.** When refinement keeps undoing itself at
   the same place on a cell, the refiner stops working on that cell for the current step, logs it,
   and lets the run continue. Some edges of that cell may stay outside `[min_edge_length,
@@ -83,6 +87,15 @@ is reported so that you can see how often it acted.
   count of a very large domain, which caused a 20-hour stall.
 - The membrane elasticity energy in the output was always 0.
 - The GROWTH phase in the diagnostics could never be detected.
+- Face-face coupling under contention: threads read a node's coupling map while others wrote
+  to it, and a farther partner could overwrite a closer one. The closest-partner rule is now
+  applied under both nodes' locks, and both directions of a coupling are stored together.
+- Contact forces added to the nodes of neighbouring cells were lost under contention. The
+  `omp atomic` pragmas in `vec3` had no effect, because the math module is compiled without
+  OpenMP; these forces now use an atomic add. ThreadSanitizer reported 43 races in contact
+  resolution before this fix and none after.
+- An error raised during contact detection (for example a diverged domain) now reaches the
+  error handler instead of aborting the program with SIGABRT.
 
 ### Performance
 
@@ -108,7 +121,7 @@ is reported so that you can see how often it acted.
 - Per-iteration diagnostics CSV, written with `--diagnostics-csv=PATH`. *(2.0.0)*
 - Four GitHub Actions workflows: CI (Release, Debug, AddressSanitizer, UndefinedBehaviorSanitizer,
   latency profiling, format check) and pull-request, nightly and weekly benchmarks. *(2.0.0)*
-- The test suite grew from about 130 registered ctest targets in 1.0 to 312.
+- The test suite grew from 126 registered ctest targets in 1.0 to 318.
 - Run launchers live in `scripts/runs/`, and the long-run growth configuration is
   `parameters/longrun_fast_growth.xml`.
 - `simucell3d --version` prints the version and the git commit it was configured from.
@@ -120,14 +133,18 @@ is reported so that you can see how often it acted.
   paper configuration, the contact cutoff (2e-7 m) is five times smaller than the minimum edge
   length (1e-6 m).
 - **Inside-out cells in long runs.** Rarely, a whole cell becomes inside-out and tangled late in
-  a long run. In an 8-core paper-configuration run of this code without the winding self-check,
-  4 such cells appeared between 26,000 and 44,000 cells, each removed by the unstable-cell
-  safeguard. This is under investigation.
+  a long run. In an 8-core paper-configuration run of this code without the winding self-check
+  and the new volume checks, 5 such cells appeared between 26,000 and 46,000 cells; the length
+  limit removed each one, in one case only after it had grown to about 400,000 faces. 2.1.0
+  removes such cells as soon as their volume turns negative or impossible. The root cause is
+  under investigation.
 - **Newborn daughters removed as unstable.** In the same run, 73 cells had been removed as
   unstable by 44,000 cells; most were daughters removed within about 60 iterations of their
   division, just past the length limit and with normal volume.
-- **Data race in face-face coupling.** Threads add contact forces to nodes of neighbouring cells
-  without synchronisation. This has been present since 1.0.
+- **Stale coupling links.** When a node switches to a closer coupling partner, its old partner
+  keeps a link back to it until the coupling maps are rebuilt. This has been present since 1.0.
+- Contact models 0 and 1 still add contact forces without an atomic add. The paper
+  configuration uses model 2, which is fixed.
 - **Multi-threaded runs are not bit-reproducible.** Two runs with the same input and more than
   one thread can give slightly different results.
 
