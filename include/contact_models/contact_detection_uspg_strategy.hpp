@@ -68,7 +68,7 @@ public:
         const std::vector<face*>& faces,
         const std::vector<aabb>& aabbs,
         const vec3& bounds
-    ) noexcept override;
+    ) noexcept(false) override;
 
     std::vector<face*> get_candidate_faces(
         const vec3& query_pos,
@@ -86,7 +86,7 @@ private:
      * Each face is stored in all voxels that its AABB overlaps.
      * This ensures that neighbor queries always find nearby faces.
      */
-    void store_faces_in_grid() noexcept;
+    void store_faces_in_grid() noexcept(false);  //throws unstable_simulation_exception on a diverged domain
 
     /**
      * Check if a point is within a face's AABB.

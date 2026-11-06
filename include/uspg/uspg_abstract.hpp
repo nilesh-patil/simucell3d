@@ -114,8 +114,8 @@ class uspg_abstract
     //Number of voxels needed to cover [min, max] along one axis. Throws unstable_simulation_exception instead of
     //letting the count wrap: a cell whose nodes have diverged to ~1e19 m gives an extent / voxel_size that does not
     //fit in an unsigned, and static_cast<unsigned> of such a value is UB (in practice 0 voxels, after which every
-    //voxel lookup indexes an empty vector). Called from noexcept contact-model code, so the throw terminates the run
-    //with the extent in the message rather than hanging in an O(N^2) fallback.
+    //voxel lookup indexes an empty vector). The contact models let the exception propagate to the solver's caller
+    //(main.cpp prints it), which ends the run with the extent in the message rather than hanging in an O(N^2) fallback.
     unsigned compute_nb_voxels(const double min, const double max, const char axis) const noexcept(false){
         //Add a small padding to make sure that the point (max_x, max_y, max_z) is in the grid
         constexpr double delta = std::numeric_limits<double>::epsilon();

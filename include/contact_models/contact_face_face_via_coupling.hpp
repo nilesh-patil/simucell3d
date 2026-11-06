@@ -54,10 +54,10 @@ class contact_face_face_via_coupling: public contact_model_abstract{
         //The trivial constructor of the contact model
         contact_face_face_via_coupling(const global_simulation_parameters& sim_parameters) noexcept(false);
             
-        void run(const std::vector<cell_ptr>& cell_lst) noexcept override;
+        void run(const std::vector<cell_ptr>& cell_lst) noexcept(false) override;
 
         //Find the faces that are within a distance below the contact cutoff and apply adhesive or repulsive forces 
-        void resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept;
+        void resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept(false);
 
 
         //Prevent the surfaces of the cells to interpenetrate by applying repulsive forces on the surfaces.

@@ -802,6 +802,75 @@ int test_thread_placement() {
 
 
 //---------------------------------------------------------------------------------------------------------
+/**
+ * @brief A diverged domain makes the contact model throw unstable_simulation_exception to its caller
+ *
+ * contact_model_abstract::run() used to be declared noexcept while the face grid it builds throws when the
+ * bounding box of the tissue is not finite: the exception became std::terminate (SIGABRT) instead of reaching
+ * the handler in main(). Setup: the cells of the test parameter file plus a copy of cell 1 with one node at
+ * +inf, passed to contact_face_face_via_coupling::run() directly (a full run_iteration() would first try to
+ * refine the infinite edges).
+ *
+ * @return 0 on success, 1 on failure (and an abort before the fix)
+ */
+int test_contact_model_throws_on_diverged_domain() {
+    std::cout << "Running test_contact_model_throws_on_diverged_domain..." << std::endl;
+
+#if CONTACT_MODEL_INDEX == 2
+    std::string test_output_dir = create_unique_output_dir("contact_model_throws");
+
+    try {
+        std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+        sim_params.contact_detection_algorithm_ = ContactDetectionAlgorithm::USPG;  // the grid path of the paper config
+
+        if (loaded.size() < 2) {
+            std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        mesh diverged_mesh = loaded[1]->get_mesh();
+        diverged_mesh.node_pos_lst[0] = std::numeric_limits<double>::infinity();
+        cell_ptr diverged = std::make_shared<epithelial_cell>(diverged_mesh, 1000u, loaded[1]->get_cell_type());
+        diverged->initialize_cell_properties(false);
+
+        std::vector<cell_ptr> cell_lst = {loaded[0], diverged};
+        for (size_t i = 0; i < cell_lst.size(); i++) cell_lst[i]->set_local_id(static_cast<unsigned>(i));
+
+        contact_face_face_via_coupling contact_model(sim_params);
+        bool caught = false;
+        try {
+            contact_model.run(cell_lst);
+        } catch (const unstable_simulation_exception& e) {
+            caught = true;
+            std::cout << "  caught unstable_simulation_exception: " << e.what() << std::endl;
+        }
+
+        std::cout << "  t1 (run() throws unstable_simulation_exception to the caller): " << caught << std::endl;
+        cleanup_output_dir(test_output_dir);
+        if (!caught) {
+            std::cout << "FAILED: no exception from a diverged domain" << std::endl;
+            return 1;
+        }
+
+        std::cout << "test_contact_model_throws_on_diverged_domain PASSED" << std::endl;
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with unexpected exception: " << e.what() << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 1;
+    }
+#else
+    std::cout << "  skipped: CONTACT_MODEL_INDEX != 2" << std::endl;
+    return 0;
+#endif
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main(int argc, char** argv) {
 
@@ -818,6 +887,7 @@ int main(int argc, char** argv) {
     if (test_name == "test_local_ids_resynced_after_cell_removal") return test_local_ids_resynced_after_cell_removal();
     if (test_name == "test_unstable_cell_removed") return test_unstable_cell_removed();
     if (test_name == "test_thread_placement") return test_thread_placement();
+    if (test_name == "test_contact_model_throws_on_diverged_domain") return test_contact_model_throws_on_diverged_domain();
 
     std::cout << "TEST NAME: " << test_name << " DOES NOT EXIST" << std::endl;
     return 1;

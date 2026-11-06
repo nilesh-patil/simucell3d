@@ -43,7 +43,7 @@
           contact_node_face_via_spring(const global_simulation_parameters& sim_parameters) noexcept(false);
 
           //Find the contacts between the faces of the mesh and apply the contact forces
-          void run(const std::vector<cell_ptr>& cell_lst) noexcept override;
+          void run(const std::vector<cell_ptr>& cell_lst) noexcept(false) override;
 
           //Find the faces that are within a distance below the contact cutoff and apply adhesive or repulsive forces 
           void resolve_contacts(const std::vector<cell_ptr>& cell_lst) noexcept;

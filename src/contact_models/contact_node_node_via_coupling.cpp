@@ -23,7 +23,7 @@ contact_node_node_via_coupling::contact_node_node_via_coupling(const global_simu
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Find the contacts between the faces of the mesh and apply the contact forces
-void contact_node_node_via_coupling::run(const std::vector<cell_ptr>& cell_lst) noexcept{
+void contact_node_node_via_coupling::run(const std::vector<cell_ptr>& cell_lst) noexcept(false){
 
         //Store all the faces of the mesh in a vector for easier access
         const size_t nb_faces = std::accumulate(cell_lst.begin(), cell_lst.end(), 0, [](size_t acc, const cell_ptr& c){return acc + c->get_nb_of_faces();});

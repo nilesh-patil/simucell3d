@@ -19,7 +19,7 @@ contact_face_face_via_coupling::contact_face_face_via_coupling(const global_simu
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Find the contacts between the faces of the mesh and apply the contact forces
-void contact_face_face_via_coupling::run(const std::vector<cell_ptr>& cell_lst) noexcept{
+void contact_face_face_via_coupling::run(const std::vector<cell_ptr>& cell_lst) noexcept(false){
 
         //Give to each face a global id which is the index of the face in the face_lst_ vector. The ids follow
         //the (cell, face) order of a serial traversal; an exclusive scan over the per-cell counts lets the
@@ -282,7 +282,7 @@ void contact_face_face_via_coupling::build_work_units(const std::vector<cell_ptr
 
 
 //-----------------------------------------------------------------------------------------------
-void contact_face_face_via_coupling::resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept{
+void contact_face_face_via_coupling::resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept(false){
 
     // ADAPTIVE mode: dynamically select algorithm based on cell count
     const size_t cell_count = cell_lst.size();

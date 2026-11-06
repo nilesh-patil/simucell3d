@@ -55,7 +55,9 @@ struct aabb {
  *   the acceleration structure with current face positions
  * - get_candidate_faces() is called many times (once per node) to retrieve
  *   faces that may be in contact with a query node
- * - Both methods are noexcept to ensure exception safety in tight loops
+ * - get_candidate_faces() is noexcept: it runs inside the parallel contact loop.
+ *   prepare() runs serially before that loop and may throw
+ *   unstable_simulation_exception when the domain has diverged (USPG voxel count)
  *
  * Usage Pattern:
  *   auto strategy = contact_detection_strategy::create(algorithm, params);
@@ -93,7 +95,7 @@ public:
         const std::vector<face*>& faces,
         const std::vector<aabb>& aabbs,
         const vec3& bounds
-    ) noexcept = 0;
+    ) noexcept(false) = 0;
 
     /**
      * Get candidate faces for contact detection at a query position.

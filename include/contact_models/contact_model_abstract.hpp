@@ -80,16 +80,19 @@ class contact_model_abstract{
                 //The trivial constructor of the contact model
                 contact_model_abstract(const global_simulation_parameters& sim_parameters) noexcept(false);
 
-                //Find the contacts between the faces of the mesh and apply the contact forces
-                virtual void run(const std::vector<cell_ptr>& cell_lst) noexcept = 0;
+                //Find the contacts between the faces of the mesh and apply the contact forces.
+                //Throws unstable_simulation_exception when the domain has diverged (the contact grid cannot be
+                //built); it is called outside any parallel region, so the exception reaches the caller.
+                virtual void run(const std::vector<cell_ptr>& cell_lst) noexcept(false) = 0;
 
                 //Create the axis aligned bounding box of the faces
                 void update_face_aabbs(
                         const std::vector<cell_ptr>& cell_lst
                 ) noexcept;
 
-                //Store the faces in the uniform space partitionning grid
-                void store_face_in_uspg() noexcept;
+                //Store the faces in the uniform space partitionning grid (throws unstable_simulation_exception
+                //if the domain has diverged, see uspg_abstract::compute_nb_voxels())
+                void store_face_in_uspg() noexcept(false);
 
                 //Check if the node is in the AABB of the face
                 bool aabb_intersection_check(const size_t face_aabb_pos, const vec3& node_pos) const noexcept;

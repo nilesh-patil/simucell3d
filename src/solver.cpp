@@ -762,7 +762,7 @@ void solver::run_iteration() noexcept(false) {
     // Compute the contact forces between the cells
     {
         PerformanceMonitor::ScopedTimer timer(perf_monitor_, "contact_detection");
-        contact_model_ptr_->run(cell_lst_);  // noexcept
+        contact_model_ptr_->run(cell_lst_);  // noexcept(false): unstable_simulation_exception on a diverged domain
     }
 
 // If enabled, use the automatic polarizer to polarize the faces of the cells,

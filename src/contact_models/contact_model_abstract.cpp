@@ -149,7 +149,7 @@ void contact_model_abstract::update_face_aabbs(
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Store all the faces in an uinform space partitioning grid
-void contact_model_abstract::store_face_in_uspg() noexcept{
+void contact_model_abstract::store_face_in_uspg() noexcept(false){
 
     //Empties the space partitioning grid and update its dimensions
     grid_.update_dimensions(face_lst_.size(), global_min_x_, global_min_y_, global_min_z_, global_max_x_, global_max_y_, global_max_z_);
