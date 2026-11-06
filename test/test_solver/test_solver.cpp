@@ -23,6 +23,7 @@
 #include <set>
 #include <algorithm>
 #include <filesystem>
+#include <sstream>
 #include <unistd.h>  // For getpid()
 
 #include "solver.hpp"
@@ -871,6 +872,138 @@ int test_contact_model_throws_on_diverged_domain() {
 
 
 //---------------------------------------------------------------------------------------------------------
+/**
+ * @brief Inside-out and self-intersecting cells are flagged as unstable and removed, with the reason logged
+ *
+ * Long runs produced cells whose closed, consistently wound surface had a NEGATIVE signed volume (the whole
+ * cell inside out) and |V| larger than the volume of their own AABB, which no surface that does not intersect
+ * itself can have. They were only removed much later, once their extent passed the length limit.
+ *
+ * Setup, from a healthy (re-triangulated sphere) cell of the test parameter file:
+ *  - "inverted": the same mesh with the winding of every face reversed (initialize_cell_properties(false), so
+ *    the faces are not re-oriented). Same nodes, same extent, same |V|: only the sign differs.
+ *  - "wrapped": k superposed copies of the same surface (k * V / V_aabb > 1.5). Every copy is closed and wound
+ *    outward, but the surface encloses the region k times: |V| = k V exceeds the AABB volume, as for a surface
+ *    that has folded through itself.
+ * remove_dead_cells() is called directly, std::cerr is captured to check the log line.
+ *
+ * @return 0 on success, 1 on failure
+ */
+int test_inverted_cell_removed() {
+    std::cout << "Running test_inverted_cell_removed..." << std::endl;
+
+    std::string test_output_dir = create_unique_output_dir("inverted_cell_removed");
+
+    try {
+        std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+
+        if (loaded.size() < 2) {
+            std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        const double healthy_volume = loaded[1]->get_volume();
+
+        // t1: the healthy closed sphere is not flagged: positive signed volume, inside its AABB
+        const cell::stability_report healthy = loaded[1]->check_numerical_stability();
+        const double fill_ratio = healthy.signed_volume / healthy.aabb_volume;
+        bool t1 = !healthy.unstable && !healthy.negative_volume && !healthy.volume_exceeds_aabb &&
+                  healthy.signed_volume > 0. && fill_ratio < 1.;
+        std::cout << "  t1 (healthy sphere not flagged: signed volume " << healthy.signed_volume
+                  << " m^3, V / V_aabb = " << fill_ratio << "): " << t1 << std::endl;
+
+        // t2: reversed winding -> negative signed volume, flagged for that reason only
+        mesh inverted_mesh = loaded[1]->get_mesh();
+        for (auto& f : inverted_mesh.face_point_ids) std::swap(f[1], f[2]);
+        cell_ptr inverted = std::make_shared<epithelial_cell>(inverted_mesh, 1000u, loaded[1]->get_cell_type());
+        inverted->initialize_cell_properties(false);
+        inverted->set_target_volume(healthy_volume);
+        const cell::stability_report inv = inverted->check_numerical_stability();
+        bool t2 = inv.unstable && inv.negative_volume && !inv.volume_exceeds_aabb && inv.extent <= inv.max_extent &&
+                  inv.nb_non_finite_nodes == 0 && std::abs(inv.signed_volume + healthy.signed_volume) <= 1e-9 * healthy.signed_volume;
+        std::cout << "  t2 (reversed winding flagged as negative volume: signed volume " << inv.signed_volume
+                  << " m^3): " << t2 << std::endl;
+
+        // t3: k superposed copies -> |V| > V_aabb, flagged for that reason only
+        const unsigned k = static_cast<unsigned>(std::floor(1.5 / fill_ratio)) + 1;
+        const mesh one_copy = loaded[1]->get_mesh();
+        mesh wrapped_mesh;
+        for (unsigned copy = 0; copy < k; copy++) {
+            const unsigned offset = static_cast<unsigned>(wrapped_mesh.node_pos_lst.size() / 3);
+            wrapped_mesh.node_pos_lst.insert(wrapped_mesh.node_pos_lst.end(), one_copy.node_pos_lst.begin(), one_copy.node_pos_lst.end());
+            for (const auto& f : one_copy.face_point_ids) wrapped_mesh.face_point_ids.push_back({f[0] + offset, f[1] + offset, f[2] + offset});
+        }
+        cell_ptr wrapped = std::make_shared<epithelial_cell>(wrapped_mesh, 1001u, loaded[1]->get_cell_type());
+        wrapped->initialize_cell_properties(false);
+        wrapped->set_target_volume(healthy_volume);
+        const cell::stability_report wr = wrapped->check_numerical_stability();
+        bool t3 = wr.unstable && wr.volume_exceeds_aabb && !wr.negative_volume && wr.extent <= wr.max_extent &&
+                  wr.signed_volume > wr.aabb_volume;
+        std::cout << "  t3 (" << k << " superposed copies flagged as volume exceeds bounding box: |V| / V_aabb = "
+                  << wr.signed_volume / wr.aabb_volume << "): " << t3 << std::endl;
+
+        if (!(t1 && t2 && t3)) {
+            std::cout << "FAILED: surface checks of check_numerical_stability()" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        // t4-t6: the solver removes both, keeps the healthy cells, and logs the reason
+        std::vector<cell_ptr> cell_lst = {loaded[0], inverted, loaded[1], wrapped};
+        solver s(sim_params, cell_lst, 1, true, false, "static");
+        inverted->set_target_volume(healthy_volume);
+        wrapped->set_target_volume(healthy_volume);
+        const unsigned inverted_id = inverted->get_id();
+        const unsigned wrapped_id = wrapped->get_id();
+
+        std::ostringstream captured;
+        std::streambuf* const cerr_buf = std::cerr.rdbuf(captured.rdbuf());
+        s.remove_dead_cells();
+        std::cerr.rdbuf(cerr_buf);
+        const std::string log = captured.str();
+        std::cout << "  captured log:\n" << log;
+
+        const std::vector<cell_ptr>& after = s.get_cell_lst();
+        bool t4 = after.size() == 2 && after[0] == loaded[0] && after[1] == loaded[1] && s.get_nb_unstable_cells_removed() == 2;
+        std::cout << "  t4 (inverted and wrapped cells removed and counted, healthy cells kept): " << t4 << std::endl;
+
+        const auto line_of = [&log](const std::string& prefix) -> std::string {
+            const size_t start = log.find(prefix);
+            if (start == std::string::npos) return "";
+            return log.substr(start, log.find('\n', start) - start);
+        };
+        // (the solver renumbers the cells it is given, so the ids are read back from the cells)
+        const std::string inv_line = line_of("Removing numerically unstable cell " + std::to_string(inverted_id) + " at iteration ");
+        const std::string wr_line = line_of("Removing numerically unstable cell " + std::to_string(wrapped_id) + " at iteration ");
+        bool t5 = inv_line.find(" non-finite nodes, negative volume (signed volume ") != std::string::npos &&
+                  inv_line.find("volume exceeds bounding box") == std::string::npos;
+        bool t6 = wr_line.find(" non-finite nodes, volume exceeds bounding box (signed volume ") != std::string::npos &&
+                  wr_line.find("negative volume") == std::string::npos;
+        std::cout << "  t5 (log line states \"negative volume\"): " << t5 << std::endl;
+        std::cout << "  t6 (log line states \"volume exceeds bounding box\"): " << t6 << std::endl;
+
+        if (!(t4 && t5 && t6)) {
+            std::cout << "FAILED: removal of inside-out / self-intersecting cells" << std::endl;
+            cleanup_output_dir(test_output_dir);
+            return 1;
+        }
+
+        std::cout << "test_inverted_cell_removed PASSED" << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        cleanup_output_dir(test_output_dir);
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main(int argc, char** argv) {
 
@@ -888,6 +1021,7 @@ int main(int argc, char** argv) {
     if (test_name == "test_unstable_cell_removed") return test_unstable_cell_removed();
     if (test_name == "test_thread_placement") return test_thread_placement();
     if (test_name == "test_contact_model_throws_on_diverged_domain") return test_contact_model_throws_on_diverged_domain();
+    if (test_name == "test_inverted_cell_removed") return test_inverted_cell_removed();
 
     std::cout << "TEST NAME: " << test_name << " DOES NOT EXIST" << std::endl;
     return 1;

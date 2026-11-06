@@ -882,8 +882,17 @@ void solver::remove_dead_cells() noexcept {
                                                          << ": extent " << report.extent << " m (max " << report.max_extent
                                                          << " m), volume " << c->get_volume()
                                                          << " m^3, target volume " << c->get_target_volume()
-                                                         << " m^3, " << report.nb_non_finite_nodes << " non-finite nodes"
-                                                         << std::endl;
+                                                         << " m^3, " << report.nb_non_finite_nodes << " non-finite nodes";
+                                               // Surface checks: appended only when they fire, so the line above is
+                                               // unchanged for the extent / non-finite reasons. Log parsers can count
+                                               // "negative volume" and "volume exceeds bounding box" (both can appear)
+                                               if (report.negative_volume || report.volume_exceeds_aabb) {
+                                                   if (report.negative_volume) std::cerr << ", negative volume";
+                                                   if (report.volume_exceeds_aabb) std::cerr << ", volume exceeds bounding box";
+                                                   std::cerr << " (signed volume " << report.signed_volume
+                                                             << " m^3, bounding box volume " << report.aabb_volume << " m^3)";
+                                               }
+                                               std::cerr << std::endl;
                                            }
                                        }
 

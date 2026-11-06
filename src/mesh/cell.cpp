@@ -153,8 +153,10 @@ void cell::initialize_cell_properties(bool check_cell_integrity) noexcept(false)
     area_ = compute_area();
     target_area_ = area_;
 
-    //Update the cell volume
-    volume_ = compute_volume();
+    //Update the cell volume (the signed value is kept for check_numerical_stability())
+    signed_volume_ = compute_signed_volume();
+    volume_ = std::abs(signed_volume_);
+    assert(std::isfinite(volume_) && volume_ != 0.); //same debug checks as compute_volume()
     target_volume_ = volume_;
 
     //Initialize the cell growth rate and division volumes that are drawn from a normal distribution
@@ -212,6 +214,7 @@ void cell::clear_data() noexcept{
     free_face_queue_.clear();
     area_ = 0.0;
     volume_ = 0.0;
+    signed_volume_ = std::numeric_limits<double>::quiet_NaN();
     target_volume_ = 0.0;
 }
 //---------------------------------------------------------------------------------------------------------
@@ -1146,8 +1149,12 @@ void cell::update_face_normal_and_area(face& f) noexcept{
 
 
 //-------------------------------------------------------------------------------------------
-//Return the volume of the cell, if signed is set to true return the signed volume
-double cell::compute_volume() const noexcept{
+//Signed volume enclosed by the surface, by the divergence theorem: the sum over the faces of the signed volumes
+//of the tetrahedra (world origin, n1, n2, n3), i.e. det(p1, p2, p3) / 6. For a closed surface the result does
+//not depend on the apex; it is positive when the faces are wound counterclockwise seen from outside (normals
+//pointing outward, as set by check_face_normal_orientation()) and negative when the surface is inside out.
+//The apex is kept at the origin so that compute_volume() returns exactly the value it always has.
+double cell::compute_signed_volume() const noexcept{
 
     assert(face_lst_.size() >= 4);
     assert(node_lst_.size() >= 4);
@@ -1175,9 +1182,17 @@ double cell::compute_volume() const noexcept{
         }                       
     }
 
-    vol /= 6.;
-    vol = std::abs(vol);
+    return vol / 6.;
+}
+//---------------------------------------------------------------------------------------------------------
 
+
+
+//-------------------------------------------------------------------------------------------
+//Return the (unsigned) volume of the cell
+double cell::compute_volume() const noexcept{
+
+    const double vol = std::abs(compute_signed_volume());
 
     //Make sure that the function doesn't return non sense, which can happen very easily
     //if one of the node coordinates equals nan
@@ -1303,7 +1318,7 @@ std::array<double, 6> cell::get_aabb() const noexcept{
 //---------------------------------------------------------------------------------------------------------
 //Detect a cell whose mesh has diverged (see cell.hpp). Deliberately measured against the target volume
 //and not the current one: a blown-up mesh has a meaningless (huge, negative or NaN) volume.
-cell::stability_report cell::check_numerical_stability(const double max_extent_ratio) const noexcept{
+cell::stability_report cell::check_numerical_stability(const double max_extent_ratio, const double aabb_volume_tolerance) const noexcept{
     stability_report report;
 
     unsigned nb_used_nodes = 0;
@@ -1325,7 +1340,23 @@ cell::stability_report cell::check_numerical_stability(const double max_extent_r
                             max_extent_ratio * std::cbrt(reference_volume) :
                             std::numeric_limits<double>::infinity();
 
-    report.unstable = report.nb_non_finite_nodes > 0 || !std::isfinite(report.extent) || report.extent > report.max_extent;
+    //A closed surface whose faces are wound outward encloses a positive volume, and that volume lies inside the AABB
+    //of its nodes. A non-positive signed volume means the surface is inside out; a volume larger than the AABB is
+    //impossible unless the surface intersects itself. Long runs produced both (e.g. a consistently wound cell of
+    //397,910 faces with V = -1.4e-12 m^3 and |V| > its AABB volume), and such a cell was only removed much later,
+    //once its extent passed the limit above. The signed volume is the one of the last volume update (in
+    //apply_internal_forces(), one position update ago, or at the creation of the cell): free, and one step late.
+    //Static cells are not checked: they never move, and an ECM can be an open sheet whose "volume" means nothing.
+    report.signed_volume = signed_volume_;
+    report.aabb_volume = (max_x - min_x) * (max_y - min_y) * (max_z - min_z);
+    if(!is_static_){
+        //Both comparisons are false while signed_volume_ is NaN (never computed)
+        report.negative_volume = signed_volume_ <= 0.;
+        report.volume_exceeds_aabb = std::abs(signed_volume_) > report.aabb_volume * (1. + aabb_volume_tolerance);
+    }
+
+    report.unstable = report.nb_non_finite_nodes > 0 || !std::isfinite(report.extent) || report.extent > report.max_extent ||
+                      report.negative_volume || report.volume_exceeds_aabb;
     return report;
 }
 //---------------------------------------------------------------------------------------------------------
@@ -1656,8 +1687,10 @@ void cell::apply_internal_forces(const double time_step) noexcept{
     //Update the cell area
     area_ = compute_area();
 
-    //Update the cell volume
-    volume_ = compute_volume(); 
+    //Update the cell volume (the signed value is kept for check_numerical_stability())
+    signed_volume_ = compute_signed_volume();
+    volume_ = std::abs(signed_volume_);
+    assert(std::isfinite(volume_) && volume_ != 0.); //same debug checks as compute_volume()
 
     //Update the target volume of the cell
     update_target_volume(time_step);
