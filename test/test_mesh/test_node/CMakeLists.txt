@@ -28,6 +28,10 @@ add_test(NAME mesh_node_reset_test                          COMMAND test_node no
 add_test(NAME mesh_node_reset_local_id_test                       COMMAND test_node reset_local_id_test)
 add_test(NAME mesh_node_set_is_used_test                    COMMAND test_node set_is_used_test)
 add_test(NAME mesh_node_operator_minus_test                 COMMAND test_node operator_minus_test)
+add_test(NAME mesh_node_coupling_compare_and_set_test       COMMAND test_node coupling_compare_and_set_test)
+add_test(NAME mesh_node_couple_if_closest_test              COMMAND test_node couple_if_closest_test)
+add_test(NAME mesh_node_concurrent_coupling_test            COMMAND test_node concurrent_coupling_test)
+add_test(NAME mesh_node_atomic_force_test                   COMMAND test_node atomic_force_test)
 
 
 

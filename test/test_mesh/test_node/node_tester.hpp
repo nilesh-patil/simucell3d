@@ -7,6 +7,9 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <random>
+#include <numeric>
+#include <omp.h>
 
 #include "node.hpp"
 #include "vec3.hpp"
@@ -23,6 +26,10 @@ class node_tester
         int reset_local_id_test();
         int set_is_used_test();
         int operator_minus_test();
+        int coupling_compare_and_set_test();
+        int couple_if_closest_test();
+        int concurrent_coupling_test();
+        int atomic_force_test();
 
 };
 
