@@ -41,6 +41,7 @@ add_test(NAME triangulation_modules_cell_divider_add_point_to_face_empty_face_te
 add_test(NAME triangulation_modules_cell_divider_add_point_to_face_insufficient_nodes_test COMMAND test_cell_divider add_point_to_face_insufficient_nodes_test)
 add_test(NAME triangulation_modules_cell_divider_unused_variable_efficiency_test        COMMAND test_cell_divider unused_variable_efficiency_test)
 add_test(NAME triangulation_modules_cell_divider_delaunay_exception_message_test        COMMAND test_cell_divider delaunay_exception_message_test)
+add_test(NAME triangulation_modules_cell_divider_divide_cell_multi_loop_plane_test      COMMAND test_cell_divider divide_cell_multi_loop_plane_test)
 
 
 

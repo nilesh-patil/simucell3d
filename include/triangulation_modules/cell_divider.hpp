@@ -88,6 +88,15 @@ class cell_divider
         ) noexcept(false);
 
 
+        //Follow the closed curve along which the plane cuts the surface of the cell, starting from an
+        //edge intersected by the plane. Returns the cut edges in order with their intersection points
+        static std::vector<std::pair<edge, vec3>> trace_cut_loop(
+            cell_ptr c,
+            const edge& seed_edge,  //An edge intersected by the plane
+            const vec3& p,          //Position of a point on the plane
+            const vec3& n           //Normal vector of the plane
+        ) noexcept(false);
+
         //Based on the side of a face wrt the plane, return 1, -1 or 0
         static bool face_side_wrt_plane(
             const face& f,
