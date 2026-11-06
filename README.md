@@ -4,9 +4,14 @@
     <img src="./doc/assets/img/simucell_topolgy_example.png" alt="SimuCell3D Topology Example">
 </p>
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/nilesh-patil/simucell3d)
+[![CI](https://github.com/nilesh-patil/simucell3d/actions/workflows/cmake.yml/badge.svg)](https://github.com/nilesh-patil/simucell3d/actions/workflows/cmake.yml)
 [![License](https://img.shields.io/badge/license-BSD--3-blue)](./LICENSE)
 [![Paper](https://img.shields.io/badge/paper-Nature%20Comp%20Sci%202024-orange)](./doc/SimuCell3D.pdf)
+
+> **What's new in 2.1:** bug fixes that change results compared with v1.0 (contact distance,
+> face orientation after edge splits, cell division, bending force on sliver triangles),
+> safeguards that keep long growth runs alive, and a contact step about twice as fast.
+> See [CHANGELOG.md](./CHANGELOG.md) for the full list and the known issues.
 
 ---
 
@@ -25,6 +30,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [What's New in 2.1](./CHANGELOG.md)
 - [Current Biological Capabilities](#current-biological-capabilities)
 - [Validated Applications](#validated-applications)
 - [Fork Performance Improvements](#fork-performance-improvements)
@@ -42,7 +48,7 @@
 
 Published in [Nature Computational Science (2024)](./doc/SimuCell3D.pdf), it enables researchers to model complex biological phenomena including cell division, polarization, adhesion, and morphogenesis with experimental validation.
 
-**This is a performance-focused fork** that extends the published SimuCell3D with OpenMP scheduling optimizations. The fork improves parallel efficiency from 29% to 60% while maintaining full backward compatibility with the original codebase.
+**This fork** of the published SimuCell3D adds OpenMP performance work and fixes several bugs in the v1.0 code. v1.0 parameter files and command lines still work, but results differ from v1.0 because of those fixes; see [CHANGELOG.md](./CHANGELOG.md).
 
 ---
 
@@ -146,7 +152,7 @@ These biological scenarios are **validated in the Nature paper** (Figures 3-4):
 
 ## Fork Performance Improvements
 
-This fork focuses **exclusively on OpenMP scheduling optimizations**. No new scientific features have been added.
+This fork started as OpenMP performance work and now also fixes bugs in the v1.0 physics and mesh code, so **results differ from v1.0**. It adds no new biological models. The full list of changes, including safeguards that are not part of the published model, is in [CHANGELOG.md](./CHANGELOG.md).
 
 ### Performance Gains
 
@@ -173,12 +179,12 @@ This fork focuses **exclusively on OpenMP scheduling optimizations**. No new sci
 The following are **not implemented** in this fork:
 
 - No SIMD vectorization (vec3 operations remain scalar)
-- No BVH spatial acceleration (still uses USPG)
+- No BVH spatial acceleration (contact detection uses uniform grids: the USPG, and a compact face grid for face-face contact; Sweep-and-Prune is optional)
 - No GPU/CUDA code
 - No MPI distributed computing
 - No new biological models (viscoelasticity, active tension, etc.)
 
-See [doc/v1.0_vs_current_comparison.md](./doc/v1.0_vs_current_comparison.md) for technical details.
+See [CHANGELOG.md](./CHANGELOG.md) for technical details.
 
 ---
 
@@ -196,7 +202,7 @@ docker build -t simucell3d_docker_img .
 ```
 
 #### Option 2: Manual Build (Linux/WSL)
-Requires GCC 9+, CMake 3.0+, and OpenMP.
+Requires GCC 9+, CMake 3.10+, and OpenMP.
 
 ```bash
 git clone https://github.com/nilesh-patil/simucell3d.git
@@ -340,8 +346,8 @@ With auto-scheduler + per-loop scheduling on a 16-core system:
 ### Performance and Advanced Usage
 -   **[Performance Tuning Guide](./doc/developer/performance-tuning.md)**: **(RECOMMENDED)** Detailed instructions on OpenMP scheduling modes, auto-scheduler usage, thread control, and optimization strategies.
 -   **[Benchmarking Guide](./doc/benchmarking/openmp-benchmarks.md)**: Comprehensive performance analysis with empirical results from 52 benchmark runs.
--   **[Unified Benchmark Framework](./doc/benchmarking/openmp-benchmarks.md#benchmark-framework-overview)**: Using `benchmark_unified.sh` for systematic performance testing.
--   **[v1.0 vs Current Comparison](./doc/v1.0_vs_current_comparison.md)**: Technical deep-dive into code-level differences and performance improvements.
+-   **[Unified Benchmark Framework](./doc/benchmarking/openmp-benchmarks.md#benchmark-framework-overview)**: Using `scripts/run_parallel_benchmark_comparison.sh` and `scripts/plot_benchmark_unified.py` for systematic performance testing.
+-   **[Changelog](./CHANGELOG.md)**: What changed since v1.0, including changes that alter results, and known issues.
 
 > **Backward Compatibility Note:** All v1.0 commands work without modification. The `--schedule=adaptive` flag and other new features are optional enhancements that can be adopted incrementally.
 
@@ -349,7 +355,7 @@ With auto-scheduler + per-loop scheduling on a 16-core system:
 
 ## Development Roadmap
 
-> **Important:** The items below are **proposed improvements** described in [roadmap.md](./roadmap.md). They are **NOT yet implemented**. The roadmap represents aspirational goals for future development.
+> **Important:** The items below are **proposed improvements**. They are **NOT yet implemented**. The roadmap represents aspirational goals for future development.
 
 ### High-Priority Proposed Features (Not Implemented)
 
@@ -372,8 +378,6 @@ With auto-scheduler + per-loop scheduling on a 16-core system:
 - Structure-of-Arrays memory layout
 - GoogleTest migration
 
-See [roadmap.md](./roadmap.md) for the full list of 27 proposed improvements with effort estimates and implementation details.
-
 ---
 
 ## Citation
@@ -383,7 +387,7 @@ If you use SimuCell3D in your research, please cite:
 ```bibtex
 @article{runser2024simucell3d,
   title={SimuCell3D: three-dimensional simulation of tissue mechanics with cell polarization},
-  author={Runser, Adrien and others},
+  author={Runser, Steve and others},
   journal={Nature Computational Science},
   year={2024},
   publisher={Nature Publishing Group}

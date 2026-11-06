@@ -50,8 +50,10 @@ source "$SCRIPT_DIR/lib/parallel_benchmark_utils.sh"
 
 # --- Path Configuration ---
 # V1_ROOT: Location of v1.0 SimuCell3D installation
-# Priority: --v1-root CLI flag > V1_ROOT env var > hardcoded default
-V1_ROOT_DEFAULT="/home/nilesh-patil/projects/version-cpp-v1.0"
+# Priority: --v1-root CLI flag > V1_ROOT env var > default
+# Default: a v1.0 checkout named version-cpp-v1.0 next to this repository
+# (resolved from the script location, like PROJECT_ROOT above)
+V1_ROOT_DEFAULT="$(dirname "$PROJECT_ROOT")/version-cpp-v1.0"
 V1_ROOT="${V1_ROOT:-$V1_ROOT_DEFAULT}"
 NEXT_ROOT="$PROJECT_ROOT"
 

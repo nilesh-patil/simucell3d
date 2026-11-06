@@ -1002,4 +1002,4 @@ python plot_benchmark_unified.py doc/working/parallel_benchmark_*/
 - **Benchmark script**: `scripts/run_parallel_benchmark_comparison.sh`
 - **Visualization suite**: `scripts/plot_benchmark_unified.py`
 - **Performance tuning guide**: [doc/developer/performance-tuning.md](../developer/performance-tuning.md)
-- **Version comparison**: [doc/v1.0_vs_current_comparison.md](../v1.0_vs_current_comparison.md)
+- **Changelog**: [CHANGELOG.md](../../CHANGELOG.md)

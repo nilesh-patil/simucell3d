@@ -54,8 +54,6 @@ doc/
 ├── benchmarking/             # Performance analysis
 │   └── openmp-benchmarks.md      # Benchmarking framework
 │
-├── v1.0_vs_current_comparison.md  # What's new in this branch
-│
 └── docs-old/                 # v1.0 historical archive
     └── README.md             # v1.0 documentation mapping
 ```
@@ -72,7 +70,7 @@ This branch is a **performance-enhanced superset** of v1.0 with:
 - ✅ **56% more tests** (39 vs 25 test files)
 - ✅ **New features**: SAP collision detection, performance diagnostics, visualization suite
 
-**📖 Full comparison**: [v1.0 vs Current Branch](./v1.0_vs_current_comparison.md)
+**📖 Full list of changes**: [CHANGELOG.md](../CHANGELOG.md)
 
 ---
 
@@ -120,7 +118,7 @@ This branch is a **performance-enhanced superset** of v1.0 with:
 ### Historical Reference
 
 - [v1.0 Documentation Archive](./docs-old/README.md) - Original v1.0 documentation
-- [Version Comparison](./v1.0_vs_current_comparison.md) - What changed and why
+- [Changelog](../CHANGELOG.md) - What changed in each version and why
 
 ---
 
@@ -152,7 +150,7 @@ This branch is a **performance-enhanced superset** of v1.0 with:
 
 ### "I'm migrating from v1.0"
 
-1. Read [Version Comparison](./v1.0_vs_current_comparison.md) to understand changes
+1. Read the [Changelog](../CHANGELOG.md) to understand changes (results differ from v1.0)
 2. Check [v1.0 Archive](./docs-old/README.md) for file mappings
 3. Verify your parameter files still work (they should - 100% compatible!)
 4. Optionally enable new features (adaptive scheduling, diagnostics)
