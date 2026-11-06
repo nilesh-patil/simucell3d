@@ -1,5 +1,6 @@
 #include "local_mesh_refiner_tester.hpp"
 #include <map>
+#include <set>
 #include <memory>
 #include <iostream>
 
@@ -969,6 +970,64 @@ int local_mesh_refiner_tester::refine_mesh_keeps_winding_consistent_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// The winding self-check at the end of refine_mesh(): a face whose winding is flipped on purpose must be
+// detected (its 3 edges are then traversed in the same direction by both of their faces), and a refine_mesh()
+// call that splits edges must hand back a consistently and outward oriented surface
+int local_mesh_refiner_tester::winding_self_check_test(){
+
+    //A closed octahedron with outward normals, V = 4/3 r^3
+    const double r = 1e-5;
+    mesh m;
+    m.node_pos_lst = { r,0,0,  -r,0,0,  0,r,0,  0,-r,0,  0,0,r,  0,0,-r };
+    m.face_point_ids = {{0,2,4},{2,1,4},{1,3,4},{3,0,4},{2,0,5},{1,2,5},{3,1,5},{0,3,5}};
+    cell_ptr c = std::make_shared<cell>(m, 0);
+    c->initialize_cell_properties();
+
+    if(local_mesh_refiner::count_inconsistently_wound_edges(c) != 0 || local_mesh_refiner::winding_checksum(c) != 0){
+        std::cout << "FAIL: the octahedron is reported as inconsistently wound before any flip" << std::endl;
+        return 1;
+    }
+
+    //Flip the winding of one face, the first one so that it is also the seed of the re-orientation
+    const auto [f0_n1_id, f0_n2_id, f0_n3_id] = c->face_lst_[0].get_node_ids();
+    face flipped_face(f0_n3_id, f0_n2_id, f0_n1_id, 0);
+    flipped_face.set_is_used(true);
+    flipped_face.set_face_type_id(c->face_lst_[0].get_local_face_type_id());
+    c->face_lst_[0] = flipped_face;
+
+    const unsigned nb_bad_edges = local_mesh_refiner::count_inconsistently_wound_edges(c);
+    if(nb_bad_edges != 3 || local_mesh_refiner::winding_checksum(c) == 0){
+        std::cout << "FAIL: a flipped face must make its 3 edges inconsistent, found " << nb_bad_edges
+                  << " (checksum " << local_mesh_refiner::winding_checksum(c) << ")" << std::endl;
+        return 1;
+    }
+
+    //The edges (1.41e-5 m) are longer than l_max, so refine_mesh() splits them (which propagates the wrong
+    //winding to the new faces) and then runs the self-check. Splitting flat faces at the middle of their
+    //edges leaves the volume unchanged
+    local_mesh_refiner lmr(1e-7, 1.2e-5, false);
+    lmr.refine_mesh(c);
+
+    double signed_volume = 0.;
+    for(const face& f : c->get_face_lst()){
+        if(!f.is_used()) continue;
+        const auto [n1_id, n2_id, n3_id] = f.get_node_ids();
+        signed_volume += c->get_node_lst()[n1_id].pos().dot(c->get_node_lst()[n2_id].pos().cross(c->get_node_lst()[n3_id].pos())) / 6.;
+    }
+    const double expected_volume = 4. / 3. * r * r * r;
+
+    if(local_mesh_refiner::count_inconsistently_wound_edges(c) != 0 || std::abs(signed_volume - expected_volume) > 1e-9 * expected_volume){
+        std::cout << "FAIL: after refine_mesh() " << local_mesh_refiner::count_inconsistently_wound_edges(c)
+                  << " edges are inconsistently wound and the signed volume is " << signed_volume
+                  << " m^3 (expected " << expected_volume << " m^3)" << std::endl;
+        return 1;
+    }
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
@@ -991,6 +1050,7 @@ int main (int argc, char** argv){
     if (test_name == "merge_edge_test")               return tester.merge_edge_test();
     if (test_name == "get_triangle_score_test")       return tester.get_triangle_score_test();
     if (test_name == "refine_mesh_keeps_winding_consistent_test") return tester.refine_mesh_keeps_winding_consistent_test();
+    if (test_name == "winding_self_check_test")       return tester.winding_self_check_test();
 
     
     
