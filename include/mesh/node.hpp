@@ -7,6 +7,8 @@
 #include <optional>
 #include <map>
 #include <mutex>
+#include <limits>
+#include <cassert>
 
 #include <omp.h>
 
@@ -186,27 +188,57 @@ class node final
             //Get the number of nodes on other cells that are coupled to this node
             int get_nb_coupled_nodes() const noexcept {return coupled_nodes_map_.size();}
 
-            void set_coupled_node_and_min_distance(const unsigned coupled_cell_local_id, const unsigned coupled_node_local_id,  const double squared_distance) noexcept {
-                /*
-                Store the information that this node is coupled to a node with the local id `coupled_node_local_id` on the cell with the local id `coupled_cell_local_id`.
-                */
+            //The contact model couples nodes from several threads at once: a node is written by the thread that
+            //processes its own cell AND by every thread that processes a node facing it (see
+            //contact_face_face_via_coupling::resolve_contact()). Every access to coupled_nodes_map_ during the
+            //contact phase must therefore go through the locked methods below.
 
-                //Make sure that one thread at a time can access this function
+            //Squared distance between this node and its partner on the cell with the local id
+            //`coupled_cell_local_id`, or std::numeric_limits<double>::max() if it has none. Locked read.
+            double get_coupled_squared_distance(const unsigned coupled_cell_local_id) const noexcept {
                 std::lock_guard<std::mutex> guard(mutex_);
-
-                //Check if this node has already been coupled to a node on the second cell
-                auto it = coupled_nodes_map_.find(coupled_cell_local_id);
-
-                //If this node has already been coupled to a node on the second cell
-                if(it != coupled_nodes_map_.end()){
-                    //Change the node to which this node is coupled on the second cell
-                    it->second = std::make_pair(coupled_node_local_id, squared_distance);
-                }
-                //If this node has not yet been coupled to nodes on the cell c2
-                else{
-                    coupled_nodes_map_[coupled_cell_local_id] = std::make_pair(coupled_node_local_id, squared_distance);
-                }
+                const auto it = coupled_nodes_map_.find(coupled_cell_local_id);
+                return (it != coupled_nodes_map_.end()) ? it->second.second : std::numeric_limits<double>::max();
             }
+
+            //Store that this node is coupled to the node `coupled_node_local_id` of the cell `coupled_cell_local_id`
+            //(local ids) at the given squared distance, UNLESS this node already has a strictly closer partner on
+            //that cell: a node has at most one partner per adjacent cell, the closest one found. The compare and
+            //the store happen under the node lock, so a farther candidate found by another thread can never
+            //replace a closer one. Returns true if the partner was stored.
+            bool set_coupled_node_and_min_distance(const unsigned coupled_cell_local_id, const unsigned coupled_node_local_id,  const double squared_distance) noexcept {
+                std::lock_guard<std::mutex> guard(mutex_);
+                return store_partner_unless_closer_one(coupled_cell_local_id, coupled_node_local_id, squared_distance);
+            }
+
+            //Couple the node `a` of the cell `a_cell_local_id` and the node `b` of the cell `b_cell_local_id` to each
+            //other, at the given squared distance, as one transaction: both node locks are held (std::scoped_lock
+            //acquires them without deadlock), and the pair is stored only if neither node already has a strictly
+            //closer partner on the other node's cell. Either both directions are stored or neither. Returns true
+            //if the pair was stored.
+            static bool couple_if_closest(node& a, const unsigned a_cell_local_id, node& b, const unsigned b_cell_local_id, const double squared_distance) noexcept {
+                assert(&a != &b);
+                std::scoped_lock guard(a.mutex_, b.mutex_);
+                if(a.has_closer_partner(b_cell_local_id, squared_distance) || b.has_closer_partner(a_cell_local_id, squared_distance)) return false;
+                a.coupled_nodes_map_[b_cell_local_id] = std::make_pair(b.node_id_, squared_distance);
+                b.coupled_nodes_map_[a_cell_local_id] = std::make_pair(a.node_id_, squared_distance);
+                return true;
+            }
+
+        private:
+            //These two must be called with mutex_ held
+            bool has_closer_partner(const unsigned coupled_cell_local_id, const double squared_distance) const noexcept {
+                const auto it = coupled_nodes_map_.find(coupled_cell_local_id);
+                return it != coupled_nodes_map_.end() && it->second.second < squared_distance;
+            }
+
+            bool store_partner_unless_closer_one(const unsigned coupled_cell_local_id, const unsigned coupled_node_local_id, const double squared_distance) noexcept {
+                if(has_closer_partner(coupled_cell_local_id, squared_distance)) return false;
+                coupled_nodes_map_[coupled_cell_local_id] = std::make_pair(coupled_node_local_id, squared_distance);
+                return true;
+            }
+
+        public:
         #endif
 
 
@@ -215,6 +247,10 @@ class node final
         //Add a force on the node
         void set_force(const vec3& force) noexcept {force_.reset(force);}
         void add_force(const vec3& force) noexcept {force_.translate(force);}
+
+        //Add a force on a node that other threads may update at the same time (contact forces: a node receives
+        //forces from the thread that processes its cell and from the threads that process the cells facing it)
+        void add_force_atomic(const vec3& force) noexcept {force_.atomic_translate(force);}
 
         //Overload the comparion operators
         vec3 operator-(const node& n) const noexcept; 

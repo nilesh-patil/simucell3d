@@ -54,6 +54,28 @@ class vec3
         void translate(const vec3& v);
         void translate(const double dx, const double dy, const double dz);
 
+        //Translate by v with one atomic read-modify-write per component, for an accumulator that several threads
+        //update concurrently (e.g. the contact forces on a node). The vector as a whole is not updated atomically,
+        //which is all a sum needs. Uses the GCC/Clang __atomic builtins (a lock cmpxchg loop on x86-64) rather than
+        //"#pragma omp atomic", whose effect depends on the translation unit being compiled with -fopenmp: the
+        //pragmas in translate() are ignored because math_modules is built without OpenMP.
+        void atomic_translate(const vec3& v) noexcept {
+            atomic_add(dx_, v.dx_);
+            atomic_add(dy_, v.dy_);
+            atomic_add(dz_, v.dz_);
+        }
+
+    private:
+        static void atomic_add(double& target, const double increment) noexcept {
+            double expected;
+            __atomic_load(&target, &expected, __ATOMIC_RELAXED);
+            double desired;
+            do{ desired = expected + increment; }
+            while(!__atomic_compare_exchange(&target, &expected, &desired, true, __ATOMIC_RELAXED, __ATOMIC_RELAXED));
+        }
+
+    public:
+
 
         //Print the content of the vector
         void print() const; 

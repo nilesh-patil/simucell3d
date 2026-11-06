@@ -5,6 +5,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <limits>
 #include <vector>
 #include <map>
 #include <iostream>
@@ -62,6 +63,9 @@ class cell: public std::enable_shared_from_this<cell> {
 
         double area_ = 0.;   //  Cell area
         double volume_ = 0.; //  Cell volume
+        //Signed volume enclosed by the surface at the last volume update: positive when the faces are wound outward,
+        //negative when the surface is inside out. NaN until the first update (the stability check then ignores it)
+        double signed_volume_ = std::numeric_limits<double>::quiet_NaN();
         double pressure_ = 0.; //Pressure difference between the inside and outside of the cell
         double target_volume_ = 0.; //Target volume of the cell
         double target_area_ = 0.; //Target area of the cell
@@ -226,12 +230,18 @@ class cell: public std::enable_shared_from_this<cell> {
             double extent = 0.;              //largest side of the cell AABB
             double max_extent = 0.;          //the extent above which the cell is declared unstable
             unsigned nb_non_finite_nodes = 0;//nodes with a NaN or infinite coordinate
+            double signed_volume = 0.;       //signed volume of the last volume update (see signed_volume_)
+            double aabb_volume = 0.;         //volume of the cell AABB
+            bool negative_volume = false;    //signed_volume <= 0: the surface is inside out
+            bool volume_exceeds_aabb = false;//|signed_volume| > aabb_volume * (1 + tolerance): the surface intersects itself
         };
 
         //A cell whose explicit integration has blown up: any node with a non-finite coordinate, or an AABB
         //wider than max_extent_ratio times the cube root of its target volume (a healthy cell of target
         //volume V spans ~1.2 V^(1/3); 10 V^(1/3) is well beyond any flattened or dividing epithelial cell).
-        stability_report check_numerical_stability(const double max_extent_ratio = 10.) const noexcept;
+        //A non-static cell is also unstable if its surface is inside out (signed volume <= 0) or intersects
+        //itself (|signed volume| > AABB volume * (1 + aabb_volume_tolerance); a sphere fills pi/6 of its AABB).
+        stability_report check_numerical_stability(const double max_extent_ratio = 10., const double aabb_volume_tolerance = 1e-3) const noexcept;
 
         //Apply a force on all the nodes of the cell
         void add_force(const vec3& force) noexcept{
@@ -376,6 +386,9 @@ class cell: public std::enable_shared_from_this<cell> {
         //Return the volume of the cell
         double compute_volume() const noexcept;
 
+        //Return the signed volume enclosed by the surface (positive if the faces are wound outward)
+        double compute_signed_volume() const noexcept;
+
         //Return the area of the cell const noexcept;
         double compute_area() const noexcept;
 
@@ -439,6 +452,7 @@ class cell: public std::enable_shared_from_this<cell> {
         void set_growth_rate(const double growth_rate) noexcept {growth_rate_ = growth_rate;}
         double get_area() const noexcept {return area_;}
         double get_volume() const noexcept {return volume_;}
+        double get_signed_volume() const noexcept {return signed_volume_;}
         double get_pressure() const noexcept {return pressure_;}
         double get_target_volume() const noexcept {return target_volume_;}
         float get_surface_tension_energy() const noexcept {return surface_tension_energy_;}

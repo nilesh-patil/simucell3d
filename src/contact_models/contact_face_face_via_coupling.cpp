@@ -19,7 +19,7 @@ contact_face_face_via_coupling::contact_face_face_via_coupling(const global_simu
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Find the contacts between the faces of the mesh and apply the contact forces
-void contact_face_face_via_coupling::run(const std::vector<cell_ptr>& cell_lst) noexcept{
+void contact_face_face_via_coupling::run(const std::vector<cell_ptr>& cell_lst) noexcept(false){
 
         //Give to each face a global id which is the index of the face in the face_lst_ vector. The ids follow
         //the (cell, face) order of a serial traversal; an exclusive scan over the per-cell counts lets the
@@ -282,7 +282,7 @@ void contact_face_face_via_coupling::build_work_units(const std::vector<cell_ptr
 
 
 //-----------------------------------------------------------------------------------------------
-void contact_face_face_via_coupling::resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept{
+void contact_face_face_via_coupling::resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept(false){
 
     // ADAPTIVE mode: dynamically select algorithm based on cell count
     const size_t cell_count = cell_lst.size();
@@ -446,98 +446,99 @@ void contact_face_face_via_coupling::resolve_contact(const cell_ptr& c1, const c
     if(
         c1->get_cell_type_id() == 0 && c2->get_cell_type_id() == 0
     ){
+        //A candidate partner whose distance is set to this value can no longer be selected
+        constexpr double excluded = std::numeric_limits<double>::max();
 
         //Compute the squared distances between the node n1 and the nodes of the face
         double squared_distance_f_n1 = (n1.pos() - f_n1_pos).squared_norm();
         double squared_distance_f_n2 = (n1.pos() - f_n2_pos).squared_norm();
         double squared_distance_f_n3 = (n1.pos() - f_n3_pos).squared_norm();
 
-        //Check if the node of c1 has already been coupled to a node of c2.
-        //GitHub issue #113: coupled_nodes_map_ is keyed by the coupled cell's LOCAL id
-        //(see set_coupled_node_and_min_distance() below, and run()/time_integration which
-        //index cell_lst with the key). Looking it up by the GLOBAL id missed on every cell
-        //whose global id had drifted from its local id - i.e. on every cell once the tissue
-        //started dividing - so previous_min_squared_distance stayed DBL_MAX, the
-        //"keep the closest partner" test at the bottom of this block always passed, and the
-        //coupling partner became whichever candidate the threads happened to visit last.
-        //Coupled nodes are then teleported onto their common average position by run() and
-        //by the integrator, so a non-nearest partner shears the mesh by up to the adhesion
-        //cutoff every iteration - five orders of magnitude more than the per-step motion the
-        //forces produce - which is how sub-l_min edges and sliver triangles are seeded.
-        auto it_n1 = n1.coupled_nodes_map_.find(c2->get_local_id());
-
-        //Save the previous shortest distance between the node n1 and the nodes of the cell
-        const double previous_min_squared_distance = (it_n1 != n1.coupled_nodes_map_.end()) ? it_n1->second.second : std::numeric_limits<double>::max();
-
-        //If the node of c1 has already been coupled to a node of c2
-        if(it_n1 != n1.coupled_nodes_map_.end()){
-
-            //Get the distance between the 
-
-            //If the node of c1 is coupled with a node of c2 whose distance is smaller than the distance with the node n1
-            //we set the squared distance to infinity  
-            if(previous_min_squared_distance < squared_distance_f_n1){squared_distance_f_n1 = std::numeric_limits<double>::max();}
-            if(previous_min_squared_distance < squared_distance_f_n2){squared_distance_f_n2 = std::numeric_limits<double>::max();}
-            if(previous_min_squared_distance < squared_distance_f_n3){squared_distance_f_n3 = std::numeric_limits<double>::max();}
-        }
-
-
         //If the normal at the node n1 is pointing in an opposite direction than the normal of the face's nodes, we set the squared distance to infinity
-        if(n1.normal_.dot(f_n1.normal_) > max_dot_product_adhesion_){squared_distance_f_n1 = std::numeric_limits<double>::max();}
-        if(n1.normal_.dot(f_n2.normal_) > max_dot_product_adhesion_){squared_distance_f_n2 = std::numeric_limits<double>::max();}
-        if(n1.normal_.dot(f_n3.normal_) > max_dot_product_adhesion_){squared_distance_f_n3 = std::numeric_limits<double>::max();}
-
-        //Check if the nodes of the face are already coupled to other nodes on c1
-        //Same key mismatch as above (issue #113): the map is keyed by local, not global, cell id
-        auto it_f_n1 = f_n1.coupled_nodes_map_.find(c1->get_local_id());
-        auto it_f_n2 = f_n2.coupled_nodes_map_.find(c1->get_local_id());
-        auto it_f_n3 = f_n3.coupled_nodes_map_.find(c1->get_local_id());
-
-        //If the nodes of the face are already coupled to other nodes on c1, and if the distance with these nodes is smaller than the distance with the node n1
-        if(it_f_n1 !=  f_n1.coupled_nodes_map_.end() && it_f_n1->second.second < squared_distance_f_n1){squared_distance_f_n1 = std::numeric_limits<double>::max();}
-        if(it_f_n2 !=  f_n2.coupled_nodes_map_.end() && it_f_n2->second.second < squared_distance_f_n2){squared_distance_f_n2 = std::numeric_limits<double>::max();}
-        if(it_f_n3 !=  f_n3.coupled_nodes_map_.end() && it_f_n3->second.second < squared_distance_f_n3){squared_distance_f_n3 = std::numeric_limits<double>::max();}
+        if(n1.normal_.dot(f_n1.normal_) > max_dot_product_adhesion_){squared_distance_f_n1 = excluded;}
+        if(n1.normal_.dot(f_n2.normal_) > max_dot_product_adhesion_){squared_distance_f_n2 = excluded;}
+        if(n1.normal_.dot(f_n3.normal_) > max_dot_product_adhesion_){squared_distance_f_n3 = excluded;}
 
         //Make sure the curvature at the other point is below the threshold
         const double surface_coupling_max_curvature = c2->get_cell_type()->surface_coupling_max_curvature_;
-        if(f_n1.curvature_ > surface_coupling_max_curvature){squared_distance_f_n1 = std::numeric_limits<double>::max();}
-        if(f_n2.curvature_ > surface_coupling_max_curvature){squared_distance_f_n2 = std::numeric_limits<double>::max();}
-        if(f_n3.curvature_ > surface_coupling_max_curvature){squared_distance_f_n3 = std::numeric_limits<double>::max();}
+        if(f_n1.curvature_ > surface_coupling_max_curvature){squared_distance_f_n1 = excluded;}
+        if(f_n2.curvature_ > surface_coupling_max_curvature){squared_distance_f_n2 = excluded;}
+        if(f_n3.curvature_ > surface_coupling_max_curvature){squared_distance_f_n3 = excluded;}
 
-        //Find the node of the face that is the closest to the node n1
-        double min_squared_distance_to_node_face;
-        node* n2 = nullptr;
+        //The coupling bookkeeping below can only exclude more candidates, and a pair is only coupled below the
+        //adhesion cutoff. A candidate at or beyond the cutoff can neither be coupled nor change which candidate is
+        //selected, so its locked lookup is skipped, and so is the whole block when no candidate is below the cutoff
+        const double cutoff = interaction_cutoff_square_adhesion_;
+        if(squared_distance_f_n1 < cutoff || squared_distance_f_n2 < cutoff || squared_distance_f_n3 < cutoff){
 
-        if(squared_distance_f_n1 < squared_distance_f_n2 && squared_distance_f_n1 < squared_distance_f_n3){
-            min_squared_distance_to_node_face = squared_distance_f_n1;
-            n2 = &f_n1;
-        }
-        else if(squared_distance_f_n2 < squared_distance_f_n1 && squared_distance_f_n2 < squared_distance_f_n3){
-            min_squared_distance_to_node_face = squared_distance_f_n2;
-            n2 = &f_n2;
-        }
-        else{
-            min_squared_distance_to_node_face = squared_distance_f_n3;
-            n2 = &f_n3;
-        }
+            //Coupling maps are written concurrently: n1 and the nodes of the face are also coupled by the threads that
+            //process the cells facing them. They are therefore only read through the locked accessor of the node, and
+            //the final "keep the closest partner" decision is re-checked under both node locks by node::couple_if_closest().
 
-        //If this closesst node in the face (n2) is closer to the node n1 than any previous closest node
-        //and if the distance is below the adhesion cutoff, then we mechanically couple the node n1 to the node n2
-        if(                                                                              
-            min_squared_distance_to_node_face < interaction_cutoff_square_adhesion_ &&      //If the distance is below the adhesion cutoff
-            min_squared_distance_to_node_face < previous_min_squared_distance      //If the distance is smaller than the previous closest distance
-        ){
+            //Check if the node of c1 has already been coupled to a node of c2.
+            //GitHub issue #113: coupled_nodes_map_ is keyed by the coupled cell's LOCAL id
+            //(see node::couple_if_closest(), and run()/time_integration which index cell_lst with
+            //the key). Looking it up by the GLOBAL id missed on every cell whose global id had
+            //drifted from its local id - i.e. on every cell once the tissue started dividing - so
+            //previous_min_squared_distance stayed DBL_MAX, the "keep the closest partner" test at
+            //the bottom of this block always passed, and the coupling partner became whichever
+            //candidate the threads happened to visit last. Coupled nodes are then teleported onto
+            //their common average position by run() and by the integrator, so a non-nearest partner
+            //shears the mesh by up to the adhesion cutoff every iteration - five orders of magnitude
+            //more than the per-step motion the forces produce - which is how sub-l_min edges and
+            //sliver triangles are seeded.
+            //Save the previous shortest distance between the node n1 and the nodes of the cell c2 (max if none)
+            const double previous_min_squared_distance = n1.get_coupled_squared_distance(c2->get_local_id());
 
-            assert(n2->get_local_id() < c2->get_node_lst().size());
-            assert(n2->is_used());
-            assert(c2->get_node_lst()[n2->get_local_id()].is_used());
+            //If the node of c1 is coupled with a node of c2 whose distance is smaller than the distance with the node n1
+            //we set the squared distance to infinity
+            if(previous_min_squared_distance < squared_distance_f_n1){squared_distance_f_n1 = excluded;}
+            if(previous_min_squared_distance < squared_distance_f_n2){squared_distance_f_n2 = excluded;}
+            if(previous_min_squared_distance < squared_distance_f_n3){squared_distance_f_n3 = excluded;}
 
-            //This section is thread safe
-            n1.set_coupled_node_and_min_distance( c2->get_local_id(), n2->get_local_id(), min_squared_distance_to_node_face);
-            n2->set_coupled_node_and_min_distance(c1->get_local_id(), n1.get_local_id(),  min_squared_distance_to_node_face);
+            //If the nodes of the face are already coupled to other nodes on c1 (same local-id key, issue #113),
+            //and if the distance with these nodes is smaller than the distance with the node n1
+            const unsigned c1_local_id = c1->get_local_id();
+            if(squared_distance_f_n1 < cutoff && f_n1.get_coupled_squared_distance(c1_local_id) < squared_distance_f_n1){squared_distance_f_n1 = excluded;}
+            if(squared_distance_f_n2 < cutoff && f_n2.get_coupled_squared_distance(c1_local_id) < squared_distance_f_n2){squared_distance_f_n2 = excluded;}
+            if(squared_distance_f_n3 < cutoff && f_n3.get_coupled_squared_distance(c1_local_id) < squared_distance_f_n3){squared_distance_f_n3 = excluded;}
 
-            //The contact has been resolved, we can stop here
-            return;
+            //Find the node of the face that is the closest to the node n1
+            double min_squared_distance_to_node_face;
+            node* n2 = nullptr;
+
+            if(squared_distance_f_n1 < squared_distance_f_n2 && squared_distance_f_n1 < squared_distance_f_n3){
+                min_squared_distance_to_node_face = squared_distance_f_n1;
+                n2 = &f_n1;
+            }
+            else if(squared_distance_f_n2 < squared_distance_f_n1 && squared_distance_f_n2 < squared_distance_f_n3){
+                min_squared_distance_to_node_face = squared_distance_f_n2;
+                n2 = &f_n2;
+            }
+            else{
+                min_squared_distance_to_node_face = squared_distance_f_n3;
+                n2 = &f_n3;
+            }
+
+            //If this closesst node in the face (n2) is closer to the node n1 than any previous closest node
+            //and if the distance is below the adhesion cutoff, then we mechanically couple the node n1 to the node n2
+            if(
+                min_squared_distance_to_node_face < cutoff &&                                   //If the distance is below the adhesion cutoff
+                min_squared_distance_to_node_face < previous_min_squared_distance               //If the distance is smaller than the previous closest distance
+            ){
+
+                assert(n2->get_local_id() < c2->get_node_lst().size());
+                assert(n2->is_used());
+                assert(c2->get_node_lst()[n2->get_local_id()].is_used());
+
+                //Store the pair in both nodes as one transaction. It is refused if, since the reads above, another
+                //thread has coupled n1 (on c2) or n2 (on c1) to a strictly closer partner: in that case the contact
+                //is treated as not coupled, exactly as if the closer partner had been seen above
+                if(node::couple_if_closest(n1, c1_local_id, *n2, c2->get_local_id(), min_squared_distance_to_node_face)){
+                    //The contact has been resolved, we can stop here
+                    return;
+                }
+            }
         }
     }
 
@@ -589,10 +590,12 @@ void contact_face_face_via_coupling::resolve_contact(const cell_ptr& c1, const c
             const vec3 repulsion_force_vector =  cpa_f_to_node  *  face_type.repulsion_strength_ * integration_region;
 
             //Apply the repulsion forces on the nodes of the 2 faces
-            f_n1.add_force(repulsion_force_vector * bary_pos.dx());
-            f_n2.add_force(repulsion_force_vector * bary_pos.dy());
-            f_n3.add_force(repulsion_force_vector * bary_pos.dz());
-            n1.add_force(repulsion_force_vector * -1.0);   
+            //Atomic: other threads add contact forces to the same nodes concurrently (n1 is a face node for the
+            //threads processing the cells facing c1, and the nodes of f receive forces from every cell facing c2)
+            f_n1.add_force_atomic(repulsion_force_vector * bary_pos.dx());
+            f_n2.add_force_atomic(repulsion_force_vector * bary_pos.dy());
+            f_n3.add_force_atomic(repulsion_force_vector * bary_pos.dz());
+            n1.add_force_atomic(repulsion_force_vector * -1.0);
         }
     }
 }

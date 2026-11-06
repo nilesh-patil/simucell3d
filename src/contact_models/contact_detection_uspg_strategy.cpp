@@ -33,7 +33,7 @@ contact_detection_uspg_strategy::contact_detection_uspg_strategy(const global_si
 // Prepare the USPG grid with current face data
 //---------------------------------------------------------------------------------------------
 void contact_detection_uspg_strategy::prepare(const std::vector<cell*>& cells, const std::vector<face*>& faces,
-                                              const std::vector<aabb>& aabbs, const vec3& bounds) noexcept {
+                                              const std::vector<aabb>& aabbs, const vec3& bounds) noexcept(false) {
     // Handle empty input gracefully
     if (faces.empty()) {
         face_lst_.clear();
@@ -102,7 +102,7 @@ void contact_detection_uspg_strategy::prepare(const std::vector<cell*>& cells, c
 //---------------------------------------------------------------------------------------------
 // Store all faces in the USPG grid with Morton code sorting for cache locality
 //---------------------------------------------------------------------------------------------
-void contact_detection_uspg_strategy::store_faces_in_grid() noexcept {
+void contact_detection_uspg_strategy::store_faces_in_grid() noexcept(false) {
     // Create a new grid with proper dimensions using unique_ptr
     grid_ = std::make_unique<uspg_4d<face*>>(global_min_x_, global_min_y_, global_min_z_, global_max_x_, global_max_y_,
                                              global_max_z_, voxel_size_, face_lst_.size());
