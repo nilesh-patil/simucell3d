@@ -31,7 +31,9 @@ if [[ -n "${THREADS:-}" ]]; then THREADS_FLAG="--threads=$THREADS"; fi
 
 # No wall-clock cap: run indefinitely (beyond 24h) until it completes or is stopped manually.
 # run.log lives OUTSIDE the output dir because the binary wipes --output-dir at startup.
-nohup /usr/bin/time -v ./simucell3d \
+# stdbuf -oL -eL makes run.log line-buffered. Redirected to a file, stdout is otherwise
+# flushed in ~4 KB blocks, i.e. 10-25 min apart at ~30 s/iteration, which looks like a stall.
+nohup /usr/bin/time -v stdbuf -oL -eL ./simucell3d \
     --schedule=adaptive \
     --output-dir="$OUT" \
     --diagnostics-csv="$OUT/performance_diagnostics.csv" \
