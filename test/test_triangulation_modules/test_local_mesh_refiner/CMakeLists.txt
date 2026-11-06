@@ -7,6 +7,9 @@ add_executable(test_local_mesh_refiner
     test_local_mesh_refiner.cpp
 )
 
+#Indicate to the tests the path to project source directory (fixtures)
+add_definitions(-DPROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+
 target_link_libraries(test_local_mesh_refiner PUBLIC  
     src 
     mesh
@@ -33,5 +36,4 @@ add_test(NAME triangulation_modules_local_mesh_refiner_edge_swap_test           
 add_test(NAME triangulation_modules_local_mesh_refiner_split_edge_test          COMMAND test_local_mesh_refiner split_edge_test)
 add_test(NAME triangulation_modules_local_mesh_refiner_merge_edge_test          COMMAND test_local_mesh_refiner merge_edge_test)
 add_test(NAME triangulation_modules_local_mesh_refiner_get_triangle_score_test  COMMAND test_local_mesh_refiner get_triangle_score_test)
-
-
+add_test(NAME triangulation_modules_local_mesh_refiner_refine_mesh_keeps_winding_consistent COMMAND test_local_mesh_refiner refine_mesh_keeps_winding_consistent_test)

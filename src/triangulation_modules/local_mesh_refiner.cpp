@@ -442,15 +442,25 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
     const face& f_1 = c->get_face(e_ab.f1());
     const face& f_2 = c->get_face(e_ab.f2());
 
-    //Get the normals of the 2 faces
-    const vec3 f1_normal = f_1.get_normal();
-    const vec3 f2_normal = f_2.get_normal();
-
     //Get the opposite nodes of the edge in the two faces
     const unsigned id_n_c = f_1.get_opposite_node(n_a.get_local_id(), n_b.get_local_id());
     const unsigned id_n_d = f_2.get_opposite_node(n_a.get_local_id(), n_b.get_local_id());
-    const node& n_c = c->get_node(id_n_c);
-    const node& n_d = c->get_node(id_n_d);
+
+    //The winding of the 4 new faces is inherited from the faces they replace: a face whose node
+    //cycle runs A->B (i.e. A,B,C) is replaced by (C,A,E) and (C,E,B); one that runs B->A by
+    //(C,E,A) and (C,B,E). This must be decided combinatorially. It used to be decided by comparing
+    //(A-C)x(B-C) with the face normal stored in f_1/f_2, but that normal is only refreshed once per
+    //time step and is not updated by merge_edge() within this refine_mesh() call: after a merge or a
+    //node displacement folds a small triangle over, its stored normal points the opposite way, the
+    //wrong branch is taken and the new faces get the opposite winding of their neighbours. The cell
+    //then carries a patch of inverted faces for the rest of its life: compute_volume() under- or
+    //over-counts it, and the pressure, bending and contact forces act on it in the wrong direction
+    const auto runs_from_a_to_b = [id_n_a, id_n_b](const face& f){
+        const auto [i1, i2, i3] = f.get_node_ids();
+        return (i1 == id_n_a && i2 == id_n_b) || (i2 == id_n_a && i3 == id_n_b) || (i3 == id_n_a && i1 == id_n_b);
+    };
+    const bool f_1_runs_a_to_b = runs_from_a_to_b(f_1);
+    const bool f_2_runs_a_to_b = runs_from_a_to_b(f_2);
 
     //Create a node in the middle of the edge
     const vec3 n_e_pos = (n_b.pos() + n_a.pos()) * 0.5;
@@ -481,13 +491,6 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
     #endif 
 
 
-    // Cache node positions before add_node() to prevent dangling references
-    // (add_node can trigger vector reallocation, invalidating node references)
-    const vec3 n_a_pos = n_a.pos();
-    const vec3 n_b_pos = n_b.pos();
-    const vec3 n_c_pos = n_c.pos();
-    const vec3 n_d_pos = n_d.pos();
-
     //Add the new node to the cell
     const unsigned id_n_e = c->add_node(n_e);
 
@@ -511,7 +514,7 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
 
     //Create the faces 3 and 5 such that they have the normal pointing in
     //the same direction as the normal of f1
-    if ((n_a_pos - n_c_pos).cross(n_b_pos - n_c_pos).dot(f1_normal) >= 0.){
+    if (f_1_runs_a_to_b){
         f_3_id = c->create_face(id_n_c, id_n_a, id_n_e);
         f_5_id = c->create_face(id_n_c, id_n_e, id_n_b);
     }else{
@@ -523,7 +526,7 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
 
     //Create the faces 4 and 6 such that they have the normal pointing in
     //the same direction as the normal of f2
-    if ((n_a_pos - n_d_pos).cross(n_b_pos - n_d_pos).dot(f2_normal) >= 0.){
+    if (f_2_runs_a_to_b){
         f_4_id = c->create_face(id_n_d, id_n_a, id_n_e);
         f_6_id = c->create_face(id_n_d, id_n_e, id_n_b);
     }else{

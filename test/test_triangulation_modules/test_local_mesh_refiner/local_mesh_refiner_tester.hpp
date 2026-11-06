@@ -24,6 +24,7 @@ class local_mesh_refiner_tester
         int split_edge_test();
         int merge_edge_test();
         int get_triangle_score_test();
+        int refine_mesh_keeps_winding_consistent_test();
 
 };
 
