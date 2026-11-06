@@ -1,4 +1,7 @@
 #include "local_mesh_refiner_tester.hpp"
+#include <map>
+#include <memory>
+#include <iostream>
 
 
 
@@ -924,6 +927,48 @@ int local_mesh_refiner_tester::get_triangle_score_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// Refining a cell must never give two adjacent faces opposite windings. The fixture is a daughter cell
+// exactly as cell_divider::create_daughter_cells() handed it to refine_mesh() (coordinates written with 17
+// significant digits), taken from iteration 11000 of the paper-config growth run. split_edge() used to
+// pick the winding of the 4 faces it creates from the stored normals of the 2 faces it replaces; on this
+// cell one of them is stale and points the other way (a merge earlier in the same call folded it over),
+// so 3 directed edges ended up shared by two faces. 25 of 2998 daughter cells of that snapshot did this.
+int local_mesh_refiner_tester::refine_mesh_keeps_winding_consistent_test(){
+
+    mesh_reader reader(std::string(PROJECT_SOURCE_DIR) + "/test/test_triangulation_modules/test_local_mesh_refiner/split_edge_winding_daughter.vtk");
+    std::vector<mesh> cell_mesh_lst = reader.read();
+    assert(cell_mesh_lst.size() == 1);
+
+    cell_ptr c = std::make_shared<cell>(cell_mesh_lst[0], 0);
+    c->initialize_cell_properties();
+
+    const double l_min = 1e-6;
+    local_mesh_refiner lmr(l_min, 3. * l_min, true);
+    lmr.refine_mesh(c);
+
+    //On a consistently oriented closed surface every directed edge belongs to exactly one face
+    std::map<std::pair<unsigned, unsigned>, unsigned> directed_edge_count;
+    for(const face& f : c->get_face_lst()){
+        if(!f.is_used()) continue;
+        const auto [n1_id, n2_id, n3_id] = f.get_node_ids();
+        directed_edge_count[{n1_id, n2_id}]++;
+        directed_edge_count[{n2_id, n3_id}]++;
+        directed_edge_count[{n3_id, n1_id}]++;
+    }
+    const auto nb_bad_edges = std::count_if(directed_edge_count.begin(), directed_edge_count.end(),
+        [](const auto& edge_count){return edge_count.second != 1;});
+
+    if(nb_bad_edges != 0){
+        std::cout << "FAIL: " << nb_bad_edges << " directed edges are shared by two faces after refinement" << std::endl;
+        return 1;
+    }
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
@@ -945,6 +990,7 @@ int main (int argc, char** argv){
     if (test_name == "split_edge_test")               return tester.split_edge_test();
     if (test_name == "merge_edge_test")               return tester.merge_edge_test();
     if (test_name == "get_triangle_score_test")       return tester.get_triangle_score_test();
+    if (test_name == "refine_mesh_keeps_winding_consistent_test") return tester.refine_mesh_keeps_winding_consistent_test();
 
     
     
