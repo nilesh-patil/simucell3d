@@ -2,10 +2,6 @@
 #include <atomic>
 #include <iostream>
 
-#include <atomic>
-#include <iostream>
-
-
 
 /*
     This class makes sure that all the edges of the cell meshes have lengths comprised in the range [l_min, l_max]. 
@@ -59,18 +55,15 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
     //Keep track of the number of iterations
     unsigned iteration = 0;
 
-    // OSCILLATION DETECTION: Track operations at spatial positions to detect infinite loops
-    // When the same position region is processed too many times, we're oscillating between
-    // split/merge operations and should gracefully stop.
-    // TODO(human): Implement the oscillation detection logic here
-    // The key design decision is: What spatial resolution (POSITION_HASH_RESOLUTION)
-    // should we use for bucketing positions, and how many operations at the same
-    // position (MAX_POSITION_OPERATIONS) indicates oscillation?
-    //
-    // Considerations:
-    // - Resolution too coarse: False positives, legitimate nearby operations blocked
-    // - Resolution too fine: Oscillation not detected, infinite loops continue
-    // - For l_min = 5e-7 m (500nm), a bucket size of ~1e-7 m (100nm) might be appropriate
+    // OSCILLATION DETECTION: guards against a split/merge cycle that never converges.
+    // Every split or merge is counted against the cubic bucket (edge POSITION_HASH_RESOLUTION = 1e-7 m)
+    // that contains the midpoint of the edge it operates on; the counts live for one refine_mesh() call.
+    // The operation that would be the 51st in the same bucket (MAX_POSITION_OPERATIONS = 50) is not
+    // performed: the loop stops and every edge still in edge_to_check_set is abandoned for this call
+    // (reported in the bail-out branch after the loop). Buckets are keyed by a 64-bit hash, so two
+    // distinct buckets can, rarely, share a count.
+    // The bucket size was chosen for l_min = 5e-7 m; the paper config (parameters/longrun_fast_growth.xml)
+    // uses min_edge_length = 1e-6 m, i.e. a bucket of l_min / 10.
     std::unordered_map<uint64_t, unsigned> position_operation_count;
     constexpr double POSITION_HASH_RESOLUTION = 1e-7;  // Spatial bucket size in meters
     constexpr unsigned MAX_POSITION_OPERATIONS = 50;   // Max operations at same position bucket
