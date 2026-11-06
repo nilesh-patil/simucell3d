@@ -37,3 +37,4 @@ add_test(NAME triangulation_modules_local_mesh_refiner_split_edge_test          
 add_test(NAME triangulation_modules_local_mesh_refiner_merge_edge_test          COMMAND test_local_mesh_refiner merge_edge_test)
 add_test(NAME triangulation_modules_local_mesh_refiner_get_triangle_score_test  COMMAND test_local_mesh_refiner get_triangle_score_test)
 add_test(NAME triangulation_modules_local_mesh_refiner_refine_mesh_keeps_winding_consistent COMMAND test_local_mesh_refiner refine_mesh_keeps_winding_consistent_test)
+add_test(NAME triangulation_modules_local_mesh_refiner_winding_self_check COMMAND test_local_mesh_refiner winding_self_check_test)

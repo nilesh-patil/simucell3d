@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 
 
+#include <cstdint>
 #include <cassert>
 #include <cmath>  
 #include <set>  
@@ -90,6 +91,19 @@ class local_mesh_refiner
         void split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_check_set) const noexcept(false);
 
         void merge_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_check_set) const noexcept(false);
+
+        //Return the number of edges of the cell whose 2 faces run through them in the same direction.
+        //It is 0 for a consistently wound (oriented) surface, where every directed edge belongs to exactly one face
+        static unsigned count_inconsistently_wound_edges(const cell_ptr& c) noexcept;
+
+        //Fast screen for the same property, one pass over the faces: the sum over all the directed edges
+        //(a, b) of the faces of an antisymmetric hash g(a, b) = -g(b, a). It is exactly 0 for a consistently
+        //wound closed surface, and non-zero (but for a ~2^-64 chance) as soon as one edge is not
+        static uint64_t winding_checksum(const cell_ptr& c) noexcept;
+
+        //If the winding of the faces of the cell is inconsistent, report it and re-orient the faces.
+        //Returns the number of inconsistently wound edges that were found
+        unsigned repair_inconsistent_winding(cell_ptr c) const noexcept;
 
 
         

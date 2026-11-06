@@ -1,4 +1,6 @@
 #include "local_mesh_refiner.hpp"
+#include <atomic>
+#include <iostream>
 
 
 
@@ -142,6 +144,7 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
     if(oscillation_detected){
         // Mesh oscillation detected but simulation can continue
         // The mesh quality is acceptable even without full convergence
+        repair_inconsistent_winding(c);
         return;
     }
 
@@ -152,8 +155,108 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
         );
     }
 
+    //Every operation above is meant to preserve the orientation of the surface. Verify it, because a
+    //single wrongly wound face is silent otherwise: the cell lives on with a wrong volume and forces
+    //that act on part of its surface in the wrong direction (see split_edge())
+    repair_inconsistent_winding(c);
+}
+//-----------------------------------------------------------------------------------------------
 
 
+
+
+//-----------------------------------------------------------------------------------------------
+//Count the edges whose 2 faces run through them in the same direction. On a consistently wound
+//closed surface the two faces of an edge always traverse it in opposite directions. One pass over
+//the edge set, no allocation
+unsigned local_mesh_refiner::count_inconsistently_wound_edges(const cell_ptr& c) noexcept{
+
+    //True if the node cycle of the face contains the directed edge n1 -> n2
+    const auto face_runs_from_to = [](const face& f, const unsigned n1_id, const unsigned n2_id){
+        const auto [i1, i2, i3] = f.get_node_ids();
+        return (i1 == n1_id && i2 == n2_id) || (i2 == n1_id && i3 == n2_id) || (i3 == n1_id && i1 == n2_id);
+    };
+
+    unsigned nb_inconsistent_edges = 0;
+    for(const edge& e : c->edge_set_){
+        //Non-manifold edges are not a winding problem and are reported elsewhere (cell::is_manifold())
+        if(!e.is_manifold()) continue;
+        const face& f_1 = c->face_lst_[e.f1()];
+        const face& f_2 = c->face_lst_[e.f2()];
+        if(face_runs_from_to(f_1, e.n1(), e.n2()) == face_runs_from_to(f_2, e.n1(), e.n2())) nb_inconsistent_edges++;
+    }
+    return nb_inconsistent_edges;
+}
+//-----------------------------------------------------------------------------------------------
+
+
+
+
+//-----------------------------------------------------------------------------------------------
+//Sum over the directed edges (a, b) of all the used faces of g(a, b) = h(a, b) - h(b, a), with h a 64-bit
+//mixing hash and the arithmetic modulo 2^64. On a consistently wound closed surface every directed edge
+//(a, b) is matched by the directed edge (b, a) of the neighbouring face, so the terms cancel exactly and
+//the sum is 0. An edge that both of its faces traverse as (a, b) adds 2 g(a, b) instead, which is not 0
+//unless the hash happens to collide. One pass over the contiguous face list, no allocation
+uint64_t local_mesh_refiner::winding_checksum(const cell_ptr& c) noexcept{
+
+    //splitmix64 finalizer
+    const auto h = [](const unsigned a, const unsigned b) -> uint64_t {
+        uint64_t x = (static_cast<uint64_t>(a) << 32) | static_cast<uint64_t>(b);
+        x += 0x9e3779b97f4a7c15ULL;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
+        return x ^ (x >> 31);
+    };
+
+    uint64_t checksum = 0;
+    for(const face& f : c->face_lst_){
+        if(!f.is_used()) continue;
+        const auto [n1_id, n2_id, n3_id] = f.get_node_ids();
+        checksum += h(n1_id, n2_id) - h(n2_id, n1_id);
+        checksum += h(n2_id, n3_id) - h(n3_id, n2_id);
+        checksum += h(n3_id, n1_id) - h(n1_id, n3_id);
+    }
+    return checksum;
+}
+//-----------------------------------------------------------------------------------------------
+
+
+
+
+//-----------------------------------------------------------------------------------------------
+//Called at the end of refine_mesh(). If the winding of the faces of the cell is inconsistent, report
+//it (the first 20 occurrences, then every 1000th) and re-orient all the faces of the cell from one
+//seed face, which is what cell::initialize_cell_properties() does for a new cell. Repairing instead
+//of throwing keeps a long run alive; the log line makes any regression of split_edge() visible
+unsigned local_mesh_refiner::repair_inconsistent_winding(cell_ptr c) const noexcept{
+
+    //This runs on every cell at every time step, so screen with the checksum first. On the 26k cells of a
+    //paper-config snapshot (350 faces on average) it takes ~5 us per cell, against ~27 us for the exact
+    //count over the edge set, ~100 us for a refine_mesh() call that changes nothing and ~2 ms of CPU time
+    //per cell for a whole time step. A non-manifold surface can also give a non-zero checksum: the exact
+    //count, which only looks at manifold edges, then returns 0
+    if(winding_checksum(c) == 0) return 0;
+
+    const unsigned nb_inconsistent_edges = count_inconsistently_wound_edges(c);
+    if(nb_inconsistent_edges == 0) return 0;
+
+    //cell::check_face_normal_orientation() walks the surface through manifold edges only
+    const bool can_be_repaired = c->is_manifold();
+
+    static std::atomic<unsigned long> nb_repairs{0};
+    const unsigned long n = ++nb_repairs;
+    if(n <= 20 || n % 1000 == 0){
+        std::cerr << "local_mesh_refiner: inconsistent face winding on cell " << c->get_id()
+                  << " (" << nb_inconsistent_edges << " edges), "
+                  << (can_be_repaired ? "faces re-oriented" : "not repaired: the surface is not manifold")
+                  << " (occurrence " << n << ")" << std::endl;
+    }
+    if(!can_be_repaired) return nb_inconsistent_edges;
+
+    c->check_face_normal_orientation();
+    c->update_all_face_normals_and_areas();
+    return nb_inconsistent_edges;
 }
 //-----------------------------------------------------------------------------------------------
 
