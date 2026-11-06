@@ -1,5 +1,5 @@
 #The verscontact_modelsn of cmake required
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Explicit source file list
 set(SRC_FILES

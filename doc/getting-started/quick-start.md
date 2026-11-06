@@ -6,7 +6,7 @@ Run your first 3D tissue simulation in under 5 minutes.
 
 - **Linux, macOS, or Windows with WSL** (Docker recommended for easiest setup)
 - For Docker: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- For manual build: GCC 9+, CMake 3.0+, OpenMP
+- For manual build: GCC 9+, CMake 3.10+, OpenMP
 
 ## Quick Start (Docker - Recommended)
 

@@ -196,7 +196,7 @@ docker build -t simucell3d_docker_img .
 ```
 
 #### Option 2: Manual Build (Linux/WSL)
-Requires GCC 9+, CMake 3.0+, and OpenMP.
+Requires GCC 9+, CMake 3.10+, and OpenMP.
 
 ```bash
 git clone https://github.com/nilesh-patil/simucell3d.git
