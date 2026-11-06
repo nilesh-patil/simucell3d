@@ -4,11 +4,35 @@ cmake_minimum_required(VERSION 3.0)
 set(CMAKE_CXX_STANDARD 17)
 
 
-#The name of the project
-project(SimuCell3D)
+#The name and version of the project
+project(SimuCell3D VERSION 2.1.0)
 
 # Generate compile_commands.json for IDE/tooling support
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Expose the version (and the git short sha at configure time) to the code
+# through a generated header: ${PROJECT_BINARY_DIR}/generated/version.hpp
+set(SIMUCELL3D_GIT_SHA "unknown")
+find_package(Git QUIET)
+if(GIT_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        OUTPUT_VARIABLE _simucell3d_git_sha
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        RESULT_VARIABLE _simucell3d_git_result
+    )
+    if(_simucell3d_git_result EQUAL 0 AND NOT _simucell3d_git_sha STREQUAL "")
+        set(SIMUCELL3D_GIT_SHA "${_simucell3d_git_sha}")
+    endif()
+endif()
+configure_file(
+    ${PROJECT_SOURCE_DIR}/include/version.hpp.in
+    ${PROJECT_BINARY_DIR}/generated/version.hpp
+    @ONLY
+)
+message(STATUS "SimuCell3D version ${PROJECT_VERSION} (${SIMUCELL3D_GIT_SHA})")
 
 #Check if the python bindings should be compiled
 if(NOT DEFINED ENABLE_PYTHON_BINDINGS)

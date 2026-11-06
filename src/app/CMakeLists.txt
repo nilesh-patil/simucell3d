@@ -25,6 +25,15 @@ target_include_directories(simucell3d PRIVATE
     "${PROJECT_SOURCE_DIR}/include/"
     "${PROJECT_SOURCE_DIR}/include/io"
     "${PROJECT_SOURCE_DIR}/include/mesh"
+    "${PROJECT_BINARY_DIR}/generated"   # version.hpp (configured in the top-level CMakeLists.txt)
+)
+
+# `simucell3d --version` must exit 0 and print "SimuCell3D <PROJECT_VERSION> (<sha>)"
+add_test(NAME cli_version_flag
+    COMMAND ${CMAKE_COMMAND}
+        -DSIMUCELL3D_BIN=$<TARGET_FILE:simucell3d>
+        -DEXPECTED_VERSION=${PROJECT_VERSION}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/check_version_flag.cmake
 )
 
 # Create symlink in build root for backward compatibility with scripts
