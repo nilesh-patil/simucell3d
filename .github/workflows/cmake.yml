@@ -13,8 +13,8 @@ on:
         default: main
 
 env:
-  # CMake 4 (ubuntu-latest) rejects cmake_minimum_required(VERSION < 3.5),
-  # which 70 of our CMakeLists.txt still declare.
+  # All project CMakeLists.txt now require CMake >= 3.10; this stays as a safety net
+  # for vendored or third-party CMake code that CMake 4 would otherwise reject.
   CMAKE_POLICY_VERSION_MINIMUM: "3.5"
 
 jobs:

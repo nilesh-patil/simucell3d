@@ -120,8 +120,12 @@ is reported so that you can see how often it acted.
   paper configuration, the contact cutoff (2e-7 m) is five times smaller than the minimum edge
   length (1e-6 m).
 - **Inside-out cells in long runs.** Rarely, a whole cell becomes inside-out and tangled late in
-  a long run. This is under investigation.
-- About 0.2% of newborn daughter cells are removed by the unstable-cell safeguard.
+  a long run. In an 8-core paper-configuration run of this code without the winding self-check,
+  4 such cells appeared between 26,000 and 44,000 cells, each removed by the unstable-cell
+  safeguard. This is under investigation.
+- **Newborn daughters removed as unstable.** In the same run, 73 cells had been removed as
+  unstable by 44,000 cells; most were daughters removed within about 60 iterations of their
+  division, just past the length limit and with normal volume.
 - **Data race in face-face coupling.** Threads add contact forces to nodes of neighbouring cells
   without synchronisation. This has been present since 1.0.
 - **Multi-threaded runs are not bit-reproducible.** Two runs with the same input and more than
