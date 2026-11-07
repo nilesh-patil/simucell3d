@@ -47,3 +47,10 @@ add_test(NAME solver_test_unstable_cell_removed              COMMAND test_solver
 add_test(NAME solver_test_thread_placement                    COMMAND test_solver test_thread_placement)
 add_test(NAME solver_test_contact_model_throws_on_diverged_domain COMMAND test_solver test_contact_model_throws_on_diverged_domain)
 add_test(NAME solver_test_inverted_cell_removed               COMMAND test_solver test_inverted_cell_removed)
+
+# Release-style builds only (NDEBUG): in Debug the refiner's asserts fire first, so the test returns 77, which
+# CTest then reports as skipped instead of passed
+add_test(NAME solver_test_refinement_failure_end_to_end       COMMAND test_solver test_refinement_failure_end_to_end)
+set_tests_properties(solver_test_refinement_failure_end_to_end PROPERTIES SKIP_RETURN_CODE 77)
+
+# Handling of the failures reported by local_mesh_refiner::refine_meshes()

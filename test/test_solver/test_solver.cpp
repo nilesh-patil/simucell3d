@@ -24,6 +24,8 @@
 #include <algorithm>
 #include <filesystem>
 #include <sstream>
+#include <optional>
+#include <stdexcept>
 #include <unistd.h>  // For getpid()
 
 #include "solver.hpp"
@@ -1027,6 +1029,309 @@ int test_inverted_cell_removed() {
 
 
 //---------------------------------------------------------------------------------------------------------
+// Helpers of the refinement-failure tests
+//---------------------------------------------------------------------------------------------------------
+
+// Redirects std::cerr into a string for the lifetime of the object and restores it on every exit path
+// (an exception, an early return). A leaked redirection would swallow the output of the rest of the process.
+class cerr_capture {
+public:
+    cerr_capture() : previous_(std::cerr.rdbuf(buffer_.rdbuf())) {}
+    ~cerr_capture() { std::cerr.rdbuf(previous_); }
+    cerr_capture(const cerr_capture&) = delete;
+    cerr_capture& operator=(const cerr_capture&) = delete;
+    std::string str() const { return buffer_.str(); }
+
+private:
+    std::ostringstream buffer_;  // declared first: previous_ is initialised from it
+    std::streambuf* previous_;
+};
+
+// Removes the unique output directory of a test when the test function is left, whatever the exit path
+class output_dir_cleanup {
+public:
+    explicit output_dir_cleanup(const std::string& dir) : dir_(dir) {}
+    ~output_dir_cleanup() { cleanup_output_dir(dir_); }
+    output_dir_cleanup(const output_dir_cleanup&) = delete;
+    output_dir_cleanup& operator=(const output_dir_cleanup&) = delete;
+
+private:
+    std::string dir_;
+};
+
+// cell, face and node all declare "friend class cell_tester", which is how this test reaches the protected
+// face::set_area(), the edge set of a cell and the position of a node without touching src/ or include/.
+// test_mesh has its own cell_tester, but it lives in the test_cell executable: test_solver is a separate
+// executable, so the two definitions never meet at link time (no ODR clash).
+class cell_tester {
+public:
+    // Overwrite the stored area of a face (what refine_mesh() reads through get_triangle_score())
+    static void set_face_area(cell& c, const unsigned face_id, const double area) { c.face_lst_[face_id].set_area(area); }
+
+    // Remove an edge from the edge set of the cell; returns the number of erased edges (0 or 1)
+    static size_t erase_edge(cell& c, const edge& e) { return c.edge_set_.erase(e); }
+
+    // Move one node of the cell to the given position (also to a non-finite one: nothing is checked)
+    static void set_node_position(cell& c, const unsigned node_id, const vec3& position) { c.node_lst_[node_id].pos_ = position; }
+};
+
+// Test subclass of the solver that can skip the mesh file the very first iteration writes. save_mesh() writes
+// result_1.vtk at the start of iteration 0, and the mesh writer refuses a non-finite coordinate: pretending that
+// file was written lets the iteration go on to the refinement. (Uses nothing but what the solver had before the
+// refinement-failure containment, so that test_refinement_failure_end_to_end compiles against the old code.)
+class mesh_save_skipping_solver : public solver {
+public:
+    using solver::solver;  // Inherit constructors
+
+    void skip_first_mesh_save() { file_number_ = 1; }
+};
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+/**
+ * @brief End to end: a cell whose real refinement throws is removed and the run goes on (AC6)
+ *
+ * fixinteg (a long run at ~79.6k cells) ended with exit 1 because one cell's refinement threw
+ * std::bad_optional_access (an unchecked optional::value() on an edge that was missing from the edge set), the
+ * exception left local_mesh_refiner::refine_meshes() and run_iteration(), and main() stopped the whole tissue.
+ *
+ * Fixture, all through public APIs plus the test-local cell_tester friend:
+ *  - "broken" is a copy of the mesh of the second loaded cell (shifted away from it) with a private cell type
+ *    whose division volume is 1 m^3, so it never divides at iteration 0 (the divider would otherwise be the
+ *    first to touch it).
+ *  - A face f is picked whose stored area is overwritten with 0: its triangle score is then 0 < 0.2, so
+ *    refine_mesh() swaps the longest edge AB of f. swap_edge() looks up AC, CB, BD and DA (C and D are the
+ *    nodes opposite AB in its two faces) and calls optional::value() on each. One of them, X, is erased from
+ *    the edge set, so that lookup throws std::bad_optional_access, through noexcept(false) frames only.
+ *  - X must NOT be the longest edge of either of its two faces: get_triangle_score() is noexcept and calls
+ *    value() on the longest edge of the face it scores, so scoring a face whose longest edge is X would end in
+ *    std::terminate (SIGABRT) instead of an exception. The choice below checks this for both faces of X, on
+ *    the intact cell, before X is erased. Faces before f must already score >= 0.2, so that
+ *    remove_elongated_triangles() reaches f without swapping anything else first.
+ *  - Pre-flight: refine_mesh() on an identically built copy throws exactly std::bad_optional_access. Only then
+ *    does the solver run mean what it says.
+ *  - R3 probe (removal BEFORE contact detection): one node of the broken cell, one that the refiner does not
+ *    touch before it throws, is sent to x = +infinity. If the broken cell were still in the list when the contact
+ *    model runs, the bounding box of the tissue would be non-finite and contact detection would throw
+ *    unstable_simulation_exception (USPG grid path, which is the paper config). Without the probe the broken cell
+ *    would be a perfectly usable cell for contact detection, and removing it after contact instead of before
+ *    would go unnoticed. The first mesh file of iteration 0 is skipped (the mesh writer refuses the infinity).
+ * Then a solver holding {healthy, broken, healthy} runs one iteration, which must not throw: the broken cell
+ * is removed (counted, logged, cleared) and the two healthy cells go on.
+ *
+ * Release builds only (NDEBUG, so RelWithDebInfo runs it too): in a Debug build the asserts of swap_edge()
+ * fire before the throwing value() call. The test then returns 77, which CMake maps to "skipped"
+ * (SKIP_RETURN_CODE), so a Debug run never reports a pass for a test that did not run.
+ *
+ * @return 0 on success, 1 on failure, 77 when skipped
+ */
+int test_refinement_failure_end_to_end() {
+    std::cout << "Running test_refinement_failure_end_to_end..." << std::endl;
+
+#ifndef NDEBUG
+    std::cout << "  skipped: refiner asserts fire first in Debug (run it in a Release or RelWithDebInfo build)" << std::endl;
+    return 77;
+#endif
+
+    std::string test_output_dir = create_unique_output_dir("refinement_failure_end_to_end");
+    output_dir_cleanup cleanup(test_output_dir);
+
+    try {
+        std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+        sim_params.enable_edge_swap_operation_ = true;  // the swap is the code path that is made to throw
+#if CONTACT_MODEL_INDEX == 2
+        sim_params.contact_detection_algorithm_ = ContactDetectionAlgorithm::USPG;  // the grid path of the paper config
+#endif
+
+        if (loaded.size() < 2) {
+            std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+            return 1;
+        }
+
+        // The solver builds its refiner exactly like this (solver.cpp, constructor)
+        const local_mesh_refiner lmr(sim_params.min_edge_len_, sim_params.min_edge_len_ * 3., true);
+
+        // A private cell type that never divides at iteration 0 (as in test_local_ids_resynced_after_cell_removal)
+        auto broken_type = std::make_shared<cell_type_parameters>(*loaded[1]->get_cell_type());
+        broken_type->avg_division_vol_ = 1.0;
+
+        // The broken cell: a copy of the mesh of the second loaded cell, shifted away from it. Same construction every
+        // time, so the face and node ids of the copies are identical
+        const auto build_intact_cell = [&]() -> cell_ptr {
+            mesh m = loaded[1]->get_mesh();
+            for (size_t i = 0; i < m.node_pos_lst.size(); i += 3) m.node_pos_lst[i] += 1e-4;
+            cell_ptr c = std::make_shared<epithelial_cell>(m, 1000u, broken_type);
+            c->initialize_cell_properties();
+            c->rebase();
+            return c;
+        };
+
+        // ---- Choose the face f and the edge X on an intact copy ------------------------------------------
+        constexpr double score_min = 0.2;  // local_mesh_refiner::triangle_score_min_ (private)
+        const cell_ptr probe = build_intact_cell();
+        const std::vector<face>& probe_faces = probe->get_face_lst();
+
+        bool found = false;
+        unsigned face_id = 0, node_a = 0, node_b = 0, node_c = 0, node_d = 0;
+        edge x_edge;
+        bool earlier_faces_fine = true;  // every used face before the current one scores >= score_min
+        for (unsigned fi = 0; fi < probe_faces.size() && !found; fi++) {
+            if (!probe_faces[fi].is_used()) continue;
+            const auto [score, ab] = lmr.get_triangle_score(probe, probe_faces[fi]);
+            if (earlier_faces_fine && ab.is_manifold()) {
+                const unsigned a = ab.n1(), b = ab.n2();
+                const unsigned c = probe_faces[ab.f1()].get_opposite_node(a, b);
+                const unsigned d = probe_faces[ab.f2()].get_opposite_node(a, b);
+                const std::pair<unsigned, unsigned> candidates[4] = {{a, c}, {c, b}, {b, d}, {d, a}};
+                for (const auto& [u, v] : candidates) {
+                    const std::optional<edge> x = probe->get_edge(u, v);
+                    if (!x.has_value() || !x->is_manifold()) continue;
+                    // get_triangle_score() is noexcept: it must never be asked to look up the erased edge
+                    const bool longest_in_f1 = lmr.get_triangle_score(probe, probe_faces[x->f1()]).second == *x;
+                    const bool longest_in_f2 = lmr.get_triangle_score(probe, probe_faces[x->f2()]).second == *x;
+                    if (longest_in_f1 || longest_in_f2) continue;
+                    found = true;
+                    face_id = fi;
+                    node_a = a; node_b = b; node_c = c; node_d = d;
+                    x_edge = *x;
+                    break;
+                }
+            }
+            if (score < score_min) earlier_faces_fine = false;
+        }
+        if (!found) {
+            std::cout << "FAILED: no face of the test cell fits the fixture (see the comment of this test)" << std::endl;
+            return 1;
+        }
+        std::cout << "  fixture: face " << face_id << " (longest edge AB = " << node_a << "-" << node_b
+                  << ", opposite nodes C = " << node_c << ", D = " << node_d << "), edge X = " << x_edge.n1() << "-"
+                  << x_edge.n2() << " erased from the edge set, area of face " << face_id << " set to 0" << std::endl;
+
+        // The R3 probe: one node of the broken cell is sent to x = +infinity, which makes the bounding box of the tissue
+        // non-finite, so that contact detection throws unstable_simulation_exception if the broken cell is still in the
+        // list when it runs. The refiner must not touch that node before it throws: it belongs to none of the faces
+        // scored up to and including face f (the loop of remove_elongated_triangles() stops at f), and is none of the
+        // nodes A, B, C, D that swap_edge() uses.
+        std::vector<bool> used_before_the_throw(probe->get_node_lst().size(), false);
+        for (unsigned fi = 0; fi <= face_id; fi++) {
+            if (!probe_faces[fi].is_used()) continue;
+            for (const unsigned n : probe_faces[fi].get_node_ids()) used_before_the_throw[n] = true;
+        }
+        for (const unsigned n : {node_a, node_b, node_c, node_d}) used_before_the_throw[n] = true;
+        bool found_poison = false;
+        unsigned poison_node = 0;
+        for (unsigned n = static_cast<unsigned>(used_before_the_throw.size()); n-- > 0 && !found_poison;) {
+            if (probe->get_node_lst()[n].is_used() && !used_before_the_throw[n]) {
+                found_poison = true;
+                poison_node = n;
+            }
+        }
+        if (!found_poison) {
+            std::cout << "FAILED: every node of the test cell is used by the refiner before it throws" << std::endl;
+            return 1;
+        }
+        std::cout << "  node " << poison_node << " is sent to x = +infinity (R3 probe)" << std::endl;
+
+        // The cell that makes the refiner throw: a sliver face (area 0) and a missing edge X, plus the node at infinity
+        const auto build_broken_cell = [&]() -> cell_ptr {
+            cell_ptr c = build_intact_cell();
+            if (!c->get_face_lst()[face_id].is_used() || c->get_face_lst()[face_id].get_node_ids() != probe_faces[face_id].get_node_ids()) {
+                throw std::runtime_error("the test cell is not built identically twice");
+            }
+            cell_tester::set_face_area(*c, face_id, 0.);
+            if (cell_tester::erase_edge(*c, x_edge) != 1) throw std::runtime_error("edge X is not in the edge set");
+            const vec3& p = c->get_node_lst()[poison_node].pos();
+            cell_tester::set_node_position(*c, poison_node, vec3(std::numeric_limits<double>::infinity(), p.dy(), p.dz()));
+            return c;
+        };
+
+        // ---- Pre-flight: the fixture throws exactly std::bad_optional_access, catchably ------------------
+        {
+            cell_ptr copy = build_broken_cell();
+            bool threw_bad_optional_access = false;
+            try {
+                lmr.refine_mesh(copy);
+            } catch (const std::bad_optional_access& e) {
+                threw_bad_optional_access = true;
+                std::cout << "  pre-flight: refine_mesh() threw std::bad_optional_access: " << e.what() << std::endl;
+            } catch (const std::exception& e) {
+                std::cout << "FAILED: pre-flight: refine_mesh() threw " << e.what() << " instead of std::bad_optional_access" << std::endl;
+                return 1;
+            }
+            if (!threw_bad_optional_access) {
+                std::cout << "FAILED: pre-flight: refine_mesh() on the broken cell did not throw" << std::endl;
+                return 1;
+            }
+        }
+
+        // ---- One solver iteration over {healthy, broken, healthy} ----------------------------------------
+        cell_ptr broken = build_broken_cell();
+        std::vector<cell_ptr> cell_lst = {loaded[0], broken, loaded[1]};
+        mesh_save_skipping_solver s(sim_params, cell_lst, 1, true, false, "static");  // 1 thread: the refiner runs on this thread
+        s.skip_first_mesh_save();
+
+        bool escaped = false;
+        std::string log;
+        {
+            cerr_capture capture;
+            try {
+                s.run_iteration();
+            } catch (const std::bad_optional_access& e) {
+                escaped = true;
+                std::cout << "  std::bad_optional_access escaped run_iteration(): " << e.what() << std::endl;
+            } catch (const std::exception& e) {
+                escaped = true;
+                std::cout << "  an exception of another type escaped run_iteration(): " << e.what() << std::endl;
+            }
+            log = capture.str();
+        }
+        std::cout << "  captured log:\n" << log;
+
+        bool t1 = !escaped;
+        std::cout << "  t1 (run_iteration() does not throw): " << t1 << std::endl;
+        if (!t1) {
+            std::cout << "FAILED: an exception thrown while refining one cell left run_iteration()" << std::endl;
+            return 1;
+        }
+
+        const std::vector<cell_ptr>& after = s.get_cell_lst();
+        bool t2 = after.size() == 2 && after[0] == loaded[0] && after[1] == loaded[1];
+        std::cout << "  t2 (the two healthy cells survive, in order): " << t2 << " (cells: " << after.size() << ")" << std::endl;
+
+        bool t3 = s.get_nb_unstable_cells_removed() == 1;
+        std::cout << "  t3 (one removal counted for the diagnostics CSV): " << t3 << std::endl;
+
+        bool t4 = log.find("mesh refinement failed") != std::string::npos;
+        std::cout << "  t4 (the log says \"mesh refinement failed\"): " << t4 << std::endl;
+
+        bool t5 = broken->get_nb_of_nodes() == 0;
+        std::cout << "  t5 (the removed cell was cleared): " << t5 << std::endl;
+
+        bool t6 = true;
+        for (size_t i = 0; i < after.size(); i++) {
+            if (after[i]->get_local_id() != i) t6 = false;
+        }
+        std::cout << "  t6 (local ids equal list index): " << t6 << std::endl;
+
+        if (!(t2 && t3 && t4 && t5 && t6)) {
+            std::cout << "FAILED: containment of a refinement failure" << std::endl;
+            return 1;
+        }
+
+        std::cout << "test_refinement_failure_end_to_end PASSED" << std::endl;
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main(int argc, char** argv) {
 
@@ -1045,6 +1350,7 @@ int main(int argc, char** argv) {
     if (test_name == "test_thread_placement") return test_thread_placement();
     if (test_name == "test_contact_model_throws_on_diverged_domain") return test_contact_model_throws_on_diverged_domain();
     if (test_name == "test_inverted_cell_removed") return test_inverted_cell_removed();
+    if (test_name == "test_refinement_failure_end_to_end") return test_refinement_failure_end_to_end();
 
     std::cout << "TEST NAME: " << test_name << " DOES NOT EXIST" << std::endl;
     return 1;
