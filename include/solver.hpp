@@ -68,6 +68,10 @@ class solver{
         //Helper method for Phase 3 diagnostics export
         void export_diagnostics(unsigned iteration, const std::string& csv_path);  // Export biological + computational metrics
 
+        //The number of mesh refinement failures that one refine_meshes() call may report before the run is
+        //stopped instead of removing the cells: max(10, 1% of the nb_cells cells, rounded down)
+        static size_t refinement_failure_limit(const size_t nb_cells) noexcept;
+
         //The local mesh refiner is used to make sure that all the edges of the cell meshes have lengths
         std::unique_ptr<local_mesh_refiner> lmr_ptr_;
 
@@ -181,6 +185,11 @@ class solver{
 
         //Erase the cells below the minimum volume and the numerically unstable ones (last step of run_iteration)
         void remove_dead_cells() noexcept;
+
+        //Erase the cells whose mesh refinement failed (called by run_iteration right after refine_meshes, before
+        //contact detection). Throws unstable_simulation_exception, and erases nothing, if there are more failures
+        //than refinement_failure_limit() allows or if the failures cover every cell of the list
+        void handle_refinement_failures(const std::vector<local_mesh_refiner::refinement_failure>& failures) noexcept(false);
 
         const std::vector<cell_ptr>& get_cell_lst() const noexcept{return cell_lst_;}
         unsigned short int get_nb_threads() const noexcept{return nb_threads_;}

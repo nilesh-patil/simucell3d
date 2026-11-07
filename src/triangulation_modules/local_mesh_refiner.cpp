@@ -1,6 +1,8 @@
 #include "local_mesh_refiner.hpp"
 #include <atomic>
+#include <exception>
 #include <iostream>
+#include <new>
 
 
 /*
@@ -25,12 +27,95 @@ local_mesh_refiner::local_mesh_refiner(const double l_min, const double l_max, c
 
 
 //-----------------------------------------------------------------------------------------------
-//Refine the meshes of all the cells in the list in parallel
-void local_mesh_refiner::refine_meshes(const std::vector<cell_ptr> cell_lst) const noexcept(false){
+//Refine the meshes of all the cells in the list in parallel. Returns the cells whose refinement
+//threw an ordinary error (see refine_meshes_impl)
+std::vector<local_mesh_refiner::refinement_failure> local_mesh_refiner::refine_meshes(const std::vector<cell_ptr>& cell_lst) const noexcept(false){
+
+    return refine_meshes_impl(cell_lst, [this](const cell_ptr& c){ refine_mesh(c); }); //noexcept(false)
+}
+//-----------------------------------------------------------------------------------------------
 
 
-    //Refine the mesh of the cells in parallel. If an exception occurs, the parallel_exception_handler will rethrow it
-    parallel_exception_handler(cell_lst, refine_mesh_func_); //noexcept(false)
+
+//-----------------------------------------------------------------------------------------------
+//Call refine_one on every cell of the list in parallel, and contain the failure of one cell.
+//
+//A std::exception thrown for one cell (an unchecked optional, an out-of-range index, the operation cap of
+//refine_mesh()) means the mesh of that cell is damaged, not the simulation: the cell is recorded as failed,
+//with the what() of the error, and the loop goes on. The caller decides what to do with it.
+//
+//Three kinds of errors must still stop the run, and are stored, then rethrown once the parallel loop is over
+//(an exception must never leave an OpenMP region):
+//  - unstable_simulation_exception: the domain has diverged, removing one cell would hide it
+//  - std::bad_alloc: the process is out of memory, the next cell would fail for the same reason
+//  - anything that does not derive from std::exception: no what() to report, and unknown origin
+//If several of them are thrown in the same call, the first one stored is rethrown.
+//
+//Recording a failure allocates (the copy of what(), the push_back), so it can itself throw std::bad_alloc.
+//That throw is caught inside the critical section and stored like the other fatal errors: nothing escapes
+//the critical section or the parallel region, and a push_back that throws leaves the list unchanged.
+std::vector<local_mesh_refiner::refinement_failure> local_mesh_refiner::refine_meshes_impl(
+    const std::vector<cell_ptr>& cell_lst,
+    const std::function<void(const cell_ptr&)>& refine_one
+) const noexcept(false){
+
+    //The cells whose refinement failed, filled under the critical section
+    std::vector<refinement_failure> failure_lst;
+
+    //The first error that must stop the run, rethrown after the parallel loop
+    std::exception_ptr fatal_e_ptr;
+
+    //Same scheduling as parallel_exception_handler: runtime, so the solver controls it with omp_set_schedule()
+    #pragma omp parallel for schedule(runtime)
+    for(size_t i = 0; i < cell_lst.size(); i++){
+
+        try{
+            //This might throw an exception
+            refine_one(cell_lst[i]);
+        }
+
+        //1. The simulation has diverged: stop the run
+        catch(const unstable_simulation_exception&){
+            #pragma omp critical
+            {
+                if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+            }
+        }
+
+        //2. Out of memory: stop the run
+        catch(const std::bad_alloc&){
+            #pragma omp critical
+            {
+                if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+            }
+        }
+
+        //3. Any other standard error: the mesh of this cell is damaged, record the cell and go on
+        catch(const std::exception& e){
+            #pragma omp critical
+            {
+                try{
+                    failure_lst.push_back(refinement_failure{cell_lst[i], std::string(e.what())});
+                }
+                catch(...){
+                    if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+                }
+            }
+        }
+
+        //4. Not a standard error: stop the run
+        catch(...){
+            #pragma omp critical
+            {
+                if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+            }
+        }
+    }
+
+    //If an error that must stop the run was thrown during the parallel loop, rethrow it
+    if(fatal_e_ptr) std::rethrow_exception(fatal_e_ptr);
+
+    return failure_lst;
 }
 //-----------------------------------------------------------------------------------------------
 

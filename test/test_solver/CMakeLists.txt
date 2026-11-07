@@ -54,3 +54,7 @@ add_test(NAME solver_test_refinement_failure_end_to_end       COMMAND test_solve
 set_tests_properties(solver_test_refinement_failure_end_to_end PROPERTIES SKIP_RETURN_CODE 77)
 
 # Handling of the failures reported by local_mesh_refiner::refine_meshes()
+add_test(NAME solver_test_refinement_failure_removed          COMMAND test_solver test_refinement_failure_removed)
+add_test(NAME solver_test_refinement_mass_failure_stops       COMMAND test_solver test_refinement_mass_failure_stops)
+add_test(NAME solver_test_refinement_failure_all_cells_stop   COMMAND test_solver test_refinement_failure_all_cells_stop)
+add_test(NAME solver_test_refinement_failure_limit            COMMAND test_solver test_refinement_failure_limit)

@@ -6,8 +6,11 @@
 
 #include <cstdint>
 #include <cassert>
-#include <cmath>  
-#include <set>  
+#include <cmath>
+#include <set>
+#include <functional>
+#include <string>
+#include <vector>
 
 
 #include "utils.hpp"
@@ -48,10 +51,25 @@ class local_mesh_refiner
         //The minimum allowed triangle score, below that, the edge swap operation is triggered
         static constexpr double triangle_score_min_ = 0.2;
 
-        //Wrap the call to the local_mesh_refiner::refine_mesh() method into a lambda function
-        const std::function<void(cell_ptr)> refine_mesh_func_ = [=](cell_ptr c) -> void {refine_mesh(c);};
-
         friend class local_mesh_refiner_tester;
+
+
+    public:
+        //A cell whose mesh refinement threw an ordinary error during refine_meshes(), with the what() of that error
+        struct refinement_failure {
+            cell_ptr cell;
+            std::string reason;
+        };
+
+
+    private:
+        //The body of refine_meshes(), with the refinement of one cell given as a parameter so that the tests
+        //(local_mesh_refiner_tester) can make chosen cells throw chosen exceptions. refine_one is called once
+        //per cell, from several threads at the same time
+        [[nodiscard]] std::vector<refinement_failure> refine_meshes_impl(
+            const std::vector<cell_ptr>& cell_lst,
+            const std::function<void(const cell_ptr&)>& refine_one
+        ) const noexcept(false);
 
 
     public:
@@ -71,8 +89,11 @@ class local_mesh_refiner
         //Trivial constructor
         local_mesh_refiner(const double l_min, const double l_max, const bool enable_edge_swap_operation = true) noexcept;
 
-        //Refine the meshes of all the cells in the vector
-        void refine_meshes(const std::vector<cell_ptr> cell_lst) const noexcept(false);
+        //Refine the meshes of all the cells in the vector, in parallel. A cell whose refinement throws a
+        //std::exception is left as it is and returned in the list of failures (in no particular order), the other
+        //cells are refined as if alone. unstable_simulation_exception, std::bad_alloc and the exceptions that do
+        //not derive from std::exception still leave the method, once the parallel loop is over
+        [[nodiscard]] std::vector<refinement_failure> refine_meshes(const std::vector<cell_ptr>& cell_lst) const noexcept(false);
 
         //Refine the mesh of a given cell
         void refine_mesh(cell_ptr c) const noexcept(false);

@@ -1332,6 +1332,539 @@ int test_refinement_failure_end_to_end() {
 
 
 //---------------------------------------------------------------------------------------------------------
+// Helpers of the handle_refinement_failures() tests
+//---------------------------------------------------------------------------------------------------------
+
+// Test subclass: reads the protected diagnostics counter and reaches the threshold helper of the solver
+class refinement_test_solver : public solver {
+public:
+    using solver::solver;  // Inherit constructors
+
+    // Removals counted for the current diagnostics window (the unstable_cells_removed column of the CSV)
+    unsigned int get_diag_unstable_cell_count() const { return diag_unstable_cell_count_; }
+
+    // solver::refinement_failure_limit(): the number of failures per call that is still tolerated
+    static size_t failure_limit(const size_t nb_cells) { return refinement_failure_limit(nb_cells); }
+};
+
+// A cell with the mesh of `source`, shifted along x by shift_x metres. handle_refinement_failures() does not run
+// the contact model, the shift only keeps the meshes of the copies apart.
+static cell_ptr make_shifted_copy(const cell_ptr& source, const unsigned id, const double shift_x) {
+    mesh m = source->get_mesh();
+    for (size_t i = 0; i < m.node_pos_lst.size(); i += 3) m.node_pos_lst[i] += shift_x;
+    cell_ptr c = std::make_shared<epithelial_cell>(m, id, source->get_cell_type());
+    c->initialize_cell_properties();
+    return c;
+}
+
+static local_mesh_refiner::refinement_failure make_failure(const cell_ptr& c, const std::string& reason) {
+    local_mesh_refiner::refinement_failure f;
+    f.cell = c;
+    f.reason = reason;
+    return f;
+}
+
+static size_t count_occurrences(const std::string& text, const std::string& needle) {
+    size_t n = 0;
+    for (size_t pos = text.find(needle); pos != std::string::npos; pos = text.find(needle, pos + needle.size())) n++;
+    return n;
+}
+
+// The log line that starts with `prefix` (without its newline), or "" if there is none
+static std::string log_line_starting_with(const std::string& log, const std::string& prefix) {
+    const size_t start = log.find(prefix);
+    if (start == std::string::npos) return "";
+    return log.substr(start, log.find('\n', start) - start);
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+/**
+ * @brief The cells whose refinement failed are removed, counted and logged (AC4: R3, R4, R5)
+ *
+ * handle_refinement_failures() is what run_iteration() calls right after local_mesh_refiner::refine_meshes() when
+ * that reports failures. Each failed cell is erased from the cell list (and cleared), the local ids are re-synced,
+ * and every erased cell is counted for nb_unstable_cells_removed_ and the diagnostics CSV column, and logged as
+ * "Removing cell <id> at iteration <n>: mesh refinement failed: <reason>".
+ *
+ * Scenarios (fresh cells and solver each time; the failures are made up here, the refiner is not run):
+ *  A. {A, B, C}, failure for B                 -> {A, C}, local ids 0 and 1, +1 removal, one log line
+ *  B. {A, B, C}, failures for C and A          -> {B} with local id 0, +2 removals, two log lines
+ *  C. a failure for a cell that is not in the list -> nothing removed, nothing counted, nothing logged
+ *  D. the same foreign failure next to one for B   -> only B is removed and counted (once, one log line)
+ *
+ * @return 0 on success, 1 on failure
+ */
+int test_refinement_failure_removed() {
+    std::cout << "Running test_refinement_failure_removed..." << std::endl;
+
+    std::string test_output_dir = create_unique_output_dir("refinement_failure_removed");
+    output_dir_cleanup cleanup(test_output_dir);
+
+    try {
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+
+        bool ok = true;
+        const auto check = [&ok](const bool condition, const std::string& description) {
+            std::cout << "  " << description << ": " << condition << std::endl;
+            if (!condition) ok = false;
+        };
+
+        // ---- A: one failure in the middle of the list ------------------------------------------------------
+        {
+            std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+            if (loaded.size() < 2) {
+                std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+                return 1;
+            }
+            const cell_ptr a = loaded[0], c = loaded[1];
+            const cell_ptr b = make_shifted_copy(c, 1000u, 1e-4);
+
+            std::vector<cell_ptr> cell_lst = {a, b, c};
+            refinement_test_solver s(sim_params, cell_lst, 1, true, false, "static");
+            const unsigned b_id = b->get_id();  // the solver renumbers the cells it is given
+            const unsigned removed_before = s.get_nb_unstable_cells_removed();
+            const unsigned diag_before = s.get_diag_unstable_cell_count();
+
+            std::string log;
+            {
+                cerr_capture capture;
+                s.handle_refinement_failures({make_failure(b, "synthetic failure: edge 3-7 not found")});
+                log = capture.str();
+            }
+            std::cout << "  A: captured log:\n" << log;
+
+            const std::vector<cell_ptr>& after = s.get_cell_lst();
+            check(after.size() == 2 && after[0] == a && after[1] == c, "A t1 (B removed, {A, C} remain in that order)");
+            check(after.size() == 2 && after[0]->get_local_id() == 0 && after[1]->get_local_id() == 1,
+                  "A t2 (local ids are 0 and 1)");
+            check(s.get_nb_unstable_cells_removed() == removed_before + 1, "A t3 (removal counted: nb_unstable_cells_removed_ + 1)");
+            check(s.get_diag_unstable_cell_count() == diag_before + 1, "A t4 (removal counted: diag_unstable_cell_count_ + 1)");
+
+            const std::string line = log_line_starting_with(log, "Removing cell " + std::to_string(b_id) + " at iteration ");
+            check(!line.empty(), "A t5 (log has \"Removing cell <B id> at iteration \")");
+            check(line.find(": mesh refinement failed: synthetic failure: edge 3-7 not found") != std::string::npos,
+                  "A t6 (the log line gives \"mesh refinement failed: \" and the reason)");
+            check(count_occurrences(log, "Removing cell ") == 1, "A t7 (exactly one removal line)");
+            check(b->get_nb_of_nodes() == 0, "A t8 (the removed cell was cleared)");
+            check(a->get_nb_of_nodes() > 0 && c->get_nb_of_nodes() > 0, "A t9 (the other cells were not touched)");
+        }
+
+        // ---- B: two failures, given in the reverse order of the list ---------------------------------------
+        {
+            std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+            const cell_ptr a = loaded[0], c = loaded[1];
+            const cell_ptr b = make_shifted_copy(c, 1000u, 1e-4);
+
+            std::vector<cell_ptr> cell_lst = {a, b, c};
+            refinement_test_solver s(sim_params, cell_lst, 1, true, false, "static");
+            const unsigned a_id = a->get_id();
+            const unsigned c_id = c->get_id();
+            const unsigned removed_before = s.get_nb_unstable_cells_removed();
+            const unsigned diag_before = s.get_diag_unstable_cell_count();
+
+            std::string log;
+            {
+                cerr_capture capture;
+                s.handle_refinement_failures({make_failure(c, "reason of C"), make_failure(a, "reason of A")});
+                log = capture.str();
+            }
+            std::cout << "  B: captured log:\n" << log;
+
+            const std::vector<cell_ptr>& after = s.get_cell_lst();
+            check(after.size() == 1 && after[0] == b, "B t1 (only B remains)");
+            check(after.size() == 1 && after[0]->get_local_id() == 0, "B t2 (the survivor has local id 0)");
+            check(s.get_nb_unstable_cells_removed() == removed_before + 2, "B t3 (2 removals counted)");
+            check(s.get_diag_unstable_cell_count() == diag_before + 2, "B t4 (2 removals counted for the diagnostics)");
+            check(count_occurrences(log, "Removing cell ") == 2, "B t5 (two removal lines)");
+            check(log_line_starting_with(log, "Removing cell " + std::to_string(a_id) + " at iteration ").find(": mesh refinement failed: reason of A") != std::string::npos &&
+                      log_line_starting_with(log, "Removing cell " + std::to_string(c_id) + " at iteration ").find(": mesh refinement failed: reason of C") != std::string::npos,
+                  "B t6 (each line carries the reason of its own cell)");
+            check(a->get_nb_of_nodes() == 0 && c->get_nb_of_nodes() == 0 && b->get_nb_of_nodes() > 0,
+                  "B t7 (the removed cells were cleared, the survivor was not)");
+        }
+
+        // ---- C and D: a failure for a cell the solver does not hold --------------------------------------
+        {
+            std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+            const cell_ptr a = loaded[0], c = loaded[1];
+            const cell_ptr b = make_shifted_copy(c, 1000u, 1e-4);
+            const cell_ptr foreign = make_shifted_copy(c, 1001u, 2e-4);  // never given to the solver
+
+            std::vector<cell_ptr> cell_lst = {a, b, c};
+            refinement_test_solver s(sim_params, cell_lst, 1, true, false, "static");
+            const unsigned b_id = b->get_id();
+            const unsigned removed_before = s.get_nb_unstable_cells_removed();
+            const unsigned diag_before = s.get_diag_unstable_cell_count();
+
+            // C: only the foreign cell
+            std::string log_c;
+            {
+                cerr_capture capture;
+                s.handle_refinement_failures({make_failure(foreign, "foreign failure")});
+                log_c = capture.str();
+            }
+            std::cout << "  C: captured log:\n" << log_c;
+            check(s.get_cell_lst().size() == 3 && s.get_cell_lst()[0] == a && s.get_cell_lst()[1] == b && s.get_cell_lst()[2] == c,
+                  "C t1 (the list is unchanged)");
+            check(s.get_nb_unstable_cells_removed() == removed_before && s.get_diag_unstable_cell_count() == diag_before,
+                  "C t2 (no removal counted)");
+            check(log_c.find("Removing cell") == std::string::npos, "C t3 (nothing logged as removed)");
+
+            // D: the foreign failure next to a real one
+            std::string log_d;
+            {
+                cerr_capture capture;
+                s.handle_refinement_failures({make_failure(foreign, "foreign failure"), make_failure(b, "real failure")});
+                log_d = capture.str();
+            }
+            std::cout << "  D: captured log:\n" << log_d;
+            check(s.get_cell_lst().size() == 2 && s.get_cell_lst()[0] == a && s.get_cell_lst()[1] == c, "D t1 (only B was removed)");
+            check(s.get_nb_unstable_cells_removed() == removed_before + 1 && s.get_diag_unstable_cell_count() == diag_before + 1,
+                  "D t2 (counted once: only the cell actually erased is counted)");
+            check(count_occurrences(log_d, "Removing cell ") == 1 &&
+                      !log_line_starting_with(log_d, "Removing cell " + std::to_string(b_id) + " at iteration ").empty(),
+                  "D t3 (one removal line, for B)");
+        }
+
+        if (!ok) {
+            std::cout << "FAILED: removal of the cells whose refinement failed" << std::endl;
+            return 1;
+        }
+        std::cout << "test_refinement_failure_removed PASSED" << std::endl;
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+/**
+ * @brief Too many refinement failures in one call stop the run instead of emptying the tissue (AC5: R8)
+ *
+ * A systematic refiner bug would fail every cell in the same iteration. Removing them all would leave an empty
+ * tissue and end the run with status 0, so more than max(10, 1% of the cells) failures make
+ * handle_refinement_failures() log one summary line and throw unstable_simulation_exception, with nothing removed.
+ * 20 cells: the limit is 10.
+ *  - 11 failures -> throws, nothing erased, no cell cleared, nothing counted, summary line logged
+ *  - 10 failures -> all 10 removed, the 10 other cells remain in order
+ *
+ * @return 0 on success, 1 on failure
+ */
+int test_refinement_mass_failure_stops() {
+    std::cout << "Running test_refinement_mass_failure_stops..." << std::endl;
+
+    std::string test_output_dir = create_unique_output_dir("refinement_mass_failure_stops");
+    output_dir_cleanup cleanup(test_output_dir);
+
+    try {
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+        constexpr unsigned nb_cells = 20;
+
+        bool ok = true;
+        const auto check = [&ok](const bool condition, const std::string& description) {
+            std::cout << "  " << description << ": " << condition << std::endl;
+            if (!condition) ok = false;
+        };
+
+        std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+        if (loaded.size() < 2) {
+            std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+            return 1;
+        }
+        const auto make_cells = [&]() {
+            std::vector<cell_ptr> cells;
+            for (unsigned i = 0; i < nb_cells; i++) cells.push_back(make_shifted_copy(loaded[1], 2000u + i, i * 1e-4));
+            return cells;
+        };
+
+        // ---- 11 failures of 20: stop -----------------------------------------------------------------------
+        {
+            const std::vector<cell_ptr> cells = make_cells();
+            std::vector<cell_ptr> cell_lst = cells;
+            refinement_test_solver s(sim_params, cell_lst, 1, true, false, "static");
+
+            // Cells 0 and the 10 odd ones
+            std::vector<local_mesh_refiner::refinement_failure> failures = {make_failure(cells[0], "failure of cell 0")};
+            for (unsigned i = 1; i < nb_cells; i += 2) failures.push_back(make_failure(cells[i], "failure of cell " + std::to_string(i)));
+            check(failures.size() == 11, "11 t0 (the test has 11 failures)");
+
+            bool threw = false;
+            std::string log;
+            {
+                cerr_capture capture;
+                try {
+                    s.handle_refinement_failures(failures);
+                } catch (const unstable_simulation_exception&) {
+                    threw = true;
+                } catch (const std::exception& e) {
+                    std::cout << "  threw " << e.what() << " instead of unstable_simulation_exception" << std::endl;
+                }
+                log = capture.str();
+            }
+            std::cout << "  11: captured log:\n" << log;
+
+            check(threw, "11 t1 (throws unstable_simulation_exception)");
+            check(log.find("Mesh refinement failed for 11 of 20 cells at iteration ") != std::string::npos,
+                  "11 t2 (the log has the summary line \"Mesh refinement failed for 11 of 20 cells at iteration \")");
+            check(log.find("Removing cell") == std::string::npos, "11 t3 (no cell logged as removed)");
+
+            bool same_list = s.get_cell_lst().size() == nb_cells;
+            for (size_t i = 0; same_list && i < nb_cells; i++) same_list = (s.get_cell_lst()[i] == cells[i]);
+            check(same_list, "11 t4 (nothing was removed from the list)");
+
+            bool none_cleared = true;
+            for (const cell_ptr& c : cells) none_cleared = none_cleared && c->get_nb_of_nodes() > 0;
+            check(none_cleared, "11 t5 (no cell was cleared)");
+            check(s.get_nb_unstable_cells_removed() == 0 && s.get_diag_unstable_cell_count() == 0, "11 t6 (nothing counted)");
+        }
+
+        // ---- 10 failures of 20: remove them all ----------------------------------------------------------
+        {
+            const std::vector<cell_ptr> cells = make_cells();
+            std::vector<cell_ptr> cell_lst = cells;
+            refinement_test_solver s(sim_params, cell_lst, 1, true, false, "static");
+
+            // The 10 odd cells, in descending order
+            std::vector<local_mesh_refiner::refinement_failure> failures;
+            for (int i = static_cast<int>(nb_cells) - 1; i >= 1; i -= 2) {
+                failures.push_back(make_failure(cells[i], "failure of cell " + std::to_string(i)));
+            }
+            check(failures.size() == 10, "10 t0 (the test has 10 failures)");
+
+            bool threw = false;
+            std::string log;
+            {
+                cerr_capture capture;
+                try {
+                    s.handle_refinement_failures(failures);
+                } catch (const std::exception& e) {
+                    threw = true;
+                    std::cout << "  threw " << e.what() << std::endl;
+                }
+                log = capture.str();
+            }
+            std::cout << "  10: captured log:\n" << log;
+
+            check(!threw, "10 t1 (does not throw)");
+
+            bool survivors_in_order = s.get_cell_lst().size() == nb_cells / 2;
+            for (size_t i = 0; survivors_in_order && i < nb_cells / 2; i++) {
+                survivors_in_order = (s.get_cell_lst()[i] == cells[2 * i]) && s.get_cell_lst()[i]->get_local_id() == i;
+            }
+            check(survivors_in_order, "10 t2 (the 10 even cells remain in order, local ids 0..9)");
+
+            bool cleared_as_expected = true;
+            for (unsigned i = 0; i < nb_cells; i++) {
+                const bool is_cleared = cells[i]->get_nb_of_nodes() == 0;
+                cleared_as_expected = cleared_as_expected && (is_cleared == (i % 2 == 1));
+            }
+            check(cleared_as_expected, "10 t3 (the 10 odd cells were cleared, the others were not)");
+            check(s.get_nb_unstable_cells_removed() == 10 && s.get_diag_unstable_cell_count() == 10, "10 t4 (10 removals counted)");
+            check(count_occurrences(log, "Removing cell ") == 10 && log.find("Mesh refinement failed for") == std::string::npos,
+                  "10 t5 (10 removal lines, no summary line)");
+        }
+
+        if (!ok) {
+            std::cout << "FAILED: mass-failure stop" << std::endl;
+            return 1;
+        }
+        std::cout << "test_refinement_mass_failure_stops PASSED" << std::endl;
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+/**
+ * @brief Failures that would remove every cell stop the run, even below the limit (AC5b: R8, every-cell clause)
+ *
+ * With 10 cells or fewer, every cell can fail without reaching max(10, 1% of the cells) failures. Removing them
+ * all would empty the tissue, and run() would then leave its loop and end the run with status 0, which is what the
+ * limit exists to prevent. So handle_refinement_failures() also logs the summary line and throws
+ * unstable_simulation_exception, removing nothing, when the failures cover every cell of the list.
+ * 5 cells:
+ *  - 5 failures (all of them, below the limit of 10) -> throws, nothing erased, no cell cleared, nothing counted
+ *  - 4 failures                                       -> exactly those 4 removed, the 5th remains, local id 0
+ *
+ * @return 0 on success, 1 on failure
+ */
+int test_refinement_failure_all_cells_stop() {
+    std::cout << "Running test_refinement_failure_all_cells_stop..." << std::endl;
+
+    std::string test_output_dir = create_unique_output_dir("refinement_failure_all_cells_stop");
+    output_dir_cleanup cleanup(test_output_dir);
+
+    try {
+        global_simulation_parameters sim_params = get_test_sim_parameters(test_output_dir);
+        constexpr unsigned nb_cells = 5;
+
+        bool ok = true;
+        const auto check = [&ok](const bool condition, const std::string& description) {
+            std::cout << "  " << description << ": " << condition << std::endl;
+            if (!condition) ok = false;
+        };
+
+        std::vector<cell_ptr> loaded = create_test_cells_from_parameter_file();
+        if (loaded.size() < 2) {
+            std::cout << "FAILED: Expected at least 2 cells from the test parameter file" << std::endl;
+            return 1;
+        }
+        const auto make_cells = [&]() {
+            std::vector<cell_ptr> cells;
+            for (unsigned i = 0; i < nb_cells; i++) cells.push_back(make_shifted_copy(loaded[1], 3000u + i, i * 1e-4));
+            return cells;
+        };
+
+        // The limit is 10, so 5 failures are below it: only the every-cell clause can stop this
+        check(refinement_test_solver::failure_limit(nb_cells) >= nb_cells, "t0 (5 failures are below the failure limit)");
+
+        // ---- 5 failures of 5: stop --------------------------------------------------------------------------
+        {
+            const std::vector<cell_ptr> cells = make_cells();
+            std::vector<cell_ptr> cell_lst = cells;
+            refinement_test_solver s(sim_params, cell_lst, 1, true, false, "static");
+
+            // All 5 cells, in the reverse order of the list
+            std::vector<local_mesh_refiner::refinement_failure> failures;
+            for (int i = static_cast<int>(nb_cells) - 1; i >= 0; i--) {
+                failures.push_back(make_failure(cells[i], "failure of cell " + std::to_string(i)));
+            }
+            check(failures.size() == nb_cells, "5of5 t0 (the test has 5 failures)");
+
+            bool threw = false;
+            std::string log;
+            {
+                cerr_capture capture;
+                try {
+                    s.handle_refinement_failures(failures);
+                } catch (const unstable_simulation_exception&) {
+                    threw = true;
+                } catch (const std::exception& e) {
+                    std::cout << "  threw " << e.what() << " instead of unstable_simulation_exception" << std::endl;
+                }
+                log = capture.str();
+            }
+            std::cout << "  5of5: captured log:\n" << log;
+
+            check(threw, "5of5 t1 (throws unstable_simulation_exception)");
+            check(log.find("Mesh refinement failed for 5 of 5 cells at iteration ") != std::string::npos,
+                  "5of5 t2 (the log has the summary line \"Mesh refinement failed for 5 of 5 cells at iteration \")");
+            check(log.find("Removing cell") == std::string::npos, "5of5 t3 (no cell logged as removed)");
+
+            bool same_list = s.get_cell_lst().size() == nb_cells;
+            for (size_t i = 0; same_list && i < nb_cells; i++) same_list = (s.get_cell_lst()[i] == cells[i]);
+            check(same_list, "5of5 t4 (nothing was removed from the list)");
+
+            bool none_cleared = true;
+            for (const cell_ptr& c : cells) none_cleared = none_cleared && c->get_nb_of_nodes() > 0;
+            check(none_cleared, "5of5 t5 (no cell was cleared)");
+            check(s.get_nb_unstable_cells_removed() == 0 && s.get_diag_unstable_cell_count() == 0, "5of5 t6 (nothing counted)");
+        }
+
+        // ---- 4 failures of 5: remove those 4 ----------------------------------------------------------------
+        {
+            const std::vector<cell_ptr> cells = make_cells();
+            std::vector<cell_ptr> cell_lst = cells;
+            refinement_test_solver s(sim_params, cell_lst, 1, true, false, "static");
+
+            // Cells 0, 1, 3 and 4 fail; cell 2 survives (in the middle, so that the order is visible)
+            const unsigned failing[4] = {4, 3, 1, 0};
+            std::vector<local_mesh_refiner::refinement_failure> failures;
+            for (const unsigned i : failing) failures.push_back(make_failure(cells[i], "failure of cell " + std::to_string(i)));
+
+            bool threw = false;
+            std::string log;
+            {
+                cerr_capture capture;
+                try {
+                    s.handle_refinement_failures(failures);
+                } catch (const std::exception& e) {
+                    threw = true;
+                    std::cout << "  threw " << e.what() << std::endl;
+                }
+                log = capture.str();
+            }
+            std::cout << "  4of5: captured log:\n" << log;
+
+            check(!threw, "4of5 t1 (does not throw)");
+            check(s.get_cell_lst().size() == 1 && s.get_cell_lst()[0] == cells[2], "4of5 t2 (only cell 2 remains)");
+            check(s.get_cell_lst().size() == 1 && s.get_cell_lst()[0]->get_local_id() == 0, "4of5 t3 (the survivor has local id 0)");
+
+            bool cleared_as_expected = true;
+            for (unsigned i = 0; i < nb_cells; i++) {
+                const bool is_cleared = cells[i]->get_nb_of_nodes() == 0;
+                cleared_as_expected = cleared_as_expected && (is_cleared == (i != 2));
+            }
+            check(cleared_as_expected, "4of5 t4 (the 4 removed cells were cleared, the survivor was not)");
+            check(s.get_nb_unstable_cells_removed() == 4 && s.get_diag_unstable_cell_count() == 4, "4of5 t5 (4 removals counted, both counters)");
+            check(count_occurrences(log, "Removing cell ") == 4 && log.find("Mesh refinement failed for") == std::string::npos,
+                  "4of5 t6 (4 removal lines, no summary line)");
+        }
+
+        if (!ok) {
+            std::cout << "FAILED: every-cell stop" << std::endl;
+            return 1;
+        }
+        std::cout << "test_refinement_failure_all_cells_stop PASSED" << std::endl;
+        return 0;
+
+    } catch (const std::exception& e) {
+        std::cout << "FAILED with exception: " << e.what() << std::endl;
+        return 1;
+    }
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+/**
+ * @brief The number of refinement failures tolerated per iteration: max(10, 1% of the cells) (R8 threshold)
+ *
+ * test_refinement_mass_failure_stops covers the floor of 10 (20 cells). The 1% branch only takes over at 1100
+ * cells and more, which this test reaches through the static helper instead of building thousands of cells.
+ * The percentage is an integer division, as in the spec: max(10, n / 100).
+ *
+ * @return 0 on success, 1 on failure
+ */
+int test_refinement_failure_limit() {
+    std::cout << "Running test_refinement_failure_limit..." << std::endl;
+
+    const std::pair<size_t, size_t> expected[] = {
+        {0, 10},     {1, 10},    {20, 10},   {1000, 10},  // the floor
+        {1099, 10},  {1100, 11},                           // the 1% branch takes over
+        {1200, 12},  {1299, 12}, {10000, 100}, {100000, 1000},
+    };
+
+    bool ok = true;
+    for (const auto& [nb_cells, limit] : expected) {
+        const size_t got = refinement_test_solver::failure_limit(nb_cells);
+        const bool t = (got == limit);
+        std::cout << "  limit(" << nb_cells << ") = " << got << " (expected " << limit << "): " << t << std::endl;
+        if (!t) ok = false;
+    }
+
+    if (!ok) {
+        std::cout << "FAILED: refinement failure limit" << std::endl;
+        return 1;
+    }
+    std::cout << "test_refinement_failure_limit PASSED" << std::endl;
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main(int argc, char** argv) {
 
@@ -1351,6 +1884,10 @@ int main(int argc, char** argv) {
     if (test_name == "test_contact_model_throws_on_diverged_domain") return test_contact_model_throws_on_diverged_domain();
     if (test_name == "test_inverted_cell_removed") return test_inverted_cell_removed();
     if (test_name == "test_refinement_failure_end_to_end") return test_refinement_failure_end_to_end();
+    if (test_name == "test_refinement_failure_removed") return test_refinement_failure_removed();
+    if (test_name == "test_refinement_mass_failure_stops") return test_refinement_mass_failure_stops();
+    if (test_name == "test_refinement_failure_all_cells_stop") return test_refinement_failure_all_cells_stop();
+    if (test_name == "test_refinement_failure_limit") return test_refinement_failure_limit();
 
     std::cout << "TEST NAME: " << test_name << " DOES NOT EXIST" << std::endl;
     return 1;

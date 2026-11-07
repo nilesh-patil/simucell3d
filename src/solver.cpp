@@ -1,6 +1,8 @@
 #include "solver.hpp"
 #include "cpu_topology.hpp"
+#include <algorithm>
 #include <iomanip>    // For std::setprecision
+#include <unordered_map>
 
 //--------------------------------------------------------------------------------------------------------------------------
 // Helper function: Calculate coefficient of variation for workload heterogeneity
@@ -751,10 +753,20 @@ void solver::run_iteration() noexcept(false) {
 
     // Refine the mesh of the cells in parallel
     //  Mesh refinement typically has uniform work (use global or static schedule)
+    //  A cell whose refinement throws an ordinary error is returned in refinement_failures instead of ending the run
+    std::vector<local_mesh_refiner::refinement_failure> refinement_failures;
     {
         PerformanceMonitor::ScopedTimer timer(perf_monitor_, "mesh_refinement");
-        lmr_ptr_->refine_meshes(cell_lst_);  // noexcept(false)
+        refinement_failures = lmr_ptr_->refine_meshes(cell_lst_);  // noexcept(false)
     }
+
+    // Remove the cells whose refinement failed now, so that their damaged meshes never reach contact detection,
+    // polarization, the internal forces or the time integration. No extra barrier is needed before the removal:
+    // the parallel region of the refine loop has ended, the node locks are std::mutex (node.hpp, released by the
+    // end of each lock_guard scope), and the contact model clears every node's coupling map before reading it, so
+    // nothing still refers to the removed cells.
+    if (!refinement_failures.empty())
+        handle_refinement_failures(refinement_failures);  // noexcept(false): too many failures stop the run
 
     // Set schedule for contact detection (heterogeneous work)
     set_schedule_for_contact_detection();
@@ -905,6 +917,84 @@ void solver::remove_dead_cells() noexcept {
     // and indexes cell_lst_ with it, so local ids must equal the cell's position in cell_lst_.
     // Only cell_divider::run() reassigned them (and only when a division occurred), which left
     // every cell after a removed one with a stale, off-by-one local id until the next division.
+    if (cell_lst_.size() != nb_cells_before_removal) {
+        for (size_t i = 0; i < cell_lst_.size(); i++)
+            cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
+    }
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+// The number of refinement failures that one refine_meshes() call may report before the run is stopped:
+// max(10, 1% of the cells), the percentage rounded down (integer division)
+size_t solver::refinement_failure_limit(const size_t nb_cells) noexcept {
+    return std::max(static_cast<size_t>(10), nb_cells / 100);
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+// Erase the cells whose mesh refinement failed in this iteration (local_mesh_refiner::refine_meshes() reported them).
+// Their meshes are damaged (a missing edge, an inconsistent face), so they are removed before contact detection, like
+// remove_dead_cells() removes the numerically unstable ones: the same counters, the same local-id resync.
+// Many failures in one call point to a bug in the refiner rather than to a few damaged cells: removing them all could
+// empty the tissue and end the run with status 0. So the run is stopped instead, with one summary line, nothing removed,
+// nothing cleared and nothing counted, in two cases:
+//  - more failures than refinement_failure_limit() allows;
+//  - failures for every cell of the list (with 10 cells or fewer, all of them can fail without reaching the limit).
+//    Only the distinct failed cells that are in cell_lst_ count here, so a cell reported twice or a cell the solver
+//    does not hold cannot make a partial failure look like a total one.
+void solver::handle_refinement_failures(const std::vector<local_mesh_refiner::refinement_failure>& failures) noexcept(false) {
+    if (failures.empty()) return;
+
+    const size_t nb_cells = cell_lst_.size();
+
+    // Stop the run: one summary line, then the exception. Called before cell_lst_ is touched
+    const auto stop = [this, nb_cells](const size_t nb_failed, const std::string& why) {
+        std::cerr << "Mesh refinement failed for " << nb_failed << " of " << nb_cells
+                  << " cells at iteration " << iteration_ << "; stopping" << std::endl;
+        throw unstable_simulation_exception(
+            "Mesh refinement failed for " + std::to_string(nb_failed) + " of " + std::to_string(nb_cells) +
+            " cells at iteration " + std::to_string(iteration_) + ", " + why);
+    };
+
+    // Mass failure: more failures than tolerated in one call
+    if (failures.size() > refinement_failure_limit(nb_cells)) {
+        stop(failures.size(), "more than the " + std::to_string(refinement_failure_limit(nb_cells)) +
+                                  " tolerated in one iteration");
+    }
+
+    // The reason of each failed cell, by pointer identity. Built before cell_lst_ is touched, so a std::bad_alloc
+    // here leaves the list as it was. A cell reported twice keeps its first reason and is still removed once
+    std::unordered_map<const cell*, const std::string*> reason_of;
+    reason_of.reserve(failures.size());
+    for (const local_mesh_refiner::refinement_failure& f : failures) reason_of.emplace(f.cell.get(), &f.reason);
+
+    // Total failure: the failures would remove every cell of the list
+    const size_t nb_failed_in_list = static_cast<size_t>(std::count_if(
+        cell_lst_.begin(), cell_lst_.end(), [&reason_of](const cell_ptr& c) { return reason_of.count(c.get()) != 0; }));
+    if (nb_cells > 0 && nb_failed_in_list == nb_cells) {
+        stop(nb_failed_in_list, "which would remove every cell of the tissue");
+    }
+
+    // Erase the failed cells that are in the list. Only the cells actually erased are logged and counted: a failure
+    // for a cell the solver does not hold is ignored
+    const size_t nb_cells_before_removal = cell_lst_.size();
+    cell_lst_.erase(std::remove_if(cell_lst_.begin(), cell_lst_.end(),
+                                   [this, &reason_of](const cell_ptr& c) {
+                                       const auto it = reason_of.find(c.get());
+                                       if (it == reason_of.end()) return false;
+
+                                       diag_unstable_cell_count_++;
+                                       nb_unstable_cells_removed_++;
+                                       // cerr is unbuffered: this line lands in the log before any crash
+                                       std::cerr << "Removing cell " << c->get_id() << " at iteration " << iteration_
+                                                 << ": mesh refinement failed: " << *it->second << std::endl;
+                                       c->clear_data();
+                                       return true;
+                                   }),
+                    cell_lst_.end());
+
+    // The local ids must equal the positions in cell_lst_ (see remove_dead_cells())
     if (cell_lst_.size() != nb_cells_before_removal) {
         for (size_t i = 0; i < cell_lst_.size(); i++)
             cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
