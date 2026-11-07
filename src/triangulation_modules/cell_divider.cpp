@@ -8,65 +8,6 @@
 #include <numeric>
 
 
-namespace {
-
-//-----------------------------------------------------------------------------------------------
-//Triangulate a simple 2D polygon (z ignored) by ear clipping. Returns triplets of indices into the
-//polygon, or an empty vector if no ear can be found (the polygon is not simple)
-std::vector<std::array<unsigned, 3>> triangulate_polygon_by_ear_clipping(const std::vector<vec3>& polygon){
-
-    auto cross_z = [](const vec3& a, const vec3& b, const vec3& c){
-        return (b.dx() - a.dx()) * (c.dy() - a.dy()) - (b.dy() - a.dy()) * (c.dx() - a.dx());
-    };
-
-    //Orientation of the polygon, from the sign of its area
-    double twice_area = 0.;
-    for(size_t i = 0; i < polygon.size(); i++){
-        const vec3& a = polygon[i];
-        const vec3& b = polygon[(i + 1) % polygon.size()];
-        twice_area += a.dx() * b.dy() - b.dx() * a.dy();
-    }
-    const double orientation = twice_area > 0. ? 1. : -1.;
-
-    std::vector<unsigned> remaining(polygon.size());
-    std::iota(remaining.begin(), remaining.end(), 0);
-
-    std::vector<std::array<unsigned, 3>> triangle_lst;
-    while(remaining.size() > 3){
-        bool ear_found = false;
-        for(size_t k = 0; k < remaining.size() && !ear_found; k++){
-            const unsigned i_prev = remaining[(k + remaining.size() - 1) % remaining.size()];
-            const unsigned i_curr = remaining[k];
-            const unsigned i_next = remaining[(k + 1) % remaining.size()];
-            const vec3& a = polygon[i_prev];
-            const vec3& b = polygon[i_curr];
-            const vec3& c = polygon[i_next];
-
-            //The corner must be convex and the triangle must not be degenerate
-            if(orientation * cross_z(a, b, c) <= 0.) continue;
-
-            //No other corner of the polygon may lie in the triangle
-            const bool triangle_is_empty = std::none_of(remaining.begin(), remaining.end(), [&](const unsigned i){
-                if(i == i_prev || i == i_curr || i == i_next) return false;
-                const vec3& q = polygon[i];
-                return orientation * cross_z(a, b, q) >= 0. && orientation * cross_z(b, c, q) >= 0. && orientation * cross_z(c, a, q) >= 0.;
-            });
-            if(!triangle_is_empty) continue;
-
-            triangle_lst.push_back({i_prev, i_curr, i_next});
-            remaining.erase(remaining.begin() + k);
-            ear_found = true;
-        }
-        if(!ear_found) return {};
-    }
-    triangle_lst.push_back({remaining[0], remaining[1], remaining[2]});
-    return triangle_lst;
-}
-//-----------------------------------------------------------------------------------------------
-
-}
-
-
 
 
 
@@ -231,8 +172,10 @@ std::optional<std::pair<cell_ptr, cell_ptr>>  cell_divider::divide_cell(
     }
 
     catch(const std::exception& e){
-        // Log the exception details for debugging before returning nullopt
-        std::cerr << "Cell division failed: " << e.what() << std::endl;
+        // Log the exception details for debugging before returning nullopt. The mother is left as it is and is
+        // tried again at the next division check. divide_cell() runs inside an OpenMP loop: the line is built
+        // first and written with a single <<, so that the lines of two threads cannot interleave
+        std::cerr << ("Cell division failed for cell " + std::to_string(c->get_id()) + ": " + e.what() + "\n");
         return std::nullopt;
     }
 }
@@ -772,8 +715,11 @@ void cell_divider::triangulate_division_interface(
     //The Delaunay triangulation is not constrained by the boundary of the interface: when the boundary
     //polygon is not convex, some of its sides can be missing from the triangles kept above, which leaves
     //a hole between the interface and the rest of the surface of each daughter cell. In that case the
-    //boundary polygon alone is triangulated by ear clipping; its long edges are split afterwards, when
-    //the meshes of the daughter cells are refined.
+    //division is refused, not patched: the mother is left unchanged and divide_cell() returns no daughters,
+    //so the division is tried again at the next division check, with new random interior points.
+    //Patching the interface by ear clipping its outline gave interfaces that the mesh refiner could not
+    //repair, and the daughters cut along them became numerically unstable and were removed soon after
+    //their birth (see CHANGELOG.md).
     const unsigned nb_boundary_points = static_cast<unsigned>(division_face_points_coords.size());
     std::set<std::pair<unsigned, unsigned>> interface_edges;
     for(unsigned f_id = division_face_ids_threshold; f_id < m.face_point_ids.size(); f_id++){
@@ -782,21 +728,21 @@ void cell_divider::triangulate_division_interface(
             interface_edges.insert(std::make_pair(std::min(f[k], f[(k + 1) % 3]), std::max(f[k], f[(k + 1) % 3])));
         }
     }
-    bool boundary_is_covered = true;
-    for(unsigned i = 0; i < nb_boundary_points && boundary_is_covered; i++){
+
+    //Count every side of the boundary polygon that no kept triangle covers (all of them, for the log)
+    unsigned nb_missing_sides = 0;
+    for(unsigned i = 0; i < nb_boundary_points; i++){
         const unsigned a = division_point_ids_threshold + i;
         const unsigned b = division_point_ids_threshold + (i + 1) % nb_boundary_points;
-        boundary_is_covered = interface_edges.count(std::make_pair(std::min(a, b), std::max(a, b))) != 0;
+        if(interface_edges.count(std::make_pair(std::min(a, b), std::max(a, b))) == 0) nb_missing_sides++;
     }
+    const bool boundary_is_covered = (nb_missing_sides == 0);
 
     if(!boundary_is_covered){
-        const auto triangle_lst = triangulate_polygon_by_ear_clipping(division_face_points_coords);
-        if(triangle_lst.empty()){throw division_exception("The division interface could not be triangulated");}
-
-        m.face_point_ids.erase(m.face_point_ids.begin() + division_face_ids_threshold, m.face_point_ids.end());
-        for(const auto& [i1, i2, i3] : triangle_lst){
-            m.face_point_ids.insert(m.face_point_ids.end(), {division_point_ids_threshold + i1, division_point_ids_threshold + i2, division_point_ids_threshold + i3});
-        }
+        throw division_exception(
+            "Interface outline not covered by the Delaunay triangulation (" + std::to_string(nb_missing_sides) +
+            " of " + std::to_string(nb_boundary_points) + " sides missing); division refused"
+        );
     }
     //catch (const std::runtime_error& error) {
     //    throw division_exception("The Delaunay algorithm failed to triangulate the division interface.");
