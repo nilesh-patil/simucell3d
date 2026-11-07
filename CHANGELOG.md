@@ -156,8 +156,10 @@ is reported so that you can see how often it acted.
   the divider's fallback for a cut face that the Delaunay triangulation leaves incomplete (about 3%
   of divisions): it rebuilds the face from its outline points only, the mesh refiner cannot
   repair the resulting daughters, and their slivers produce very large bending forces. 2.1.0
-  removes inside-out cells as soon as their volume turns negative or impossible; a fix of the
-  fallback itself is in progress.
+  removes inside-out cells as soon as their volume turns negative or impossible, but does not fix
+  the fallback. In a 300-iteration test, refusing these divisions instead (as 1.0 does; the
+  mother tries again a few iterations later) removed the newborn deletions; that change is
+  planned for a later release.
 - **Unchecked lookups in `noexcept` functions.** A few edge and face lookups on the mesh
   refiner's path (for example `edge::f1()`/`f2()`, the triangle score) still end the program with
   SIGABRT if a mesh is damaged, because they are declared `noexcept`.
