@@ -3,7 +3,11 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <cstring>
+#include <optional>
 #include <sstream>
+#include <stdexcept>
+#include <utility>
 
 #include "utils.hpp"
 #include "mesh_writer.hpp"
@@ -623,6 +627,76 @@ int delaunay_exception_message_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// Helpers of the tests that divide a cell loaded from a fixture and look at what the divider logs
+//---------------------------------------------------------------------------------------------------------
+
+// Redirects std::cerr into a string for the lifetime of the object and restores it on every exit path (an early
+// return from a test, an exception). A leaked redirection would swallow the output of the rest of the process.
+class cerr_capture {
+public:
+    cerr_capture() : previous_(std::cerr.rdbuf(buffer_.rdbuf())) {}
+    ~cerr_capture() { std::cerr.rdbuf(previous_); }
+    cerr_capture(const cerr_capture&) = delete;
+    cerr_capture& operator=(const cerr_capture&) = delete;
+    std::string str() const { return buffer_.str(); }
+
+private:
+    std::ostringstream buffer_;  // declared first: previous_ is initialised from it
+    std::streambuf* previous_;
+};
+
+// A freshly loaded and initialised cell of a fixture of this directory (a new cell each time: a division attempt
+// draws random interface points, and a refused mother must not carry state from one attempt to the next)
+cell_ptr load_fixture_cell(const std::string& fixture_name, const unsigned cell_id, const std::shared_ptr<cell_type_parameters>& cell_parameters){
+    mesh_reader reader(std::string(PROJECT_SOURCE_DIR) + "/test/test_triangulation_modules/test_cell_divider/" + fixture_name + ".vtk");
+    std::vector<mesh> cell_mesh_lst = reader.read();
+    if(cell_mesh_lst.size() != 1) throw std::runtime_error("the fixture " + fixture_name + " must hold exactly one cell");
+
+    cell_ptr c = std::make_shared<epithelial_cell>(cell_mesh_lst[0], cell_id, cell_parameters);
+    c->initialize_cell_properties();
+    return c;
+}
+
+// The geometry and connectivity of a cell: the position of every used node and the node ids of every used face, in
+// slot order, plus the number of slots
+struct geometry_snapshot{
+    size_t nb_node_slots = 0, nb_face_slots = 0;
+    std::vector<unsigned> node_ids, face_node_ids;
+    std::vector<double> node_positions;
+};
+
+geometry_snapshot take_snapshot(const cell_ptr& c){
+    geometry_snapshot s;
+    s.nb_node_slots = c->get_node_lst().size();
+    s.nb_face_slots = c->get_face_lst().size();
+    for(size_t i = 0; i < c->get_node_lst().size(); i++){
+        const node& n = c->get_node_lst()[i];
+        if(!n.is_used()) continue;
+        s.node_ids.push_back(static_cast<unsigned>(i));
+        s.node_positions.insert(s.node_positions.end(), {n.pos().dx(), n.pos().dy(), n.pos().dz()});
+    }
+    for(const face& f : c->get_face_lst()){
+        if(!f.is_used()) continue;
+        for(const unsigned id : f.get_node_ids()) s.face_node_ids.push_back(id);
+    }
+    return s;
+}
+
+//"" if the two snapshots are identical (the positions bit for bit), otherwise a description of the first difference
+std::string snapshot_difference(const geometry_snapshot& a, const geometry_snapshot& b){
+    if(a.nb_node_slots != b.nb_node_slots || a.nb_face_slots != b.nb_face_slots) return "the numbers of node or face slots differ";
+    if(a.node_ids != b.node_ids) return "the used nodes differ";
+    if(a.face_node_ids != b.face_node_ids) return "the face connectivity differs";
+    if(a.node_positions.size() != b.node_positions.size() ||
+       std::memcmp(a.node_positions.data(), b.node_positions.data(), a.node_positions.size() * sizeof(double)) != 0){
+        return "a node position differs";
+    }
+    return "";
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // Division of a cell whose division plane cuts its surface along more than one closed curve.
 // The two fixtures are mothers taken from iteration 13000 of a paper-config growth run, where they had
 // failed to divide on every iteration for 27 and 108 iterations ("The surface of cell N is not properly
@@ -630,29 +704,62 @@ int delaunay_exception_message_test(){
 // to the longest axis) also slices, so the plane meets the surface in a large loop and a sub-micron one.
 // The divider used to cut along only one loop and then hand faces to the daughters by the side of the
 // plane they lie on, which split the uncut protrusion between both daughters and left holes in each.
+//
+// Some divisions are refused: when the Delaunay triangulation of the cut face leaves a side of its outline
+// uncovered, divide_cell() returns an empty optional ("Interface outline not covered ...") and the mother is
+// tried again at the next division check. The interior points of the cut face are random (clock-seeded
+// Poisson sampling), so a mother is refused at some attempts and divided at others: 84% of the attempts on
+// stuck_mother_60905 and 12% on stuck_mother_45093 were refused in a measurement of 100 attempts each. So this
+// test retries on a freshly loaded cell, like the solver does, until the first division succeeds, and checks
+// that division. Every refused attempt must carry the refusal message, not another failure. At most 300
+// attempts: even at the 95% upper bound of the refusal rate of the worse fixture, 300 refusals in a row has a
+// probability of about 2e-14.
 int divide_cell_multi_loop_plane_test(){
 
     auto cell_parameters = create_cell_type_parameters();
     const double l_min = 1e-6;
     local_mesh_refiner lmr(l_min, 3. * l_min, true);
+    constexpr unsigned max_attempts = 300;
 
     int nb_failures = 0;
     for(const std::string cell_name : {"stuck_mother_60905", "stuck_mother_45093"}){
 
-        mesh_reader reader(std::string(PROJECT_SOURCE_DIR) + "/test/test_triangulation_modules/test_cell_divider/" + cell_name + ".vtk");
-        std::vector<mesh> cell_mesh_lst = reader.read();
-        assert(cell_mesh_lst.size() == 1);
+        cell_ptr c;
+        double mother_volume = 0.;
+        std::optional<std::pair<cell_ptr, cell_ptr>> division_result;
+        bool refused_for_another_reason = false;
 
-        cell_ptr c = std::make_shared<epithelial_cell>(cell_mesh_lst[0], 0, cell_parameters);
-        c->initialize_cell_properties();
-        const double mother_volume = c->compute_volume();
+        unsigned attempt = 1;
+        for(; attempt <= max_attempts; attempt++){
 
-        auto division_result = cell_divider::divide_cell(c, l_min, lmr);
-        if(!division_result.has_value()){
-            std::cout << "FAIL: " << cell_name << " could not be divided" << std::endl;
+            c = load_fixture_cell(cell_name, 0, cell_parameters);
+            mother_volume = c->compute_volume();
+
+            std::string log;
+            {
+                cerr_capture capture;
+                division_result = cell_divider::divide_cell(c, l_min, lmr);
+                log = capture.str();
+            }
+            if(division_result.has_value()) break;
+
+            if(log.find("Interface outline not covered") == std::string::npos){
+                std::cout << "FAIL: " << cell_name << ", attempt " << attempt << " was refused for another reason: " << log << std::endl;
+                refused_for_another_reason = true;
+                break;
+            }
+        }
+
+        if(refused_for_another_reason){
             nb_failures++;
             continue;
         }
+        if(!division_result.has_value()){
+            std::cout << "FAIL: " << cell_name << " could not be divided in " << max_attempts << " attempts" << std::endl;
+            nb_failures++;
+            continue;
+        }
+        std::cout << cell_name << ": divided at attempt " << attempt << " (" << attempt - 1 << " refused before)" << std::endl;
 
         auto [daughter_1, daughter_2] = division_result.value();
         const double v1 = daughter_1->compute_volume();
@@ -671,6 +778,159 @@ int divide_cell_multi_loop_plane_test(){
     }
 
     return nb_failures;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+// A division whose cut face the Delaunay triangulation cannot cover is refused, not patched (AC1)
+//
+// The fixture is cell 24474 of result_13 of the fix79 growth run (a mother of 136 nodes, extracted at 10
+// significant digits). The Delaunay triangulation of its division interface leaves a side of the outline of the cut
+// uncovered in every attempt that was measured (100 of 100), where the divider used to rebuild the interface by ear
+// clipping and hand the refiner daughters it could not repair (they were removed shortly after birth).
+// divide_cell() must now refuse: return an empty optional, leave the mother as it was, and log
+// "Cell division failed for cell <id>: Interface outline not covered ...".
+//
+// The interior points of the interface are random (clock-seeded Poisson sampling), so the test makes up to 20
+// attempts on a freshly loaded cell and stops at the first refusal; with a refusal probability of 1 per attempt
+// the chance of a false red is below 1e-10. The refusal must carry the anchored log line (the cell id included),
+// and the mother must be bit-identical to its state before the call. Every attempt must also leave the process
+// alive: divide_cell() is noexcept, so an exception that escaped it would terminate the test
+int divide_cell_refuses_uncovered_interface_test(){
+
+    auto cell_parameters = create_cell_type_parameters();
+    const double l_min = 1e-6;
+    local_mesh_refiner lmr(l_min, 3. * l_min, true);
+
+    constexpr unsigned cell_id = 24474;
+    constexpr unsigned max_attempts = 20;
+    const std::string expected_log = "Cell division failed for cell 24474: Interface outline not covered";
+
+    for(unsigned attempt = 1; attempt <= max_attempts; attempt++){
+
+        cell_ptr c = load_fixture_cell("earclip_mother_24474", cell_id, cell_parameters);
+
+        //divide_cell() starts with rebase(), which must be a no-op here: no free slot in the node and face lists
+        if(c->get_node_lst().size() != c->get_nb_of_nodes() || c->get_face_lst().size() != c->get_nb_of_faces()){
+            std::cout << "FAIL: the fixture cell has free node or face slots, so rebase() would renumber it" << std::endl;
+            return 1;
+        }
+
+        //The state of the mother before the division
+        const geometry_snapshot baseline = take_snapshot(c);
+
+        std::optional<std::pair<cell_ptr, cell_ptr>> division_result;
+        std::string log;
+        {
+            cerr_capture capture;
+            division_result = cell_divider::divide_cell(c, l_min, lmr);
+            log = capture.str();
+        }
+
+        if(division_result.has_value()){
+            std::cout << "attempt " << attempt << ": divided (the cut face was covered, or was patched)" << std::endl;
+            continue;
+        }
+
+        //A refusal
+        std::cout << "attempt " << attempt << ": refused, log: " << log;
+
+        bool ok = true;
+        if(log.find(expected_log) == std::string::npos){
+            std::cout << "FAIL: the refusal is not logged as \"" << expected_log << "...\"" << std::endl;
+            ok = false;
+        }
+        const std::string difference = snapshot_difference(baseline, take_snapshot(c));
+        if(!difference.empty()){
+            std::cout << "FAIL: the refused mother was modified: " << difference << std::endl;
+            ok = false;
+        }
+        return ok ? 0 : 1;
+    }
+
+    std::cout << "FAIL: no division of the fixture was refused in " << max_attempts << " attempts" << std::endl;
+    return 1;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+// The same refusal through the entry point of the solver, cell_divider::run() (R2). run() on a list that holds
+// one cell, which is ready to divide, is called until the division is refused (at most 20 calls, each on a
+// freshly loaded cell: a divided mother is cleared and removed). When it is refused the list must still hold
+// exactly that cell, with its geometry unchanged, no cell id may have been handed out, and the refusal must be
+// logged with the id of the cell
+int divide_cell_run_keeps_refused_mother_test(){
+
+    auto cell_parameters = create_cell_type_parameters();
+    const double l_min = 1e-6;
+    local_mesh_refiner lmr(l_min, 3. * l_min, true);
+
+    constexpr unsigned cell_id = 24474;
+    constexpr unsigned max_calls = 20;
+    constexpr unsigned first_free_cell_id = 100000;
+    const std::string expected_log = "Cell division failed for cell 24474: Interface outline not covered";
+
+    for(unsigned call = 1; call <= max_calls; call++){
+
+        cell_ptr c = load_fixture_cell("earclip_mother_24474", cell_id, cell_parameters);
+        if(c->get_node_lst().size() != c->get_nb_of_nodes() || c->get_face_lst().size() != c->get_nb_of_faces()){
+            std::cout << "FAIL: the fixture cell has free node or face slots, so rebase() would renumber it" << std::endl;
+            return 1;
+        }
+
+        //run() only divides the cells that are ready: with this cell type (a division volume of 0) every cell is
+        if(!c->is_ready_to_divide()){
+            std::cout << "FAIL: the fixture cell is not ready to divide, so run() would not even try" << std::endl;
+            return 1;
+        }
+
+        const geometry_snapshot baseline = take_snapshot(c);
+
+        std::vector<cell_ptr> cell_lst = {c};
+        unsigned next_cell_id = first_free_cell_id;
+        std::string log;
+        {
+            cerr_capture capture;
+            cell_divider::run(cell_lst, l_min, lmr, next_cell_id, false);
+            log = capture.str();
+        }
+
+        const bool mother_kept = cell_lst.size() == 1 && cell_lst[0] == c;
+        if(!mother_kept){
+            //The division succeeded: the mother is replaced by its 2 daughters, which got 2 new ids
+            const bool two_daughters = cell_lst.size() == 2 && next_cell_id == first_free_cell_id + 2;
+            std::cout << "call " << call << ": divided" << std::endl;
+            if(!two_daughters){
+                std::cout << "FAIL: run() left " << cell_lst.size() << " cells and handed out " << next_cell_id - first_free_cell_id << " ids after a division" << std::endl;
+                return 1;
+            }
+            continue;
+        }
+
+        //The division was refused (or not tried): the mother must be as it was, and the refusal must be logged
+        std::cout << "call " << call << ": mother kept, log: " << log;
+
+        bool ok = true;
+        if(log.find(expected_log) == std::string::npos){
+            std::cout << "FAIL: run() kept the mother, but the log does not say \"" << expected_log << "...\"" << std::endl;
+            ok = false;
+        }
+        const std::string difference = snapshot_difference(baseline, take_snapshot(c));
+        if(!difference.empty()){
+            std::cout << "FAIL: the mother kept in the list was modified: " << difference << std::endl;
+            ok = false;
+        }
+        if(next_cell_id != first_free_cell_id){
+            std::cout << "FAIL: run() handed out cell ids although no division took place" << std::endl;
+            ok = false;
+        }
+        return ok ? 0 : 1;
+    }
+
+    std::cout << "FAIL: run() did not keep the mother in any of " << max_calls << " calls" << std::endl;
+    return 1;
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -701,6 +961,8 @@ int main (int argc, char** argv){
     if (test_name == "unused_variable_efficiency_test")         return unused_variable_efficiency_test();
     if (test_name == "delaunay_exception_message_test")         return delaunay_exception_message_test();
     if (test_name == "divide_cell_multi_loop_plane_test")       return divide_cell_multi_loop_plane_test();
+    if (test_name == "divide_cell_refuses_uncovered_interface_test") return divide_cell_refuses_uncovered_interface_test();
+    if (test_name == "divide_cell_run_keeps_refused_mother_test")    return divide_cell_run_keeps_refused_mother_test();
 
 
     

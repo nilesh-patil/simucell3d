@@ -43,6 +43,10 @@ add_test(NAME triangulation_modules_cell_divider_unused_variable_efficiency_test
 add_test(NAME triangulation_modules_cell_divider_delaunay_exception_message_test        COMMAND test_cell_divider delaunay_exception_message_test)
 add_test(NAME triangulation_modules_cell_divider_divide_cell_multi_loop_plane_test      COMMAND test_cell_divider divide_cell_multi_loop_plane_test)
 
+# Division of a mother whose cut face Delaunay cannot cover: refused, mother kept (fixture earclip_mother_24474.vtk)
+add_test(NAME triangulation_modules_cell_divider_divide_cell_refuses_uncovered_interface_test COMMAND test_cell_divider divide_cell_refuses_uncovered_interface_test)
+add_test(NAME triangulation_modules_cell_divider_divide_cell_run_keeps_refused_mother_test    COMMAND test_cell_divider divide_cell_run_keeps_refused_mother_test)
+
 
 
 
