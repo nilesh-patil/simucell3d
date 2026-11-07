@@ -74,6 +74,15 @@ is reported so that you can see how often it acted.
   The check costs about 0.25% of a time step.
 - **The contact grid refuses a diverged domain.** If node coordinates are infinite or so large
   that the spatial grid cannot hold them, the run stops with an error instead of hanging.
+- **A cell whose mesh refinement fails is deleted.** If refining one cell's surface mesh throws an
+  error (for example an edge lookup that finds nothing in a damaged mesh, or the refiner's
+  operation cap), that cell is removed right after refinement, before contact detection, and the
+  run continues. Each removal is logged
+  (`Removing cell <id> at iteration <n>: mesh refinement failed: <error>`) and counted in
+  `unstable_cells_removed`. The run still stops on a diverged domain or when out of memory, and
+  also when more than max(10, 1% of the cells) fail in one iteration, or all of them do, since
+  that points to a bug in the refiner rather than to a few damaged cells. Lookups inside
+  functions declared `noexcept` cannot be caught this way and still abort the program.
 
 ### Fixed
 
@@ -99,6 +108,11 @@ is reported so that you can see how often it acted.
 - Undefined behaviour when the solver was destroyed: the contact model base class had no virtual
   destructor, so the derived contact model was deleted without its destructor and its face grid
   was never freed. AddressSanitizer reported it as a new-delete type mismatch.
+- One damaged cell ended the whole run: an error thrown while refining one cell's mesh left the
+  refiner and reached the error handler, which stopped the simulation. An 8-core
+  paper-configuration run ended this way at 79,635 cells with an uncaught
+  `std::bad_optional_access`. The same code is in 1.0. The cell is now removed instead (see
+  Added safeguards).
 
 ### Performance
 
@@ -124,7 +138,7 @@ is reported so that you can see how often it acted.
 - Per-iteration diagnostics CSV, written with `--diagnostics-csv=PATH`. *(2.0.0)*
 - Four GitHub Actions workflows: CI (Release, Debug, AddressSanitizer, UndefinedBehaviorSanitizer,
   latency profiling, format check) and pull-request, nightly and weekly benchmarks. *(2.0.0)*
-- The test suite grew from 126 registered ctest targets in 1.0 to 318.
+- The test suite grew from 126 registered ctest targets in 1.0 to 327.
 - Run launchers live in `scripts/runs/`, and the long-run growth configuration is
   `parameters/longrun_fast_growth.xml`.
 - `simucell3d --version` prints the version and the git commit it was configured from.
@@ -135,15 +149,18 @@ is reported so that you can see how often it acted.
 - **Cells interpenetrate**, in every version including 1.0. The likely cause is that, in the
   paper configuration, the contact cutoff (2e-7 m) is five times smaller than the minimum edge
   length (1e-6 m).
-- **Inside-out cells in long runs.** Rarely, a whole cell becomes inside-out and tangled late in
-  a long run. In an 8-core paper-configuration run of this code without the winding self-check
-  and the new volume checks, 5 such cells appeared between 26,000 and 46,000 cells; the length
-  limit removed each one, in one case only after it had grown to about 400,000 faces. 2.1.0
-  removes such cells as soon as their volume turns negative or impossible. The root cause is
-  under investigation.
-- **Newborn daughters removed as unstable.** In the same run, 73 cells had been removed as
-  unstable by 44,000 cells; most were daughters removed within about 60 iterations of their
-  division, just past the length limit and with normal volume.
+- **Newborn daughters removed as unstable.** In an 8-core paper-configuration run of this code
+  without the winding self-check and the new volume checks, 194 cells had been removed as
+  unstable by 79,635 cells, and 190 of them were daughters under 200 iterations old (most under
+  50), including all 16 cells that had become inside-out and tangled. The cause has been traced to
+  the divider's fallback for a cut face that the Delaunay triangulation leaves incomplete (about 3%
+  of divisions): it rebuilds the face from its outline points only, the mesh refiner cannot
+  repair the resulting daughters, and their slivers produce very large bending forces. 2.1.0
+  removes inside-out cells as soon as their volume turns negative or impossible; a fix of the
+  fallback itself is in progress.
+- **Unchecked lookups in `noexcept` functions.** A few edge and face lookups on the mesh
+  refiner's path (for example `edge::f1()`/`f2()`, the triangle score) still end the program with
+  SIGABRT if a mesh is damaged, because they are declared `noexcept`.
 - **Stale coupling links.** When a node switches to a closer coupling partner, its old partner
   keeps a link back to it until the coupling maps are rebuilt. This has been present since 1.0.
 - Contact models 0 and 1 still add contact forces without an atomic add. The paper
