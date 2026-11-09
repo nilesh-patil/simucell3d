@@ -78,3 +78,6 @@ add_test(NAME stability_extreme_zero_bulk_modulus            COMMAND extreme_par
 add_test(NAME stability_extreme_high_pressure                COMMAND extreme_parameters_test test_high_pressure)
 add_test(NAME stability_extreme_degenerate_mesh              COMMAND extreme_parameters_test test_degenerate_mesh)
 add_test(NAME stability_extreme_contact_cutoff_boundary      COMMAND extreme_parameters_test test_contact_cutoff_boundary)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

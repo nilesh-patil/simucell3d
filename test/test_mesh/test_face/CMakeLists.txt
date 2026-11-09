@@ -35,3 +35,6 @@ add_test(NAME mesh_face_replace_node_test               COMMAND test_face replac
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

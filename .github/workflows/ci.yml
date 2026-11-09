@@ -1,0 +1,352 @@
+name: CI
+
+# Required checks for every pull request and every push to main or a release branch.
+# Runs the `unit` and `integration` ctest tiers (see test/test_labels.cmake) on the oldest
+# supported toolchain (GCC 10, Debian 11), the current one (GCC 13, Ubuntu 24.04) and a
+# sanitizer build, plus linting, the Python tests, the Python bindings and the version
+# check. The `ci-ok` job summarises the result; it is the one to require in branch
+# protection. The long tier is in long.yml; performance comparisons are in perf.yml.
+
+on:
+  pull_request:
+  push:
+    branches: [main, "release/**"]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch, tag or SHA to build and test"
+        required: true
+        default: main
+  workflow_call:
+    inputs:
+      ref:
+        description: "Branch, tag or SHA to build and test (default: the caller's ref)"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}-${{ inputs.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # All project CMakeLists.txt require CMake >= 3.10; this is a safety net for vendored
+  # third-party CMake code that CMake 4 would otherwise reject.
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+  CTEST_OUTPUT_ON_FAILURE: "1"
+  # Test selection shared by every build job. Per-test timeouts are set in CMake; this
+  # is the upper bound for tests that set none.
+  CTEST_TIERS: "unit|integration"
+  CTEST_TIMEOUT: "900"
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+          # Two commits so that HEAD^1 of a pull request merge commit is the base branch.
+          fetch-depth: 2
+
+      - name: actionlint (workflow files)
+        run: docker run --rm -v "${GITHUB_WORKSPACE}:/repo" --workdir /repo rhysd/actionlint:1.7.7 -color
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: ruff (Python syntax errors and undefined names)
+        run: |
+          python -m pip install "$(grep '^ruff==' scripts/ci/requirements.txt)"
+          # compute_IoU_euler.py has a known use-before-assignment (F823) that needs a code
+          # fix; it is excluded until then so that the rule stays on for everything else.
+          ruff check --output-format=github --select E9,F63,F7,F82 \
+            --extend-exclude scripts/screening_analysis/utils/compute_IoU_euler.py \
+            scripts tests
+
+      - name: clang-format on changed lines (advisory)
+        if: github.event_name == 'pull_request'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q clang-format
+          # Advisory only: most existing code predates .clang-format, so formatting the
+          # changed lines can also reformat their neighbours. Reported, never failed.
+          if git clang-format --diff HEAD^1 > clang-format.diff 2>&1 \
+             && ! grep -q '^diff --git' clang-format.diff; then
+            echo "Changed C++ lines follow .clang-format."
+          elif grep -q '^diff --git' clang-format.diff; then
+            echo "::warning title=clang-format::Changed lines differ from .clang-format; run 'git clang-format origin/main' locally. See the job summary."
+            {
+              echo '### clang-format suggestions for the changed lines (advisory)'
+              echo '```diff'
+              head -n 400 clang-format.diff
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            cat clang-format.diff
+          fi
+
+  build-oldest:
+    name: Build and test (GCC 10, Debian 11, Release)
+    runs-on: ubuntu-24.04
+    container: debian:bullseye
+    timeout-minutes: 60
+    env:
+      CCACHE_MAXSIZE: 500M
+    steps:
+      - name: Install the toolchain
+        run: |
+          apt-get update -q
+          apt-get install -y -q --no-install-recommends build-essential cmake git ca-certificates ccache
+
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Toolchain versions
+        run: |
+          # The checkout belongs to another uid inside the container; let CMake read the sha.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          g++ --version | head -n 1
+          cmake --version | head -n 1
+
+      - uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ccache-gcc10-release-${{ github.sha }}
+          restore-keys: ccache-gcc10-release-
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Build
+        run: |
+          # github.workspace is the host path; inside the container use $GITHUB_WORKSPACE.
+          export CCACHE_DIR="$GITHUB_WORKSPACE/.ccache"
+          cmake --build build -j"$(nproc)"
+          ccache --show-stats || true
+
+      - name: Test
+        working-directory: build
+        run: ctest -L "$CTEST_TIERS" -j"$(nproc)" --timeout "$CTEST_TIMEOUT"
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ctest-gcc10-release
+          path: |
+            build/Testing/Temporary/LastTest.log
+            build/test/test_e2e/*/run.log*
+          retention-days: 14
+
+  build-test:
+    name: Build and test (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    # The canary leg follows ubuntu-latest, so a new runner image shows up as one failed
+    # optional job instead of a red repository.
+    continue-on-error: ${{ matrix.canary }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: GCC 13, Release
+            os: ubuntu-24.04
+            build_type: Release
+            cxx: g++-13
+            canary: false
+          - name: GCC 13, Debug
+            os: ubuntu-24.04
+            build_type: Debug
+            cxx: g++-13
+            canary: false
+          - name: ubuntu-latest, Release, canary
+            os: ubuntu-latest
+            build_type: Release
+            cxx: g++
+            canary: true
+    env:
+      CXX: ${{ matrix.cxx }}
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_MAXSIZE: 500M
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Install ccache
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ccache
+          "$CXX" --version | head -n 1
+          cmake --version | head -n 1
+
+      - uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ccache-${{ matrix.os }}-${{ matrix.cxx }}-${{ matrix.build_type }}-${{ github.sha }}
+          restore-keys: ccache-${{ matrix.os }}-${{ matrix.cxx }}-${{ matrix.build_type }}-
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Build
+        run: cmake --build build -j"$(nproc)"
+
+      - name: Test
+        working-directory: build
+        run: ctest -L "$CTEST_TIERS" -j"$(nproc)" --timeout "$CTEST_TIMEOUT"
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ctest-${{ matrix.os }}-${{ matrix.build_type }}-${{ matrix.cxx }}
+          path: |
+            build/Testing/Temporary/LastTest.log
+            build/test/test_e2e/*/run.log*
+          retention-days: 14
+
+  sanitizers:
+    name: Sanitizers (ASan + UBSan, Debug)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      CXX: g++-13
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_MAXSIZE: 500M
+      SAN_FLAGS: -fsanitize=address,undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Install ccache
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ccache
+
+      - uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ccache-sanitizers-${{ github.sha }}
+          restore-keys: ccache-sanitizers-
+
+      - name: Configure
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_FLAGS="$SAN_FLAGS" \
+            -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined" \
+            -DCMAKE_SHARED_LINKER_FLAGS="-fsanitize=address,undefined"
+
+      - name: Build
+        run: cmake --build build -j"$(nproc)"
+
+      - name: Test
+        working-directory: build
+        env:
+          # Leak detection is off: test fixtures do not free all memory. ASan still reports
+          # use-after-free, buffer overflows and similar errors.
+          ASAN_OPTIONS: detect_leaks=0
+          UBSAN_OPTIONS: print_stacktrace=1
+        run: ctest -L "$CTEST_TIERS" -j"$(nproc)" --timeout "$CTEST_TIMEOUT"
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ctest-sanitizers
+          path: |
+            build/Testing/Temporary/LastTest.log
+            build/test/test_e2e/*/run.log*
+          retention-days: 14
+
+  python:
+    name: Python tests (${{ matrix.python }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: scripts/ci/requirements.txt
+
+      - name: Install
+        run: python -m pip install -r scripts/ci/requirements.txt
+
+      - name: pytest
+        run: python -m pytest -q tests
+
+  bindings:
+    name: Python bindings
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Configure
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release -DENABLE_PYTHON_BINDINGS=TRUE \
+            -DPYTHON_EXECUTABLE="$(command -v python)"
+
+      - name: Build the module
+        run: cmake --build build -j"$(nproc)" --target simucell3d_python_wrapper
+
+      - name: Import the module
+        run: |
+          module=$(find build -name 'simucell3d_python_wrapper*.so' -print -quit)
+          test -n "$module" || { echo "::error::simucell3d_python_wrapper module not built"; exit 1; }
+          echo "Built $module"
+          PYTHONPATH="$(dirname "$module")" python -c "import simucell3d_python_wrapper as m; print(m.__doc__ or m)"
+
+  version-check:
+    name: Version consistency
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: check_version.py
+        run: python3 scripts/ci/check_version.py
+
+  ci-ok:
+    name: CI result
+    # Always reports, so that branch protection can require this single check.
+    if: always()
+    needs: [lint, build-oldest, build-test, sanitizers, python, bindings, version-check]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: All required jobs passed
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          read -r -a results <<< "$RESULTS"
+          for result in "${results[@]}"; do
+            if [ "$result" != "success" ]; then
+              echo "::error::At least one required job did not succeed ($result)."
+              exit 1
+            fi
+          done

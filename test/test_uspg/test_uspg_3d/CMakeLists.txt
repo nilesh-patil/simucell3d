@@ -42,3 +42,6 @@ add_test(NAME uspg_3d_large_grid_index_overflow_test  COMMAND test_uspg_3d large
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

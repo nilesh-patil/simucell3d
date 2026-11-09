@@ -27,7 +27,7 @@ add_test(NAME uspg_4d_get_neighborhood_test             COMMAND test_uspg_4d get
 add_test(NAME uspg_4d_place_object_test                 COMMAND test_uspg_4d place_object_test)
 add_test(NAME uspg_4d_get_grid_content_test             COMMAND test_uspg_4d get_grid_content_test)
 
-# New tests for vector storage optimization (Phase 1)
+# Tests of the vector storage of the grid
 add_test(NAME uspg_4d_vector_storage_size_test          COMMAND test_uspg_4d vector_storage_size_test)
 add_test(NAME uspg_4d_vector_push_back_ordering_test    COMMAND test_uspg_4d vector_push_back_ordering_test)
 add_test(NAME uspg_4d_empty_voxel_returns_empty_vector_test COMMAND test_uspg_4d empty_voxel_returns_empty_vector_test)
@@ -38,3 +38,6 @@ add_test(NAME uspg_4d_neighborhood_returns_vector_test      COMMAND test_uspg_4d
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

@@ -34,3 +34,6 @@ add_test(NAME io_mesh_writer_write_cell_data_from_cell COMMAND test_mesh_writer 
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

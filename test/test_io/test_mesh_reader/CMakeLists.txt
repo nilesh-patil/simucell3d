@@ -33,3 +33,6 @@ add_test(NAME io_mesh_reader_get_cell_types_test        COMMAND test_mesh_reader
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

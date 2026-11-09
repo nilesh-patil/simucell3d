@@ -43,3 +43,6 @@ add_test(NAME mesh_edge_swap_face_ids_test              COMMAND test_edge swap_f
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

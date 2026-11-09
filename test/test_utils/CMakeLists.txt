@@ -21,3 +21,6 @@ add_test(NAME test_utils_flatten_vector_test        COMMAND test_utils flatten_v
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

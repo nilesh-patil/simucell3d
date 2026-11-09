@@ -35,3 +35,6 @@ add_test(NAME io_simulation_initializer_simulation_initializer_constructor_test 
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

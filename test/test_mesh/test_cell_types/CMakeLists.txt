@@ -32,3 +32,6 @@ add_test(NAME cell_types_test_cell_type_polymorphism        COMMAND cell_types_t
 add_test(NAME cell_types_test_epithelial_growth_rate        COMMAND cell_types_test test_epithelial_growth_rate)
 add_test(NAME cell_types_test_cell_type_inheritance         COMMAND cell_types_test test_cell_type_inheritance)
 add_test(NAME cell_types_test_epithelial_face_contact       COMMAND cell_types_test test_epithelial_face_contact)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

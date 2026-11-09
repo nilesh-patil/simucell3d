@@ -28,3 +28,6 @@ add_test(NAME io_statistics_writer_string_writer_accumulation COMMAND test_stati
 add_test(NAME io_statistics_writer_write_data_formatting      COMMAND test_statistics_writer test_write_data_formatting)
 add_test(NAME io_statistics_writer_multiple_iterations        COMMAND test_statistics_writer test_multiple_iterations)
 add_test(NAME io_statistics_writer_invalid_path               COMMAND test_statistics_writer test_csv_writer_invalid_path)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

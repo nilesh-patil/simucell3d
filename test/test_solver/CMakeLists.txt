@@ -58,3 +58,6 @@ add_test(NAME solver_test_refinement_failure_removed          COMMAND test_solve
 add_test(NAME solver_test_refinement_mass_failure_stops       COMMAND test_solver test_refinement_mass_failure_stops)
 add_test(NAME solver_test_refinement_failure_all_cells_stop   COMMAND test_solver test_refinement_failure_all_cells_stop)
 add_test(NAME solver_test_refinement_failure_limit            COMMAND test_solver test_refinement_failure_limit)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

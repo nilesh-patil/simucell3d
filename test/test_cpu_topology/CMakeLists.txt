@@ -15,3 +15,6 @@ add_test(NAME test_cpu_topology_placement_adjacent_siblings   COMMAND test_cpu_t
 add_test(NAME test_cpu_topology_placement_restricted          COMMAND test_cpu_topology placement_restricted_test)
 add_test(NAME test_cpu_topology_placement_two_sockets         COMMAND test_cpu_topology placement_two_sockets_test)
 add_test(NAME test_cpu_topology_live_detection                COMMAND test_cpu_topology live_detection_test)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

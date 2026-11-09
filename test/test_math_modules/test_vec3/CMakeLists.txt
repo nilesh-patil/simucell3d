@@ -46,3 +46,6 @@ add_test(NAME math_modules_vec3_get_angle_antiparallel      COMMAND vec3_test ge
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

@@ -23,3 +23,6 @@ add_test(NAME morton_encode_test                          COMMAND test_morton_co
 add_test(NAME morton_spatial_locality_test                COMMAND test_morton_code morton_spatial_locality_test)
 add_test(NAME morton_boundary_test                        COMMAND test_morton_code morton_boundary_test)
 add_test(NAME morton_sorting_preserves_correctness_test   COMMAND test_morton_code morton_sorting_preserves_correctness_test)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

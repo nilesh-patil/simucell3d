@@ -52,3 +52,6 @@ add_test(NAME math_modules_mat33_inverse_near_singular_test COMMAND mat33_test i
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

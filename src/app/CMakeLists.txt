@@ -35,6 +35,7 @@ add_test(NAME cli_version_flag
         -DEXPECTED_VERSION=${PROJECT_VERSION}
         -P ${CMAKE_CURRENT_SOURCE_DIR}/check_version_flag.cmake
 )
+set_tests_properties(cli_version_flag PROPERTIES LABELS "integration" TIMEOUT 60)
 
 # Create symlink in build root for backward compatibility with scripts
 add_custom_command(TARGET simucell3d POST_BUILD

@@ -38,3 +38,6 @@ add_test(NAME mesh_node_atomic_force_test                   COMMAND test_node at
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

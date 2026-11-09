@@ -34,5 +34,8 @@ add_test(NAME test_contact_model_integration
 # Set test properties
 set_tests_properties(test_contact_model_integration PROPERTIES
     TIMEOUT 120
-    LABELS "integration;contact_models;phase5"
+    LABELS "integration;contact_models"
 )
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

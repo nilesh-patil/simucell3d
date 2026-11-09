@@ -82,3 +82,6 @@ add_test(NAME triangulation_modules_cell_divider_divide_cell_run_keeps_refused_m
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

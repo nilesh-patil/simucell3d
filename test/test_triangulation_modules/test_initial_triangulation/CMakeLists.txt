@@ -52,3 +52,6 @@ add_test(NAME triangulation_modules_initial_triangulation_coarse_triangulation_t
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

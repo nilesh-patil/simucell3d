@@ -43,3 +43,6 @@ add_test(NAME io_parameter_reader_contact_detection_case_insensitivity  COMMAND 
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

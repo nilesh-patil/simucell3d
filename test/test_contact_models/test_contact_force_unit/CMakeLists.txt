@@ -56,3 +56,6 @@ add_test(
     NAME contact_force_direction
     COMMAND test_contact_force_unit test_force_direction_correctness
 )
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

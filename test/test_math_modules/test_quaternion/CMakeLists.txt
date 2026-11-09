@@ -32,3 +32,6 @@ add_test(NAME math_modules_quaternion_test_scalar_divide          COMMAND quater
 
 # Practical validation tests
 add_test(NAME math_modules_quaternion_test_preserves_length       COMMAND quaternion_test test_rotation_preserves_length)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

@@ -1,0 +1,135 @@
+name: Release
+
+# Tag-driven release. Pushing vX.Y.Z (or vX.Y.Z-rcN for a pre-release):
+#   1. verify   tag == project(VERSION) in CMakeLists.txt == dated top CHANGELOG heading,
+#               CITATION.cff agrees (scripts/ci/check_version.py --tag)
+#   2. ci       the full CI workflow (ci.yml) on the tagged commit
+#   3. long     the long tier (long.yml) on the tagged commit
+#   4. dist     source tarball (git archive) + SHA256SUMS, rebuilt and tested from the
+#               tarball itself
+#   5. publish  GitHub release with the notes of the CHANGELOG section (never git log)
+# The documentation for the tag is built and deployed by docs.yml, which has its own tag
+# trigger. This workflow never pushes commits or moves tags. See RELEASING.md.
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-rc[0-9]+"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
+jobs:
+  verify:
+    name: Verify the version
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: check_version.py --tag
+        run: python3 scripts/ci/check_version.py --tag "$GITHUB_REF_NAME"
+
+      - name: Version strings
+        id: version
+        run: |
+          # v2.1.0 -> 2.1.0 ; v2.1.0-rc1 -> 2.1.0-rc1 (used in file names)
+          echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          if [[ "$GITHUB_REF_NAME" == *-rc* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  ci:
+    name: CI
+    needs: verify
+    uses: ./.github/workflows/ci.yml
+
+  long:
+    name: Long tier
+    needs: verify
+    uses: ./.github/workflows/long.yml
+
+  dist:
+    name: Source tarball
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      VERSION: ${{ needs.verify.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: git archive
+        run: |
+          mkdir dist
+          name="simucell3d-${VERSION}"
+          git archive --format=tar.gz --prefix="${name}/" -o "dist/${name}.tar.gz" HEAD
+          (cd dist && sha256sum "${name}.tar.gz" > SHA256SUMS && cat SHA256SUMS)
+
+      - name: Build and test from the tarball
+        run: |
+          # Catches files missing from the archive. Outside the checkout, so CMake finds
+          # no .git and the binary reports the sha as "unknown".
+          work="$RUNNER_TEMP/tarball"
+          mkdir -p "$work"
+          tar -xzf "dist/simucell3d-${VERSION}.tar.gz" -C "$work"
+          src="$work/simucell3d-${VERSION}"
+          cmake -S "$src" -B "$work/build" -DCMAKE_BUILD_TYPE=Release
+          cmake --build "$work/build" -j"$(nproc)"
+          cd "$work/build"
+          ./simucell3d --version
+          ctest -L "unit|integration" -j"$(nproc)" --output-on-failure --timeout 900
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 30
+
+  publish:
+    name: Publish the GitHub release
+    needs: [verify, ci, long, dist]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.verify.outputs.version }}
+      PRERELEASE: ${{ needs.verify.outputs.prerelease }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Release notes from CHANGELOG.md
+        run: |
+          python3 scripts/ci/changelog_section.py "$GITHUB_REF_NAME" > notes.md
+          cat notes.md
+
+      - name: gh release create
+        run: |
+          flags=()
+          if [ "$PRERELEASE" = "true" ]; then flags+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" \
+            --title "SimuCell3D ${VERSION}" \
+            --notes-file notes.md \
+            --verify-tag \
+            "${flags[@]}" \
+            dist/*

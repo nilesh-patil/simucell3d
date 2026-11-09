@@ -53,3 +53,6 @@ add_test(NAME triangulation_modules_poisson_sampling_point_on_surface_test      
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

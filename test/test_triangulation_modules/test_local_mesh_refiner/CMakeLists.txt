@@ -42,3 +42,6 @@ add_test(NAME triangulation_modules_local_mesh_refiner_refine_meshes_contains_fa
 add_test(NAME triangulation_modules_local_mesh_refiner_refine_meshes_contains_failure_threads COMMAND test_local_mesh_refiner refine_meshes_contains_failure_threads_test)
 add_test(NAME triangulation_modules_local_mesh_refiner_refine_meshes_rethrows_fatal           COMMAND test_local_mesh_refiner refine_meshes_rethrows_fatal_test)
 add_test(NAME triangulation_modules_local_mesh_refiner_refine_meshes_public_wrapper           COMMAND test_local_mesh_refiner refine_meshes_public_wrapper_test)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)
