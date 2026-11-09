@@ -64,11 +64,7 @@ jobs:
       - name: ruff (Python syntax errors and undefined names)
         run: |
           python -m pip install "$(grep '^ruff==' scripts/ci/requirements.txt)"
-          # compute_IoU_euler.py has a known use-before-assignment (F823) that needs a code
-          # fix; it is excluded until then so that the rule stays on for everything else.
-          ruff check --output-format=github --select E9,F63,F7,F82 \
-            --extend-exclude scripts/screening_analysis/utils/compute_IoU_euler.py \
-            scripts tests
+          ruff check --output-format=github --select E9,F63,F7,F82 scripts tests
 
       - name: clang-format on changed lines (advisory)
         if: github.event_name == 'pull_request'
