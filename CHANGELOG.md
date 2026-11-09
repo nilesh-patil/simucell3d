@@ -44,11 +44,11 @@ marked *(2.0.0)* were already in the 2.0.0 release.
   the division failed ("not properly triangulated"), and the cell retried every iteration. Now
   every loop is traced, the cell is cut along the longest one, and the two daughters are separated
   by a flood fill that does not cross the cut. When the Delaunay triangulation of the cut face does
-  not cover its whole outline (about 3% of division attempts), the division is refused and the
-  mother tries again at the next division check, with new random interior points; the log line
-  names the cell. In a single-threaded test run of an earlier version of this change, which
-  patched such cut faces instead of refusing them, failed divisions fell from 1,014 to 10; with
-  refusals, about 3% of attempts are deferred.
+  not cover its whole outline, the division is refused and the mother tries again at the next
+  division check, with new random interior points; the log line names the cell. This happens more
+  often as the tissue grows (see Known issues). In a single-threaded test run of an earlier version
+  of this change, which patched such cut faces instead of refusing them, failed divisions fell
+  from 1,014 to 10.
 - **Bending force on sliver triangles.** The bending force contains 1/area and cot(angle) terms.
   On a nearly flat triangle it could become more than a million times larger than normal and
   move a node by centimetres in one time step. A hinge is now skipped when one of its two triangles has
@@ -152,16 +152,23 @@ is reported so that you can see how often it acted.
 - **Cells interpenetrate**, in every version including 1.0. The likely cause is that, in the
   paper configuration, the contact cutoff (2e-7 m) is five times smaller than the minimum edge
   length (1e-6 m).
-- **Some divisions are deferred.** About 3% of division attempts are refused because the Delaunay
-  triangulation of the cut face does not cover its outline, and the mother tries again at the next
-  division check. Most succeed within a few attempts: in a long run of a build that refused the
-  same divisions, refused mothers needed 1.4 attempts on average and 69 at most. At a fixed shape
-  some are refused every time (1 of 5 test mothers was refused 100 of 100 times) until the cell's
-  shape changes. An earlier version of 2.1 patched these cut faces by ear clipping their outline
-  instead; the mesh refiner could not repair the resulting daughters, and in an 8-core run of that
-  code 190 of the 194 cells removed as unstable by 79,635 cells were such newborn daughters. In a
-  300-iteration restart test, refusing these divisions removed the newborn deletions (0 against 6).
-  A better way to divide these cells is planned.
+- **Some divisions are deferred, more often as the tissue grows.** A division is refused when the
+  Delaunay triangulation of the cut face does not cover its outline, and the mother tries again at
+  the next division check. In an 8-core run of the paper configuration from 1 to 150,498 cells, 14%
+  of division attempts (refusals plus divisions) were refused: 5% below 30,000 cells, rising to 21%
+  between 125,000 and 150,000. A mother that was refused was refused 1.75 times on average (median
+  1, at most 31). At a fixed shape some are refused every time (1 of 5 test mothers was refused 100
+  of 100 times) until the cell's shape changes. An earlier version of 2.1 patched these cut faces
+  by ear clipping their outline instead; the mesh refiner could not repair the resulting daughters,
+  and in an 8-core run of that code 190 of the 194 cells removed as unstable by 79,635 cells were
+  such newborn daughters. In a 300-iteration restart test, refusing these divisions removed the
+  newborn deletions (0 against 6). A better way to divide these cells is planned.
+- **Rare blow-ups of single nodes.** Occasionally a node is thrown far from its cell in one time
+  step, sometimes to a position that is no longer a finite number. The unstable-cell safeguard
+  removes the cell and the run continues, but neighbouring cells can go with it: in the
+  150,000-cell run above, 8 cells with one non-finite node each were removed in one iteration, and
+  4 cells with the same extent of 1.5e9 m in another. All three long 2.1 test runs had such
+  groups. The cause is not yet known.
 - **Unchecked lookups in `noexcept` functions.** A few edge and face lookups on the mesh
   refiner's path (for example `edge::f1()`/`f2()`, the triangle score) still end the program with
   SIGABRT if a mesh is damaged, because they are declared `noexcept`.
