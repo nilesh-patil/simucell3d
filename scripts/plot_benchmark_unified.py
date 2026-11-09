@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-SimuCell3D Unified Benchmark Visualization Suite v2.0
+SimuCell3D unified benchmark plots.
 
-Publication-quality visualization for benchmark analysis with:
-- Automatic scheduler detection (supports N schedulers)
-- Data validation and cleaning with audit trail
-- 17 publication-ready plots organized in 3 narratives
-- CVD-safe colormaps and Tufte-style minimal ink design
+Plots for a benchmark directory written by run_parallel_benchmark_comparison.sh
+(one sim_<mode>/ subdirectory per scheduling mode), after preprocess_benchmark_metrics.py:
+- automatic detection of the scheduling modes present
+- data validation and cleaning with an audit trail
+- 17 registered plots (ids 01-17 with 02b, without 12) in two groups,
+  biological and computational
+- colour-vision-deficiency-safe colormaps
 
 Usage:
     python plot_benchmark_unified.py <benchmark_directory>
@@ -1826,7 +1828,7 @@ def plot_biological_dashboard(data: Dict, style: Dict, output_dir: Path,
 
 
 # =============================================================================
-# CI/CD Dashboard Plots (Phase 4)
+# CI/CD dashboard plots
 # =============================================================================
 
 @register_plot(
@@ -2417,14 +2419,14 @@ def generate_manifest(
 
 def main():
     parser = argparse.ArgumentParser(
-        description='SimuCell3D Unified Benchmark Visualization Suite v2.0',
+        description='SimuCell3D unified benchmark plots',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s doc/working/parallel_benchmark_20260126_093337
-  %(prog)s doc/working/parallel_benchmark_20260126_093337 --quality draft
-  %(prog)s doc/working/parallel_benchmark_20260126_093337 --validate-only
-  %(prog)s doc/working/parallel_benchmark_20260126_093337 --plots biological
+  %(prog)s doc/working/parallel_benchmark_<timestamp>
+  %(prog)s doc/working/parallel_benchmark_<timestamp> --quality draft
+  %(prog)s doc/working/parallel_benchmark_<timestamp> --validate-only
+  %(prog)s doc/working/parallel_benchmark_<timestamp> --plots biological
         """
     )
 

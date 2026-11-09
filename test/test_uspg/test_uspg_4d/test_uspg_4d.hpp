@@ -20,7 +20,7 @@ class uspg_4d_tester
         int get_neighborhood_test() const;
         int get_grid_content_test() const;
 
-        // New tests for vector storage optimization (Phase 1)
+        // Tests of the vector storage of the grid
         int vector_storage_size_test() const;           // Verify .size() works correctly
         int vector_push_back_ordering_test() const;     // Verify push_back maintains insertion order
         int empty_voxel_returns_empty_vector_test() const;  // Verify empty voxels return empty vector

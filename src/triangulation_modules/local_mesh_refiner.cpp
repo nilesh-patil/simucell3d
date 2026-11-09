@@ -166,8 +166,8 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
     };
 
     //Loop over all the edges of the cell until all edges have been checked
-    // STABILITY FIX: Use a fixed high iteration cap instead of edge_count × multiplier
-    // Rationale: After cell division, daughter cells have very few edges (~100), but cascading
+    // A fixed high iteration cap is used instead of edge_count x multiplier.
+    // Rationale: after cell division, daughter cells have very few edges (~100), but cascading
     // split/merge operations can create many new edges that need checking. A fixed cap avoids
     // the "moving target" problem where edge_count changes during the loop.
     constexpr unsigned MAX_MESH_REFINEMENT_ITERATIONS = 500000;
@@ -241,7 +241,7 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
         return;
     }
 
-    // STABILITY FIX: Check against the fixed iteration cap
+    // Check against the fixed iteration cap
     if(iteration == MAX_MESH_REFINEMENT_ITERATIONS){
         throw mesh_integrity_exception(std::string("The refinement of the mesh of cell ") + std::to_string(c->get_id()) + std::string(" failed.") +
         std::string(" The simulation is unstable. Reducing the time step might help")

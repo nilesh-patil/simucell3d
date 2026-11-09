@@ -6,9 +6,9 @@
 
 //--------------------------------------------------------------------------------------------------------------------------
 // Helper function: Calculate coefficient of variation for workload heterogeneity
-// ADDITIVE COST MODEL (Fixed BUG #3): Independent cost components instead of multiplicative compounding
-// Additive model preserves biological semantics and reduces dynamic range
-// Fixed BUG #2: Now mesh-adaptive (scales with min_edge_len and contact_cutoff)
+// Additive cost model: independent cost components are summed rather than multiplied, which keeps
+// the biological meaning of each term and limits the dynamic range of the estimate.
+// Mesh-adaptive: the contact term scales with min_edge_len and contact_cutoff.
 static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell_lst, double min_edge_len,
                                                double contact_cutoff_adhesion) {
     if (cell_lst.empty())
@@ -61,7 +61,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
 
 // Estimate neighbor count for boundary detection (mesh-adaptive)
 #if CONTACT_MODEL_INDEX == 1 || CONTACT_MODEL_INDEX == 2
-        // Fixed BUG #2: Mesh-adaptive neighbor estimation
+        // Mesh-adaptive estimate of the number of neighbours
         // Scale from baseline calibration (default_dynamic: edge=7.5e-7, cutoff=5e-7)
         constexpr double baseline_edge_len = 7.5e-7;
         constexpr double baseline_cutoff = 5.0e-7;
@@ -92,7 +92,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
 
         if (cell->is_static()) {
             // Static cells (ECM, structural barriers): Contact detection only, NO time integration
-            // ~20% of dynamic cell (contact detection ~10%, USPG queries ~10%)
+            // Estimated at ~20% of a dynamic cell (contact detection ~10%, USPG queries ~10%)
             contact_cost = base_cost * 0.20 * contact_fraction;
             integration_cost = 0.0;  // No time integration for static cells
         } else {
@@ -119,7 +119,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
                 // No adjustment needed - lumen does full force calc + integration
             }
             // Nucleus cells (Type 3): Already has smaller base_cost (fewer faces)
-            // Nucleus is 50-60% of host surface area → 50-60% base_cost automatically
+            // A nucleus has 50-60% of the host's surface area, so its base_cost is already 50-60%
             // NO multiplier needed - size difference already captured in face count
             else if (cell_type_id == 3) {
                 // No adjustment - smaller mesh already reflected in base_cost
@@ -137,7 +137,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
 
             // Growth state overhead
             if (cell->get_growth_rate() > 1e-20) {
-                // Direct cost is <1% (just volume update)
+                // Direct cost is <1% (a volume update)
                 // Indirect costs (pressure changes, mesh refinement) captured in other factors
                 growth_cost = base_cost * 0.01;  // +1% for volume updates
             }
@@ -226,7 +226,7 @@ static std::string lookup_benchmark_mode(size_t num_cells, std::string& rational
 
 //--------------------------------------------------------------------------------------------------------------------------
 // Helper function: Multi-factor heuristic for schedule selection
-// Fixed BUG #2: Now includes workload heterogeneity (CoV) in decision logic
+// The decision uses the workload heterogeneity (CoV) as its primary factor
 static std::string multi_factor_heuristic(size_t num_cells, int num_threads, const std::vector<cell_ptr>& cell_lst,
                                           double min_edge_len, double contact_cutoff_adhesion, std::string& rationale) {
     // Factor 1: Workload heterogeneity (Coefficient of Variation)
@@ -409,13 +409,13 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
                   << "placement left to the OpenMP runtime" << std::endl;
     }
 
-    // Measure workload heterogeneity (Phase 1: will be updated every 50 iterations)
+    // Measure workload heterogeneity (updated every COV_UPDATE_INTERVAL iterations)
     heterogeneity_cov_ = calculate_workload_heterogeneity(cell_lst_, sim_parameters_.min_edge_len_,
                                                           sim_parameters_.contact_cutoff_adhesion_);
     last_cov_update_iteration_ = 0;            // Initialize timestamp
     double workload_cov = heterogeneity_cov_;  // Keep local variable for constructor logic
 
-    // Initialize phase tracking (Phase 1: Temporal adaptation)
+    // Initialize simulation-phase tracking
     current_phase_ = SimulationPhase::INITIALIZATION;  // Start in initialization phase
     last_division_check_iteration_ = 0;
     recent_division_count_ = 0;
@@ -429,7 +429,7 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
         schedule_chunk_size_ = 0;  // Let OpenMP decide chunk size for static
     } else if (schedule_mode_ == "dynamic") {
         schedule_kind_ = omp_sched_dynamic;
-        // FIXED: Adaptive chunk sizing instead of hardcoded 50
+        // Chunk size adapted to cell count, thread count and workload heterogeneity
         schedule_chunk_size_ =
             calculate_optimal_chunk_size(cell_lst_.size(), nb_threads_, workload_cov, schedule_mode_);
     } else if (schedule_mode_ == "guided") {
@@ -692,9 +692,9 @@ void solver::run() noexcept(false) {
 //--------------------------------------------------------------------------------------------------------------------------
 // Run one iteration of the program
 void solver::run_iteration() noexcept(false) {
-    // FIX: Apply any pending division schedule update from previous iteration
-    // This defers omp_set_schedule() until AFTER the parallel regions that accessed
-    // cell_lst_ have completed, preventing race condition with stale pointers.
+    // Apply the schedule update deferred from the previous iteration's divisions.
+    // omp_set_schedule() is called only here, after the parallel regions that accessed
+    // cell_lst_ have completed, so no parallel region can see stale pointers.
     if (pending_division_update_) {
         handle_division_event(pending_division_count_);
         pending_division_update_ = false;
@@ -720,11 +720,10 @@ void solver::run_iteration() noexcept(false) {
         // Restore global schedule after division
         restore_global_schedule();
 
-        // Phase 1: Track division events for adaptive scheduling
-        // FIX: Defer handle_division_event() to NEXT iteration to prevent SIGSEGV
-        // The cell_lst_ was just modified by cell_divider::run(). If we call
-        // omp_set_schedule() now, the next parallel region (line 1035) may access
-        // stale pointers due to vector reallocation during push_back().
+        // Track division events for adaptive scheduling. handle_division_event() is deferred
+        // to the next iteration: cell_divider::run() has just modified cell_lst_, and calling
+        // omp_set_schedule() now could let the next parallel region access stale pointers
+        // after the vector reallocation in push_back().
         if (num_divisions > 0) {
             recent_division_count_ += num_divisions;  // scheduling window (reset every 50 iters)
             diag_division_count_ += num_divisions;    // diagnostics window (reset every 100 iters, after CSV export)
@@ -816,14 +815,14 @@ void solver::run_iteration() noexcept(false) {
         statistic_writer_ptr_->write_data(iteration_, time_integrator_ptr_->get_simulation_time(),
                                           cell_lst_);  // noexcept(false)
 
-        // Phase 1: Update workload heterogeneity measurement
+        // Update the workload heterogeneity measurement
         update_workload_heterogeneity();
 
-        // Phase 1: Adaptive scheduling based on simulation phase
+        // Adaptive scheduling based on the simulation phase
         adaptive_schedule_update();
     }
 
-    // Phase 3: Export comprehensive diagnostics every 100 iterations
+    // Export the diagnostics every 100 iterations
     if (iteration_ % 100 == 0 && iteration_ > 0) {
         // Use custom diagnostics path if provided, otherwise use default location
         std::string diagnostics_path = diagnostics_csv_path_.empty()
@@ -841,11 +840,10 @@ void solver::run_iteration() noexcept(false) {
         diag_unstable_cell_count_ = 0;
     }
 
-// FIX: Synchronization point before cell removal to prevent node lock destruction race.
-// When CONTACT_MODEL_INDEX is 1 or 2, nodes contain OpenMP locks that must not be
-// destroyed while any thread might hold or wait for them. By using a parallel region
-// with an implicit barrier, we ensure all previous parallel work has completed before
-// we proceed to delete cells (which triggers node destructors calling omp_destroy_lock()).
+// Synchronization point before cell removal. When CONTACT_MODEL_INDEX is 1 or 2, nodes hold
+// locks (std::mutex) that must not be destroyed while any thread might hold or wait for them.
+// The implicit barrier of this parallel region guarantees that all previous parallel work has
+// completed before cells (and their nodes) are deleted.
 #if CONTACT_MODEL_INDEX == 1 || CONTACT_MODEL_INDEX == 2
 #pragma omp parallel
     {
@@ -1003,7 +1001,7 @@ void solver::handle_refinement_failures(const std::vector<local_mesh_refiner::re
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Update workload heterogeneity measurement
+// Update the workload heterogeneity measurement
 // Recomputes CoV based on current cell population and adjusts chunk size if needed
 void solver::update_workload_heterogeneity() {
     // Store previous CoV for comparison
@@ -1048,7 +1046,7 @@ void solver::update_workload_heterogeneity() {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Detect current simulation phase based on biological markers
+// Detect the current simulation phase from the cell count and the division rate
 solver::SimulationPhase solver::detect_simulation_phase() {
     size_t num_cells = cell_lst_.size();
 
@@ -1073,7 +1071,7 @@ solver::SimulationPhase solver::detect_simulation_phase() {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Adaptive scheduling update based on simulation phase
+// Adaptive scheduling update based on the simulation phase
 void solver::adaptive_schedule_update() {
     // Detect current phase
     SimulationPhase new_phase = detect_simulation_phase();
@@ -1163,7 +1161,7 @@ void solver::adaptive_schedule_update() {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Handle cell division events - immediate response to workload changes
+// Handle cell division events: respond to the workload change they cause
 void solver::handle_division_event(unsigned num_divisions) {
     // Cell division creates immediate workload imbalance:
     // - New cells have freshly refined meshes (more faces)
@@ -1202,7 +1200,7 @@ void solver::handle_division_event(unsigned num_divisions) {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 3: Export comprehensive diagnostics (biological + computational metrics)
+// Export the diagnostics (biological and computational metrics)
 void solver::export_diagnostics(unsigned iteration, const std::string& csv_path) {
     // Check if file exists to determine if we need to write header
     bool file_exists = std::ifstream(csv_path).good();

@@ -238,7 +238,7 @@ int uspg_4d_tester::get_grid_content_test() const{
 
 
 //---------------------------------------------------------------------------------------------------------
-// New tests for vector storage optimization (Phase 1)
+// Tests of the vector storage of the grid
 //---------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------
@@ -422,7 +422,7 @@ int main (int argc, char** argv){
     if (test_name == "place_object_test")               return tester.place_object_test();
     if (test_name == "get_grid_content_test")           return tester.get_grid_content_test();
 
-    // New tests for vector storage optimization (Phase 1)
+    // Tests of the vector storage of the grid
     if (test_name == "vector_storage_size_test")        return tester.vector_storage_size_test();
     if (test_name == "vector_push_back_ordering_test")  return tester.vector_push_back_ordering_test();
     if (test_name == "empty_voxel_returns_empty_vector_test") return tester.empty_voxel_returns_empty_vector_test();

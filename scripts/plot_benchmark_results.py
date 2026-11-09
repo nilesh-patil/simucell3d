@@ -2843,7 +2843,7 @@ def plot_20_summary_dashboard(data: dict, output_dir: Path) -> None:
 def plot_21_roofline_analysis(data: dict, output_dir: Path) -> None:
     """Plot 21: Roofline-style performance characterization.
 
-    Provides roofline model analysis to identify
+    Provides a roofline model analysis to identify
     whether the simulation is memory-bound or compute-bound.
     """
     fig, axes = plt.subplots(2, 2, figsize=(14, 12))
