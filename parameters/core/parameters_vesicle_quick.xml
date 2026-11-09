@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <!--
-    Quick test version of parameters_vesicle.xml for rapid visualization
-    Runtime: ~1-2 minutes instead of 17 hours
+    Short version of parameters_vesicle.xml (same mesh and physics) for a smoke test:
+    200 time steps of 1e-7 s on the 434-cell vesicle.
 
     To run the following simulation, make sure that the configuration file at /include/global_configuration.hpp has the following settings:
         POLARIZATION_MODE_INDEX:    1
@@ -26,14 +26,14 @@
     <!-- The damping coefficients [M / T] -->
     <damping_coefficient>5e-10</damping_coefficient>
 
-    <!-- QUICK TEST: Reduced from 1e-2 to 1e-4 (100x shorter, ~200 iterations) -->
-    <simulation_duration>1e-4</simulation_duration>
+    <!-- The total simulation time [T]. Quick test: 2e-5 s = 200 time steps (parameters_vesicle.xml: 1e-2 s) -->
+    <simulation_duration>2e-5</simulation_duration>
 
     <!-- The time between each mesh file saving [T] -->
-    <sampling_period>1e-6</sampling_period>
+    <sampling_period>5e-6</sampling_period>
 
-    <!-- QUICK TEST: Increased from 1e-7 to 5e-7 (5x larger steps, 60x fewer iterations) -->
-    <time_step>5e-7</time_step>
+    <!-- The simulation time step [T]. Same as parameters_vesicle.xml; larger steps make this mesh unstable -->
+    <time_step>1e-7</time_step>
 
     <!-- The minimum edge length allowed [L] -->
     <min_edge_length>4e-7</min_edge_length>
