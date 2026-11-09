@@ -256,7 +256,6 @@ void automatic_polarizer::polarize_faces_based_on_contacts_with_discretized_spac
                 region_id = 3: lumen
                 */
                 unsigned short region_id = get_region_in_contact_with_face(c, f);
-                assert(region_id == cytoplasm_region_id || region_id == exterior_region_id || region_id == lumen_region_id);
 
                 //If the face is in contact with the cytoplasm
                 if(region_id == lumen_region_id){
@@ -269,7 +268,7 @@ void automatic_polarizer::polarize_faces_based_on_contacts_with_discretized_spac
                     f.set_face_type_id(0);
                 }
                 else{
-                    std::runtime_error("Automatic polarization: The face is in contact with an unknown region");
+                    throw automatic_polarization_exception("Automatic polarization: The face is in contact with an unknown region (label " + std::to_string(region_id) + ")");
                 }
             }
         }
