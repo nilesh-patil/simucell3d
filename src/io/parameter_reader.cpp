@@ -32,14 +32,23 @@ namespace {
 //Constructor   
 parameter_reader::parameter_reader(const std::string& parameter_file_path){
 
-    //The path to the parameter file must be an absolute path
-    tinyxml2::XMLError read_success = xml_doc.LoadFile(parameter_file_path.c_str());
+    //The path may be absolute or relative to the working directory
+    const tinyxml2::XMLError read_success = xml_doc.LoadFile(parameter_file_path.c_str());
 
-    //If the file is not found
-    if(read_success != tinyxml2::XML_SUCCESS){
-        throw parameter_reader_exception("The parameter file could not be found at the path: " + parameter_file_path +
-        "\nThe path to the parameter file must be an absolute path.");
+    if(read_success == tinyxml2::XML_SUCCESS){return;}
+
+    //The file does not exist or cannot be opened
+    if(read_success == tinyxml2::XML_ERROR_FILE_NOT_FOUND){
+        throw parameter_reader_exception("The parameter file could not be found at the path: " + parameter_file_path);
     }
+    if(read_success == tinyxml2::XML_ERROR_FILE_COULD_NOT_BE_OPENED || read_success == tinyxml2::XML_ERROR_FILE_READ_ERROR){
+        throw parameter_reader_exception("The parameter file could not be read: " + parameter_file_path +
+        "\n" + std::string(xml_doc.ErrorStr()));
+    }
+
+    //The file was read but is not valid XML
+    throw parameter_reader_exception("The parameter file is not valid XML (line " + std::to_string(xml_doc.ErrorLineNum()) +
+        "): " + parameter_file_path + "\n" + std::string(xml_doc.ErrorStr()));
 }
 //----------------------------------------------------------------------------------------------------------------------
 

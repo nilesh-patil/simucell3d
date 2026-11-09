@@ -1,4 +1,5 @@
 #include "test_parameter_reader.hpp"
+#include <fstream>
 
 //---------------------------------------------------------------------------------------------------------
 int read_numerical_parameters_test(){
@@ -626,6 +627,81 @@ int test_contact_detection_case_insensitivity(){
 
 
 //---------------------------------------------------------------------------------------------------------
+//Helpers for the tests of the messages raised when the parameter file cannot be loaded
+static std::string load_error_message(const std::string& path){
+    try{
+        parameter_reader xml_reader(path);
+    }
+    catch(const parameter_reader_exception& e){
+        return e.what();
+    }
+    return "";
+}
+
+static bool contains(const std::string& text, const std::string& word){
+    return text.find(word) != std::string::npos;
+}
+
+
+//A file that does not exist is reported as not found, without the false claim that the path
+//must be absolute
+int test_missing_file_message(){
+    const std::string msg = load_error_message("./this_parameter_file_does_not_exist.xml");
+    std::cout << "Message: " << msg << std::endl;
+
+    const bool ok = contains(msg, "parameter file")
+        && contains(msg, "could not be found")
+        && contains(msg, "this_parameter_file_does_not_exist.xml")
+        && !contains(msg, "absolute");
+
+    std::cout << "Missing file message: " << (ok ? "PASS" : "FAIL") << std::endl;
+    return !ok;
+}
+
+
+//A file that exists but is not valid XML is reported as a parse error, with the line number
+//and the description given by tinyxml2
+int test_malformed_file_message(){
+    const std::string path = "./test_malformed_parameter_file.xml";
+    {
+        std::ofstream f(path);
+        f << "<simulation_parameters>\n<io_parameters>\n</simulation_parameters>\n";
+    }
+
+    const std::string msg = load_error_message(path);
+    std::cout << "Message: " << msg << std::endl;
+
+    const bool ok = contains(msg, "parameter file")
+        && contains(msg, "test_malformed_parameter_file.xml")
+        && contains(msg, "line 2")   //tinyxml2 reports the line of the unclosed <io_parameters>
+        && contains(msg, "XML_ERROR_MISMATCHED_ELEMENT")
+        && !contains(msg, "could not be found")
+        && !contains(msg, "absolute");
+
+    std::cout << "Malformed file message: " << (ok ? "PASS" : "FAIL") << std::endl;
+    return !ok;
+}
+
+
+//A relative path to a valid file is accepted
+int test_relative_path_is_accepted(){
+    const std::string path = "./test_relative_parameter_file.xml";
+    {
+        std::ofstream f(path);
+        f << "<simulation_parameters></simulation_parameters>\n";
+    }
+
+    const std::string msg = load_error_message(path);
+    const bool ok = msg.empty();
+    if(!ok){std::cout << "Message: " << msg << std::endl;}
+
+    std::cout << "Relative path accepted: " << (ok ? "PASS" : "FAIL") << std::endl;
+    return !ok;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
@@ -651,6 +727,11 @@ int main (int argc, char** argv){
     if (test_name == "test_contact_detection_optional_parameter_defaults_to_uspg")  return test_contact_detection_optional_parameter_defaults_to_uspg();
     if (test_name == "test_contact_detection_invalid_algorithm_throws")     return test_contact_detection_invalid_algorithm_throws();
     if (test_name == "test_contact_detection_case_insensitivity")           return test_contact_detection_case_insensitivity();
+
+    //Run the selected test - load errors
+    if (test_name == "test_missing_file_message")                           return test_missing_file_message();
+    if (test_name == "test_malformed_file_message")                         return test_malformed_file_message();
+    if (test_name == "test_relative_path_is_accepted")                      return test_relative_path_is_accepted();
 
     std::cout << "TEST NAME :" << test_name << " DOES NOT EXIST" << std::endl;
     return 1;
