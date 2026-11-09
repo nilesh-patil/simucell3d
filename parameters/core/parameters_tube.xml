@@ -313,8 +313,6 @@
         <!-- If the cell reach this volume we delete it[L^3]<! -->
         <min_vol>1e-18</min_vol> 
 
-        <!-- The force applied to the nucleus to simulmate the INM [M L / T^2]<! -->
-        <INMForce>0</INMForce> 
 
         <!-- The cell might have different face types with different mechanical properties <! -->
         <face_types>     
