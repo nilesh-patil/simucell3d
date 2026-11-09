@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
+<!--
+    Required compile-time switches (include/global_configuration.hpp):
+        POLARIZATION_MODE_INDEX  1
+        CONTACT_MODEL_INDEX      2
+        DYNAMIC_MODEL_INDEX      0
+    These are the default values: this file runs on a default build.
+-->
 
 <!--
     Short version of parameters_vesicle.xml (same mesh and physics) for a smoke test:
     200 time steps of 1e-7 s on the 434-cell vesicle.
-
-    To run the following simulation, make sure that the configuration file at /include/global_configuration.hpp has the following settings:
-        POLARIZATION_MODE_INDEX:    1
-        CONTACT_MODEL_INDEX:        2
-        DYNAMIC_MODEL_INDEX:        0
 -->
 
 <numerical_parameters>

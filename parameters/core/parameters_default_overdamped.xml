@@ -1,14 +1,14 @@
    
 <?xml version="1.0"?>
 
-<!-- 
-    To run the following simimulation, make sure that the configuration file at /include/global_configuration.hpp has the following settings:
-
-        POLARIZATION_MODE_INDEX:    1
-        CONTACT_MODEL_INDEX:        0
-        DYNAMIC_MODEL_INDEX:        1
-
-<! -->
+<!--
+    Required compile-time switches (include/global_configuration.hpp):
+        POLARIZATION_MODE_INDEX  1
+        CONTACT_MODEL_INDEX      0   (default build: 2)
+        DYNAMIC_MODEL_INDEX      1   (default build: 0)
+    This file does not match the default build: edit include/global_configuration.hpp
+    and rebuild before running it.
+-->
 
 
 <numerical_parameters>
