@@ -134,7 +134,7 @@ if __name__ == "__main__":
     user_name = getlogin().split("@")[0]
 
     #Create the command to launch the job array
-    command_str   = """sbatch -n 1 --cpus-per-task=4 --time=48:00:00 --job-name="{screen_name}" --array=1-{nb_jobs} --mem-per-cpu=2048 --mail-type=END --mail-user={user_name}@bsse.ethz.ch --wrap="export OMP_NUM_THREADS=4; ./simucell3d {parameter_path}_\$SLURM_ARRAY_TASK_ID.xml &> {stdout_path}_\$SLURM_ARRAY_TASK_ID.txt" """.format(
+    command_str   = """sbatch -n 1 --cpus-per-task=4 --time=48:00:00 --job-name="{screen_name}" --array=1-{nb_jobs} --mem-per-cpu=2048 --mail-type=END --mail-user={user_name}@bsse.ethz.ch --wrap="export OMP_NUM_THREADS=4; ./simucell3d {parameter_path}_\$SLURM_ARRAY_TASK_ID.xml &> {stdout_path}_\$SLURM_ARRAY_TASK_ID.txt; echo simucell3d exit status: \$? >> {stdout_path}_\$SLURM_ARRAY_TASK_ID.txt" """.format(
         screen_name = screen_name,
         user_name = user_name,
         nb_jobs = parameter_table_df.shape[0],
