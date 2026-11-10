@@ -1,0 +1,9 @@
+# Documentation toolchain for SimuCell3D. Install with:
+#   python -m pip install -r doc/requirements.txt
+# Doxygen (for the C++ API reference) is a system package, not a Python one.
+sphinx==7.4.7
+pydata-sphinx-theme==0.15.4
+myst-parser==3.0.1
+breathe==4.35.0
+sphinx-design==0.6.1
+sphinx-copybutton==0.5.2

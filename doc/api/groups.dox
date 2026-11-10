@@ -1,0 +1,51 @@
+/**
+ * @file groups.dox
+ * Doxygen group definitions for the SimuCell3D C++ API reference.
+ *
+ * Each header in include/ assigns its file and classes to one of these groups
+ * with @ingroup. The groups match the pages under doc/api/.
+ */
+
+/** @defgroup core Solver and configuration
+ *  The solver, its main loop, compile-time configuration, parameter structures and exceptions.
+ */
+
+/** @defgroup io Input and output
+ *  Parameter file and input mesh readers, simulation initializer, mesh and statistics writers.
+ */
+
+/** @defgroup mesh Cell meshes
+ *  Cells as closed triangulated surfaces: cell, node, edge and face.
+ */
+
+/** @defgroup cell_classes Cell classes
+ *  The five cell classes selected by global_cell_id: epithelial, ECM, lumen, nucleus, static.
+ */
+
+/** @defgroup contact_models Contact models
+ *  Contact models selected by CONTACT_MODEL_INDEX and the contact detection strategies.
+ */
+
+/** @defgroup time_integration Time integration
+ *  Integration of the equations of motion selected by DYNAMIC_MODEL_INDEX.
+ */
+
+/** @defgroup triangulation Triangulation and division
+ *  Local mesh refinement, cell division and initial triangulation.
+ */
+
+/** @defgroup polarization Polarization
+ *  Polarization by discretisation of the simulation space (POLARIZATION_MODE_INDEX 2).
+ */
+
+/** @defgroup spatial_partitioning Spatial partitioning
+ *  Uniform spatial partitioning grids and Morton codes.
+ */
+
+/** @defgroup math Mathematics
+ *  Vectors, 3 x 3 matrices, quaternions and the symmetric eigensolver.
+ */
+
+/** @defgroup runtime Runtime support
+ *  Thread placement, performance monitoring and utilities.
+ */
