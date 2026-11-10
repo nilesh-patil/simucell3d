@@ -13,10 +13,21 @@
 
 
 
-/*
-    Class for a 3D vector object
-*/
+/**
+ * @file
+ * @brief Three-component vector of doubles.
+ * @ingroup math
+ */
 
+/**
+ * @brief Three-component vector of doubles, used for positions (m), forces (N), momenta and
+ *        normals.
+ *
+ * Components are 0 by default. The constructor and translate() check in debug builds that
+ * the components are finite.
+ *
+ * @ingroup math
+ */
 class vec3 
 {
 
@@ -35,30 +46,43 @@ class vec3
         vec3& operator=(vec3&& v) = default;     //move assignment operator 
 
 
-        //Vector is instantiated to an arbitrary value 
+        /** @brief Construct the vector (dx, dy, dz). */
         vec3(const double dx,  const double dy, const double dz);
 
-        //Return the coordinates of the vector
-        inline double dx() const {return dx_;};
-        inline double dy() const {return dy_;};
-        inline double dz() const {return dz_;};
+        inline double dx() const {return dx_;};  ///< x component.
+        inline double dy() const {return dy_;};  ///< y component.
+        inline double dz() const {return dz_;};  ///< z component.
 
 
-        //Reset the values of the vector to 0.
+        /** @brief Set all components to 0. */
         void reset() {dx_ = 0., dy_ = 0., dz_ = 0.;};
+        /** @brief Copy the components of @p v. */
         void reset(const vec3& v) {dx_ = v.dx(), dy_ = v.dy(), dz_ = v.dz();};
         void reset(vec3&& v) {dx_ = v.dx(), dy_ = v.dy(), dz_ = v.dz();};
+        /** @brief Set the components to (dx, dy, dz). */
         void reset(const double dx, const double dy, const double dz) {dx_ = dx, dy_ = dy, dz_ = dz;}
 
-        //Translate the values by a certain amount
+        /**
+         * @brief Add @p v to this vector in place.
+         * @note Not safe for concurrent updates of the same vector: the math_modules library
+         *       is compiled without OpenMP, so the atomic pragmas in the implementation have no
+         *       effect. Use atomic_translate() for shared accumulators.
+         */
         void translate(const vec3& v);
+        /** @brief Add (dx, dy, dz) to this vector in place. Same thread-safety as translate(const vec3&). */
         void translate(const double dx, const double dy, const double dz);
 
-        //Translate by v with one atomic read-modify-write per component, for an accumulator that several threads
-        //update concurrently (e.g. the contact forces on a node). The vector as a whole is not updated atomically,
-        //which is all a sum needs. Uses the GCC/Clang __atomic builtins (a lock cmpxchg loop on x86-64) rather than
-        //"#pragma omp atomic", whose effect depends on the translation unit being compiled with -fopenmp: the
-        //pragmas in translate() are ignored because math_modules is built without OpenMP.
+        /**
+         * @brief Add @p v with one atomic read-modify-write per component.
+         *
+         * For accumulators that several threads update concurrently, such as the contact
+         * forces on a node. The vector as a whole is not updated atomically, which is
+         * sufficient for a sum. Uses the GCC/Clang __atomic builtins (a compare-exchange loop)
+         * rather than "#pragma omp atomic", whose effect depends on the translation unit being
+         * compiled with -fopenmp; math_modules is built without OpenMP.
+         *
+         * @note Thread-safe with respect to other atomic_translate() calls on the same vector.
+         */
         void atomic_translate(const vec3& v) noexcept {
             atomic_add(dx_, v.dx_);
             atomic_add(dy_, v.dy_);
@@ -77,35 +101,48 @@ class vec3
     public:
 
 
-        //Print the content of the vector
+        /** @brief Print the components to standard output in scientific notation. */
         void print() const; 
 
-        //Get the coordinates of the vector into an std:array
+        /** @brief The components as {dx, dy, dz}. */
         std::array<double, 3> to_array() const {return {dx_, dy_, dz_};}
 
-        //Compute the squared norm of the vector
+        /** @brief Squared Euclidean norm. */
         inline double squared_norm() const {return dx_*dx_ + dy_*dy_ + dz_*dz_;};
 
-        //Compute the norm of the vector
+        /** @brief Euclidean norm. */
         inline double norm() const {return std::sqrt(dx_*dx_ + dy_*dy_ + dz_*dz_);};
 
-        //Cap the vector to a maximum norm
+        /**
+         * @brief Scale the vector down to @p max_norm if its norm exceeds it.
+         * @param max_norm Maximum norm, in the unit of the vector.
+         * @return true if the vector was scaled.
+         */
         bool cap(const double max_norm);
 
-        //Return the dot product
+        /** @brief Dot product with @p v. */
         double dot(const vec3& v) const;
 
-        //Compute the dot product of 2 vectors
+        /** @brief Cross product (this x v). */
         vec3 cross(const vec3& v) const;
 
-        //Return a new vector with the same direction but unit norm
+        /** @brief Unit vector with the same direction, or the zero vector if the norm is 0. */
         vec3 normalize() const;
 
-        //Get the angle between 2 vectors, the angle is in the range [0, pi]
+        /**
+         * @brief Angle between this vector and @p v, in radians, in [0, pi].
+         * @return The angle; 0 if either vector has a norm below 1e-14.
+         */
         double get_angle_with(vec3&& v) const; 
+        /** @copydoc get_angle_with(vec3&&) const */
         double get_angle_with(const vec3& v) const; 
 
-        //Rotate this vector around the given axis by the given angle
+        /**
+         * @brief Rotate this vector around an axis with the Rodrigues formula.
+         * @param axis Rotation axis; must be a unit vector.
+         * @param angle Rotation angle, in radians.
+         * @return The rotated vector.
+         */
         vec3 rotate_around_axis(const vec3& axis, const double angle) const;
 
         //Overload substraction operator
@@ -122,7 +159,7 @@ class vec3
         //Overload division operator
         vec3 operator/(const double scalar) const;
 
-        //Overload the comparison operator
+        /** @brief Component-wise comparison with almost_equal() (2 units in the last place). */
         bool operator==(const vec3& v) const; 
         bool operator!=(const vec3& v) const; 
 

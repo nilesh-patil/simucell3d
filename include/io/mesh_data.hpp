@@ -8,15 +8,25 @@
 
 
 
-/*
-This file contains the functions that write the data of the cells in the output meshes. 
-*/
+/**
+ * @file
+ * @brief Lists of data mappers that define the arrays of the output meshes and the columns of the statistics.
+ *
+ * Each mapper names an array (or column), its VTK type and a function that formats the value of one cell,
+ * face or node as a string. Adding a mapper to a list adds the array to every output file:
+ * - cell_data_mapper_lst: cell-data arrays of `cell_data/result_<n>.vtk`;
+ * - file_data_mapper_lst: columns of `simulation_statistics.csv` (and of the statistics string returned to
+ *   Python), after `iteration`, `computation_time_(hh::mm:ss)` and `simulation_time`;
+ * - face_data_mapper_lst: cell-data arrays of `face_data/result_<n>.vtk` (one VTK cell per face);
+ * - node_data_mapper_lst: point-data arrays of `face_data/result_<n>.vtk` (only with CONTACT_MODEL_INDEX 2).
+ * @ingroup io
+ */
 
 
 
 
 //-------------------------------------------------------------------------------------------------------
-//Store in this vector some mappers to map the cell area, pressure volume to the output VTK mesh
+/// Cell-data arrays written to the cell meshes (`cell_data/`).
 inline std::vector<cell_data_mapper> cell_data_mapper_lst
 {
 
@@ -69,7 +79,7 @@ inline std::vector<cell_data_mapper> cell_data_mapper_lst
 
 
 //-------------------------------------------------------------------------------------------------------
-//All the functions in this vector will be called to write the data of the cells in an output csv file
+/// Per-cell columns of the statistics CSV (`simulation_statistics.csv`) and of the statistics string.
 inline std::vector<cell_data_mapper> file_data_mapper_lst
 {
 
@@ -172,7 +182,7 @@ inline std::vector<cell_data_mapper> file_data_mapper_lst
 
 
 //-------------------------------------------------------------------------------------------------------
-//Store in this vector some mappers to map the face attributes to the output VTK mesh
+/// Cell-data arrays written to the face meshes (`face_data/`), one value per face.
 inline std::vector<face_data_mapper> face_data_mapper_lst
 {
 
@@ -223,7 +233,7 @@ inline std::vector<face_data_mapper> face_data_mapper_lst
 
 
 //-------------------------------------------------------------------------------------------------------
-//Store in this vector some mappers to map the node attributes to the output VTK mesh
+/// Point-data arrays written to the face meshes (`face_data/`); empty unless CONTACT_MODEL_INDEX is 2.
 inline std::vector<node_data_mapper> node_data_mapper_lst
 {
 

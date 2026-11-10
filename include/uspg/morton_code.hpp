@@ -1,31 +1,34 @@
 #ifndef DEF_MORTON_CODE
 #define DEF_MORTON_CODE
 
+/**
+ * @file morton_code.hpp
+ * @brief Morton (Z-order) codes of 3D positions.
+ * @ingroup spatial_partitioning
+ */
+
 #include <cstdint>
 #include "vec3.hpp"
 
-/*
-    Morton code (Z-order curve) encoding for spatial sorting.
-
-    Morton codes interleave the bits of x, y, z coordinates to create a single
-    64-bit value. Objects with similar Morton codes are spatially close, which
-    improves cache locality when iterating through objects in spatial order.
-
-    Bit interleaving pattern (for 21 bits per dimension = 63 total bits):
-    - x bits go to positions: 0, 3, 6, 9, 12, ...
-    - y bits go to positions: 1, 4, 7, 10, 13, ...
-    - z bits go to positions: 2, 5, 8, 11, 14, ...
-
-    This creates a space-filling curve that preserves locality.
-*/
-
+/**
+ * @brief Morton (Z-order curve) encoding of 3D positions.
+ *
+ * Each coordinate is quantized to 21 bits and the bits are interleaved into a 63-bit code:
+ * x bits go to positions 0, 3, 6, ..., y bits to 1, 4, 7, ..., z bits to 2, 5, 8, ....
+ * Sorting objects by their code places nearby objects close together in memory. The USPG
+ * contact detection strategy sorts faces this way before inserting them into its grid.
+ *
+ * @ingroup spatial_partitioning
+ */
 class morton_code {
 public:
 
-    //-------------------------------------------------------------------------------
-    // Encode normalized coordinates [0,1] to Morton code
-    // Each coordinate is quantized to 21 bits (2^21 = 2M levels)
-    //-------------------------------------------------------------------------------
+    /**
+     * @brief Return the Morton code of a point given in normalized coordinates.
+     * @param nx,ny,nz Coordinates in [0, 1]; values outside are clamped. Each is quantized to
+     *        21 bits.
+     * @return The 63-bit interleaved code.
+     */
     static uint64_t encode_normalized(double nx, double ny, double nz) noexcept {
         // Clamp to [0, 1] range
         if (nx < 0.0) nx = 0.0;
@@ -45,10 +48,13 @@ public:
         return spread_bits(ix) | (spread_bits(iy) << 1) | (spread_bits(iz) << 2);
     }
 
-    //-------------------------------------------------------------------------------
-    // Encode a 3D position within given bounds to Morton code
-    // bounds array: [min_x, min_y, min_z, max_x, max_y, max_z]
-    //-------------------------------------------------------------------------------
+    /**
+     * @brief Return the Morton code of a position within a box.
+     * @param pos    Position, m.
+     * @param bounds Box as six values {min_x, min_y, min_z, max_x, max_y, max_z}, m. An axis of
+     *               zero extent maps to coordinate 0.
+     * @return The 63-bit interleaved code.
+     */
     static uint64_t encode(const vec3& pos, const double* bounds) noexcept {
         // Normalize position to [0, 1] within bounds
         const double range_x = bounds[3] - bounds[0];

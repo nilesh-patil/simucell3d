@@ -6,12 +6,23 @@
 #include "../cell.hpp"
 
 
-/*
-    Use polymorphism to create the different cell types. Even though using IF statements is more efficient,
-    polymorphism creates code that is more readable and maintainable. The IF statements are also more error prone.
-*/
+/**
+ * @file static_cell.hpp
+ * @brief Static cell class (global_cell_id 4).
+ * @ingroup cell_classes
+ */
 
 
+/**
+ * @brief Static cell, selected by `global_cell_id` 4.
+ *
+ * A static cell does not move: the time integration skips it. Unlike ecm_cell, its internal
+ * forces are still computed, and it takes part in contact detection. Static cells do not
+ * divide and are not checked for inside-out or self-intersecting surfaces by
+ * cell::check_numerical_stability().
+ *
+ * @ingroup cell_classes
+ */
 class static_cell: public cell {
 
     private: 
@@ -31,7 +42,7 @@ class static_cell: public cell {
 
 
         
-        //Construct the static_cell with a node_lst and a face_lst
+        /** @brief Create the cell from its nodes and faces; see the corresponding cell constructor. */
         static_cell(
             const std::vector<node>& node_lst,
             const std::vector<face>& face_lst,
@@ -43,7 +54,7 @@ class static_cell: public cell {
             is_static_ = true;
         }
 
-        //Construct the static_cell based on the node position and the node  ids of the faces
+        /** @brief Create the cell from flat node coordinates (m) and face node ids; see the corresponding cell constructor. */
         static_cell(
             const std::vector<double>&  node_position,
             const std::vector<unsigned>& face_node_ids,
@@ -56,7 +67,7 @@ class static_cell: public cell {
         }
 
 
-        //Convert a mesh object into a static_cell object
+        /** @brief Create the cell from a mesh; see the corresponding cell constructor. */
         static_cell(
             const mesh& m,
             unsigned cell_id,
@@ -68,6 +79,7 @@ class static_cell: public cell {
         }
 
 
+        /** @brief Return a new static_cell built from @p m, with the same id and cell type. */
         cell_ptr get_cell_same_type(const mesh& m) noexcept(false) override{
             //Return a copy of the cell
             return std::make_shared<static_cell>(m, cell_id_, cell_type_);

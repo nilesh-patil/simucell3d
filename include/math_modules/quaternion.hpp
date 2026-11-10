@@ -6,8 +6,21 @@
 
 #include "mat33.hpp"
 
+/**
+ * @file
+ * @brief Quaternion used to build rotation matrices.
+ * @ingroup math
+ */
 
 //-----------------------------------------------------------------------------------------------------
+/**
+ * @brief Quaternion w + x i + y j + z k, used to build orthogonal rotation matrices.
+ *
+ * The cell divider builds the rotation that maps the division plane onto the xy plane from a
+ * normalized quaternion, so that the rotation matrix is orthogonal.
+ *
+ * @ingroup math
+ */
 class quaternion{
     //Quaternions are used during the cell divisions to normalize the rotation matrix
 
@@ -21,10 +34,15 @@ class quaternion{
         quaternion& operator=(const quaternion& q) = default;//copy assignment operator
         quaternion& operator=(quaternion&& q) = default;     //move assignment operator 
 
-        //Construct the quaternion from 4 doubles
+        /** @brief Construct the quaternion nw + ni i + nj j + nk k. */
         quaternion(double nw, double ni, double nj, double nk): w(nw), i(ni), j(nj) , k(nk){}
 
-        //Construct the quaternion from a matrix
+        /**
+         * @brief Construct the quaternion of a rotation matrix.
+         *
+         * Uses the trace formula, which requires 1 + trace(M1) > 0 (rotation angle not close
+         * to pi).
+         */
         quaternion(const mat33& M1){
             // Get the real part of the quaternion first
             w = std::sqrt( 1.0 + M1[0][0]+M1[1][1]+ M1[2][2]) *0.5;
@@ -35,6 +53,7 @@ class quaternion{
             assert(std::isfinite(w));
         }
 
+        /** @brief Product with a scalar. */
         quaternion operator*(const double scalar) const{
             double nw = w * scalar;
             double ni = i * scalar;
@@ -43,6 +62,7 @@ class quaternion{
             return quaternion(nw, ni, nj, nk);
         }
 
+        /** @brief Division by a scalar. */
         quaternion operator/(double scalar) const{
             double nw = w / scalar;
             double ni = i / scalar;
@@ -53,19 +73,23 @@ class quaternion{
 
       
 
+        /** @brief Unit quaternion with the same direction. */
         quaternion normalize() const{
             double norm = std::sqrt(w*w + i*i + j*j + k*k);
             return quaternion(w / norm, i / norm, j / norm, k / norm);
         }
 
+        /** @brief Conjugate (w, -i, -j, -k); the inverse of a unit quaternion. */
         quaternion inverse() const{
             return quaternion(w, -i, -j, -k);
         }
 
+        /** @brief Print the four components to standard output. */
         void print() const{
             printf("[%.2e, %.2ei, %.2ej, %.2ek]\n", w, i, j, k);
         }
 
+        /** @brief Quaternion of a rotation matrix; same formula and condition as the matrix constructor. */
         static quaternion from_matrix(const mat33& M1){
             // Get the real part of the quaternion first
             double r = std::sqrt( 1.0 + M1[0][0]+M1[1][1]+ M1[2][2]) *0.5;
@@ -77,6 +101,7 @@ class quaternion{
         }
 
 
+        /** @brief Rotation matrix of this quaternion; the quaternion must be normalized. */
         mat33 to_matrix() const{
             double qw = w;
             double qx = i; 

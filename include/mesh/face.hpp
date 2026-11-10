@@ -1,6 +1,12 @@
 #ifndef DEF_FACE
 #define DEF_FACE
 
+/**
+ * @file face.hpp
+ * @brief Triangular face of a cell surface mesh.
+ * @ingroup mesh
+ */
+
 #include <cassert>
 #include <map>
 #include <iostream>
@@ -20,9 +26,16 @@ class cell;
 
 typedef std::shared_ptr<cell> cell_ptr;
 
-/*
-    Class for a triangular face of the cell mesh
-*/
+/**
+ * @brief Triangular face of a cell surface mesh.
+ *
+ * A face stores the local ids of its three nodes, its unit outward normal, its area (m^2)
+ * and its face type, given as the index of the face type in the cell type's list of face
+ * types. Normals and areas are computed by the owning cell (cell::update_all_face_normals_and_areas()).
+ * Faces live in the face list of their cell; a face whose slot is free has is_used() false.
+ *
+ * @ingroup mesh
+ */
 
 class face final
 {
@@ -126,19 +139,22 @@ class face final
         face& operator=(const face& f) = default; //copy assignment operator
         face& operator=(face&& f) = default;      //move assignment operator 
 
-        //Instantiate a face with the unique id of its nodes
+        /** @brief Create a face from the local ids of its three nodes and its own local id @p face_id. */
         explicit face(const unsigned node_id_1, const unsigned node_id_2, const unsigned node_id_3, const unsigned face_id) noexcept;
 
-        //Instantiate a face with the reference of its nodes 
+        /** @brief Create a face from its three nodes and its own local id @p face_id. */
         explicit face(const node& n1, const node& n2, const node& n3, const unsigned face_id) noexcept;
 
-        //Get the unique id of this face
+        /** @brief Return the id of the face in the face list of its cell. */
         const unsigned get_local_id() const noexcept {return local_face_id_;};
  
-        //Return the face area
+        /** @brief Return the area of the face, m^2, as last computed by the owning cell. */
         inline double get_area() const noexcept {return area_;}
 
-        //Set the type of the face 
+        /**
+         * @brief Set the face type, as an index into the face types of the cell type.
+         * @note The write is atomic (OpenMP), so several threads may set it.
+         */
         void set_face_type_id(const unsigned short type_id) noexcept {
 
             //Protect against race conditions
@@ -146,44 +162,55 @@ class face final
             type_id_ = type_id;
         };
 
-        //WARNING: CAN RETURN A NULL POINTER
+        /** @brief Return the cell that owns the face. May be a null pointer. */
         cell_ptr get_owner_cell() const noexcept {return owner_cell_;}
 
+        /** @brief Return the unit outward normal (the zero vector for a degenerate face). */
         inline const vec3& get_normal() const noexcept {return normal_;}
 
-        //Indicate if nodes are using this face
+        /** @brief Return true if this slot of the face list holds a face of the mesh. */
         bool is_used() const noexcept {return is_used_;}
+        /** @brief Mark this slot of the face list as used or free. */
         void set_is_used(bool is_used) noexcept {is_used_ = is_used;}
 
 
+        /** @brief Return true if the node with local id @p node_id is a vertex of the face. */
         bool has_node(const unsigned node_id) const noexcept{
             return (node_id == n1_id_ || node_id == n2_id_ || node_id == n3_id_);
         }
 
-        //Get the nodes of the face in a array
+        /** @brief Return the local ids of the three nodes, in winding order. */
         std::array<unsigned, 3> get_node_ids() const noexcept; 
 
-        //Return the ids of the nodes of the face
+        /** @name Node ids
+         *  Local ids of the first, second and third node (the face must be used). */
+        ///@{
         unsigned n1_id() const noexcept {assert(is_used_); return n1_id_;}
         unsigned n2_id() const noexcept {assert(is_used_); return n2_id_;}
         unsigned n3_id() const noexcept {assert(is_used_); return n3_id_;}
+        ///@}
 
 
-        //Replace one node of the face by another one
+        /** @brief Replace the node @p old_node_id by @p new_node_id, keeping the winding order. */
         void replace_node(const unsigned old_node_id, const unsigned new_node_id) noexcept;
 
-        //Get the id of the node in the triangle opposite to the given edge
+        /** @brief Return the node of the face that is not on the edge (@p n1, @p n2). */
         unsigned get_opposite_node(const unsigned n1, const unsigned n2) const noexcept;
 
-        //This is the position of the face type in the cell_type.face_types_ vector
+        /** @brief Return the face type, as an index into cell_type_parameters::face_types_. */
         unsigned short get_local_face_type_id() const noexcept {return type_id_;}
       
-        //Only compiles this section if the faces store their contact energies
+        /** @name Contact energies
+         *  Adhesion and repulsion energies accumulated on the face, J.
+         *  @note Present only when FACE_STORE_CONTACT_ENERGY is true. */
+        ///@{
         #if FACE_STORE_CONTACT_ENERGY
             float get_adhesion_energy()  const noexcept {return adhesion_energy_;}
             float get_repulsion_energy() const noexcept {return repulsion_energy_;}
         #endif
+        ///@}
 
+        /** @brief Two faces are equal if they have the same local id. */
         bool operator==(const face& f) const noexcept; 
         bool operator!=(const face& f) const noexcept;
 

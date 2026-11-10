@@ -12,10 +12,11 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-/*
-    This class is a python wrapper. It can be called from python and it will run the simulation.
-    Then the results of the simulation can be extracted from this class and analyzed in python.
-*/
+/**
+ * @file
+ * @brief Entry point of the Python module `simucell3d_python_wrapper`.
+ * @ingroup core
+ */
 
 
 #include "custom_structures.hpp"
@@ -24,6 +25,14 @@
 #include "solver_python_wrapper.hpp"
 #include "simulation_initializer.hpp"
 
+/**
+ * @brief Runs a complete simulation in its constructor; exposed to Python as `simucell3d_wrapper`.
+ *
+ * Built only with `-DENABLE_PYTHON_BINDINGS=TRUE`. The per-cell statistics are collected in a string instead
+ * of `simulation_statistics.csv`; the output meshes are still written. The Python reference is in the
+ * documentation page "Python module".
+ * @ingroup core
+ */
 class simucell3d_wrapper{
     private:
         //Return the state of the simulation in this structure, which can be used in python
@@ -37,7 +46,16 @@ class simucell3d_wrapper{
         simucell3d_wrapper& operator=(const simucell3d_wrapper& v) = delete; //copy assignment operator
         simucell3d_wrapper& operator=(simucell3d_wrapper&& v) = default;     //move assignment operator 
 
-        //Custom constructor, all the code is run from here
+        /**
+         * @brief Create the cells, run the simulation and store the result.
+         *
+         * Exceptions are not propagated: any std::exception, including a Ctrl-C from Python, sets
+         * `RETURN_CODE_` to 1 and `error_message_` in the result.
+         * @param sim_parameters Numerical parameters of the simulation.
+         * @param cell_type_param_lst Cell types, indexed by the `cell_type_id` of the input mesh.
+         * @param verbose Print the progress of the simulation.
+         * @param nb_threads Number of OpenMP threads; 0 or less uses one thread per physical core.
+         */
         simucell3d_wrapper(
             const global_simulation_parameters& sim_parameters,
             const std::vector<cell_type_parameters>& cell_type_param_lst,
@@ -45,7 +63,7 @@ class simucell3d_wrapper{
             const int nb_threads //Number of threads to use in the simulatiions
         ) noexcept(false);
 
-        //Return if the simulation was successful, and returns the statistics collected about the cells
+        /// Return a copy of the result: return code, error message, per-cell statistics and final cells.
         simulation_outputs get_simulation_outputs() const noexcept(false){return simulation_outputs_;}
 };
 

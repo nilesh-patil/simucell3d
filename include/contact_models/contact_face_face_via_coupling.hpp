@@ -1,6 +1,12 @@
 #ifndef DEF_CONTACT_FACE_FACE_VIA_COUPLING 
 #define DEF_CONTACT_FACE_FACE_VIA_COUPLING
 
+/**
+ * @file contact_face_face_via_coupling.hpp
+ * @brief Contact model 2: coupling of the surfaces of adjacent epithelial cells.
+ * @ingroup contact_models
+ */
+
 
 #include "global_configuration.hpp"
 
@@ -11,6 +17,27 @@
 #include <cstdint>
 
 
+/**
+ * @brief Contact model 2 (`CONTACT_MODEL_INDEX 2`, default): face-face coupling.
+ *
+ * For each node of a cell, candidate faces of other cells are those whose padded AABB contains
+ * the node. Between two epithelial cells (cell class 0), the node is coupled to the closest
+ * node of the candidate face if their distance is below the adhesion cutoff, the angle between
+ * the two node normals is at least 90 degrees, the curvature of both nodes is below `surface_coupling_max_curvature`, and
+ * neither node already has a closer partner on that cell. A node keeps at most one partner per
+ * adjacent cell. After the search, every group of coupled nodes is moved to its mean position.
+ * In all other cases (other cell classes, or no coupling), a node that has penetrated the face
+ * receives a repulsion force of magnitude `repulsion_strength` x face area x distance, shared
+ * with the face nodes by barycentric weights. Nodes whose curvature is at or above
+ * `surface_coupling_max_curvature` are skipped.
+ *
+ * Candidate faces come from an internal grid binned by face AABB, or from the sweep-and-prune
+ * strategy when `contact_detection_algorithm` selects it.
+ *
+ * @note Thread-safe: contact forces are added with atomic updates and the coupling maps of the
+ *       nodes are written under the node locks (node::couple_if_closest()).
+ * @ingroup contact_models
+ */
 class contact_face_face_via_coupling: public contact_model_abstract{
 
     private:
@@ -51,17 +78,46 @@ class contact_face_face_via_coupling: public contact_model_abstract{
         contact_face_face_via_coupling& operator=(const contact_face_face_via_coupling& v) = delete;//copy assignment operator
         contact_face_face_via_coupling& operator=(contact_face_face_via_coupling&& v) = default;     //move assignment operator 
 
-        //The trivial constructor of the contact model
+        /**
+         * @brief Construct the model; see contact_model_abstract::contact_model_abstract().
+         * @param sim_parameters Numerical parameters (contact cutoffs in m, minimum edge length in m,
+         *        contact detection algorithm).
+         */
         contact_face_face_via_coupling(const global_simulation_parameters& sim_parameters) noexcept(false);
-            
+
+        /**
+         * @brief Number the faces, reset the couplings, build the broad phase and resolve all contacts.
+         * @param cell_lst All cells of the simulation.
+         * @throws unstable_simulation_exception If the bounding box of the domain is not finite or
+         *         the contact grid would be too large (a cell has diverged).
+         */
         void run(const std::vector<cell_ptr>& cell_lst) noexcept(false) override;
 
-        //Find the faces that are within a distance below the contact cutoff and apply adhesive or repulsive forces 
+        /**
+         * @brief Visit every node/candidate-face pair, couple or repel them, then move each group of
+         *        coupled nodes to its mean position.
+         *
+         * In adaptive mode, this is where the detection strategy is switched when the number of cells
+         * crosses the threshold.
+         *
+         * @param cell_lst All cells of the simulation.
+         */
         void resolve_all_contacts(const std::vector<cell_ptr>& cell_lst) noexcept(false);
 
 
-        //Prevent the surfaces of the cells to interpenetrate by applying repulsive forces on the surfaces.
-        //These forces are only applied if the 2 cells are not epithelial
+        /**
+         * @brief Resolve the contact between one node and one face of another cell.
+         *
+         * Between two epithelial cells, first try to couple the node to the closest node of the face;
+         * if no coupling is stored, apply repulsion when the node lies on the inner side of the face
+         * (the side is inverted for an epithelial node against an ECM face and for a nucleus node
+         * against an epithelial face) and within the larger contact cutoff.
+         *
+         * @param c1 Cell that owns the node.
+         * @param c2 Cell that owns the face.
+         * @param n  Node of `c1`.
+         * @param f  Face of `c2`.
+         */
         void resolve_contact(const cell_ptr& c1, const cell_ptr& c2, node& n, face* f) const noexcept;
 
 

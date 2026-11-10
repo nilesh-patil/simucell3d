@@ -18,19 +18,25 @@
 
 
 
-/*
-The statistics of the cells (volumes, areas, etc.) can either be saved in a csv file or in a string. 
-The string can be returned at the end of the simulation. This is useful for passing the simulation 
-statistics to the python interpreter if simucell3d is called via the python interface. New cell attributes 
-can be added to the CSV file or the final string by simply adding the corresponding function in 
-the vector file_data_mapper_lst in the file ./include/io/mesh_data.hpp. 
-*/
+/**
+ * @file
+ * @brief Writers of the per-cell statistics, to a CSV file or to a string.
+ *
+ * The columns are `iteration`, `computation_time_(hh::mm:ss)`, `simulation_time`, then one column per
+ * mapper in file_data_mapper_lst (mesh_data.hpp); adding a mapper there adds a column. Each row ends with
+ * the separator.
+ * @ingroup io
+ */
 
 
 
 
 //-----------------------------------------------------------------------------------------------
-//This is an abstract class that cannot be instantiated
+/**
+ * @brief Interface of the statistics writers. The solver calls write_data() every 50 iterations and once at
+ * the end of the run.
+ * @ingroup io
+ */
 class abstract_statistics_writer{
     protected:
         std::string sep = ",";
@@ -45,6 +51,12 @@ class abstract_statistics_writer{
         abstract_statistics_writer& operator=(const abstract_statistics_writer& v) = delete; //copy assignment operator
         abstract_statistics_writer& operator=(abstract_statistics_writer&& v) = default;     //move assignment operator
 
+        /**
+         * @brief Append one row per cell.
+         * @param iteration Current iteration.
+         * @param simulation_time Simulated time, s.
+         * @param cell_lst Cells to record.
+         */
         virtual void write_data(
             const unsigned iteration, 
             const double simulation_time,  
@@ -57,6 +69,10 @@ class abstract_statistics_writer{
 
 
 //-----------------------------------------------------------------------------------------------
+/**
+ * @brief Writes the statistics to a CSV file (`simulation_statistics.csv` in the output folder).
+ * @ingroup io
+ */
 class csv_file_statistics_writer: public abstract_statistics_writer{
     private:
 
@@ -70,10 +86,17 @@ class csv_file_statistics_writer: public abstract_statistics_writer{
         csv_file_statistics_writer& operator=(const csv_file_statistics_writer& v) = delete;//copy assignment operator
         csv_file_statistics_writer& operator=(csv_file_statistics_writer&& v) = default;     //move assignment operator 
 
-        //The trivial constructor
+        /**
+         * @brief Create (or overwrite) the file and write the header row.
+         * @throws intialization_exception If the file cannot be created.
+         */
         csv_file_statistics_writer(const std::string& output_file_path) noexcept(false);
 
 
+        /**
+         * @brief Append one row per cell to the file.
+         * @throws intialization_exception If the file cannot be opened or written.
+         */
         void write_data(
             const unsigned iteration, 
             const double simulation_time,  
@@ -92,6 +115,10 @@ class csv_file_statistics_writer: public abstract_statistics_writer{
 
 
 //-----------------------------------------------------------------------------------------------
+/**
+ * @brief Collects the statistics in memory; used when the simulation runs through the Python module.
+ * @ingroup io
+ */
 class string_statistics_writer: public abstract_statistics_writer{
     private:
 
@@ -105,17 +132,17 @@ class string_statistics_writer: public abstract_statistics_writer{
         string_statistics_writer& operator=(const string_statistics_writer& v) = delete;//copy assignment operator
         string_statistics_writer& operator=(string_statistics_writer&& v) = default;     //move assignment operator 
 
-        //The trivial constructor
+        /// Start the string with the header row.
         string_statistics_writer() noexcept(false);
 
-        //Store all the simulation data in the string stream
+        /// Append one row per cell to the string.
         void write_data(
             const unsigned iteration, 
             const double simulation_time,  
             const std::vector<cell_ptr>& cell_lst
         ) noexcept(false) override;
 
-        //Return the string containing the data
+        /// Return the statistics collected so far, in CSV format.
         std::string get_string() const noexcept(false){return str_stream.str();}
 };
 //-----------------------------------------------------------------------------------------------

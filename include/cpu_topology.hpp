@@ -1,14 +1,22 @@
 #ifndef DEF_CPU_TOPOLOGY
 #define DEF_CPU_TOPOLOGY
 
-// Which logical CPUs may this process use, how do they group into physical cores,
-// and which CPU should OpenMP thread i run on.
-//
-// Why the solver pins threads itself instead of relying on OMP_PROC_BIND/OMP_PLACES:
-// libgomp reads those variables when the library is loaded, i.e. before main(), so a
-// setenv() from the solver constructor is a no-op. And with OMP_PROC_BIND=close but no
-// OMP_PLACES, libgomp enumerates its default place list core-by-core (0,4,1,5,... on a
-// 4-core/8-thread machine), so N threads end up on N/2 physical cores.
+/**
+ * @file
+ * @brief CPU topology detection and OpenMP thread pinning.
+ *
+ * Answers three questions: which logical CPUs the process may use, how they group into
+ * physical cores, and which CPU OpenMP thread i should run on. The solver uses these
+ * functions to run one thread per physical core and to pin each thread to its CPU.
+ *
+ * The solver pins threads itself instead of relying on OMP_PROC_BIND/OMP_PLACES because
+ * libgomp reads those variables when the library is loaded, before main(), so a setenv()
+ * from the solver constructor has no effect. In addition, with OMP_PROC_BIND=close but no
+ * OMP_PLACES, libgomp enumerates its default place list core by core (0,4,1,5,... on a
+ * 4-core/8-thread machine), so N threads end up on N/2 physical cores.
+ *
+ * @ingroup runtime
+ */
 
 #include <algorithm>
 #include <cctype>
@@ -27,30 +35,48 @@
 #include <sched.h>
 #endif
 
+/**
+ * @brief Detection of logical CPUs and physical cores, and thread pinning.
+ *
+ * Header-only. Topology information is read from Linux sysfs; on other systems every
+ * logical CPU is treated as its own core and pinning is not available.
+ *
+ * @ingroup runtime
+ */
 namespace cpu_topology {
 
+/**
+ * @brief One logical CPU and the physical core it belongs to.
+ * @ingroup runtime
+ */
 struct logical_cpu {
-    int id;       // logical CPU number as seen by the kernel
-    int package;  // physical_package_id (socket)
-    int core;     // core_id, unique within a package only
+    int id;       ///< Logical CPU number as seen by the kernel.
+    int package;  ///< physical_package_id (socket).
+    int core;     ///< core_id, unique within a package only.
 };
 
+/**
+ * @brief The logical CPUs available to the process, grouped by package and core.
+ * @ingroup runtime
+ */
 struct topology {
-    std::vector<logical_cpu> cpus;  // the CPUs this process may run on, ascending id
+    std::vector<logical_cpu> cpus;  ///< The CPUs this process may run on, in ascending id order.
 
+    /** @brief Number of distinct (package, core) pairs, i.e. physical cores. */
     int nb_physical_cores() const {
         std::set<std::pair<int, int>> cores;
         for (const logical_cpu& c : cpus) cores.insert({c.package, c.core});
         return static_cast<int>(cores.size());
     }
 
+    /** @brief Number of distinct packages (sockets). */
     int nb_packages() const {
         std::set<int> packages;
         for (const logical_cpu& c : cpus) packages.insert(c.package);
         return static_cast<int>(packages.size());
     }
 
-    // Largest number of allowed hyperthread siblings sharing one core
+    /** @brief Largest number of allowed hyperthread siblings sharing one physical core. */
     int threads_per_core() const {
         std::map<std::pair<int, int>, int> count;
         int max_count = 0;
@@ -59,7 +85,11 @@ struct topology {
     }
 };
 
-// Parse a kernel cpu list such as "0,4", "0-3" or "0-1,4-5" into sorted unique ids.
+/**
+ * @brief Parse a kernel CPU list such as "0,4", "0-3" or "0-1,4-5".
+ * @param text CPU list in the kernel's list format.
+ * @return Sorted, unique CPU ids. Malformed tokens are ignored.
+ */
 inline std::vector<int> parse_cpu_list(const std::string& text) {
     std::set<int> ids;
     std::string token;
@@ -90,10 +120,17 @@ inline std::vector<int> parse_cpu_list(const std::string& text) {
     return std::vector<int>(ids.begin(), ids.end());
 }
 
-// Thread placement order: the lowest-numbered CPU of every physical core first (so up to
-// nb_physical_cores() threads never share a core), then the remaining hyperthread
-// siblings. Cores are taken round-robin across packages so that consecutive threads on a
-// multi-socket host spread over the sockets' memory controllers.
+/**
+ * @brief Order in which OpenMP threads are assigned to logical CPUs.
+ *
+ * The lowest-numbered CPU of every physical core comes first, so that up to
+ * topology::nb_physical_cores() threads never share a core; the remaining hyperthread
+ * siblings follow. Cores are taken round-robin across packages, so consecutive threads on a
+ * multi-socket host are spread over the sockets' memory controllers.
+ *
+ * @param topo Topology returned by detect().
+ * @return Logical CPU ids; thread i is pinned to element i.
+ */
 inline std::vector<int> placement_order(const topology& topo) {
     std::vector<logical_cpu> cpus = topo.cpus;
     std::sort(cpus.begin(), cpus.end(), [](const logical_cpu& a, const logical_cpu& b) { return a.id < b.id; });
@@ -140,7 +177,12 @@ inline std::vector<int> placement_order(const topology& topo) {
     return order;
 }
 
-// Read one integer sysfs attribute; returns fallback when unavailable.
+/**
+ * @brief Read one integer sysfs attribute.
+ * @param path File to read.
+ * @param fallback Value returned when the file cannot be read.
+ * @return The integer in the file, or @p fallback.
+ */
 inline int read_sysfs_int(const std::string& path, int fallback) {
     std::ifstream file(path);
     int value;
@@ -148,8 +190,15 @@ inline int read_sysfs_int(const std::string& path, int fallback) {
     return fallback;
 }
 
-// Group the given logical CPUs into packages/cores using sysfs. Without sysfs (non-Linux,
-// containers with a masked /sys) every CPU is treated as its own core.
+/**
+ * @brief Group logical CPUs into packages and cores using sysfs.
+ *
+ * Without sysfs (non-Linux systems, containers with a masked /sys) every CPU is treated as
+ * its own core in package 0.
+ *
+ * @param allowed_cpus Logical CPU ids, usually allowed_cpus().
+ * @return The topology of those CPUs.
+ */
 inline topology detect(const std::vector<int>& allowed_cpus) {
     topology topo;
     for (int id : allowed_cpus) {
@@ -159,10 +208,18 @@ inline topology detect(const std::vector<int>& allowed_cpus) {
     return topo;
 }
 
-// The logical CPUs this process may run on. If libgomp built a place list (any
-// OMP_PROC_BIND/OMP_PLACES in the environment) the main thread is already pinned to a
-// single CPU by the time main() runs, so sched_getaffinity() would under-report; the place
-// list is then the only record of the original taskset/cgroup mask.
+/**
+ * @brief Query the logical CPUs this process may run on.
+ *
+ * If libgomp built a place list (OMP_PROC_BIND or OMP_PLACES set in the environment), the
+ * main thread is already pinned to a single CPU when main() runs and sched_getaffinity()
+ * would under-report; the place list is then the only record of the original taskset or
+ * cgroup mask, and it is used first. Otherwise the affinity mask is used, and as a last
+ * resort all omp_get_num_procs() CPUs.
+ *
+ * @return Sorted logical CPU ids.
+ * @see allowed_cpus(), which caches the result.
+ */
 inline std::vector<int> query_allowed_cpus() {
     std::set<int> ids;
     const int nb_places = omp_get_num_places();
@@ -190,23 +247,39 @@ inline std::vector<int> query_allowed_cpus() {
     return std::vector<int>(ids.begin(), ids.end());
 }
 
-// Captured once, on first use: after the first solver has pinned the calling thread,
-// sched_getaffinity() reports a single CPU, and every later solver built in the same
-// process (tests, Python bindings, benchmark drivers) would collapse to one thread.
+/**
+ * @brief The logical CPUs this process may run on, captured once on first use.
+ *
+ * The value is cached because, after the first solver has pinned the calling thread,
+ * sched_getaffinity() reports a single CPU, and every later solver built in the same
+ * process (tests, Python bindings, benchmark drivers) would otherwise use one thread.
+ *
+ * @return Reference to the cached result of query_allowed_cpus().
+ */
 inline const std::vector<int>& allowed_cpus() {
     static const std::vector<int> cached = query_allowed_cpus();
     return cached;
 }
 
-// Pinning is on by default; SIMUCELL3D_PIN_THREADS=0 disables it, and an explicit
-// OMP_PLACES means the user has chosen a placement that must be respected.
+/**
+ * @brief Whether the solver should pin its OpenMP threads.
+ *
+ * Pinning is on by default. It is disabled by SIMUCELL3D_PIN_THREADS=0, and by any
+ * OMP_PLACES setting, which is taken as a placement chosen by the user.
+ *
+ * @return true if threads should be pinned.
+ */
 inline bool pinning_requested() {
     const char* pin_env = std::getenv("SIMUCELL3D_PIN_THREADS");
     if (pin_env != nullptr && std::string(pin_env) == "0") return false;
     return std::getenv("OMP_PLACES") == nullptr;
 }
 
-// Restrict the calling thread to one logical CPU. Returns false if the OS refused.
+/**
+ * @brief Restrict the calling thread to one logical CPU.
+ * @param cpu_id Logical CPU id.
+ * @return false if the operating system refused, or on non-Linux systems.
+ */
 inline bool pin_current_thread(int cpu_id) {
 #ifdef __linux__
     cpu_set_t mask;
@@ -219,8 +292,11 @@ inline bool pin_current_thread(int cpu_id) {
 #endif
 }
 
-// The single CPU the calling thread is currently restricted to, or -1 if it may run on
-// several (or the query is unsupported).
+/**
+ * @brief The single CPU the calling thread is restricted to.
+ * @return The logical CPU id, or -1 if the thread may run on several CPUs or the query is
+ *         not supported.
+ */
 inline int current_thread_cpu() {
 #ifdef __linux__
     cpu_set_t mask;

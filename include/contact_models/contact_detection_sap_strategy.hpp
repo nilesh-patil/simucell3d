@@ -1,6 +1,12 @@
 #ifndef DEF_CONTACT_DETECTION_SAP_STRATEGY
 #define DEF_CONTACT_DETECTION_SAP_STRATEGY
 
+/**
+ * @file contact_detection_sap_strategy.hpp
+ * @brief Contact detection by sweep and prune over cell bounding boxes (`sweep_and_prune`).
+ * @ingroup contact_models
+ */
+
 #include <vector>
 #include <array>
 #include <set>
@@ -12,33 +18,27 @@
 
 //---------------------------------------------------------------------------------------------
 /**
- * Sweep-and-Prune (SAP) contact detection strategy.
+ * @brief Sweep-and-prune (SAP) contact detection strategy.
  *
- * This strategy implements a 3-axis Sweep-and-Prune algorithm for broad-phase
- * contact detection. It is optimized for systems with non-uniform cell distributions,
- * clustering, and varying mesh resolution.
- *
- * Algorithm Overview:
+ * Broad phase on cell bounding boxes along the three axes:
  * 1. Build cell-to-faces map (which faces belong to which cell)
  * 2. Compute cell AABBs (union of all face AABBs for each cell, with padding)
  * 3. Build sorted endpoint lists for X, Y, Z axes
  * 4. Sweep X-axis to find pairs overlapping on X
  * 5. Filter by Y-axis overlap
  * 6. Filter by Z-axis overlap
- * 7. Store overlapping cell pairs for fast queries
+ * 7. Store the overlapping cell pairs, used by the queries
  *
  * Complexity:
- * - prepare(): O(C log C + F) where C = cells, F = faces
- * - get_candidate_faces(): O(K) where K = overlapping cells
+ * - prepare(): O(C log C + F + P) for C cells, F faces and P overlapping cell pairs
+ * - get_candidate_faces(): linear in the number of faces of the cells that overlap the query cell
  *
- * Conservative Property:
- * SAP MUST be conservative - it returns ALL faces that could potentially contact.
- * False positives are acceptable (extra faces), but false negatives (missing faces)
- * are NOT allowed as they break physics simulation correctness.
+ * The result is conservative: every face that can be within the contact cutoffs of the query
+ * point is returned, possibly with extra faces.
  *
- * Thread Safety:
- * - prepare() must be called from a single thread before parallel queries
- * - get_candidate_faces() is const and thread-safe for concurrent queries
+ * @note prepare() must be called from a single thread; get_candidate_faces() may then be
+ *       called concurrently.
+ * @ingroup contact_models
  */
 class contact_detection_sap_strategy : public contact_detection_strategy {
 private:
@@ -175,30 +175,21 @@ private:
 
 public:
     /**
-     * Construct SAP strategy from simulation parameters.
-     *
-     * Extracts contact_cutoff_adhesion and contact_cutoff_repulsion from params
-     * to compute AABB padding = max(adhesion, repulsion).
-     *
-     * @param params Simulation parameters containing cutoff distances
+     * @brief Set the AABB padding to the larger of the two contact cutoffs.
+     * @param params Numerical parameters; uses `contact_cutoff_adhesion_` and
+     *        `contact_cutoff_repulsion_` (m).
      */
     explicit contact_detection_sap_strategy(const global_simulation_parameters& params) noexcept;
 
     /**
-     * Prepare the SAP structure with current simulation data.
+     * @brief Group the faces by cell, compute the padded cell AABBs and find the overlapping cell pairs.
      *
-     * Implementation:
-     * 1. Build cell-to-faces mapping
-     * 2. Compute cell AABBs (union of face AABBs + padding)
-     * 3. Perform 3-axis sweep-and-prune
-     * 4. Store overlapping pairs for fast queries
+     * Must be called from a single thread before the parallel queries. Does not throw.
      *
-     * Thread Safety: Must be called from single thread before parallel queries.
-     *
-     * @param cells All cells in the simulation
-     * @param faces All faces from all cells
-     * @param aabbs AABBs for each face (parallel to faces vector)
-     * @param bounds Simulation domain bounds
+     * @param cells  All cells of the simulation.
+     * @param faces  All faces of all cells.
+     * @param aabbs  Bounding box of each face, in the same order as `faces`, m.
+     * @param bounds Maximum corner of the simulation domain, m.
      */
     void prepare(
         const std::vector<cell*>& cells,
@@ -208,25 +199,22 @@ public:
     ) noexcept override;
 
     /**
-     * Get candidate faces for contact detection.
+     * @brief Return the faces of the cells overlapping `query_cell` whose AABB contains the point.
      *
-     * Returns faces from all cells that overlap with query_cell's AABB.
-     * The query_cell's own faces are excluded to prevent self-contact.
+     * The faces of `query_cell` itself are excluded. If `query_cell` is nullptr or unknown, every
+     * cell whose AABB contains the point is searched.
      *
-     * Conservative Property: Returns ALL potentially contacting faces.
-     * May include false positives (extra faces) but NEVER false negatives.
-     *
-     * Thread Safety: This method is const and thread-safe.
-     *
-     * @param query_pos Position being queried (typically a node position)
-     * @param query_cell Cell to exclude from results (nullptr for no exclusion)
-     * @return Vector of candidate face pointers
+     * @param query_pos  Position to query (usually a node position), m.
+     * @param query_cell Cell whose own faces are excluded, or nullptr.
+     * @return A new vector of candidate faces.
+     * @note Thread-safe after prepare().
      */
     std::vector<face*> get_candidate_faces(
         const vec3& query_pos,
         cell* query_cell
     ) const noexcept override;
 
+    /** @brief Return ContactDetectionAlgorithm::SWEEP_AND_PRUNE. */
     ContactDetectionAlgorithm algorithm_type() const noexcept override {
         return ContactDetectionAlgorithm::SWEEP_AND_PRUNE;
     }

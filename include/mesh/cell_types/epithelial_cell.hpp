@@ -8,17 +8,21 @@
 #include "utils.hpp"
 
 
-/*
-    Use polymorphism to create the different cell types. Even though using IF statements is more efficient,
-    polymorphism creates code that is more readable and maintainable. The IF statements are also more error prone.
-*/
+/**
+ * @file epithelial_cell.hpp
+ * @brief Epithelial cell class (global_cell_id 0): division and contact-based polarization.
+ * @ingroup cell_classes
+ */
 
 
 
 typedef std::pair<unsigned, double> face_area_pair;
 
 //-----------------------------------------------------------------------------------------------------
-//Create a hash out of an edge
+/**
+ * @brief Hash functor for (face id, area) pairs: hashes the face id only.
+ * @ingroup cell_classes
+ */
 struct face_area_pair_hasher{
     int operator()(const face_area_pair& fap) const{
         return static_cast<int>(fap.first);
@@ -28,7 +32,10 @@ struct face_area_pair_hasher{
 
 
 //-----------------------------------------------------------------------------------------------------
-//Compare pairs of edges
+/**
+ * @brief Equality functor for (face id, area) pairs: compares the face ids only.
+ * @ingroup cell_classes
+ */
 struct face_area_pair_comparator{
     bool operator()(const face_area_pair& fap_1, const face_area_pair& fap_2) const{
         return fap_1.first == fap_2.first;
@@ -41,6 +48,24 @@ typedef std::unordered_set<face_area_pair, face_area_pair_hasher,  face_area_pai
 
 
 
+/**
+ * @brief Epithelial cell, selected by `global_cell_id` 0.
+ *
+ * The only cell class that divides: is_ready_to_divide() is true once the volume reaches the
+ * division volume drawn at creation. Its faces are polarized by contacts. Face types are
+ * indices into the cell type's face types and are used as 0 apical, 1 lateral, 2 basal, so
+ * an epithelial cell type is expected to list its face types in that order.
+ *
+ * At every iteration update_face_types() marks all faces apical. Then, with
+ * POLARIZATION_MODE_INDEX 1:
+ * - with contact model 0, the contact model calls face_is_in_contact() for each face in
+ *   contact (basal next to an ECM cell, apical next to a lumen, lateral otherwise);
+ * - with contact models 1 and 2, special_polarization_update() marks a face lateral when its
+ *   three nodes are coupled to nodes of one other cell that form an edge triangle (model 1)
+ *   or a face (model 2) of that cell.
+ *
+ * @ingroup cell_classes
+ */
 class epithelial_cell: public cell {
 
     private: 
@@ -64,7 +89,7 @@ class epithelial_cell: public cell {
 
 
         //------------------------------------------------------------------------------------------------------ 
-        //Construct the epithelial_cell with a node_lst and a face_lst
+        /** @brief Create the cell from its nodes and faces; see the corresponding cell constructor. */
         epithelial_cell(
             const std::vector<node>& node_lst,
             const std::vector<face>& face_lst,
@@ -75,7 +100,7 @@ class epithelial_cell: public cell {
 
 
 
-        //Construct the epithelial_cell based on the node position and the node  ids of the faces
+        /** @brief Create the cell from flat node coordinates (m) and face node ids; see the corresponding cell constructor. */
         epithelial_cell(
             const std::vector<double>&  node_position,
             const std::vector<unsigned>& face_node_ids,
@@ -84,7 +109,7 @@ class epithelial_cell: public cell {
         ) noexcept : cell(node_position, face_node_ids, cell_id, cell_type_parameters){}
 
 
-        //Convert a mesh object into a epithelial_cell object
+        /** @brief Create the cell from a mesh; see the corresponding cell constructor. */
         epithelial_cell(
             const mesh& m,
             unsigned cell_id,
@@ -94,7 +119,7 @@ class epithelial_cell: public cell {
 
 
         //------------------------------------------------------------------------------------------------------
-        //Divide the cell when its volume has reached the maximum volume
+        /** @brief Return true once the volume (m^3) has reached the cell's division volume. */
         bool is_ready_to_divide() const noexcept override {
             assert(cell_type_ != nullptr);
             return volume_ >= division_volume_; 
@@ -102,6 +127,7 @@ class epithelial_cell: public cell {
         //------------------------------------------------------------------------------------------------------
 
         //------------------------------------------------------------------------------------------------------
+        /** @brief Return a new epithelial_cell built from @p m, with the same id and cell type (used for daughters). */
         cell_ptr get_cell_same_type(const mesh& m) noexcept(false) override{
             //Return a copy of the cell
             return std::make_shared<epithelial_cell>(m, cell_id_, cell_type_);
@@ -111,7 +137,12 @@ class epithelial_cell: public cell {
 
 
         //------------------------------------------------------------------------------------------------------
-        //Polarize the faces of the cell based on their contacts
+        /**
+         * @brief Set the type of face @p face_local_id from the global face type id of the face it touches.
+         *
+         * Global face type 3 (ECM) gives basal (2), 4 (lumen) gives apical (0), 5 (nucleus) leaves
+         * the face unchanged, any other gives lateral (1). Not called by the 2.1 contact models.
+         */
         void face_is_in_contact(const unsigned face_local_id, const cell_ptr other_cell, const face& other_face) noexcept override {
             assert(face_local_id < face_lst_.size());
             assert(other_cell != nullptr);
@@ -126,7 +157,7 @@ class epithelial_cell: public cell {
             if(other_face_type.face_type_global_id_ == 3){
                 face_lst_[face_local_id].set_face_type_id(2);
             }
-            //If the other face is of type lumen, we set the given face as basal
+            //If the other face is of type lumen, we set the given face as apical
             else if(other_face_type.face_type_global_id_ == 4){
                 face_lst_[face_local_id].set_face_type_id(0);
             }
@@ -141,7 +172,12 @@ class epithelial_cell: public cell {
 
 
         //------------------------------------------------------------------------------------------------------
-        //Polarize the faces of the cell based on their contacts
+        /**
+         * @brief Set the type of face @p face_local_id from the class of the cell it touches.
+         *
+         * ECM (`global_cell_id` 1) gives basal (2), lumen (2) gives apical (0), any other gives
+         * lateral (1). Called by contact model 0 when POLARIZATION_MODE_INDEX is 1.
+         */
         void face_is_in_contact(const unsigned face_local_id, const cell_ptr other_cell) noexcept override{
             assert(face_local_id < face_lst_.size());
             assert(other_cell != nullptr);
@@ -165,7 +201,14 @@ class epithelial_cell: public cell {
         //------------------------------------------------------------------------------------------------------
 
         //------------------------------------------------------------------------------------------------------
-        //Mark as apical all the faces that are lateral and have a neighbor that is apical 
+        /**
+         * @brief Mark as lateral (1) the faces coupled to a face of one neighbouring cell, the others apical (0).
+         *
+         * A face is lateral when its three nodes are coupled to nodes of a single other cell and
+         * those nodes form a face (contact model 2) or three edges (contact model 1) of that cell.
+         * @note Does nothing unless POLARIZATION_MODE_INDEX is 1 and CONTACT_MODEL_INDEX is 1 or 2.
+         * Reads the node couplings without locks; call it after the contact phase.
+         */
         void special_polarization_update(const std::vector<cell_ptr>& cell_lst) noexcept override{
 
             //If the faces of epithelial cells are mechanically coupled and the polarization mode is based on the contacts
@@ -323,7 +366,7 @@ class epithelial_cell: public cell {
 
 
         //------------------------------------------------------------------------------------------------------
-        //Ask to the cell to update the type of its faces
+        /** @brief Reset every face to apical (0); called at the start of each iteration. */
         void update_face_types() noexcept override{
         
             //Reset all the faces to apical
@@ -333,7 +376,7 @@ class epithelial_cell: public cell {
 
 
         //------------------------------------------------------------------------------------------------------
-        //Return the fraction of the cell surface that is in contact with other cells
+        /** @brief Return the area of the lateral faces (type 1) divided by the cell area. */
         double get_contact_area_fraction() override {
 
 

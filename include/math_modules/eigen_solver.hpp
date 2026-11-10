@@ -7,6 +7,18 @@
 
 #pragma once
 
+/**
+ * @file
+ * @brief Eigensolvers for symmetric 3 x 3 matrices, from the Geometric Tools library
+ *        (David Eberly, Boost Software License 1.0).
+ *
+ * The algorithms are described in
+ * http://www.geometrictools.com/Documentation/RobustEigenSymmetric3x3.pdf.
+ * mat33::eigen_decomposition() uses gte::SymmetricEigensolver3x3.
+ *
+ * @ingroup math
+ */
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -20,9 +32,18 @@
 // implemented by class NISymmetricEigensolver3x3.  The code does not use
 // GTEngine objects.
 
+/**
+ * @brief Geometric Tools eigensolvers for symmetric 3 x 3 matrices.
+ * @ingroup math
+ */
 namespace gte
 {
 
+/**
+ * @brief Iterative eigensolver for a symmetric 3 x 3 matrix.
+ * @tparam Real Floating-point type.
+ * @ingroup math
+ */
 template <typename Real>
 class SymmetricEigensolver3x3
 {
@@ -42,6 +63,17 @@ public:
     // be a right-handed orthonormal set.  The return value is the number of
     // iterations used by the algorithm.
 
+    /**
+     * @brief Compute the eigenvalues and eigenvectors of the matrix with upper triangle
+     *        (a00, a01, a02, a11, a12, a22).
+     * @param aggressive Iterate until a superdiagonal entry is exactly zero (true) or
+     *        negligible compared to its diagonal neighbours (false).
+     * @param sortType -1 decreasing, 0 unsorted, +1 increasing eigenvalues.
+     * @param eval Output eigenvalues.
+     * @param evec Output eigenvectors; evec[i] belongs to eval[i]. When sorted, they form a
+     *        right-handed orthonormal set.
+     * @return Number of iterations used.
+     */
     int operator()(Real a00, Real a01, Real a02, Real a11, Real a12, Real a22,
         bool aggressive, int sortType, std::array<Real, 3>& eval,
         std::array<std::array<Real, 3>, 3>& evec) const;
@@ -85,6 +117,11 @@ private:
 };
 
 
+/**
+ * @brief Non-iterative eigensolver for a symmetric 3 x 3 matrix. Not used by the solver.
+ * @tparam Real Floating-point type.
+ * @ingroup math
+ */
 template <typename Real>
 class NISymmetricEigensolver3x3
 {
@@ -93,6 +130,10 @@ public:
     // be specified: a00, a01, a02, a11, a12, and a22.  The eigenvalues are
     // sorted in ascending order: eval0 <= eval1 <= eval2.
 
+    /**
+     * @brief Compute the eigenvalues (ascending) and eigenvectors of the matrix with upper
+     *        triangle (a00, a01, a02, a11, a12, a22); evec[i] belongs to eval[i].
+     */
     void operator()(Real a00, Real a01, Real a02, Real a11, Real a12, Real a22,
         std::array<Real, 3>& eval, std::array<std::array<Real, 3>, 3>& evec) const;
 

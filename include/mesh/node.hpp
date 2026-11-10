@@ -1,6 +1,12 @@
 #ifndef DEF_NODE
 #define DEF_NODE
 
+/**
+ * @file node.hpp
+ * @brief Node (vertex) of a cell surface mesh.
+ * @ingroup mesh
+ */
+
 
 #include <iostream>
 #include <memory>
@@ -21,13 +27,24 @@ class cell;
 #include "vec3.hpp"
 
 
-/*
-    Class for a node of the cell mesh
-*/
-
-
 typedef std::shared_ptr<cell> cell_ptr;
 
+/**
+ * @brief Node (vertex) of a cell surface mesh.
+ *
+ * A node stores its position (m) and the force acting on it (N). With the full equations of
+ * motion (DYNAMIC_MODEL_INDEX 0) it also stores its momentum (kg m/s). With the coupling
+ * contact models (CONTACT_MODEL_INDEX 1 or 2) it also stores its normal, its curvature and
+ * its coupling partners on neighbouring cells, protected by a per-node std::mutex.
+ *
+ * Nodes are owned by their cell and identified by their index in the cell's node list
+ * (the local id). A node whose slot is free has is_used() false.
+ *
+ * @note Members inside `#if CONTACT_MODEL_INDEX` or `#if DYNAMIC_MODEL_INDEX` blocks exist
+ * only for those values of the macros in global_configuration.hpp.
+ *
+ * @ingroup mesh
+ */
 class node final 
 {
 
@@ -72,8 +89,7 @@ class node final
             //Curvature of the cell surface at the node
             double curvature_;
 
-            // std::mutex for thread-safe coupling updates (replaces omp_lock_t to avoid
-            // conflicts with omp_set_schedule() - std::mutex uses pthreads, not OpenMP ICVs)
+            // Lock that serialises updates of the coupling data by several threads
             mutable std::mutex mutex_;
 
 
@@ -120,46 +136,55 @@ class node final
 
     public:
 
-        //Default constructor
+        /** @brief Create a used node with local id 0. */
         node() noexcept;
 
-        // Custom copy constructor - MUST initialize new lock, not copy the old one
-        // Copying omp_lock_t is undefined behavior (it contains pthread_mutex_t internal state)
+        /**
+         * @brief Copy all node data except the lock; the copy has its own unlocked mutex.
+         */
         node(const node& n) noexcept;
 
-        // Custom move constructor - initialize new lock, move other members
+        /** @brief Move all node data except the lock; the new node has its own unlocked mutex. */
         node(node&& n) noexcept;
 
-        // Custom copy assignment - initialize new lock if needed, copy other members
+        /** @brief Copy all node data except the lock, which stays the node's own. */
         node& operator=(const node& n) noexcept;
 
-        // Custom move assignment - initialize new lock if needed, move other members
+        /** @brief Move all node data except the lock, which stays the node's own. */
         node& operator=(node&& n) noexcept;
 
-        //Leave the position of the node to (0., 0., 0.)
+        /** @brief Create a node at the origin with local id @p node_id. */
         explicit node(const unsigned node_id) noexcept;
 
-        //Specify node coordinates at instantiation
+        /** @brief Create a node at (@p dx, @p dy, @p dz), m, with local id @p node_id. */
         explicit node(const double dx, const double dy, const double dz, const unsigned node_id) noexcept;
 
+        /** @brief Create a node at @p pos, m, with local id @p node_id. */
         explicit node(const vec3& pos, const unsigned node_id) noexcept;
         
-        //Get the unique identifier of this node
+        /** @brief Return the index of the node in the node list of its cell. */
         unsigned get_local_id() const noexcept {return node_id_;}
 
-        //Get a constant reference of the node position, force and momentum
+        /** @brief Return the position of the node, m. */
         inline const vec3& pos()       const noexcept {return pos_;}
+        /** @brief Return the force accumulated on the node in the current iteration, N. */
         inline const vec3& force()     const noexcept {return force_;}
+        /** @brief Return true if this slot of the node list holds a node of the mesh. */
         inline const bool  is_used()   const noexcept {return is_used_;}
 
         //If we use a contact model that mechanically link the nodes or the faces of adjacent cells
         #if CONTACT_MODEL_INDEX == 1 ||  CONTACT_MODEL_INDEX == 2
 
+            /**
+             * @brief Return the unsigned discrete mean curvature at the node, 1/m.
+             * @note Only with CONTACT_MODEL_INDEX 1 or 2. Computed by cell::compute_node_curvature_and_normals().
+             */
             double get_curvature() const noexcept {return curvature_;}
 
+            /** @brief Return the unit outward normal at the node. @note Only with CONTACT_MODEL_INDEX 1 or 2. */
             vec3 get_normal() const noexcept {return normal_;}
 
-            // std::mutex destructor is automatic (RAII)
+            /** @brief Destructor. */
             ~node() = default;
 
         #endif
@@ -167,11 +192,19 @@ class node final
         //If we link pairs of adjacent nodes
         #if CONTACT_MODEL_INDEX == 1
 
+            /** @brief Return true if the node has a coupling partner. @note Only with CONTACT_MODEL_INDEX 1. */
             bool is_coupled() const noexcept {return coupled_node_.has_value();}
 
+            /**
+             * @brief Return the partner as (cell local id, node local id). The node must be coupled.
+             * @note Only with CONTACT_MODEL_INDEX 1.
+             */
             std::pair<unsigned, unsigned> get_coupled_node() const noexcept {return coupled_node_.value();}
 
-            //Indicate to this node that it is coupled to another node
+            /**
+             * @brief Store the coupling partner and its squared distance (m^2), under the node lock.
+             * @note Only with CONTACT_MODEL_INDEX 1. Thread-safe.
+             */
             void set_coupled_node_and_min_distance(const std::pair<unsigned, unsigned>& coupled_node, const double min_dist) noexcept {
                 //Make sure that one thread at a time can access this function
                 std::lock_guard<std::mutex> guard(mutex_);
@@ -182,10 +215,13 @@ class node final
         //If we link pairs of adjacent faces
         #elif CONTACT_MODEL_INDEX == 2
 
-            //Return wether or not this node is coupled to one or more nodes on other cells
+            /**
+             * @brief Return true if the node is coupled to at least one node on another cell.
+             * @note Only with CONTACT_MODEL_INDEX 2. Not locked; read outside the contact phase.
+             */
             bool is_coupled() const noexcept {return !coupled_nodes_map_.empty();}
 
-            //Get the number of nodes on other cells that are coupled to this node
+            /** @brief Return the number of coupled nodes on other cells. @note Only with CONTACT_MODEL_INDEX 2. */
             int get_nb_coupled_nodes() const noexcept {return coupled_nodes_map_.size();}
 
             //The contact model couples nodes from several threads at once: a node is written by the thread that
@@ -193,29 +229,44 @@ class node final
             //contact_face_face_via_coupling::resolve_contact()). Every access to coupled_nodes_map_ during the
             //contact phase must therefore go through the locked methods below.
 
-            //Squared distance between this node and its partner on the cell with the local id
-            //`coupled_cell_local_id`, or std::numeric_limits<double>::max() if it has none. Locked read.
+            /**
+             * @brief Return the squared distance (m^2) to the partner on cell @p coupled_cell_local_id.
+             *
+             * Returns std::numeric_limits<double>::max() if the node has no partner on that cell.
+             * @note Only with CONTACT_MODEL_INDEX 2. Thread-safe (locked read).
+             */
             double get_coupled_squared_distance(const unsigned coupled_cell_local_id) const noexcept {
                 std::lock_guard<std::mutex> guard(mutex_);
                 const auto it = coupled_nodes_map_.find(coupled_cell_local_id);
                 return (it != coupled_nodes_map_.end()) ? it->second.second : std::numeric_limits<double>::max();
             }
 
-            //Store that this node is coupled to the node `coupled_node_local_id` of the cell `coupled_cell_local_id`
-            //(local ids) at the given squared distance, UNLESS this node already has a strictly closer partner on
-            //that cell: a node has at most one partner per adjacent cell, the closest one found. The compare and
-            //the store happen under the node lock, so a farther candidate found by another thread can never
-            //replace a closer one. Returns true if the partner was stored.
+            /**
+             * @brief Couple this node to node @p coupled_node_local_id of cell @p coupled_cell_local_id.
+             *
+             * A node has at most one partner per adjacent cell, the closest one found: the partner is
+             * stored unless the node already has a strictly closer partner on that cell. The compare
+             * and the store happen under the node lock, so a farther candidate found by another
+             * thread never replaces a closer one.
+             * @param squared_distance Squared distance between the two nodes, m^2.
+             * @return True if the partner was stored.
+             * @note Only with CONTACT_MODEL_INDEX 2. Thread-safe.
+             */
             bool set_coupled_node_and_min_distance(const unsigned coupled_cell_local_id, const unsigned coupled_node_local_id,  const double squared_distance) noexcept {
                 std::lock_guard<std::mutex> guard(mutex_);
                 return store_partner_unless_closer_one(coupled_cell_local_id, coupled_node_local_id, squared_distance);
             }
 
-            //Couple the node `a` of the cell `a_cell_local_id` and the node `b` of the cell `b_cell_local_id` to each
-            //other, at the given squared distance, as one transaction: both node locks are held (std::scoped_lock
-            //acquires them without deadlock), and the pair is stored only if neither node already has a strictly
-            //closer partner on the other node's cell. Either both directions are stored or neither. Returns true
-            //if the pair was stored.
+            /**
+             * @brief Couple node @p a of cell @p a_cell_local_id and node @p b of cell @p b_cell_local_id to each other.
+             *
+             * Both node locks are held (std::scoped_lock, deadlock-free) and the pair is stored only
+             * if neither node already has a strictly closer partner on the other node's cell. Either
+             * both directions are stored or neither.
+             * @param squared_distance Squared distance between the two nodes, m^2.
+             * @return True if the pair was stored.
+             * @note Only with CONTACT_MODEL_INDEX 2. Thread-safe.
+             */
             static bool couple_if_closest(node& a, const unsigned a_cell_local_id, node& b, const unsigned b_cell_local_id, const double squared_distance) noexcept {
                 assert(&a != &b);
                 std::scoped_lock guard(a.mutex_, b.mutex_);
@@ -244,24 +295,32 @@ class node final
 
 
 
-        //Add a force on the node
+        /** @brief Replace the force on the node, N. Not thread-safe. */
         void set_force(const vec3& force) noexcept {force_.reset(force);}
+        /** @brief Add @p force (N) to the force on the node. Not thread-safe. */
         void add_force(const vec3& force) noexcept {force_.translate(force);}
 
-        //Add a force on a node that other threads may update at the same time (contact forces: a node receives
-        //forces from the thread that processes its cell and from the threads that process the cells facing it)
+        /**
+         * @brief Add @p force (N) to the force on the node with atomic updates of each component.
+         *
+         * Used for contact forces: a node receives forces from the thread that processes its own
+         * cell and from the threads that process the cells facing it.
+         * @note Thread-safe.
+         */
         void add_force_atomic(const vec3& force) noexcept {force_.atomic_translate(force);}
 
-        //Overload the comparion operators
+        /** @brief Return the vector from node @p n to this node, m. */
         vec3 operator-(const node& n) const noexcept; 
+        /** @brief Two nodes are equal if they have the same local id. */
         bool operator==(const node& n) const noexcept; 
         bool operator!=(const node& n) const noexcept;
 
         //Full equations of motion solved with the semi implicit euler scheme
         #if DYNAMIC_MODEL_INDEX == 0 
 
-            //Methods to get and set the momentum of the node
+            /** @brief Return the momentum of the node, kg m/s. @note Only with DYNAMIC_MODEL_INDEX 0. */
             inline const vec3& momentum()  const noexcept {return momentum_;}
+            /** @brief Set the momentum of the node, kg m/s. @note Only with DYNAMIC_MODEL_INDEX 0. */
             void set_momentum(const vec3& momentum) noexcept {momentum_ = momentum;}
         #endif 
 

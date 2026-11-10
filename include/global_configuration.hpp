@@ -2,40 +2,63 @@
 #define DEF_GLOBAL_CONFIGURATION
 
 
-//This file contains different compilation macros that can be used to activate or deactivate the compilation of 
-//some parts of the code. For instance these tags can be used to reduce the attributes of the 
-//mesh to the minimum and thus optimize performance. They can also be used to choose the model of polarization
-//or the way the equations of motions are solved.
+/**
+ * @file
+ * @brief Compile-time configuration of the simulation model.
+ *
+ * The macros in this file select the contact model, the dynamic model and the polarization mode, and
+ * switch optional per-face and output data on or off. Changing a value requires rebuilding SimuCell3D.
+ * @ingroup core
+ */
 
 
-//If this tag is set to true, the face will stored their contact energies (adhesion and repulsion energies), this adds 8 more bytes to the face class
+/**
+ * @brief Store the adhesion and repulsion energies on each face (`true` or `false`).
+ *
+ * When true, every face holds two extra `float` members (8 bytes) for its contact energies.
+ * @ingroup core
+ */
 #define FACE_STORE_CONTACT_ENERGY false
 
 
-//Write the normals of the cell surfaces at the level of the faces and vertices. This adds a lot more data to the mesh files
+/**
+ * @brief Write the face and node normals of the cell surfaces in the output meshes (`true` or `false`).
+ *
+ * Enabling it makes the output mesh files considerably larger.
+ * @ingroup core
+ */
 #define WRITE_NORMALS_IN_OUTPUT_MESH_FILE true
 
 
-//The faces can be polarize by different techniques. The following index can be used to choose the polarization mode:
-//  - 0 : No polarization
-//  - 1 : Polarization based on the contacts of the cell
-//  - 2 : Polarization based on the discretization of the simulation space
+/**
+ * @brief Polarization mode: how the faces of the cells receive their face types.
+ *
+ * - 0: no polarization.
+ * - 1: polarization based on the contacts of the cell (default).
+ * - 2: polarization based on a discretization of the simulation space (automatic_polarizer); the
+ *   regions are also written to the `region_data/` output folder.
+ * @ingroup core
+ */
 #define POLARIZATION_MODE_INDEX 1
 
-/*
-The technique used to compute the contact forces can be chosen via the following index:
-    - 0 : The contact forces are computed between pairs of faces and vertices by creating springs between the surfaces
-    - 1 : The contact forces are computed mechanically linking pairs of adjacent nodes
-    - 2 : The contact forces are computed mechanically linking pairs of adjacent faces
-
-*/
+/**
+ * @brief Contact model used to compute the forces between cells.
+ *
+ * - 0: springs between nodes and faces of adjacent cells (contact_node_face_via_spring).
+ * - 1: mechanical coupling of pairs of adjacent nodes (contact_node_node_via_coupling).
+ * - 2: mechanical coupling of pairs of adjacent faces (contact_face_face_via_coupling, default).
+ * @ingroup core
+ */
 #define CONTACT_MODEL_INDEX 2
 
 
-/*The dynamic model and the time integration scheme used to run the simulation can be chosen via the following index:
-    - 0 : Full equations of motions solved with semi-implicit euler  (1st order integration scheme)
-    - 1 : Overdamped equations of motions solved with forward euler  (1st order integration scheme)
-*/ 
+/**
+ * @brief Dynamic model and time integration scheme.
+ *
+ * - 0: full equations of motion, semi-implicit Euler scheme (first order, default).
+ * - 1: overdamped equations of motion, forward Euler scheme (first order).
+ * @ingroup core
+ */
 #define DYNAMIC_MODEL_INDEX 0
 
 

@@ -1,17 +1,26 @@
 #ifndef DEF_USPG_3D
 #define DEF_USPG_3D
 
+/**
+ * @file uspg_3d.hpp
+ * @brief Uniform spatial partitioning grid whose voxels hold at most one object.
+ * @ingroup spatial_partitioning
+ */
+
 
 #include <optional>
 
 #include "uspg_abstract.hpp"
 
-/*
-    uspg_3d is a Uniform Space Partitionning Grid where each voxel can contain only 
-    one object. 
-*/
-
-
+/**
+ * @brief Uniform spatial partitioning grid whose voxels hold at most one object.
+ *
+ * Each voxel stores an optional value; placing an object overwrites the previous one. Used
+ * with `unsigned short` region labels by the automatic_polarizer.
+ *
+ * @tparam T Type of the stored value.
+ * @ingroup spatial_partitioning
+ */
 template <typename T>
 class uspg_3d: public uspg_abstract
 {
@@ -19,7 +28,7 @@ class uspg_3d: public uspg_abstract
     private: 
 
         //Each element of this vector corresponds to a voxel of the discretized space
-        //The objects contained in a voxel are in turn stored in a std::forward_list
+        //and holds at most one object
         std::vector<std::optional<T>> voxel_lst_;
 
         friend class uspg_3d_tester;
@@ -36,7 +45,14 @@ class uspg_3d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------        
-        //Construct the USPG based on its dimensions
+        /**
+         * @brief Construct a grid covering a box.
+         * @param min_x,min_y,min_z Minimum corner, m.
+         * @param max_x,max_y,max_z Maximum corner, m.
+         * @param voxel_size        Voxel edge length, m.
+         * @param nb_objects        Number of objects that will be stored.
+         * @throws unstable_simulation_exception See update_dimensions().
+         */
         uspg_3d(const double min_x, const double min_y, const double min_z, 
                 const double max_x, const double max_y, const double max_z, 
                 const double voxel_size, const size_t nb_objects) noexcept(false){
@@ -48,7 +64,10 @@ class uspg_3d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Update the grid dimensions
+    /**
+     * @brief Empty the grid and resize it to cover a box.
+     * @copydetails uspg_abstract::update_dimensions()
+     */
     void update_dimensions(const size_t nb_objects, const double min_x, const double min_y, const double min_z, 
         const double max_x, const double max_y, const double max_z) noexcept(false) override{
 
@@ -99,7 +118,7 @@ class uspg_3d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Returns the content of the voxel
+    /** @brief Return the value of the voxel (i, j, k), or an empty optional if none was placed. */
     const std::optional<T> get_voxel_content(const unsigned voxel_x_id, const unsigned voxel_y_id, const unsigned voxel_z_id) const noexcept{
         //Get the id of the voxel
         size_t voxel_id = get_voxel_index(voxel_x_id, voxel_y_id, voxel_z_id);
@@ -108,7 +127,11 @@ class uspg_3d: public uspg_abstract
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Place an object in the uspg
+    /**
+     * @brief Store a copy of an object in the voxel that contains a point, replacing its value.
+     * @param object Object to store.
+     * @param pos_x,pos_y,pos_z Position, m. Must lie inside the grid.
+     */
     void place_object(const T& object, const double pos_x, const double pos_y, const double pos_z) noexcept {
         //Get the index of the voxel where the object should be inserted
         const size_t voxel_id = get_voxel_index(pos_x, pos_y, pos_z);
@@ -117,6 +140,7 @@ class uspg_3d: public uspg_abstract
         voxel_lst_[voxel_id] = object;
     }
 
+    /** @brief Overload of place_object() for an rvalue object. */
     void place_object(T&& object, const double pos_x, const double pos_y, const double pos_z) noexcept {
         //Get the index of the voxel where the object should be inserted
         const size_t voxel_id = get_voxel_index(pos_x, pos_y, pos_z);
@@ -126,10 +150,12 @@ class uspg_3d: public uspg_abstract
     }
 
 
+    /** @brief Overload of place_object() taking a position vector, m. */
     void place_object(const T& object, const vec3& pos) noexcept{
         place_object(object, pos.dx(), pos.dy(), pos.dz());
     }
 
+    /** @brief Overload of place_object() for an rvalue object and a position vector, m. */
     void place_object(T&& object, const vec3& pos) noexcept{
         place_object(object, pos.dx(), pos.dy(), pos.dz());
     }
@@ -137,7 +163,7 @@ class uspg_3d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //This method is similar to place object except that it directly takes the voxel index as input
+    /** @brief Store a copy of an object in the voxel (i, j, k), replacing its value. */
     void update_voxel(const unsigned voxel_x_index, const unsigned voxel_y_index,const unsigned voxel_z_index,  const T& object) noexcept{
         //Get the id of the voxel
         size_t voxel_id = get_voxel_index(voxel_x_index, voxel_y_index, voxel_z_index);
@@ -150,11 +176,18 @@ class uspg_3d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Given a position in space returns a list of copies the neighboring objects
+    /**
+     * @brief Return copies of the values in the 3 x 3 x 3 voxels around a point.
+     *
+     * Empty voxels and voxels outside the grid are skipped.
+     *
+     * @param pos Position, m. Must lie inside the grid.
+     */
     std::forward_list<T> get_neighborhood(const vec3& pos) const noexcept{
         return get_neighborhood(pos.dx(), pos.dy(), pos.dz());
     }
     
+    /** @brief Overload of get_neighborhood() taking the three coordinates, m. */
     std::forward_list<T> get_neighborhood(const double pos_x, const double pos_y, const double pos_z) const noexcept{
         //Make sure the object is in the grid
         assert(pos_x >= min_x_ && pos_x < max_x_);
@@ -171,7 +204,7 @@ class uspg_3d: public uspg_abstract
 
 
 
-    //Get all the objects in the voxels arround the voxel of the given object
+    /** @brief Overload of get_neighborhood() taking the voxel index (i, j, k). */
     std::forward_list<T> get_neighborhood(const unsigned object_voxel_x_id, const unsigned object_voxel_y_id, const unsigned object_voxel_z_id) const noexcept{
         //Store the nighboring objects in this vector
         std::forward_list<T> neighboring_objects; 
@@ -206,7 +239,7 @@ class uspg_3d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Return the total content of the grid
+    /** @brief Return copies of the values of all non-empty voxels. */
     std::forward_list<T> get_grid_content() const noexcept{
 
         //Store a copy of all the element contained in the grid

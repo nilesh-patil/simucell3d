@@ -1,6 +1,13 @@
 #ifndef DEF_CONTACT_NODE_FACE_VIA_SPRING
 #define DEF_CONTACT_NODE_FACE_VIA_SPRING
 
+/**
+ * @file contact_node_face_via_spring.hpp
+ * @brief Contact model 0: springs between nodes and faces of adjacent cells.
+ * @note The class is compiled only when `CONTACT_MODEL_INDEX` is 0.
+ * @ingroup contact_models
+ */
+
 
 #include "global_configuration.hpp"
 
@@ -10,18 +17,29 @@
      #include "contact_model_abstract.hpp"
 
 
-     /*
-     This class contains the methods to compute the contact forces between pairs of nodes and faces belonging to adjacent cells. 
-     The contact forces are calculated in the following way: 
-
-     1 -> All the axias-aligned bounding boxes of the faces are computed and stored in a vector
-     2 -> The faces are stored in an uniform space partitioning grid (USPG) based on their AABB
-     3 -> For each point, we used the USPG to find the faces that are close to it
-     4 -> We check if the point is within the AABB of the face
-     5 -> If so, we compute the minimal distance between the point and the face
-     6 -> The contact force is the computed based on the minimum distance and the contact parameters of the face
-
-     */
+     /**
+      * @brief Contact model 0 (`CONTACT_MODEL_INDEX 0`): node-face springs.
+      *
+      * The padded AABBs of all faces are stored in the uniform spatial partitioning grid of the
+      * base class. For every node, each face of another cell whose AABB contains the node is
+      * tested: the distance d between the node and the closest point of the face decides the force,
+      * which acts along the line between the two points and is shared with the face nodes by
+      * barycentric weights. With A the face area, c the adhesion cutoff, omega the
+      * `adherence_strength` and xi the `repulsion_strength` of the face type (N/m^3):
+      *
+      * - node on the outer side of the face and d < c: adhesion of magnitude omega A d for
+      *   d < c/2, and omega A (c - d) for d >= c/2;
+      * - node on the inner side and d below the repulsion cutoff: repulsion of magnitude xi A d.
+      *
+      * The side is inverted for an epithelial node against an ECM face and for a nucleus node
+      * against an epithelial face. With `POLARIZATION_MODE_INDEX 1`, each face in contact is
+      * reported to its cell for polarization. The `contact_detection_algorithm` parameter has no
+      * effect on this model.
+      *
+      * @note Forces are added without atomic operations while several threads may update the
+      *       same node.
+      * @ingroup contact_models
+      */
 
 
      class contact_node_face_via_spring: public contact_model_abstract{
@@ -39,16 +57,33 @@
           contact_node_face_via_spring& operator=(const contact_node_face_via_spring& v) = delete;//copy assignment operator
           contact_node_face_via_spring& operator=(contact_node_face_via_spring&& v) = default;     //move assignment operator 
 
-          //The trivial constructor of the contact model
+          /**
+           * @brief Construct the model; see contact_model_abstract::contact_model_abstract().
+           * @param sim_parameters Numerical parameters (contact cutoffs in m, minimum edge length in m).
+           */
           contact_node_face_via_spring(const global_simulation_parameters& sim_parameters) noexcept(false);
 
-          //Find the contacts between the faces of the mesh and apply the contact forces
+          /**
+           * @brief Number the faces, fill the face grid and apply the contact forces.
+           * @param cell_lst All cells of the simulation.
+           * @throws unstable_simulation_exception If the domain has diverged and the face grid cannot
+           *         be built.
+           */
           void run(const std::vector<cell_ptr>& cell_lst) noexcept(false) override;
 
-          //Find the faces that are within a distance below the contact cutoff and apply adhesive or repulsive forces 
+          /**
+           * @brief For every node, apply the contact forces with the faces of other cells whose AABB
+           *        contains it.
+           * @param cell_lst All cells of the simulation.
+           */
           void resolve_contacts(const std::vector<cell_ptr>& cell_lst) noexcept;
 
-          //Compute the distance between the 2 faces and apply the contact forces
+          /**
+           * @brief Compute the node-face distance and apply the adhesion or repulsion force.
+           * @param c1 Cell that owns the node.
+           * @param n  Node of `c1`.
+           * @param f  Face of another cell.
+           */
           void apply_contact_forces(cell_ptr c1, node& n, face* f) const noexcept;
 
      };

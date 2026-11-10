@@ -15,23 +15,30 @@
 #include "poisson_sampling.hpp"
 #include "ball_pivoting_algorithm.hpp"
 
-/*
-    This class has no constructor and all its methods are static. They can therefore
-    be called without instantiating the class. 
+/**
+ * @file
+ * @brief Re-triangulation of an input cell surface with edge lengths close to l_min.
+ * @ingroup triangulation
+ */
 
-    Given an arbitrary surface, this class returns a corresponding triangulated surface
-    where the lengths of the edges are comprised in the range [l_min, l_max]. This class 
-    does it by following the given procedure:
-
-    1 - Coarsely triangulate the surface, by connecting the edges of each face to the face center
-    2 - Sample the newly triangulated surface with the Poisson Disc Sampling algorithm
-    3 - Reconstruct a finely triangulated surface with the Ball Pivoting Algorithm
-    4 - Call the edge_manager to make sure that the lengths of the edges are in the prescribed range
-
-    This class will throw an error if it receives a surface that is not closed
-
-*/
-
+/**
+ * @brief Re-triangulates a closed input surface; all methods are static.
+ *
+ * Used by simulation_initializer when perform_initial_triangulation is enabled. The
+ * procedure is:
+ *
+ * 1. Coarsely triangulate the surface by connecting the edges of each non-triangular face
+ *    to the face centre.
+ * 2. Convert it to a cell, which orients the faces outward and checks that the surface is
+ *    closed and manifold.
+ * 3. Sample the surface with Poisson-disk sampling (points at least l_min apart).
+ * 4. Reconstruct a triangulated surface from the points with the ball pivoting algorithm.
+ *
+ * The edge lengths of the result are brought into [l_min, l_max] later by the local mesh
+ * refiner.
+ *
+ * @ingroup triangulation
+ */
 
 
 class initial_triangulation
@@ -45,7 +52,18 @@ class initial_triangulation
         initial_triangulation& operator=(const initial_triangulation& c) = delete;//copy assignment operator
         initial_triangulation& operator=(initial_triangulation&& c) = delete;     //move assignment operator 
 
-        //The main function from which the surface is triangulated
+        /**
+         * @brief Re-triangulate a closed surface.
+         * @param l_min Minimum edge length, m.
+         * @param l_max Maximum edge length, m (used to bound the number of sampled points).
+         * @param surface Input surface; faces may have more than 3 nodes.
+         * @param cell_id Id of the cell (not used by the current implementation).
+         * @return The triangulated surface.
+         * @throws initial_triangulation_exception if the surface has fewer than 4 nodes, a
+         *         face with fewer than 3 nodes, is not a valid closed surface, or would need more
+         *         points than an unsigned index can hold.
+         * @throws bpa_exception if the ball pivoting algorithm fails.
+         */
         static mesh triangulate_surface(
             double const l_min, 
             double const l_max, 
@@ -53,11 +71,23 @@ class initial_triangulation
             const unsigned cell_id
         ) noexcept(false); 
 
-        //Coarsely triangulate the mesh by connecting the edges of each face to the center of the face
+        /**
+         * @brief Triangulate, in place, every face with more than 3 nodes by connecting its
+         *        edges to a new node at the face centre.
+         */
         static void coarse_triangulation(mesh& surface) noexcept; 
 
+        /**
+         * @brief Convert a triangulated surface to a cell with outward-oriented faces.
+         * @throws initial_triangulation_exception if the cell initialization reports a mesh
+         *         integrity error.
+         */
         static cell_ptr convert_mesh_to_cell(const mesh& surface) noexcept(false); //throw mesh_integrity_exception
 
+        /**
+         * @brief Poisson-disk point cloud of the surface of a cell, points at least @p l_min
+         *        (m) apart; see poisson_sampling::compute_poisson_point_cloud().
+         */
         static std::vector<oriented_point> generate_poisson_point_cloud(const double l_min, const cell_ptr c) noexcept;
 
 };

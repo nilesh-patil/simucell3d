@@ -1,6 +1,12 @@
 #ifndef DEF_CONTACT_DETECTION_STRATEGY
 #define DEF_CONTACT_DETECTION_STRATEGY
 
+/**
+ * @file contact_detection_strategy.hpp
+ * @brief Interface of the broad-phase contact detection strategies and the aabb box type.
+ * @ingroup contact_models
+ */
+
 #include <vector>
 #include <memory>
 #include "vec3.hpp"
@@ -11,21 +17,22 @@ class cell;
 class face;
 
 //---------------------------------------------------------------------------------------------
-// AABB structure for axis-aligned bounding boxes
-// Used by contact detection strategies for spatial acceleration
-//---------------------------------------------------------------------------------------------
+/**
+ * @brief Axis-aligned bounding box, passed to the contact detection strategies.
+ * @ingroup contact_models
+ */
 struct aabb {
-    vec3 min_corner;
-    vec3 max_corner;
+    vec3 min_corner;    ///< Corner with the smallest coordinates, m.
+    vec3 max_corner;    ///< Corner with the largest coordinates, m.
 
-    // Default constructor
+    /** @brief Box with both corners at the origin. */
     aabb() : min_corner(0., 0., 0.), max_corner(0., 0., 0.) {}
 
-    // Constructor with corners
+    /** @brief Box from its two corners (m). */
     aabb(const vec3& min_pt, const vec3& max_pt)
         : min_corner(min_pt), max_corner(max_pt) {}
 
-    // Constructor from 6 doubles (min_x, min_y, min_z, max_x, max_y, max_z)
+    /** @brief Box from six coordinates (min_x, min_y, min_z, max_x, max_y, max_z), m. */
     aabb(double min_x, double min_y, double min_z,
          double max_x, double max_y, double max_z)
         : min_corner(min_x, min_y, min_z), max_corner(max_x, max_y, max_z) {}
@@ -36,59 +43,45 @@ struct aabb {
 
 //---------------------------------------------------------------------------------------------
 /**
- * Abstract base class for contact detection strategies.
+ * @brief Interface of the broad-phase contact detection strategies.
  *
- * This interface defines the contract for contact detection algorithms
- * used in SimuCell3D. The Strategy pattern allows runtime selection
- * between different spatial acceleration structures:
+ * A strategy returns, for a query position, the faces of other cells that may be in contact
+ * with it; the contact model then performs the exact distance test. The strategy is selected
+ * at run time by the `contact_detection_algorithm` parameter:
  *
- * - USPG (Uniform Spatial Partitioning Grid): The established baseline
- *   algorithm that partitions space into uniform voxels. Provides O(1)
- *   neighbor queries but may have redundant checks for sparse systems.
+ * - contact_detection_uspg_strategy (`uspg`): uniform spatial partitioning grid (USPG) of
+ *   face AABBs; a query visits the voxel of the point and its 26 neighbours.
+ * - contact_detection_sap_strategy (`sweep_and_prune`): sweep and prune over the AABBs of the
+ *   cells; a query visits the faces of the cells whose AABB overlaps that of the query cell.
  *
- * - Sweep-and-Prune (SAP): Alternative algorithm that sorts AABBs along
- *   axes and uses interval overlap tests. More efficient for systems
- *   with varying density or clustering.
+ * prepare() is called once per iteration, serially, before the parallel contact loop; it may
+ * throw unstable_simulation_exception when the domain has diverged. get_candidate_faces() is
+ * called once per node inside the parallel loop and does not throw.
  *
- * Design Philosophy:
- * - prepare() is called once per simulation iteration to build/update
- *   the acceleration structure with current face positions
- * - get_candidate_faces() is called many times (once per node) to retrieve
- *   faces that may be in contact with a query node
- * - get_candidate_faces() is noexcept: it runs inside the parallel contact loop.
- *   prepare() runs serially before that loop and may throw
- *   unstable_simulation_exception when the domain has diverged (USPG voxel count)
+ * Usage:
+ * @code
+ * auto strategy = contact_detection_strategy::create(algorithm, params);
+ * strategy->prepare(cells, faces, aabbs, bounds);
+ * // for each node n of cell c:
+ * std::vector<face*> candidates = strategy->get_candidate_faces(n.pos(), c);
+ * @endcode
  *
- * Usage Pattern:
- *   auto strategy = contact_detection_strategy::create(algorithm, params);
- *   strategy->prepare(cells, faces, aabbs, bounds);
- *   for (node : nodes) {
- *       auto candidates = strategy->get_candidate_faces(node.pos(), node.cell());
- *       // ... process candidates ...
- *   }
+ * @ingroup contact_models
  */
 class contact_detection_strategy {
 public:
     virtual ~contact_detection_strategy() = default;
 
     /**
-     * Prepare the acceleration structure with current simulation data.
+     * @brief Build the acceleration structure from the current face positions.
      *
-     * This method is called once per iteration to build/update the
-     * spatial acceleration structure (grid, sorted lists, etc.).
-     * The implementation should be optimized for incremental updates
-     * when possible.
+     * Called once per iteration from a single thread, before the parallel contact loop.
      *
-     * Thread Safety: This method should be called from a single thread
-     * before parallel contact detection begins.
-     *
-     * @param cells   All cells in the simulation (for cell exclusion context)
-     * @param faces   All faces from all cells (for contact detection)
-     * @param aabbs   Axis-aligned bounding boxes for each face (parallel to faces vector)
-     * @param bounds  Simulation domain bounds (max corner - used for grid sizing)
-     *
-     * @note The aabbs vector must have the same size as the faces vector
-     * @note bounds represents the maximum extents of the simulation domain
+     * @param cells   All cells of the simulation.
+     * @param faces   All faces of all cells.
+     * @param aabbs   Bounding box of each face, in the same order as `faces`, m.
+     * @param bounds  Maximum corner of the simulation domain, m (not used by every strategy).
+     * @throws unstable_simulation_exception If the domain has diverged (USPG strategy).
      */
     virtual void prepare(
         const std::vector<cell*>& cells,
@@ -98,22 +91,15 @@ public:
     ) noexcept(false) = 0;
 
     /**
-     * Get candidate faces for contact detection at a query position.
+     * @brief Return the faces that may be in contact with a point.
      *
-     * Returns faces that may be in contact with a node at query_pos.
-     * The query_cell parameter is used to exclude faces belonging to
-     * the same cell (to avoid self-contact false positives).
+     * The result is a superset of the faces in contact: the caller still performs the AABB
+     * and distance tests.
      *
-     * Performance: This method is called in the innermost loop of contact
-     * detection (once per node). Implementations should minimize allocations
-     * and optimize for cache efficiency.
-     *
-     * @param query_pos  Position to query (typically a node position)
-     * @param query_cell Cell to exclude from results (nullptr for no exclusion)
-     * @return Vector of candidate face pointers (may be empty)
-     *
-     * @note Returned faces are candidates only - distance checks still required
-     * @note The returned vector is a fresh copy; caller owns it
+     * @param query_pos  Position to query (usually a node position), m.
+     * @param query_cell Cell whose own faces are excluded, or nullptr for no exclusion.
+     * @return A new vector of candidate faces (possibly empty).
+     * @note Safe to call concurrently from several threads after prepare().
      */
     virtual std::vector<face*> get_candidate_faces(
         const vec3& query_pos,
@@ -121,30 +107,17 @@ public:
     ) const noexcept = 0;
 
     /**
-     * Return the algorithm type for runtime identification.
-     *
-     * Used for diagnostics, logging, performance monitoring, and
-     * to verify correct strategy instantiation in tests.
-     *
-     * @return The ContactDetectionAlgorithm enum value
+     * @brief Return the algorithm implemented by this strategy.
+     * @return ContactDetectionAlgorithm::USPG or ContactDetectionAlgorithm::SWEEP_AND_PRUNE.
      */
     virtual ContactDetectionAlgorithm algorithm_type() const noexcept = 0;
 
     /**
-     * Factory method to create strategy instances.
-     *
-     * Creates and returns a concrete strategy implementation based on
-     * the specified algorithm type. This factory ensures proper
-     * encapsulation and allows runtime algorithm selection.
-     *
-     * Thread Safety: This method is thread-safe and can be called
-     * from any thread.
-     *
-     * @param algorithm The algorithm to instantiate (USPG or SWEEP_AND_PRUNE)
-     * @param params    Simulation parameters (may contain algorithm-specific settings)
-     * @return Unique pointer to the created strategy (never null)
-     *
-     * @note The factory never returns null - unknown algorithms default to USPG
+     * @brief Create the strategy for an algorithm.
+     * @param algorithm USPG or SWEEP_AND_PRUNE. Any other value, including ADAPTIVE, creates the
+     *        USPG strategy; the adaptive switch is made by the contact model.
+     * @param params    Numerical parameters (contact cutoffs and minimum edge length, m).
+     * @return The new strategy; never null.
      */
     static std::unique_ptr<contact_detection_strategy> create(
         ContactDetectionAlgorithm algorithm,
