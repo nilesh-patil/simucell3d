@@ -1,0 +1,63 @@
+cff-version: 1.2.0
+message: >-
+  If you use SimuCell3D in your research, please cite the article in
+  "preferred-citation".
+title: SimuCell3D
+type: software
+abstract: >-
+  SimuCell3D simulates the mechanics of three-dimensional tissues at
+  subcellular resolution, with cells represented as deformable triangulated
+  surfaces with polarized membranes, nuclei, extracellular matrix and lumens.
+authors:
+  - family-names: Runser
+    given-names: Steve
+    affiliation: >-
+      Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
+      Basel, Switzerland
+  - family-names: Vetter
+    given-names: Roman
+    affiliation: >-
+      Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
+      Basel, Switzerland
+  - family-names: Iber
+    given-names: Dagmar
+    affiliation: >-
+      Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
+      Basel, Switzerland
+version: 2.1.0
+license: BSD-3-Clause
+repository-code: "https://github.com/nilesh-patil/simucell3d"
+url: "https://nilesh-patil.github.io/simucell3d/"
+keywords:
+  - tissue mechanics
+  - cell-based model
+  - deformable cell model
+  - cell polarization
+  - simulation
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.10796908
+    description: Source code of SimuCell3D 1.0 (Zenodo archive)
+  - type: doi
+    value: 10.1038/s43588-024-00620-9
+    description: The article describing SimuCell3D
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Runser
+      given-names: Steve
+    - family-names: Vetter
+      given-names: Roman
+    - family-names: Iber
+      given-names: Dagmar
+  title: >-
+    SimuCell3D: three-dimensional simulation of tissue mechanics with cell
+    polarization
+  journal: Nature Computational Science
+  volume: 4
+  start: 299
+  end: 309
+  year: 2024
+  month: 4
+  doi: 10.1038/s43588-024-00620-9
+  url: "https://doi.org/10.1038/s43588-024-00620-9"
