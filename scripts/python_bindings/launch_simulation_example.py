@@ -1,11 +1,23 @@
+"""Run a SimuCell3D simulation from Python and read its cell statistics.
+
+Example of the ``simucell3d_python_wrapper`` module: sets up one epithelial cell type with two
+face types, runs a single cell from ``data/input_meshes/big_sphere.vtk`` for 1e-3 s of
+simulated time, and saves the per-cell statistics to
+``build/python_sim_example/cell_statistics_data.csv``.
+
+The module must have been built in the ``build/`` folder of this checkout with
+``-DENABLE_PYTHON_BINDINGS=TRUE``. Requires pandas. Usage, from any directory::
+
+    python3 scripts/python_bindings/launch_simulation_example.py
+
+See the user guide, chapter "Python interface".
+"""
+
 import sys
 from os import path, getcwd, _exit
 import pandas as pd
 from io import StringIO
 
-"""
-This python script lauches a simucell3d simulation and retrieves the cell statistics data.
-"""
 
 
 #--------------------------------------------------------------------------------------------------------

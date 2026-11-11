@@ -1,3 +1,21 @@
+"""Collect the results of a parameter screen launched with ``launch_screening.py``.
+
+Usage::
+
+    python3 collect_screening_data.py /abs/path/output_folder/screen_name
+
+Creates ``summary_folder/`` in the screen folder with the last ``cell_data`` and ``face_data``
+mesh and the statistics CSV of every run, copies of ``parameters/`` and ``std_out_err/``, and
+the parameter table with the added columns ``file_count`` (number of output mesh files of the
+run) and ``has_crashed``. A run counts as crashed if its output folder or its
+``std_out_err/stdout_<i>.txt`` is missing, or if the last non-empty line of that file is not
+``simucell3d exit status: 0`` (the line that ``launch_screening.py`` appends when the run
+ends; a job killed by Slurm has no such line).
+
+The screen folder must contain exactly one ``.csv`` file. The table in the screen folder is
+overwritten with the extended table. The script stops if the summary folder already exists.
+"""
+
 from os import path, sep, mkdir, system, _exit, getlogin, listdir, getcwd, sep
 from glob import glob
 from sys import argv
@@ -8,13 +26,6 @@ import re
 
 
 
-"""
----------------------------------------------------------------------------------------------------------------------------
-
-    This scripts collects the results of a parameter screening and generate a summary of the results
-
----------------------------------------------------------------------------------------------------------------------------
-"""
 
 
 

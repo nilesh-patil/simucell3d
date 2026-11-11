@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Reproduce the iteration-~9640 segfault of the paper-config run under gdb,
-# using a Release-equivalent binary built with debug symbols (build-dbg/).
-# Prints all-thread backtraces on SIGSEGV; also enables core dumps as backup.
+# Run the long-run growth configuration (parameters/longrun_fast_growth.xml) under gdb,
+# with a binary built with debug symbols (default build directory: build-dbg/, for example
+# CMAKE_BUILD_TYPE=RelWithDebInfo). Prints the backtraces of all threads on a crash and
+# writes a core file into the log directory.
 #
 # Usage: bash scripts/runs/launch_crash_repro.sh [build-dir] [run-name]
 set -euo pipefail

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-# Launch the 24h wall-clock-capped, adaptive-schedule SimuCell3D run that
-# reproduces the ~20K-cell fast-growth benchmark (parallel_benchmark_20260124_091702).
+# Launch the long-run growth simulation (parameters/longrun_fast_growth.xml) in the
+# background with the adaptive schedule and a diagnostics CSV. It grows a tissue from one
+# cell; the run continues until the simulation ends or the process is stopped.
+#
+# Usage: bash scripts/runs/launch_longrun_20k.sh     (THREADS=N to pass --threads=N)
+# Output: simulation_results/longrun_20k_fast_growth/ (deleted at start),
+#         log and pid in simulation_results/longrun_20k_fast_growth_logs/
 set -euo pipefail
 
 PROJECT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -29,7 +34,7 @@ export OMP_DYNAMIC=false
 THREADS_FLAG=""
 if [[ -n "${THREADS:-}" ]]; then THREADS_FLAG="--threads=$THREADS"; fi
 
-# No wall-clock cap: run indefinitely (beyond 24h) until it completes or is stopped manually.
+# No wall-clock cap: the run continues until it completes or is stopped manually.
 # run.log lives OUTSIDE the output dir because the binary wipes --output-dir at startup.
 # stdbuf -oL -eL makes run.log line-buffered. Redirected to a file, stdout is otherwise
 # flushed in ~4 KB blocks, i.e. 10-25 min apart at ~30 s/iteration, which looks like a stall.

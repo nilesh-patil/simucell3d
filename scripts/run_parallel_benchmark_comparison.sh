@@ -157,7 +157,7 @@ EXAMPLES:
     $(basename "$0") --dry-run --all-modes
 
     # Resume an interrupted run
-    $(basename "$0") --resume=doc/working/parallel_benchmark_20241127_100000
+    $(basename "$0") --resume=doc/working/parallel_benchmark_<timestamp>
 
     # Use custom v1.0 path
     $(basename "$0") --v1-root=/path/to/v1.0 --all-modes

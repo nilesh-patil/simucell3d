@@ -628,7 +628,7 @@ def validate_benchmark(
         ValidationReport with all issues found
 
     Example:
-        >>> report = validate_benchmark(Path('doc/working/parallel_benchmark_20260126_093337'))
+        >>> report = validate_benchmark(Path('doc/working/parallel_benchmark_<timestamp>'))
         >>> if not report.is_valid:
         ...     report.export_html('validation_report.html')
     """

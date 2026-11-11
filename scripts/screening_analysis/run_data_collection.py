@@ -1,10 +1,21 @@
+"""Submit the Slurm jobs that compute the dashboard metrics of a parameter screen.
+
+Set ``root_dir`` (the screen folder) and ``screening_csv_file_name`` in the ``__main__``
+section, then run from this directory (``scripts/screening_analysis``)::
+
+    python3 run_data_collection.py
+
+Four jobs (``utils/compute_statistics.py``, ``utils/compute_IoU_euler.py``,
+``utils/compute_interpenetration_euler.py``, ``utils/compute_num_iterations.py``) write their
+results to ``<root_dir>/dashboard_files/``. The parameter table is expected at
+``<root_dir>/summary_folder/<screening_csv_file_name>``. See the user guide, chapter "Parameter
+screening".
+"""
+
 import os 
 import subprocess
 from typing import List, Tuple
 
-'''
-Run this script to launch all the jobs that collect data from a parameter screening run.
-'''
 
 #------------------------------------------------------------------------------------------------------
 def write_sbatch_command(

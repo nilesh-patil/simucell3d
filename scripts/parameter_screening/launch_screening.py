@@ -1,3 +1,26 @@
+"""Launch a SimuCell3D parameter screen as a Slurm job array.
+
+Usage, from this directory (``scripts/parameter_screening``)::
+
+    python3 launch_screening.py /abs/path/parameter_table.csv screen_name /abs/path/output_folder
+
+Steps:
+
+1. Create ``<output_folder>/<screen_name>/`` with the sub-folders ``parameters/``,
+   ``simulation_outputs/`` and ``std_out_err/``, and copy the parameter table into it.
+2. Write ``parameters/parameters_<i>.xml`` for row i (from 1) of the table, using the template
+   in ``parameter_file_model.py``; the table needs one column per template placeholder.
+3. Create ``build_<screen_name>/`` in the repository root (two levels above the working
+   directory; it must not exist) and build SimuCell3D there in Release mode.
+4. Submit a Slurm job array with one ``./simucell3d parameters_<i>.xml`` task per row. Task i
+   writes its output to ``std_out_err/stdout_<i>.txt`` and appends the line
+   ``simucell3d exit status: <code>`` when the simulation ends; ``collect_screening_data.py``
+   uses it to detect failed runs.
+
+Edit the ``sbatch`` command below (resources and e-mail address) for your cluster. See the user
+guide, chapter "Parameter screening".
+"""
+
 from os import _exit, path, getcwd, chdir, system, sep, getlogin, mkdir
 from sys import argv
 import numpy as np
@@ -6,29 +29,6 @@ from shutil import copyfile
 from parameter_file_model import *
 
 
-"""
----------------------------------------------------------------------------------------------------------------------------
-
-    This scripts is designed to launch parameter screenings on the Euler cluster. 
-
-    Step 1: read different inputs from the command line:
-
-        python3 launch_screening [path_to_parameters_table] [name_of_the_screen]  
-
-    Step 2: Create a folder on the scratch with the name of the screen
-
-    Step 3: Generate all the parameters_[sim_id].xml files in the folder on the scratch
-
-    Step 4: Create a folder in the project root with the name of the screen
-        ~/SimuCell3D/screen_name_build
-
-    Step 5:
-        Build in this folder the program with the desired configuration
-
-    Step 6: Create a job array with the code created in this build folder
-
----------------------------------------------------------------------------------------------------------------------------
-"""
 
 
 
