@@ -1,40 +1,17 @@
-# Nature Paper Golden Masters
+# Reference outputs for the paper figures
 
-This directory stores golden master VTK files for validating Nature paper figure reproduction.
+This directory is reserved for reference simulation outputs ("golden masters") used to check
+that a build still reproduces selected figures of Runser, Vetter & Iber (2024),
+*Nature Computational Science*, <https://doi.org/10.1038/s43588-024-00620-9>.
 
-## Directory Structure
+It contains no reference outputs yet. VTK files added here are stored with Git LFS
+(`.gitattributes`).
 
-```
-nature_paper/
-  fig3e/           # Figure 3e: Monolayer/Multilayer transition
-  fig4cd/          # Figure 4c-d: Pseudostratified epithelia
-  fig1e/           # Figure 1e: 125K cell scaling
-```
+The parameter files for the Fig. 3e monolayer and multilayer cases are
+`parameters/benchmarks/fig3e_monolayer.xml` and `parameters/benchmarks/fig3e_multilayer.xml`;
+`scripts/benchmarking/scientific/reproduce_fig3e.sh` runs both. Results of 2.x differ from 1.0,
+the version used for the paper (see `CHANGELOG.md`), so a reference output must name the version
+and commit that produced it.
 
-## Generating Golden Masters
-
-1. Build SimuCell3D in Release mode:
-   ```bash
-   cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j$(nproc)
-   ```
-
-2. Run the reproduction script:
-   ```bash
-   scripts/benchmarking/scientific/reproduce_fig3e.sh
-   ```
-
-3. Copy the final VTK output to this directory:
-   ```bash
-   cp simulation_results/nature_fig3e/monolayer/final.vtk baselines/nature_paper/fig3e/monolayer.vtk
-   cp simulation_results/nature_fig3e/multilayer/final.vtk baselines/nature_paper/fig3e/multilayer.vtk
-   ```
-
-4. Commit with Git LFS (VTK files are tracked automatically):
-   ```bash
-   git add baselines/nature_paper/
-   git commit -m "chore: update Nature paper golden masters"
-   ```
-
-## VTK File Storage
-
-VTK files are stored via Git LFS (configured in `.gitattributes`).
+See the testing and benchmarking pages of the developer guide (`doc/developers/testing.md`,
+`doc/developers/benchmarking.md`).
