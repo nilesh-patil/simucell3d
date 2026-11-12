@@ -117,6 +117,14 @@ is reported so that you can see how often it acted.
   `std::bad_optional_access`. The same code is in 1.0. The cell is now removed instead (see
   Added safeguards).
 
+- Six error checks never took effect: in the time integration (unsupported combinations of
+  compile-time models) and in the automatic polarizer (an unknown region label), the error object
+  was created but not thrown. These branches are not compiled in the default configuration.
+- A parameter file that is not valid XML was reported as "could not be found ... must be an
+  absolute path". The reader now reports a missing file, an unreadable file and an XML parse error
+  (with its line) separately; relative paths are accepted, as they always were.
+- `compute_IoU_euler.py` failed with `UnboundLocalError` when given explicit indexes.
+
 ### Performance
 
 - One OpenMP thread is pinned to each physical core by default. Previously threads could end up
@@ -139,9 +147,25 @@ is reported so that you can see how often it acted.
 - The project was renamed from DCM to SimuCell3D, and the source layout and build were
   reorganised. *(2.0.0)*
 - Per-iteration diagnostics CSV, written with `--diagnostics-csv=PATH`. *(2.0.0)*
-- Four GitHub Actions workflows: CI (Release, Debug, AddressSanitizer, UndefinedBehaviorSanitizer,
-  latency profiling, format check) and pull-request, nightly and weekly benchmarks. *(2.0.0)*
-- The test suite grew from 126 registered ctest targets in 1.0 to 327.
+- New test and release process. CI (`ci.yml`) builds with GCC 10 and GCC 13 in Release and Debug,
+  with AddressSanitizer and UndefinedBehaviorSanitizer, builds the Python bindings, runs the
+  Python tests and checks that the version is consistent; one summary check, "CI result", gates
+  merges. Tests carry ctest labels for four tiers: `unit`, `integration` (short end-to-end runs
+  of shipped parameter files), `benchmark` (report only) and `long`. The long tier runs on
+  labelled pull requests, release branches and release tags instead of on a schedule; the
+  nightly and weekly benchmark workflows of 2.0.0 are removed. Releases are made from `vX.Y.Z`
+  tags by `release.yml` (see `RELEASING.md`).
+- The test suite grew from 126 registered ctest targets in 1.0 to 340.
+- Documentation rewritten as a Sphinx site (user guide, examples, C++ and Python API reference,
+  developer guide), published for each release at https://nilesh-patil.github.io/simucell3d/.
+  `CITATION.cff` added.
+- Every shipped parameter file states in its header the compile-time switches it needs.
+  `parameters/core/parameters_vesicle_quick.xml` now runs at a stable time step (1e-7 s) for
+  200 steps; at 5e-7 s it removed about a quarter of its cells as unstable within four
+  iterations. The unused `<INMForce>` tag was removed from the shipped parameter files.
+- Parameter screening: `collect_screening_data.py` writes `<screen>/summary_folder/`, the path the
+  analysis scripts read, and detects crashed runs from the exit status that the launcher records,
+  instead of looking for a `mesh_before_crash.vtk` file that is never written.
 - Run launchers live in `scripts/runs/`, and the long-run growth configuration is
   `parameters/longrun_fast_growth.xml`.
 - `simucell3d --version` prints the version and the git commit it was configured from.
@@ -176,12 +200,19 @@ is reported so that you can see how often it acted.
   keeps a link back to it until the coupling maps are rebuilt. This has been present since 1.0.
 - Contact models 0 and 1 still add contact forces without an atomic add. The paper
   configuration uses model 2, which is fixed.
+- **Bending force prefactor.** The bending force uses a prefactor of 3 where the paper's Methods
+  give 2, so it is 1.5 times the gradient of the bending energy written to the output (which uses
+  the paper's formula). This is unchanged since 1.0, so published results include it. See the user
+  guide chapter on cell mechanics.
+- **Unknown command-line options are ignored.** A mistyped `--option` is silently ignored.
+- **Python bindings are only smoke-tested.** CI builds the module and imports it, but no test runs a
+  simulation through it.
 - **Multi-threaded runs are not bit-reproducible.** Two runs with the same input and more than
   one thread can give slightly different results.
 
 ## [2.0.0] - 2026-03-02
 
-First release of this fork.
+First maintenance release after 1.0.
 
 - Renamed the project from DCM to SimuCell3D and reorganised the source layout and build.
 - Adaptive OpenMP scheduling (`--schedule`), a faster spatial grid (vector storage, Morton
