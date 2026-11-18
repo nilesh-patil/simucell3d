@@ -2,14 +2,13 @@
 <?xml version="1.0"?>
 
 
-<!-- 
-    To run the following simimulation, make sure that the configuration file at /include/global_configuration.hpp has the following settings:
-
-        POLARIZATION_MODE_INDEX:    1
-        CONTACT_MODEL_INDEX:        2
-        DYNAMIC_MODEL_INDEX:        0
-
-<! -->
+<!--
+    Required compile-time switches (include/global_configuration.hpp):
+        POLARIZATION_MODE_INDEX  1
+        CONTACT_MODEL_INDEX      2
+        DYNAMIC_MODEL_INDEX      0
+    These are the default values: this file runs on a default build.
+-->
 
 
 
@@ -314,8 +313,6 @@
         <!-- If the cell reach this volume we delete it[L^3]<! -->
         <min_vol>1e-18</min_vol> 
 
-        <!-- The force applied to the nucleus to simulmate the INM [M L / T^2]<! -->
-        <INMForce>0</INMForce> 
 
         <!-- The cell might have different face types with different mechanical properties <! -->
         <face_types>     

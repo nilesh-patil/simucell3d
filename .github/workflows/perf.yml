@@ -1,0 +1,117 @@
+name: Performance A/B
+
+# Informational, never a required check. Builds the pull request and its base on the same
+# runner and times both on the same fixed amount of work (scripts/ci/perf_ab.py), then
+# posts one comment with the result and, when the head build is clearly slower, adds the
+# label `perf: slower`. A maintainer decides what to do with it. The job fails only if the
+# pull request build cannot run the workload at all.
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "include/**"
+      - "lib/**"
+      - "CMakeLists.txt"
+      - "parameters/**"
+      - "scripts/ci/perf_ab.py"
+  workflow_dispatch:
+    inputs:
+      base:
+        description: "Base ref (A)"
+        required: true
+        default: main
+      head:
+        description: "Head ref (B)"
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: perf-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+  CXX: g++-13
+  # Fixed work: 20 iterations of the 434-cell vesicle (default compile switches), mesh
+  # written at the start and the end only.
+  PERF_PARAMETER_FILE: parameters/core/parameters_vesicle_quick.xml
+  PERF_DURATION: "2e-6"
+  PERF_SAMPLING: "2e-6"
+  PERF_REPS: "5"
+
+jobs:
+  ab:
+    name: Same-runner A/B timing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Check out the head (B)
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.head }}
+          path: head
+
+      - name: Check out the base (A)
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.sha || inputs.base }}
+          path: base
+
+      - name: Build both (Release, same flags)
+        run: |
+          for tree in base head; do
+            cmake -S "$tree" -B "build-$tree" -DCMAKE_BUILD_TYPE=Release
+            cmake --build "build-$tree" -j"$(nproc)" --target simucell3d
+          done
+
+      - name: Time both
+        id: ab
+        run: |
+          base_ref=$(git -C base rev-parse --short HEAD)
+          head_ref=$(git -C head rev-parse --short HEAD)
+          python3 head/scripts/ci/perf_ab.py \
+            --base "build-base/src/app/simucell3d" --head "build-head/src/app/simucell3d" \
+            --base-ref "$base_ref" --head-ref "$head_ref" \
+            --parameter-file "head/$PERF_PARAMETER_FILE" \
+            --simulation-duration "$PERF_DURATION" --sampling-period "$PERF_SAMPLING" \
+            --source-dir head --reps "$PERF_REPS" --threads "$(nproc)" \
+            --markdown perf.md --json perf.json
+          cat perf.md >> "$GITHUB_STEP_SUMMARY"
+          echo "verdict=$(python3 -c 'import json; print(json.load(open("perf.json"))["verdict"])')" >> "$GITHUB_OUTPUT"
+
+      - name: Comment on the pull request
+        if: github.event_name == 'pull_request'
+        # Pull requests from forks get a read-only token; the summary above still has the table.
+        continue-on-error: true
+        uses: actions/github-script@v7
+        env:
+          VERDICT: ${{ steps.ab.outputs.verdict }}
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- simucell3d-perf-ab -->';
+            const body = marker + '\n' + fs.readFileSync('perf.md', 'utf8');
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments,
+                                                   { owner, repo, issue_number });
+            const previous = comments.find(c => c.body && c.body.startsWith(marker));
+            if (previous) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: previous.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+            const label = 'perf: slower';
+            if (process.env.VERDICT === 'slower') {
+              await github.rest.issues.addLabels({ owner, repo, issue_number, labels: [label] });
+            } else {
+              try {
+                await github.rest.issues.removeLabel({ owner, repo, issue_number, name: label });
+              } catch (e) { /* the label was not set */ }
+            }

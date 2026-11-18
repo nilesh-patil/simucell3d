@@ -1,4 +1,16 @@
 #include "local_mesh_refiner_tester.hpp"
+#include <map>
+#include <set>
+#include <memory>
+#include <iostream>
+#include <atomic>
+#include <chrono>
+#include <cstring>
+#include <exception>
+#include <new>
+#include <omp.h>
+#include <optional>
+#include <stdexcept>
 
 
 
@@ -924,6 +936,502 @@ int local_mesh_refiner_tester::get_triangle_score_test(){
 
 
 //---------------------------------------------------------------------------------------------------------
+// Refining a cell must never give two adjacent faces opposite windings. The fixture is a daughter cell
+// exactly as cell_divider::create_daughter_cells() handed it to refine_mesh() (coordinates written with 17
+// significant digits), taken from iteration 11000 of the paper-config growth run. split_edge() used to
+// pick the winding of the 4 faces it creates from the stored normals of the 2 faces it replaces; on this
+// cell one of them is stale and points the other way (a merge earlier in the same call folded it over),
+// so 3 directed edges ended up shared by two faces. 25 of 2998 daughter cells of that snapshot did this.
+int local_mesh_refiner_tester::refine_mesh_keeps_winding_consistent_test(){
+
+    mesh_reader reader(std::string(PROJECT_SOURCE_DIR) + "/test/test_triangulation_modules/test_local_mesh_refiner/split_edge_winding_daughter.vtk");
+    std::vector<mesh> cell_mesh_lst = reader.read();
+    assert(cell_mesh_lst.size() == 1);
+
+    cell_ptr c = std::make_shared<cell>(cell_mesh_lst[0], 0);
+    c->initialize_cell_properties();
+
+    const double l_min = 1e-6;
+    local_mesh_refiner lmr(l_min, 3. * l_min, true);
+    lmr.refine_mesh(c);
+
+    //On a consistently oriented closed surface every directed edge belongs to exactly one face
+    std::map<std::pair<unsigned, unsigned>, unsigned> directed_edge_count;
+    for(const face& f : c->get_face_lst()){
+        if(!f.is_used()) continue;
+        const auto [n1_id, n2_id, n3_id] = f.get_node_ids();
+        directed_edge_count[{n1_id, n2_id}]++;
+        directed_edge_count[{n2_id, n3_id}]++;
+        directed_edge_count[{n3_id, n1_id}]++;
+    }
+    const auto nb_bad_edges = std::count_if(directed_edge_count.begin(), directed_edge_count.end(),
+        [](const auto& edge_count){return edge_count.second != 1;});
+
+    if(nb_bad_edges != 0){
+        std::cout << "FAIL: " << nb_bad_edges << " directed edges are shared by two faces after refinement" << std::endl;
+        return 1;
+    }
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+
+//---------------------------------------------------------------------------------------------------------
+// The winding self-check at the end of refine_mesh(): a face whose winding is flipped on purpose must be
+// detected (its 3 edges are then traversed in the same direction by both of their faces), and a refine_mesh()
+// call that splits edges must hand back a consistently and outward oriented surface
+int local_mesh_refiner_tester::winding_self_check_test(){
+
+    //A closed octahedron with outward normals, V = 4/3 r^3
+    const double r = 1e-5;
+    mesh m;
+    m.node_pos_lst = { r,0,0,  -r,0,0,  0,r,0,  0,-r,0,  0,0,r,  0,0,-r };
+    m.face_point_ids = {{0,2,4},{2,1,4},{1,3,4},{3,0,4},{2,0,5},{1,2,5},{3,1,5},{0,3,5}};
+    cell_ptr c = std::make_shared<cell>(m, 0);
+    c->initialize_cell_properties();
+
+    if(local_mesh_refiner::count_inconsistently_wound_edges(c) != 0 || local_mesh_refiner::winding_checksum(c) != 0){
+        std::cout << "FAIL: the octahedron is reported as inconsistently wound before any flip" << std::endl;
+        return 1;
+    }
+
+    //Flip the winding of one face, the first one so that it is also the seed of the re-orientation
+    const auto [f0_n1_id, f0_n2_id, f0_n3_id] = c->face_lst_[0].get_node_ids();
+    face flipped_face(f0_n3_id, f0_n2_id, f0_n1_id, 0);
+    flipped_face.set_is_used(true);
+    flipped_face.set_face_type_id(c->face_lst_[0].get_local_face_type_id());
+    c->face_lst_[0] = flipped_face;
+
+    const unsigned nb_bad_edges = local_mesh_refiner::count_inconsistently_wound_edges(c);
+    if(nb_bad_edges != 3 || local_mesh_refiner::winding_checksum(c) == 0){
+        std::cout << "FAIL: a flipped face must make its 3 edges inconsistent, found " << nb_bad_edges
+                  << " (checksum " << local_mesh_refiner::winding_checksum(c) << ")" << std::endl;
+        return 1;
+    }
+
+    //The edges (1.41e-5 m) are longer than l_max, so refine_mesh() splits them (which propagates the wrong
+    //winding to the new faces) and then runs the self-check. Splitting flat faces at the middle of their
+    //edges leaves the volume unchanged
+    local_mesh_refiner lmr(1e-7, 1.2e-5, false);
+    lmr.refine_mesh(c);
+
+    double signed_volume = 0.;
+    for(const face& f : c->get_face_lst()){
+        if(!f.is_used()) continue;
+        const auto [n1_id, n2_id, n3_id] = f.get_node_ids();
+        signed_volume += c->get_node_lst()[n1_id].pos().dot(c->get_node_lst()[n2_id].pos().cross(c->get_node_lst()[n3_id].pos())) / 6.;
+    }
+    const double expected_volume = 4. / 3. * r * r * r;
+
+    if(local_mesh_refiner::count_inconsistently_wound_edges(c) != 0 || std::abs(signed_volume - expected_volume) > 1e-9 * expected_volume){
+        std::cout << "FAIL: after refine_mesh() " << local_mesh_refiner::count_inconsistently_wound_edges(c)
+                  << " edges are inconsistently wound and the signed volume is " << signed_volume
+                  << " m^3 (expected " << expected_volume << " m^3)" << std::endl;
+        return 1;
+    }
+    return 0;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
+// Helpers of the refine_meshes() tests
+//---------------------------------------------------------------------------------------------------------
+namespace {
+
+//The fixture mesh of refine_mesh_keeps_winding_consistent_test(): a daughter cell of the paper-config run, with
+//edges of the scale of l_min = 1e-6 m. refine_mesh() has real work on it (64 edges shorter than l_min and 12 sliver
+//triangles). Do not use test_1.vtk instead: it is a 10-node mesh at the scale of metres, refine_mesh() does nothing to it.
+mesh read_refiner_fixture(){
+    mesh_reader reader(std::string(PROJECT_SOURCE_DIR) + "/test/test_triangulation_modules/test_local_mesh_refiner/split_edge_winding_daughter.vtk");
+    std::vector<mesh> cell_mesh_lst = reader.read();
+    if(cell_mesh_lst.size() != 1) throw std::runtime_error("the refiner fixture must hold exactly one cell");
+    return cell_mesh_lst[0];
+}
+
+constexpr double fixture_l_min = 1e-6;
+
+//The cell number i of a test population: the fixture translated along x by i * 2.5e-6 m, so that no two cells of a
+//population are bit-identical (a refine_meshes() that mixes the cells up, or skips one, is then visible). A cell
+//type is not given, so no random number is drawn: building the same cell twice gives the same cell
+cell_ptr build_cell(const mesh& fixture, const unsigned i){
+    mesh m = fixture;
+    for(size_t k = 0; k < m.node_pos_lst.size(); k += 3) m.node_pos_lst[k] += i * 2.5e-6;
+    cell_ptr c = std::make_shared<cell>(m, i);
+    c->initialize_cell_properties();
+    return c;
+}
+
+std::vector<cell_ptr> build_population(const mesh& fixture, const unsigned nb_cells){
+    std::vector<cell_ptr> cells;
+    for(unsigned i = 0; i < nb_cells; i++) cells.push_back(build_cell(fixture, i));
+    return cells;
+}
+
+bool same_bits(const double x, const double y){return std::memcmp(&x, &y, sizeof(double)) == 0;}
+
+//Describe the first difference between 2 cells, or return "" if there is none. Identical means: the same is_used()
+//flags of the nodes and faces, the same node-id triples in the used faces and bit-identical positions of the used
+//nodes. The node and face lists are compared as they are (no rebase() before: it would hide a different order)
+std::string first_difference(const cell_ptr& a, const cell_ptr& b){
+    const std::vector<node>& nodes_a = a->get_node_lst();
+    const std::vector<node>& nodes_b = b->get_node_lst();
+    if(nodes_a.size() != nodes_b.size()){
+        return "node lists have " + std::to_string(nodes_a.size()) + " and " + std::to_string(nodes_b.size()) + " slots";
+    }
+    for(size_t i = 0; i < nodes_a.size(); i++){
+        if(nodes_a[i].is_used() != nodes_b[i].is_used()) return "node " + std::to_string(i) + " is used in only one of the cells";
+        if(!nodes_a[i].is_used()) continue;
+        const vec3& pa = nodes_a[i].pos();
+        const vec3& pb = nodes_b[i].pos();
+        if(!same_bits(pa.dx(), pb.dx()) || !same_bits(pa.dy(), pb.dy()) || !same_bits(pa.dz(), pb.dz())){
+            return "node " + std::to_string(i) + " is at a different position";
+        }
+    }
+
+    const std::vector<face>& faces_a = a->get_face_lst();
+    const std::vector<face>& faces_b = b->get_face_lst();
+    if(faces_a.size() != faces_b.size()){
+        return "face lists have " + std::to_string(faces_a.size()) + " and " + std::to_string(faces_b.size()) + " slots";
+    }
+    for(size_t i = 0; i < faces_a.size(); i++){
+        if(faces_a[i].is_used() != faces_b[i].is_used()) return "face " + std::to_string(i) + " is used in only one of the cells";
+        if(!faces_a[i].is_used()) continue;
+        if(faces_a[i].get_node_ids() != faces_b[i].get_node_ids()) return "face " + std::to_string(i) + " has different nodes";
+    }
+    return "";
+}
+
+//An error that refine_meshes() must contain, with the what() of the exception it throws
+struct injected_error{
+    std::string name;
+    std::function<void()> raise;
+    std::string what;
+};
+
+std::vector<injected_error> contained_errors(){
+    std::vector<injected_error> errors = {
+        {"std::bad_optional_access", [](){throw std::bad_optional_access();}, ""},
+        {"mesh_integrity_exception", [](){throw mesh_integrity_exception("The refinement of the mesh of cell 17 failed. The simulation is unstable. Reducing the time step might help");}, ""},
+        {"std::out_of_range", [](){throw std::out_of_range("vector::_M_range_check: __n (which is 7) >= this->size() (which is 3)");}, ""},
+    };
+    for(injected_error& e : errors){
+        try{e.raise();}
+        catch(const std::exception& ex){e.what = ex.what();}
+    }
+    return errors;
+}
+
+//Name the type of the exception that an exception_ptr holds, among the types the fatal-error test cares about
+std::string classify(const std::exception_ptr& p){
+    if(!p) return "nothing";
+    try{std::rethrow_exception(p);}
+    catch(const unstable_simulation_exception&){return "unstable_simulation_exception";}
+    catch(const std::bad_alloc&){return "std::bad_alloc";}
+    catch(const std::exception&){return "another std::exception";}
+    catch(const int v){return v == 42 ? "int 42" : "another int";}
+    catch(...){return "something else";}
+}
+
+} //namespace
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
+// refine_meshes() must contain the failure of one cell (AC1). Three cells {h1, broken, h2}: the refinement of
+// "broken" throws (injected through the refine_meshes_impl() test seam: std::bad_optional_access, then
+// mesh_integrity_exception, then std::out_of_range), the others go through the real refine_mesh(). The call must
+// not throw, report exactly the broken cell with the what() of the injected exception, and leave h1 and h2 exactly
+// as refine_mesh() alone leaves a twin built from the same mesh
+int local_mesh_refiner_tester::refine_meshes_contains_failure_test(){
+
+    const mesh fixture = read_refiner_fixture();
+    const local_mesh_refiner lmr(fixture_l_min, 3. * fixture_l_min, true);
+
+    bool ok = true;
+    for(const injected_error& err : contained_errors()){
+
+        const auto check = [&](const bool condition, const std::string& description){
+            if(!condition){
+                std::cout << "FAIL [" << err.name << "]: " << description << std::endl;
+                ok = false;
+            }
+        };
+
+        const std::vector<cell_ptr> cells = build_population(fixture, 3);   //{h1, broken, h2}
+        const std::vector<cell_ptr> twins = build_population(fixture, 3);   //the same cells, refined alone
+        const cell_ptr broken = cells[1];
+
+        std::vector<local_mesh_refiner::refinement_failure> failures;
+        bool escaped = false;
+        try{
+            failures = lmr.refine_meshes_impl(cells, [&](const cell_ptr& c){
+                if(c == broken) err.raise();
+                lmr.refine_mesh(c);
+            });
+        }
+        catch(const std::exception& e){
+            escaped = true;
+            std::cout << "FAIL [" << err.name << "]: " << e.what() << " left refine_meshes_impl()" << std::endl;
+            ok = false;
+        }
+        catch(...){
+            escaped = true;
+            std::cout << "FAIL [" << err.name << "]: an exception left refine_meshes_impl()" << std::endl;
+            ok = false;
+        }
+        if(escaped) continue;
+
+        check(failures.size() == 1, "expected exactly one failure, got " + std::to_string(failures.size()));
+        if(failures.size() == 1){
+            check(failures[0].cell == broken, "the reported failure is not the broken cell");
+            check(!failures[0].reason.empty() && failures[0].reason == err.what,
+                  "the reason is \"" + failures[0].reason + "\" instead of the what() of the injected exception, \"" + err.what + "\"");
+        }
+
+        for(const unsigned i : {0u, 2u}){
+            lmr.refine_mesh(twins[i]);
+            const std::string difference = first_difference(cells[i], twins[i]);
+            check(difference.empty(), "healthy cell " + std::to_string(i) + " differs from its twin refined alone: " + difference);
+            check(!first_difference(build_cell(fixture, i), cells[i]).empty(),
+                  "healthy cell " + std::to_string(i) + " was not changed by the refinement (the fixture must give refine_mesh() work to do)");
+        }
+    }
+    return ok ? 0 : 1;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
+// The same with many cells and several threads (AC2). 64 cells, every second one fails (the three error types in
+// turn), for 1 and for 4 threads with a static schedule. The failures reported must be exactly the failing cells,
+// each once with its own what(), and the 32 healthy cells must equal their twins refined alone.
+// A shared failure list that is not protected is lost or corrupted only if 2 threads append at the same moment,
+// which is rare when the cells in between take milliseconds to refine. So the k-th failing cell of each thread's
+// block waits (best effort, at most 200 ms) until every thread has reached its own k-th failing cell, and they
+// all throw together: 8 rounds of simultaneous failures per run with 4 threads. The rendezvous only makes a
+// missing critical section show up reliably, a round that times out on a loaded machine is not an error
+int local_mesh_refiner_tester::refine_meshes_contains_failure_threads_test(){
+
+    const mesh fixture = read_refiner_fixture();
+    const local_mesh_refiner lmr(fixture_l_min, 3. * fixture_l_min, true);
+    const std::vector<injected_error> errors = contained_errors();
+    constexpr unsigned nb_cells = 64;
+
+    const int saved_nb_threads = omp_get_max_threads();
+    bool ok = true;
+
+    for(const int nb_threads : {1, 4}){
+
+        const std::string label = "[" + std::to_string(nb_threads) + " thread(s)] ";
+        const auto check = [&](const bool condition, const std::string& description){
+            if(!condition){
+                std::cout << "FAIL " << label << description << std::endl;
+                ok = false;
+            }
+        };
+
+        omp_set_num_threads(nb_threads);
+        if(omp_get_max_threads() != nb_threads){
+            std::cout << "FAIL " << label << "could not set the number of threads (omp_get_max_threads() = " << omp_get_max_threads() << ")" << std::endl;
+            ok = false;
+            continue;
+        }
+        omp_set_schedule(omp_sched_static, 0);   //consecutive blocks of nb_cells / nb_threads cells, one per thread
+
+        const std::vector<cell_ptr> cells = build_population(fixture, nb_cells);
+        const std::vector<cell_ptr> twins = build_population(fixture, nb_cells);
+
+        std::map<const cell*, unsigned> index_of;
+        for(unsigned i = 0; i < nb_cells; i++) index_of[cells[i].get()] = i;
+
+        const auto fails = [](const unsigned i){return i % 2 == 0;};
+        const auto error_of = [&errors](const unsigned i) -> const injected_error& {return errors[(i / 2) % errors.size()];};
+
+        //Thread t refines the block of cells [t * block, (t + 1) * block). Its failing cells are the even offsets in
+        //the block, so the k-th failing cell of every thread is at offset 2 k: the threads meet there
+        const unsigned block = nb_cells / nb_threads;
+        std::vector<std::atomic<int>> nb_arrived(block / 2);
+        for(auto& a : nb_arrived) a.store(0);
+
+        std::vector<local_mesh_refiner::refinement_failure> failures;
+        bool escaped = false;
+        try{
+            failures = lmr.refine_meshes_impl(cells, [&](const cell_ptr& c){
+                const unsigned i = index_of.at(c.get());
+                if(fails(i)){
+                    std::atomic<int>& arrived = nb_arrived[(i % block) / 2];
+                    arrived++;
+                    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(200);
+                    while(arrived.load() < nb_threads && std::chrono::steady_clock::now() < deadline){}
+                    error_of(i).raise();
+                }
+                lmr.refine_mesh(c);
+            });
+        }
+        catch(const std::exception& e){
+            escaped = true;
+            check(false, std::string("an exception left refine_meshes_impl(): ") + e.what());
+        }
+        catch(...){
+            escaped = true;
+            check(false, "an exception left refine_meshes_impl()");
+        }
+        if(escaped) continue;
+
+        const auto nb_incomplete_rounds = std::count_if(nb_arrived.begin(), nb_arrived.end(), [nb_threads](const std::atomic<int>& a){return a.load() != nb_threads;});
+        if(nb_incomplete_rounds > 0){
+            std::cout << "note " << label << nb_incomplete_rounds << " of " << nb_arrived.size() << " rendezvous rounds timed out (loaded machine?), the check is less sensitive to a race" << std::endl;
+        }
+
+        //Exactly the failing cells, each once
+        std::set<const cell*> expected_failed;
+        for(unsigned i = 0; i < nb_cells; i++) if(fails(i)) expected_failed.insert(cells[i].get());
+        std::set<const cell*> reported_failed;
+        for(const auto& f : failures) reported_failed.insert(f.cell.get());
+        check(failures.size() == expected_failed.size(), "expected " + std::to_string(expected_failed.size()) + " failures, got " + std::to_string(failures.size()));
+        check(reported_failed == expected_failed, "the set of failed cells is not the set of cells that were made to fail");
+
+        //Each with the what() of its own exception
+        unsigned nb_wrong_reasons = 0;
+        for(const auto& f : failures){
+            const auto it = index_of.find(f.cell.get());
+            if(it == index_of.end() || f.reason != error_of(it->second).what) nb_wrong_reasons++;
+        }
+        check(nb_wrong_reasons == 0, std::to_string(nb_wrong_reasons) + " failures carry the reason of another cell or none");
+
+        //The healthy cells are the ones refine_mesh() gives when it runs alone
+        unsigned nb_different = 0, nb_unchanged = 0;
+        for(unsigned i = 0; i < nb_cells; i++){
+            if(fails(i)) continue;
+            lmr.refine_mesh(twins[i]);
+            if(!first_difference(cells[i], twins[i]).empty()) nb_different++;
+            if(first_difference(build_cell(fixture, i), cells[i]).empty()) nb_unchanged++;
+        }
+        check(nb_different == 0, std::to_string(nb_different) + " of the 32 healthy cells differ from their twin refined alone");
+        check(nb_unchanged == 0, std::to_string(nb_unchanged) + " of the 32 healthy cells were not refined at all");
+    }
+
+    omp_set_num_threads(saved_nb_threads);
+    return ok ? 0 : 1;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
+// The errors that must still stop the run leave refine_meshes() with their own type (AC3):
+// unstable_simulation_exception (the domain has diverged), std::bad_alloc, and an exception that is not a
+// std::exception at all (throw 42). Also when a contained failure happens in the same call, and with 4 threads
+int local_mesh_refiner_tester::refine_meshes_rethrows_fatal_test(){
+
+    const mesh fixture = read_refiner_fixture();
+    const local_mesh_refiner lmr(fixture_l_min, 3. * fixture_l_min, true);
+
+    //Run refine_meshes_impl() on 4 cells and return what leaves it: the fatal error is thrown for cell 2, and,
+    //if with_contained_failure is set, a contained one for cell 1
+    const auto escaped_from_impl = [&](const std::function<void()>& raise_fatal, const bool with_contained_failure) -> std::exception_ptr {
+        const std::vector<cell_ptr> cells = build_population(fixture, 4);
+        const cell_ptr fatal_cell = cells[2];
+        const cell_ptr contained_cell = cells[1];
+        try{
+            (void) lmr.refine_meshes_impl(cells, [&](const cell_ptr& c){
+                if(c == fatal_cell) raise_fatal();
+                if(with_contained_failure && c == contained_cell) throw std::out_of_range("a failure that is contained");
+                lmr.refine_mesh(c);
+            });
+        }
+        catch(...){return std::current_exception();}
+        return nullptr;
+    };
+
+    struct fatal_case{
+        std::string expected;
+        std::function<void()> raise;
+    };
+    const std::vector<fatal_case> cases = {
+        {"unstable_simulation_exception", [](){throw unstable_simulation_exception("a node coordinate is not finite");}},
+        {"std::bad_alloc",                [](){throw std::bad_alloc();}},
+        {"int 42",                        [](){throw 42;}},
+    };
+
+    const int saved_nb_threads = omp_get_max_threads();
+    bool ok = true;
+    for(const int nb_threads : {1, 4}){
+        omp_set_num_threads(nb_threads);
+        if(omp_get_max_threads() != nb_threads){
+            std::cout << "FAIL: could not set the number of threads to " << nb_threads << std::endl;
+            ok = false;
+            continue;
+        }
+        omp_set_schedule(omp_sched_static, 0);
+
+        for(const fatal_case& fc : cases){
+            for(const bool with_contained_failure : {false, true}){
+                const std::string got = classify(escaped_from_impl(fc.raise, with_contained_failure));
+                if(got != fc.expected){
+                    std::cout << "FAIL [" << nb_threads << " thread(s), " << (with_contained_failure ? "with" : "without") << " a contained failure]: "
+                              << "expected " << fc.expected << " to leave refine_meshes_impl(), got " << got << std::endl;
+                    ok = false;
+                }
+            }
+        }
+    }
+    omp_set_num_threads(saved_nb_threads);
+    return ok ? 0 : 1;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
+// The public wrapper, without any injection (R6). Unlike the tests that use the private test seam, this one also
+// runs in Debug and AddressSanitizer builds: refine_meshes() on healthy cells returns no failure, and every cell
+// ends exactly as if refine_mesh() had been called on it alone
+int local_mesh_refiner_tester::refine_meshes_public_wrapper_test(){
+
+    const mesh fixture = read_refiner_fixture();
+    const local_mesh_refiner lmr(fixture_l_min, 3. * fixture_l_min, true);
+    constexpr unsigned nb_cells = 8;
+
+    const std::vector<cell_ptr> cells = build_population(fixture, nb_cells);
+    const std::vector<cell_ptr> twins = build_population(fixture, nb_cells);
+
+    const std::vector<local_mesh_refiner::refinement_failure> failures = lmr.refine_meshes(cells);
+
+    bool ok = true;
+    if(!failures.empty()){
+        std::cout << "FAIL: refine_meshes() reported " << failures.size() << " failures on healthy cells, the first one: " << failures[0].reason << std::endl;
+        ok = false;
+    }
+
+    for(unsigned i = 0; i < nb_cells; i++){
+        lmr.refine_mesh(twins[i]);
+        const std::string difference = first_difference(cells[i], twins[i]);
+        if(!difference.empty()){
+            std::cout << "FAIL: cell " << i << " differs from its twin refined alone: " << difference << std::endl;
+            ok = false;
+        }
+        if(first_difference(build_cell(fixture, i), cells[i]).empty()){
+            std::cout << "FAIL: cell " << i << " was not changed by refine_meshes() (the fixture must give it work to do)" << std::endl;
+            ok = false;
+        }
+    }
+    return ok ? 0 : 1;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------------------------------------------------
 // The main function
 int main (int argc, char** argv){
 
@@ -945,6 +1453,12 @@ int main (int argc, char** argv){
     if (test_name == "split_edge_test")               return tester.split_edge_test();
     if (test_name == "merge_edge_test")               return tester.merge_edge_test();
     if (test_name == "get_triangle_score_test")       return tester.get_triangle_score_test();
+    if (test_name == "refine_mesh_keeps_winding_consistent_test") return tester.refine_mesh_keeps_winding_consistent_test();
+    if (test_name == "winding_self_check_test")       return tester.winding_self_check_test();
+    if (test_name == "refine_meshes_contains_failure_test")         return tester.refine_meshes_contains_failure_test();
+    if (test_name == "refine_meshes_contains_failure_threads_test") return tester.refine_meshes_contains_failure_threads_test();
+    if (test_name == "refine_meshes_rethrows_fatal_test")           return tester.refine_meshes_rethrows_fatal_test();
+    if (test_name == "refine_meshes_public_wrapper_test")           return tester.refine_meshes_public_wrapper_test();
 
     
     

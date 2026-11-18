@@ -1,3 +1,21 @@
+"""Collect the results of a parameter screen launched with ``launch_screening.py``.
+
+Usage::
+
+    python3 collect_screening_data.py /abs/path/output_folder/screen_name
+
+Creates ``summary_folder/`` in the screen folder with the last ``cell_data`` and ``face_data``
+mesh and the statistics CSV of every run, copies of ``parameters/`` and ``std_out_err/``, and
+the parameter table with the added columns ``file_count`` (number of output mesh files of the
+run) and ``has_crashed``. A run counts as crashed if its output folder or its
+``std_out_err/stdout_<i>.txt`` is missing, or if the last non-empty line of that file is not
+``simucell3d exit status: 0`` (the line that ``launch_screening.py`` appends when the run
+ends; a job killed by Slurm has no such line).
+
+The screen folder must contain exactly one ``.csv`` file. The table in the screen folder is
+overwritten with the extended table. The script stops if the summary folder already exists.
+"""
+
 from os import path, sep, mkdir, system, _exit, getlogin, listdir, getcwd, sep
 from glob import glob
 from sys import argv
@@ -8,13 +26,6 @@ import re
 
 
 
-"""
----------------------------------------------------------------------------------------------------------------------------
-
-    This scripts collects the results of a parameter screening and generate a summary of the results
-
----------------------------------------------------------------------------------------------------------------------------
-"""
 
 
 
@@ -74,41 +85,31 @@ def get_last_output(sim_folder_path):
     return last_cell_data_path, last_face_data_path
 
 
-def which_crashed(std_out_folder_path):
+def has_crashed(stdout_file_path):
     """
-    Return a list of booleans of length equal to the number of simulation, which are
-    true if the correspomdent simulation has crashed, false otherwise.
+    Return True if the simulation whose standard output is stored in the given file did not
+    finish successfully. `launch_screening.py` appends the line `simucell3d exit status: <code>`
+    to the file once the simulation process exits. A missing file, a missing line (e.g. the job
+    was killed by Slurm) or a non-zero exit status count as a crash.
 
     Parameters:
     ----------
 
-    std_out_folder_path (str):
-        The absolute path to the folder where the std_out_err files are stored
+    stdout_file_path (str):
+        The absolute path to the std_out_err file of the simulation
 
     Return:
     ------
 
-    is_crashed: (List[bool])
+    has_crashed: (bool)
     """
 
-    assert path.exists(std_out_folder_path), "The given folder does not exist: " + std_out_folder_path
-    
-    file_lst = listdir(std_out_folder_path)
-    path_lst = [
-        path.join(std_out_folder_path, file) 
-        for file in file_lst
-    ]
-    
-    has_crashed = []
-    for path_to_file in path_lst:
-        with open(path_to_file, 'r') as f:
-            last_line = f.readlines()[-1]
-            if 'mesh_before_crash.vtk' in last_line:
-                has_crashed.append(True)
-            else:
-                has_crashed.append(False)
+    if not path.exists(stdout_file_path): return True
 
-    return has_crashed
+    with open(stdout_file_path, 'r', errors='replace') as f:
+        lines = [line.strip() for line in f if line.strip() != ""]
+
+    return len(lines) == 0 or lines[-1] != "simucell3d exit status: 0"
 
 
 
@@ -127,7 +128,7 @@ if __name__ == "__main__":
     screen_name = screen_name_lst[-1]
 
     #Create a directory where the summary of the simulations will be stored
-    summary_folder_path = path.join(screen_folder_path, "summary_folder_" + screen_name)
+    summary_folder_path = path.join(screen_folder_path, "summary_folder")
     mkdir(summary_folder_path)
 
     #Generate different folders to store the end result of each simulation
@@ -173,8 +174,8 @@ if __name__ == "__main__":
             crashed_lst.append(True)
             continue
 
-        #Check if the file `mesh_before_crash.vtk` is in the folder
-        crashed_lst.append('mesh_before_crash.vtk' in listdir(sim_folder_path))
+        #Check the exit status that launch_screening.py appends to the standard output file
+        crashed_lst.append(has_crashed(path.join(stdout_folder, "stdout_{}.txt".format(sim_id))))
 
         #If it exists we compute the number of files created
         nb_files_generated = listdir(path.join(sim_folder_path, "face_data")).__len__()

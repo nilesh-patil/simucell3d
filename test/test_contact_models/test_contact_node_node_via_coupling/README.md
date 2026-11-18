@@ -1,92 +1,44 @@
-This folder contains script with various simulation routines that test the contact model: `contact_node_node_via_coupling`. 
-This contact model creates mechanical link between the surfaces of adjeacent cells.
+# Node-node coupling contact model tests
 
-</br>
+Tests of `contact_node_node_via_coupling` (contact model 1, `CONTACT_MODEL_INDEX 1`), which
+links nodes of adjacent cell surfaces mechanically.
 
-## Installation
+## C++ tests (CTest)
 
+Three subdirectories are built and registered with CTest by `CMakeLists.txt`:
 
-```
-cd path/to/simucell/build
-```
+- `test_cell_separation/`
+- `test_nucleus_in_cell_contact_via_coupling/`
+- `test_cell_in_ecm_contact_via_coupling/`
 
-```
-cmake -DENABLE_PYTHON_BINDINGS=TRUE -DPYTHON_EXECUTABLE=$(which python3) -DCMAKE_BUILD_TYPE=Release .. && make -j6
-```
+They run with the rest of the suite (`ctest`); see the testing page of the developer guide
+(`doc/developers/testing.md`).
 
-```
-cd path/to/simucell/test/test_contact_models/test_contact_node_node_via_coupling
-```
+## Python simulation scripts
 
-```
-python3 -m venv venv && source venv/bin/activate
-```
+The other subdirectories hold Python scripts that run longer simulations through the Python
+bindings and compare the result with an analytical expectation (for example, the contact angle
+of a cell doublet, arccos(lateral tension / apical tension)):
 
-```
-pip3 install -r requirements.txt
-```
+- `test_cell_doublet_angle/`
+- `test_cell_doublet_angle_with_varying_lat_tension/`
+- `test_cell_triplet_angle/`
+- `test_cell_internalization/`
 
-</br>
+They are not part of CTest or CI. They load the module from `build/bin/python_bindings`, so the
+build directory must be `build/` at the repository root and the bindings must be enabled. The
+module runs the contact model selected at compile time, so set `CONTACT_MODEL_INDEX 1` in
+`include/global_configuration.hpp` before building to test this model. From the repository
+root:
 
-## Running the tests
-
-The scripts can then be run with the following commands:
-```
+```console
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DENABLE_PYTHON_BINDINGS=TRUE -DPYTHON_EXECUTABLE=$(which python3)
+cmake --build build -j
+cd test/test_contact_models/test_contact_node_node_via_coupling
+python3 -m venv venv && . venv/bin/activate
+pip install -r requirements.txt
 python3 test_cell_doublet_angle/test_cell_doublet_angle.py
 ```
 
-</br>
-
-## Debugging the test in vscode
-The tests can be debugged in vscode by first compiling the code with the following commands:
-``` 
-cmake --no-warn-unused-cli \
--DCMAKE_BUILD_TYPE:STRING=Debug \
--DENABLE_PYTHON_BINDINGS=TRUE \
--DPYTHON_EXECUTABLE=$(which python3) \
--DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE \
--DCMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc \
--DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++ \
--S/home/srunser/SimuCell3D_v2 \
--B/home/srunser/SimuCell3D_v2/build \
--G "Unix Makefiles"
-```
-Make sure that the paths to the compiler and debugger are correct. Then call ```make``` with the following command:
-```
-cmake --build /home/srunser/SimuCell3D_v2/build --config Debug --target all -j 10 
-```
-
-Finally, create the following file: `path/to/simucell/.vscode/launch.json` with this content: 
-
-```
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "python_binding_debug",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/test/test_contact_models/test_contact_node_node_via_coupling/venv/bin/python3",
-            "stopAtEntry": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "cwd": "${workspaceFolder}/test/test_contact_models/test_contact_node_node_via_coupling",
-            "args": [
-                "${file}"
-            ],
-            "launchCompleteCommand": "exec-run",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ]
-        },
-    ]
-}
-```
-Open the script that needs to be debugged and press F5. 
-
-
-
+To debug the C++ code called from these scripts, see the debugging page of the developer guide
+(`doc/developers/debugging.md`).

@@ -48,6 +48,7 @@ def collect_shape_change_from_screening(
         pass
 
     # Check that idxs is consistent with number of simulation for this screening
+    idxs = indexes
     if indexes == 'all' or len(idxs) > len(os.listdir(simulation_dir)):
         idxs = list(range(1, len(os.listdir(simulation_dir))+1))
 

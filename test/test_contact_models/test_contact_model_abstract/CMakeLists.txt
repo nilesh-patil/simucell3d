@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 #Use CPP 17
 set(CMAKE_CXX_STANDARD 17)
@@ -26,3 +26,6 @@ target_include_directories(test_contact_model_abstract PUBLIC
 #Run the test
 add_test(NAME contact_models_abstract_compute_node_triangle_distance_test  COMMAND test_contact_model_abstract compute_node_triangle_distance_test)
 add_test(NAME contact_models_abstract_interior_point_distance_test  COMMAND test_contact_model_abstract compute_node_triangle_distance_interior_point_test)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

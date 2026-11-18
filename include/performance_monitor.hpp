@@ -13,27 +13,44 @@
 #include <omp.h>
 
 /**
- * @brief Lightweight performance monitoring infrastructure
+ * @file
+ * @brief Wall-clock timing of the phases of a solver iteration.
+ * @ingroup runtime
+ */
+
+/**
+ * @brief Accumulates wall-clock times of named phases.
  *
- * Provides scoped timing with minimal overhead (<1%) for diagnosing
- * performance bottlenecks in SimuCell3D iterations.
+ * The solver times four phases of each iteration with ScopedTimer: "mesh_refinement",
+ * "contact_detection", "polarization_and_internal_forces" and "time_integration". It reads
+ * the statistics with get_stats() when it writes the diagnostics CSV (every 100 iterations)
+ * and then calls reset(), so each row covers one 100-iteration window. With verbose output,
+ * report() is printed at the end of the run.
  *
  * Usage:
- *   PerformanceMonitor monitor;
- *   {
- *       PerformanceMonitor::ScopedTimer timer(monitor, "contact_forces");
- *       contact_model->run(cells);
- *   }
- *   monitor.report();
+ * @code
+ * PerformanceMonitor monitor;
+ * {
+ *     PerformanceMonitor::ScopedTimer timer(monitor, "contact_detection");
+ *     contact_model->run(cells);
+ * }
+ * monitor.report();
+ * @endcode
+ *
+ * @note record() and the timers are not thread-safe: use them outside parallel regions.
+ *       record_thread_balance() is the only member meant to be called inside one.
+ * @ingroup runtime
  */
 class PerformanceMonitor {
 public:
+    /** @brief Statistics of the samples recorded under one name. Times in seconds. */
     struct TimingStats {
-        double total_time = 0.0;       // Total accumulated time
-        double min_time = std::numeric_limits<double>::max();
-        double max_time = 0.0;
-        size_t count = 0;              // Number of samples
+        double total_time = 0.0;       ///< Sum of all samples, s.
+        double min_time = std::numeric_limits<double>::max();  ///< Shortest sample, s.
+        double max_time = 0.0;         ///< Longest sample, s.
+        size_t count = 0;              ///< Number of samples.
 
+        /** @brief Add one sample. @param time Duration, s. */
         void update(double time) {
             total_time += time;
             min_time = std::min(min_time, time);
@@ -41,10 +58,12 @@ public:
             count++;
         }
 
+        /** @brief Mean sample duration, s (0 if there are no samples). */
         double average() const {
             return (count > 0) ? (total_time / count) : 0.0;
         }
 
+        /** @brief Rough spread estimate (max - min) / 4, s; not a true standard deviation. */
         double std_dev() const {
             // Simple estimate: (max - min) / 4 for normal distribution
             return (max_time - min_time) / 4.0;
@@ -52,9 +71,8 @@ public:
     };
 
     /**
-     * @brief RAII-based scoped timer
-     *
-     * Automatically measures elapsed time from construction to destruction
+     * @brief Measures the wall-clock time from construction to destruction and records it
+     *        under a name.
      */
     class ScopedTimer {
     private:
@@ -63,6 +81,11 @@ public:
         std::chrono::high_resolution_clock::time_point start_;
 
     public:
+        /**
+         * @brief Start timing.
+         * @param monitor Monitor that receives the sample when the timer is destroyed.
+         * @param name Phase name.
+         */
         ScopedTimer(PerformanceMonitor& monitor, const std::string& name)
             : monitor_(monitor), name_(name),
               start_(std::chrono::high_resolution_clock::now()) {}
@@ -79,14 +102,19 @@ public:
     };
 
     /**
-     * @brief Record a timing measurement
+     * @brief Record one timing sample.
+     * @param name Phase name.
+     * @param time_seconds Duration, s.
      */
     void record(const std::string& name, double time_seconds) {
         timings_[name].update(time_seconds);
     }
 
     /**
-     * @brief Get statistics for a specific timer
+     * @brief Statistics recorded under a name.
+     * @param name Phase name.
+     * @return Pointer to the statistics, or nullptr if nothing was recorded under @p name
+     *         since the last reset().
      */
     const TimingStats* get_stats(const std::string& name) const {
         auto it = timings_.find(name);
@@ -94,7 +122,8 @@ public:
     }
 
     /**
-     * @brief Print performance report to stdout
+     * @brief Print a table of the recorded phases to standard output, most expensive first.
+     * @param detailed Also print a variability estimate per phase.
      */
     void report(bool detailed = false) const {
         std::cout << "\n╔════════════════════════════════════════════════════════════╗\n";
@@ -164,14 +193,14 @@ public:
     }
 
     /**
-     * @brief Reset all timing data
+     * @brief Discard all timing samples recorded with record() and the timers.
      */
     void reset() {
         timings_.clear();
     }
 
     /**
-     * @brief Get total accumulated time across all phases
+     * @brief Sum of the total times of all phases, s.
      */
     double get_total_time() const {
         double total = 0.0;
@@ -181,30 +210,35 @@ public:
         return total;
     }
 
-    /**
-     * @brief Monitor thread-level load balance for a parallel region
-     *
-     * Records per-thread execution time to detect imbalance.
-     * Call this INSIDE a parallel region to capture thread-specific data.
-     *
-     * Example:
-     *   #pragma omp parallel
-     *   {
-     *       auto start = std::chrono::high_resolution_clock::now();
-     *       #pragma omp for schedule(runtime)
-     *       for (int i = 0; i < n; i++) { work(i); }
-     *       monitor.record_thread_balance("my_loop", start);
-     *   }
-     */
+    /** @brief Load-balance statistics of one parallel region. Times in seconds. */
     struct ThreadBalanceStats {
-        double avg_thread_time = 0.0;
-        double min_thread_time = std::numeric_limits<double>::max();
-        double max_thread_time = 0.0;
-        double imbalance_percent = 0.0;  // (max-min)/max * 100
-        double efficiency_percent = 0.0;  // avg/max * 100
-        int num_threads = 0;
+        double avg_thread_time = 0.0;  ///< Mean time per thread, s.
+        double min_thread_time = std::numeric_limits<double>::max();  ///< Fastest thread, s.
+        double max_thread_time = 0.0;  ///< Slowest thread, s.
+        double imbalance_percent = 0.0;  ///< (max - min) / max * 100.
+        double efficiency_percent = 0.0;  ///< avg / max * 100.
+        int num_threads = 0;  ///< Number of recorded threads.
     };
 
+    /**
+     * @brief Record the time one thread spent in a parallel region.
+     *
+     * Call inside the parallel region, once per thread:
+     * @code
+     * #pragma omp parallel
+     * {
+     *     auto start = std::chrono::high_resolution_clock::now();
+     *     #pragma omp for schedule(runtime)
+     *     for (int i = 0; i < n; i++) { work(i); }
+     *     monitor.record_thread_balance("my_loop", start);
+     * }
+     * @endcode
+     *
+     * @param name Region name.
+     * @param start_time Time at which the thread entered the region.
+     * @note Thread-safe (the update is in an OpenMP critical section). The solver does not
+     *       call it; the samples are not cleared by reset().
+     */
     void record_thread_balance(const std::string& name,
                                std::chrono::high_resolution_clock::time_point start_time) {
         auto end_time = std::chrono::high_resolution_clock::now();
@@ -219,7 +253,8 @@ public:
     }
 
     /**
-     * @brief Analyze and report thread imbalance for all monitored regions
+     * @brief Print the load-balance statistics of every region recorded with
+     *        record_thread_balance(), with a warning above 20 % imbalance.
      */
     void analyze_thread_balance() const {
         if (thread_timings_.empty()) return;
@@ -253,11 +288,16 @@ public:
     }
 
     /**
-     * @brief Export all timing data to CSV file
+     * @brief Append one row per phase to a CSV file.
      *
-     * @param filename Path to output CSV file
-     * @param iteration Current iteration number (optional, for time-series analysis)
-     * @param num_cells Current cell count (optional, for correlation analysis)
+     * Columns: iteration, num_cells, phase, avg_ms, min_ms, max_ms, count, total_ms. The
+     * header is written when the file does not exist yet. If the file cannot be opened, an
+     * error is printed to standard error and nothing is written. Not used by the solver,
+     * which writes its own diagnostics CSV.
+     *
+     * @param filename Path of the CSV file.
+     * @param iteration Iteration number written in the first column.
+     * @param num_cells Cell count written in the second column.
      */
     void export_to_csv(const std::string& filename, int iteration = -1, size_t num_cells = 0) const {
         bool file_exists = std::ifstream(filename).good();

@@ -872,7 +872,7 @@ def load_and_clean_data(
         Tuple of (data_dict, audit_trail)
 
     Example:
-        >>> data, audit = load_and_clean_data(Path('doc/working/parallel_benchmark_20260126_093337'))
+        >>> data, audit = load_and_clean_data(Path('doc/working/parallel_benchmark_<timestamp>'))
         >>> audit.export_json('audit_trail.json')
     """
     bench_dir = Path(bench_dir)

@@ -1,0 +1,8 @@
+# Keep local build trees, run output and VCS data out of the image context.
+build*/
+container_build/
+simulation_results/
+.git/
+doc/_build/
+**/__pycache__/
+venv*/

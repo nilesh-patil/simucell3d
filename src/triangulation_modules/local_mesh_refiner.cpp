@@ -1,5 +1,8 @@
 #include "local_mesh_refiner.hpp"
-
+#include <atomic>
+#include <exception>
+#include <iostream>
+#include <new>
 
 
 /*
@@ -24,12 +27,95 @@ local_mesh_refiner::local_mesh_refiner(const double l_min, const double l_max, c
 
 
 //-----------------------------------------------------------------------------------------------
-//Refine the meshes of all the cells in the list in parallel
-void local_mesh_refiner::refine_meshes(const std::vector<cell_ptr> cell_lst) const noexcept(false){
+//Refine the meshes of all the cells in the list in parallel. Returns the cells whose refinement
+//threw an ordinary error (see refine_meshes_impl)
+std::vector<local_mesh_refiner::refinement_failure> local_mesh_refiner::refine_meshes(const std::vector<cell_ptr>& cell_lst) const noexcept(false){
+
+    return refine_meshes_impl(cell_lst, [this](const cell_ptr& c){ refine_mesh(c); }); //noexcept(false)
+}
+//-----------------------------------------------------------------------------------------------
 
 
-    //Refine the mesh of the cells in parallel. If an exception occurs, the parallel_exception_handler will rethrow it
-    parallel_exception_handler(cell_lst, refine_mesh_func_); //noexcept(false)
+
+//-----------------------------------------------------------------------------------------------
+//Call refine_one on every cell of the list in parallel, and contain the failure of one cell.
+//
+//A std::exception thrown for one cell (an unchecked optional, an out-of-range index, the operation cap of
+//refine_mesh()) means the mesh of that cell is damaged, not the simulation: the cell is recorded as failed,
+//with the what() of the error, and the loop goes on. The caller decides what to do with it.
+//
+//Three kinds of errors must still stop the run, and are stored, then rethrown once the parallel loop is over
+//(an exception must never leave an OpenMP region):
+//  - unstable_simulation_exception: the domain has diverged, removing one cell would hide it
+//  - std::bad_alloc: the process is out of memory, the next cell would fail for the same reason
+//  - anything that does not derive from std::exception: no what() to report, and unknown origin
+//If several of them are thrown in the same call, the first one stored is rethrown.
+//
+//Recording a failure allocates (the copy of what(), the push_back), so it can itself throw std::bad_alloc.
+//That throw is caught inside the critical section and stored like the other fatal errors: nothing escapes
+//the critical section or the parallel region, and a push_back that throws leaves the list unchanged.
+std::vector<local_mesh_refiner::refinement_failure> local_mesh_refiner::refine_meshes_impl(
+    const std::vector<cell_ptr>& cell_lst,
+    const std::function<void(const cell_ptr&)>& refine_one
+) const noexcept(false){
+
+    //The cells whose refinement failed, filled under the critical section
+    std::vector<refinement_failure> failure_lst;
+
+    //The first error that must stop the run, rethrown after the parallel loop
+    std::exception_ptr fatal_e_ptr;
+
+    //Same scheduling as parallel_exception_handler: runtime, so the solver controls it with omp_set_schedule()
+    #pragma omp parallel for schedule(runtime)
+    for(size_t i = 0; i < cell_lst.size(); i++){
+
+        try{
+            //This might throw an exception
+            refine_one(cell_lst[i]);
+        }
+
+        //1. The simulation has diverged: stop the run
+        catch(const unstable_simulation_exception&){
+            #pragma omp critical
+            {
+                if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+            }
+        }
+
+        //2. Out of memory: stop the run
+        catch(const std::bad_alloc&){
+            #pragma omp critical
+            {
+                if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+            }
+        }
+
+        //3. Any other standard error: the mesh of this cell is damaged, record the cell and go on
+        catch(const std::exception& e){
+            #pragma omp critical
+            {
+                try{
+                    failure_lst.push_back(refinement_failure{cell_lst[i], std::string(e.what())});
+                }
+                catch(...){
+                    if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+                }
+            }
+        }
+
+        //4. Not a standard error: stop the run
+        catch(...){
+            #pragma omp critical
+            {
+                if(!fatal_e_ptr) fatal_e_ptr = std::current_exception();
+            }
+        }
+    }
+
+    //If an error that must stop the run was thrown during the parallel loop, rethrow it
+    if(fatal_e_ptr) std::rethrow_exception(fatal_e_ptr);
+
+    return failure_lst;
 }
 //-----------------------------------------------------------------------------------------------
 
@@ -54,18 +140,15 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
     //Keep track of the number of iterations
     unsigned iteration = 0;
 
-    // OSCILLATION DETECTION: Track operations at spatial positions to detect infinite loops
-    // When the same position region is processed too many times, we're oscillating between
-    // split/merge operations and should gracefully stop.
-    // TODO(human): Implement the oscillation detection logic here
-    // The key design decision is: What spatial resolution (POSITION_HASH_RESOLUTION)
-    // should we use for bucketing positions, and how many operations at the same
-    // position (MAX_POSITION_OPERATIONS) indicates oscillation?
-    //
-    // Considerations:
-    // - Resolution too coarse: False positives, legitimate nearby operations blocked
-    // - Resolution too fine: Oscillation not detected, infinite loops continue
-    // - For l_min = 5e-7 m (500nm), a bucket size of ~1e-7 m (100nm) might be appropriate
+    // OSCILLATION DETECTION: guards against a split/merge cycle that never converges.
+    // Every split or merge is counted against the cubic bucket (edge POSITION_HASH_RESOLUTION = 1e-7 m)
+    // that contains the midpoint of the edge it operates on; the counts live for one refine_mesh() call.
+    // The operation that would be the 51st in the same bucket (MAX_POSITION_OPERATIONS = 50) is not
+    // performed: the loop stops and every edge still in edge_to_check_set is abandoned for this call
+    // (reported in the bail-out branch after the loop). Buckets are keyed by a 64-bit hash, so two
+    // distinct buckets can, rarely, share a count.
+    // The bucket size was chosen for l_min = 5e-7 m; the paper config (parameters/longrun_fast_growth.xml)
+    // uses min_edge_length = 1e-6 m, i.e. a bucket of l_min / 10.
     std::unordered_map<uint64_t, unsigned> position_operation_count;
     constexpr double POSITION_HASH_RESOLUTION = 1e-7;  // Spatial bucket size in meters
     constexpr unsigned MAX_POSITION_OPERATIONS = 50;   // Max operations at same position bucket
@@ -83,8 +166,8 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
     };
 
     //Loop over all the edges of the cell until all edges have been checked
-    // STABILITY FIX: Use a fixed high iteration cap instead of edge_count × multiplier
-    // Rationale: After cell division, daughter cells have very few edges (~100), but cascading
+    // A fixed high iteration cap is used instead of edge_count x multiplier.
+    // Rationale: after cell division, daughter cells have very few edges (~100), but cascading
     // split/merge operations can create many new edges that need checking. A fixed cap avoids
     // the "moving target" problem where edge_count changes during the loop.
     constexpr unsigned MAX_MESH_REFINEMENT_ITERATIONS = 500000;
@@ -140,20 +223,133 @@ void local_mesh_refiner::refine_mesh(cell_ptr c) const noexcept(false){
     // This is expected with fine meshes and small cells - the mesh is "good enough" even if
     // not perfectly converged to the l_min/l_max constraints
     if(oscillation_detected){
-        // Mesh oscillation detected but simulation can continue
-        // The mesh quality is acceptable even without full convergence
+        // Mesh oscillation detected but simulation can continue.
+        // The bail-out abandons every edge still in edge_to_check_set, so the cell can leave this
+        // call with edges outside [l_min, l_max] and with sliver triangles. That is silent by
+        // construction, which made it impossible to tell from a production log whether it ever
+        // fires. Count it and report the first occurrences so the hypothesis can be checked
+        // against a real run instead of guessed at.
+        static std::atomic<unsigned long> nb_bailouts{0};
+        const unsigned long n = ++nb_bailouts;
+        if(n <= 20 || n % 1000 == 0){
+            std::cerr << "local_mesh_refiner: oscillation bail-out on cell " << c->get_id()
+                      << " after " << iteration << " operations, "
+                      << edge_to_check_set.size() << " edges left unchecked"
+                      << " (occurrence " << n << ")" << std::endl;
+        }
+        repair_inconsistent_winding(c);
         return;
     }
 
-    // STABILITY FIX: Check against the fixed iteration cap
+    // Check against the fixed iteration cap
     if(iteration == MAX_MESH_REFINEMENT_ITERATIONS){
         throw mesh_integrity_exception(std::string("The refinement of the mesh of cell ") + std::to_string(c->get_id()) + std::string(" failed.") +
         std::string(" The simulation is unstable. Reducing the time step might help")
         );
     }
 
+    //Every operation above is meant to preserve the orientation of the surface. Verify it, because a
+    //single wrongly wound face is silent otherwise: the cell lives on with a wrong volume and forces
+    //that act on part of its surface in the wrong direction (see split_edge())
+    repair_inconsistent_winding(c);
+}
+//-----------------------------------------------------------------------------------------------
 
 
+
+
+//-----------------------------------------------------------------------------------------------
+//Count the edges whose 2 faces run through them in the same direction. On a consistently wound
+//closed surface the two faces of an edge always traverse it in opposite directions. One pass over
+//the edge set, no allocation
+unsigned local_mesh_refiner::count_inconsistently_wound_edges(const cell_ptr& c) noexcept{
+
+    //True if the node cycle of the face contains the directed edge n1 -> n2
+    const auto face_runs_from_to = [](const face& f, const unsigned n1_id, const unsigned n2_id){
+        const auto [i1, i2, i3] = f.get_node_ids();
+        return (i1 == n1_id && i2 == n2_id) || (i2 == n1_id && i3 == n2_id) || (i3 == n1_id && i1 == n2_id);
+    };
+
+    unsigned nb_inconsistent_edges = 0;
+    for(const edge& e : c->edge_set_){
+        //Non-manifold edges are not a winding problem and are reported elsewhere (cell::is_manifold())
+        if(!e.is_manifold()) continue;
+        const face& f_1 = c->face_lst_[e.f1()];
+        const face& f_2 = c->face_lst_[e.f2()];
+        if(face_runs_from_to(f_1, e.n1(), e.n2()) == face_runs_from_to(f_2, e.n1(), e.n2())) nb_inconsistent_edges++;
+    }
+    return nb_inconsistent_edges;
+}
+//-----------------------------------------------------------------------------------------------
+
+
+
+
+//-----------------------------------------------------------------------------------------------
+//Sum over the directed edges (a, b) of all the used faces of g(a, b) = h(a, b) - h(b, a), with h a 64-bit
+//mixing hash and the arithmetic modulo 2^64. On a consistently wound closed surface every directed edge
+//(a, b) is matched by the directed edge (b, a) of the neighbouring face, so the terms cancel exactly and
+//the sum is 0. An edge that both of its faces traverse as (a, b) adds 2 g(a, b) instead, which is not 0
+//unless the hash happens to collide. One pass over the contiguous face list, no allocation
+uint64_t local_mesh_refiner::winding_checksum(const cell_ptr& c) noexcept{
+
+    //splitmix64 finalizer
+    const auto h = [](const unsigned a, const unsigned b) -> uint64_t {
+        uint64_t x = (static_cast<uint64_t>(a) << 32) | static_cast<uint64_t>(b);
+        x += 0x9e3779b97f4a7c15ULL;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
+        return x ^ (x >> 31);
+    };
+
+    uint64_t checksum = 0;
+    for(const face& f : c->face_lst_){
+        if(!f.is_used()) continue;
+        const auto [n1_id, n2_id, n3_id] = f.get_node_ids();
+        checksum += h(n1_id, n2_id) - h(n2_id, n1_id);
+        checksum += h(n2_id, n3_id) - h(n3_id, n2_id);
+        checksum += h(n3_id, n1_id) - h(n1_id, n3_id);
+    }
+    return checksum;
+}
+//-----------------------------------------------------------------------------------------------
+
+
+
+
+//-----------------------------------------------------------------------------------------------
+//Called at the end of refine_mesh(). If the winding of the faces of the cell is inconsistent, report
+//it (the first 20 occurrences, then every 1000th) and re-orient all the faces of the cell from one
+//seed face, which is what cell::initialize_cell_properties() does for a new cell. Repairing instead
+//of throwing keeps a long run alive; the log line makes any regression of split_edge() visible
+unsigned local_mesh_refiner::repair_inconsistent_winding(cell_ptr c) const noexcept{
+
+    //This runs on every cell at every time step, so screen with the checksum first. On the 26k cells of a
+    //paper-config snapshot (350 faces on average) it takes ~5 us per cell, against ~27 us for the exact
+    //count over the edge set, ~100 us for a refine_mesh() call that changes nothing and ~2 ms of CPU time
+    //per cell for a whole time step. A non-manifold surface can also give a non-zero checksum: the exact
+    //count, which only looks at manifold edges, then returns 0
+    if(winding_checksum(c) == 0) return 0;
+
+    const unsigned nb_inconsistent_edges = count_inconsistently_wound_edges(c);
+    if(nb_inconsistent_edges == 0) return 0;
+
+    //cell::check_face_normal_orientation() walks the surface through manifold edges only
+    const bool can_be_repaired = c->is_manifold();
+
+    static std::atomic<unsigned long> nb_repairs{0};
+    const unsigned long n = ++nb_repairs;
+    if(n <= 20 || n % 1000 == 0){
+        std::cerr << "local_mesh_refiner: inconsistent face winding on cell " << c->get_id()
+                  << " (" << nb_inconsistent_edges << " edges), "
+                  << (can_be_repaired ? "faces re-oriented" : "not repaired: the surface is not manifold")
+                  << " (occurrence " << n << ")" << std::endl;
+    }
+    if(!can_be_repaired) return nb_inconsistent_edges;
+
+    c->check_face_normal_orientation();
+    c->update_all_face_normals_and_areas();
+    return nb_inconsistent_edges;
 }
 //-----------------------------------------------------------------------------------------------
 
@@ -442,15 +638,25 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
     const face& f_1 = c->get_face(e_ab.f1());
     const face& f_2 = c->get_face(e_ab.f2());
 
-    //Get the normals of the 2 faces
-    const vec3 f1_normal = f_1.get_normal();
-    const vec3 f2_normal = f_2.get_normal();
-
     //Get the opposite nodes of the edge in the two faces
     const unsigned id_n_c = f_1.get_opposite_node(n_a.get_local_id(), n_b.get_local_id());
     const unsigned id_n_d = f_2.get_opposite_node(n_a.get_local_id(), n_b.get_local_id());
-    const node& n_c = c->get_node(id_n_c);
-    const node& n_d = c->get_node(id_n_d);
+
+    //The winding of the 4 new faces is inherited from the faces they replace: a face whose node
+    //cycle runs A->B (i.e. A,B,C) is replaced by (C,A,E) and (C,E,B); one that runs B->A by
+    //(C,E,A) and (C,B,E). This must be decided combinatorially. It used to be decided by comparing
+    //(A-C)x(B-C) with the face normal stored in f_1/f_2, but that normal is only refreshed once per
+    //time step and is not updated by merge_edge() within this refine_mesh() call: after a merge or a
+    //node displacement folds a small triangle over, its stored normal points the opposite way, the
+    //wrong branch is taken and the new faces get the opposite winding of their neighbours. The cell
+    //then carries a patch of inverted faces for the rest of its life: compute_volume() under- or
+    //over-counts it, and the pressure, bending and contact forces act on it in the wrong direction
+    const auto runs_from_a_to_b = [id_n_a, id_n_b](const face& f){
+        const auto [i1, i2, i3] = f.get_node_ids();
+        return (i1 == id_n_a && i2 == id_n_b) || (i2 == id_n_a && i3 == id_n_b) || (i3 == id_n_a && i1 == id_n_b);
+    };
+    const bool f_1_runs_a_to_b = runs_from_a_to_b(f_1);
+    const bool f_2_runs_a_to_b = runs_from_a_to_b(f_2);
 
     //Create a node in the middle of the edge
     const vec3 n_e_pos = (n_b.pos() + n_a.pos()) * 0.5;
@@ -481,13 +687,6 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
     #endif 
 
 
-    // Cache node positions before add_node() to prevent dangling references
-    // (add_node can trigger vector reallocation, invalidating node references)
-    const vec3 n_a_pos = n_a.pos();
-    const vec3 n_b_pos = n_b.pos();
-    const vec3 n_c_pos = n_c.pos();
-    const vec3 n_d_pos = n_d.pos();
-
     //Add the new node to the cell
     const unsigned id_n_e = c->add_node(n_e);
 
@@ -511,7 +710,7 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
 
     //Create the faces 3 and 5 such that they have the normal pointing in
     //the same direction as the normal of f1
-    if ((n_a_pos - n_c_pos).cross(n_b_pos - n_c_pos).dot(f1_normal) >= 0.){
+    if (f_1_runs_a_to_b){
         f_3_id = c->create_face(id_n_c, id_n_a, id_n_e);
         f_5_id = c->create_face(id_n_c, id_n_e, id_n_b);
     }else{
@@ -523,7 +722,7 @@ void local_mesh_refiner::split_edge(edge& e_ab, cell_ptr c, edge_set& edge_to_ch
 
     //Create the faces 4 and 6 such that they have the normal pointing in
     //the same direction as the normal of f2
-    if ((n_a_pos - n_d_pos).cross(n_b_pos - n_d_pos).dot(f2_normal) >= 0.){
+    if (f_2_runs_a_to_b){
         f_4_id = c->create_face(id_n_d, id_n_a, id_n_e);
         f_6_id = c->create_face(id_n_d, id_n_e, id_n_b);
     }else{

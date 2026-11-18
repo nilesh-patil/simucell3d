@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Use CPP 17
 set(CMAKE_CXX_STANDARD 17)
@@ -30,3 +30,6 @@ add_test(NAME time_integration_test_very_small_time_step          COMMAND time_i
 add_test(NAME time_integration_test_kinetic_energy_calculation    COMMAND time_integration_test test_kinetic_energy_calculation)
 add_test(NAME time_integration_test_multiple_cells_independence   COMMAND time_integration_test test_multiple_cells_independence)
 add_test(NAME time_integration_test_overdamped_dynamics           COMMAND time_integration_test test_overdamped_dynamics)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

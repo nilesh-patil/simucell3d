@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Use C++17 standard
 set(CMAKE_CXX_STANDARD 17)
@@ -77,3 +77,6 @@ add_test(NAME benchmark_vec3_aos_bandwidth             COMMAND test_memory_bandw
 add_test(NAME benchmark_random_access_latency          COMMAND test_memory_bandwidth test_random_access_latency)
 add_test(NAME benchmark_soa_vs_aos_comparison          COMMAND test_memory_bandwidth test_soa_vs_aos_comparison)
 add_test(NAME benchmark_parallel_bandwidth_scaling     COMMAND test_memory_bandwidth test_parallel_bandwidth_scaling)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

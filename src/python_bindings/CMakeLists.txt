@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Note: This module uses pybind11_add_module instead of add_library
 # The source file is explicitly specified in the pybind11_add_module call below

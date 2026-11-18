@@ -15,10 +15,16 @@
 
 
 
-/*
-    Class for a 3x3 matrix object
-*/
+/**
+ * @file
+ * @brief 3 x 3 matrix of doubles.
+ * @ingroup math
+ */
 
+/**
+ * @brief 3 x 3 matrix of doubles stored by rows; the zero matrix by default.
+ * @ingroup math
+ */
 class mat33 
 {
 
@@ -39,7 +45,7 @@ class mat33
         mat33& operator=(mat33&& m) = default;     //move assignment operator 
 
 
-        //Trivial constructor
+        /** @brief Construct the matrix from its three rows. */
         mat33(const std::array<double, 3>& row_1,
               const std::array<double, 3>& row_2,
               const std::array<double, 3>& row_3
@@ -53,6 +59,7 @@ class mat33
         )noexcept;
 
 
+        /** @brief The identity matrix. */
         static mat33 identity() noexcept{
             return mat33(
                 {1., 0., 0.},
@@ -61,39 +68,61 @@ class mat33
             );
         }
 
-        //Print the content of the vector
+        /** @brief Print the matrix to standard output, one row per line. */
         void print() const noexcept; 
 
 
+        /** @brief Row @p i (0, 1 or 2) as a vector. */
         vec3 get_row(const int i) const noexcept;
+        /** @brief Column @p i (0, 1 or 2) as a vector. */
         vec3 get_col(const int i) const noexcept;
 
-        //Return the dot product
+        /** @brief Matrix product (this * m). */
         mat33 dot(const mat33& m) const noexcept;
+        /** @brief Matrix product (this * m). */
         mat33 dot(      mat33&& m) const noexcept;
 
+        /** @brief Matrix-vector product (this * v). */
         vec3 dot(const vec3& v) const noexcept;
+        /** @brief Matrix-vector product (this * v). */
         vec3 dot(      vec3&& v) const noexcept;
        
 
+        /** @brief Transposed matrix. */
         mat33 transpose() const noexcept;
+        /** @brief Determinant. */
         double determinant() const noexcept;
 
+        /**
+         * @brief Eigenvalues and eigenvectors of a symmetric matrix.
+         *
+         * Uses gte::SymmetricEigensolver3x3. The matrix must be symmetric (checked by
+         * assertions in debug builds).
+         *
+         * @return The eigenvalues in increasing order, and a matrix whose column i is the unit
+         *         eigenvector of eigenvalue i.
+         */
         std::pair<vec3, mat33> eigen_decomposition() const noexcept;
 
 
+        /**
+         * @brief Inverse matrix.
+         * @throws std::domain_error if |determinant| < 1e-12.
+         */
         mat33 inverse() const;
 
 
-        //Overload substraction operator
+        /** @brief Element-wise difference. */
         mat33 operator-(mat33&& m) const noexcept;         //rvalue arg
         mat33 operator-(const mat33& m) const noexcept;    //lvalue arg
 
-        //Overload addition operator
+        /** @brief Element-wise sum. */
         mat33 operator+(mat33&& m) const noexcept;         //rvalue arg
         mat33 operator+(const mat33& m) const noexcept;    //lvalue arg
 
+        /** @brief Product with a scalar. */
         mat33 operator*(const double scalar) const noexcept;         //rvalue arg
+        /** @brief Copy of row @p i (0, 1 or 2). */
         std::array<double, 3> operator[](const int i) const noexcept;    //lvalue arg
 
 

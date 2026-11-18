@@ -1,0 +1,31 @@
+SimuCell3D
+==========
+
+SimuCell3D was created by Steve Runser in the group of Dagmar Iber (Iber Lab) at the
+Department of Biosystems Science and Engineering (D-BSSE) of ETH Zurich and the Swiss
+Institute of Bioinformatics (SIB), Basel, and is described in
+
+    Runser, S., Vetter, R. & Iber, D. SimuCell3D: three-dimensional simulation of tissue
+    mechanics with cell polarization. Nat. Comput. Sci. 4, 299-309 (2024).
+    https://doi.org/10.1038/s43588-024-00620-9
+
+Release 1.0 was distributed by its authors under the 3-Clause BSD License. The file LICENSE
+reproduces that licence text verbatim, as it appears in the file `License` of release 1.0
+(tag v1.0); the original file names no copyright holder.
+
+Modifications since release 1.0
+-------------------------------
+
+The changes made since release 1.0 (releases 2.0 and later) are
+
+    Copyright (c) 2026 Nilesh Patil
+
+and are released under the same 3-Clause BSD License (see LICENSE).
+
+Releases 2.x are maintained by Nilesh Patil at https://github.com/nilesh-patil/simucell3d.
+They have not been reviewed or endorsed by the Iber Lab or by ETH Zurich.
+
+Third-party code
+----------------
+
+The libraries in lib/ (tinyxml2, delaunator, pybind11) keep their own licences.

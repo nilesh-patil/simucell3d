@@ -1,5 +1,13 @@
 
 <?xml version="1.0"?>
+<!--
+    Required compile-time switches (include/global_configuration.hpp):
+        POLARIZATION_MODE_INDEX  1
+        CONTACT_MODEL_INDEX      1   (default build: 2)
+        DYNAMIC_MODEL_INDEX      0
+    This file does not match the default build: edit include/global_configuration.hpp
+    and rebuild before running it.
+-->
 
 
 <!--
@@ -9,11 +17,6 @@
 
     This parameter file uses V1.0's STABLE default values, which use a coarser
     mesh resolution for numerical stability during cell division.
-
-    Required compile-time settings in /include/global_configuration.hpp:
-        POLARIZATION_MODE_INDEX:    1
-        CONTACT_MODEL_INDEX:        1  (Node-Node contact - V1.0 default)
-        DYNAMIC_MODEL_INDEX:        0  (Dynamic equations of motion)
 
     Key differences from Paper Table 2:
         - min_edge_length: 7.5e-7 m (vs 2e-7) - coarser mesh for stability
@@ -226,7 +229,6 @@
         <!-- V1.0 DEFAULT: H_max = 1e7 m⁻¹ -->
         <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
         <min_vol>1e-18</min_vol>
-        <INMForce>0</INMForce>
 
         <face_types>
             <face_type>

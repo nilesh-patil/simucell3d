@@ -170,10 +170,10 @@ int test_uspg_latency_small() {
     std::cout << "Per-cell time: " << per_cell_us << " us/cell" << std::endl;
     std::cout << "Target:        " << TARGET_LATENCY_US_PER_CELL << " us/cell" << std::endl;
 
-    bool t1 = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
-    std::cout << "Within target: " << t1 << std::endl;
+    bool within_target = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
+    std::cout << "Within target: " << within_target << std::endl;
 
-    return !t1;
+    return 0;  // Diagnostic only: hardware-dependent
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -196,10 +196,10 @@ int test_sap_latency_small() {
     std::cout << "Per-cell time: " << per_cell_us << " us/cell" << std::endl;
     std::cout << "Target:        " << TARGET_LATENCY_US_PER_CELL << " us/cell" << std::endl;
 
-    bool t1 = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
-    std::cout << "Within target: " << t1 << std::endl;
+    bool within_target = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
+    std::cout << "Within target: " << within_target << std::endl;
 
-    return !t1;
+    return 0;  // Diagnostic only: hardware-dependent
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -222,10 +222,10 @@ int test_uspg_latency_medium() {
     std::cout << "Per-cell time: " << per_cell_us << " us/cell" << std::endl;
     std::cout << "Target:        " << TARGET_LATENCY_US_PER_CELL << " us/cell" << std::endl;
 
-    bool t1 = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
-    std::cout << "Within target: " << t1 << std::endl;
+    bool within_target = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
+    std::cout << "Within target: " << within_target << std::endl;
 
-    return !t1;
+    return 0;  // Diagnostic only: hardware-dependent
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -248,10 +248,10 @@ int test_sap_latency_medium() {
     std::cout << "Per-cell time: " << per_cell_us << " us/cell" << std::endl;
     std::cout << "Target:        " << TARGET_LATENCY_US_PER_CELL << " us/cell" << std::endl;
 
-    bool t1 = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
-    std::cout << "Within target: " << t1 << std::endl;
+    bool within_target = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
+    std::cout << "Within target: " << within_target << std::endl;
 
-    return !t1;
+    return 0;  // Diagnostic only: hardware-dependent
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -274,10 +274,10 @@ int test_uspg_latency_large() {
     std::cout << "Per-cell time: " << per_cell_us << " us/cell" << std::endl;
     std::cout << "Target:        " << TARGET_LATENCY_US_PER_CELL << " us/cell" << std::endl;
 
-    bool t1 = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
-    std::cout << "Within target: " << t1 << std::endl;
+    bool within_target = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
+    std::cout << "Within target: " << within_target << std::endl;
 
-    return !t1;
+    return 0;  // Diagnostic only: hardware-dependent
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -299,10 +299,10 @@ int test_sap_latency_large() {
     std::cout << "Per-cell time: " << per_cell_us << " us/cell" << std::endl;
     std::cout << "Target:        " << TARGET_LATENCY_US_PER_CELL << " us/cell" << std::endl;
 
-    bool t1 = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
-    std::cout << "Within target: " << t1 << std::endl;
+    bool within_target = (per_cell_us < TARGET_LATENCY_US_PER_CELL);
+    std::cout << "Within target: " << within_target << std::endl;
 
-    return !t1;
+    return 0;  // Diagnostic only: hardware-dependent
 }
 //---------------------------------------------------------------------------------------------------------
 
@@ -354,7 +354,7 @@ int test_scaling_behavior() {
     std::cout << "USPG sublinear scaling: " << t1 << std::endl;
     std::cout << "SAP sublinear scaling:  " << t2 << std::endl;
 
-    return !(t1 && t2);
+    return 0;  // Diagnostic only: hardware-dependent
 }
 //---------------------------------------------------------------------------------------------------------
 

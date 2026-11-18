@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 #Use CPP 17
 set(CMAKE_CXX_STANDARD 17)
@@ -23,8 +23,8 @@ target_include_directories(test_automatic_polarization PUBLIC
     "${PROJECT_SOURCE_DIR}/include/io"
 )
 
+#Run the tests
+add_test(NAME automatic_polarization_unknown_region_throws COMMAND test_automatic_polarization test_unknown_region_throws)
 
-
-
-
-
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

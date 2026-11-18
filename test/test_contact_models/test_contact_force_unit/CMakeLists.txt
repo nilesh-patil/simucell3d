@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Use C++17 standard
 set(CMAKE_CXX_STANDARD 17)
@@ -56,3 +56,6 @@ add_test(
     NAME contact_force_direction
     COMMAND test_contact_force_unit test_force_direction_correctness
 )
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

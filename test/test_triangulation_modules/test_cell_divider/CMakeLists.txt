@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 
 
@@ -41,6 +41,11 @@ add_test(NAME triangulation_modules_cell_divider_add_point_to_face_empty_face_te
 add_test(NAME triangulation_modules_cell_divider_add_point_to_face_insufficient_nodes_test COMMAND test_cell_divider add_point_to_face_insufficient_nodes_test)
 add_test(NAME triangulation_modules_cell_divider_unused_variable_efficiency_test        COMMAND test_cell_divider unused_variable_efficiency_test)
 add_test(NAME triangulation_modules_cell_divider_delaunay_exception_message_test        COMMAND test_cell_divider delaunay_exception_message_test)
+add_test(NAME triangulation_modules_cell_divider_divide_cell_multi_loop_plane_test      COMMAND test_cell_divider divide_cell_multi_loop_plane_test)
+
+# Division of a mother whose cut face Delaunay cannot cover: refused, mother kept (fixture earclip_mother_24474.vtk)
+add_test(NAME triangulation_modules_cell_divider_divide_cell_refuses_uncovered_interface_test COMMAND test_cell_divider divide_cell_refuses_uncovered_interface_test)
+add_test(NAME triangulation_modules_cell_divider_divide_cell_run_keeps_refused_mother_test    COMMAND test_cell_divider divide_cell_run_keeps_refused_mother_test)
 
 
 
@@ -77,3 +82,6 @@ add_test(NAME triangulation_modules_cell_divider_delaunay_exception_message_test
 
 
 
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

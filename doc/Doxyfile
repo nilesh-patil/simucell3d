@@ -1,0 +1,59 @@
+# Doxygen configuration for the SimuCell3D C++ API reference.
+#
+# Run from the doc/ directory (`make doxygen`). Only XML is written; Sphinx
+# renders it through Breathe (see conf.py). Settings not listed here keep
+# their Doxygen defaults.
+
+PROJECT_NAME           = SimuCell3D
+OUTPUT_DIRECTORY       = _build/doxygen
+CREATE_SUBDIRS         = NO
+
+# Sources: public headers plus the group definitions.
+INPUT                  = ../include api/groups.dox
+FILE_PATTERNS          = *.hpp *.dox
+RECURSIVE              = YES
+EXCLUDE_PATTERNS       = *.in
+STRIP_FROM_PATH        = ..
+STRIP_FROM_INC_PATH    = ../include
+FULL_PATH_NAMES        = YES
+
+# Language and parsing.
+EXTENSION_MAPPING      = hpp=C++ dox=C++
+MARKDOWN_SUPPORT       = YES
+JAVADOC_AUTOBRIEF      = YES
+BUILTIN_STL_SUPPORT    = YES
+INLINE_INHERITED_MEMB  = NO
+DISTRIBUTE_GROUP_DOC   = YES
+GROUP_NESTED_COMPOUNDS = YES
+
+# Preprocessing is off so that members inside compile-time branches
+# (CONTACT_MODEL_INDEX, DYNAMIC_MODEL_INDEX, POLARIZATION_MODE_INDEX,
+# FACE_STORE_CONTACT_ENERGY) are all documented, whatever the values in
+# include/global_configuration.hpp.
+ENABLE_PREPROCESSING   = NO
+
+# What to extract.
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = NO
+HIDE_UNDOC_RELATIONS   = YES
+
+# Output: XML for Breathe only.
+GENERATE_XML           = YES
+XML_PROGRAMLISTING     = NO
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+GENERATE_RTF           = NO
+GENERATE_MAN           = NO
+
+# Diagnostics.
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO
+WARN_NO_PARAMDOC       = NO
+WARN_AS_ERROR          = NO
+
+# Do not show variable initializers (the output-mapper lists hold lambdas that
+# the Sphinx C++ domain cannot parse).
+MAX_INITIALIZER_LINES  = 0

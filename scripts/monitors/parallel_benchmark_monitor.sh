@@ -55,7 +55,7 @@ OPTIONS:
 
 EXAMPLES:
     # One-time status display
-    $(basename "$0") doc/working/parallel_benchmark_20241127_100000
+    $(basename "$0") doc/working/parallel_benchmark_<timestamp>
 
     # Continuous monitoring of latest benchmark
     $(basename "$0") --latest --watch

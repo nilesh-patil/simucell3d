@@ -1,8 +1,9 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 
 
 add_subdirectory(test_utils)
+add_subdirectory(test_cpu_topology)
 add_subdirectory(test_uspg)
 add_subdirectory(test_math_modules)
 add_subdirectory(test_mesh)
@@ -16,3 +17,4 @@ add_subdirectory(test_performance_monitor)
 add_subdirectory(test_scientific_benchmarks)
 add_subdirectory(test_stability)
 add_subdirectory(test_benchmarks)
+add_subdirectory(test_e2e)

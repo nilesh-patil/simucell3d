@@ -1,3 +1,20 @@
+"""Plot the per-cell statistics of a SimuCell3D run.
+
+Reads ``simulation_statistics.csv`` from a simulation output folder and writes two figures into
+the same folder:
+
+- ``sim_geometry_data.png``: number of cells, cell volume and area, their deviation from the
+  target volume and area, and the pressure, against simulation time;
+- ``sim_energy_data.png``: kinetic, surface tension, membrane elasticity, pressure and total
+  potential energy per cell, against simulation time.
+
+Usage::
+
+    python3 plot_data.py path/to/simulation_output_folder
+
+Requires pandas, matplotlib, numpy and tqdm. See the user guide, chapter "Visualization".
+"""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,10 +25,6 @@ import warnings
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
-"""
-    This script plots the data from the simulation_statistics.csv file. The plots will be saved 
-    in the same folder as the simulation_statistics.csv file.
-"""
 
 
 

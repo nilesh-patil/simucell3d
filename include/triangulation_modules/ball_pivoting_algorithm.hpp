@@ -26,12 +26,22 @@
 
 
 
-/*
-    Given a poisson point cloud, this class reconstructs a triangulated surface by using the 
-    ball pivoting algorithm. The theory behind this algorithm can be found in the original paper:
-    "The ball-pivoting algorithm for surface reconstruction", by Bernardini et al, DOI: 10.1109/2945.817351
-*/
+/**
+ * @file
+ * @brief Surface reconstruction from an oriented point cloud with the ball pivoting algorithm.
+ * @ingroup triangulation
+ */
 
+/**
+ * @brief Reconstructs a closed triangulated surface from a Poisson-disk point cloud.
+ *
+ * Implements the ball pivoting algorithm of Bernardini et al., "The ball-pivoting algorithm
+ * for surface reconstruction", IEEE TVCG 5(4), 1999, doi:10.1109/2945.817351, with a ball of
+ * radius 1.7 * l_min. After the front has been expanded, holes of up to about 10 nodes are closed
+ * by fans around a new centre node. Used by initial_triangulation.
+ *
+ * @ingroup triangulation
+ */
 
 
 class ball_pivoting_algorithm
@@ -79,7 +89,12 @@ class ball_pivoting_algorithm
         ball_pivoting_algorithm& operator=(const ball_pivoting_algorithm& c) = delete;//copy assignment operator
         ball_pivoting_algorithm& operator=(ball_pivoting_algorithm&& c) = delete;     //move assignment operator 
 
-        //The trivial construtor
+        /**
+         * @brief Prepare the reconstruction.
+         * @param poisson_point_cloud At least 4 oriented points, typically at least l_min apart.
+         * @param l_min Minimum edge length, m; the ball radius is 1.7 * l_min.
+         * @param min_x,min_y,min_z,max_x,max_y,max_z Bounding box of the points, m.
+         */
         ball_pivoting_algorithm(
             const std::vector<oriented_point>& poisson_point_cloud, 
             const double l_min,
@@ -87,53 +102,63 @@ class ball_pivoting_algorithm
             const double max_x, const double max_y, const double max_z 
         ) noexcept(false);
 
-        //Run the algorithm
+        /**
+         * @brief Run the reconstruction: seed triangle, front expansion, hole filling.
+         * @throws bpa_exception if no seed triangle is found, a hole is too large (more than about 10 nodes) or has fewer
+         *         than 3 nodes, or the surface is not watertight.
+         */
         void run() noexcept(false){
             find_seed_triangle();
             expand_triangulation();
             fill_surface_holes();
         }
 
-        //Find a triangle from which the surface expansion can be started
+        /**
+         * @brief Find a first triangle whose ball contains no other point.
+         * @throws bpa_exception if none is found.
+         */
         void find_seed_triangle() noexcept(false);
 
-        //Getters, return copies (it's expensive but only run once at the initialization)
-        std::vector<face> get_face_lst() const noexcept{return face_lst_;}
-        std::vector<edge> get_edge_lst() const noexcept{return edge_lst_;}
-        std::vector<oriented_point> get_node_lst() const noexcept{return node_lst_;}
+        std::vector<face> get_face_lst() const noexcept{return face_lst_;}  ///< Copy of the created faces.
+        std::vector<edge> get_edge_lst() const noexcept{return edge_lst_;}  ///< Copy of the created edges.
+        std::vector<oriented_point> get_node_lst() const noexcept{return node_lst_;}  ///< Copy of the points, including hole centres.
 
+        /** @brief Pivot the ball around the front edges until no new triangle can be added. */
         void expand_triangulation() noexcept;
 
-        //Check if the points have normals pointing in the same direction
+        /** @brief Whether the normals of the three points point in the same direction. */
         static bool points_coherently_oriented(
             const oriented_point& a, 
             const oriented_point& b,
             const oriented_point& c
         ) noexcept;
         
-        //Compute the normal of the plane formed by the 3 points and make 
-        //that this normal is oriented in the same direction as the points' normals
-        //The retruned normal is a unit vector
+        /**
+         * @brief Unit normal of the plane through the three points, oriented like the points'
+         *        normals.
+         */
         static vec3 compute_oriented_normal(
             const oriented_point& point_a, 
             const oriented_point& point_b,
             const oriented_point& point_c
         ) noexcept;
 
-        //Get the center of the sphere of radius = ball_radius_ passing by the 3 points
-        //If this method doesn't return anything then this circumsphere does not exist
+        /**
+         * @brief Centre of the ball through the three points, on the side of their normals.
+         * @return The centre, or an empty optional if the ball is too small to touch all three.
+         */
         std::optional<vec3> compute_circum_sphere_center(
             const oriented_point& point_a, 
             const oriented_point& point_b,
             const oriented_point& point_c
         ) const noexcept;
 
+        /** @brief compute_circum_sphere_center() for the three nodes of a face. */
         std::optional<vec3> compute_circum_sphere_center(
             const face& f
         ) const noexcept;
 
-        //Check if the circum_sphere with center circum_sphere_center and radius ball_radius_
-        //does not overlap with points that are point_a, point_b, or point_c..
+        /** @brief Whether the ball at @p circum_sphere_center contains no point other than a, b and c. */
         bool circum_sphere_is_empty(
             const vec3& circum_sphere_center, 
             const oriented_point& point_a, 
@@ -141,19 +166,23 @@ class ball_pivoting_algorithm
             const oriented_point& point_c
         ) const noexcept;
 
-        //Returns the id of the edge formed by 2 points.
+        /** @brief Id of the edge between two points. */
         unsigned get_edge(const unsigned point_1_id, const unsigned point_2_id) noexcept;
+        /** @brief Id of the edge between two points. */
         unsigned get_edge(const oriented_point& point_a, const oriented_point& point_b) noexcept;
 
-        //Returns the id of the best node with which to connect the edge to form a triangle
+        /** @brief The point that the ball reaches first when pivoting around @p edge, if any. */
         std::optional<oriented_point> find_candidate_node(const edge& edge) const noexcept;
 
-        //Returns if the point is already part of the triangulated region of the cell surface
+        /** @brief Whether the point is already inside the triangulated region. */
         bool node_is_inner_vertex(const unsigned point_id)  const noexcept;
+        /** @brief Whether the point is already inside the triangulated region. */
         bool node_is_inner_vertex(const oriented_point& p) const noexcept;
 
-        //Make sure that the normal of the face {f1_a, f1_b, p} points in the same direction as the normal
-        //of the face {f1_a, f1_b, f1_c}
+        /**
+         * @brief Whether the face {f1_a, f1_b, p} has a normal pointing in the same direction
+         *        as the face {f1_a, f1_b, f1_c}.
+         */
         static bool node_is_compatible_with_edge(
             const oriented_point& p, 
             const oriented_point& f1_a,
@@ -161,10 +190,10 @@ class ball_pivoting_algorithm
             const oriented_point& f1_c
         ) noexcept;
 
-        //Compute the angle between the center of the circumspheres and the center of the edge
-        //the candidate point, with the smallest angle is the one choosen. Basically the 
-        //algorithm tries to create a flat triangulated surface. The returned angle should be in the 
-        //range [0, 2pi]
+        /**
+         * @brief Pivoting angle, in [0, 2 pi], between two ball centres seen from the edge
+         *        centre; the candidate with the smallest angle is chosen.
+         */
         static double compute_angle_between_circumspheres(
                 const vec3& face_a_circum_center,
                 const vec3& face_b_circum_center,
@@ -173,10 +202,16 @@ class ball_pivoting_algorithm
 
 
 
-        //Fill the remaining holes in the surface with triangles
+        /**
+         * @brief Close the remaining holes with fans of triangles around a new centre node.
+         * @throws bpa_exception if a hole is too large (more than about 10 nodes) or has fewer than 3 nodes.
+         */
         void fill_surface_holes() noexcept(false);
 
-        //Get the next node which is part of the hole
+        /**
+         * @brief Next node along the boundary of a hole.
+         * @throws bpa_exception if the boundary cannot be followed (surface not watertight).
+         */
         unsigned get_next_node_of_the_hole(const unsigned previous_node, const unsigned current_node) const noexcept(false);
 
 

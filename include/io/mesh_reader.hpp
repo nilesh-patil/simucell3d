@@ -18,11 +18,17 @@
 #include "custom_exception.hpp"
 
 
-/*
-    Class that contains all the functions to read an initial geometry file. The initial mesh should 
-    be contained in a VTK file (.vtk) with ASCII encoding. 
-*/
+/**
+ * @file
+ * @brief Reader of the input mesh (legacy VTK, ASCII).
+ * @ingroup io
+ */
 
+/**
+ * @brief Reads the input mesh: a legacy ASCII VTK file (version 4.2) with one polyhedron cell (VTK type 42)
+ * per biological cell and a `cell_type_id` cell-data array.
+ * @ingroup io
+ */
 class mesh_reader{
    private:
       std::string file_content_;
@@ -34,25 +40,49 @@ class mesh_reader{
       mesh_reader& operator=(const mesh_reader& v) = delete;//copy assignment operator
       mesh_reader& operator=(mesh_reader&& v) = delete;     //move assignment operator 
       
-      //Instantiate the reader by providing the inpt mesh file
+      /**
+       * @brief Load the file into memory.
+       *
+       * The path is tried as given (absolute, or relative to the working directory), then relative to the
+       * source directory recorded at configure time (`PROJECT_SOURCE_DIR`). A file version other than 4.2 only
+       * prints a warning.
+       * @param mesh_file_path Path of the VTK file.
+       * @param verbose Print warnings about the path and the file version.
+       * @throws mesh_reader_exception If the file is found at neither location or has no VTK version header.
+       */
       mesh_reader(const std::string& mesh_file_path, const bool verbose = true) noexcept(false);
 
-      //Read the mesh file and return the data in a list of mesh objects
+      /**
+       * @brief Parse the file into one mesh per cell.
+       * @throws mesh_reader_exception If the points or cells sections are missing or malformed.
+       */
       std::vector<mesh> read() const noexcept(false);
 
-      //Get the position of the mesh nodes
+      /**
+       * @brief Return the coordinates of all points, flattened as x, y, z per point, m.
+       * @throws mesh_reader_exception If the points section is missing or contains invalid values.
+       */
       std::vector<double> get_node_pos() const noexcept(false);
 
-      //Return in a structure the faces of each cell
+      /**
+       * @brief Return the face connectivity of each cell, as stored in the polyhedron cells of the file.
+       * @throws mesh_reader_exception If a cell is not a polyhedron or the cells section is corrupted.
+       */
       std::vector<std::vector<unsigned>>  read_cell_faces() const noexcept(false);
 
-      //Transform the loaded point data and face connectivity data into a vector of mesh objects
+      /**
+       * @brief Build one mesh per cell from the point coordinates and the per-cell face connectivity.
+       * @throws mesh_reader_exception If the connectivity data is inconsistent.
+       */
       static std::vector<mesh>  get_cell_mesh(
          const std::vector<double>& node_pos, 
          const std::vector<std::vector<unsigned>>& face_connectivity_lst_lst
       ) noexcept(false);
 
-      //Find the cell_type_id array in the VTK file and extract the cell type of each cell
+      /**
+       * @brief Return the `cell_type_id` of each cell, read from the cell-data array of that name.
+       * @throws mesh_reader_exception If the array is missing or contains invalid values.
+       */
       std::vector<short>  get_cell_types() const noexcept(false);
 
 };

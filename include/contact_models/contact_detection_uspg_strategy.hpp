@@ -1,6 +1,12 @@
 #ifndef DEF_CONTACT_DETECTION_USPG_STRATEGY
 #define DEF_CONTACT_DETECTION_USPG_STRATEGY
 
+/**
+ * @file contact_detection_uspg_strategy.hpp
+ * @brief Contact detection with a uniform spatial partitioning grid (`uspg`).
+ * @ingroup contact_models
+ */
+
 #include "contact_detection_strategy.hpp"
 #include "uspg_4d.hpp"
 #include "face.hpp"
@@ -8,28 +14,16 @@
 
 //---------------------------------------------------------------------------------------------
 /**
- * Uniform Spatial Partitioning Grid (USPG) contact detection strategy.
+ * @brief Contact detection strategy based on a uniform spatial partitioning grid (USPG).
  *
- * This strategy wraps the existing USPG implementation to provide
- * contact detection through the polymorphic strategy interface.
+ * Space is divided into cubic voxels of edge 3 x `min_edge_len_` + 2 x padding, where the
+ * padding is the larger contact cutoff. Each face is inserted, in Morton (Z-order) order of its
+ * AABB centre, into every voxel its padded AABB overlaps. A query returns the faces stored in
+ * the voxel of the point and its 26 neighbours, excluding faces of the query cell.
  *
- * Algorithm Overview:
- * - Space is divided into uniform voxels of size determined by
- *   min_edge_len and contact cutoff parameters
- * - Faces are inserted into all voxels their AABB overlaps
- * - Queries return faces from the voxel containing the query point
- *   plus all 26 neighboring voxels (3x3x3 neighborhood)
- *
- * Complexity:
- * - prepare(): O(F * V) where F is face count and V is average voxels per face
- * - get_candidate_faces(): O(N) where N is average faces in 27-voxel neighborhood
- *
- * Memory: O(F * V) for face storage in voxels (faces may appear in multiple voxels)
- *
- * Best For:
- * - Uniform cell distributions
- * - Dense packing where most voxels contain faces
- * - Simulations with consistent mesh resolution
+ * @note contact_face_face_via_coupling bins faces in its own grid when this algorithm is
+ *       selected; this class is the strategy-interface implementation of the same idea.
+ * @ingroup contact_models
  */
 class contact_detection_uspg_strategy : public contact_detection_strategy {
 private:
@@ -53,28 +47,35 @@ private:
 
 public:
     /**
-     * Construct USPG strategy from simulation parameters.
-     *
-     * Derives voxel size from min_edge_len and contact cutoff distances
-     * to ensure efficient spatial queries.
-     *
-     * @param params Simulation parameters containing edge length and cutoff values
+     * @brief Set the padding and the voxel edge from the parameters.
+     * @param params Numerical parameters; uses `min_edge_len_` and the two contact cutoffs (m).
      */
     explicit contact_detection_uspg_strategy(const global_simulation_parameters& params) noexcept;
 
-    // Implement the strategy interface
+    /**
+     * @brief Pad the face AABBs, size the grid to the domain and insert the faces.
+     * @copydetails contact_detection_strategy::prepare()
+     * @note `bounds` is not used; the grid is sized from the face AABBs.
+     */
     void prepare(
         const std::vector<cell*>& cells,
         const std::vector<face*>& faces,
         const std::vector<aabb>& aabbs,
         const vec3& bounds
-    ) noexcept override;
+    ) noexcept(false) override;
 
+    /**
+     * @brief Return the faces in the 3 x 3 x 3 voxels around a point, excluding those of `query_cell`.
+     * @param query_pos  Position to query, m. A point outside the grid returns no faces.
+     * @param query_cell Cell whose own faces are excluded, or nullptr.
+     * @return A new vector of candidate faces.
+     */
     std::vector<face*> get_candidate_faces(
         const vec3& query_pos,
         cell* query_cell
     ) const noexcept override;
 
+    /** @brief Return ContactDetectionAlgorithm::USPG. */
     ContactDetectionAlgorithm algorithm_type() const noexcept override {
         return ContactDetectionAlgorithm::USPG;
     }
@@ -86,7 +87,7 @@ private:
      * Each face is stored in all voxels that its AABB overlaps.
      * This ensures that neighbor queries always find nearby faces.
      */
-    void store_faces_in_grid() noexcept;
+    void store_faces_in_grid() noexcept(false);  //throws unstable_simulation_exception on a diverged domain
 
     /**
      * Check if a point is within a face's AABB.

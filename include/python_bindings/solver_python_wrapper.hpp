@@ -21,10 +21,17 @@
 #include "cell_divider.hpp"
 
 
-//--------------------------------------------------------------------------------------------------------------------------
-//This derived solver is used by the python wrapper. It makes it possible to stop the execution of the code with a
-//ctrl-c command. This is useful when the user wants to stop the simulation before it is finished.
+/**
+ * @file
+ * @brief Solver used by the Python module, interruptible with Ctrl-C.
+ * @ingroup core
+ */
 
+//--------------------------------------------------------------------------------------------------------------------------
+/**
+ * @brief Solver used by simucell3d_wrapper: checks for a Python interrupt (Ctrl-C) before every iteration.
+ * @ingroup core
+ */
 class solver_python_wrapper: public solver{
 
     public:
@@ -35,7 +42,7 @@ class solver_python_wrapper: public solver{
         solver_python_wrapper& operator=(const solver_python_wrapper& v) = delete; //copy assignment operator
         solver_python_wrapper& operator=(solver_python_wrapper&& v) = default;     //move assignment operator 
       
-        //Constructor, just call the base class constructor
+        /// Construct the base solver with the default scheduling mode (`adaptive`) and diagnostics path.
         solver_python_wrapper(
             const global_simulation_parameters& sim_parameters, 
             const std::vector<cell_ptr>& cell_lst,
@@ -44,7 +51,10 @@ class solver_python_wrapper: public solver{
             bool verbose = true //If true, the program will print some information about the simulation progress
         )  noexcept(false) : solver(sim_parameters, cell_lst, nb_threads, write_cell_stats_in_string_, verbose){};
 
-        //Overload the run method to catch the ctrl-c command
+        /**
+         * @brief Run one iteration unless Python has a pending signal.
+         * @throws pybind11::error_already_set If the user pressed Ctrl-C.
+         */
         void run_iteration() noexcept(false) override{
 
             //Check if the user has pressed ctrl-c

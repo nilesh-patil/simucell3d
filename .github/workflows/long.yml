@@ -1,0 +1,122 @@
+name: Long tests
+
+# The long tier: `ctest -L long` (stability_* and scientific_* tests, and the
+# e2e_growth_long run from one cell to a few hundred) in Release and in an optimised
+# ASan + UBSan build, plus the micro-benchmarks (`ctest -L benchmark`, report only).
+#
+# There is no schedule. The tier runs only:
+#   - on a pull request that touches src/ or include/ and carries the label
+#     `run-long-tests` (added by a maintainer; the run starts when the label is added and
+#     repeats on every new push while the label stays);
+#   - on a push to a release/* branch;
+#   - from release.yml, for every vX.Y.Z tag;
+#   - by hand (workflow_dispatch).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - "src/**"
+      - "include/**"
+  push:
+    branches: ["release/**"]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch, tag or SHA to test"
+        required: true
+        default: main
+  workflow_call:
+    inputs:
+      ref:
+        description: "Branch, tag or SHA to test (default: the caller's ref)"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+env:
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+  CTEST_OUTPUT_ON_FAILURE: "1"
+
+jobs:
+  long:
+    name: Long tier (${{ matrix.name }})
+    if: >-
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'run-long-tests')
+    runs-on: ubuntu-24.04
+    # Job-level concurrency: a `labeled` event for another label skips this job and must
+    # not cancel a long run that is already in progress.
+    concurrency:
+      group: long-${{ matrix.name }}-${{ github.event.pull_request.number || github.ref }}-${{ inputs.ref }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+    timeout-minutes: ${{ matrix.timeout }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Release
+            build_type: Release
+            cxx_flags: ""
+            linker_flags: ""
+            timeout: 90
+          - name: ASan + UBSan, RelWithDebInfo
+            build_type: RelWithDebInfo
+            cxx_flags: -fsanitize=address,undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer
+            linker_flags: -fsanitize=address,undefined
+            timeout: 180
+    env:
+      CXX: g++-13
+      ASAN_OPTIONS: detect_leaks=0
+      UBSAN_OPTIONS: print_stacktrace=1
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Configure
+        run: |
+          "$CXX" --version | head -n 1
+          cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}" \
+            -DCMAKE_EXE_LINKER_FLAGS="${{ matrix.linker_flags }}" \
+            -DCMAKE_SHARED_LINKER_FLAGS="${{ matrix.linker_flags }}"
+
+      - name: Build
+        run: cmake --build build -j"$(nproc)"
+
+      - name: Long tier
+        working-directory: build
+        run: ctest -L long -j"$(nproc)" --timeout 7200
+
+      - name: Micro-benchmarks (report only)
+        if: matrix.build_type == 'Release'
+        working-directory: build
+        # The benchmarks never fail on speed; a crash is reported but does not fail the tier.
+        continue-on-error: true
+        run: |
+          ctest -L benchmark --output-on-failure 2>&1 | tee benchmark_output.txt
+          {
+            echo '### Micro-benchmarks (Release, informational)'
+            echo "Runner: $(nproc) logical CPUs, $(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2)"
+            echo '```'
+            cat benchmark_output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Disk use
+        if: always()
+        run: df -h . | tail -n 1
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: long-${{ matrix.build_type }}
+          path: |
+            build/Testing/Temporary/LastTest.log
+            build/test/test_e2e/*/run.log*
+            build/test/test_e2e/*/output/simulation_statistics.csv
+          retention-days: 14

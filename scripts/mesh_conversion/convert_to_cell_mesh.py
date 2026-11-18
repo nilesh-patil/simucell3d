@@ -1,14 +1,28 @@
+"""Convert a triangle mesh into a SimuCell3D cell mesh.
+
+STL, PLY and OBJ files (and VTK files in which every face is a separate cell) store the faces
+of all cells as one list. This script groups the faces into cells by connectivity, so that every
+connected surface becomes one cell, and writes a legacy VTK file in which each cell is one
+polyhedron (VTK cell type 42).
+
+Usage::
+
+    python3 convert_to_cell_mesh.py input_mesh.stl output_mesh.vtk
+
+Accepted input extensions: .stl, .ply, .obj, .vtp, .vtu, .vtk. Requires the ``vtk`` and
+``numpy`` packages.
+
+Cells that share a node or an edge in the input are merged into one cell. The output has no
+``cell_type_id`` array, which SimuCell3D requires: append one before using the file as an
+input mesh (see the user guide, chapter "Input meshes").
+"""
+
 import vtk 
 from sys import argv
 import numpy as np 
 from os import path, _exit
 import re
 
-"""
-    In some meshes, each face is defined as a vtkCell. This is the case by default in stl, ply and obj meshes. 
-    This script regroups all the faces belonging to the same cell and form one single vtkCell from them.
-    The produced meesh can then be used to run simulations.
-"""
 
 
 

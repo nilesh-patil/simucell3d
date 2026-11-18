@@ -11,58 +11,68 @@
 
 #include "vec3.hpp"
 
+/**
+ * @file
+ * @brief Parameter structures read from the parameter file, simulation outputs and light mesh types.
+ * @ingroup core
+ */
 
 //---------------------------------------------------------------------------------------
-// Contact detection algorithm selection
+/**
+ * @brief Contact detection algorithm, set by the optional `contact_detection_algorithm` tag of the parameter file.
+ * @ingroup core
+ */
 enum class ContactDetectionAlgorithm {
-    USPG,              // Current uniform spatial grid (default)
-    SWEEP_AND_PRUNE,   // 3-axis sweep and prune with AABB filtering
-    ADAPTIVE           // Auto-select based on cell count (USPG < threshold, SAP >= threshold)
+    USPG,              ///< Uniform spatial partitioning grid (`uspg`, default).
+    SWEEP_AND_PRUNE,   ///< Sweep and prune on the axis-aligned bounding boxes of the cells (`sweep_and_prune`).
+    ADAPTIVE           ///< USPG below ADAPTIVE_SAP_CELL_THRESHOLD cells, sweep and prune from that count on (`adaptive`).
 };
 
-// Default threshold for ADAPTIVE mode: use SAP when cell count >= this value
+/// Number of cells from which the `adaptive` contact detection switches from the USPG to sweep and prune.
 constexpr size_t ADAPTIVE_SAP_CELL_THRESHOLD = 500;
 //---------------------------------------------------------------------------------------
 
 
 
 //---------------------------------------------------------------------------------------
-//Contains the parameters of the simulation (time step, damping coefficient, etc.)
+/**
+ * @brief Numerical parameters of a simulation, from the `<numerical_parameters>` section of the parameter file.
+ *
+ * Members without a default must be set before the structure is used.
+ * @ingroup core
+ */
 struct global_simulation_parameters{
 
-    //The path to the folder where all the simulation data will be written, it must be an absolute path
+    /// Folder where all output files are written (`output_mesh_folder_path`). Absolute, or relative to the
+    /// working directory. The solver deletes and re-creates it at the start of a run.
     std::string output_folder_path_;
 
-    //The path to the input mesh file, it must be an absolute path
+    /// Input mesh file (`input_mesh_file_path`). Tried as given (absolute, or relative to the working
+    /// directory), then relative to the source directory recorded at configure time.
     std::string input_mesh_path_;
 
-    //If equals 0 the cells will not be triangulated at the beginning of the simulation
+    /// Re-triangulate the input cell meshes before the run (`perform_initial_triangulation`).
     bool perform_initial_triangulation_ = 1;
 
-    //If set to true, the local mesh refiner will remove the triangles with high aspect ratio
-    //by swapping their longest edge
+    /// Let the local mesh refiner swap the longest edge of triangles with a high aspect ratio
+    /// (`enable_edge_swap_operation`).
     bool enable_edge_swap_operation_ = true;
 
-    //The damping coefficient
-    double damping_coefficient_;
+    double damping_coefficient_;   ///< Damping coefficient, kg/s (`damping_coefficient`).
 
-    //The simulation duration
-    double simulation_duration_;
+    double simulation_duration_;   ///< Simulated time, s (`simulation_duration`).
 
-    //The time period between 2 consecutive mesh files written on the disk
-    double sampling_period_;
+    double sampling_period_;       ///< Simulated time between two output meshes, s (`sampling_period`).
 
-    //The time step of the simulation
-    double time_step_;
+    double time_step_;             ///< Time step, s (`time_step`).
 
-    //The minimum edge length allowed
+    /// Minimum edge length of the cell meshes, m (`min_edge_length`). The maximum edge length is three times this value.
     double min_edge_len_;
 
-    //The distance between 2 cells above which cell contact forces are zero
-    double contact_cutoff_adhesion_;
-    double contact_cutoff_repulsion_;
+    double contact_cutoff_adhesion_;   ///< Distance beyond which adhesion forces are zero, m (`contact_cutoff_adhesion`).
+    double contact_cutoff_repulsion_;  ///< Distance beyond which repulsion forces are zero, m (`contact_cutoff_repulsion`).
 
-    //The contact detection algorithm to use (default: USPG for backward compatibility)
+    /// Contact detection algorithm (`contact_detection_algorithm`, optional). Default: USPG.
     ContactDetectionAlgorithm contact_detection_algorithm_ = ContactDetectionAlgorithm::USPG;
 };
 //---------------------------------------------------------------------------------------
@@ -70,138 +80,144 @@ struct global_simulation_parameters{
 
 
 //---------------------------------------------------------------------------------------
-//Store the parameters of the face types
+/**
+ * @brief Parameters of one face type, from a `<face_type>` block of the parameter file.
+ * @ingroup core
+ */
 struct face_type_parameters{
     
-    //The name of the face_type
-    std::string name_;
+    std::string name_;  ///< Name of the face type (`face_type_name`).
 
-    //The id of the face type saved on the mesh, the cells internally use local ids to manage their
-    //face types
+    /// Identifier of the face type written to the output meshes (`global_face_id`). Cells refer to their
+    /// face types internally by local ids.
     short face_type_global_id_ = 0;
 
-    //The surface tension of the face
-    double surface_tension_  = 0.;
+    double surface_tension_  = 0.;     ///< Surface tension, N/m (`surface_tension`).
 
-    //The adherence strength between the faces of adjacent cells
-    double adherence_strength_  = 0.;
+    double adherence_strength_  = 0.;  ///< Adherence strength towards faces of adjacent cells, N/m^3 (`adherence_strength`).
 
-    //The repulsion strength between the faces of adjacent cells
-    double repulsion_strength_;
+    double repulsion_strength_;        ///< Repulsion strength towards faces of adjacent cells, N/m^3 (`repulsion_strength`). No default.
 
-    //The bending rigidity of the face
-    double bending_modulus_ = 0.;
+    double bending_modulus_ = 0.;      ///< Bending modulus, J (`bending_modulus`).
 
+    /// Construct a face type with the default values.
     face_type_parameters() {}
 };
 //---------------------------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------------------------
-//Store the parameters of the cell types
+/**
+ * @brief Parameters of one cell type, from a `<cell_type>` block of the parameter file.
+ *
+ * The position of the block in the file is the `cell_type_id` used by the input mesh; `global_type_id_`
+ * selects the cell class.
+ * @ingroup core
+ */
 struct cell_type_parameters{
 
-    //The name of the cell_type
-    std::string name_;
+    std::string name_;  ///< Name of the cell type (`cell_type_name`).
 
-    //The id of the cell type which is printed on the meshes
+    /// Cell class (`global_cell_id`): 0 epithelial, 1 ECM, 2 lumen, 3 nucleus, 4 static. Also written to the output meshes.
     short global_type_id_ = 0;
 
-    //The mass density of the cell;
-    double mass_density_ = 0.;
+    double mass_density_ = 0.;  ///< Mass density, kg/m^3 (`cell_mass_density`).
 
-    //The bulk modulus of the cell cytoplasm (its compressibility)
-    double bulk_modulus_ = 1.;
+    double bulk_modulus_ = 1.;  ///< Bulk modulus K of the cytoplasm, Pa (`cell_bulk_modulus`).
 
-    //The maximal pressure difference between the cell and the exterior space
-    double max_pressure_ = 0.;
+    double max_pressure_ = 0.;  ///< Upper bound of the cell pressure, Pa (`max_inner_pressure`; `inf` for no bound).
 
-    //The initial pressure of the cells of the given cell type
+    /// Pressure at the start of the run, Pa. Sets the initial target volume to V exp(initial_pressure_ / K).
+    /// Not read from the parameter file (always 0 there); settable from Python.
     double initial_pressure_ = 0.;
 
-    //The elastic modulus of the cell membrane
-    double area_elasticity_modulus_ = 0.;
+    double area_elasticity_modulus_ = 0.;  ///< Area elasticity modulus, J (`area_elasticity_modulus`).
 
-    //The division volumes are drawn from a normal distribution with the following parameters
+    /// Mean and standard deviation of the normal distribution of division volumes, m^3
+    /// (`avg_division_volume`, `std_division_volume`).
     double avg_division_vol_ = 0.;
-    double std_division_vol_ = 0.;
+    double std_division_vol_ = 0.;  ///< See avg_division_vol_.
 
-    //The growth rates are drawn from a normal distribution with the following parameters
+    /// Mean and standard deviation of the normal distribution of growth rates of the target volume, m^3/s
+    /// (`avg_growth_rate`, `std_growth_rate`).
     double avg_growth_rate_ = 0.;
-    double std_growth_rate_ = 0.;
+    double std_growth_rate_ = 0.;  ///< See avg_growth_rate_.
 
-    //The minial volume before cell removal
-    double min_vol_ = 0.;
+    double min_vol_ = 0.;  ///< Volume below which a cell is removed, m^3 (`min_vol`).
 
-    //Used to make sure that the angles of the triangular faces are all approximately 60 deg
+    /// Strength of the force that drives the angles of the triangular faces towards 60 degrees
+    /// (`angle_regularization_factor`); 0 disables it.
     double angle_regularization_factor_ = 0.;
 
-    //The target isoperimetric ratio of the cells
-    double target_isoperimetric_ratio_ = 0.;
+    double target_isoperimetric_ratio_ = 0.;  ///< Target isoperimetric ratio A^3/V^2, dimensionless (`target_isoperimetric_ratio`).
 
-    //The forces at which the links between the epithelial cells are broken
+    /// Curvature, 1/m, from which a node is no longer coupled to adjacent cells (`surface_coupling_max_curvature`).
+    /// Used by contact models 1 and 2.
     double surface_coupling_max_curvature_ = 0.;
 
-    //The different face types of the cell are stored in a vector
-    std::vector<face_type_parameters> face_types_;
+    std::vector<face_type_parameters> face_types_;  ///< Face types of the cell type, in file order.
 
-    //Additional parameters to the cell can be given via this map
+    /// Named extra parameters. Settable from Python; not read from the parameter file.
     std::map<std::string, double> additional_parameters_;
 
-    //Function used to add a face type to the cell type
+    /// Append a face type to face_types_.
     void add_face_type(const face_type_parameters& face_type) noexcept {face_types_.push_back(face_type);}
 
-    //Function used to add an additional parameter to the cell type
+    /// Store a named extra parameter in additional_parameters_.
     void add_additional_parameter(const std::string& parameter_name, const double parameter_value) noexcept {additional_parameters_[parameter_name] = parameter_value;}
 
-    //Default constructor
+    /// Construct a cell type with the default values.
     cell_type_parameters() {};
 };
 //---------------------------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------------------------
-//Use this structure to store the different outputs that can be created during a simulation
-//this is used by the python simucell3d_wrapper to pass the simulation outputs to the python interpreter
 class cell; //Forward declaration of the cell class
+
+/**
+ * @brief Result of a simulation run through the Python module (simucell3d_wrapper).
+ * @ingroup core
+ */
 struct simulation_outputs{
     
-    //If the return code is 0, the simulation was successful, otherwise it failed
-    bool RETURN_CODE_ = 0;
+    bool RETURN_CODE_ = 0;  ///< 0 if the run completed, 1 if an exception stopped it.
 
-    //If an error was thrown, pass the error message to the python interpreter
-    std::string error_message_ = "";
+    std::string error_message_ = "";  ///< Message of the exception that stopped the run; empty on success.
 
-    //All the collected cell statistics will be stored in this string (it's basically the content of a csv file)
-    std::string cell_statistics_ = "";
+    std::string cell_statistics_ = "";  ///< Per-cell statistics in CSV format (same columns as `simulation_statistics.csv`).
 
-    //Contains pointer of the cells at the end of the simulation
-    std::vector<std::shared_ptr<cell>> cell_lst_;
+    std::vector<std::shared_ptr<cell>> cell_lst_;  ///< The cells at the end of the run.
 
+    /// Construct an empty result.
     simulation_outputs() {}
 };
 //---------------------------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------------------------
-//Just a structure to store the points with their normals
+/**
+ * @brief A point with a normal vector, used by the initial triangulation and the cell division.
+ * @ingroup core
+ */
 struct oriented_point{
-    unsigned id_;
-    vec3 position_;
-    vec3 normal_;
+    unsigned id_;      ///< Identifier of the point.
+    vec3 position_;    ///< Position, m.
+    vec3 normal_;      ///< Normal vector at the point.
 
-    //This is used during the mesh division to distinguish the points tha were created by the
-    //poisson sampling from the points that were already in the mesh
+    /// True if the point was created by the Poisson sampling, false if it was already a node of the mesh.
+    /// Used during cell division.
     bool created_by_poisson_sampling_ = true; 
 
-    //Constructors
+    /// Construct a point from its position and normal.
     oriented_point(const vec3& point_pos, const vec3& point_normal) noexcept:
         position_(point_pos), normal_(point_normal){}
 
+    /// Construct a point from its identifier, position and normal.
     oriented_point(const unsigned id, const vec3& point_pos, const vec3& point_normal) noexcept:
         id_(id), position_(point_pos), normal_(point_normal){}
 
-    //Default constructor
+    /// Construct a point at the origin with a zero normal.
     oriented_point():position_(vec3(0., 0., 0.)), normal_(vec3(0., 0., 0.)){}
 
 
@@ -211,31 +227,29 @@ struct oriented_point{
 
 
 //---------------------------------------------------------------------------------------
-//This is a very lightweight representation of a mesh. The  mesh stored in this structure does not 
-//need to be triangulated. We use this structure to load the cell meshes or to divisde the cell meshes
-//since it offers more freedom than the meshes stored in the cell objects.
-
-
-//The data is stored in the following way in a mesh
-//mesh.face_point_ids = {{f0_n0,f0_n1,f0_n2,f0_n3}, {f1_n0,f1_n1,f1_n2},...,{fn_n0,fn_n1,fn_n2}]
-//mesh.node_pos_lst =   {x0,y0,z0, x1,y1,z1, ..., xn,yn,zn}   
-//Where f0_n0 is id of the first node of the first face, f0_n1 is the id of the second node of the first face etc
-
-
+/**
+ * @brief Lightweight polygon mesh used to read cell meshes and to divide cells.
+ *
+ * The faces need not be triangles. Layout:
+ * - `face_point_ids = {{f0_n0, f0_n1, f0_n2, f0_n3}, {f1_n0, f1_n1, f1_n2}, ...}`, where `f0_n1` is the
+ *   id of the second node of the first face;
+ * - `node_pos_lst = {x0, y0, z0, x1, y1, z1, ...}`.
+ * @ingroup core
+ */
 struct mesh{
 
-    //Store in a 2D vector the IDs of the nodes constituting the faces of the mesh
-    std::vector<std::vector<unsigned>> face_point_ids;
+    std::vector<std::vector<unsigned>> face_point_ids;  ///< Node ids of each face.
 
 
-    //Store the coordinates of the nodes of the mesh in this 1D vector
-    std::vector<double> node_pos_lst;
+    std::vector<double> node_pos_lst;  ///< Node coordinates, flattened as x, y, z per node, m.
 
+    /// Return the number of nodes.
     unsigned get_nb_nodes() const {return node_pos_lst.size() / 3;}
+    /// Return the number of faces.
     unsigned get_nb_faces() const {return face_point_ids.size();}
 
 
-    //Return the position of a node
+    /// Return the position of the node `node_id`, m.
     std::array<double, 3> get_node_pos(const unsigned node_id){
         assert(node_id < get_nb_nodes());
 

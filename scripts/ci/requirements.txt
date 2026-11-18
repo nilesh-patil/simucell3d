@@ -1,0 +1,10 @@
+# Python packages for the `python` job in .github/workflows/ci.yml (pytest tests/).
+# Pinned so that a new upstream release cannot turn CI red; update deliberately.
+# Supported interpreters: Python 3.10 and 3.12 (both tested in CI).
+pytest==9.2.0
+numpy==2.2.6
+pandas==2.3.3
+scipy==1.15.3
+matplotlib==3.10.9
+statsmodels==0.15.0
+ruff==0.17.4

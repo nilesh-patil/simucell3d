@@ -15,7 +15,7 @@ Usage:
     python3 plot_comparison_timeseries.py <comparison_output_dir>
 
 Example:
-    python3 plot_comparison_timeseries.py /path/to/12hour_comparison_20260118_123456
+    python3 plot_comparison_timeseries.py /path/to/comparison_run
 """
 
 import sys

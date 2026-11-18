@@ -1,20 +1,25 @@
 #ifndef DEF_USPG_4D
 #define DEF_USPG_4D
 
+/**
+ * @file uspg_4d.hpp
+ * @brief Uniform spatial partitioning grid whose voxels hold any number of objects.
+ * @ingroup spatial_partitioning
+ */
+
 
 #include "uspg_abstract.hpp"
 
-/*
-    uspg_4d is a Uniform Space Partitioning Grid where each voxel can contain more than
-    one object. The objects contained in a voxel are stored in std::vector for:
-    - O(1) size() and empty() operations
-    - Cache-friendly contiguous memory layout
-    - Efficient iteration and random access
-
-    Phase 1 optimization: Replaced std::forward_list with std::vector for 1.3-2x performance gain.
-*/
-
-
+/**
+ * @brief Uniform spatial partitioning grid whose voxels hold any number of objects.
+ *
+ * Each voxel stores a std::vector of copies of the objects placed in it. Used with `face*` by
+ * the contact models and the USPG contact detection strategy, and with oriented_point by the
+ * initial triangulation (Poisson sampling and ball pivoting).
+ *
+ * @tparam T Type of the stored objects (copied into the voxels).
+ * @ingroup spatial_partitioning
+ */
 template <typename T>
 class uspg_4d: public uspg_abstract
 {
@@ -45,7 +50,14 @@ class uspg_4d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Construct the USPG based on its dimensions
+    /**
+     * @brief Construct a grid covering a box.
+     * @param min_x,min_y,min_z Minimum corner, m.
+     * @param max_x,max_y,max_z Maximum corner, m.
+     * @param voxel_size        Voxel edge length, m.
+     * @param nb_objects        Number of objects that will be stored.
+     * @throws unstable_simulation_exception See update_dimensions().
+     */
     uspg_4d(const double min_x, const double min_y, const double min_z, 
             const double max_x, const double max_y, const double max_z, 
             const double voxel_size, const size_t nb_objects) noexcept(false){
@@ -55,9 +67,22 @@ class uspg_4d: public uspg_abstract
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------      
-    //Update the grid dimensions
+    /**
+     * @brief Empty the grid and resize it to cover a box.
+     *
+     * A degenerate box (max <= min along an axis) is widened to 1e-10 m along that axis.
+     *
+     * @copydetails uspg_abstract::update_dimensions()
+     */
     void update_dimensions(const size_t nb_objects, const double min_x, const double min_y, const double min_z, 
     const double max_x, const double max_y, const double max_z) noexcept(false) override{
+        //Nothing to store: one empty voxel
+        if(set_empty_grid(nb_objects, min_x, min_y, min_z, max_x, max_y, max_z)){
+            voxel_lst_.clear();
+            voxel_lst_.resize(1);
+            return;
+        }
+
         //Ensure non-degenerate bounding box (cells may collapse to a point under extreme parameters)
         constexpr double min_extent = 1e-10;
         const double safe_max_x = (max_x <= min_x) ? min_x + min_extent : max_x;
@@ -70,10 +95,10 @@ class uspg_4d: public uspg_abstract
         //Add a small padding to make sure that the point (max_x, max_y, max_z) is in the grid
         constexpr double delta = std::numeric_limits<double>::epsilon();
 
-        //Recompute the number of voxels in the grid
-        nb_voxels_x_ = static_cast<unsigned>(std::ceil((safe_max_x + delta - min_x) / voxel_size_));
-        nb_voxels_y_ = static_cast<unsigned>(std::ceil((safe_max_y + delta - min_y) / voxel_size_));
-        nb_voxels_z_ = static_cast<unsigned>(std::ceil((safe_max_z + delta - min_z) / voxel_size_));
+        //Recompute the number of voxels in the grid (throws if the domain has diverged)
+        nb_voxels_x_ = compute_nb_voxels(min_x, safe_max_x, 'x');
+        nb_voxels_y_ = compute_nb_voxels(min_y, safe_max_y, 'y');
+        nb_voxels_z_ = compute_nb_voxels(min_z, safe_max_z, 'z');
         //Cast first operand to size_t to prevent 32-bit overflow when multiplying
         const size_t total_nb_voxels = static_cast<size_t>(nb_voxels_x_) * nb_voxels_y_ * nb_voxels_z_;
 
@@ -100,7 +125,7 @@ class uspg_4d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Returns a constant reference of the content of the voxel (vector for O(1) size() access)
+    /** @brief Return the objects stored in the voxel (i, j, k). */
     const std::vector<T>& get_voxel_content(const unsigned voxel_x_id, const unsigned voxel_y_id, const unsigned voxel_z_id) const noexcept{
         //Get the id of the voxel in the 1D flattened voxel_lst_
         size_t voxel_id = get_voxel_index(voxel_x_id, voxel_y_id, voxel_z_id);
@@ -110,16 +135,22 @@ class uspg_4d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Place an object in the uspg
+    /**
+     * @brief Append a copy of an object to the voxel that contains a point.
+     * @param object Object to store.
+     * @param pos    Position, m. Must lie inside the grid.
+     */
     void place_object(const T& object, const vec3& pos) noexcept{
         place_object(object, pos.dx(), pos.dy(), pos.dz());
     }
 
+    /** @brief Overload of place_object() taking the three coordinates, m. */
     void place_object(const T& object, const double pos_x, const double pos_y, const double pos_z) noexcept{
         //Get the index of the voxel where the object should be inserted
         place_object(object, get_voxel_index(pos_x, pos_y, pos_z));
     }
 
+    /** @brief Append a copy of an object to the voxel with the given flat index. */
     void place_object(const T& object, const size_t voxel_id) noexcept{
         assert(voxel_id < voxel_lst_.size());
         //Insert the object in its corresponding voxel (push_back for cache-friendly access)
@@ -130,11 +161,19 @@ class uspg_4d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
+    /**
+     * @brief Return copies of the objects in the 3 x 3 x 3 voxels around a point.
+     *
+     * Voxels outside the grid are skipped. An object stored in several of these voxels appears
+     * once per voxel.
+     *
+     * @param pos Position, m. Must lie inside the grid.
+     */
     std::vector<T> get_neighborhood(const vec3& pos) const noexcept{
         return get_neighborhood(pos.dx(), pos.dy(), pos.dz());
     }
 
-    //Get all the objects in the voxels around the voxel of the given object
+    /** @brief Overload of get_neighborhood() taking the three coordinates, m. */
     std::vector<T> get_neighborhood(const double pos_x, const double pos_y, const double pos_z) const noexcept{
         //Make sure the object is in the grid
         assert(pos_x >= min_x_ && pos_x < max_x_);
@@ -150,6 +189,7 @@ class uspg_4d: public uspg_abstract
     }
 
 
+    /** @brief Overload of get_neighborhood() taking the voxel index (i, j, k). */
     std::vector<T> get_neighborhood(const unsigned object_voxel_x_id, const unsigned object_voxel_y_id, const unsigned object_voxel_z_id) const noexcept{
         //Store the neighboring objects in this vector with preallocation for efficiency
         std::vector<T> neighboring_objects;
@@ -188,7 +228,7 @@ class uspg_4d: public uspg_abstract
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //Return the total content of the grid
+    /** @brief Return copies of all stored objects, once per voxel they were placed in. */
     std::vector<T> get_grid_content() const noexcept{
 
         //Store all grid objects in this vector

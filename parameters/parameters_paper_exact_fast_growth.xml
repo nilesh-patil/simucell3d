@@ -1,4 +1,11 @@
 <?xml version="1.0"?>
+<!--
+    Required compile-time switches (include/global_configuration.hpp):
+        POLARIZATION_MODE_INDEX  1
+        CONTACT_MODEL_INDEX      2
+        DYNAMIC_MODEL_INDEX      0
+    These are the default values: this file runs on a default build.
+-->
 
 <!--
     FAST GROWTH BENCHMARK - 128k cells TARGET
@@ -18,11 +25,6 @@
     EXPECTED RUNTIME:
     - Much faster than paper-exact due to coarser mesh and larger cells
     - ~600 triangles/cell (paper) -> ~150 triangles/cell (this config)
-
-    COMPILATION REQUIREMENTS (global_configuration.hpp):
-        POLARIZATION_MODE_INDEX:    1  (contact-based polarization)
-        CONTACT_MODEL_INDEX:        2  (face-face coupling)
-        DYNAMIC_MODEL_INDEX:        0  (semi-implicit Euler)
 -->
 
 <numerical_parameters>

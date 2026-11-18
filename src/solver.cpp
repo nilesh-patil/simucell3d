@@ -1,34 +1,14 @@
 #include "solver.hpp"
-#include <pthread.h>  // For pthread_setaffinity_np
-#include <sched.h>    // For cpu_set_t
+#include "cpu_topology.hpp"
+#include <algorithm>
 #include <iomanip>    // For std::setprecision
-#include <set>        // For std::set (hardware topology detection)
-
-// Global variable to store original CPU count captured before OpenMP initialization
-// Defined here so it's accessible from both main.cpp and solver.cpp
-int g_original_cpu_count = -1;
-
-// Static initializer to capture CPU affinity BEFORE any OpenMP initialization
-// This runs during C++ static initialization, before main() and before OpenMP runtime init
-#ifdef __linux__
-struct EarlyCPUCapture {
-    EarlyCPUCapture() {
-        cpu_set_t mask;
-        CPU_ZERO(&mask);
-        if (sched_getaffinity(0, sizeof(mask), &mask) == 0) {
-            g_original_cpu_count = CPU_COUNT(&mask);
-        }
-    }
-};
-// Create a static instance to trigger the constructor before main()
-static EarlyCPUCapture early_capture;
-#endif
+#include <unordered_map>
 
 //--------------------------------------------------------------------------------------------------------------------------
 // Helper function: Calculate coefficient of variation for workload heterogeneity
-// ADDITIVE COST MODEL (Fixed BUG #3): Independent cost components instead of multiplicative compounding
-// Additive model preserves biological semantics and reduces dynamic range
-// Fixed BUG #2: Now mesh-adaptive (scales with min_edge_len and contact_cutoff)
+// Additive cost model: independent cost components are summed rather than multiplied, which keeps
+// the biological meaning of each term and limits the dynamic range of the estimate.
+// Mesh-adaptive: the contact term scales with min_edge_len and contact_cutoff.
 static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell_lst, double min_edge_len,
                                                double contact_cutoff_adhesion) {
     if (cell_lst.empty())
@@ -81,7 +61,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
 
 // Estimate neighbor count for boundary detection (mesh-adaptive)
 #if CONTACT_MODEL_INDEX == 1 || CONTACT_MODEL_INDEX == 2
-        // Fixed BUG #2: Mesh-adaptive neighbor estimation
+        // Mesh-adaptive estimate of the number of neighbours
         // Scale from baseline calibration (default_dynamic: edge=7.5e-7, cutoff=5e-7)
         constexpr double baseline_edge_len = 7.5e-7;
         constexpr double baseline_cutoff = 5.0e-7;
@@ -112,7 +92,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
 
         if (cell->is_static()) {
             // Static cells (ECM, structural barriers): Contact detection only, NO time integration
-            // ~20% of dynamic cell (contact detection ~10%, USPG queries ~10%)
+            // Estimated at ~20% of a dynamic cell (contact detection ~10%, USPG queries ~10%)
             contact_cost = base_cost * 0.20 * contact_fraction;
             integration_cost = 0.0;  // No time integration for static cells
         } else {
@@ -139,7 +119,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
                 // No adjustment needed - lumen does full force calc + integration
             }
             // Nucleus cells (Type 3): Already has smaller base_cost (fewer faces)
-            // Nucleus is 50-60% of host surface area → 50-60% base_cost automatically
+            // A nucleus has 50-60% of the host's surface area, so its base_cost is already 50-60%
             // NO multiplier needed - size difference already captured in face count
             else if (cell_type_id == 3) {
                 // No adjustment - smaller mesh already reflected in base_cost
@@ -157,7 +137,7 @@ static double calculate_workload_heterogeneity(const std::vector<cell_ptr>& cell
 
             // Growth state overhead
             if (cell->get_growth_rate() > 1e-20) {
-                // Direct cost is <1% (just volume update)
+                // Direct cost is <1% (a volume update)
                 // Indirect costs (pressure changes, mesh refinement) captured in other factors
                 growth_cost = base_cost * 0.01;  // +1% for volume updates
             }
@@ -246,7 +226,7 @@ static std::string lookup_benchmark_mode(size_t num_cells, std::string& rational
 
 //--------------------------------------------------------------------------------------------------------------------------
 // Helper function: Multi-factor heuristic for schedule selection
-// Fixed BUG #2: Now includes workload heterogeneity (CoV) in decision logic
+// The decision uses the workload heterogeneity (CoV) as its primary factor
 static std::string multi_factor_heuristic(size_t num_cells, int num_threads, const std::vector<cell_ptr>& cell_lst,
                                           double min_edge_len, double contact_cutoff_adhesion, std::string& rationale) {
     // Factor 1: Workload heterogeneity (Coefficient of Variation)
@@ -311,268 +291,6 @@ static std::string multi_factor_heuristic(size_t num_cells, int num_threads, con
     rationale = "Guided selected as balanced default (CoV=" + std::to_string(workload_cov).substr(0, 4) + ", " +
                 std::to_string(num_cells) + " cells)";
     return "guided";
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Hardware topology detection helper functions
-struct HardwareTopology {
-    int num_logical_cpus;    // Total logical CPUs (with hyperthreading)
-    int num_physical_cores;  // Physical cores only
-    int threads_per_core;    // Hyperthreading factor (usually 1 or 2)
-    int num_numa_nodes;      // NUMA topology
-    bool is_single_socket;   // True if single-socket system
-};
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Detect hardware topology
-static HardwareTopology detect_hardware_topology() {
-    HardwareTopology topology;
-
-    // Get logical CPU count from OpenMP
-    topology.num_logical_cpus = omp_get_num_procs();
-
-    // Detect threads per core and physical cores
-    // Method 1: Try reading from /sys/devices/system/cpu/cpu0/topology/thread_siblings_list
-    std::ifstream topology_file("/sys/devices/system/cpu/cpu0/topology/thread_siblings_list");
-    if (topology_file.is_open()) {
-        std::string siblings;
-        std::getline(topology_file, siblings);
-        topology_file.close();
-
-        // Count commas to determine threads per core
-        int comma_count = std::count(siblings.begin(), siblings.end(), ',');
-        topology.threads_per_core = comma_count + 1;
-        topology.num_physical_cores = topology.num_logical_cpus / topology.threads_per_core;
-    } else {
-        // Fallback: Try reading /proc/cpuinfo to count unique physical cores
-        // Fixed BUG #8: Don't assume HT based on CPU count (fails on 32+ core systems)
-        std::ifstream cpuinfo("/proc/cpuinfo");
-        std::set<int> physical_cores;
-        bool found_physical_id = false;
-
-        if (cpuinfo.is_open()) {
-            std::string line;
-            while (std::getline(cpuinfo, line)) {
-                if (line.find("core id") == 0) {
-                    size_t colon_pos = line.find(':');
-                    if (colon_pos != std::string::npos) {
-                        int core_id = std::stoi(line.substr(colon_pos + 1));
-                        physical_cores.insert(core_id);
-                        found_physical_id = true;
-                    }
-                }
-            }
-            cpuinfo.close();
-
-            if (found_physical_id && !physical_cores.empty()) {
-                topology.num_physical_cores = physical_cores.size();
-                topology.threads_per_core = topology.num_logical_cpus / topology.num_physical_cores;
-            } else {
-                // Final fallback: Assume no hyperthreading (safest assumption)
-                topology.threads_per_core = 1;
-                topology.num_physical_cores = topology.num_logical_cpus;
-            }
-        } else {
-            // Cannot read any topology files: assume no hyperthreading
-            topology.threads_per_core = 1;
-            topology.num_physical_cores = topology.num_logical_cpus;
-        }
-    }
-
-    // Detect NUMA nodes
-    topology.num_numa_nodes = 1;  // Default assumption
-    std::ifstream numa_file("/sys/devices/system/node/online");
-    if (numa_file.is_open()) {
-        std::string numa_range;
-        std::getline(numa_file, numa_range);
-        numa_file.close();
-
-        // Parse range like "0" or "0-1" or "0-3"
-        size_t dash_pos = numa_range.find('-');
-        if (dash_pos != std::string::npos) {
-            int max_node = std::stoi(numa_range.substr(dash_pos + 1));
-            topology.num_numa_nodes = max_node + 1;
-        }
-    }
-
-    topology.is_single_socket = (topology.num_numa_nodes == 1);
-
-    return topology;
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Detect if running under CPU restrictions (taskset, cgroups, cpusets)
-static bool is_cpu_restricted(int topology_physical_cores, bool verbose) {
-#ifdef __linux__
-    // Use the CPU count captured in main() BEFORE OpenMP initialization
-    // This avoids the race condition where OMP_PROC_BIND=close modifies the affinity
-    // mask before we can detect the original taskset restrictions
-    int allowed_cpus = g_original_cpu_count;
-
-    // Fallback: If g_original_cpu_count wasn't captured (shouldn't happen), query now
-    if (allowed_cpus < 0) {
-        cpu_set_t mask;
-        CPU_ZERO(&mask);
-        int result = sched_getaffinity(0, sizeof(mask), &mask);
-        if (result != 0) {
-            if (verbose) {
-                std::cout << "CPU Restriction Detection: Failed to query affinity (errno: " << errno << ")"
-                          << std::endl;
-                std::cout << "  Assuming unrestricted execution" << std::endl;
-            }
-            return false;
-        }
-        allowed_cpus = CPU_COUNT(&mask);
-    }
-
-    // Get system-wide CPU count (not affected by taskset/cgroup restrictions)
-    // This reads /sys/devices/system/cpu/present which shows the actual hardware
-    int system_total_cpus = allowed_cpus;  // Default fallback
-    std::ifstream cpu_present("/sys/devices/system/cpu/present");
-    if (cpu_present.is_open()) {
-        std::string line;
-        if (std::getline(cpu_present, line)) {
-            // Format: "0-15" or "0-7,16-23" etc.
-            size_t dash = line.find('-');
-            if (dash != std::string::npos) {
-                try {
-                    int max_cpu = std::stoi(line.substr(dash + 1));
-                    system_total_cpus = max_cpu + 1;
-                } catch (...) {
-                    // Fallback to allowed_cpus on parse error
-                }
-            }
-        }
-        cpu_present.close();
-    }
-
-    bool is_restricted = (allowed_cpus < system_total_cpus);
-
-    if (verbose) {
-        std::cout << "CPU Restriction Detection:" << std::endl;
-        std::cout << "  System total CPUs: " << system_total_cpus << std::endl;
-        std::cout << "  Available to process: " << allowed_cpus << std::endl;
-        std::cout << "  Status: " << (is_restricted ? "RESTRICTED (taskset/cgroup/cpuset active)" : "UNRESTRICTED")
-                  << std::endl;
-
-        if (is_restricted) {
-            std::cout << "  Note: Process constrained to " << allowed_cpus << "/" << system_total_cpus << " cores"
-                      << std::endl;
-            std::cout << "        OpenMP placement strategy will adapt to avoid thread collapse" << std::endl;
-        }
-    }
-
-    return is_restricted;
-
-#else
-    // Non-Linux systems: assume unrestricted
-    if (verbose) {
-        std::cout << "CPU Restriction Detection: Non-Linux platform, assuming unrestricted" << std::endl;
-    }
-    return false;
-#endif
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Configure OpenMP for optimal CPU utilization
-static void configure_cpu_optimization(const HardwareTopology& topology, bool verbose) {
-    if (topology.is_single_socket) {
-        // Single-socket optimization: Use physical cores only, bind threads to cores
-        if (verbose) {
-            std::cout << "CPU Optimization: Single-socket detected" << std::endl;
-            std::cout << "  Logical CPUs: " << topology.num_logical_cpus << std::endl;
-            std::cout << "  Physical cores: " << topology.num_physical_cores << std::endl;
-            std::cout << "  Threads/core: " << topology.threads_per_core << std::endl;
-
-            if (topology.threads_per_core > 1) {
-                std::cout << "  Strategy: Using physical cores only (disabling hyperthreading)" << std::endl;
-                std::cout << "  Rationale: Compute-intensive workloads perform better without HT contention"
-                          << std::endl;
-            }
-        }
-
-        // Set thread affinity to bind threads to physical cores
-        // OMP_PROC_BIND=close: Bind threads to consecutive cores
-        // OMP_PLACES=cores: Map to physical cores, not logical threads
-        setenv("OMP_PROC_BIND", "close", 0);  // Don't overwrite if already set
-        setenv("OMP_PLACES", "cores", 0);
-
-    } else {
-        // Multi-socket NUMA optimization
-        if (verbose) {
-            std::cout << "CPU Optimization: Multi-socket NUMA detected" << std::endl;
-            std::cout << "  NUMA nodes: " << topology.num_numa_nodes << std::endl;
-        }
-
-        // Check if running under CPU restrictions (taskset, cgroups, cpusets)
-        bool is_taskset_restricted = is_cpu_restricted(topology.num_physical_cores, verbose);
-
-        if (is_taskset_restricted) {
-            // TASKSET MODE: Core restrictions detected
-            // Problem: OMP_PLACES=sockets conflicts with taskset, causing thread collapse
-            // Solution: Use OMP_PLACES=cores for compatibility with kernel core restrictions
-            if (verbose) {
-                std::cout << "  Strategy: Core-level binding (adapting to CPU restrictions)" << std::endl;
-                std::cout << "  Rationale: OMP_PLACES=sockets conflicts with taskset/cgroup constraints" << std::endl;
-                std::cout << "             Using OMP_PLACES=cores to spread threads across allocated cores"
-                          << std::endl;
-            }
-            setenv("OMP_PROC_BIND", "close", 0);
-            setenv("OMP_PLACES", "cores", 0);
-
-        } else {
-            // UNRESTRICTED MODE: Full NUMA optimization
-            // Spread threads across NUMA nodes for better memory bandwidth
-            if (verbose) {
-                std::cout << "  Strategy: Spread threads across NUMA nodes (unrestricted execution)" << std::endl;
-                std::cout << "  Rationale: Maximize memory bandwidth by distributing across sockets" << std::endl;
-            }
-            setenv("OMP_PROC_BIND", "spread", 0);
-            setenv("OMP_PLACES", "sockets", 0);
-        }
-    }
-}
-
-//--------------------------------------------------------------------------------------------------------------------------
-// Helper function: Pin threads to specific cores for deterministic performance
-static void pin_threads_to_cores(int num_threads, bool verbose) {
-#ifdef __linux__
-#pragma omp parallel
-    {
-        int tid = omp_get_thread_num();
-
-        // Create CPU set for affinity
-        cpu_set_t cpuset;
-        CPU_ZERO(&cpuset);
-
-        // Pin thread to specific core
-        // Thread 0 → Core 0, Thread 1 → Core 1, etc.
-        CPU_SET(tid, &cpuset);
-
-        // Apply affinity to current thread
-        int result = pthread_setaffinity_np(pthread_self(), sizeof(cpuset), &cpuset);
-
-        if (result != 0 && verbose && tid == 0) {
-            std::cerr << "Warning: Failed to set thread affinity (error: " << result << ")" << std::endl;
-            std::cerr << "Performance may be less predictable due to thread migration" << std::endl;
-        }
-
-        // Verify affinity was set (only print from thread 0 to avoid output spam)
-        if (verbose && tid == 0) {
-            cpu_set_t verify_set;
-            CPU_ZERO(&verify_set);
-            pthread_getaffinity_np(pthread_self(), sizeof(verify_set), &verify_set);
-
-            std::cout << "Thread Pinning: Enabled (threads pinned to specific cores)" << std::endl;
-            std::cout << "  Benefit: Eliminates performance variability from thread migration" << std::endl;
-            std::cout << "  Expected: 30-40% reduction in performance variance" << std::endl;
-        }
-    }
-#else
-    if (verbose) {
-        std::cout << "Thread Pinning: Not available on this platform (Linux only)" << std::endl;
-    }
-#endif
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -642,52 +360,68 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
 
     assert(cell_lst_.size() > 0);
 
-    // Detect hardware topology and configure CPU optimization
-    HardwareTopology hw_topology = detect_hardware_topology();
-    configure_cpu_optimization(hw_topology, verbose_);
+    // Thread count and placement. See cpu_topology.hpp for why the solver pins its own
+    // threads instead of relying on OMP_PROC_BIND/OMP_PLACES.
+    const std::vector<int> allowed_cpus = cpu_topology::allowed_cpus();
+    const cpu_topology::topology topo = cpu_topology::detect(allowed_cpus);
+    const int nb_physical_cores = std::max(1, topo.nb_physical_cores());
 
-    // By default use physical cores only (better for compute-intensive workloads)
-    // User can override by specifying nb_threads explicitly
+    // By default use one thread per physical core (hyperthread siblings compete for the
+    // same execution units in this compute-bound kernel). Override with nb_threads > 0.
     if (nb_threads <= 0) {
-        nb_threads_ = hw_topology.num_physical_cores;
+        nb_threads_ = static_cast<unsigned short>(nb_physical_cores);
         if (verbose_) {
             std::cout << "Thread count: Using " << nb_threads_ << " physical cores "
-                      << "(out of " << hw_topology.num_logical_cpus << " logical CPUs)" << std::endl;
+                      << "(out of " << allowed_cpus.size() << " allowed logical CPUs, "
+                      << topo.threads_per_core() << " threads/core, " << topo.nb_packages() << " socket(s))"
+                      << std::endl;
         }
     } else {
-        nb_threads_ = nb_threads;
+        nb_threads_ = static_cast<unsigned short>(nb_threads);
         if (verbose_) {
-            std::cout << "Thread count: User-specified " << nb_threads_ << " threads" << std::endl;
+            std::cout << "Thread count: User-specified " << nb_threads_ << " threads "
+                      << "(" << nb_physical_cores << " physical cores, " << allowed_cpus.size()
+                      << " allowed logical CPUs)" << std::endl;
         }
     }
 
     // Set OpenMP thread count
     omp_set_num_threads(nb_threads_);
 
-    // Optional: Pin threads to specific cores for deterministic performance
-    // DISABLED BY DEFAULT due to initialization issues causing SIGSEGV
-    // Enable with: export SIMUCELL3D_PIN_THREADS=1
-    const char* pin_env = std::getenv("SIMUCELL3D_PIN_THREADS");
-    bool enable_pinning = (pin_env != nullptr && std::string(pin_env) == "1");
-
-    if (enable_pinning) {
-        pin_threads_to_cores(nb_threads_, verbose_);
+    // Pin thread i to the i-th CPU of the placement order: one thread per physical core
+    // until the cores are exhausted, then the hyperthread siblings.
+    if (cpu_topology::pinning_requested()) {
+        const std::vector<int> order = cpu_topology::placement_order(topo);
+        int nb_pin_failures = 0;
+#pragma omp parallel reduction(+ : nb_pin_failures)
+        {
+            const int cpu_id = order[static_cast<size_t>(omp_get_thread_num()) % order.size()];
+            if (!cpu_topology::pin_current_thread(cpu_id)) nb_pin_failures++;
+        }
+        if (verbose_) {
+            std::cout << "Thread pinning: enabled, thread i -> CPU";
+            for (int i = 0; i < nb_threads_; i++) std::cout << (i ? "," : " ") << order[i % order.size()];
+            std::cout << (nb_pin_failures ? "  (WARNING: " + std::to_string(nb_pin_failures) + " threads could not be pinned)" : "")
+                      << std::endl;
+        }
     } else if (verbose_) {
-        std::cout << "Thread Pinning: Disabled (default)" << std::endl;
-        std::cout << "  To enable: export SIMUCELL3D_PIN_THREADS=1" << std::endl;
-        std::cout << "  Note: Experimental feature, may cause crashes" << std::endl;
+        std::cout << "Thread pinning: disabled (SIMUCELL3D_PIN_THREADS=0 or OMP_PLACES set); "
+                  << "placement left to the OpenMP runtime" << std::endl;
     }
 
-    // Measure workload heterogeneity (Phase 1: will be updated every 50 iterations)
+    // Measure workload heterogeneity (updated every COV_UPDATE_INTERVAL iterations)
     heterogeneity_cov_ = calculate_workload_heterogeneity(cell_lst_, sim_parameters_.min_edge_len_,
                                                           sim_parameters_.contact_cutoff_adhesion_);
     last_cov_update_iteration_ = 0;            // Initialize timestamp
     double workload_cov = heterogeneity_cov_;  // Keep local variable for constructor logic
 
-    // Initialize phase tracking (Phase 1: Temporal adaptation)
+    // Initialize simulation-phase tracking
     current_phase_ = SimulationPhase::INITIALIZATION;  // Start in initialization phase
     last_division_check_iteration_ = 0;
     recent_division_count_ = 0;
+    diag_division_count_ = 0;
+    diag_unstable_cell_count_ = 0;
+    nb_unstable_cells_removed_ = 0;
 
     // Set up OpenMP scheduling based on the schedule_mode parameter
     if (schedule_mode_ == "static") {
@@ -695,7 +429,7 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
         schedule_chunk_size_ = 0;  // Let OpenMP decide chunk size for static
     } else if (schedule_mode_ == "dynamic") {
         schedule_kind_ = omp_sched_dynamic;
-        // FIXED: Adaptive chunk sizing instead of hardcoded 50
+        // Chunk size adapted to cell count, thread count and workload heterogeneity
         schedule_chunk_size_ =
             calculate_optimal_chunk_size(cell_lst_.size(), nb_threads_, workload_cov, schedule_mode_);
     } else if (schedule_mode_ == "guided") {
@@ -807,7 +541,7 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
     // Set the ids of all the cells
     for (size_t i = 0; i < cell_lst_.size(); i++) {
         cell_lst_[i]->set_id(max_cell_id_++);
-        cell_lst_[i]->set_local_id(cell_lst_[i]->get_id());
+        cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
     }
 
     // Initialize the local mesh refiner
@@ -863,14 +597,6 @@ solver::solver(const global_simulation_parameters& sim_parameters, const std::ve
 
     // Set the number of threads (already computed earlier in constructor)
     omp_set_num_threads(nb_threads_);
-
-    // Configure NUMA awareness for better multi-socket performance
-    // Note: Thread affinity can also be set via environment variable:
-    //   export OMP_PROC_BIND=close
-    //   export OMP_PLACES=cores
-    // The omp_set_proc_bind() function is only available in OpenMP 4.0+
-    // and may not be available in all implementations, so we rely on
-    // environment variables for NUMA configuration.
 
     // Set the OpenMP schedule for runtime scheduling
     omp_set_schedule(schedule_kind_, schedule_chunk_size_);
@@ -966,9 +692,9 @@ void solver::run() noexcept(false) {
 //--------------------------------------------------------------------------------------------------------------------------
 // Run one iteration of the program
 void solver::run_iteration() noexcept(false) {
-    // FIX: Apply any pending division schedule update from previous iteration
-    // This defers omp_set_schedule() until AFTER the parallel regions that accessed
-    // cell_lst_ have completed, preventing race condition with stale pointers.
+    // Apply the schedule update deferred from the previous iteration's divisions.
+    // omp_set_schedule() is called only here, after the parallel regions that accessed
+    // cell_lst_ have completed, so no parallel region can see stale pointers.
     if (pending_division_update_) {
         handle_division_event(pending_division_count_);
         pending_division_update_ = false;
@@ -994,13 +720,13 @@ void solver::run_iteration() noexcept(false) {
         // Restore global schedule after division
         restore_global_schedule();
 
-        // Phase 1: Track division events for adaptive scheduling
-        // FIX: Defer handle_division_event() to NEXT iteration to prevent SIGSEGV
-        // The cell_lst_ was just modified by cell_divider::run(). If we call
-        // omp_set_schedule() now, the next parallel region (line 1035) may access
-        // stale pointers due to vector reallocation during push_back().
+        // Track division events for adaptive scheduling. handle_division_event() is deferred
+        // to the next iteration: cell_divider::run() has just modified cell_lst_, and calling
+        // omp_set_schedule() now could let the next parallel region access stale pointers
+        // after the vector reallocation in push_back().
         if (num_divisions > 0) {
-            recent_division_count_ += num_divisions;
+            recent_division_count_ += num_divisions;  // scheduling window (reset every 50 iters)
+            diag_division_count_ += num_divisions;    // diagnostics window (reset every 100 iters, after CSV export)
             pending_division_update_ = true;
             pending_division_count_ = num_divisions;
             // handle_division_event() will be called at start of NEXT iteration
@@ -1026,10 +752,20 @@ void solver::run_iteration() noexcept(false) {
 
     // Refine the mesh of the cells in parallel
     //  Mesh refinement typically has uniform work (use global or static schedule)
+    //  A cell whose refinement throws an ordinary error is returned in refinement_failures instead of ending the run
+    std::vector<local_mesh_refiner::refinement_failure> refinement_failures;
     {
         PerformanceMonitor::ScopedTimer timer(perf_monitor_, "mesh_refinement");
-        lmr_ptr_->refine_meshes(cell_lst_);  // noexcept(false)
+        refinement_failures = lmr_ptr_->refine_meshes(cell_lst_);  // noexcept(false)
     }
+
+    // Remove the cells whose refinement failed now, so that their damaged meshes never reach contact detection,
+    // polarization, the internal forces or the time integration. No extra barrier is needed before the removal:
+    // the parallel region of the refine loop has ended, the node locks are std::mutex (node.hpp, released by the
+    // end of each lock_guard scope), and the contact model clears every node's coupling map before reading it, so
+    // nothing still refers to the removed cells.
+    if (!refinement_failures.empty())
+        handle_refinement_failures(refinement_failures);  // noexcept(false): too many failures stop the run
 
     // Set schedule for contact detection (heterogeneous work)
     set_schedule_for_contact_detection();
@@ -1037,7 +773,7 @@ void solver::run_iteration() noexcept(false) {
     // Compute the contact forces between the cells
     {
         PerformanceMonitor::ScopedTimer timer(perf_monitor_, "contact_detection");
-        contact_model_ptr_->run(cell_lst_);  // noexcept
+        contact_model_ptr_->run(cell_lst_);  // noexcept(false): unstable_simulation_exception on a diverged domain
     }
 
 // If enabled, use the automatic polarizer to polarize the faces of the cells,
@@ -1079,14 +815,14 @@ void solver::run_iteration() noexcept(false) {
         statistic_writer_ptr_->write_data(iteration_, time_integrator_ptr_->get_simulation_time(),
                                           cell_lst_);  // noexcept(false)
 
-        // Phase 1: Update workload heterogeneity measurement
+        // Update the workload heterogeneity measurement
         update_workload_heterogeneity();
 
-        // Phase 1: Adaptive scheduling based on simulation phase
+        // Adaptive scheduling based on the simulation phase
         adaptive_schedule_update();
     }
 
-    // Phase 3: Export comprehensive diagnostics every 100 iterations
+    // Export the diagnostics every 100 iterations
     if (iteration_ % 100 == 0 && iteration_ > 0) {
         // Use custom diagnostics path if provided, otherwise use default location
         std::string diagnostics_path = diagnostics_csv_path_.empty()
@@ -1096,13 +832,18 @@ void solver::run_iteration() noexcept(false) {
 
         // Reset performance monitor counters for next measurement window
         perf_monitor_.reset();
+
+        // Reset diagnostics division counter now that this window's count is written.
+        // (Kept separate from recent_division_count_, which the 50-iter scheduling
+        //  update resets and would otherwise zero before every 100-iter CSV export.)
+        diag_division_count_ = 0;
+        diag_unstable_cell_count_ = 0;
     }
 
-// FIX: Synchronization point before cell removal to prevent node lock destruction race.
-// When CONTACT_MODEL_INDEX is 1 or 2, nodes contain OpenMP locks that must not be
-// destroyed while any thread might hold or wait for them. By using a parallel region
-// with an implicit barrier, we ensure all previous parallel work has completed before
-// we proceed to delete cells (which triggers node destructors calling omp_destroy_lock()).
+// Synchronization point before cell removal. When CONTACT_MODEL_INDEX is 1 or 2, nodes hold
+// locks (std::mutex) that must not be destroyed while any thread might hold or wait for them.
+// The implicit barrier of this parallel region guarantees that all previous parallel work has
+// completed before cells (and their nodes) are deleted.
 #if CONTACT_MODEL_INDEX == 1 || CONTACT_MODEL_INDEX == 2
 #pragma omp parallel
     {
@@ -1111,17 +852,8 @@ void solver::run_iteration() noexcept(false) {
     }
 #endif
 
-    // Remove the cells that have a volume smaller than the minimum volume
-    cell_lst_.erase(std::remove_if(cell_lst_.begin(), cell_lst_.end(),
-                                   [](const cell_ptr& c) {
-                                       // Clear the data of the cell if it is below the minimum volume
-                                       if (c->is_below_min_vol())
-                                           c->clear_data();
-
-                                       // Return true if the cell is below the minimum volume
-                                       return c->is_below_min_vol();
-                                   }),
-                    cell_lst_.end());
+    // Remove the cells that have shrunk below the minimum volume or whose mesh has diverged
+    remove_dead_cells();
 
     // Print the progression of the program
     if (verbose_ && !time_integrator_ptr_->is_step_tmp())
@@ -1136,7 +868,140 @@ void solver::run_iteration() noexcept(false) {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Update workload heterogeneity measurement
+// Erase the cells that are below the minimum volume, plus the cells whose explicit integration has blown up
+// (non-finite node coordinates, or a bounding box ~10x wider than the cell should be). Left in the tissue,
+// one such cell grows to ~1e19 m within a few dozen iterations: its faces then poison the global AABB of the
+// contact model, the USPG voxel count overflows and every subsequent contact-detection call degenerates into
+// an O(nodes x faces) scan that never returns. Dropping the cell costs one cell; keeping it costs the run.
+void solver::remove_dead_cells() noexcept {
+    const size_t nb_cells_before_removal = cell_lst_.size();
+
+    cell_lst_.erase(std::remove_if(cell_lst_.begin(), cell_lst_.end(),
+                                   [this](const cell_ptr& c) {
+                                       bool remove = c->is_below_min_vol();
+
+                                       if (!remove) {
+                                           const cell::stability_report report = c->check_numerical_stability();
+                                           if (report.unstable) {
+                                               remove = true;
+                                               diag_unstable_cell_count_++;
+                                               nb_unstable_cells_removed_++;
+                                               // cerr is unbuffered: this line lands in the log before any crash
+                                               std::cerr << "Removing numerically unstable cell " << c->get_id()
+                                                         << " at iteration " << iteration_
+                                                         << ": extent " << report.extent << " m (max " << report.max_extent
+                                                         << " m), volume " << c->get_volume()
+                                                         << " m^3, target volume " << c->get_target_volume()
+                                                         << " m^3, " << report.nb_non_finite_nodes << " non-finite nodes";
+                                               // Surface checks: appended only when they fire, so the line above is
+                                               // unchanged for the extent / non-finite reasons. Log parsers can count
+                                               // "negative volume" and "volume exceeds bounding box" (both can appear)
+                                               if (report.negative_volume || report.volume_exceeds_aabb) {
+                                                   if (report.negative_volume) std::cerr << ", negative volume";
+                                                   if (report.volume_exceeds_aabb) std::cerr << ", volume exceeds bounding box";
+                                                   std::cerr << " (signed volume " << report.signed_volume
+                                                             << " m^3, bounding box volume " << report.aabb_volume << " m^3)";
+                                               }
+                                               std::cerr << std::endl;
+                                           }
+                                       }
+
+                                       if (remove) c->clear_data();
+                                       return remove;
+                                   }),
+                    cell_lst_.end());
+
+    // The contact model (CONTACT_MODEL_INDEX == 2) keys its node-coupling map by cell local id
+    // and indexes cell_lst_ with it, so local ids must equal the cell's position in cell_lst_.
+    // Only cell_divider::run() reassigned them (and only when a division occurred), which left
+    // every cell after a removed one with a stale, off-by-one local id until the next division.
+    if (cell_lst_.size() != nb_cells_before_removal) {
+        for (size_t i = 0; i < cell_lst_.size(); i++)
+            cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
+    }
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+// The number of refinement failures that one refine_meshes() call may report before the run is stopped:
+// max(10, 1% of the cells), the percentage rounded down (integer division)
+size_t solver::refinement_failure_limit(const size_t nb_cells) noexcept {
+    return std::max(static_cast<size_t>(10), nb_cells / 100);
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+// Erase the cells whose mesh refinement failed in this iteration (local_mesh_refiner::refine_meshes() reported them).
+// Their meshes are damaged (a missing edge, an inconsistent face), so they are removed before contact detection, like
+// remove_dead_cells() removes the numerically unstable ones: the same counters, the same local-id resync.
+// Many failures in one call point to a bug in the refiner rather than to a few damaged cells: removing them all could
+// empty the tissue and end the run with status 0. So the run is stopped instead, with one summary line, nothing removed,
+// nothing cleared and nothing counted, in two cases:
+//  - more failures than refinement_failure_limit() allows;
+//  - failures for every cell of the list (with 10 cells or fewer, all of them can fail without reaching the limit).
+//    Only the distinct failed cells that are in cell_lst_ count here, so a cell reported twice or a cell the solver
+//    does not hold cannot make a partial failure look like a total one.
+void solver::handle_refinement_failures(const std::vector<local_mesh_refiner::refinement_failure>& failures) noexcept(false) {
+    if (failures.empty()) return;
+
+    const size_t nb_cells = cell_lst_.size();
+
+    // Stop the run: one summary line, then the exception. Called before cell_lst_ is touched
+    const auto stop = [this, nb_cells](const size_t nb_failed, const std::string& why) {
+        std::cerr << "Mesh refinement failed for " << nb_failed << " of " << nb_cells
+                  << " cells at iteration " << iteration_ << "; stopping" << std::endl;
+        throw unstable_simulation_exception(
+            "Mesh refinement failed for " + std::to_string(nb_failed) + " of " + std::to_string(nb_cells) +
+            " cells at iteration " + std::to_string(iteration_) + ", " + why);
+    };
+
+    // Mass failure: more failures than tolerated in one call
+    if (failures.size() > refinement_failure_limit(nb_cells)) {
+        stop(failures.size(), "more than the " + std::to_string(refinement_failure_limit(nb_cells)) +
+                                  " tolerated in one iteration");
+    }
+
+    // The reason of each failed cell, by pointer identity. Built before cell_lst_ is touched, so a std::bad_alloc
+    // here leaves the list as it was. A cell reported twice keeps its first reason and is still removed once
+    std::unordered_map<const cell*, const std::string*> reason_of;
+    reason_of.reserve(failures.size());
+    for (const local_mesh_refiner::refinement_failure& f : failures) reason_of.emplace(f.cell.get(), &f.reason);
+
+    // Total failure: the failures would remove every cell of the list
+    const size_t nb_failed_in_list = static_cast<size_t>(std::count_if(
+        cell_lst_.begin(), cell_lst_.end(), [&reason_of](const cell_ptr& c) { return reason_of.count(c.get()) != 0; }));
+    if (nb_cells > 0 && nb_failed_in_list == nb_cells) {
+        stop(nb_failed_in_list, "which would remove every cell of the tissue");
+    }
+
+    // Erase the failed cells that are in the list. Only the cells actually erased are logged and counted: a failure
+    // for a cell the solver does not hold is ignored
+    const size_t nb_cells_before_removal = cell_lst_.size();
+    cell_lst_.erase(std::remove_if(cell_lst_.begin(), cell_lst_.end(),
+                                   [this, &reason_of](const cell_ptr& c) {
+                                       const auto it = reason_of.find(c.get());
+                                       if (it == reason_of.end()) return false;
+
+                                       diag_unstable_cell_count_++;
+                                       nb_unstable_cells_removed_++;
+                                       // cerr is unbuffered: this line lands in the log before any crash
+                                       std::cerr << "Removing cell " << c->get_id() << " at iteration " << iteration_
+                                                 << ": mesh refinement failed: " << *it->second << std::endl;
+                                       c->clear_data();
+                                       return true;
+                                   }),
+                    cell_lst_.end());
+
+    // The local ids must equal the positions in cell_lst_ (see remove_dead_cells())
+    if (cell_lst_.size() != nb_cells_before_removal) {
+        for (size_t i = 0; i < cell_lst_.size(); i++)
+            cell_lst_[i]->set_local_id(static_cast<unsigned>(i));
+    }
+}
+//--------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------
+// Update the workload heterogeneity measurement
 // Recomputes CoV based on current cell population and adjusts chunk size if needed
 void solver::update_workload_heterogeneity() {
     // Store previous CoV for comparison
@@ -1181,7 +1046,7 @@ void solver::update_workload_heterogeneity() {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Detect current simulation phase based on biological markers
+// Detect the current simulation phase from the cell count and the division rate
 solver::SimulationPhase solver::detect_simulation_phase() {
     size_t num_cells = cell_lst_.size();
 
@@ -1190,10 +1055,9 @@ solver::SimulationPhase solver::detect_simulation_phase() {
         return SimulationPhase::INITIALIZATION;
     }
 
-    // Calculate division rate (divisions per cell per iteration)
-    // Fixed BUG #9: Use symbolic constant instead of magic number
-    double division_rate =
-        static_cast<double>(recent_division_count_) / (num_cells * static_cast<double>(COV_UPDATE_INTERVAL));
+    // Calculate division rate: fraction of cells that divided in the current
+    // COV_UPDATE_INTERVAL window (recent_division_count_ is reset every window)
+    double division_rate = static_cast<double>(recent_division_count_) / static_cast<double>(num_cells);
 
     // GROWTH: Active cell division (>1% of cells dividing per COV_UPDATE_INTERVAL iterations)
     // This captures normal proliferation (typical growth: 1-3% division rate)
@@ -1207,7 +1071,7 @@ solver::SimulationPhase solver::detect_simulation_phase() {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Adaptive scheduling update based on simulation phase
+// Adaptive scheduling update based on the simulation phase
 void solver::adaptive_schedule_update() {
     // Detect current phase
     SimulationPhase new_phase = detect_simulation_phase();
@@ -1297,7 +1161,7 @@ void solver::adaptive_schedule_update() {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 1: Handle cell division events - immediate response to workload changes
+// Handle cell division events: respond to the workload change they cause
 void solver::handle_division_event(unsigned num_divisions) {
     // Cell division creates immediate workload imbalance:
     // - New cells have freshly refined meshes (more faces)
@@ -1336,7 +1200,7 @@ void solver::handle_division_event(unsigned num_divisions) {
 //--------------------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------------------
-// Phase 3: Export comprehensive diagnostics (biological + computational metrics)
+// Export the diagnostics (biological and computational metrics)
 void solver::export_diagnostics(unsigned iteration, const std::string& csv_path) {
     // Check if file exists to determine if we need to write header
     bool file_exists = std::ifstream(csv_path).good();
@@ -1354,7 +1218,7 @@ void solver::export_diagnostics(unsigned iteration, const std::string& csv_path)
         csv_file << "sim_time,wall_epoch,iteration,cells,divisions,cov,phase,"
                  << "mesh_refinement_ms,contact_detection_ms,"
                  << "polarization_internal_forces_ms,time_integration_ms,"
-                 << "total_iteration_ms,thread_imbalance_pct\n";
+                 << "total_iteration_ms,thread_imbalance_pct,unstable_cells_removed\n";
     }
 
     // Calculate simulation timestamp (seconds since simulation start)
@@ -1396,10 +1260,10 @@ void solver::export_diagnostics(unsigned iteration, const std::string& csv_path)
 
     // Write data row
     csv_file << std::fixed << std::setprecision(3) << sim_time << "," << wall_epoch << "," << iteration << ","
-             << cell_lst_.size() << "," << recent_division_count_ << "," << std::setprecision(4) << heterogeneity_cov_
+             << cell_lst_.size() << "," << diag_division_count_ << "," << std::setprecision(4) << heterogeneity_cov_
              << "," << phase_name << "," << std::setprecision(2) << mesh_time_ms << "," << contact_time_ms << ","
              << polarization_time_ms << "," << integration_time_ms << "," << total_time_ms << ","
-             << std::setprecision(1) << thread_imbalance_pct << "\n";
+             << std::setprecision(1) << thread_imbalance_pct << "," << diag_unstable_cell_count_ << "\n";
 
     csv_file.flush();
 }

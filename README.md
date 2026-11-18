@@ -1,392 +1,146 @@
 # SimuCell3D
 
+[![CI](https://github.com/nilesh-patil/simucell3d/actions/workflows/ci.yml/badge.svg)](https://github.com/nilesh-patil/simucell3d/actions/workflows/ci.yml)
+[![Documentation](https://img.shields.io/badge/docs-stable-blue)](https://nilesh-patil.github.io/simucell3d/stable/)
+[![License: BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue)](./LICENSE)
+[![Paper](https://img.shields.io/badge/paper-Nat.%20Comput.%20Sci.%202024-orange)](https://doi.org/10.1038/s43588-024-00620-9)
+
+SimuCell3D simulates the mechanics of three-dimensional tissues at subcellular resolution.
+Each cell is a closed, triangulated surface whose shape follows from its volume, surface
+tension, area elasticity and bending energy, and from adhesion and repulsion at contacts with
+neighbouring cells. The faces of a cell can belong to different membrane domains (for example
+apical, lateral and basal) with their own mechanical parameters, so that cell polarization can be
+modelled. Besides epithelial cells, a tissue can contain nuclei, extracellular matrix (ECM),
+lumens and static obstacles. Cells grow, divide and are removed during a simulation.
+
+SimuCell3D was created by Steve Runser in the Iber Lab (D-BSSE, ETH Zurich, and the Swiss
+Institute of Bioinformatics) and is described in Runser, Vetter & Iber, *Nature Computational
+Science* **4**, 299-309 (2024),
+[doi:10.1038/s43588-024-00620-9](https://doi.org/10.1038/s43588-024-00620-9). As stated in the
+article, the concept is by Roman Vetter and Dagmar Iber, the model and algorithms were developed
+by Steve Runser and Roman Vetter, and the program was implemented by Steve Runser.
+
+This repository holds the 2.x maintenance releases, maintained by Nilesh Patil. They are not
+reviewed or endorsed by the authors of the article, the Iber Lab or ETH Zurich.
+
 <p align="center">
-    <img src="./doc/assets/img/simucell_topolgy_example.png" alt="SimuCell3D Topology Example">
+  <img src="./doc/images/tissue_topologies.png" alt="Tissues of several topologies simulated with SimuCell3D" width="80%">
 </p>
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/nilesh-patil/simucell3d)
-[![License](https://img.shields.io/badge/license-BSD--3-blue)](./LICENSE)
-[![Paper](https://img.shields.io/badge/paper-Nature%20Comp%20Sci%202024-orange)](./doc/SimuCell3D.pdf)
+**Documentation: <https://nilesh-patil.github.io/simucell3d/>**
 
----
+> **Results differ from 1.0.** SimuCell3D 2.1 fixes bugs in the 1.0 code published with the
+> paper, and these fixes change simulation results. It also adds safeguards that remove
+> numerically unstable cells during long runs; a run can lose many cells this way and still
+> exit with status 0, so check the removal counts in its log. To compare with the published
+> figures, use the 1.0 code. The Zenodo archive cited by the paper,
+> [doi:10.5281/zenodo.10796908](https://doi.org/10.5281/zenodo.10796908), is commit `5342bf8`,
+> whose default contact model is 1. The tag `v1.0` is a later commit by the same author
+> (`38af451`) that adds the input files of Figs. 1 and 3 and makes contact model 2 the default.
+> See [CHANGELOG.md](./CHANGELOG.md) for the changes and the known issues.
 
-## Quick Navigation
+## Requirements
 
-| New here? | Start with |
-|-----------|------------|
-| **Run first simulation** | [Quick Start](./doc/getting-started/quick-start.md) |
-| **Install on your platform** | [Quick Start](./doc/getting-started/quick-start.md) |
-| **Fix a problem** | [FAQ](./doc/getting-started/faq.md) |
-| **Contribute code** | [Contributing](./doc/getting-started/contributing.md) |
-| **All documentation** | [doc/README.md](./doc/README.md) |
+- Linux, or Windows through WSL
+- A C++17 compiler with OpenMP (GCC 10 or newer)
+- CMake 3.10 or newer
 
----
+Alternatively, the `Dockerfile` builds the program in a container.
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Current Biological Capabilities](#current-biological-capabilities)
-- [Validated Applications](#validated-applications)
-- [Fork Performance Improvements](#fork-performance-improvements)
-- [Quick Start](#quick-start)
-- [Production Usage](#production-usage)
-- [Documentation](#documentation)
-- [Development Roadmap](#development-roadmap)
-- [Citation](#citation)
-
----
-
-## Introduction
-
-**SimuCell3D** is a high-performance C++ framework for simulating 3D tissue mechanics at **subcellular resolution**.
-
-Published in [Nature Computational Science (2024)](./doc/SimuCell3D.pdf), it enables researchers to model complex biological phenomena including cell division, polarization, adhesion, and morphogenesis with experimental validation.
-
-**This is a performance-focused fork** that extends the published SimuCell3D with OpenMP scheduling optimizations. The fork improves parallel efficiency from 29% to 60% while maintaining full backward compatibility with the original codebase.
-
----
-
-## Current Biological Capabilities
-
-These features are **validated and implemented** in the Nature Computational Science 2024 publication.
-
-### Biophysical Model
-
-SimuCell3D implements a 3D **Deformable Cell Model (DCM)** with the following energy potential:
-
-```
-U = KV(ln(V/V0) - 1) + (ka/2)(A/A0 - 1)^2 + integral(gamma + kb/2(2H)^2)dS
-```
-
-| Term | Description | Biological Role |
-|------|-------------|-----------------|
-| **KV** | Bulk modulus | Volume homeostasis (osmotic pressure) |
-| **ka** | Area stiffness | Membrane area control |
-| **gamma** | Surface tension | Cortical tension (anisotropic: apical/basal/lateral) |
-| **kb** | Bending rigidity | Curvature resistance |
-| **H** | Mean curvature | Local surface geometry |
-
-### Cell Types and Geometry
-
-| Feature | Description |
-|---------|-------------|
-| **Triangulated surfaces** | ~121 nodes, ~238 faces per cell |
-| **5 cell types** | Epithelial, lumen, ECM, nucleus, static |
-| **Nucleus compartmentalization** | Separate nucleus mesh with envelope mechanics |
-| **Mesh quality control** | Local refinement maintains edge length bounds |
-
-### Biological Processes
-
-| Capability | Implementation |
-|------------|----------------|
-| **Automatic polarization** | Hoshen-Kopelman clustering detects apical/basal/lateral domains |
-| **Anisotropic surface tension** | Different gamma values for apical, basal, and lateral faces |
-| **Cell division** | Volume threshold triggers mesh subdivision (Hertwig's rule) |
-| **Cell death** | Instant removal when volume falls below minimum threshold |
-| **Pressure-driven volume** | Bulk modulus KV maintains volume homeostasis |
-
-### Contact Models
-
-Two validated contact models are available (selected at compile time):
-
-| Model | Index | Description | Validation |
-|-------|-------|-------------|------------|
-| **Spring-based** | 0 | Node-face contacts via springs | Basic contact mechanics |
-| **Coupling-based** | 2 | Face-face contacts via coupling | Young-Dupre equation validated |
-
-### Time Integration
-
-| Model | Index | Description | Use Case |
-|-------|-------|-------------|----------|
-| **Semi-implicit Euler** | 0 | Full equations of motion | Default, accurate dynamics |
-| **Forward Euler** | 1 | Overdamped equations | Faster equilibration |
-
-### Performance Baseline (from Paper)
-
-| Metric | Value |
-|--------|-------|
-| **Cells/day** | 125,000 |
-| **Time complexity** | O(N^{4/3}) |
-| **Parallel efficiency** | 53-66% (Amdahl's law) |
-| **Hardware tested** | Intel Xeon W-2245 (8 cores) |
-
-### Comparison with Other 3D DCMs (Table 1 from paper)
-
-| Feature | SimuCell3D | IAS | SAV | CHASTE |
-|---------|------------|-----|-----|--------|
-| **Cells/day** | 125,000 | 4 | 100 | 1,000 |
-| **Subcellular resolution** | Yes | Yes | No | No |
-| **Nucleus compartment** | Yes | No | No | No |
-| **Automatic polarization** | Yes | No | No | No |
-| **Cell division** | Yes | Yes | Yes | Yes |
-| **Open source** | Yes | No | Yes | Yes |
-
----
-
-## Validated Applications
-
-These biological scenarios are **validated in the Nature paper** (Figures 3-4):
-
-### Cell Doublet Mechanics
-- Young-Dupre equation validation
-- Contact angle measurements match experimental data
-- Demonstrates face-face coupling model accuracy
-
-### Monolayer vs Multilayer Transition
-- Epithelial sheet mechanics
-- Pressure-dependent tissue organization
-- Validated against experimental observations
-
-### Pseudostratified Epithelia Formation
-- Nuclear positioning during interkinetic nuclear migration
-- Apicobasal polarity establishment
-- Comparison with mouse lung imaging data
-
----
-
-## Fork Performance Improvements
-
-This fork focuses **exclusively on OpenMP scheduling optimizations**. No new scientific features have been added.
-
-### Performance Gains
-
-| Metric | Paper v1.0 | This Fork | Improvement |
-|--------|------------|-----------|-------------|
-| **Thread efficiency** | 29% | 60% | +107% |
-| **Scheduling modes** | 1 (compile-time) | 4 (runtime) | Flexible selection |
-| **Auto-scheduler** | None | Yes | 1.5-4.5x speedup |
-| **Per-loop optimization** | None | Yes | +15% additional |
-
-### Implemented Enhancements
-
-| Feature | Description |
-|---------|-------------|
-| **Adaptive scheduling** | Intelligent mode selection based on 52 empirical benchmarks |
-| **Runtime mode selection** | `--schedule=adaptive\|static\|dynamic\|guided` flag |
-| **Hardware topology detection** | NUMA awareness, hyperthreading detection, taskset/cgroup handling |
-| **Per-loop custom scheduling** | Phase-specific schedules (contact=dynamic, integration=guided, mesh=static) |
-| **Performance monitoring** | CSV diagnostics export via `--diagnostics-csv` flag |
-| **Unified benchmark framework** | Crash recovery, live monitoring, HTML reports |
-
-### What This Fork Does NOT Include
-
-The following are **not implemented** in this fork:
-
-- No SIMD vectorization (vec3 operations remain scalar)
-- No BVH spatial acceleration (still uses USPG)
-- No GPU/CUDA code
-- No MPI distributed computing
-- No new biological models (viscoelasticity, active tension, etc.)
-
-See [doc/v1.0_vs_current_comparison.md](./doc/v1.0_vs_current_comparison.md) for technical details.
-
----
-
-## Quick Start
-
-### Installation
-
-#### Option 1: Docker (Recommended)
-Works on Linux, Windows (WSL), and macOS.
+## Build
 
 ```bash
 git clone https://github.com/nilesh-patil/simucell3d.git
 cd simucell3d
-docker build -t simucell3d_docker_img .
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make -j4
+./simucell3d --version
 ```
 
-#### Option 2: Manual Build (Linux/WSL)
-Requires GCC 9+, CMake 3.0+, and OpenMP.
+The executable is `build/simucell3d`. The Python module is built with
+`-DENABLE_PYTHON_BINDINGS=TRUE`. Docker and other options are described in the
+[installation guide](https://nilesh-patil.github.io/simucell3d/stable/install.html).
+
+## Run a simulation
+
+A simulation is defined by an XML parameter file, which names the input mesh (a legacy VTK file)
+and the output folder. From the `build/` directory:
 
 ```bash
-git clone https://github.com/nilesh-patil/simucell3d.git
-cd simucell3d
-mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)
+./simucell3d ../parameters/core/parameters_vesicle_quick.xml
 ```
 
-### Running a Simulation
+This runs 200 time steps of an epithelial vesicle of 432 cells around a lumen. The output folder
+named in the parameter file (here `simulation_results/simulation_vesicle/` in the repository
+root) is **deleted and recreated** at the start of every run. It receives:
 
-**Using Docker:**
-```bash
-mkdir -p simulation_results
-docker run -it -v "$(pwd)/simulation_results":/app/simulation_results \
-    simucell3d_docker_img:latest ../parameters/core/parameters_default_dynamic.xml --schedule=adaptive
-```
+- `cell_data/result_<n>.vtk` and `face_data/result_<n>.vtk`: the tissue at each sampling time,
+  for viewing in [ParaView](https://www.paraview.org/);
+- `simulation_statistics.csv`: per-cell geometry and energies over time;
+- `performance_diagnostics.csv`: timing and solver diagnostics every 100 iterations.
 
-**Using Manual Build (Basic):**
-```bash
-cd build
-./simucell3d ../parameters/core/parameters_default_dynamic.xml --schedule=adaptive
-```
+Command-line options:
 
-**Production Run (Optimized):**
-```bash
-cd build
-export OMP_NUM_THREADS=$(nproc)  # Use all available physical cores
-export OMP_PROC_BIND=close       # Bind threads to cores for better cache locality
-./simucell3d ../parameters/core/parameters_default_dynamic.xml --schedule=adaptive
-```
+| Option | Meaning |
+|---|---|
+| `--threads=N` | Number of OpenMP threads (default: one per physical core, pinned) |
+| `--schedule=MODE` | OpenMP scheduling: `adaptive` (default), `static`, `dynamic`, `guided` |
+| `--output-dir=PATH` | Write output to `PATH` instead of the folder in the parameter file |
+| `--diagnostics-csv=PATH` | Write the diagnostics CSV to `PATH` |
+| `--version` | Print the version and exit |
 
-> **Note:** The `--schedule=adaptive` flag enables intelligent scheduling that adapts to your workload. Omitting it still works (backward compatible) but may be slower. See [Production Usage](#production-usage) below for advanced configuration.
-
----
-
-## Production Usage
-
-For production simulations with maximum performance, configure OpenMP environment variables to dedicate all system resources.
-
-### Recommended Production Configuration
-
-```bash
-cd build
-
-# Configure OpenMP for optimal performance
-export OMP_NUM_THREADS=16                # Set to your physical core count (not hyperthreaded)
-export OMP_PROC_BIND=close              # Bind threads to cores for cache locality
-export OMP_PLACES=cores                 # Use physical cores only
-export OMP_WAIT_POLICY=passive          # Reduce CPU spinning when idle
-export OMP_DYNAMIC=false                # Disable dynamic thread adjustment
-
-# Run with auto-scheduler (recommended)
-./simucell3d ../parameters/core/parameters_default_dynamic.xml --schedule=adaptive
-```
-
-### Finding Your Physical Core Count
-
-```bash
-# Quick method
-nproc --all  # Shows logical cores (includes hyperthreading)
-
-# Get physical cores only
-echo $(( $(lscpu | grep "^Core(s) per socket:" | awk '{print $4}') * $(lscpu | grep "^Socket(s):" | awk '{print $2}') ))
-```
-
-### Scheduling Modes
-
-SimuCell3D supports four OpenMP scheduling modes via `--schedule=MODE`:
-
-| Mode | Best For | Description |
-|------|----------|-------------|
-| `adaptive` | **Recommended for most cases** | Intelligently selects optimal mode based on 52 empirical benchmarks covering 1-16,384+ cells. Adapts to workload heterogeneity. |
-| `static` | Large uniform workloads (4096+ cells) | Fixed work distribution, best cache locality. Similar to v1.0 behavior. |
-| `dynamic` | Small heterogeneous workloads (64-256 cells) | Adaptive load balancing, handles imbalanced work well. |
-| `guided` | Medium workloads (512-2048 cells) | Balances cache locality with load distribution. |
-
-### Performance Monitoring
-
-Track performance metrics during simulation:
-
-```bash
-# Export detailed diagnostics to CSV
-./simucell3d params.xml --schedule=adaptive --diagnostics-csv=performance_metrics.csv
-
-# Use GNU time for resource monitoring
-/usr/bin/time -v ./simucell3d params.xml --schedule=adaptive
-
-# Long-running background simulation with logging
-nohup /usr/bin/time -v ./simucell3d params.xml --schedule=adaptive \
-    --diagnostics-csv=metrics.csv > simulation.log 2>&1 &
-
-# Monitor progress
-tail -f simulation.log
-```
-
-### Available Parameter Files
-
-**Core configurations** (`parameters/core/`):
-- `parameters_default_dynamic.xml` - General purpose tissue dynamics
-- `parameters_vesicle.xml` - Vesicle formation (~13 cells, good test case)
-- `parameters_tube.xml` - Tube morphogenesis
-- `parameters_sheet.xml` - Sheet formation
-- `parameters_default_overdamped.xml` - Faster overdamped dynamics
-
-**Scalability benchmarks** (`parameters/scalability/`):
-- `parameters_growth_64cells.xml` through `parameters_growth_32768cells.xml`
-- Tests algorithmic scaling matching Nature paper Figure 1e
-
-### Expected Performance
-
-With auto-scheduler + per-loop scheduling on a 16-core system:
-
-| Workload | Time | Notes |
-|----------|------|-------|
-| Vesicle (~13 cells, quick test) | ~20-30 seconds | Good for testing setup |
-| Vesicle (10k iterations) | ~2.9 hours | 45-50% faster than v1.0 |
-
-| Metric | Value |
-|--------|-------|
-| CPU utilization | 1400-1600% (14-16 cores) |
-| Thread efficiency | 60% (vs 29% in v1.0) |
-| Memory | 200MB-2GB depending on cell count |
-| Speedup vs v1.0 | 1.5-4.5x depending on configuration |
-
----
+The contact model, the dynamic model and the polarization mode are compile-time options in
+`include/global_configuration.hpp`. Each shipped parameter file states the configuration it was
+written for in its header comment.
 
 ## Documentation
 
-### User Guides
--   **[Parameter Configuration](./doc/user-guide/parameter-reference.md)**: Detailed guide on XML parameter files.
--   **[Input Mesh Format](./doc/user-guide/input-mesh-format.md)**: How to prepare initial geometries.
--   **[Output Statistics](./doc/user-guide/output-format.md)**: Understanding the simulation results.
--   **[Mesh Generation](./doc/user-guide/mesh-generation.md)**: Creating custom initial meshes.
--   **[Python Support](./doc/user-guide/python-bindings.md)**: Using Python bindings.
+- [Installation](https://nilesh-patil.github.io/simucell3d/stable/install.html)
+- [Getting started](https://nilesh-patil.github.io/simucell3d/stable/getting_started.html):
+  a first simulation and its output
+- [User guide](https://nilesh-patil.github.io/simucell3d/stable/user_guide/index.html):
+  the model, the parameter file, input meshes, output files, the Python module
+- [Examples](https://nilesh-patil.github.io/simucell3d/stable/examples/index.html):
+  one page per shipped parameter file
+- [API reference](https://nilesh-patil.github.io/simucell3d/stable/api/index.html)
+- [Developer guide](https://nilesh-patil.github.io/simucell3d/stable/developers/index.html)
+- [Release history](https://nilesh-patil.github.io/simucell3d/stable/whats_new/index.html)
+  and [CHANGELOG.md](./CHANGELOG.md)
 
-### Performance and Advanced Usage
--   **[Performance Tuning Guide](./doc/developer/performance-tuning.md)**: **(RECOMMENDED)** Detailed instructions on OpenMP scheduling modes, auto-scheduler usage, thread control, and optimization strategies.
--   **[Benchmarking Guide](./doc/benchmarking/openmp-benchmarks.md)**: Comprehensive performance analysis with empirical results from 52 benchmark runs.
--   **[Unified Benchmark Framework](./doc/benchmarking/openmp-benchmarks.md#benchmark-framework-overview)**: Using `benchmark_unified.sh` for systematic performance testing.
--   **[v1.0 vs Current Comparison](./doc/v1.0_vs_current_comparison.md)**: Technical deep-dive into code-level differences and performance improvements.
-
-> **Backward Compatibility Note:** All v1.0 commands work without modification. The `--schedule=adaptive` flag and other new features are optional enhancements that can be adopted incrementally.
-
----
-
-## Development Roadmap
-
-> **Important:** The items below are **proposed improvements** described in [roadmap.md](./roadmap.md). They are **NOT yet implemented**. The roadmap represents aspirational goals for future development.
-
-### High-Priority Proposed Features (Not Implemented)
-
-**Computational:**
-- SIMD vectorization for vec3 operations (AVX2/512)
-- BVH spatial acceleration structure
-- GPU contact detection (CUDA)
-- MPI domain decomposition
-
-**Scientific:**
-- Viscoelasticity model (Kelvin-Voigt)
-- Active tension (actomyosin contractility)
-- Mechanotransduction (YAP/TAZ-like signaling)
-- Cell migration and chemotaxis
-- Reaction-diffusion morphogen coupling
-- ECM remodeling
-
-**Architecture:**
-- Expression templates for vec3
-- Structure-of-Arrays memory layout
-- GoogleTest migration
-
-See [roadmap.md](./roadmap.md) for the full list of 27 proposed improvements with effort estimates and implementation details.
-
----
+The documentation sources are in [`doc/`](./doc/).
 
 ## Citation
 
-If you use SimuCell3D in your research, please cite:
+If SimuCell3D contributes to a publication, please cite:
+
+> Runser, S., Vetter, R. & Iber, D. SimuCell3D: three-dimensional simulation of tissue
+> mechanics with cell polarization. *Nat. Comput. Sci.* **4**, 299-309 (2024).
+> https://doi.org/10.1038/s43588-024-00620-9
 
 ```bibtex
 @article{runser2024simucell3d,
-  title={SimuCell3D: three-dimensional simulation of tissue mechanics with cell polarization},
-  author={Runser, Adrien and others},
-  journal={Nature Computational Science},
-  year={2024},
-  publisher={Nature Publishing Group}
+  author  = {Runser, Steve and Vetter, Roman and Iber, Dagmar},
+  title   = {{SimuCell3D}: three-dimensional simulation of tissue mechanics with cell polarization},
+  journal = {Nature Computational Science},
+  volume  = {4},
+  pages   = {299--309},
+  year    = {2024},
+  doi     = {10.1038/s43588-024-00620-9}
 }
 ```
 
----
+[`CITATION.cff`](./CITATION.cff) gives the same reference in machine-readable form as the
+preferred citation. It also lists the 2.x software version with its maintainer as software
+author, and the Zenodo archive of the 1.0 code as a reference. State the version you used,
+because results differ between releases.
+
+## Contributing
+
+Bug reports and pull requests are welcome; see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-See [LICENSE](./LICENSE) file for details.
+BSD 3-Clause License. [LICENSE](./LICENSE) is the licence text of release 1.0, unchanged. The
+changes made since 1.0 are copyright (c) 2026 Nilesh Patil and are released under the same
+licence; see [NOTICE](./NOTICE).

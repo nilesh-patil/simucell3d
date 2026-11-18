@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 #Use CPP 17
 set(CMAKE_CXX_STANDARD 17)
@@ -24,3 +24,6 @@ add_test(NAME math_modules_eigen_solver_zero_matrix              COMMAND eigen_s
 add_test(NAME math_modules_eigen_solver_iterative_vs_noniterative COMMAND eigen_solver_test test_iterative_vs_noniterative)
 add_test(NAME math_modules_eigen_solver_right_handed             COMMAND eigen_solver_test test_right_handed_eigenvectors)
 add_test(NAME math_modules_eigen_solver_aggressive_convergence   COMMAND eigen_solver_test test_aggressive_convergence)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

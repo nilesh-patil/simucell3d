@@ -1,23 +1,18 @@
 """
-SimuCell3D Benchmark Visualization Package
+Data handling for the SimuCell3D benchmark plots.
 
-Publication-quality visualization suite for SimuCell3D benchmark analysis.
-Supports automatic scheduler detection, data validation, and 17+ plot types.
+Helper package of ``scripts/plot_benchmark_unified.py``: validation of a benchmark
+directory, data loading and cleaning with an audit trail, detection of the scheduling
+modes present (``sim_<mode>/`` subdirectories), and the statistics used by the plots.
+The plots themselves are drawn by ``plot_benchmark_unified.py``; this package has no
+command-line entry point.
 
 Usage:
-    from simucell3d_viz import validate_benchmark, load_and_clean_data, generate_plots
+    import sys; sys.path.insert(0, "scripts")
+    from simucell3d_viz import validate_benchmark, load_and_clean_data
 
-    # Validate data first
     report = validate_benchmark(bench_dir)
-
-    # Load with automatic cleaning
-    data = load_and_clean_data(bench_dir)
-
-    # Generate all plots
-    generate_plots(data, output_dir)
-
-CLI Usage:
-    python -m simucell3d_viz <benchmark_dir> [options]
+    data, audit = load_and_clean_data(bench_dir)
 """
 
 __version__ = "2.0.0"

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Use C++ 17
 set(CMAKE_CXX_STANDARD 17)
@@ -31,3 +31,6 @@ add_test(NAME performance_monitor_csv_export_default_params  COMMAND performance
 add_test(NAME performance_monitor_report_no_crash            COMMAND performance_monitor_test test_report_no_crash)
 add_test(NAME performance_monitor_small_time_precision       COMMAND performance_monitor_test test_small_time_precision)
 add_test(NAME performance_monitor_large_time_values          COMMAND performance_monitor_test test_large_time_values)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

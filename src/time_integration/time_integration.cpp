@@ -57,7 +57,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
                         n1.force_.reset();
 
                     #else
-                        std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
+                        throw std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
                     #endif
 
                     //Reset the force of the node to the 0 vector
@@ -145,7 +145,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
                             c2->kinetic_energy_ += node_kinetic_energy;
 
                         #else
-                            std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
+                            throw std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
                         #endif
 
 
@@ -184,7 +184,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
 
                     #else
 
-                        std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
+                        throw std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
 
                     #endif
 
@@ -300,7 +300,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
 
 
                 #else
-                    std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
+                    throw std::runtime_error("The combination of DYNAMIC_MODEL_INDEX = " + std::to_string(DYNAMIC_MODEL_INDEX) + " and CONTACT_MODEL_INDEX = " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another combination.");
                 #endif
 
                 c1->kinetic_energy_ += kinetic_energy_node;
@@ -336,7 +336,7 @@ void time_integration_scheme::update_nodes_positions(const std::vector<cell_ptr>
         }
 
     #else
-        std::runtime_error("The contact model corresponding to the INDEX " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another contact model.");
+        throw std::runtime_error("The contact model corresponding to the INDEX " + std::to_string(CONTACT_MODEL_INDEX) + " is not supported by the time integration scheme. Please choose another contact model.");
     #endif
 
 

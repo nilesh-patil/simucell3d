@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Use C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -175,3 +175,6 @@ add_test(NAME sap_openmp_empty_input_thread_safety
 
 add_test(NAME sap_openmp_large_scale_stress
     COMMAND test_sap_openmp test_large_scale_stress)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

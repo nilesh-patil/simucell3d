@@ -25,11 +25,11 @@
 #   --help              Show this help
 #
 # Examples:
-#   ./scripts/generate_visualizations.sh simulation_results/parallel_benchmark_20260126_094659
-#   ./scripts/generate_visualizations.sh simulation_results/parallel_benchmark_20260126_094659 --quality draft
-#   ./scripts/generate_visualizations.sh simulation_results/parallel_benchmark_20260126_094659 --validate-only
-#   ./scripts/generate_visualizations.sh simulation_results/parallel_benchmark_20260126_094659 --all-scripts
-#   ./scripts/generate_visualizations.sh simulation_results/parallel_benchmark_20260126_094659 --legacy
+#   ./scripts/generate_visualizations.sh doc/working/parallel_benchmark_<timestamp>
+#   ./scripts/generate_visualizations.sh doc/working/parallel_benchmark_<timestamp> --quality draft
+#   ./scripts/generate_visualizations.sh doc/working/parallel_benchmark_<timestamp> --validate-only
+#   ./scripts/generate_visualizations.sh doc/working/parallel_benchmark_<timestamp> --all-scripts
+#   ./scripts/generate_visualizations.sh doc/working/parallel_benchmark_<timestamp> --legacy
 
 set -e  # Exit on error
 
@@ -74,12 +74,12 @@ Options:
   --help              Show this help
 
 Examples:
-  $0 simulation_results/parallel_benchmark_20260126_094659
-  $0 simulation_results/parallel_benchmark_20260126_094659 --quality draft --no-latex
-  $0 simulation_results/parallel_benchmark_20260126_094659 --validate-only
-  $0 simulation_results/parallel_benchmark_20260126_094659 --plots biological
-  $0 simulation_results/parallel_benchmark_20260126_094659 --all-scripts
-  $0 simulation_results/parallel_benchmark_20260126_094659 --legacy
+  $0 doc/working/parallel_benchmark_<timestamp>
+  $0 doc/working/parallel_benchmark_<timestamp> --quality draft --no-latex
+  $0 doc/working/parallel_benchmark_<timestamp> --validate-only
+  $0 doc/working/parallel_benchmark_<timestamp> --plots biological
+  $0 doc/working/parallel_benchmark_<timestamp> --all-scripts
+  $0 doc/working/parallel_benchmark_<timestamp> --legacy
 
 Output Directories:
   plots-unified/        Unified script output (default)

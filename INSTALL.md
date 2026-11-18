@@ -1,1 +1,0 @@
-doc/getting-started/quick-start.md

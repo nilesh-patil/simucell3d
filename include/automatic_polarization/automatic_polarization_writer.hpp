@@ -1,6 +1,12 @@
 #ifndef DEF_AUTOMATIC_POLARIZATION_WRITER
 #define DEF_AUTOMATIC_POLARIZATION_WRITER
 
+/**
+ * @file automatic_polarization_writer.hpp
+ * @brief Writer of the voxel regions of the automatic polarizer (`region_data/` output).
+ * @ingroup polarization
+ */
+
 
 #include <iostream>
 #include <vector>
@@ -27,22 +33,16 @@
 #include "automatic_polarizer.hpp"
 
 
-/*
-
-This class is used to write in a vtk file the type of each voxel of the discretized space created 
-by the automatic polarizer. 
-
-The different types are: 
-   -1: undefined
-    0: boundary voxels, 
-    1: cytoplasm,
-    2: exterior space
-    3: lumen,
-    
-*/
-
-
-
+/**
+ * @brief Writes the voxel grid of an automatic_polarizer to a legacy VTK file.
+ *
+ * With `POLARIZATION_MODE_INDEX 2`, the solver calls write() each time it writes the output
+ * meshes after the first iteration, into `<output>/region_data/result_<n>.vtk`. Each voxel is written as a cube with the
+ * cell array `voxel_type_id`: -1 unlabelled, 0 boundary, 1 cytoplasm, 2 exterior space,
+ * 3 lumen.
+ *
+ * @ingroup polarization
+ */
 class automatic_polarization_writer{
 
         protected:
@@ -54,16 +54,26 @@ class automatic_polarization_writer{
                 automatic_polarization_writer& operator=(const automatic_polarization_writer& v) = delete;//copy assignment operator
                 automatic_polarization_writer& operator=(automatic_polarization_writer&& v) = default;    //move assignment operator 
 
-                //Generate a cubic cell where min_corner contains {min_x, min_y, min_z} and max_corner contains {max_x, max_y, max_z}
+                /**
+                 * @brief Create a cube-shaped cell of 8 nodes and 12 triangles.
+                 * @param min_corner  Corner with the smallest coordinates, m.
+                 * @param edge_length Edge length of the cube, m.
+                 * @param cell_id     Identifier of the new cell.
+                 */
                 static cell_ptr generate_cubic_cell(const vec3& min_corner, const double edge_length, const unsigned cell_id) noexcept;
 
-                //Write the whole automatic_polarizer discretization grid in a vtk file
+                /**
+                 * @brief Write the labelled voxel grid of a polarizer to a VTK file.
+                 * @param output_path Path of the file to create.
+                 * @param polarizer   Polarizer whose grid is written.
+                 * @throws mesh_writer_exception If the file cannot be opened.
+                 */
                 static void write(const std::string& output_path, const automatic_polarizer& polarizer) noexcept(false);
 
-                //Create a cell for each voxel of the grid
+                /** @brief Create one cube cell per voxel of the grid (loop order: x outer, then y, z inner). */
                 static std::vector<cell_ptr> convert_grid_voxels_to_cells(const uspg_3d<unsigned short>& grid) noexcept;
 
-                //Write the type of each voxel in the file 
+                /** @brief Append the `voxel_type_id` cell array (one value per voxel) to an open VTK file. */
                 static void write_voxel_type_data(
                     std::ofstream& polarization_data_file,
                     const uspg_3d<unsigned short>& grid

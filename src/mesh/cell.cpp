@@ -153,8 +153,10 @@ void cell::initialize_cell_properties(bool check_cell_integrity) noexcept(false)
     area_ = compute_area();
     target_area_ = area_;
 
-    //Update the cell volume
-    volume_ = compute_volume();
+    //Update the cell volume (the signed value is kept for check_numerical_stability())
+    signed_volume_ = compute_signed_volume();
+    volume_ = std::abs(signed_volume_);
+    assert(std::isfinite(volume_) && volume_ != 0.); //same debug checks as compute_volume()
     target_volume_ = volume_;
 
     //Initialize the cell growth rate and division volumes that are drawn from a normal distribution
@@ -212,6 +214,7 @@ void cell::clear_data() noexcept{
     free_face_queue_.clear();
     area_ = 0.0;
     volume_ = 0.0;
+    signed_volume_ = std::numeric_limits<double>::quiet_NaN();
     target_volume_ = 0.0;
 }
 //---------------------------------------------------------------------------------------------------------
@@ -1146,8 +1149,12 @@ void cell::update_face_normal_and_area(face& f) noexcept{
 
 
 //-------------------------------------------------------------------------------------------
-//Return the volume of the cell, if signed is set to true return the signed volume
-double cell::compute_volume() const noexcept{
+//Signed volume enclosed by the surface, by the divergence theorem: the sum over the faces of the signed volumes
+//of the tetrahedra (world origin, n1, n2, n3), i.e. det(p1, p2, p3) / 6. For a closed surface the result does
+//not depend on the apex; it is positive when the faces are wound counterclockwise seen from outside (normals
+//pointing outward, as set by check_face_normal_orientation()) and negative when the surface is inside out.
+//The apex is kept at the origin so that compute_volume() returns exactly the value it always has.
+double cell::compute_signed_volume() const noexcept{
 
     assert(face_lst_.size() >= 4);
     assert(node_lst_.size() >= 4);
@@ -1175,9 +1182,17 @@ double cell::compute_volume() const noexcept{
         }                       
     }
 
-    vol /= 6.;
-    vol = std::abs(vol);
+    return vol / 6.;
+}
+//---------------------------------------------------------------------------------------------------------
 
+
+
+//-------------------------------------------------------------------------------------------
+//Return the (unsigned) volume of the cell
+double cell::compute_volume() const noexcept{
+
+    const double vol = std::abs(compute_signed_volume());
 
     //Make sure that the function doesn't return non sense, which can happen very easily
     //if one of the node coordinates equals nan
@@ -1301,6 +1316,53 @@ std::array<double, 6> cell::get_aabb() const noexcept{
 
 
 //---------------------------------------------------------------------------------------------------------
+//Detect a cell whose mesh has diverged (see cell.hpp). Deliberately measured against the target volume
+//and not the current one: a blown-up mesh has a meaningless (huge, negative or NaN) volume.
+cell::stability_report cell::check_numerical_stability(const double max_extent_ratio, const double aabb_volume_tolerance) const noexcept{
+    stability_report report;
+
+    unsigned nb_used_nodes = 0;
+    for(const node& n: node_lst_){
+        if(!n.is_used()) continue;
+        nb_used_nodes++;
+        const auto [n_x, n_y, n_z] = n.pos_.to_array();
+        if(!std::isfinite(n_x) || !std::isfinite(n_y) || !std::isfinite(n_z)) report.nb_non_finite_nodes++;
+    }
+    if(nb_used_nodes == 0) return report; //nothing to integrate, nothing to diverge
+
+    //get_aabb() skips non-finite coordinates (NaN compares false), so the extent stays meaningful
+    const auto [min_x, min_y, min_z, max_x, max_y, max_z] = get_aabb();
+    report.extent = std::max({max_x - min_x, max_y - min_y, max_z - min_z});
+
+    //Cells created without a target volume (e.g. static cells) fall back on their current volume
+    const double reference_volume = (std::isfinite(target_volume_) && target_volume_ > 0.) ? target_volume_ : volume_;
+    report.max_extent = (std::isfinite(reference_volume) && reference_volume > 0.) ?
+                            max_extent_ratio * std::cbrt(reference_volume) :
+                            std::numeric_limits<double>::infinity();
+
+    //A closed surface whose faces are wound outward encloses a positive volume, and that volume lies inside the AABB
+    //of its nodes. A non-positive signed volume means the surface is inside out; a volume larger than the AABB is
+    //impossible unless the surface intersects itself. Long runs produced both (e.g. a consistently wound cell of
+    //397,910 faces with V = -1.4e-12 m^3 and |V| > its AABB volume), and such a cell was only removed much later,
+    //once its extent passed the limit above. The signed volume is the one of the last volume update (in
+    //apply_internal_forces(), one position update ago, or at the creation of the cell): free, and one step late.
+    //Static cells are not checked: they never move, and an ECM can be an open sheet whose "volume" means nothing.
+    report.signed_volume = signed_volume_;
+    report.aabb_volume = (max_x - min_x) * (max_y - min_y) * (max_z - min_z);
+    if(!is_static_){
+        //Both comparisons are false while signed_volume_ is NaN (never computed)
+        report.negative_volume = signed_volume_ <= 0.;
+        report.volume_exceeds_aabb = std::abs(signed_volume_) > report.aabb_volume * (1. + aabb_volume_tolerance);
+    }
+
+    report.unstable = report.nb_non_finite_nodes > 0 || !std::isfinite(report.extent) || report.extent > report.max_extent ||
+                      report.negative_volume || report.volume_exceeds_aabb;
+    return report;
+}
+//---------------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------------
 void cell::update_target_volume(const double time_step) noexcept{
     assert(cell_type_ != nullptr);
     target_volume_ += time_step * growth_rate_;
@@ -1387,8 +1449,8 @@ void cell::apply_surface_tension_and_membrane_elasticity() noexcept{
     target_area_ = std::cbrt(cell_type_->target_isoperimetric_ratio_ * volume_ * volume_);
     const double membrane_elasticity_factor =  -(cell_type_->area_elasticity_modulus_ / target_area_) * ((area_ / target_area_) - 1.);
 
-    //Reset the membrane elasticity and surface tension energy  
-    membrane_elasticity_energy_ = 0.;
+    //Whole-cell membrane elasticity energy: U_m = k_a/2 * (A/A_0 - 1)^2 (eq. 1 of the paper)
+    membrane_elasticity_energy_ = 0.5 * cell_type_->area_elasticity_modulus_ * std::pow((area_ / target_area_) - 1., 2.);
     surface_tension_energy_ = 0.;
 
     //Loop over the faces
@@ -1432,8 +1494,7 @@ void cell::apply_surface_tension_and_membrane_elasticity() noexcept{
             n2.add_force(force_n2);
             n3.add_force(force_n3);
 
-            //Update the membrane elasticity energy and surface tension energy
-            //membrane_elasticity_energy_ += 0.5 * cell_type_->area_elasticity_modulus_ * std::pow((f.get_area() / target_area_face) - 1., 2.);
+            //Update the surface tension energy
             surface_tension_energy_     += 0.5 * face_type.surface_tension_ * f.get_area();
         }
     }
@@ -1450,6 +1511,36 @@ void cell::apply_bending_forces() noexcept{
 
    //Angle threshold below which we don't apply any bending force on the nodes of the hinge, to prevent numerical instabilities
    constexpr double max_angle_threshold = 135. * M_PI / 180.;
+
+   /* DEGENERACY GUARD (root-cause fix for the paper-config divergence at ~13k cells).
+
+      The discrete bending gradient below carries three singularities that are artefacts of the
+      discretisation, not physics:
+
+          grad_x2_theta = normal_1 * (edge_length / (2 * f1.get_area()))          ~ 1/A
+          grad_x0_theta = (... cot(alpha_3) + ... cot(alpha_4)) * (-1/edge_length) ~ cot(alpha)
+          prefactor_3   = edge_length^2 / (2 * sum_face_areas^2)                   ~ 1/A^2
+
+      The only guards upstream ships are exact-equality tests (area == 0., alpha == 0.), which
+      never fire for a triangle of area 1e-21 m^2 with an interior angle of 1e-8 rad. Measured on
+      a paper-sized cell (test/test_stability/degenerate_hinge_test.cpp): flattening one triangle
+      to 1.7e-21 m^2 multiplies the largest nodal force by 2.2e6 (1.0e-10 N -> 2.3e-4 N), and one
+      semi-implicit Euler step (dt = 1e-7 s, node mass ~ 8e-17 kg) then moves that node by 2.8e-2 m
+      - 5900 cell diameters in a single time step. That is the observed jump from ~1e-4 m to
+      1e6-1e19 m between two consecutive stability checks.
+
+      A hinge whose incident triangles are flatter than min_triangle_quality * l_max^2 is skipped,
+      and cot(alpha) is clamped. A refiner-maintained mesh has a worst triangle quality of ~0.05
+      (equilateral = 0.433), i.e. 500x above the threshold, so every well-shaped hinge - which is
+      all of them in the published configurations - produces bit-identical forces to the unguarded
+      code. Only hinges the mesh refiner has already failed to repair are affected. */
+   constexpr double min_triangle_quality = 1e-4;  //area / l_max^2; equilateral = 0.433
+   constexpr double max_cotangent        = 1e3;   //|cot(alpha)|, i.e. alpha clamped to [1e-3, pi-1e-3] rad
+   const auto clamped_cot = [max_cotangent](const double angle) noexcept {
+        const double c = cot(angle);
+        if(!std::isfinite(c)) return 0.;
+        return std::max(-max_cotangent, std::min(max_cotangent, c));
+   };
 
    //Only apply if some of the face types have a bending rigidicty greater than 0
    if(std::all_of(cell_type_->face_types_.begin(), cell_type_->face_types_.end(), [](const face_type_parameters& f){return f.bending_modulus_ ==  0.;})) return;
@@ -1535,9 +1626,21 @@ void cell::apply_bending_forces() noexcept{
         if(edge_length == 0. || f1.get_area() == 0 || f2.get_area() == 0.) continue;
         if(alpha_1 == 0. || alpha_2 == 0. || alpha_3 == 0. || alpha_4 == 0.) continue;
 
+        //DEGENERACY GUARD: skip the hinge when either incident triangle is a sliver. The bending
+        //gradient is 1/area and 1/area^2 in those triangles; see the comment at the top of the method.
+        const double l_max_f1 = std::max({edge_length, e1.norm(), e3.norm()});
+        const double l_max_f2 = std::max({edge_length, e2.norm(), e4.norm()});
+        if(f1.get_area() < min_triangle_quality * l_max_f1 * l_max_f1) continue;
+        if(f2.get_area() < min_triangle_quality * l_max_f2 * l_max_f2) continue;
+
         //Compute the gradient of the angle theta wrt the position of each node position
-        const vec3 grad_x0_theta = (normal_1 * cot(alpha_3)   + normal_1 * cot(alpha_4)) * (-1. / edge_length);
-        const vec3 grad_x1_theta = (normal_1 * cot(alpha_1)   + normal_1 * cot(alpha_2)) * (-1. / edge_length);
+        //(cot() is clamped: it diverges for the near-collinear triangles the refiner cannot repair)
+        //KNOWN ISSUE (inherited from 1.0, kept so that results stay comparable): the cot(alpha_2)
+        //and cot(alpha_4) terms belong to f2 and should use normal_2, and e.n1()/e.n2() follow the
+        //node ids, not the winding of f1. The resulting force is therefore not an exact gradient of
+        //bending_energy_ (with both fixed it would be exactly 1.5 times it). See CHANGELOG, Known issues.
+        const vec3 grad_x0_theta = (normal_1 * clamped_cot(alpha_3) + normal_1 * clamped_cot(alpha_4)) * (-1. / edge_length);
+        const vec3 grad_x1_theta = (normal_1 * clamped_cot(alpha_1) + normal_1 * clamped_cot(alpha_2)) * (-1. / edge_length);
         const vec3 grad_x2_theta = normal_1 * (edge_length / (2. * f1.get_area()));
         const vec3 grad_x3_theta = normal_2 * (edge_length / (2. * f2.get_area()));
 
@@ -1588,8 +1691,10 @@ void cell::apply_internal_forces(const double time_step) noexcept{
     //Update the cell area
     area_ = compute_area();
 
-    //Update the cell volume
-    volume_ = compute_volume(); 
+    //Update the cell volume (the signed value is kept for check_numerical_stability())
+    signed_volume_ = compute_signed_volume();
+    volume_ = std::abs(signed_volume_);
+    assert(std::isfinite(volume_) && volume_ != 0.); //same debug checks as compute_volume()
 
     //Update the target volume of the cell
     update_target_volume(time_step);

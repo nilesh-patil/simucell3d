@@ -6,15 +6,14 @@ venv*
 env*
 artificial_image_generation/
 simulation_results/
-
-# Local IDE settings
 test_output/
 
-# Temporary working files and benchmark logs
+# Output of scripts/run_parallel_benchmark_comparison.sh and the benchmark database
 doc/working/
 
-# Test/draft scripts
-doc/developer/proposals/*
+# Documentation build output (Sphinx and Doxygen)
+doc/_build/
+
 .cache
 
 # Git worktrees for isolated development
@@ -24,6 +23,3 @@ benchmark_run.log
 
 # CTest artifacts
 Testing/
-
-# Generated analysis reports
-codebase-analysis-report.md

@@ -1,5 +1,5 @@
 #The version of cmake required
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 #Add the xml parser library
 add_subdirectory(tinyxml2)

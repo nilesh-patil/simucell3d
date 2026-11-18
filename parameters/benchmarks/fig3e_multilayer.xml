@@ -1,13 +1,25 @@
 <?xml version="1.0"?>
+<!--
+    Required compile-time switches (include/global_configuration.hpp):
+        POLARIZATION_MODE_INDEX  1
+        CONTACT_MODEL_INDEX      2
+        DYNAMIC_MODEL_INDEX      0
+    These are the default values: this file runs on a default build.
+-->
 
 <!--
-    Nature Figure 3e: Multilayer configuration (high gamma_tilde)
+    Nature Figure 3e: Multilayer configuration (high apical surface tension).
 
-    Configuration: POLARIZATION_MODE_INDEX=1, CONTACT_MODEL_INDEX=2, DYNAMIC_MODEL_INDEX=0
+    Paper definition (Runser, Vetter & Iber 2024, Fig. 3e): normalized surface tension
+    gamma_tilde = gamma / (K l), with l = <V(t=0)>^(1/3) the characteristic length and K the
+    characteristic bulk modulus; the paper varies gamma_tilde from 0.02 to 0.10 (monolayer at
+    low tension, multilayer above).
 
-    This parameter set produces a multilayer epithelium. The surface tension ratio
-    gamma_tilde = gamma_apical / gamma_lateral is set above the transition threshold (~0.05).
-    High apical surface tension drives cells to escape the monolayer.
+    The two fig3e files differ only in the apical surface tension (monolayer 1e-5 N/m,
+    multilayer 1e-3 N/m). With K = 2.5e3 Pa (epithelial cell_bulk_modulus) and
+    l = 5.58e-6 m (mean initial volume 1.74e-16 m^3 of the 432 epithelial cells in
+    fig_3_vesicle.vtk), this file gives gamma_tilde = 0.072 (apical), 0.029 (lateral,
+    4e-4 N/m) and 0.072 (basal, 1e-3 N/m).
 -->
 
 <numerical_parameters>
@@ -44,7 +56,7 @@
             <face_type>
                 <global_face_id>0</global_face_id>
                 <face_type_name>apical</face_type_name>
-                <!-- High apical tension for multilayer: gamma_tilde > 0.05 -->
+                <!-- High apical tension (multilayer case); gamma_tilde = 0.072, see header -->
                 <adherence_strength>1e9</adherence_strength>
                 <repulsion_strength>1e9</repulsion_strength>
                 <surface_tension>1e-3</surface_tension>
@@ -138,7 +150,6 @@
         <std_division_volume>0.0</std_division_volume>
         <surface_coupling_max_curvature>1e7</surface_coupling_max_curvature>
         <min_vol>1e-18</min_vol>
-        <INMForce>0</INMForce>
         <face_types>
             <face_type>
                 <global_face_id>5</global_face_id>

@@ -3475,6 +3475,11 @@ def plot_speedup_analysis(data: Dict, output_dir: Path, use_latex: bool = True) 
     cells_v1 = v1_comp['cells'].values
     cells_adap = adap_comp['cells'].values
 
+    if len(t_v1) == 0 or len(t_adap) == 0:
+        print("    Skipped: Empty computational time series")
+        plt.close(fig)
+        return
+
     # Interpolate to common time grid for ratio calculation
     t_min = max(t_v1.min(), t_adap.min())
     t_max = min(t_v1.max(), t_adap.max())

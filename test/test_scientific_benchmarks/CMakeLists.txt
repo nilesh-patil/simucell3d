@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 # Use C++17 standard
 set(CMAKE_CXX_STANDARD 17)
@@ -58,3 +58,6 @@ add_test(NAME scientific_contact_reciprocity              COMMAND test_contact_v
 add_test(NAME scientific_force_balance_equilibrium        COMMAND test_contact_validation test_force_balance_equilibrium)
 add_test(NAME scientific_momentum_conservation            COMMAND test_contact_validation test_momentum_conservation)
 add_test(NAME scientific_contact_area_fraction            COMMAND test_contact_validation test_contact_area_fraction)
+
+# Default ctest labels (tiers) for the tests registered above
+include(${PROJECT_SOURCE_DIR}/test/test_labels.cmake)

@@ -8,11 +8,11 @@
 #include <filesystem>
 #include <omp.h>
 
-/*
-    This class contains the solver of the simulation. First the solver initialize all the modules used to run 
-    the simulation (local_mesh_refiner, cell_contacts, time_integration etc). Then it runs the main loop of the 
-    program.
-*/
+/**
+ * @file
+ * @brief The solver: owns the cells and runs the main loop of a simulation.
+ * @ingroup core
+ */
 
 
 #include "custom_structures.hpp"
@@ -38,6 +38,21 @@
 
 
 //--------------------------------------------------------------------------------------------------------------------------
+/**
+ * @brief Runs a simulation: owns the cells and the modules that update them at every iteration.
+ *
+ * The constructor sets up the thread count and placement, the OpenMP scheduling, the output folder and the
+ * modules (local mesh refiner, contact model, time integration scheme, statistics writer). run() then calls
+ * run_iteration() until the simulation duration is reached or no cell is left. One iteration writes the
+ * output meshes when a new sampling period starts, divides cells (every 5 iterations), updates the face
+ * types, refines the meshes, computes the contact forces, updates the polarization, computes the internal
+ * forces of each cell (which also advances its target volume), moves the nodes, writes the statistics every
+ * 50 iterations and the diagnostics every 100 iterations, and removes dead or numerically unstable cells.
+ *
+ * The contact model, dynamic model and polarization mode are fixed at compile time
+ * (global_configuration.hpp).
+ * @ingroup core
+ */
 class solver{
     
     protected:
@@ -48,10 +63,11 @@ class solver{
         // Phase tracking for adaptive scheduling
         enum class SimulationPhase { INITIALIZATION, GROWTH, HOMEOSTASIS };
 
-        // Fixed BUG #9: Symbolic constant for CoV update frequency (used in division rate calculation)
+        // Interval, in iterations, between two updates of the workload coefficient of variation (CoV) and of
+        // the scheduling; also the statistics write interval
         static constexpr unsigned COV_UPDATE_INTERVAL = 50;
 
-        //Helper methods for adaptive scheduling (Phase 1)
+        //Helper methods for the adaptive scheduling mode
         void update_workload_heterogeneity();  // Recompute CoV and update chunk size if needed
         void adaptive_schedule_update();  // Phase-aware scheduling mode adaptation
         SimulationPhase detect_simulation_phase();  // Classify current simulation phase
@@ -65,8 +81,12 @@ class solver{
         void set_schedule_for_cell_division();      // Switch to division-optimized schedule
         void restore_global_schedule();             // Restore global schedule_mode_
 
-        //Helper method for Phase 3 diagnostics export
+        //Append one row of biological and computational metrics to the diagnostics CSV
         void export_diagnostics(unsigned iteration, const std::string& csv_path);  // Export biological + computational metrics
+
+        //The number of mesh refinement failures that one refine_meshes() call may report before the run is
+        //stopped instead of removing the cells: max(10, 1% of the nb_cells cells, rounded down)
+        static size_t refinement_failure_limit(const size_t nb_cells) noexcept;
 
         //The local mesh refiner is used to make sure that all the edges of the cell meshes have lengths
         std::unique_ptr<local_mesh_refiner> lmr_ptr_;
@@ -111,7 +131,7 @@ class solver{
         omp_sched_t schedule_kind_;
         int schedule_chunk_size_;
 
-        //Per-loop custom scheduling (opt-in feature for 10-20% additional performance)
+        //Per-loop custom scheduling (enabled by the adaptive scheduling mode)
         bool enable_per_loop_scheduling_;  // If true, use specialized schedules for each loop type
 
         // Per-loop schedule settings (used when enable_per_loop_scheduling_ = true)
@@ -127,19 +147,22 @@ class solver{
         //Performance monitoring for diagnostic and optimization
         PerformanceMonitor perf_monitor_;
 
-        //Workload heterogeneity tracking (Phase 1: Adaptive scheduling)
+        //Workload heterogeneity tracking for the adaptive scheduling mode
         double heterogeneity_cov_;  // Current coefficient of variation for workload
         unsigned int last_cov_update_iteration_;  // Last iteration when CoV was recomputed
 
         //Phase state tracking
         SimulationPhase current_phase_;
         unsigned int last_division_check_iteration_;
-        unsigned int recent_division_count_;  // Divisions in last 50 iterations
+        unsigned int recent_division_count_;  // Divisions in last COV_UPDATE_INTERVAL iters (drives phase detection; reset every 50 iters)
+        unsigned int diag_division_count_;    // Divisions in current diagnostics window (reset every 100 iters, after CSV export)
+        unsigned int diag_unstable_cell_count_;  // Numerically unstable cells removed in the current diagnostics window
+        unsigned int nb_unstable_cells_removed_; // ... and over the whole run
 
         //Optional custom path for diagnostics CSV export (for growth benchmarks)
         std::string diagnostics_csv_path_;  // If non-empty, use this path instead of default
 
-        // FIX: Deferred schedule update to prevent race condition after cell division
+        // Deferred schedule update after cell division.
         // When cell division modifies cell_lst_, we cannot immediately reconfigure the
         // OpenMP scheduler because the next parallel region may access stale pointers.
         // Instead, we set a flag and apply the update at the start of the next iteration.
@@ -148,14 +171,36 @@ class solver{
 
 
     public:
+        /// Construct an empty solver; use the parameter constructor to run a simulation.
         solver() = default;                          //default constructor
+        /// Release the modules of the solver in reverse order of creation.
         ~solver();                                   //destructor with proper cleanup
         solver(const solver& v) = delete;            //copy constructor
         solver(solver&& v) = delete;                 //move constructor
         solver& operator=(const solver& v) = delete; //copy assignment operator
         solver& operator=(solver&& v) = default;     //move assignment operator 
       
-        //Constructor
+        /**
+         * @brief Set up a simulation.
+         *
+         * Chooses the thread count, pins one thread per physical core (unless cpu_topology::pinning_requested()
+         * is false), configures the OpenMP scheduling, deletes and
+         * re-creates the output folder (with `cell_data/`, `face_data/` and, with POLARIZATION_MODE_INDEX 2,
+         * `region_data/`), assigns cell ids, sets the initial target volumes and creates the modules.
+         *
+         * @param sim_parameters Numerical parameters of the simulation.
+         * @param cell_lst Cells to simulate, as built by simulation_initializer.
+         * @param nb_threads Number of OpenMP threads; 0 or less uses one thread per physical core.
+         * @param write_cell_stats_in_string Write the per-cell statistics to a string (read with
+         *        get_simulation_statistics()) instead of `simulation_statistics.csv`.
+         * @param verbose Print the progress of the simulation.
+         * @param schedule_mode OpenMP scheduling mode: `static`, `dynamic`, `guided` or `adaptive`.
+         * @param diagnostics_csv_path Path of the diagnostics CSV; empty for
+         *        `<output folder>/performance_diagnostics.csv`.
+         * @throws intialization_exception If the scheduling mode is invalid or the output folders cannot be
+         *         created.
+         * @warning The output folder is deleted, with all its content, before it is re-created.
+         */
         solver(
             const global_simulation_parameters& sim_parameters,
             const std::vector<cell_ptr>& cell_lst,
@@ -166,23 +211,71 @@ class solver{
             const std::string& diagnostics_csv_path = "" //Optional custom path for diagnostics CSV (for benchmarks)
         ) noexcept(false);
 
-        //The method that contains the main loop of the program
+        /**
+         * @brief Run the main loop until the simulation duration is reached or no cell is left.
+         *
+         * Calls run_iteration() repeatedly, then writes a last row of statistics and, if verbose, prints the
+         * performance report.
+         * @throws unstable_simulation_exception If the simulation diverges (see run_iteration()).
+         * @throws intialization_exception If the statistics file cannot be written.
+         */
         void run() noexcept(false);
 
-        //Run one iteration of the program. This method can be overloaded and thus allow
-        //to easily create new derived solvers
+        /**
+         * @brief Run one iteration (one time step) of the simulation.
+         *
+         * Virtual so that derived solvers can add work to each iteration (solver_python_wrapper checks for
+         * Ctrl-C here).
+         * @throws unstable_simulation_exception If too many mesh refinements fail (handle_refinement_failures())
+         *         or the contact grid cannot be built for a diverged tissue.
+         * @throws intialization_exception If the statistics file cannot be written.
+         * @throws mesh_writer_exception If an output mesh cannot be written.
+         */
         virtual void run_iteration() noexcept(false);
 
-        //Write the output file
+        /**
+         * @brief Write the cell and face meshes if a new sampling period has started.
+         *
+         * Files are `cell_data/result_<n>.vtk` and `face_data/result_<n>.vtk` with
+         * n = floor(t / sampling period) + 1 (and `region_data/result_<n>.vtk` with POLARIZATION_MODE_INDEX 2).
+         * @throws mesh_writer_exception If a file cannot be written.
+         */
         void save_mesh() noexcept(false);
 
+        /**
+         * @brief Erase the cells below their minimum volume and the numerically unstable ones.
+         *
+         * Last step of run_iteration(). Each unstable cell is reported on standard error and counted in
+         * get_nb_unstable_cells_removed().
+         */
+        void remove_dead_cells() noexcept;
+
+        /**
+         * @brief Erase the cells whose mesh refinement failed in this iteration.
+         *
+         * Called by run_iteration() right after the mesh refinement, before contact detection. Each removed cell
+         * is reported on standard error and counted in get_nb_unstable_cells_removed().
+         * @param failures Cells reported by local_mesh_refiner::refine_meshes(), with the reason of each failure.
+         * @throws unstable_simulation_exception If there are more failures than refinement_failure_limit()
+         *         allows (max(10, 1 % of the cells)) or if the failures cover every cell. Nothing is erased then.
+         */
+        void handle_refinement_failures(const std::vector<local_mesh_refiner::refinement_failure>& failures) noexcept(false);
+
+        /// Return the cells currently simulated.
         const std::vector<cell_ptr>& get_cell_lst() const noexcept{return cell_lst_;}
+        /// Return the number of OpenMP threads used by the solver.
+        unsigned short int get_nb_threads() const noexcept{return nb_threads_;}
+        /// Return the number of cells removed as numerically unstable or after a failed mesh refinement since the start.
+        unsigned int get_nb_unstable_cells_removed() const noexcept{return nb_unstable_cells_removed_;}
+        /// Return the numerical parameters of the simulation.
         const global_simulation_parameters& get_sim_parameters() const noexcept{return sim_parameters_;}
 
 
-        //If the simulation statistics have been written in a string, then 
-        //returns the string. Do not call this function if you have 
-        //constructed the solver with write_cell_stats_in_string_ = false
+        /**
+         * @brief Return the per-cell statistics written to a string.
+         * @return The statistics in CSV format.
+         * @throws std::runtime_error If the solver was constructed with write_cell_stats_in_string = false.
+         */
         std::string get_simulation_statistics() const noexcept(false);
 
 };

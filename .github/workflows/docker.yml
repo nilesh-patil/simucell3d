@@ -1,0 +1,47 @@
+name: Docker
+
+# Informational: checks that the Dockerfile still builds and that the image runs
+# `simucell3d --version`. Runs only when the files that go into the image change.
+# Not a required check; no image is pushed.
+
+on:
+  pull_request:
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - "CMakeLists.txt"
+      - "src/**"
+      - "include/**"
+      - "lib/**"
+      - ".github/workflows/docker.yml"
+  push:
+    branches: [main]
+    paths:
+      - "Dockerfile"
+      - ".dockerignore"
+      - "CMakeLists.txt"
+      - "src/**"
+      - "include/**"
+      - "lib/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: docker build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build the image
+        run: docker build -t simucell3d:ci .
+
+      - name: Run the image
+        run: docker run --rm simucell3d:ci --version
