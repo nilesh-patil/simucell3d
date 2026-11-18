@@ -192,8 +192,10 @@ class node final
         //If we link pairs of adjacent nodes
         #if CONTACT_MODEL_INDEX == 1
 
-            /** @brief Return true if the node has a coupling partner. @note Only with CONTACT_MODEL_INDEX 1. */
+            /// @cond SIMUCELL3D_DOXYGEN_SKIP
+            // Documented once, in the CONTACT_MODEL_INDEX 2 branch below (same declaration).
             bool is_coupled() const noexcept {return coupled_node_.has_value();}
+            /// @endcond
 
             /**
              * @brief Return the partner as (cell local id, node local id). The node must be coupled.
@@ -217,7 +219,8 @@ class node final
 
             /**
              * @brief Return true if the node is coupled to at least one node on another cell.
-             * @note Only with CONTACT_MODEL_INDEX 2. Not locked; read outside the contact phase.
+             * @note With CONTACT_MODEL_INDEX 2. Not locked; read outside the contact phase. With
+             *       CONTACT_MODEL_INDEX 1 the same function returns true if the node has its one partner.
              */
             bool is_coupled() const noexcept {return !coupled_nodes_map_.empty();}
 

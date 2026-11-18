@@ -26,25 +26,16 @@ exception classes listed at the end of this page.
 
 ## Compile-time configuration
 
-```{doxygendefine} CONTACT_MODEL_INDEX
-:project: simucell3d
-```
+The switches are macros in `include/global_configuration.hpp`; changing one requires a rebuild
+({doc}`/user_guide/10_compile_time_configuration`).
 
-```{doxygendefine} DYNAMIC_MODEL_INDEX
-:project: simucell3d
-```
-
-```{doxygendefine} POLARIZATION_MODE_INDEX
-:project: simucell3d
-```
-
-```{doxygendefine} FACE_STORE_CONTACT_ENERGY
-:project: simucell3d
-```
-
-```{doxygendefine} WRITE_NORMALS_IN_OUTPUT_MESH_FILE
-:project: simucell3d
-```
+| Macro | Values (default in bold) |
+|---|---|
+| `CONTACT_MODEL_INDEX` | 0: springs between nodes and faces of adjacent cells; 1: coupling of pairs of adjacent nodes; **2**: coupling of pairs of adjacent faces |
+| `DYNAMIC_MODEL_INDEX` | **0**: full equations of motion, semi-implicit Euler; 1: overdamped, forward Euler |
+| `POLARIZATION_MODE_INDEX` | 0: none; **1**: from the contacts of the cell; 2: from a discretization of the simulation space |
+| `FACE_STORE_CONTACT_ENERGY` | **false**; true stores the adhesion and repulsion energies on each face |
+| `WRITE_NORMALS_IN_OUTPUT_MESH_FILE` | false; **true** writes face and node normals in the output meshes |
 
 ## Parameters and results
 

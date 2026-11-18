@@ -120,9 +120,10 @@ class local_mesh_refiner
          *
          * @param cell_lst The cells.
          * @return The cells whose refinement failed, with the error message.
-         * @throws unstable_simulation_exception, std::bad_alloc, or any exception not derived
-         *         from std::exception thrown for a cell; rethrown after the parallel loop ends.
-         *         If several are thrown, the first one stored is rethrown.
+         * @throws unstable_simulation_exception If thrown for a cell; rethrown after the parallel loop ends.
+         * @throws std::bad_alloc If thrown for a cell; rethrown after the parallel loop ends. Exceptions not
+         *         derived from std::exception are rethrown the same way. If several are thrown, the first
+         *         one stored is rethrown.
          */
         [[nodiscard]] std::vector<refinement_failure> refine_meshes(const std::vector<cell_ptr>& cell_lst) const noexcept(false);
 

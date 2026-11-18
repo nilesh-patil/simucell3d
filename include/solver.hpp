@@ -256,8 +256,8 @@ class solver{
          * Called by run_iteration() right after the mesh refinement, before contact detection. Each removed cell
          * is reported on standard error and counted in get_nb_unstable_cells_removed().
          * @param failures Cells reported by local_mesh_refiner::refine_meshes(), with the reason of each failure.
-         * @throws unstable_simulation_exception, without erasing anything, if there are more failures than
-         *         refinement_failure_limit() allows (max(10, 1 % of the cells)) or if the failures cover every cell.
+         * @throws unstable_simulation_exception If there are more failures than refinement_failure_limit()
+         *         allows (max(10, 1 % of the cells)) or if the failures cover every cell. Nothing is erased then.
          */
         void handle_refinement_failures(const std::vector<local_mesh_refiner::refinement_failure>& failures) noexcept(false);
 

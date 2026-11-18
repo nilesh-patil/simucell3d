@@ -53,3 +53,7 @@ WARNINGS               = YES
 WARN_IF_UNDOCUMENTED   = NO
 WARN_NO_PARAMDOC       = NO
 WARN_AS_ERROR          = NO
+
+# Do not show variable initializers (the output-mapper lists hold lambdas that
+# the Sphinx C++ domain cannot parse).
+MAX_INITIALIZER_LINES  = 0
