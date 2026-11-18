@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Contact between cells &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/03_contact';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/03_contact.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Time integration" href="04_time_integration.html" />
+    <link rel="prev" title="Cell mechanics" href="02_cell_mechanics.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Contact...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="contact-between-cells">
+<span id="ug-contact"></span><h1>Contact between cells<a class="headerlink" href="#contact-between-cells" title="Link to this heading">#</a></h1>
+<p>Cells interact only where their surfaces come close: they adhere, and they repel each other
+where they overlap. SimuCell3D offers three <a class="reference internal" href="../glossary.html#term-contact-model"><span class="xref std std-term">contact models</span></a>, chosen at
+compile time with <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code>. This chapter describes how contacts are found, the
+force law or coupling rule of each model, the parameters involved, and the limitations that
+matter in practice.</p>
+<section id="concept">
+<h2>Concept<a class="headerlink" href="#concept" title="Link to this heading">#</a></h2>
+<p>The three models differ in how adhesion is transmitted:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Index</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Adhesion</p></th>
+<th class="head"><p>Repulsion</p></th>
+<th class="head"><p>Described in the paper</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>node-face springs</p></td>
+<td><p>bilinear spring stress between a node and a face, strength <span class="math notranslate nohighlight">\(\omega\)</span></p></td>
+<td><p>linear spring stress, strength <span class="math notranslate nohighlight">\(\xi\)</span></p></td>
+<td><p>yes (“spring-based model”)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>node-node coupling</p></td>
+<td><p>a node is tied to one node of another epithelial cell</p></td>
+<td><p>linear spring stress, strength <span class="math notranslate nohighlight">\(\xi\)</span></p></td>
+<td><p>yes (“coupling-based model”)</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p><a class="reference internal" href="../glossary.html#term-face-face-coupling"><span class="xref std std-term">face-face coupling</span></a> (default)</p></td>
+<td><p>a node is tied to one node on each neighbouring epithelial cell</p></td>
+<td><p>linear spring stress, strength <span class="math notranslate nohighlight">\(\xi\)</span></p></td>
+<td><p>no; extension of model 1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Models 1 and 2 replace a finite adhesion stiffness by a rigid tie between nodes, so contact
+mechanics do not depend on an adhesion strength. Runser, Vetter &amp; Iber (2024) validate the
+coupling model against the Young-Dupré relation for cell doublets and triplets (Supplementary
+Fig. 5) and report that the spring model depends somewhat on mesh resolution (Supplementary
+Fig. 4). Model 2 is the default of 2.x and of the tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code>; the Zenodo archive of 1.0 cited by
+the paper has model 1 as its default (<a class="reference internal" href="../whats_new/v1.0.html"><span class="doc">Release 1.0</span></a>). The parameter files for the
+vesicle, sheet, tube and growth examples are written for model 2.</p>
+</section>
+<section id="finding-contacts">
+<h2>Finding contacts<a class="headerlink" href="#finding-contacts" title="Link to this heading">#</a></h2>
+<p>All three models test nodes of one cell against faces of other cells. Every face gets an
+axis-aligned bounding box enlarged by the contact range <span class="math notranslate nohighlight">\(c = \max(c_a, c_r)\)</span>, where <span class="math notranslate nohighlight">\(c_a\)</span> is
+<code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion</span></code> and <span class="math notranslate nohighlight">\(c_r\)</span> is <code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion</span></code>. A node is a contact
+candidate for a face of another cell if it lies in that box. For each candidate the solver
+computes the closest point <span class="math notranslate nohighlight">\(\mathbf r_\mathrm{cp}\)</span> of the triangle to the node, its barycentric
+coordinates <span class="math notranslate nohighlight">\((\lambda_1, \lambda_2, \lambda_3)\)</span>, and the vector
+<span class="math notranslate nohighlight">\(\mathbf z = \mathbf r_\mathrm{node} - \mathbf r_\mathrm{cp}\)</span>, of length <span class="math notranslate nohighlight">\(d = \lVert\mathbf z\rVert\)</span>.</p>
+<p>The side of the face decides the type of contact. A node in front of the face
+(<span class="math notranslate nohighlight">\(\mathbf z \cdot \hat{\mathbf n}_f &gt; 0\)</span>) is outside the other cell and can adhere; a node
+behind it is inside the other cell and is repelled. Two pairs of <a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell classes</span></a>
+swap the two sides, because one surface encloses the other: a node of an epithelial cell
+against a face of the ECM (the ECM encloses the tissue), and a node of a nucleus against a face
+of an epithelial cell (the nucleus lies inside the cell).</p>
+<p>Candidates are found with a uniform grid or with Sweep-and-Prune (see
+<a class="reference internal" href="#contact-detection-algorithms">Contact detection algorithms</a> below).</p>
+</section>
+<section id="model-0-node-face-springs">
+<h2>Model 0: node-face springs<a class="headerlink" href="#model-0-node-face-springs" title="Link to this heading">#</a></h2>
+<p>The contact stress follows the bilinear traction-separation law of the paper’s Eq. (2). With
+<span class="math notranslate nohighlight">\(d\)</span> the distance between node and face,</p>
+<div class="math notranslate nohighlight" id="equation-eq-contact-stress">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-contact-stress" title="Link to this equation">#</a></span>\[\begin{split}
+\sigma(d) =
+\begin{cases}
+\xi\, d &amp; \text{node behind the face, } d &lt; c_r \quad \text{(repulsion)}\\
+\omega\, d &amp; \text{node in front of the face, } d &lt; c_a/2 \quad \text{(adhesion, rising)}\\
+\omega\, (c_a - d) &amp; \text{node in front of the face, } c_a/2 \le d &lt; c_a \quad \text{(adhesion, falling)}\\
+0 &amp; \text{otherwise.}
+\end{cases}
+\end{split}\]</div>
+<p>The stress acts over the area <span class="math notranslate nohighlight">\(A_f\)</span> of the face, so the force has magnitude <span class="math notranslate nohighlight">\(\sigma A_f\)</span> and
+points along <span class="math notranslate nohighlight">\(\mathbf z\)</span>: towards the face for adhesion, away from it, out of the other cell,
+for repulsion. The force on the node is <span class="math notranslate nohighlight">\(-\mathbf F\)</span> and the opposite force is distributed
+over the three nodes of the face with weights <span class="math notranslate nohighlight">\(\lambda_1, \lambda_2, \lambda_3\)</span>, so momentum is
+conserved. <span class="math notranslate nohighlight">\(\omega\)</span> and <span class="math notranslate nohighlight">\(\xi\)</span> are taken from the <a class="reference internal" href="../glossary.html#term-face-type"><span class="xref std std-term">face type</span></a> of the face that is touched.
+Every node of every cell is tested against the faces of all other cells, so each contact is
+seen from both sides.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The paper’s Methods state the law for pairs of faces <span class="math notranslate nohighlight">\(\{f_a, f_b\}\)</span> and the contact area
+<span class="math notranslate nohighlight">\(A_{ab}\)</span>. The code applies it to node-face pairs with the area of the face.</p>
+</div>
+<p>With polarization mode 1, model 0 also labels the touched face as apical, lateral or basal
+from the class of the touching cell (<a class="reference internal" href="07_polarization.html"><span class="doc">Polarization</span></a>).</p>
+</section>
+<section id="model-1-node-node-coupling">
+<h2>Model 1: node-node coupling<a class="headerlink" href="#model-1-node-node-coupling" title="Link to this heading">#</a></h2>
+<p>Model 1 couples nodes of adjacent epithelial cells. For a node <span class="math notranslate nohighlight">\(n_1\)</span> of an epithelial cell and
+a candidate face of another epithelial cell, the closest node <span class="math notranslate nohighlight">\(n_2\)</span> of that face is coupled to
+<span class="math notranslate nohighlight">\(n_1\)</span> if all of the following hold:</p>
+<ul class="simple">
+<li><p>the distance between <span class="math notranslate nohighlight">\(n_1\)</span> and <span class="math notranslate nohighlight">\(n_2\)</span> is below <span class="math notranslate nohighlight">\(c_a\)</span> and below the distance of any partner
+<span class="math notranslate nohighlight">\(n_1\)</span> already has;</p></li>
+<li><p><span class="math notranslate nohighlight">\(n_2\)</span> has no closer partner;</p></li>
+<li><p>the node normals point in sufficiently opposite directions
+(<span class="math notranslate nohighlight">\(\hat{\mathbf n}_1 \cdot \hat{\mathbf n}_2 \le \cos 45^\circ\)</span>), and the node normal of <span class="math notranslate nohighlight">\(n_1\)</span>
+points against the face normal;</p></li>
+<li><p>the mean curvature at both nodes is below <code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code> <span class="math notranslate nohighlight">\(H_{\max}\)</span> of
+the cell type of <span class="math notranslate nohighlight">\(n_1\)</span>.</p></li>
+</ul>
+<p>A node has at most one partner. Coupled nodes are moved to their common midpoint
+<span class="math notranslate nohighlight">\((\mathbf r_1 + \mathbf r_2)/2\)</span>, and during time integration they share their averaged force
+and momentum, so they move together (<a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a>). This transmits tension
+directly from one cell surface to the next, as in the paper’s coupling-based model. Couplings
+are recomputed at every iteration, which lets cells detach.</p>
+<p>Pairs that are not coupled (contacts with non-epithelial cells, or epithelial nodes without a
+partner) only repel: a node behind a face, closer than <span class="math notranslate nohighlight">\(\max(c_a, c_r)\)</span>, receives the
+repulsive stress <span class="math notranslate nohighlight">\(\xi d\)</span> of <a class="reference internal" href="#equation-eq-contact-stress">(1)</a>. The adherence strength <span class="math notranslate nohighlight">\(\omega\)</span> is not
+used by model 1.</p>
+</section>
+<section id="model-2-face-face-coupling">
+<h2>Model 2: face-face coupling<a class="headerlink" href="#model-2-face-face-coupling" title="Link to this heading">#</a></h2>
+<p>Model 2, the default, generalises model 1 so that a node can be coupled to one node on <em>each</em>
+neighbouring epithelial cell. This matters at junctions where three or more cells meet. For a
+node <span class="math notranslate nohighlight">\(n_1\)</span> and a candidate face of a neighbouring epithelial cell, the candidate partners are
+the three nodes of the face; a node is excluded if</p>
+<ul class="simple">
+<li><p>the normal of <span class="math notranslate nohighlight">\(n_1\)</span> does not point against the normal of the face;</p></li>
+<li><p>its normal does not point against the normal of <span class="math notranslate nohighlight">\(n_1\)</span>
+(<span class="math notranslate nohighlight">\(\hat{\mathbf n}_1 \cdot \hat{\mathbf n}_2 &gt; 0\)</span>);</p></li>
+<li><p>its mean curvature exceeds <span class="math notranslate nohighlight">\(H_{\max}\)</span> of its cell type;</p></li>
+<li><p><span class="math notranslate nohighlight">\(n_1\)</span> is already coupled to a closer node of that cell, or the candidate is already coupled
+to a closer node of the cell of <span class="math notranslate nohighlight">\(n_1\)</span>.</p></li>
+</ul>
+<p>The closest remaining node within <span class="math notranslate nohighlight">\(c_a\)</span> becomes the partner of <span class="math notranslate nohighlight">\(n_1\)</span> for that neighbouring cell,
+in both directions. Each node keeps at most one partner per neighbouring cell. A node and all
+its partners are moved to their mean position, and the time integration moves the group as one
+node with averaged force, momentum and mass. As in model 1, uncoupled pairs only repel, with
+range <span class="math notranslate nohighlight">\(\max(c_a, c_r)\)</span>, and <span class="math notranslate nohighlight">\(\omega\)</span> is not used.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>The current partner of a node is now looked up by the local id of the neighbouring cell, the
+key under which it is stored. In 1.0 it was looked up by the global cell id, which differs from
+the local id once cells have divided, so the partner was whichever candidate a thread visited
+last rather than the nearest node
+(<a class="reference external" href="https://github.com/nilesh-patil/simucell3d/issues/113">#113</a>). The closest-partner rule is now
+applied under the locks of both nodes, both directions of a coupling are stored together, and
+repulsion forces on shared nodes use an atomic add. These fixes change results compared with
+1.0.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>For a node that projects onto the interior of a triangle, 1.0 measured the distance to a wrong
+point (<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">ab*v</span> <span class="pre">+</span> <span class="pre">a</span> <span class="pre">+</span> <span class="pre">ac*w</span></code>, one vertex <code class="docutils literal notranslate"><span class="pre">a</span></code> too many), so the cutoff tests missed contacts in
+face interiors. The distance is now measured to the closest point. This affects all three
+models.</p>
+</div>
+</section>
+<section id="mean-curvature-at-the-nodes">
+<h2>Mean curvature at the nodes<a class="headerlink" href="#mean-curvature-at-the-nodes" title="Link to this heading">#</a></h2>
+<p>Models 1 and 2 need a normal and a mean curvature at every node. After the internal forces of a
+cell are computed, each node <span class="math notranslate nohighlight">\(i\)</span> receives the cotangent-Laplacian mean curvature</p>
+<div class="math notranslate nohighlight" id="equation-eq-node-curvature">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-node-curvature" title="Link to this equation">#</a></span>\[
+H_i = \frac{1}{4 A_i} \left\lVert \sum_{j} (\cot\alpha_{ij} + \cot\beta_{ij})
+      (\mathbf r_j - \mathbf r_i) \right\rVert ,
+\]</div>
+<p>where the sum runs over the neighbours <span class="math notranslate nohighlight">\(j\)</span> of <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\alpha_{ij}\)</span> and <span class="math notranslate nohighlight">\(\beta_{ij}\)</span> are the angles
+opposite the edge <span class="math notranslate nohighlight">\(ij\)</span>, and <span class="math notranslate nohighlight">\(A_i\)</span> is an area of about one third of the faces around <span class="math notranslate nohighlight">\(i\)</span>. <span class="math notranslate nohighlight">\(H_i\)</span>
+is an unsigned value in 1/m. The node normal is the area-weighted mean of the face normals;
+where <span class="math notranslate nohighlight">\(H_i\)</span> exceeds the curvature of a sphere of the cell’s volume, <span class="math notranslate nohighlight">\(1/R\)</span> with
+<span class="math notranslate nohighlight">\(R = (3V/4\pi)^{1/3}\)</span>, the direction of the mean-curvature vector is used instead. The values
+are those of the previous iteration when contacts are detected.</p>
+<p><span class="math notranslate nohighlight">\(H_{\max}\)</span> lets strongly curved parts of the surface, such as the rim of a contact, detach: no
+node with <span class="math notranslate nohighlight">\(H_i &gt; H_{\max}\)</span> is coupled.</p>
+</section>
+<section id="contact-detection-algorithms">
+<h2>Contact detection algorithms<a class="headerlink" href="#contact-detection-algorithms" title="Link to this heading">#</a></h2>
+<p>The search for candidate node-face pairs (the broad phase) is chosen in the parameter file with
+the optional tag <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code>. It is used only by contact model 2; models 0
+and 1 always use the uniform grid.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Value</p></th>
+<th class="head"><p>Method</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uspg</span></code> (default)</p></td>
+<td><p>Uniform grid. Model 2 bins the face boxes in a compact grid whose voxel edge is the mean box size, at most <span class="math notranslate nohighlight">\(3\,l_{\min} + 2c\)</span>, and splits the nodes of very large cells into several work units. Models 0 and 1 use the <a class="reference internal" href="../glossary.html#term-USPG"><span class="xref std std-term">USPG</span></a> with voxel edge <span class="math notranslate nohighlight">\(3\,l_{\min} + 2c\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code></p></td>
+<td><p>Sweep-and-Prune over the face boxes.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adaptive</span></code></p></td>
+<td><p>The uniform grid below 500 cells, Sweep-and-Prune from 500 cells on.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The contact rules are the same with all three; the choice is about run time
+(<a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>). If the bounding box of the tissue is no longer finite, or the
+grid would need more voxels than it can index, the run stops with an error instead of hanging
+(<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Section</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Meaning</p></th>
+<th class="head"><p>Models</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(c_a\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p>m</p></td>
+<td><p>Adhesion range; coupling distance</p></td>
+<td><p>0, 1, 2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(c_r\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p>m</p></td>
+<td><p>Repulsion range (models 1 and 2 use <span class="math notranslate nohighlight">\(\max(c_a, c_r)\)</span>)</p></td>
+<td><p>0, 1, 2</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\omega\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code></p></td>
+<td><p>N/m³</p></td>
+<td><p>Slope of the adhesion law</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">repulsion_strength</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\xi\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code></p></td>
+<td><p>N/m³</p></td>
+<td><p>Slope of the repulsion law</p></td>
+<td><p>0, 1, 2</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(H_{\max}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>1/m</p></td>
+<td><p>Nodes with larger mean curvature are not coupled</p></td>
+<td><p>1, 2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p></p></td>
+<td><p>Broad phase, optional</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The unit N/m³ of <span class="math notranslate nohighlight">\(\omega\)</span> and <span class="math notranslate nohighlight">\(\xi\)</span> (stress per length) equals the Pa/m of the paper’s Table 2.</p>
+</section>
+<section id="practical-guidance">
+<h2>Practical guidance<a class="headerlink" href="#practical-guidance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Repulsion has a maximum stress.</strong> The repulsive stress grows as <span class="math notranslate nohighlight">\(\xi d\)</span> only up to the
+range of the law, so the largest repulsive stress is about <span class="math notranslate nohighlight">\(\xi\,c\)</span>. With the Table 2 values
+(<span class="math notranslate nohighlight">\(\xi = 10^{9}\)</span> N/m³, <span class="math notranslate nohighlight">\(c = 2\times10^{-7}\)</span> m) this is 200 Pa. Where cells press on each other
+with a larger pressure (see <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>), repulsion cannot hold them apart and
+they can pass through each other. Penetration deeper than the range produces no force.</p></li>
+<li><p><strong>Cells interpenetrate</strong> in long growth runs of the reconstructed paper-like configuration
+<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, with 2.1 and with 1.0. The CHANGELOG lists this as a known
+issue. In that file the contact cutoff (<span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> m) is five times smaller than the
+minimum edge length (<span class="math notranslate nohighlight">\(10^{-6}\)</span> m), which may be one cause; the paper’s Table 2 uses
+<span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> m for both, and the file is a reconstruction for 2.x, not the lab’s
+configuration (<a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>). Check the overlap of cells in the output
+when the geometry of contacts matters.</p></li>
+<li><p><strong>Adhesion in models 1 and 2 exists only between epithelial cells.</strong> Contacts with lumen, ECM,
+nucleus and static cells are purely repulsive. <span class="math notranslate nohighlight">\(\omega\)</span> has an effect only with model 0.</p></li>
+<li><p><strong>Shipped values.</strong> Most epithelial face types use <span class="math notranslate nohighlight">\(\omega = \xi = 10^{9}\)</span> N/m³ on apical and lateral
+faces and <span class="math notranslate nohighlight">\(\omega = 0\)</span>, <span class="math notranslate nohighlight">\(\xi = 5\times10^{8}\)</span> N/m³ on basal faces; ECM, lumen and nucleus faces
+use <span class="math notranslate nohighlight">\(\xi\)</span> between <span class="math notranslate nohighlight">\(10^{9}\)</span> and <span class="math notranslate nohighlight">\(5\times10^{9}\)</span> N/m³. Cutoffs are <span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> to
+<span class="math notranslate nohighlight">\(5\times10^{-7}\)</span> m and <span class="math notranslate nohighlight">\(H_{\max}\)</span> is <span class="math notranslate nohighlight">\(2.5\times10^{6}\)</span> or <span class="math notranslate nohighlight">\(5\times10^{6}\)</span> 1/m for epithelial
+cells.</p></li>
+<li><p><strong>Thread safety.</strong> Models 0 and 1 add contact forces to the nodes of other cells without an
+atomic add, inside parallel loops; with several threads, some contact forces can be lost, and no
+warning is printed. These are the two models described in the paper. Run them with
+<code class="docutils literal notranslate"><span class="pre">--threads=1</span></code>. Model 2 is not affected. Multi-threaded runs of any model are not
+bit-reproducible.</p></li>
+<li><p><strong>Stale links.</strong> When a node switches to a closer partner, its old partner keeps a link back to
+it until the couplings are rebuilt at the next iteration. This behaviour is present since 1.0.</p></li>
+<li><p>The contact model is a compile-time choice; a parameter file written for one model gives a
+different simulation with another (<a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="07_polarization.html"><span class="doc">Polarization</span></a> for how contacts set face types.</p></li>
+<li><p><a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a> for the motion of coupled nodes.</p></li>
+<li><p><a class="reference internal" href="../api/contact_models.html"><span class="doc">Contact models</span></a> for the contact model classes.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_cell_mechanics.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Cell mechanics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_time_integration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Time integration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#concept">Concept</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-contacts">Finding contacts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-0-node-face-springs">Model 0: node-face springs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-1-node-node-coupling">Model 1: node-node coupling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-2-face-face-coupling">Model 2: face-face coupling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-curvature-at-the-nodes">Mean curvature at the nodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-detection-algorithms">Contact detection algorithms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-guidance">Practical guidance</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

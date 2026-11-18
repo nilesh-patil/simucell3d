@@ -1,0 +1,1009 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Running simulations &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/13_running_simulations';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/13_running_simulations.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Output files" href="14_output_files.html" />
+    <link rel="prev" title="Input meshes" href="12_input_meshes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Running simulations</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="running-simulations">
+<span id="ug-running"></span><h1>Running simulations<a class="headerlink" href="#running-simulations" title="Link to this heading">#</a></h1>
+<p>This chapter is the reference for the <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> command: its arguments and options, the
+environment variables it reads, how it resolves paths, what it prints, and how a run ends. It
+assumes a build as described in <a class="reference internal" href="../install.html"><span class="doc">Installing SimuCell3D</span></a>; the executable is <code class="docutils literal notranslate"><span class="pre">build/simucell3d</span></code> (a
+symbolic link to <code class="docutils literal notranslate"><span class="pre">build/src/app/simucell3d</span></code>).</p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Link to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>simucell3d PARAMETER_FILE [--threads=N] [--schedule=MODE] [--output-dir=PATH]
+                          [--diagnostics-csv=PATH]
+simucell3d --version
+</pre></div>
+</div>
+<p>A typical run, from the <code class="docutils literal notranslate"><span class="pre">build/</span></code> directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="gp">$ </span>./simucell3d<span class="w"> </span>../parameters/core/parameters_vesicle_quick.xml
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter file</span></a> is the only argument that does not start with <code class="docutils literal notranslate"><span class="pre">--</span></code>. Options may
+come before or after it, in any order.</p>
+</section>
+<section id="options">
+<h2>Options<a class="headerlink" href="#options" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Effect</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--threads=N</span></code></p></td>
+<td><p>one thread per physical core</p></td>
+<td><p>Number of OpenMP threads, a positive integer. The default counts the physical cores of the CPUs the process may run on (its affinity mask, as set by <code class="docutils literal notranslate"><span class="pre">taskset</span></code>, a container or a batch scheduler), not the hyperthreads. See <a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--schedule=MODE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adaptive</span></code></p></td>
+<td><p>OpenMP <a class="reference internal" href="../glossary.html#term-scheduling-mode"><span class="xref std std-term">scheduling mode</span></a>: <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>, <code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> or <code class="docutils literal notranslate"><span class="pre">guided</span></code>. See <a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--output-dir=PATH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code> from the parameter file</p></td>
+<td><p>Write all output to <code class="docutils literal notranslate"><span class="pre">PATH</span></code> instead. A relative path is relative to the working directory, and the program prints a warning saying so. <code class="docutils literal notranslate"><span class="pre">PATH</span></code> must not be an existing file. Like the folder from the parameter file, it is deleted at start.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--diagnostics-csv=PATH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;output</span> <span class="pre">folder&gt;/performance_diagnostics.csv</span></code></p></td>
+<td><p>Write the <a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a> to <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. Rows are <strong>appended</strong> if the file exists, and the header is written only to a new file. See <a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--version</span></code></p></td>
+<td><p></p></td>
+<td><p>Print <code class="docutils literal notranslate"><span class="pre">SimuCell3D</span> <span class="pre">&lt;version&gt;</span> <span class="pre">(&lt;git</span> <span class="pre">commit&gt;)</span></code> and exit with status 0, whatever the other arguments.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Running <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> without arguments prints a usage summary and exits with status 1.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An option that <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> does not recognise is ignored without a message, as long as it
+starts with <code class="docutils literal notranslate"><span class="pre">--</span></code>. Check the spelling of every option: <code class="docutils literal notranslate"><span class="pre">--thread=4</span></code> (without the s) runs with
+the default thread count.</p>
+</div>
+<section id="removed-options">
+<h3>Removed options<a class="headerlink" href="#removed-options" title="Link to this heading">#</a></h3>
+<p>Two options of 2.0 were removed in 2.1 and now stop the program with an error:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Message</p></th>
+<th class="head"><p>Replacement</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--schedule=auto</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">--schedule=auto</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">removed.</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--schedule=adaptive</span></code>, the default.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--enable-per-loop-scheduling</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">--enable-per-loop-scheduling</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">removed.</span></code></p></td>
+<td><p>None needed: per-loop scheduling is part of <code class="docutils literal notranslate"><span class="pre">--schedule=adaptive</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="option-errors">
+<h3>Option errors<a class="headerlink" href="#option-errors" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Message</p></th>
+<th class="head"><p>Cause</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">--threads</span> <span class="pre">requires</span> <span class="pre">a</span> <span class="pre">positive</span> <span class="pre">integer,</span> <span class="pre">got</span> <span class="pre">'&lt;value&gt;'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--threads=0</span></code>, a negative number, or a value that is not an integer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">--schedule</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">'static',</span> <span class="pre">'dynamic',</span> <span class="pre">'guided',</span> <span class="pre">or</span> <span class="pre">'adaptive'</span></code></p></td>
+<td><p>Unknown scheduling mode.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">--output-dir</span> <span class="pre">points</span> <span class="pre">to</span> <span class="pre">existing</span> <span class="pre">file,</span> <span class="pre">not</span> <span class="pre">directory:</span> <span class="pre">&lt;path&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--output-dir</span></code> names a file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">--output-dir</span> <span class="pre">requires</span> <span class="pre">a</span> <span class="pre">directory</span> <span class="pre">path</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--output-dir=</span></code> without a value.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">--diagnostics-csv</span> <span class="pre">requires</span> <span class="pre">a</span> <span class="pre">file</span> <span class="pre">path</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--diagnostics-csv=</span></code> without a value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">Multiple</span> <span class="pre">parameter</span> <span class="pre">files</span> <span class="pre">specified</span></code></p></td>
+<td><p>More than one argument without <code class="docutils literal notranslate"><span class="pre">--</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">input</span> <span class="pre">parameter</span> <span class="pre">file</span> <span class="pre">given</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">line</span></code></p></td>
+<td><p>Options only, no parameter file.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Effect</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SIMUCELL3D_PIN_THREADS</span></code></p></td>
+<td><p>Set to <code class="docutils literal notranslate"><span class="pre">0</span></code> to switch off <a class="reference internal" href="../glossary.html#term-thread-pinning"><span class="xref std std-term">thread pinning</span></a>. Any other value, or no value, leaves it on.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code></p></td>
+<td><p>If set (to any value), SimuCell3D does not pin its threads and leaves placement to the OpenMP runtime.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code></p></td>
+<td><p>Has no effect. The thread count comes from <code class="docutils literal notranslate"><span class="pre">--threads</span></code> or from the number of physical cores.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">OMP_WAIT_POLICY</span></code></p></td>
+<td><p>Read by the OpenMP runtime, not by SimuCell3D. <code class="docutils literal notranslate"><span class="pre">scripts/runs/launch_longrun_20k.sh</span></code> sets it to <code class="docutils literal notranslate"><span class="pre">passive</span></code>, so that idle threads sleep instead of spinning.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="working-directory-and-paths">
+<h2>Working directory and paths<a class="headerlink" href="#working-directory-and-paths" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> can be run from any directory. Paths are resolved as follows (details in
+<a class="reference internal" href="11_parameter_file.html#paths"><span class="std std-ref">Paths</span></a>):</p>
+<ul class="simple">
+<li><p>The parameter file: as given, absolute or relative to the working directory.</p></li>
+<li><p>The input mesh: as given; if that file does not exist, relative to the source directory
+the executable was built from. The shipped parameter files rely on the second rule, and the
+run prints a <code class="docutils literal notranslate"><span class="pre">WARNING:</span> <span class="pre">the</span> <span class="pre">absolute</span> <span class="pre">mesh</span> <span class="pre">file</span> <span class="pre">path</span> <span class="pre">...</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">found</span></code> line followed by the
+path it uses instead.</p></li>
+<li><p>The output folder: as given, absolute or relative to the working directory. The shipped
+files write to <code class="docutils literal notranslate"><span class="pre">../simulation_results/&lt;name&gt;</span></code>, which is <code class="docutils literal notranslate"><span class="pre">simulation_results/&lt;name&gt;</span></code> in the
+repository when the run starts in <code class="docutils literal notranslate"><span class="pre">build/</span></code>.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>At start, <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> deletes the output folder (the one in the parameter file, or
+<code class="docutils literal notranslate"><span class="pre">--output-dir</span></code>) with all its contents, then re-creates it. Running the same parameter file
+twice overwrites the first run. Do not use a folder that contains other data, such as your
+home directory or the repository root.</p>
+</div>
+<p>Keep anything that must survive a restart outside the output folder, in particular the log
+of the run and, if you collect diagnostics across restarts, the <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv</span></code> file.</p>
+</section>
+<section id="what-a-run-prints">
+<h2>What a run prints<a class="headerlink" href="#what-a-run-prints" title="Link to this heading">#</a></h2>
+<p>Standard output reports the set-up and then one progress line per iteration. Abridged output
+of <code class="docutils literal notranslate"><span class="pre">parameters_vesicle_quick.xml</span></code> with <code class="docutils literal notranslate"><span class="pre">--threads=4</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>WARNING: the absolute mesh file path: data/input_meshes/fig_3_vesicle.vtk was not found
+The program will try instead the relative path: &lt;source directory&gt;/data/input_meshes/fig_3_vesicle.vtk
+
+Triangulating cell 0 of type: lumen
+Triangulating cell 1 of type: epithelial
+...
+Thread count: User-specified 4 threads (4 physical cores, 8 allowed logical CPUs)
+Thread pinning: enabled, thread i -&gt; CPU 0,1,2,3
+Using OpenMP adaptive (base: static, per-loop: ON) scheduling
+  Cells: 434, Threads: 4, Chunk size: 0
+  Workload heterogeneity (CoV): 1.743
+The output folder is: "&lt;output folder&gt;"
+Progression 0%, iteration: 0, file number 1, nb cells 434
+Progression 0%, iteration: 1, file number 1, nb cells 434
+Progression 1%, iteration: 2, file number 1, nb cells 434
+...
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Triangulating</span> <span class="pre">cell</span> <span class="pre">N</span> <span class="pre">of</span> <span class="pre">type:</span> <span class="pre">&lt;name&gt;</span></code> is printed for every cell at start, also when
+<code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> is 0. The lines are not in order because the cells are
+prepared in parallel.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Progression</span> <span class="pre">P%,</span> <span class="pre">iteration:</span> <span class="pre">I,</span> <span class="pre">file</span> <span class="pre">number</span> <span class="pre">F,</span> <span class="pre">nb</span> <span class="pre">cells</span> <span class="pre">C</span></code> gives the percentage of
+<code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> reached, the iteration, the number of the latest output mesh file and
+the number of cells.</p></li>
+<li><p>Lines starting with <code class="docutils literal notranslate"><span class="pre">[Iteration</span> <span class="pre">N]</span></code> report the scheduling decisions of the adaptive mode
+(<a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>).</p></li>
+<li><p>At the end of a run that reaches <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code>, a performance report lists the time
+spent in each phase of the iteration.</p></li>
+</ul>
+<p>Standard error carries warnings and the messages of the <a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a>, for
+example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>local_mesh_refiner: oscillation bail-out on cell 221 after 293 operations, 754 edges left unchecked (occurrence 6)
+Removing numerically unstable cell 4 at iteration 3: extent 5.43873e-05 m (max 4.86471e-05 m), volume 8.57603e-17 m^3, target volume 1.15126e-16 m^3, 0 non-finite nodes
+</pre></div>
+</div>
+<p>What each of these means, and how often it is expected, is described in
+<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>. To keep both streams, redirect them to a file outside the
+output folder:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./simucell3d<span class="w"> </span>../parameters/core/parameters_vesicle_quick.xml<span class="w"> </span>&gt;<span class="w"> </span>../vesicle_quick.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</pre></div>
+</div>
+</section>
+<section id="how-a-run-ends">
+<h2>How a run ends<a class="headerlink" href="#how-a-run-ends" title="Link to this heading">#</a></h2>
+<p>A run ends in one of these ways:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>End</p></th>
+<th class="head"><p>Exit status</p></th>
+<th class="head"><p>What is written last</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>The simulation time reaches <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code></p></td>
+<td><p>0</p></td>
+<td><p>A final block of rows in the <a class="reference internal" href="../glossary.html#term-statistics-CSV"><span class="xref std std-term">statistics CSV</span></a>; the performance report on standard output.</p></td>
+</tr>
+<tr class="row-odd"><td><p>No cell is left (all were removed)</p></td>
+<td><p>0</p></td>
+<td><p>As above. A run can also end normally after the safeguards removed most of its cells: the exit status does not reflect removals (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p>An error: invalid input, a diverged domain (“the contact grid refuses a diverged domain”), mesh refinement failing for too many cells in one iteration, a non-finite coordinate when a mesh file is written, a full disk</p></td>
+<td><p>1</p></td>
+<td><p>The error message on standard error. Output written up to that point is kept.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Termination by a signal (<code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code>, <code class="docutils literal notranslate"><span class="pre">kill</span></code>)</p></td>
+<td><p>signal status (130 for <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code>)</p></td>
+<td><p>Output written up to that point is kept.</p></td>
+</tr>
+<tr class="row-even"><td><p>An internal check fails in a <code class="docutils literal notranslate"><span class="pre">noexcept</span></code> function (a known issue in 2.1, see <a class="reference internal" href="../whats_new/v2.1.html"><span class="doc">Release 2.1</span></a>)</p></td>
+<td><p>134 (<code class="docutils literal notranslate"><span class="pre">SIGABRT</span></code>)</p></td>
+<td><p>Output written up to that point is kept.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The last mesh files written are those of the last completed sampling period; the run does not
+write an extra mesh file when it ends.</p>
+<p>A run cannot be resumed: there is no checkpoint file. To continue from the state of an
+earlier run, use its last <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code> as the input mesh of a new run
+(<a class="reference internal" href="12_input_meshes.html#reusing-simulation-output"><span class="std std-ref">Reusing simulation output</span></a>). The new run
+starts at simulation time 0 and with new random growth rates.</p>
+</section>
+<section id="long-runs">
+<h2>Long runs<a class="headerlink" href="#long-runs" title="Link to this heading">#</a></h2>
+<p>Runs of many hours should be started detached from the terminal, with the log outside the
+output folder. <code class="docutils literal notranslate"><span class="pre">scripts/runs/launch_longrun_20k.sh</span></code> does this for the reconstructed paper-like
+growth run of <code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>; it is a template for other long runs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PROJECT</span><span class="s2">/build"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_WAIT_POLICY</span><span class="o">=</span>passive
+nohup<span class="w"> </span>/usr/bin/time<span class="w"> </span>-v<span class="w"> </span>stdbuf<span class="w"> </span>-oL<span class="w"> </span>-eL<span class="w"> </span>./simucell3d<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-dir<span class="o">=</span><span class="s2">"</span><span class="nv">$OUT</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--diagnostics-csv<span class="o">=</span><span class="s2">"</span><span class="nv">$OUT</span><span class="s2">/performance_diagnostics.csv"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">"</span><span class="nv">$PARAM</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$LOGDIR</span><span class="s2">/run.log"</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stdbuf</span> <span class="pre">-oL</span> <span class="pre">-eL</span></code> makes the log line-buffered. Without it, standard output redirected to a
+file is written in blocks of a few kilobytes, which on a large tissue can mean many minutes
+between updates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span> <span class="pre">-v</span></code> adds the peak memory use and the CPU time to the end of the log.</p></li>
+<li><p>The script deletes and re-creates <code class="docutils literal notranslate"><span class="pre">$OUT</span></code> and its log folder before starting. Set
+<code class="docutils literal notranslate"><span class="pre">THREADS=N</span></code> in the environment to pass <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code>.</p></li>
+</ul>
+<p>Monitor such a run with <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-f</span></code> on the log, and with the diagnostics CSV, which gains one row
+every 100 iterations (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p>
+</section>
+<section id="running-in-docker">
+<h2>Running in Docker<a class="headerlink" href="#running-in-docker" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> in the repository root builds SimuCell3D, with the Python bindings, in an
+image based on <code class="docutils literal notranslate"><span class="pre">python:3.10</span></code>. Build the image from the repository root:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>simucell3d<span class="w"> </span>.
+</pre></div>
+</div>
+<p>The image copies the whole repository to <code class="docutils literal notranslate"><span class="pre">/app</span></code>, builds in <code class="docutils literal notranslate"><span class="pre">/app/container_build</span></code>, and uses
+the executable as its entry point, with <code class="docutils literal notranslate"><span class="pre">/app/container_build</span></code> as the working directory.
+Arguments after the image name are passed to <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code>, so parameter file paths are
+relative to <code class="docutils literal notranslate"><span class="pre">/app/container_build</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">/simulation_results:/app/simulation_results"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>simucell3d<span class="w"> </span>../parameters/core/parameters_vesicle_quick.xml
+</pre></div>
+</div>
+<p>The shipped parameter files write to <code class="docutils literal notranslate"><span class="pre">../simulation_results/&lt;name&gt;</span></code>, that is
+<code class="docutils literal notranslate"><span class="pre">/app/simulation_results/&lt;name&gt;</span></code> in the container; the <code class="docutils literal notranslate"><span class="pre">-v</span></code> option makes that folder the
+<code class="docutils literal notranslate"><span class="pre">simulation_results/</span></code> folder of the current directory on the host, so that the results remain
+after the container exits. Results written elsewhere in the container are lost with it.</p>
+<p>The image contains the repository as it was when the image was built. To run a parameter file
+or mesh that is not in the image, mount it as well (for example
+<code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">&quot;$PWD/my_params:/app/my_params&quot;</span></code> and the argument <code class="docutils literal notranslate"><span class="pre">../my_params/run.xml</span></code>), or rebuild the
+image. Thread count and pinning follow the CPUs that Docker gives the container
+(<code class="docutils literal notranslate"><span class="pre">--cpus</span></code> limits CPU time but not the set of CPUs; use <code class="docutils literal notranslate"><span class="pre">--cpuset-cpus</span></code> to restrict the CPUs).</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../getting_started.html"><span class="doc">Getting started</span></a>: a first run step by step.</p></li>
+<li><p><a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>: what the run writes.</p></li>
+<li><p><a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>: threads and scheduling modes.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="12_input_meshes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Input meshes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="14_output_files.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Output files</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synopsis">Synopsis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options">Options</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#removed-options">Removed options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-errors">Option errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-directory-and-paths">Working directory and paths</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-run-prints">What a run prints</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-a-run-ends">How a run ends</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#long-runs">Long runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-in-docker">Running in Docker</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

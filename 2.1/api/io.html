@@ -1,0 +1,1491 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Input and output &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/io';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/api/io.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cell meshes" href="mesh.html" />
+    <link rel="prev" title="Solver and configuration" href="solver.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver and configuration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">Cell meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_models.html">Contact models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="triangulation.html">Triangulation and division</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial_partitioning.html">Spatial partitioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Input and output</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="input-and-output">
+<span id="api-io"></span><h1>Input and output<a class="headerlink" href="#input-and-output" title="Link to this heading">#</a></h1>
+<p>These classes read the parameter file and the input mesh, create the cells, and write the
+output meshes and statistics. <a class="reference internal" href="#_CPPv416parameter_reader" title="parameter_reader"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">parameter_reader</span></code></a> parses the XML parameter file
+(<a class="reference internal" href="../user_guide/11_parameter_file.html"><span class="doc">Parameter file reference</span></a>); <a class="reference internal" href="#_CPPv411mesh_reader" title="mesh_reader"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">mesh_reader</span></code></a> reads the legacy VTK input mesh
+(<a class="reference internal" href="../user_guide/12_input_meshes.html"><span class="doc">Input meshes</span></a>); <a class="reference internal" href="#_CPPv422simulation_initializer" title="simulation_initializer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">simulation_initializer</span></code></a> combines both into the list of
+cells passed to the <a class="reference internal" href="solver.html#_CPPv46solver" title="solver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">solver</span></code></a>. During the run, <a class="reference internal" href="#_CPPv411mesh_writer" title="mesh_writer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">mesh_writer</span></code></a> writes the
+cell and face meshes, and a statistics writer writes one row per cell per sample, either to
+<code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code> (<a class="reference internal" href="#_CPPv426csv_file_statistics_writer" title="csv_file_statistics_writer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">csv_file_statistics_writer</span></code></a>) or to a string
+(<a class="reference internal" href="#_CPPv424string_statistics_writer" title="string_statistics_writer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">string_statistics_writer</span></code></a>, used by the Python module). The arrays written to the
+output meshes are defined by the data mappers in <code class="docutils literal notranslate"><span class="pre">mesh_data.hpp</span></code>; adding a mapper there adds
+an array to every output file (<a class="reference internal" href="../user_guide/14_output_files.html"><span class="doc">Output files</span></a>).</p>
+<section id="reading-input">
+<h2>Reading input<a class="headerlink" href="#reading-input" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv416parameter_reader">
+<span id="_CPPv316parameter_reader"></span><span id="_CPPv216parameter_reader"></span><span id="parameter_reader"></span><span class="target" id="classparameter__reader"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parameter_reader</span></span></span><a class="headerlink" href="#_CPPv416parameter_reader" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reads the XML parameter file into <a class="reference internal" href="solver.html#structglobal__simulation__parameters"><span class="std std-ref">global_simulation_parameters</span></a> and <a class="reference internal" href="solver.html#structcell__type__parameters"><span class="std std-ref">cell_type_parameters</span></a>. </p>
+<p>The file has a <code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code> section and a <code class="docutils literal notranslate"><span class="pre">&lt;cell_types&gt;</span></code> section with one <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block per cell type, each holding a <code class="docutils literal notranslate"><span class="pre">&lt;face_types&gt;</span></code> list of <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> blocks. Tag names are documented with the members of the parameter structures. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16parameter_reader16parameter_readerERKNSt6stringE">
+<span id="_CPPv3N16parameter_reader16parameter_readerERKNSt6stringE"></span><span id="_CPPv2N16parameter_reader16parameter_readerERKNSt6stringE"></span><span id="parameter_reader::parameter_reader__ssCR"></span><span class="target" id="classparameter__reader_1a6c1edfca844bd0d9037f861ed7082fbf"></span><span class="sig-name descname"><span class="n"><span class="pre">parameter_reader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">paramter_file_path</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16parameter_reader16parameter_readerERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Open and parse the parameter file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>paramter_file_path</strong> – Path of the XML file, absolute or relative to the working directory. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv426parameter_reader_exception" title="parameter_reader_exception"><span class="n">parameter_reader_exception</span></a></span></span> – If the file cannot be opened or parsed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK16parameter_reader16get_string_valueEPKN8tinyxml210XMLElementEKNSt6stringEKb">
+<span id="_CPPv3NK16parameter_reader16get_string_valueEPKN8tinyxml210XMLElementEKNSt6stringEKb"></span><span id="_CPPv2NK16parameter_reader16get_string_valueEPKN8tinyxml210XMLElementEKNSt6stringEKb"></span><span id="parameter_reader::get_string_value__tinyxml2::XMLElementCP.ssC.bCC"></span><span class="target" id="classparameter__reader_1a4fd9616285d37d0701da427a2a762b56"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_string_value</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">tinyxml2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">XMLElement</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">e</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">XML_markup</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">to_lower_case</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK16parameter_reader16get_string_valueEPKN8tinyxml210XMLElementEKNSt6stringEKb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the text of the child element <code class="docutils literal notranslate"><span class="pre">XML_markup</span></code> of <code class="docutils literal notranslate"><span class="pre">e</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e</strong> – Parent element. </p></li>
+<li><p><strong>XML_markup</strong> – Tag name of the child element. </p></li>
+<li><p><strong>to_lower_case</strong> – Convert the text to lower case. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The text, or <code class="docutils literal notranslate"><span class="pre">std::nullopt</span></code> if the element is missing or empty. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16parameter_reader14select_sectionERKNSt6stringE">
+<span id="_CPPv3N16parameter_reader14select_sectionERKNSt6stringE"></span><span id="_CPPv2N16parameter_reader14select_sectionERKNSt6stringE"></span><span id="parameter_reader::select_section__ssCR"></span><span class="target" id="classparameter__reader_1a4a7e04ba445b42937a81126a412468fb"></span><span class="n"><span class="pre">tinyxml2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">XMLElement</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">select_section</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">section_name</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16parameter_reader14select_sectionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the top-level element named <code class="docutils literal notranslate"><span class="pre">section_name</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv426parameter_reader_exception" title="parameter_reader_exception"><span class="n">parameter_reader_exception</span></a></span></span> – If the section does not exist. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16parameter_reader25read_numerical_parametersEv">
+<span id="_CPPv3N16parameter_reader25read_numerical_parametersEv"></span><span id="_CPPv2N16parameter_reader25read_numerical_parametersEv"></span><span id="parameter_reader::read_numerical_parameters"></span><span class="target" id="classparameter__reader_1a047f4a587eda9363b4efcc129dfcbb52"></span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_numerical_parameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16parameter_reader25read_numerical_parametersEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read the <code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code> section. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv426parameter_reader_exception" title="parameter_reader_exception"><span class="n">parameter_reader_exception</span></a></span></span> – If the section or a required tag is missing, a value is not a number, or <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> is not <code class="docutils literal notranslate"><span class="pre">uspg</span></code>, <code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code> or <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16parameter_reader29read_biomechanical_parametersEv">
+<span id="_CPPv3N16parameter_reader29read_biomechanical_parametersEv"></span><span id="_CPPv2N16parameter_reader29read_biomechanical_parametersEv"></span><span id="parameter_reader::read_biomechanical_parameters"></span><span class="target" id="classparameter__reader_1a82541ffb4d46a43261ee9c8c1e941be2"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv420cell_type_parameters" title="cell_type_parameters"><span class="n"><span class="pre">cell_type_parameters</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_biomechanical_parameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16parameter_reader29read_biomechanical_parametersEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read all cell types with their face types, in file order. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv426parameter_reader_exception" title="parameter_reader_exception"><span class="n">parameter_reader_exception</span></a></span></span> – If no cell type is defined, a cell type has no face type, or a required tag is missing or invalid. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>One entry per <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block; the index is the <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> of the input mesh. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16parameter_reader25read_face_type_parametersERKNSt6stringEKjPN8tinyxml210XMLElementE">
+<span id="_CPPv3N16parameter_reader25read_face_type_parametersERKNSt6stringEKjPN8tinyxml210XMLElementE"></span><span id="_CPPv2N16parameter_reader25read_face_type_parametersERKNSt6stringEKjPN8tinyxml210XMLElementE"></span><span id="parameter_reader::read_face_type_parameters__ssCR.unsignedC.tinyxml2::XMLElementP"></span><span class="target" id="classparameter__reader_1a1231c2811ff3a609ecfe506230f7dc18"></span><a class="reference internal" href="solver.html#_CPPv420face_type_parameters" title="face_type_parameters"><span class="n"><span class="pre">face_type_parameters</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_face_type_parameters</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_type_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_type_id</span></span>, <span class="n"><span class="pre">tinyxml2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">XMLElement</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">face_type_section</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16parameter_reader25read_face_type_parametersERKNSt6stringEKjPN8tinyxml210XMLElementE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read one <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> block. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cell_type_name</strong> – Name of the enclosing cell type, used in error messages. </p></li>
+<li><p><strong>face_type_id</strong> – Position of the face type in its cell type. </p></li>
+<li><p><strong>face_type_section</strong> – The <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> element. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv426parameter_reader_exception" title="parameter_reader_exception"><span class="n">parameter_reader_exception</span></a></span></span> – If a required tag is missing or invalid. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16parameter_reader25read_cell_type_parametersEKjPN8tinyxml210XMLElementE">
+<span id="_CPPv3N16parameter_reader25read_cell_type_parametersEKjPN8tinyxml210XMLElementE"></span><span id="_CPPv2N16parameter_reader25read_cell_type_parametersEKjPN8tinyxml210XMLElementE"></span><span id="parameter_reader::read_cell_type_parameters__unsignedC.tinyxml2::XMLElementP"></span><span class="target" id="classparameter__reader_1a623f4ee410df3dddf403b2ecbafb91e9"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv420cell_type_parameters" title="cell_type_parameters"><span class="n"><span class="pre">cell_type_parameters</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_cell_type_parameters</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_id</span></span>, <span class="n"><span class="pre">tinyxml2</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">XMLElement</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">cell_type_section</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16parameter_reader25read_cell_type_parametersEKjPN8tinyxml210XMLElementE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read one <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block, without its face types. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cell_type_id</strong> – Position of the cell type in the file. </p></li>
+<li><p><strong>cell_type_section</strong> – The <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> element. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv426parameter_reader_exception" title="parameter_reader_exception"><span class="n">parameter_reader_exception</span></a></span></span> – If a required tag is missing or invalid. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv411mesh_reader">
+<span id="_CPPv311mesh_reader"></span><span id="_CPPv211mesh_reader"></span><span id="mesh_reader"></span><span class="target" id="classmesh__reader"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_reader</span></span></span><a class="headerlink" href="#_CPPv411mesh_reader" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reads the input mesh: a legacy ASCII VTK file (version 4.2) with one polyhedron cell (VTK type 42) per biological cell and a <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> cell-data array. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_reader11mesh_readerERKNSt6stringEKb">
+<span id="_CPPv3N11mesh_reader11mesh_readerERKNSt6stringEKb"></span><span id="_CPPv2N11mesh_reader11mesh_readerERKNSt6stringEKb"></span><span id="mesh_reader::mesh_reader__ssCR.bC"></span><span class="target" id="classmesh__reader_1a9e2187b5b2de2ffbf325520454bd58dc"></span><span class="sig-name descname"><span class="n"><span class="pre">mesh_reader</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh_file_path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_reader11mesh_readerERKNSt6stringEKb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Load the file into memory. </p>
+<p>The path is tried as given (absolute, or relative to the working directory), then relative to the source directory recorded at configure time (<code class="docutils literal notranslate"><span class="pre">PROJECT_SOURCE_DIR</span></code>). A file version other than 4.2 only prints a warning. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh_file_path</strong> – Path of the VTK file. </p></li>
+<li><p><strong>verbose</strong> – Print warnings about the path and the file version. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the file is found at neither location or has no VTK version header. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK11mesh_reader4readEv">
+<span id="_CPPv3NK11mesh_reader4readEv"></span><span id="_CPPv2NK11mesh_reader4readEv"></span><span id="mesh_reader::readC"></span><span class="target" id="classmesh__reader_1ada6705f55be961bba91775a5b2307a88"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK11mesh_reader4readEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Parse the file into one mesh per cell. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the points or cells sections are missing or malformed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK11mesh_reader12get_node_posEv">
+<span id="_CPPv3NK11mesh_reader12get_node_posEv"></span><span id="_CPPv2NK11mesh_reader12get_node_posEv"></span><span id="mesh_reader::get_node_posC"></span><span class="target" id="classmesh__reader_1a4175ad401e0e34fc5d7e4975a683afd5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_node_pos</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK11mesh_reader12get_node_posEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the coordinates of all points, flattened as x, y, z per point, m. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the points section is missing or contains invalid values. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK11mesh_reader15read_cell_facesEv">
+<span id="_CPPv3NK11mesh_reader15read_cell_facesEv"></span><span id="_CPPv2NK11mesh_reader15read_cell_facesEv"></span><span id="mesh_reader::read_cell_facesC"></span><span class="target" id="classmesh__reader_1ad30ead81f878fc804da888ab2b9a6811"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_cell_faces</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK11mesh_reader15read_cell_facesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the face connectivity of each cell, as stored in the polyhedron cells of the file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If a cell is not a polyhedron or the cells section is corrupted. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK11mesh_reader14get_cell_typesEv">
+<span id="_CPPv3NK11mesh_reader14get_cell_typesEv"></span><span id="_CPPv2NK11mesh_reader14get_cell_typesEv"></span><span id="mesh_reader::get_cell_typesC"></span><span class="target" id="classmesh__reader_1acccc4783b469ba5ba0ac7a808ce3339c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK11mesh_reader14get_cell_typesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> of each cell, read from the cell-data array of that name. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the array is missing or contains invalid values. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_reader13get_cell_meshERKNSt6vectorIdEERKNSt6vectorINSt6vectorIjEEEE">
+<span id="_CPPv3N11mesh_reader13get_cell_meshERKNSt6vectorIdEERKNSt6vectorINSt6vectorIjEEEE"></span><span id="_CPPv2N11mesh_reader13get_cell_meshERKNSt6vectorIdEERKNSt6vectorINSt6vectorIjEEEE"></span><span id="mesh_reader::get_cell_mesh__std::vector:double:CR.std::vector:std::vector:unsigned::CR"></span><span class="target" id="classmesh__reader_1adab58f76b37e3e7ccbfff3ee8ed2470d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_mesh</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_pos</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_connectivity_lst_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_reader13get_cell_meshERKNSt6vectorIdEERKNSt6vectorINSt6vectorIjEEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Build one mesh per cell from the point coordinates and the per-cell face connectivity. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the connectivity data is inconsistent. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv422simulation_initializer">
+<span id="_CPPv322simulation_initializer"></span><span id="_CPPv222simulation_initializer"></span><span id="simulation_initializer"></span><span class="target" id="classsimulation__initializer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">simulation_initializer</span></span></span><a class="headerlink" href="#_CPPv422simulation_initializer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Builds the list of cells and the numerical parameters passed to the solver. </p>
+<p>Reads the parameter file (or takes the parameter structures directly), reads the input mesh, triangulates each cell surface in parallel and creates, for each cell, an object of the class selected by the <code class="docutils literal notranslate"><span class="pre">global_type_id_</span></code> of its cell type: 0 <a class="reference internal" href="cell_classes.html#classepithelial__cell"><span class="std std-ref">epithelial_cell</span></a>, 1 <a class="reference internal" href="cell_classes.html#classecm__cell"><span class="std std-ref">ecm_cell</span></a>, 2 <a class="reference internal" href="cell_classes.html#classlumen__cell"><span class="std std-ref">lumen_cell</span></a>, 3 <a class="reference internal" href="cell_classes.html#classnucleus__cell"><span class="std std-ref">nucleus_cell</span></a>, 4 <a class="reference internal" href="cell_classes.html#classstatic__cell"><span class="std std-ref">static_cell</span></a>. The <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> of a cell in the input mesh is the position of its cell type in the parameter file. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22simulation_initializer22simulation_initializerERK28global_simulation_parametersRKNSt6vectorI19cell_type_param_ptrEEKb">
+<span id="_CPPv3N22simulation_initializer22simulation_initializerERK28global_simulation_parametersRKNSt6vectorI19cell_type_param_ptrEEKb"></span><span id="_CPPv2N22simulation_initializer22simulation_initializerERK28global_simulation_parametersRKNSt6vectorI19cell_type_param_ptrEEKb"></span><span id="simulation_initializer::simulation_initializer__global_simulation_parametersCR.std::vector:cell_type_param_ptr:CR.bC"></span><span class="target" id="classsimulation__initializer_1a391662ff1a42083f3cd7528ea987befd"></span><span class="sig-name descname"><span class="n"><span class="pre">simulation_initializer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_type_param_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N22simulation_initializer22simulation_initializerERK28global_simulation_parametersRKNSt6vectorI19cell_type_param_ptrEEKb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cells from parameter structures (used by the Python module). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sim_parameters</strong> – Numerical parameters, including the input mesh path. </p></li>
+<li><p><strong>cell_type_param_lst</strong> – Cell types, indexed by the <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> of the input mesh. </p></li>
+<li><p><strong>verbose</strong> – Print progress information. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If a cell type has no face type, the mesh and its cell types are inconsistent, or a cell cannot be triangulated. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the input mesh cannot be read. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22simulation_initializer22simulation_initializerERKNSt6stringEKb">
+<span id="_CPPv3N22simulation_initializer22simulation_initializerERKNSt6stringEKb"></span><span id="_CPPv2N22simulation_initializer22simulation_initializerERKNSt6stringEKb"></span><span id="simulation_initializer::simulation_initializer__ssCR.bC"></span><span class="target" id="classsimulation__initializer_1a71505201d8aa954577b4f9de14d01dca"></span><span class="sig-name descname"><span class="n"><span class="pre">simulation_initializer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameter_file_path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N22simulation_initializer22simulation_initializerERKNSt6stringEKb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cells from an XML parameter file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter_file_path</strong> – Path of the parameter file, absolute or relative to the working directory. </p></li>
+<li><p><strong>verbose</strong> – Print progress information. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv426parameter_reader_exception" title="parameter_reader_exception"><span class="n">parameter_reader_exception</span></a></span></span> – If the parameter file cannot be read or is invalid. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – See the other constructor. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the input mesh cannot be read. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22simulation_initializer3runERKNSt6vectorI19cell_type_param_ptrEE">
+<span id="_CPPv3N22simulation_initializer3runERKNSt6vectorI19cell_type_param_ptrEE"></span><span id="_CPPv2N22simulation_initializer3runERKNSt6vectorI19cell_type_param_ptrEE"></span><span id="simulation_initializer::run__std::vector:cell_type_param_ptr:CR"></span><span class="target" id="classsimulation__initializer_1a62ff682a2a38cea70be8918a5f39fdc8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_type_param_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N22simulation_initializer3runERKNSt6vectorI19cell_type_param_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Read the input mesh and create the cells; called by the constructors. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_type_param_lst</strong> – Cell types, indexed by the <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> of the input mesh. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If a cell type has no face type, the numbers of cells and cell type ids in the mesh differ, a cell type id is out of range, or a cell cannot be triangulated. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_reader_exception" title="mesh_reader_exception"><span class="n">mesh_reader_exception</span></a></span></span> – If the input mesh cannot be read. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK22simulation_initializer12get_cell_lstEv">
+<span id="_CPPv3NK22simulation_initializer12get_cell_lstEv"></span><span id="_CPPv2NK22simulation_initializer12get_cell_lstEv"></span><span id="simulation_initializer::get_cell_lstC"></span><span class="target" id="classsimulation__initializer_1ab86b6931aac531844ec886e69be4b882"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_lst</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK22simulation_initializer12get_cell_lstEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the cells created from the input mesh. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK22simulation_initializer25get_simulation_parametersEv">
+<span id="_CPPv3NK22simulation_initializer25get_simulation_parametersEv"></span><span id="_CPPv2NK22simulation_initializer25get_simulation_parametersEv"></span><span id="simulation_initializer::get_simulation_parametersC"></span><span class="target" id="classsimulation__initializer_1ab5e4b9dba14783cd2b277d9550ef32ea"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_simulation_parameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK22simulation_initializer25get_simulation_parametersEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the numerical parameters of the simulation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22simulation_initializer19triangulate_surfaceERK4meshK6size_t19cell_type_param_ptr">
+<span id="_CPPv3N22simulation_initializer19triangulate_surfaceERK4meshK6size_t19cell_type_param_ptr"></span><span id="_CPPv2N22simulation_initializer19triangulate_surfaceERK4meshK6size_t19cell_type_param_ptr"></span><span id="simulation_initializer::triangulate_surface__meshCR.sC.cell_type_param_ptr"></span><span class="target" id="classsimulation__initializer_1ab6fceb6faf152cfdaccce0483b304d9b"></span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">triangulate_surface</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_mesh</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N22simulation_initializer19triangulate_surfaceERK4meshK6size_t19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create one cell from its input mesh, retrying up to 10 times. </p>
+<p>With <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> the surface is re-triangulated with edge lengths between the minimum edge length and three times that value; otherwise the input faces must already be triangles. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cell_mesh</strong> – Input mesh of the cell. </p></li>
+<li><p><strong>cell_id</strong> – Index of the cell in the input mesh. </p></li>
+<li><p><strong>cell_type</strong> – Cell type of the cell; its <code class="docutils literal notranslate"><span class="pre">global_type_id_</span></code> selects the cell class. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If all 10 attempts fail, or <code class="docutils literal notranslate"><span class="pre">global_type_id_</span></code> is not in 0-4. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The new cell. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="writing-output">
+<h2>Writing output<a class="headerlink" href="#writing-output" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv411mesh_writer">
+<span id="_CPPv311mesh_writer"></span><span id="_CPPv211mesh_writer"></span><span id="mesh_writer"></span><span class="target" id="classmesh__writer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_writer</span></span></span><a class="headerlink" href="#_CPPv411mesh_writer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Writes the cell and face meshes as legacy ASCII VTK files (version 4.2, unstructured grid). </p>
+<p>The cell mesh has one polyhedron (VTK type 42) per cell with the arrays of cell_data_mapper_lst; the face mesh has one triangle (VTK type 7) per face with the arrays of face_data_mapper_lst and node_data_mapper_lst (mesh_data.hpp). All members are static; the class cannot be instantiated. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer5writeERKNSt6stringERKNSt6stringERNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N11mesh_writer5writeERKNSt6stringERKNSt6stringERNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N11mesh_writer5writeERKNSt6stringERKNSt6stringERNSt6vectorI8cell_ptrEE"></span><span id="mesh_writer::write__ssCR.ssCR.std::vector:cell_ptr:R"></span><span class="target" id="classmesh__writer_1a3a4f856ffe190165e1f3748d733e343f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output_path_cell_data</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output_path_face_data</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer5writeERKNSt6stringERKNSt6stringERNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the cell mesh and the face mesh of the given cells. </p>
+<p>The cells are rebased first (unused node and face slots removed); the two files are written in parallel. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path_cell_data</strong> – Path of the cell mesh file. </p></li>
+<li><p><strong>output_path_face_data</strong> – Path of the face mesh file. </p></li>
+<li><p><strong>cell_lst</strong> – Cells to write. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If a file cannot be opened or a node coordinate is not finite. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI4meshEE">
+<span id="_CPPv3N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI4meshEE"></span><span id="_CPPv2N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI4meshEE"></span><span id="mesh_writer::write_cell_data_file__std::ofstreamR.std::vector:mesh:CR"></span><span class="target" id="classmesh__writer_1ad32133f458740b8c2b0743ae80607791"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_cell_data_file</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI4meshEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write light meshes (for example cells read from an input mesh) as a cell mesh to an open stream. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEEb">
+<span id="_CPPv3N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEEb"></span><span id="_CPPv2N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEEb"></span><span id="mesh_writer::write_cell_data_file__std::ofstreamR.std::vector:cell_ptr:CR.b"></span><span class="target" id="classmesh__writer_1a849e7b4bd8973667124615986ce4d00b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_cell_data_file</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">rebase_bool</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEEb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write cells as a cell mesh to an open stream; rebase the cells first if <code class="docutils literal notranslate"><span class="pre">rebase_bool</span></code> is true. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI4meshEE">
+<span id="_CPPv3N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI4meshEE"></span><span id="_CPPv2N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI4meshEE"></span><span id="mesh_writer::write_cell_data_file__ssCR.std::vector:mesh:CR"></span><span class="target" id="classmesh__writer_1a59361da4b171ad8035d13999c6cec1fe"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_cell_data_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">file_path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI4meshEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write light meshes as a cell mesh to <code class="docutils literal notranslate"><span class="pre">file_path</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If the file cannot be opened. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEEKb">
+<span id="_CPPv3N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEEKb"></span><span id="_CPPv2N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEEKb"></span><span id="mesh_writer::write_cell_data_file__ssCR.std::vector:cell_ptr:CR.bC"></span><span class="target" id="classmesh__writer_1a6fea604742bb61a0dd720fbde5c1e0a9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_cell_data_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">file_path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">rebase</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEEKb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write cells as a cell mesh to <code class="docutils literal notranslate"><span class="pre">file_path</span></code>; rebase the cells first if <code class="docutils literal notranslate"><span class="pre">rebase</span></code> is true. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If the file cannot be opened or a node coordinate is not finite. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer20write_face_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N11mesh_writer20write_face_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N11mesh_writer20write_face_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEE"></span><span id="mesh_writer::write_face_data_file__ssCR.std::vector:cell_ptr:CR"></span><span class="target" id="classmesh__writer_1ac540159fcccea9a0bdc5d18e107cee14"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_face_data_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">file_path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer20write_face_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write cells as a face mesh to <code class="docutils literal notranslate"><span class="pre">file_path</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If the file cannot be opened or a node coordinate is not finite. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer20write_face_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N11mesh_writer20write_face_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N11mesh_writer20write_face_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="mesh_writer::write_face_data_file__std::ofstreamR.std::vector:cell_ptr:CR"></span><span class="target" id="classmesh__writer_1aae186eb3770dd4704b6aed3d548709d2"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_face_data_file</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer20write_face_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write cells as a face mesh to an open stream. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN11mesh_writer16write_point_dataEvRNSt8ofstreamERKNSt6vectorI2T1EEKNSt8functionIFNSt6vectorIdEERK2T1EEE">
+<span id="_CPPv3I0EN11mesh_writer16write_point_dataERNSt8ofstreamERKNSt6vectorI2T1EEKNSt8functionIFNSt6vectorIdEERK2T1EEE"></span><span id="_CPPv2I0EN11mesh_writer16write_point_dataERNSt8ofstreamERKNSt6vectorI2T1EEKNSt8functionIFNSt6vectorIdEERK2T1EEE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T1</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classmesh__writer_1ab141479bbf5f3c072848c74d4ec4bd07"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_point_data</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN11mesh_writer16write_point_dataEvRNSt8ofstreamERKNSt6vectorI2T1EEKNSt8functionIFNSt6vectorIdEERK2T1EEE" title="mesh_writer::write_point_data::T1"><span class="n"><span class="pre">T1</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN11mesh_writer16write_point_dataEvRNSt8ofstreamERKNSt6vectorI2T1EEKNSt8functionIFNSt6vectorIdEERK2T1EEE" title="mesh_writer::write_point_data::T1"><span class="n"><span class="pre">T1</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">node_pos_extractor</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4I0EN11mesh_writer16write_point_dataEvRNSt8ofstreamERKNSt6vectorI2T1EEKNSt8functionIFNSt6vectorIdEERK2T1EEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the POINTS section for a list of cells or light meshes. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_file</strong> – Open output stream. </p></li>
+<li><p><strong>object_lst</strong> – Cells or meshes. </p></li>
+<li><p><strong>node_pos_extractor</strong> – Returns the flattened node coordinates (m) of one object. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If a coordinate is not finite (the simulation has diverged). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI4meshEERKNSt6vectorI6size_tEE">
+<span id="_CPPv3N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI4meshEERKNSt6vectorI6size_tEE"></span><span id="_CPPv2N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI4meshEERKNSt6vectorI6size_tEE"></span><span id="mesh_writer::write_cell_data__std::ofstreamR.std::vector:mesh:CR.std::vector:s:CR"></span><span class="target" id="classmesh__writer_1abe400fe3b0fe52fefb58ffeae9c5b9d9"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_cell_data</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_id_offset_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI4meshEERKNSt6vectorI6size_tEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the CELLS and CELL_TYPES sections (one polyhedron per mesh); node ids are shifted by <code class="docutils literal notranslate"><span class="pre">node_id_offset_lst</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE">
+<span id="_CPPv3N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE"></span><span id="_CPPv2N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE"></span><span id="mesh_writer::write_cell_data__std::ofstreamR.std::vector:cell_ptr:CR.std::vector:s:CR"></span><span class="target" id="classmesh__writer_1a4b842e34ff2f266888fc224939f8aa48"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_cell_data</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_id_offset_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the CELLS and CELL_TYPES sections (one polyhedron per cell); node ids are shifted by <code class="docutils literal notranslate"><span class="pre">node_id_offset_lst</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer15write_face_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE">
+<span id="_CPPv3N11mesh_writer15write_face_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE"></span><span id="_CPPv2N11mesh_writer15write_face_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE"></span><span id="mesh_writer::write_face_data__std::ofstreamR.std::vector:cell_ptr:CR.std::vector:s:CR"></span><span class="target" id="classmesh__writer_1a5ac58bbc28ed525e4a832a02796cd751"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_face_data</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_id_offset_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer15write_face_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the CELLS and CELL_TYPES sections of a face mesh (one triangle per face). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="mesh_writer::add_cell_data_arrays_to_mesh__std::ofstreamR.std::vector:cell_ptr:CR"></span><span class="target" id="classmesh__writer_1a2b5a307176aeb999661b8c0185724ccb"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_cell_data_arrays_to_mesh</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the cell-data arrays defined by cell_data_mapper_lst. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="mesh_writer::add_face_data_arrays_to_mesh__std::ofstreamR.std::vector:cell_ptr:CR"></span><span class="target" id="classmesh__writer_1a0c8f57f273ba1f74db835ac6dd577ef8"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_face_data_arrays_to_mesh</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the per-face arrays defined by face_data_mapper_lst. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer28add_node_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N11mesh_writer28add_node_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N11mesh_writer28add_node_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"></span><span id="mesh_writer::add_node_data_arrays_to_mesh__std::ofstreamR.std::vector:cell_ptr:CR"></span><span class="target" id="classmesh__writer_1af97cce4176d9c0226ce1499d945eb00b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_node_data_arrays_to_mesh</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer28add_node_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the point-data arrays defined by node_data_mapper_lst. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE">
+<span id="_CPPv3N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE"></span><span id="_CPPv2N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE"></span><span id="mesh_writer::add_cell_data_arrays_to_mesh__std::ofstreamR.std::vector:mesh:CR"></span><span class="target" id="classmesh__writer_1ae265fe6afecc443c8b5df857825e7607"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_cell_data_arrays_to_mesh</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>No arrays are written for light meshes. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE">
+<span id="_CPPv3N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE"></span><span id="_CPPv2N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE"></span><span id="mesh_writer::add_face_data_arrays_to_mesh__std::ofstreamR.std::vector:mesh:CR"></span><span class="target" id="classmesh__writer_1a7effc66629aa198bc3a4c491e56b4606"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_face_data_arrays_to_mesh</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mesh_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>No arrays are written for light meshes. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv426abstract_statistics_writer">
+<span id="_CPPv326abstract_statistics_writer"></span><span id="_CPPv226abstract_statistics_writer"></span><span id="abstract_statistics_writer"></span><span class="target" id="classabstract__statistics__writer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">abstract_statistics_writer</span></span></span><a class="headerlink" href="#_CPPv426abstract_statistics_writer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Interface of the statistics writers. </p>
+<p>The solver calls <a class="reference internal" href="#classabstract__statistics__writer_1aa1a3a0ce979272f803a7361c7dddf507"><span class="std std-ref">write_data()</span></a> every 50 iterations and once at the end of the run. </p>
+<p>Subclassed by <a class="reference internal" href="#classcsv__file__statistics__writer"><span class="std std-ref">csv_file_statistics_writer</span></a>, <a class="reference internal" href="#classstring__statistics__writer"><span class="std std-ref">string_statistics_writer</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N26abstract_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N26abstract_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N26abstract_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"></span><span id="abstract_statistics_writer::write_data__unsignedC.doubleC.std::vector:cell_ptr:CR"></span><span class="target" id="classabstract__statistics__writer_1aa1a3a0ce979272f803a7361c7dddf507"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iteration</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">simulation_time</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N26abstract_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append one row per cell. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iteration</strong> – Current iteration. </p></li>
+<li><p><strong>simulation_time</strong> – Simulated time, s. </p></li>
+<li><p><strong>cell_lst</strong> – Cells to record. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv426csv_file_statistics_writer">
+<span id="_CPPv326csv_file_statistics_writer"></span><span id="_CPPv226csv_file_statistics_writer"></span><span id="csv_file_statistics_writer"></span><span class="target" id="classcsv__file__statistics__writer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">csv_file_statistics_writer</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv426abstract_statistics_writer" title="abstract_statistics_writer"><span class="n"><span class="pre">abstract_statistics_writer</span></span></a><a class="headerlink" href="#_CPPv426csv_file_statistics_writer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Writes the statistics to a CSV file (<code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code> in the output folder). </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N26csv_file_statistics_writer26csv_file_statistics_writerERKNSt6stringE">
+<span id="_CPPv3N26csv_file_statistics_writer26csv_file_statistics_writerERKNSt6stringE"></span><span id="_CPPv2N26csv_file_statistics_writer26csv_file_statistics_writerERKNSt6stringE"></span><span id="csv_file_statistics_writer::csv_file_statistics_writer__ssCR"></span><span class="target" id="classcsv__file__statistics__writer_1aa01013265aa3a2a22643c382cf68107a"></span><span class="sig-name descname"><span class="n"><span class="pre">csv_file_statistics_writer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output_file_path</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N26csv_file_statistics_writer26csv_file_statistics_writerERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create (or overwrite) the file and write the header row. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If the file cannot be created. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N26csv_file_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N26csv_file_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N26csv_file_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"></span><span id="csv_file_statistics_writer::write_data__unsignedC.doubleC.std::vector:cell_ptr:CR"></span><span class="target" id="classcsv__file__statistics__writer_1a34550468e76710081f64f50bffab4b20"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iteration</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">simulation_time</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N26csv_file_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append one row per cell to the file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If the file cannot be opened or written. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv424string_statistics_writer">
+<span id="_CPPv324string_statistics_writer"></span><span id="_CPPv224string_statistics_writer"></span><span id="string_statistics_writer"></span><span class="target" id="classstring__statistics__writer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">string_statistics_writer</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv426abstract_statistics_writer" title="abstract_statistics_writer"><span class="n"><span class="pre">abstract_statistics_writer</span></span></a><a class="headerlink" href="#_CPPv424string_statistics_writer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Collects the statistics in memory; used when the simulation runs through the Python module. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N24string_statistics_writer24string_statistics_writerEv">
+<span id="_CPPv3N24string_statistics_writer24string_statistics_writerEv"></span><span id="_CPPv2N24string_statistics_writer24string_statistics_writerEv"></span><span id="string_statistics_writer::string_statistics_writer"></span><span class="target" id="classstring__statistics__writer_1adf0da77a80fb7784780e8120422c5191"></span><span class="sig-name descname"><span class="n"><span class="pre">string_statistics_writer</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N24string_statistics_writer24string_statistics_writerEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Start the string with the header row. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N24string_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N24string_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N24string_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"></span><span id="string_statistics_writer::write_data__unsignedC.doubleC.std::vector:cell_ptr:CR"></span><span class="target" id="classstring__statistics__writer_1a72a48a41257ba6243367f9f789eaef5d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iteration</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">simulation_time</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N24string_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append one row per cell to the string. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK24string_statistics_writer10get_stringEv">
+<span id="_CPPv3NK24string_statistics_writer10get_stringEv"></span><span id="_CPPv2NK24string_statistics_writer10get_stringEv"></span><span id="string_statistics_writer::get_stringC"></span><span class="target" id="classstring__statistics__writer_1aa4eb422c29c81e900bf7910f6726ad5e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_string</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK24string_statistics_writer10get_stringEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the statistics collected so far, in CSV format. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="output-arrays">
+<h2>Output arrays<a class="headerlink" href="#output-arrays" title="Link to this heading">#</a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv416cell_data_mapper">
+<span id="_CPPv316cell_data_mapper"></span><span id="_CPPv216cell_data_mapper"></span><span id="cell_data_mapper"></span><span class="target" id="structcell__data__mapper"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_data_mapper</span></span></span><a class="headerlink" href="#_CPPv416cell_data_mapper" title="Link to this definition">#</a><br /></dt>
+<dd><p>Maps one per-cell quantity to an array of the output meshes or a column of the statistics. </p>
+<p>Instances are listed in mesh_data.hpp. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16cell_data_mapper16cell_data_mapperEv">
+<span id="_CPPv3N16cell_data_mapper16cell_data_mapperEv"></span><span id="_CPPv2N16cell_data_mapper16cell_data_mapperEv"></span><span id="cell_data_mapper::cell_data_mapper"></span><span class="target" id="structcell__data__mapper_1a9d6bf31d944ce653931cbd7facdabd5f"></span><span class="sig-name descname"><span class="n"><span class="pre">cell_data_mapper</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N16cell_data_mapper16cell_data_mapperEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an empty mapper. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16cell_data_mapper16cell_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringE8cell_ptrEEE">
+<span id="_CPPv3N16cell_data_mapper16cell_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringE8cell_ptrEEE"></span><span id="_CPPv2N16cell_data_mapper16cell_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringE8cell_ptrEEE"></span><span class="target" id="structcell__data__mapper_1ae3d52cfcc9cbaea5db16acbda0e533ec"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_data_mapper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_type</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_extractor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16cell_data_mapper16cell_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringE8cell_ptrEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a mapper from its name, VTK type and extractor. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16cell_data_mapper11value_name_E">
+<span id="_CPPv3N16cell_data_mapper11value_name_E"></span><span id="_CPPv2N16cell_data_mapper11value_name_E"></span><span id="cell_data_mapper::value_name___ss"></span><span class="target" id="structcell__data__mapper_1a0b9d3390852e94822549b922873ffe14"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_name_</span></span></span><a class="headerlink" href="#_CPPv4N16cell_data_mapper11value_name_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Name of the array or column, for example <code class="docutils literal notranslate"><span class="pre">cell_volume</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16cell_data_mapper11value_type_E">
+<span id="_CPPv3N16cell_data_mapper11value_type_E"></span><span id="_CPPv2N16cell_data_mapper11value_type_E"></span><span id="cell_data_mapper::value_type___ss"></span><span class="target" id="structcell__data__mapper_1a84882298f59ee723c3ccc7f52731b515"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_type_</span></span></span><a class="headerlink" href="#_CPPv4N16cell_data_mapper11value_type_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>VTK data type of the array, for example <code class="docutils literal notranslate"><span class="pre">float</span></code> or <code class="docutils literal notranslate"><span class="pre">int</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16cell_data_mapper16value_extractor_E">
+<span id="_CPPv3N16cell_data_mapper16value_extractor_E"></span><span id="_CPPv2N16cell_data_mapper16value_extractor_E"></span><span class="target" id="structcell__data__mapper_1a0193b1da7d45bf414d63dd303cde6e82"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_extractor_</span></span></span><a class="headerlink" href="#_CPPv4N16cell_data_mapper16value_extractor_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the formatted value for a cell. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv416face_data_mapper">
+<span id="_CPPv316face_data_mapper"></span><span id="_CPPv216face_data_mapper"></span><span id="face_data_mapper"></span><span class="target" id="structface__data__mapper"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_data_mapper</span></span></span><a class="headerlink" href="#_CPPv416face_data_mapper" title="Link to this definition">#</a><br /></dt>
+<dd><p>Maps one per-face quantity to an array of the face meshes. </p>
+<p>Instances are listed in mesh_data.hpp. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16face_data_mapper16face_data_mapperEv">
+<span id="_CPPv3N16face_data_mapper16face_data_mapperEv"></span><span id="_CPPv2N16face_data_mapper16face_data_mapperEv"></span><span id="face_data_mapper::face_data_mapper"></span><span class="target" id="structface__data__mapper_1a4682f771d84f459eea8f1c078a0397d6"></span><span class="sig-name descname"><span class="n"><span class="pre">face_data_mapper</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N16face_data_mapper16face_data_mapperEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an empty mapper. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16face_data_mapper16face_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4faceEEE">
+<span id="_CPPv3N16face_data_mapper16face_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4faceEEE"></span><span id="_CPPv2N16face_data_mapper16face_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4faceEEE"></span><span class="target" id="structface__data__mapper_1a419523c7c528ac001415286ef650afa6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_data_mapper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_type</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_extractor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16face_data_mapper16face_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4faceEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a mapper from its name, VTK type and extractor. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16face_data_mapper11value_name_E">
+<span id="_CPPv3N16face_data_mapper11value_name_E"></span><span id="_CPPv2N16face_data_mapper11value_name_E"></span><span id="face_data_mapper::value_name___ss"></span><span class="target" id="structface__data__mapper_1a404c10fdeaad5a8b5c48b176ea4750c0"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_name_</span></span></span><a class="headerlink" href="#_CPPv4N16face_data_mapper11value_name_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Name of the array. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16face_data_mapper11value_type_E">
+<span id="_CPPv3N16face_data_mapper11value_type_E"></span><span id="_CPPv2N16face_data_mapper11value_type_E"></span><span id="face_data_mapper::value_type___ss"></span><span class="target" id="structface__data__mapper_1aeeb009fc743926d1229a91286e9fa70b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_type_</span></span></span><a class="headerlink" href="#_CPPv4N16face_data_mapper11value_type_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>VTK data type of the array. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16face_data_mapper16value_extractor_E">
+<span id="_CPPv3N16face_data_mapper16value_extractor_E"></span><span id="_CPPv2N16face_data_mapper16value_extractor_E"></span><span class="target" id="structface__data__mapper_1a61283368caea2e20faf1da0b8772172f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_extractor_</span></span></span><a class="headerlink" href="#_CPPv4N16face_data_mapper16value_extractor_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the formatted value for a face. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv416node_data_mapper">
+<span id="_CPPv316node_data_mapper"></span><span id="_CPPv216node_data_mapper"></span><span id="node_data_mapper"></span><span class="target" id="structnode__data__mapper"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_data_mapper</span></span></span><a class="headerlink" href="#_CPPv416node_data_mapper" title="Link to this definition">#</a><br /></dt>
+<dd><p>Maps one per-node quantity to a point-data array of the face meshes. </p>
+<p>Instances are listed in mesh_data.hpp. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16node_data_mapper16node_data_mapperEv">
+<span id="_CPPv3N16node_data_mapper16node_data_mapperEv"></span><span id="_CPPv2N16node_data_mapper16node_data_mapperEv"></span><span id="node_data_mapper::node_data_mapper"></span><span class="target" id="structnode__data__mapper_1a4a30b5735903c22957ca8229deb2fd4f"></span><span class="sig-name descname"><span class="n"><span class="pre">node_data_mapper</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N16node_data_mapper16node_data_mapperEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an empty mapper. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16node_data_mapper16node_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4nodeEEE">
+<span id="_CPPv3N16node_data_mapper16node_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4nodeEEE"></span><span id="_CPPv2N16node_data_mapper16node_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4nodeEEE"></span><span class="target" id="structnode__data__mapper_1af174f2332e8141563b978f2c12d0bc09"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_data_mapper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_type</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value_extractor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16node_data_mapper16node_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4nodeEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a mapper from its name, VTK type and extractor. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16node_data_mapper11value_name_E">
+<span id="_CPPv3N16node_data_mapper11value_name_E"></span><span id="_CPPv2N16node_data_mapper11value_name_E"></span><span id="node_data_mapper::value_name___ss"></span><span class="target" id="structnode__data__mapper_1a856aa4aa0982feea4badafc15a9ca03b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_name_</span></span></span><a class="headerlink" href="#_CPPv4N16node_data_mapper11value_name_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Name of the array. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16node_data_mapper11value_type_E">
+<span id="_CPPv3N16node_data_mapper11value_type_E"></span><span id="_CPPv2N16node_data_mapper11value_type_E"></span><span id="node_data_mapper::value_type___ss"></span><span class="target" id="structnode__data__mapper_1a6128cb6b686ab2078b93360ba0929284"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_type_</span></span></span><a class="headerlink" href="#_CPPv4N16node_data_mapper11value_type_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>VTK data type of the array. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N16node_data_mapper16value_extractor_E">
+<span id="_CPPv3N16node_data_mapper16value_extractor_E"></span><span id="_CPPv2N16node_data_mapper16value_extractor_E"></span><span class="target" id="structnode__data__mapper_1abfbe9ce33e2b972dfcdf2f3ec37a9b8b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">value_extractor_</span></span></span><a class="headerlink" href="#_CPPv4N16node_data_mapper16value_extractor_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Returns the formatted value for a node. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<p>Lists of data mappers that define the arrays of the output meshes and the columns of the statistics. </p>
+<p>Each mapper names an array (or column), its VTK type and a function that formats the value of one cell, face or node as a string. Adding a mapper to a list adds the array to every output file:<ul class="simple">
+<li><p>cell_data_mapper_lst: cell-data arrays of <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code>;</p></li>
+<li><p>file_data_mapper_lst: columns of <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code> (and of the statistics string returned to Python), after <code class="docutils literal notranslate"><span class="pre">iteration</span></code>, <code class="docutils literal notranslate"><span class="pre">computation_time_(hh::mm:ss)</span></code> and <code class="docutils literal notranslate"><span class="pre">simulation_time</span></code>;</p></li>
+<li><p>face_data_mapper_lst: cell-data arrays of <code class="docutils literal notranslate"><span class="pre">face_data/result_&lt;n&gt;.vtk</span></code> (one VTK cell per face);</p></li>
+<li><p>node_data_mapper_lst: point-data arrays of <code class="docutils literal notranslate"><span class="pre">face_data/result_&lt;n&gt;.vtk</span></code> (only with CONTACT_MODEL_INDEX 2). </p></li>
+</ul>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-variables">Variables</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv420cell_data_mapper_lst">
+<span id="_CPPv320cell_data_mapper_lst"></span><span id="_CPPv220cell_data_mapper_lst"></span><span id="cell_data_mapper_lst__std::vector:cell_data_mapper:"></span><span class="target" id="mesh__data_8hpp_1ada5be42c1b0f6f74ae06355420349698"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv416cell_data_mapper" title="cell_data_mapper"><span class="n"><span class="pre">cell_data_mapper</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_data_mapper_lst</span></span></span><a class="headerlink" href="#_CPPv420cell_data_mapper_lst" title="Link to this definition">#</a><br /></dt>
+<dd><p>Cell-data arrays written to the cell meshes (<code class="docutils literal notranslate"><span class="pre">cell_data/</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv420file_data_mapper_lst">
+<span id="_CPPv320file_data_mapper_lst"></span><span id="_CPPv220file_data_mapper_lst"></span><span id="file_data_mapper_lst__std::vector:cell_data_mapper:"></span><span class="target" id="mesh__data_8hpp_1a45ccf3e6046a07a14a1eeb4c3777786c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv416cell_data_mapper" title="cell_data_mapper"><span class="n"><span class="pre">cell_data_mapper</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">file_data_mapper_lst</span></span></span><a class="headerlink" href="#_CPPv420file_data_mapper_lst" title="Link to this definition">#</a><br /></dt>
+<dd><p>Per-cell columns of the statistics CSV (<code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code>) and of the statistics string. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv420face_data_mapper_lst">
+<span id="_CPPv320face_data_mapper_lst"></span><span id="_CPPv220face_data_mapper_lst"></span><span id="face_data_mapper_lst__std::vector:face_data_mapper:"></span><span class="target" id="mesh__data_8hpp_1af52792d7459c928794bec849909a612f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv416face_data_mapper" title="face_data_mapper"><span class="n"><span class="pre">face_data_mapper</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_data_mapper_lst</span></span></span><a class="headerlink" href="#_CPPv420face_data_mapper_lst" title="Link to this definition">#</a><br /></dt>
+<dd><p>Cell-data arrays written to the face meshes (<code class="docutils literal notranslate"><span class="pre">face_data/</span></code>), one value per face. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv420node_data_mapper_lst">
+<span id="_CPPv320node_data_mapper_lst"></span><span id="_CPPv220node_data_mapper_lst"></span><span id="node_data_mapper_lst__std::vector:node_data_mapper:"></span><span class="target" id="mesh__data_8hpp_1aa61ac8947d53e1e336b09bb5b17064ec"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv416node_data_mapper" title="node_data_mapper"><span class="n"><span class="pre">node_data_mapper</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_data_mapper_lst</span></span></span><a class="headerlink" href="#_CPPv420node_data_mapper_lst" title="Link to this definition">#</a><br /></dt>
+<dd><p>Point-data arrays written to the face meshes (<code class="docutils literal notranslate"><span class="pre">face_data/</span></code>); empty unless CONTACT_MODEL_INDEX is 2. </p>
+</dd></dl>
+
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="solver.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Solver and configuration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mesh.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Cell meshes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-input">Reading input</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv416parameter_reader"><code class="docutils literal notranslate"><span class="pre">parameter_reader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16parameter_reader16parameter_readerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">parameter_reader::parameter_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK16parameter_reader16get_string_valueEPKN8tinyxml210XMLElementEKNSt6stringEKb"><code class="docutils literal notranslate"><span class="pre">parameter_reader::get_string_value()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16parameter_reader14select_sectionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">parameter_reader::select_section()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16parameter_reader25read_numerical_parametersEv"><code class="docutils literal notranslate"><span class="pre">parameter_reader::read_numerical_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16parameter_reader29read_biomechanical_parametersEv"><code class="docutils literal notranslate"><span class="pre">parameter_reader::read_biomechanical_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16parameter_reader25read_face_type_parametersERKNSt6stringEKjPN8tinyxml210XMLElementE"><code class="docutils literal notranslate"><span class="pre">parameter_reader::read_face_type_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16parameter_reader25read_cell_type_parametersEKjPN8tinyxml210XMLElementE"><code class="docutils literal notranslate"><span class="pre">parameter_reader::read_cell_type_parameters()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv411mesh_reader"><code class="docutils literal notranslate"><span class="pre">mesh_reader</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_reader11mesh_readerERKNSt6stringEKb"><code class="docutils literal notranslate"><span class="pre">mesh_reader::mesh_reader()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK11mesh_reader4readEv"><code class="docutils literal notranslate"><span class="pre">mesh_reader::read()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK11mesh_reader12get_node_posEv"><code class="docutils literal notranslate"><span class="pre">mesh_reader::get_node_pos()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK11mesh_reader15read_cell_facesEv"><code class="docutils literal notranslate"><span class="pre">mesh_reader::read_cell_faces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK11mesh_reader14get_cell_typesEv"><code class="docutils literal notranslate"><span class="pre">mesh_reader::get_cell_types()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_reader13get_cell_meshERKNSt6vectorIdEERKNSt6vectorINSt6vectorIjEEEE"><code class="docutils literal notranslate"><span class="pre">mesh_reader::get_cell_mesh()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv422simulation_initializer"><code class="docutils literal notranslate"><span class="pre">simulation_initializer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22simulation_initializer22simulation_initializerERK28global_simulation_parametersRKNSt6vectorI19cell_type_param_ptrEEKb"><code class="docutils literal notranslate"><span class="pre">simulation_initializer::simulation_initializer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22simulation_initializer22simulation_initializerERKNSt6stringEKb"><code class="docutils literal notranslate"><span class="pre">simulation_initializer::simulation_initializer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22simulation_initializer3runERKNSt6vectorI19cell_type_param_ptrEE"><code class="docutils literal notranslate"><span class="pre">simulation_initializer::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK22simulation_initializer12get_cell_lstEv"><code class="docutils literal notranslate"><span class="pre">simulation_initializer::get_cell_lst()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK22simulation_initializer25get_simulation_parametersEv"><code class="docutils literal notranslate"><span class="pre">simulation_initializer::get_simulation_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22simulation_initializer19triangulate_surfaceERK4meshK6size_t19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">simulation_initializer::triangulate_surface()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-output">Writing output</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv411mesh_writer"><code class="docutils literal notranslate"><span class="pre">mesh_writer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer5writeERKNSt6stringERKNSt6stringERNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI4meshEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_cell_data_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer20write_cell_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEEb"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_cell_data_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI4meshEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_cell_data_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer20write_cell_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEEKb"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_cell_data_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer20write_face_data_fileERKNSt6stringERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_face_data_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer20write_face_data_fileERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_face_data_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN11mesh_writer16write_point_dataEvRNSt8ofstreamERKNSt6vectorI2T1EEKNSt8functionIFNSt6vectorIdEERK2T1EEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_point_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI4meshEERKNSt6vectorI6size_tEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_cell_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer15write_cell_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_cell_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer15write_face_dataERNSt8ofstreamERKNSt6vectorI8cell_ptrEERKNSt6vectorI6size_tEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::write_face_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::add_cell_data_arrays_to_mesh()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::add_face_data_arrays_to_mesh()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer28add_node_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::add_node_data_arrays_to_mesh()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer28add_cell_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::add_cell_data_arrays_to_mesh()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11mesh_writer28add_face_data_arrays_to_meshERNSt8ofstreamERKNSt6vectorI4meshEE"><code class="docutils literal notranslate"><span class="pre">mesh_writer::add_face_data_arrays_to_mesh()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv426abstract_statistics_writer"><code class="docutils literal notranslate"><span class="pre">abstract_statistics_writer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N26abstract_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">abstract_statistics_writer::write_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv426csv_file_statistics_writer"><code class="docutils literal notranslate"><span class="pre">csv_file_statistics_writer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N26csv_file_statistics_writer26csv_file_statistics_writerERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">csv_file_statistics_writer::csv_file_statistics_writer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N26csv_file_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">csv_file_statistics_writer::write_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv424string_statistics_writer"><code class="docutils literal notranslate"><span class="pre">string_statistics_writer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N24string_statistics_writer24string_statistics_writerEv"><code class="docutils literal notranslate"><span class="pre">string_statistics_writer::string_statistics_writer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N24string_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">string_statistics_writer::write_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK24string_statistics_writer10get_stringEv"><code class="docutils literal notranslate"><span class="pre">string_statistics_writer::get_string()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-arrays">Output arrays</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv416cell_data_mapper"><code class="docutils literal notranslate"><span class="pre">cell_data_mapper</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16cell_data_mapper16cell_data_mapperEv"><code class="docutils literal notranslate"><span class="pre">cell_data_mapper::cell_data_mapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16cell_data_mapper16cell_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringE8cell_ptrEEE"><code class="docutils literal notranslate"><span class="pre">cell_data_mapper::cell_data_mapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16cell_data_mapper11value_name_E"><code class="docutils literal notranslate"><span class="pre">cell_data_mapper::value_name_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16cell_data_mapper11value_type_E"><code class="docutils literal notranslate"><span class="pre">cell_data_mapper::value_type_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16cell_data_mapper16value_extractor_E"><code class="docutils literal notranslate"><span class="pre">cell_data_mapper::value_extractor_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv416face_data_mapper"><code class="docutils literal notranslate"><span class="pre">face_data_mapper</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16face_data_mapper16face_data_mapperEv"><code class="docutils literal notranslate"><span class="pre">face_data_mapper::face_data_mapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16face_data_mapper16face_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4faceEEE"><code class="docutils literal notranslate"><span class="pre">face_data_mapper::face_data_mapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16face_data_mapper11value_name_E"><code class="docutils literal notranslate"><span class="pre">face_data_mapper::value_name_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16face_data_mapper11value_type_E"><code class="docutils literal notranslate"><span class="pre">face_data_mapper::value_type_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16face_data_mapper16value_extractor_E"><code class="docutils literal notranslate"><span class="pre">face_data_mapper::value_extractor_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv416node_data_mapper"><code class="docutils literal notranslate"><span class="pre">node_data_mapper</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16node_data_mapper16node_data_mapperEv"><code class="docutils literal notranslate"><span class="pre">node_data_mapper::node_data_mapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16node_data_mapper16node_data_mapperEKNSt6stringEKNSt6stringENSt8functionIFNSt6stringERK4nodeEEE"><code class="docutils literal notranslate"><span class="pre">node_data_mapper::node_data_mapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16node_data_mapper11value_name_E"><code class="docutils literal notranslate"><span class="pre">node_data_mapper::value_name_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16node_data_mapper11value_type_E"><code class="docutils literal notranslate"><span class="pre">node_data_mapper::value_type_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16node_data_mapper16value_extractor_E"><code class="docutils literal notranslate"><span class="pre">node_data_mapper::value_extractor_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv420cell_data_mapper_lst"><code class="docutils literal notranslate"><span class="pre">cell_data_mapper_lst</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv420file_data_mapper_lst"><code class="docutils literal notranslate"><span class="pre">file_data_mapper_lst</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv420face_data_mapper_lst"><code class="docutils literal notranslate"><span class="pre">face_data_mapper_lst</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv420node_data_mapper_lst"><code class="docutils literal notranslate"><span class="pre">node_data_mapper_lst</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

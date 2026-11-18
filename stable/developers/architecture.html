@@ -1,0 +1,1035 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Architecture &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developers/architecture';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/developers/architecture.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Testing" href="testing.html" />
+    <link rel="prev" title="Development setup" href="development_setup.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_setup.html">Development setup</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="continuous_integration.html">Continuous integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_internals.html">Performance internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_style.html">Coding style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_process.html">Release process</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Architecture</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="architecture">
+<span id="dev-architecture"></span><h1>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">#</a></h1>
+<p>This page describes how the source tree is organised, how one <a class="reference internal" href="../glossary.html#term-iteration"><span class="xref std std-term">iteration</span></a> of the solver
+moves data between the modules, who owns which data, and where to add a new cell class, contact
+model or output column. It is written for developers who change the C++ code; the model itself
+is described in the <a class="reference internal" href="../user_guide/index.html"><span class="doc">User guide</span></a>.</p>
+<section id="source-layout">
+<h2>Source layout<a class="headerlink" href="#source-layout" title="Link to this heading">#</a></h2>
+<p>The C++ code is split into a header tree, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, and an implementation tree, <code class="docutils literal notranslate"><span class="pre">src/</span></code>, with
+the same module subdirectories. Each module in <code class="docutils literal notranslate"><span class="pre">src/</span></code> is a CMake library target of the same
+name (<code class="docutils literal notranslate"><span class="pre">src/CMakeLists.txt</span></code>). The exceptions: the top-level files form the target <code class="docutils literal notranslate"><span class="pre">src</span></code>, the
+Python module is the target <code class="docutils literal notranslate"><span class="pre">simucell3d_python_wrapper</span></code>, and the executable <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> is
+built from <code class="docutils literal notranslate"><span class="pre">src/app/</span></code>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Module</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>top level</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">solver</span></code> (the main loop); <code class="docutils literal notranslate"><span class="pre">global_configuration.hpp</span></code> (compile-time switches); <code class="docutils literal notranslate"><span class="pre">custom_structures.hpp</span></code> (parameter structures); <code class="docutils literal notranslate"><span class="pre">custom_exception.hpp</span></code>; <code class="docutils literal notranslate"><span class="pre">cpu_topology.hpp</span></code> (thread placement); <code class="docutils literal notranslate"><span class="pre">performance_monitor.hpp</span></code>; <code class="docutils literal notranslate"><span class="pre">utils.hpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mesh/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cell</span></code>, <code class="docutils literal notranslate"><span class="pre">node</span></code>, <code class="docutils literal notranslate"><span class="pre">edge</span></code>, <code class="docutils literal notranslate"><span class="pre">face</span></code>; the five <a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell classes</span></a> in <code class="docutils literal notranslate"><span class="pre">mesh/cell_types/</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">io/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">simulation_initializer</span></code>, <code class="docutils literal notranslate"><span class="pre">parameter_reader</span></code>, <code class="docutils literal notranslate"><span class="pre">mesh_reader</span></code>, <code class="docutils literal notranslate"><span class="pre">mesh_writer</span></code>, <code class="docutils literal notranslate"><span class="pre">statistics_writer</span></code>; <code class="docutils literal notranslate"><span class="pre">mesh_data.hpp</span></code> and <code class="docutils literal notranslate"><span class="pre">mesh_data_mappers.hpp</span></code> (output columns)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contact_models/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">contact_model_abstract</span></code>, the three contact models, the contact detection strategies</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time_integration/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time_integration_scheme</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">triangulation_modules/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner</span></code>, <code class="docutils literal notranslate"><span class="pre">cell_divider</span></code>, <code class="docutils literal notranslate"><span class="pre">initial_triangulation</span></code>, <code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm</span></code>, <code class="docutils literal notranslate"><span class="pre">poisson_sampling</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">automatic_polarization/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">automatic_polarizer</span></code> and its writer (polarization mode 2 only)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">uspg/</span></code></p></td>
+<td><p>uniform spatial partitioning grids: <code class="docutils literal notranslate"><span class="pre">uspg_3d</span></code>, <code class="docutils literal notranslate"><span class="pre">uspg_4d</span></code>, <code class="docutils literal notranslate"><span class="pre">morton_code</span></code> (header-only in practice)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">math_modules/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vec3</span></code>, <code class="docutils literal notranslate"><span class="pre">mat33</span></code>, <code class="docutils literal notranslate"><span class="pre">quaternion</span></code>, <code class="docutils literal notranslate"><span class="pre">eigen_solver</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">python_bindings/</span></code></p></td>
+<td><p>pybind11 module, built only with <code class="docutils literal notranslate"><span class="pre">-DENABLE_PYTHON_BINDINGS=TRUE</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">src/app/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>: command-line parsing, then <code class="docutils literal notranslate"><span class="pre">simulation_initializer</span></code> and <code class="docutils literal notranslate"><span class="pre">solver</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Other top-level directories:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Directory</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lib/</span></code></p></td>
+<td><p>Vendored third-party code: TinyXML-2 (XML parsing), Delaunator (2D Delaunay triangulation, used by the cell divider) and pybind11.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test/</span></code></p></td>
+<td><p>C++ tests, one subdirectory per module, registered with CTest (<a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tests/</span></code></p></td>
+<td><p>Python tests for the scripts in <code class="docutils literal notranslate"><span class="pre">scripts/ci/</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters/</span></code></p></td>
+<td><p>Shipped <a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter files</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">data/input_meshes/</span></code></p></td>
+<td><p>Shipped input meshes (legacy VTK).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scripts/</span></code></p></td>
+<td><p>Python and shell tools: plotting, mesh conversion, parameter screening, benchmarking, run launchers.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">doc/</span></code></p></td>
+<td><p>This documentation (Sphinx).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Project classes live in the global namespace; the exceptions are the free functions in
+<code class="docutils literal notranslate"><span class="pre">cpu_topology</span></code> and the vendored eigen solver in <code class="docutils literal notranslate"><span class="pre">gte</span></code>. Header
+guards are named <code class="docutils literal notranslate"><span class="pre">DEF_&lt;NAME&gt;</span></code> (<a class="reference internal" href="coding_style.html#dev-coding-style"><span class="std std-ref">Coding style</span></a>).</p>
+<p>The top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> sets C++17, reads the version from
+<code class="docutils literal notranslate"><span class="pre">project(SimuCell3D</span> <span class="pre">VERSION</span> <span class="pre">X.Y.Z)</span></code>, writes <code class="docutils literal notranslate"><span class="pre">generated/version.hpp</span></code> into the build directory
+(version and git commit, used by <code class="docutils literal notranslate"><span class="pre">simucell3d</span> <span class="pre">--version</span></code>), and adds <code class="docutils literal notranslate"><span class="pre">lib</span></code>, <code class="docutils literal notranslate"><span class="pre">src</span></code> (as <code class="docutils literal notranslate"><span class="pre">bin</span></code>),
+<code class="docutils literal notranslate"><span class="pre">test</span></code> and <code class="docutils literal notranslate"><span class="pre">src/app</span></code>. Because <code class="docutils literal notranslate"><span class="pre">src</span></code> is added with the binary directory <code class="docutils literal notranslate"><span class="pre">bin</span></code>, the module
+libraries appear under <code class="docutils literal notranslate"><span class="pre">build/bin/</span></code> and the executable under <code class="docutils literal notranslate"><span class="pre">build/src/app/</span></code>; a post-build step
+creates the symbolic link <code class="docutils literal notranslate"><span class="pre">build/simucell3d</span></code>.</p>
+</section>
+<section id="compile-time-configuration">
+<h2>Compile-time configuration<a class="headerlink" href="#compile-time-configuration" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code> holds five switches that select code paths with the
+preprocessor. Changing one requires a rebuild, and each shipped parameter file assumes particular
+values (<a class="reference internal" href="../user_guide/10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Macro</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Selects</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code> (also 0, 1)</p></td>
+<td><p>contact model class constructed by the solver, and the matching branch of <code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> (also 1)</p></td>
+<td><p>full equations of motion (semi-implicit Euler) or overdamped (forward Euler)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> (also 0, 2)</p></td>
+<td><p>no polarization, contact-based face types, or the <code class="docutils literal notranslate"><span class="pre">automatic_polarizer</span></code> with <code class="docutils literal notranslate"><span class="pre">region_data/</span></code> output</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FACE_STORE_CONTACT_ENERGY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><p>per-face adhesion and repulsion energies</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code></p></td>
+<td><p>normals in the VTK output</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Code that depends on these macros must compile for every documented
+combination; <code class="docutils literal notranslate"><span class="pre">#if</span> <span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">==</span> <span class="pre">...</span></code> blocks appear in <code class="docutils literal notranslate"><span class="pre">solver.cpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">time_integration.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">cell.cpp</span></code>.</p>
+</section>
+<section id="program-flow">
+<h2>Program flow<a class="headerlink" href="#program-flow" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">src/app/main.cpp</span></code> does three things:</p>
+<ol class="arabic simple">
+<li><p>Parse the command line: the parameter file (the only non-flag argument) and the flags
+<code class="docutils literal notranslate"><span class="pre">--schedule=</span></code>, <code class="docutils literal notranslate"><span class="pre">--threads=</span></code>, <code class="docutils literal notranslate"><span class="pre">--output-dir=</span></code>, <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv=</span></code> and <code class="docutils literal notranslate"><span class="pre">--version</span></code>
+(<a class="reference internal" href="../user_guide/13_running_simulations.html"><span class="doc">Running simulations</span></a>). The removed flags <code class="docutils literal notranslate"><span class="pre">--schedule=auto</span></code> and
+<code class="docutils literal notranslate"><span class="pre">--enable-per-loop-scheduling</span></code> stop the program with an error; any other argument that
+starts with <code class="docutils literal notranslate"><span class="pre">--</span></code> and matches none of these is ignored.</p></li>
+<li><p>Build a <code class="docutils literal notranslate"><span class="pre">simulation_initializer</span></code> from the parameter file. It reads the XML with
+<code class="docutils literal notranslate"><span class="pre">parameter_reader</span></code>, reads the input mesh with <code class="docutils literal notranslate"><span class="pre">mesh_reader</span></code>, triangulates each cell surface in
+parallel unless <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> is off, and creates one object per cell. The
+class of each object is chosen by the <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> of its cell type
+(<code class="docutils literal notranslate"><span class="pre">src/io/simulation_initializer.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">switch(cell_type-&gt;global_type_id_)</span></code>).</p></li>
+<li><p>Construct a <code class="docutils literal notranslate"><span class="pre">solver</span></code> with the parameters and the cell list, then call <code class="docutils literal notranslate"><span class="pre">solver::run()</span></code>.
+Any exception that reaches <code class="docutils literal notranslate"><span class="pre">main()</span></code> is printed to standard error and the program exits with
+status 1.</p></li>
+</ol>
+<section id="solver-construction">
+<h3>Solver construction<a class="headerlink" href="#solver-construction" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">solver::solver()</span></code> (<code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code>) prepares everything the loop needs:</p>
+<ul class="simple">
+<li><p>Thread count and placement: one thread per physical core unless <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code> is given, and
+<a class="reference internal" href="../glossary.html#term-thread-pinning"><span class="xref std std-term">thread pinning</span></a> unless <code class="docutils literal notranslate"><span class="pre">SIMUCELL3D_PIN_THREADS=0</span></code> or <code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code> is set
+(<a class="reference internal" href="performance_internals.html#dev-performance-internals"><span class="std std-ref">Performance internals</span></a>).</p></li>
+<li><p>OpenMP schedule: the <a class="reference internal" href="../glossary.html#term-scheduling-mode"><span class="xref std std-term">scheduling mode</span></a> given by <code class="docutils literal notranslate"><span class="pre">--schedule</span></code>; for <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>, a base
+schedule and four per-loop schedules.</p></li>
+<li><p>Output folder: <strong>deleted</strong> and recreated with <code class="docutils literal notranslate"><span class="pre">cell_data/</span></code> and <code class="docutils literal notranslate"><span class="pre">face_data/</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">region_data/</span></code> in polarization mode 2).</p></li>
+<li><p>Cell ids: <code class="docutils literal notranslate"><span class="pre">set_id()</span></code> gives each cell a unique id from <code class="docutils literal notranslate"><span class="pre">max_cell_id_</span></code>; <code class="docutils literal notranslate"><span class="pre">set_local_id()</span></code> sets
+the cell’s position in <code class="docutils literal notranslate"><span class="pre">cell_lst_</span></code>.</p></li>
+<li><p>Modules, owned through <code class="docutils literal notranslate"><span class="pre">std::unique_ptr</span></code>: <code class="docutils literal notranslate"><span class="pre">local_mesh_refiner</span></code> (edge lengths between
+<span class="math notranslate nohighlight">\(\ell_{min}\)</span> = <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> and <span class="math notranslate nohighlight">\(3\,\ell_{min}\)</span>), <code class="docutils literal notranslate"><span class="pre">time_integration_scheme</span></code>, the contact
+model selected by <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code>, the statistics writer (CSV file, or string for the
+Python module) and, in polarization mode 2, the <code class="docutils literal notranslate"><span class="pre">automatic_polarizer</span></code>.</p></li>
+<li><p>Initial target volumes: <span class="math notranslate nohighlight">\(V_0 = V\,\exp(p_0/K)\)</span> from the initial pressure <span class="math notranslate nohighlight">\(p_0\)</span> and bulk
+modulus <span class="math notranslate nohighlight">\(K\)</span> of the cell type (<span class="math notranslate nohighlight">\(V_0 = V\)</span> when <span class="math notranslate nohighlight">\(K = 0\)</span>).</p></li>
+</ul>
+</section>
+<section id="main-loop">
+<h3>Main loop<a class="headerlink" href="#main-loop" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">solver::run()</span></code> calls <code class="docutils literal notranslate"><span class="pre">run_iteration()</span></code> while the simulation time is below
+<code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> and at least one cell remains, then writes a final statistics row,
+compacts every cell mesh (<code class="docutils literal notranslate"><span class="pre">cell::rebase()</span></code>) and prints the performance report.</p>
+<p>One call of <code class="docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code> performs these steps, in this order. Where a step is
+timed, the timer name (the phase name in the <a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a>) is given in brackets.</p>
+<ol class="arabic simple">
+<li><p>Apply a schedule change deferred from the previous iteration’s divisions
+(<code class="docutils literal notranslate"><span class="pre">handle_division_event()</span></code>).</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code> and <code class="docutils literal notranslate"><span class="pre">face_data/result_&lt;n&gt;.vtk</span></code> when
+<span class="math notranslate nohighlight">\(n = \lfloor t / \text{sampling period} \rfloor + 1\)</span> changes (<code class="docutils literal notranslate"><span class="pre">save_mesh()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mesh_writer::write()</span></code>).</p></li>
+<li><p>Every 5 iterations, divide the cells that are ready (<code class="docutils literal notranslate"><span class="pre">cell_divider::run()</span></code>, parallel over
+cells).</p></li>
+<li><p>Update face types (<code class="docutils literal notranslate"><span class="pre">cell::update_face_types()</span></code>, parallel over cells).</p></li>
+<li><p>Refine every cell mesh (<code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refine_meshes()</span></code>, parallel over cells)
+[<code class="docutils literal notranslate"><span class="pre">mesh_refinement</span></code>]; remove the cells whose refinement failed, or stop the run if too many
+failed (<code class="docutils literal notranslate"><span class="pre">handle_refinement_failures()</span></code>).</p></li>
+<li><p>Detect contacts and apply contact forces (<code class="docutils literal notranslate"><span class="pre">contact_model_abstract::run()</span></code>, parallel)
+[<code class="docutils literal notranslate"><span class="pre">contact_detection</span></code>].</p></li>
+<li><p>In polarization mode 2 only, polarize faces by space discretisation
+(<code class="docutils literal notranslate"><span class="pre">automatic_polarizer::polarize_faces()</span></code>).</p></li>
+<li><p>Contact-based polarization, then internal forces: pressure, tension, area elasticity, bending
+(<code class="docutils literal notranslate"><span class="pre">cell::special_polarization_update()</span></code>, <code class="docutils literal notranslate"><span class="pre">cell::apply_internal_forces()</span></code>, parallel over cells)
+[<code class="docutils literal notranslate"><span class="pre">polarization_and_internal_forces</span></code>].</p></li>
+<li><p>Integrate node positions and advance the time by <span class="math notranslate nohighlight">\(\Delta t\)</span>
+(<code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code>, parallel over cells)
+[<code class="docutils literal notranslate"><span class="pre">time_integration</span></code>].</p></li>
+<li><p>Every 50 iterations, write a statistics row (<code class="docutils literal notranslate"><span class="pre">statistics_writer::write_data()</span></code>) and update
+the workload estimate and the phase-based schedule (<code class="docutils literal notranslate"><span class="pre">update_workload_heterogeneity()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">adaptive_schedule_update()</span></code>).</p></li>
+<li><p>Every 100 iterations, append a row to the diagnostics CSV and reset the timers
+(<code class="docutils literal notranslate"><span class="pre">export_diagnostics()</span></code>).</p></li>
+<li><p>With contact models 1 and 2, pass an empty parallel region that acts as a barrier.</p></li>
+<li><p>Remove cells below <code class="docutils literal notranslate"><span class="pre">min_vol</span></code> and <a class="reference internal" href="../glossary.html#term-unstable-cell"><span class="xref std std-term">unstable cells</span></a>, then
+resynchronise the local ids (<code class="docutils literal notranslate"><span class="pre">remove_dead_cells()</span></code>).</p></li>
+<li><p>Print the progress line.</p></li>
+</ol>
+<p>Forces accumulate on the nodes during steps 6 and 8 and are consumed in step 9. The order
+matters: contact forces are computed on meshes refined in the same iteration, and cells that
+cannot be refined are removed (step 5) before contact detection sees them. Cells that diverge
+during integration are removed in step 13, so a non-finite or exploded cell never reaches the
+next contact detection, where it would make the spatial grid unbounded. The
+<a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a> themselves are described in <a class="reference internal" href="../user_guide/09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
+<p>Errors are reported in two ways. Problems confined to one cell remove that cell and print one
+line to standard error (<code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell</span> <span class="pre">...</span></code>, <code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">cell</span> <span class="pre">...</span> <span class="pre">mesh</span> <span class="pre">refinement</span> <span class="pre">failed:</span> <span class="pre">...</span></code>). Problems that invalidate the run throw an exception from
+<code class="docutils literal notranslate"><span class="pre">custom_exception.hpp</span></code> (for example <code class="docutils literal notranslate"><span class="pre">unstable_simulation_exception</span></code> when more than
+max(10, 1 % of the cells) refinements fail in one iteration, or when the contact grid cannot be
+built); the exception propagates out of <code class="docutils literal notranslate"><span class="pre">run()</span></code> to <code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p>
+</section>
+<section id="data-flow">
+<h3>Data flow<a class="headerlink" href="#data-flow" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>parameter file ─► parameter_reader ─► global_simulation_parameters, cell_type_parameters
+input mesh     ─► mesh_reader      ─► mesh (per cell) ─► initial_triangulation ─► cell objects
+                                                                                 │
+                    ┌────────────────────────── solver::cell_lst_ ◄──────────────┘
+                    │
+   each iteration:  ├─► cell_divider          adds daughters, removes mothers
+                    ├─► local_mesh_refiner    splits, collapses, swaps edges
+                    ├─► contact model         node forces (and couplings, models 1 and 2)
+                    ├─► cell::apply_internal_forces   node forces
+                    ├─► time_integration_scheme       node positions, momenta, time
+                    └─► remove_dead_cells     removes cells
+   outputs:  mesh_writer ─► cell_data/, face_data/       statistics_writer ─► simulation_statistics.csv
+             export_diagnostics ─► performance_diagnostics.csv (or --diagnostics-csv path)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="data-ownership">
+<h2>Data ownership<a class="headerlink" href="#data-ownership" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Object</p></th>
+<th class="head"><p>Owner</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">solver::cell_lst_</span></code> (<code class="docutils literal notranslate"><span class="pre">std::vector&lt;cell_ptr&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">cell_ptr</span></code> = <code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;cell&gt;</span></code>)</p></td>
+<td><p>The order of <code class="docutils literal notranslate"><span class="pre">cell_lst_</span></code> is significant, see local ids below.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node</span></code>, <code class="docutils literal notranslate"><span class="pre">face</span></code></p></td>
+<td><p>the cell: <code class="docutils literal notranslate"><span class="pre">std::vector&lt;node&gt;</span> <span class="pre">node_lst_</span></code>, <code class="docutils literal notranslate"><span class="pre">std::vector&lt;face&gt;</span> <span class="pre">face_lst_</span></code></p></td>
+<td><p>Faces refer to their three nodes by index in <code class="docutils literal notranslate"><span class="pre">node_lst_</span></code>. Removed nodes and faces are marked unused and their slots are reused (<code class="docutils literal notranslate"><span class="pre">free_node_queue_</span></code>); <code class="docutils literal notranslate"><span class="pre">cell::rebase()</span></code> compacts the vectors. Loops must skip entries with <code class="docutils literal notranslate"><span class="pre">is_used()</span> <span class="pre">==</span> <span class="pre">false</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">edge</span></code></p></td>
+<td><p>the cell: <code class="docutils literal notranslate"><span class="pre">edge_set_</span></code> (<code class="docutils literal notranslate"><span class="pre">std::set&lt;edge&gt;</span></code>)</p></td>
+<td><p>Rebuilt by <code class="docutils literal notranslate"><span class="pre">rebase()</span></code> when slots were freed.</p></td>
+</tr>
+<tr class="row-odd"><td><p>cell type, face type parameters</p></td>
+<td><p>shared: <code class="docutils literal notranslate"><span class="pre">cell_type_param_ptr</span></code> (<code class="docutils literal notranslate"><span class="pre">std::shared_ptr</span></code>)</p></td>
+<td><p>One object per <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block, shared by all cells of that type.</p></td>
+</tr>
+<tr class="row-even"><td><p>simulation parameters</p></td>
+<td><p>copied: <code class="docutils literal notranslate"><span class="pre">global_simulation_parameters</span></code></p></td>
+<td><p>The solver, the contact model and the time integrator each hold a copy.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Identifiers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cell::get_id()</span></code>: unique for the whole run, never reused; daughters get new ids from
+<code class="docutils literal notranslate"><span class="pre">max_cell_id_</span></code>. Use it in output and log lines.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cell::get_local_id()</span></code>: the cell’s index in <code class="docutils literal notranslate"><span class="pre">cell_lst_</span></code>. Contact models 1 and 2 store
+couplings as (local cell id, local node id) pairs and index <code class="docutils literal notranslate"><span class="pre">cell_lst_</span></code> with them, and the time
+integrator of model 2 uses the local ids to decide which cell of a coupled group moves the
+group. <strong>Any code that inserts into or erases from <code class="docutils literal notranslate"><span class="pre">cell_lst_</span></code> must reassign local ids
+afterwards</strong>, as <code class="docutils literal notranslate"><span class="pre">cell_divider::run()</span></code>, <code class="docutils literal notranslate"><span class="pre">remove_dead_cells()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">handle_refinement_failures()</span></code> do.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">face::global_face_id_</span></code>: index of the face in the contact model’s flat face list; reassigned at
+the start of every contact detection.</p></li>
+</ul>
+<p>Concurrency: parallel loops run over cells. Writes into a node of another cell happen only in
+the contact models; model 2 adds such forces with an atomic add and updates the coupling maps
+under the per-node <code class="docutils literal notranslate"><span class="pre">std::mutex</span></code> (<code class="docutils literal notranslate"><span class="pre">node.hpp</span></code>). Contact models 0 and 1 do not make these
+cross-cell writes atomic (see the known issues in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>).</p>
+</section>
+<section id="extension-points">
+<h2>Extension points<a class="headerlink" href="#extension-points" title="Link to this heading">#</a></h2>
+<section id="a-new-cell-class">
+<h3>A new cell class<a class="headerlink" href="#a-new-cell-class" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Derive from <code class="docutils literal notranslate"><span class="pre">cell</span></code> in <code class="docutils literal notranslate"><span class="pre">include/mesh/cell_types/</span></code> and <code class="docutils literal notranslate"><span class="pre">src/mesh/</span></code> (see <code class="docutils literal notranslate"><span class="pre">lumen_cell.hpp</span></code> for a
+minimal class). Override the virtual members that differ:
+<code class="docutils literal notranslate"><span class="pre">apply_internal_forces()</span></code>, <code class="docutils literal notranslate"><span class="pre">update_face_types()</span></code>, <code class="docutils literal notranslate"><span class="pre">special_polarization_update()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">is_ready_to_divide()</span></code>, <code class="docutils literal notranslate"><span class="pre">get_cell_division_axis()</span></code>, <code class="docutils literal notranslate"><span class="pre">face_is_in_contact()</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">get_cell_same_type()</span></code>, which the divider uses to create daughters of the same class.</p></li>
+<li><p>Give it a new <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> value in the <code class="docutils literal notranslate"><span class="pre">switch</span></code> of
+<code class="docutils literal notranslate"><span class="pre">simulation_initializer::triangulate_surface()</span></code> (<code class="docutils literal notranslate"><span class="pre">src/io/simulation_initializer.cpp</span></code>).</p></li>
+<li><p>Document the value in the parameter-file reference and add tests in
+<code class="docutils literal notranslate"><span class="pre">test/test_mesh/test_cell_types/</span></code>.</p></li>
+</ol>
+</section>
+<section id="a-new-contact-model">
+<h3>A new contact model<a class="headerlink" href="#a-new-contact-model" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Derive from <code class="docutils literal notranslate"><span class="pre">contact_model_abstract</span></code> and implement <code class="docutils literal notranslate"><span class="pre">run(const</span> <span class="pre">std::vector&lt;cell_ptr&gt;&amp;)</span></code>. It
+is called outside any parallel region and may throw <code class="docutils literal notranslate"><span class="pre">unstable_simulation_exception</span></code>.</p></li>
+<li><p>Construct it in the <code class="docutils literal notranslate"><span class="pre">#if</span> <span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">==</span> <span class="pre">...</span></code> chain of the solver constructor and add
+the matching branch to <code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code>.</p></li>
+<li><p>Document the new index in <code class="docutils literal notranslate"><span class="pre">global_configuration.hpp</span></code> and the user guide.</p></li>
+</ol>
+</section>
+<section id="a-new-output-column">
+<h3>A new output column<a class="headerlink" href="#a-new-output-column" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Per-cell arrays in the VTK output: add a <code class="docutils literal notranslate"><span class="pre">cell_data_mapper</span></code> to <code class="docutils literal notranslate"><span class="pre">cell_data_mapper_lst</span></code> in
+<code class="docutils literal notranslate"><span class="pre">include/io/mesh_data.hpp</span></code> (faces: <code class="docutils literal notranslate"><span class="pre">face_data_mapper</span></code>, nodes: <code class="docutils literal notranslate"><span class="pre">node_data_mapper</span></code>).</p></li>
+<li><p>Per-cell columns in <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code>: add a <code class="docutils literal notranslate"><span class="pre">cell_data_mapper</span></code> to
+<code class="docutils literal notranslate"><span class="pre">file_data_mapper_lst</span></code> in the same file. The writer emits the header from the mapper names.</p></li>
+<li><p>Columns of the diagnostics CSV are written by <code class="docutils literal notranslate"><span class="pre">solver::export_diagnostics()</span></code>; downstream
+scripts (<code class="docutils literal notranslate"><span class="pre">scripts/preprocess_benchmark_metrics.py</span></code>) read them by name.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="performance_internals.html#dev-performance-internals"><span class="std std-ref">Performance internals</span></a> for the scheduling and pinning code in the solver.</p></li>
+<li><p><a class="reference internal" href="../api/index.html"><span class="doc">API reference</span></a> for the class reference.</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="development_setup.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Development setup</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="testing.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Testing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-layout">Source layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-time-configuration">Compile-time configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#program-flow">Program flow</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solver-construction">Solver construction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-loop">Main loop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-flow">Data flow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-ownership">Data ownership</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extension-points">Extension points</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-cell-class">A new cell class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-contact-model">A new contact model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-output-column">A new output column</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model overview &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/01_model_overview';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/01_model_overview.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cell mechanics" href="02_cell_mechanics.html" />
+    <link rel="prev" title="User guide" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Model overview</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="model-overview">
+<span id="ug-model-overview"></span><h1>Model overview<a class="headerlink" href="#model-overview" title="Link to this heading">#</a></h1>
+<p>SimuCell3D is a <a class="reference internal" href="../glossary.html#term-deformable-cell-model-DCM"><span class="xref std std-term">deformable cell model (DCM)</span></a> in three dimensions. Every cell of a
+tissue is a closed, triangulated surface that deforms under its own mechanical energy and
+under contact with other cells. This chapter describes what a simulated tissue consists of,
+what the solver does in one <a class="reference internal" href="../glossary.html#term-iteration"><span class="xref std std-term">iteration</span></a>, which choices are made at compile time and
+which in the <a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter file</span></a>, and how the 2.1 code relates to the model published by
+Runser, Vetter &amp; Iber (2024). The following chapters treat each part in detail.</p>
+<section id="a-tissue-as-a-set-of-closed-surfaces">
+<h2>A tissue as a set of closed surfaces<a class="headerlink" href="#a-tissue-as-a-set-of-closed-surfaces" title="Link to this heading">#</a></h2>
+<p>A <a class="reference internal" href="../glossary.html#term-cell"><span class="xref std std-term">cell</span></a> is represented only by its surface: a closed, orientable triangle mesh made of
+<a class="reference internal" href="../glossary.html#term-node"><span class="xref std std-term">nodes</span></a>, edges and <a class="reference internal" href="../glossary.html#term-face"><span class="xref std std-term">faces</span></a>. The faces are wound so that their normals
+point out of the cell. The interior is not discretised; the cell volume <span class="math notranslate nohighlight">\(V\)</span> and area <span class="math notranslate nohighlight">\(A\)</span> are
+computed from the surface (chapter <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>). The forces of the model act on
+the nodes, and the nodes carry the degrees of freedom: a position <span class="math notranslate nohighlight">\(\mathbf r_i\)</span> and, with the
+full equations of motion, a momentum <span class="math notranslate nohighlight">\(\mathbf p_i\)</span>.</p>
+<p>Three levels of description give each part of a cell its parameters:</p>
+<dl class="simple myst">
+<dt><a class="reference internal" href="../glossary.html#term-cell-type"><span class="xref std std-term">Cell type</span></a></dt><dd><p>An entry <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> of the parameter file. It holds the volume and area parameters
+(bulk modulus, target isoperimetric ratio, growth and division parameters, …) and a list
+of face types. Each cell of the <a class="reference internal" href="../glossary.html#term-input-mesh"><span class="xref std std-term">input mesh</span></a> names its cell type by position in the
+file (chapter <a class="reference internal" href="08_cell_classes.html"><span class="doc">Cell classes</span></a>).</p>
+</dd>
+<dt><a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">Cell class</span></a></dt><dd><p>The C++ class that implements a cell type, selected by <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>: 0 epithelial,
+1 extracellular matrix (ECM), 2 lumen, 3 nucleus, 4 static. The class decides whether a cell
+moves, divides, couples to neighbours and has its faces polarized.</p>
+</dd>
+<dt><a class="reference internal" href="../glossary.html#term-face-type"><span class="xref std std-term">Face type</span></a></dt><dd><p>An entry <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> inside a cell type. It holds the surface parameters: surface tension,
+bending modulus, adherence strength and repulsion strength. Every face of a cell carries one
+face type of its cell type. For epithelial cells the face types stand for apical, lateral and
+basal membrane, and the solver can relabel faces as contacts change
+(chapter <a class="reference internal" href="07_polarization.html"><span class="doc">Polarization</span></a>).</p>
+</dd>
+</dl>
+<p>Lumens, nuclei and the ECM are represented the same way as cells: by closed triangulated
+surfaces with their own cell type. They differ from epithelial cells only in the behaviour of
+their class.</p>
+</section>
+<section id="forces-and-motion">
+<h2>Forces and motion<a class="headerlink" href="#forces-and-motion" title="Link to this heading">#</a></h2>
+<p>The mechanical state of a cell is described by the potential energy of Runser, Vetter &amp; Iber
+(2024), Eq. (1): a pressure term that keeps the volume near a <a class="reference internal" href="../glossary.html#term-target-volume"><span class="xref std std-term">target volume</span></a>, an area
+elasticity term, surface tension, and bending. Its negative gradient gives the internal nodal
+forces, except that the implemented bending force is not an exact gradient
+(chapter <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>). Contact forces between cells come from one of three
+<a class="reference internal" href="../glossary.html#term-contact-model"><span class="xref std std-term">contact models</span></a>: springs between nodes and faces, or a mechanical
+coupling of nodes on adjacent cells (chapter <a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>). The nodes then move according
+to either the full equations of motion with viscous damping or their overdamped limit
+(chapter <a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a>).</p>
+<p>Between force evaluations the <a class="reference internal" href="../glossary.html#term-local-mesh-refiner"><span class="xref std std-term">local mesh refiner</span></a> keeps every edge length within
+<span class="math notranslate nohighlight">\([l_{\min}, 3\,l_{\min}]\)</span> (chapter <a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>). Cells grow by increasing their
+target volume, divide when their volume reaches a division volume, and are removed when their
+volume falls below a minimum (chapter <a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>).</p>
+</section>
+<section id="one-iteration-of-the-solver">
+<h2>One iteration of the solver<a class="headerlink" href="#one-iteration-of-the-solver" title="Link to this heading">#</a></h2>
+<p>The solver advances the tissue by one <a class="reference internal" href="../glossary.html#term-time-step"><span class="xref std std-term">time step</span></a> <span class="math notranslate nohighlight">\(\Delta t\)</span> per iteration. In 2.1 one
+iteration performs these steps, in this order:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> 1. write the cell and face meshes if a new sampling period has started
+ 2. every 5 iterations: divide the cells that are ready to divide
+ 3. reset the face types of epithelial cells (all faces apical)
+ 4. refine the mesh of every cell (split, collapse, swap); remove cells whose refinement fails
+ 5. detect contacts and compute contact forces (or node couplings)
+ 6. polarization mode 2 only: label faces from a voxel map of the tissue
+ 7. polarization mode 1 with contact models 1 and 2: relabel faces from their couplings;
+    compute the internal forces of every cell (pressure, tension, area elasticity, bending)
+ 8. integrate the equations of motion; advance the simulation time by the time step
+ 9. every 50 iterations: append to the statistics CSV
+    every 100 iterations: append to the diagnostics CSV
+10. remove cells below their minimum volume and numerically unstable cells
+</pre></div>
+</div>
+<p>Most steps run in parallel over cells with OpenMP. The time integration with contact model 2
+and the voxel map of polarization mode 2 are serial. The run stops when the simulation time reaches
+<code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> or when no cell is left.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Step 4 removes a cell whose mesh refinement throws an error instead of ending the run, and
+step 10 also removes numerically unstable cells. Both are <a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a>; see
+<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
+</div>
+</section>
+<section id="compile-time-and-run-time-choices">
+<h2>Compile-time and run-time choices<a class="headerlink" href="#compile-time-and-run-time-choices" title="Link to this heading">#</a></h2>
+<p>Some model choices are fixed when SimuCell3D is compiled; the others are read from the
+parameter file at start-up.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Choice</p></th>
+<th class="head"><p>Where</p></th>
+<th class="head"><p>Values</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Contact model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code> in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code></p></td>
+<td><p>0 node-face springs, 1 node-node coupling, 2 face-face coupling (default)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dynamic model</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span></code></p></td>
+<td><p>0 full equations of motion, semi-implicit Euler (default); 1 overdamped, forward Euler</p></td>
+</tr>
+<tr class="row-even"><td><p>Polarization mode</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code></p></td>
+<td><p>0 none, 1 from contacts (default), 2 from a voxel map</p></td>
+</tr>
+<tr class="row-odd"><td><p>Material parameters, time step, mesh resolution, contact cutoffs</p></td>
+<td><p>parameter file</p></td>
+<td><p>see <a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Contact detection algorithm (contact model 2 only)</p></td>
+<td><p>parameter file, <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">uspg</span></code> (default), <code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code>, <code class="docutils literal notranslate"><span class="pre">adaptive</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Every shipped parameter file states in its header comment which compile-time configuration it
+was written for. Chapter <a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a> explains how to change the
+configuration and rebuild.</p>
+</section>
+<section id="units">
+<h2>Units<a class="headerlink" href="#units" title="Link to this heading">#</a></h2>
+<p>All quantities are in SI units: lengths in m, times in s, pressures in Pa, surface tensions in
+N/m, energies in J. The parameter files store plain numbers; the unit of each tag is given in
+<a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a>. Simulation time is the physical time of the equations of motion; it
+is not rescaled.</p>
+</section>
+<section id="relationship-to-the-published-model">
+<h2>Relationship to the published model<a class="headerlink" href="#relationship-to-the-published-model" title="Link to this heading">#</a></h2>
+<p>The model and its numerical methods are described in the Methods section of Runser, Vetter &amp;
+Iber (2024) and in its Supplementary Information. SimuCell3D 2.1 implements that model with the
+differences listed in the notes of the following chapters. The main ones are:</p>
+<ul class="simple">
+<li><p>The default contact model in the code, face-face coupling (contact model 2), is not one of
+the two models described in the paper’s Methods; it extends the node-node coupling of the
+paper so that a node can be coupled to one node on each neighbouring cell. It is the default
+of the tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> and of 2.x, but not of the Zenodo archive cited by the paper, whose default
+is contact model 1 (<a class="reference internal" href="../whats_new/v1.0.html"><span class="doc">Release 1.0</span></a>).</p></li>
+<li><p>The target area is computed from the current volume, not from the target volume
+(chapter <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>).</p></li>
+<li><p>The bending force has a prefactor of 3 where the paper’s Methods give 2. The code’s 3
+matches Eq. (1); the Methods’ discrete bending energy, and the <code class="docutils literal notranslate"><span class="pre">bending_energy</span></code> written to the
+output, are about 2/3 of it. The implemented bending force is also not an exact gradient of
+the bending energy, a defect inherited from 1.0 (chapter <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>).</p></li>
+<li><p>The division plane is always normal to the longest cell axis; there is no random orientation
+(chapter <a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>).</p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Results differ from 1.0. A simulation run with SimuCell3D 2.1 does not reproduce the numbers
+produced by 1.0, the code published with the paper. Several 1.0 bugs changed the physics (the
+contact distance to a face interior, the time step of every node with contact model 2, the
+choice of coupling partner, the face orientation after an edge split), and fixing them changes
+trajectories. 2.1 also adds safeguards that remove or repair cells that 1.0 kept or crashed on.
+To compare with the published figures, run release 1.0. The full list is in <a class="reference internal" href="../whats_new/v2.1.html"><span class="doc">Release 2.1</span></a>.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../getting_started.html"><span class="doc">Getting started</span></a> for a first run.</p></li>
+<li><p><a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a> for every tag of the parameter file.</p></li>
+<li><p><a class="reference internal" href="../glossary.html"><span class="doc">Glossary</span></a> for the terms used in this guide.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">User guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_cell_mechanics.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Cell mechanics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-tissue-as-a-set-of-closed-surfaces">A tissue as a set of closed surfaces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forces-and-motion">Forces and motion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-iteration-of-the-solver">One iteration of the solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-time-and-run-time-choices">Compile-time and run-time choices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#units">Units</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relationship-to-the-published-model">Relationship to the published model</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1013 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parameter screening &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/17_parameter_screening';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/17_parameter_screening.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parallel performance" href="18_parallel_performance.html" />
+    <link rel="prev" title="Python interface" href="16_python_interface.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Parameter screening</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="parameter-screening">
+<span id="ug-screening"></span><h1>Parameter screening<a class="headerlink" href="#parameter-screening" title="Link to this heading">#</a></h1>
+<p>A parameter screen runs many simulations that differ in a few parameters, to find the range in
+which a tissue behaves as intended or to map how an outcome depends on the parameters.
+SimuCell3D ships two sets of scripts for this, written for a cluster with the Slurm batch
+scheduler:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scripts/parameter_screening/</span></code>: generate one <a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter file</span></a> per row of a table,
+build SimuCell3D, submit the runs as a Slurm job array, and collect the results.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/</span></code>: compute summary metrics from the collected results and draw
+dashboards.</p></li>
+</ul>
+<p>The scripts date from release 1.0 and are unchanged in 2.1. They encode the conventions of the
+cluster they were written for (resources, e-mail domain); the sections below say what to adapt.
+For a few simulations on one machine, a loop over parameter files, or the Python module
+(<a class="reference internal" href="16_python_interface.html"><span class="doc">Python interface</span></a>), is simpler.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>parameter table (CSV) ──► launch_screening.py ──► Slurm job array ──► collect_screening_data.py
+  one row per run          XML files, build,       one simucell3d       summary folder:
+                           sbatch                  run per row          last meshes, statistics
+                                                                              │
+                                    screening_analysis/  ◄────────────────────┘
+                                    metrics (Slurm jobs) ──► dashboards (local)
+</pre></div>
+</div>
+<p>Install the Python packages that the scripts need (pandas and NumPy for the screening scripts;
+<code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/requirements.txt</span></code> for the analysis):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>numpy
+<span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>scripts/screening_analysis/requirements.txt
+</pre></div>
+</div>
+</section>
+<section id="the-parameter-table">
+<h2>The parameter table<a class="headerlink" href="#the-parameter-table" title="Link to this heading">#</a></h2>
+<p>The table is a CSV file with one row per simulation and one column per parameter. Each row is
+turned into a parameter file by <code class="docutils literal notranslate"><span class="pre">scripts/parameter_screening/parameter_file_model.py</span></code>, a
+template with a placeholder for every parameter. The template fixes the structure of the
+parameter file: five cell types in the order epithelial (<code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> 0), ECM (1), lumen
+(2), nucleus (3) and static (4), the epithelial type with the face types apical, lateral and
+basal, and one face type for each of the others. A different structure requires editing the
+template.</p>
+<p>The table needs a column for every placeholder. Their names are the XML tags of
+<a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a>, prefixed for the cell-type and face-type parameters:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Prefix</p></th>
+<th class="head"><p>Applies to</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>none</p></td>
+<td><p>numerical parameters</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time_step</span></code>, <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>, <code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">epi_</span></code></p></td>
+<td><p>epithelial cell type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">epi_bulk_modulus</span></code>, <code class="docutils literal notranslate"><span class="pre">epi_avg_growth_rate</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">epi_api_</span></code>, <code class="docutils literal notranslate"><span class="pre">epi_lat_</span></code>, <code class="docutils literal notranslate"><span class="pre">epi_bas_</span></code></p></td>
+<td><p>apical, lateral and basal face types</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">epi_api_surface_tension</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ecm_</span></code>, <code class="docutils literal notranslate"><span class="pre">lum_</span></code>, <code class="docutils literal notranslate"><span class="pre">nuc_</span></code>, <code class="docutils literal notranslate"><span class="pre">sta_</span></code></p></td>
+<td><p>ECM, lumen, nucleus and static cell types and their face type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ecm_repulsion_strength</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Tags that start with <code class="docutils literal notranslate"><span class="pre">cell_</span></code> lose that part: the columns for <code class="docutils literal notranslate"><span class="pre">cell_mass_density</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cell_bulk_modulus</span></code> are <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;mass_density</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;bulk_modulus</span></code>. A missing column stops the script with a
+<code class="docutils literal notranslate"><span class="pre">KeyError</span></code> naming the column. Extra columns are ignored by the launch script.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/parameter_screening/parameter_table.csv</span></code> is a complete example with five rows, and the
+simplest starting point: copy one of its rows and vary the parameters of interest. The
+following script, run from the repository root, builds a 3 x 3 grid over the apical and
+lateral surface tensions of the epithelial cells:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"scripts/parameter_screening/parameter_table.csv"</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">apical</span><span class="p">,</span> <span class="n">lateral</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="mf">5e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">2e-3</span><span class="p">],</span> <span class="p">[</span><span class="mf">2e-4</span><span class="p">,</span> <span class="mf">4e-4</span><span class="p">,</span> <span class="mf">8e-4</span><span class="p">]):</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">row</span><span class="p">[</span><span class="s2">"epi_api_surface_tension"</span><span class="p">]</span> <span class="o">=</span> <span class="n">apical</span>
+    <span class="n">row</span><span class="p">[</span><span class="s2">"epi_lat_surface_tension"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lateral</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">table</span><span class="p">[</span><span class="s2">"sim_id"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"my_screen.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notes on the columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code> is set by the launch script; its value in the table is ignored.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code> follows the usual rules (<a class="reference internal" href="11_parameter_file.html#paths"><span class="std std-ref">Paths</span></a>): a path
+such as <code class="docutils literal notranslate"><span class="pre">data/input_meshes/2_cubes.vtk</span></code> is found relative to the source directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sim_id</span></code> is not used by the launch script, which numbers the runs by row (1 for the first
+row). The analysis dashboards read <code class="docutils literal notranslate"><span class="pre">sim_id</span></code>, so keep it equal to the row number, as above.</p></li>
+<li><p>The template does not set <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code>, so all runs use the default.</p></li>
+</ul>
+</section>
+<section id="launching-a-screen">
+<h2>Launching a screen<a class="headerlink" href="#launching-a-screen" title="Link to this heading">#</a></h2>
+<p>Run <code class="docutils literal notranslate"><span class="pre">launch_screening.py</span></code> from its own directory, because it locates the repository as two
+levels above the working directory. Give absolute paths:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>scripts/parameter_screening
+<span class="gp">$ </span>python3<span class="w"> </span>launch_screening.py<span class="w"> </span>/abs/path/my_screen.csv<span class="w"> </span>my_screen<span class="w"> </span>/abs/path/to/scratch
+</pre></div>
+</div>
+<p>The three arguments are the parameter table, the name of the screen (no spaces, commas,
+semicolons, quotes or slashes) and the folder in which the screen folder is created. The
+script then:</p>
+<ol class="arabic simple">
+<li><p>Creates <code class="docutils literal notranslate"><span class="pre">&lt;output</span> <span class="pre">folder&gt;/&lt;screen</span> <span class="pre">name&gt;/</span></code> with the sub-folders <code class="docutils literal notranslate"><span class="pre">parameters/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">simulation_outputs/</span></code> and <code class="docutils literal notranslate"><span class="pre">std_out_err/</span></code>, and copies the table into it.</p></li>
+<li><p>Writes <code class="docutils literal notranslate"><span class="pre">parameters/parameters_&lt;i&gt;.xml</span></code> for row <span class="math notranslate nohighlight">\(i\)</span> (from 1), with
+<code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code> set to <code class="docutils literal notranslate"><span class="pre">simulation_outputs/simulation_&lt;i&gt;</span></code>.</p></li>
+<li><p>Creates the build folder <code class="docutils literal notranslate"><span class="pre">build_&lt;screen</span> <span class="pre">name&gt;</span></code> in the repository root (it must not exist
+yet) and builds SimuCell3D there in Release mode, with the compile-time configuration that
+<code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code> has at that moment. Set that file first
+(<a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p></li>
+<li><p>Submits a Slurm job array with one task per row. Task <span class="math notranslate nohighlight">\(i\)</span> runs
+<code class="docutils literal notranslate"><span class="pre">./simucell3d</span> <span class="pre">parameters_&lt;i&gt;.xml</span></code> in the build folder, writes its standard output and
+error to <code class="docutils literal notranslate"><span class="pre">std_out_err/stdout_&lt;i&gt;.txt</span></code>, and appends to that file the line
+<code class="docutils literal notranslate"><span class="pre">simucell3d</span> <span class="pre">exit</span> <span class="pre">status:</span> <span class="pre">&lt;code&gt;</span></code> when the simulation ends.</p></li>
+</ol>
+<p>The submission command in the script requests, per task, one Slurm task with 4 CPUs, 48 hours
+and 2048 MB per CPU, and an e-mail at the end of each task:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sbatch -n 1 --cpus-per-task=4 --time=48:00:00 --job-name="&lt;screen&gt;" --array=1-&lt;rows&gt;
+       --mem-per-cpu=2048 --mail-type=END --mail-user=&lt;login&gt;@bsse.ethz.ch
+       --wrap="export OMP_NUM_THREADS=4; ./simucell3d &lt;parameters&gt;_$SLURM_ARRAY_TASK_ID.xml &amp;&gt; &lt;stdout&gt;_$SLURM_ARRAY_TASK_ID.txt;
+               echo simucell3d exit status: $? &gt;&gt; &lt;stdout&gt;_$SLURM_ARRAY_TASK_ID.txt"
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Edit the <code class="docutils literal notranslate"><span class="pre">command_str</span></code> in <code class="docutils literal notranslate"><span class="pre">launch_screening.py</span></code> before using it on another cluster:</p>
+<ul class="simple">
+<li><p>the e-mail address is built from the login name and the <code class="docutils literal notranslate"><span class="pre">bsse.ethz.ch</span></code> domain;</p></li>
+<li><p>time and memory limits depend on the tissue size and duration;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">OMP_NUM_THREADS=4</span></code> has no effect in 2.1. SimuCell3D starts one thread per physical
+core of the CPUs that Slurm assigns to the task, which may be 2 rather than 4 if the 4 CPUs
+are hyperthreads of 2 cores. To fix the number, add <code class="docutils literal notranslate"><span class="pre">--threads=4</span></code> to the <code class="docutils literal notranslate"><span class="pre">./simucell3d</span></code>
+command (<a class="reference internal" href="13_running_simulations.html"><span class="doc">Running simulations</span></a>).</p></li>
+</ul>
+<p>For another batch system, replace the <code class="docutils literal notranslate"><span class="pre">sbatch</span></code> command with the equivalent job-array
+submission; the rest of the script is independent of the scheduler.</p>
+</div>
+<p>The script reads the login name with <code class="docutils literal notranslate"><span class="pre">os.getlogin()</span></code>, which fails when it is run without a
+terminal (for example from a cron job); run it from an interactive shell.</p>
+<p>Monitor the jobs with <code class="docutils literal notranslate"><span class="pre">squeue</span> <span class="pre">-u</span> <span class="pre">$USER</span></code> and the files in <code class="docutils literal notranslate"><span class="pre">std_out_err/</span></code>.</p>
+</section>
+<section id="collecting-the-results">
+<h2>Collecting the results<a class="headerlink" href="#collecting-the-results" title="Link to this heading">#</a></h2>
+<p>When the jobs have finished, collect the last state of every run into one folder:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>scripts/parameter_screening
+<span class="gp">$ </span>python3<span class="w"> </span>collect_screening_data.py<span class="w"> </span>/abs/path/to/scratch/my_screen
+</pre></div>
+</div>
+<p>The argument is the screen folder. The screen folder must contain exactly one <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file,
+the copy of the table made by the launch script. The script creates <code class="docutils literal notranslate"><span class="pre">summary_folder/</span></code> in the
+screen folder, containing:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Path</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_data/simulation_&lt;i&gt;.vtk</span></code></p></td>
+<td><p>The last <code class="docutils literal notranslate"><span class="pre">cell_data</span></code> mesh of run <span class="math notranslate nohighlight">\(i\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">face_data/simulation_&lt;i&gt;.vtk</span></code></p></td>
+<td><p>The last <code class="docutils literal notranslate"><span class="pre">face_data</span></code> mesh of run <span class="math notranslate nohighlight">\(i\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">simulation_statistics/simulation_&lt;i&gt;.csv</span></code></p></td>
+<td><p>The statistics CSV of run <span class="math notranslate nohighlight">\(i\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters/</span></code>, <code class="docutils literal notranslate"><span class="pre">std_out_err/</span></code></p></td>
+<td><p>Copies of the screen’s folders.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;table&gt;.csv</span></code></p></td>
+<td><p>The parameter table with two added columns.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The added columns are <code class="docutils literal notranslate"><span class="pre">file_count</span></code>, the number of <code class="docutils literal notranslate"><span class="pre">face_data</span></code> files that run <span class="math notranslate nohighlight">\(i\)</span> wrote (a
+measure of how far it got), and <code class="docutils literal notranslate"><span class="pre">has_crashed</span></code>. A run counts as crashed if its output folder or
+its <code class="docutils literal notranslate"><span class="pre">std_out_err/stdout_&lt;i&gt;.txt</span></code> is missing, or if the last non-empty line of that file is not
+<code class="docutils literal notranslate"><span class="pre">simucell3d</span> <span class="pre">exit</span> <span class="pre">status:</span> <span class="pre">0</span></code>. A task that Slurm kills (for example at the time limit) never
+writes that line and therefore counts as crashed; its <code class="docutils literal notranslate"><span class="pre">file_count</span></code> shows how far it got.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">has_crashed</span></code> is false for a run in which the safeguards removed most of the cells. In 2.1 the
+unstable-cell removal has no limit, and a run whose tissue diverges can exit with status 0 after
+losing almost all of its cells (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>). For each run, also count the
+<code class="docutils literal notranslate"><span class="pre">Removing</span></code> lines in <code class="docutils literal notranslate"><span class="pre">std_out_err/stdout_&lt;i&gt;.txt</span></code>, which holds both output streams, and compare
+them with the cell count before treating a parameter point as a valid result.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">collect_screening_data.py</span></code> overwrites the table in the screen folder with the extended table,
+which gains an extra index column, and stops if <code class="docutils literal notranslate"><span class="pre">summary_folder/</span></code> already exists. Delete or
+rename that folder before running the script again.</p>
+</div>
+</section>
+<section id="analysing-a-screen">
+<h2>Analysing a screen<a class="headerlink" href="#analysing-a-screen" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/</span></code> computes, for every run, metrics comparing the final with the
+initial geometry, and plots them against the screened parameters:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">delta_sphericity</span></code></p></td>
+<td><p>Change in cell sphericity between the initial and the final geometry.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">volume_loss</span></code></p></td>
+<td><p>Relative change of cell volume between the initial and the final geometry, in percent.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">num_iterations</span></code></p></td>
+<td><p>Number of output files the run wrote (<code class="docutils literal notranslate"><span class="pre">file_count</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">IoU</span></code></p></td>
+<td><p>Mean over the cells of 1 minus the intersection over union of the initial and final cell, averaged over the last 10 available outputs.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">IoU_derivative</span></code></p></td>
+<td><p>Mean derivative of the last 10 values of <code class="docutils literal notranslate"><span class="pre">IoU</span></code>, an indicator of convergence.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">interpenetration</span></code></p></td>
+<td><p>Whether cells of the final geometry interpenetrate.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The analysis has two steps.</p>
+<ol class="arabic simple">
+<li><p><strong>Metrics, on the cluster.</strong> <code class="docutils literal notranslate"><span class="pre">run_data_collection.py</span></code> submits four Slurm jobs
+(<code class="docutils literal notranslate"><span class="pre">utils/compute_statistics.py</span></code>, <code class="docutils literal notranslate"><span class="pre">utils/compute_IoU_euler.py</span></code>,
+<code class="docutils literal notranslate"><span class="pre">utils/compute_interpenetration_euler.py</span></code>, <code class="docutils literal notranslate"><span class="pre">utils/compute_num_iterations.py</span></code>), which write
+their results to <code class="docutils literal notranslate"><span class="pre">&lt;screen</span> <span class="pre">folder&gt;/dashboard_files/</span></code>. It has no command-line arguments: set
+<code class="docutils literal notranslate"><span class="pre">root_dir</span></code> (the screen folder) and <code class="docutils literal notranslate"><span class="pre">screening_csv_file_name</span></code> (the name of the table) in its
+<code class="docutils literal notranslate"><span class="pre">__main__</span></code> section, and run it from <code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/</span></code>. It reads the table from
+<code class="docutils literal notranslate"><span class="pre">&lt;screen</span> <span class="pre">folder&gt;/summary_folder/&lt;table&gt;.csv</span></code>, written by <code class="docutils literal notranslate"><span class="pre">collect_screening_data.py</span></code>.</p></li>
+<li><p><strong>Dashboard, locally.</strong> Copy the screen folder (at least <code class="docutils literal notranslate"><span class="pre">summary_folder/</span></code> and
+<code class="docutils literal notranslate"><span class="pre">dashboard_files/</span></code>) to a workstation and run <code class="docutils literal notranslate"><span class="pre">screening_dashboard.py</span></code>. Set in its
+<code class="docutils literal notranslate"><span class="pre">__main__</span></code> section the metrics (<code class="docutils literal notranslate"><span class="pre">indicators</span></code>, which must include <code class="docutils literal notranslate"><span class="pre">interpenetration</span></code>), the
+screened parameters (<code class="docutils literal notranslate"><span class="pre">parameters</span></code>, names from <code class="docutils literal notranslate"><span class="pre">misc/param2table.json</span></code>, the first one on the
+x-axis), their axis scales (<code class="docutils literal notranslate"><span class="pre">linear</span></code>, <code class="docutils literal notranslate"><span class="pre">log</span></code> or <code class="docutils literal notranslate"><span class="pre">discrete</span></code>), <code class="docutils literal notranslate"><span class="pre">root_dir</span></code> and
+<code class="docutils literal notranslate"><span class="pre">screening_csv_file_name</span></code>. The plots are written to <code class="docutils literal notranslate"><span class="pre">&lt;screen</span> <span class="pre">folder&gt;/dashboard_plots/</span></code>.</p></li>
+</ol>
+<p>The dashboard depends on the number of screened parameters: one plot per metric against the
+parameter for one parameter, a coloured scatter plot over both parameters for two, and a swarm
+plot for more. Failed runs, runs with interpenetrating cells and outliers are marked.</p>
+<figure class="align-default" id="id1">
+<img alt="Dashboard with one panel per metric, each plotted against a single screened parameter." src="../_images/screening_dashboard_type_1.jpg" />
+<figcaption>
+<p><span class="caption-text">Dashboard for one screened parameter.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="Dashboard with one scatter panel per metric over two screened parameters, the metric" src="../_images/screening_dashboard_type_2.jpg" />
+<figcaption>
+<p><span class="caption-text">value shown by the dot colour.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+<div class="legend">
+<p>Dashboard for two screened parameters.</p>
+</div>
+</figcaption>
+</figure>
+<figure class="align-default" id="id3">
+<img alt="Dashboard with swarm plots of each metric over three or more screened parameters." src="../_images/screening_dashboard_type_3.jpg" />
+<figcaption>
+<p><span class="caption-text">Dashboard for more than two screened parameters.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><code class="docutils literal notranslate"><span class="pre">misc/param2table.json</span></code> maps the parameter names used by the dashboard (for example
+<code class="docutils literal notranslate"><span class="pre">surface_tension</span></code>) to table columns (<code class="docutils literal notranslate"><span class="pre">epi_api_surface_tension</span></code>); extend it to screen other
+columns, and <code class="docutils literal notranslate"><span class="pre">misc/param2unitofmeas.json</span></code> with their units.</p>
+<section id="surface-tension-and-adhesion-screens">
+<h3>Surface tension and adhesion screens<a class="headerlink" href="#surface-tension-and-adhesion-screens" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">mech_props_analysis.py</span></code> is a reduced dashboard for screens over <code class="docutils literal notranslate"><span class="pre">surface_tension</span></code> and
+<code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code>. It computes the IoU loss between the initial and the final geometry of
+every run and plots it over the two parameters:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>scripts/screening_analysis
+<span class="gp">$ </span>python3<span class="w"> </span>mech_props_analysis.py<span class="w"> </span>&lt;screen<span class="w"> </span>folder&gt;/simulation_outputs<span class="w"> </span>&lt;screen<span class="w"> </span>folder&gt;/my_screen.csv<span class="w"> </span>&lt;output<span class="w"> </span>folder&gt;
+</pre></div>
+</div>
+<p>It writes <code class="docutils literal notranslate"><span class="pre">mech_props_plot.png</span></code> to the output folder.</p>
+<figure class="align-default" id="id4">
+<img alt="Plot of the IoU loss over surface tension and adherence strength values." src="../_images/mech_props_plot.png" />
+<figcaption>
+<p><span class="caption-text">Output of <code class="docutils literal notranslate"><span class="pre">mech_props_analysis.py</span></code>.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="additional-scripts">
+<h3>Additional scripts<a class="headerlink" href="#additional-scripts" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/additional/</span></code> contains helpers for inspecting individual runs:
+<code class="docutils literal notranslate"><span class="pre">check_vtk_empty.py</span></code> lists empty output files, <code class="docutils literal notranslate"><span class="pre">check_sphericity.py</span></code> and <code class="docutils literal notranslate"><span class="pre">check_volume.py</span></code> plot
+the evolution of sphericity and volume over the output files, and <code class="docutils literal notranslate"><span class="pre">copy_from_euler.py</span></code> copies
+selected output files from the cluster.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a>: all parameters and their units.</p></li>
+<li><p><a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>: the files collected from each run.</p></li>
+<li><p><a class="reference internal" href="16_python_interface.html"><span class="doc">Python interface</span></a>: running simulations from Python.</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="16_python_interface.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Python interface</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="18_parallel_performance.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Parallel performance</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-parameter-table">The parameter table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-a-screen">Launching a screen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collecting-the-results">Collecting the results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-a-screen">Analysing a screen</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surface-tension-and-adhesion-screens">Surface tension and adhesion screens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-scripts">Additional scripts</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

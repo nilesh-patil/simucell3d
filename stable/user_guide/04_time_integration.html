@@ -1,0 +1,930 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Time integration &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/04_time_integration';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/04_time_integration.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mesh refinement" href="05_mesh_refinement.html" />
+    <link rel="prev" title="Contact between cells" href="03_contact.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Time integration</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="time-integration">
+<span id="ug-time-integration"></span><h1>Time integration<a class="headerlink" href="#time-integration" title="Link to this heading">#</a></h1>
+<p>The nodes of the cell meshes move under the sum of the internal and contact forces. SimuCell3D
+solves either the full equations of motion with viscous damping or their overdamped limit,
+selected at compile time with <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span></code>. This chapter states both models and their
+integration schemes, explains how coupled nodes are advanced, and gives guidance on the time
+step and the output intervals.</p>
+<section id="equations-of-motion">
+<h2>Equations of motion<a class="headerlink" href="#equations-of-motion" title="Link to this heading">#</a></h2>
+<p>Following Runser, Vetter &amp; Iber (2024), Methods, each node <span class="math notranslate nohighlight">\(i\)</span> of a cell obeys</p>
+<div class="math notranslate nohighlight" id="equation-eq-motion">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-motion" title="Link to this equation">#</a></span>\[
+m\,\ddot{\mathbf r}_i + \zeta\,\dot{\mathbf r}_i = \mathbf f_i ,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf f_i\)</span> is the total force on the node (<a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>,
+<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>), <span class="math notranslate nohighlight">\(\zeta\)</span> the damping coefficient (<code class="docutils literal notranslate"><span class="pre">damping_coefficient</span></code>) and <span class="math notranslate nohighlight">\(m\)</span> the node
+mass. The mass of a cell, <span class="math notranslate nohighlight">\(\rho V\)</span>, is shared equally by its nodes:</p>
+<div class="math notranslate nohighlight" id="equation-eq-node-mass">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-node-mass" title="Link to this equation">#</a></span>\[
+m = \frac{\rho\, V}{N_n},
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(\rho\)</span> the mass density of the cell type (<code class="docutils literal notranslate"><span class="pre">cell_mass_density</span></code>), <span class="math notranslate nohighlight">\(V\)</span> the current volume
+and <span class="math notranslate nohighlight">\(N_n\)</span> the current number of nodes. The damping is a drag against a fixed background; there
+is no friction between cells.</p>
+</section>
+<section id="dynamic-model-index-0-default">
+<h2>Dynamic model (index 0, default)<a class="headerlink" href="#dynamic-model-index-0-default" title="Link to this heading">#</a></h2>
+<p>The full equations are integrated for the positions <span class="math notranslate nohighlight">\(\mathbf r_i\)</span> and momenta
+<span class="math notranslate nohighlight">\(\mathbf p_i = m \dot{\mathbf r}_i\)</span> with the semi-implicit Euler scheme of the paper:</p>
+<div class="math notranslate nohighlight" id="equation-eq-semi-implicit-euler">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-semi-implicit-euler" title="Link to this equation">#</a></span>\[
+\mathbf p_i \leftarrow \mathbf p_i + \Delta t\left(\mathbf f_i - \frac{\zeta}{m}\,\mathbf p_i\right),
+\qquad
+\mathbf r_i \leftarrow \mathbf r_i + \Delta t\, \frac{\mathbf p_i}{m} .
+\]</div>
+<p>The momentum is updated first and the new momentum moves the node. The scheme is first order
+and resolves elastic oscillations, so it suits phenomena on short time scales. The dynamic
+model is the one used for the figures of the paper, but with the default contact model 2 the
+1.0 code did not implement this scheme: it moved every node with its old momentum, a forward
+Euler step (see the note at the end of <a class="reference internal" href="#coupled-nodes">Coupled nodes</a>).</p>
+<p>When the mesh refiner splits an edge, the two end nodes each give one third of their momentum
+to the new node; when it collapses an edge, the new node receives the sum of the two momenta
+(<a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>).</p>
+</section>
+<section id="overdamped-model-index-1">
+<h2>Overdamped model (index 1)<a class="headerlink" href="#overdamped-model-index-1" title="Link to this heading">#</a></h2>
+<p>Neglecting inertia (<span class="math notranslate nohighlight">\(m\ddot{\mathbf r}_i = 0\)</span>) gives a first-order equation, integrated with
+the forward Euler scheme:</p>
+<div class="math notranslate nohighlight" id="equation-eq-forward-euler">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-forward-euler" title="Link to this equation">#</a></span>\[
+\mathbf r_i \leftarrow \mathbf r_i + \frac{\Delta t}{\zeta}\, \mathbf f_i .
+\]</div>
+<p>This model suits systems that relax viscously towards a quasi-static equilibrium. The mass
+density has no effect on the motion. The damping coefficient must be strictly positive; the
+parameter reader accepts 0, which then divides by zero.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The source comments of the time integrator mention a third scheme (index 2, improved Euler).
+It is not implemented: with contact model 2 the build fails, and with contact models 0 and 1
+the nodes do not move. Use index 0 or 1.</p>
+</div>
+</section>
+<section id="coupled-nodes">
+<h2>Coupled nodes<a class="headerlink" href="#coupled-nodes" title="Link to this heading">#</a></h2>
+<p>With contact models 1 and 2, nodes of adjacent epithelial cells can be coupled
+(<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>). A coupled group (a node and its partners) is first moved to its mean
+position during contact detection and is then advanced as one node: the forces, momenta and
+masses of the group are averaged, and every node of the group receives the same update. In the
+dynamic model this reads</p>
+<div class="math notranslate nohighlight">
+\[
+\bar{\mathbf p} \leftarrow \bar{\mathbf p} + \Delta t\left(\bar{\mathbf f} -
+  \frac{\zeta}{\bar m}\,\bar{\mathbf p}\right),
+\qquad
+\mathbf r \leftarrow \mathbf r + \Delta t\, \frac{\bar{\mathbf p}}{\bar m}
+\quad \text{for every node of the group,}
+\]</div>
+<p>where the bars denote averages over the group; in the overdamped model the group moves by
+<span class="math notranslate nohighlight">\(\Delta t\, \bar{\mathbf f} / \zeta\)</span>. With contact model 2 this update runs serially; with
+models 0 and 1 the integration runs in parallel over cells.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.0: </span>With the dynamic model and contact model 2 (the default build), 1.0 moved <em>every</em> node with its
+old momentum, coupled or not: the integrator branch of contact model 2 also handled nodes
+without a partner, and moved all nodes before using the updated momentum. That is an explicit
+(forward) Euler step, not the semi-implicit scheme of the paper’s Methods. 2.0 and 2.1 update
+the momentum first and move every node, and every coupled group, with the new momentum, as in
+<a class="reference internal" href="#equation-eq-semi-implicit-euler">(3)</a>. Contact models 0 and 1 were already semi-implicit in 1.0.</p>
+<p>For a mode of stiffness <span class="math notranslate nohighlight">\(k\)</span>, one forward Euler step damps it as if the damping coefficient were
+<span class="math notranslate nohighlight">\(\zeta - k\,\Delta t\)</span> instead of <span class="math notranslate nohighlight">\(\zeta\)</span>. Modes stiffer than <span class="math notranslate nohighlight">\(\zeta/\Delta t\)</span> were therefore
+anti-damped in 1.0: with <span class="math notranslate nohighlight">\(\Delta t = 10^{-7}\)</span> s and <span class="math notranslate nohighlight">\(\zeta = 2.5	imes10^{-10}\)</span> kg/s, that is
+<span class="math notranslate nohighlight">\(k &gt; 2.5	imes10^{-3}\)</span> N/m. The relaxation of every cell surface, not only of cell-cell
+contacts, changes compared with 1.0, so 2.1 does not reproduce the dynamics of results
+computed with 1.0 in this configuration, which is the default build.</p>
+</div>
+<p>Cells of a <a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell class</span></a> that does not move (ECM and static cells) are skipped by the
+integrator; their nodes keep their positions for the whole run.</p>
+</section>
+<section id="choosing-the-time-step">
+<h2>Choosing the time step<a class="headerlink" href="#choosing-the-time-step" title="Link to this heading">#</a></h2>
+<p>The time step <span class="math notranslate nohighlight">\(\Delta t\)</span> (<code class="docutils literal notranslate"><span class="pre">time_step</span></code>) is fixed for the whole run; there is no adaptive step
+control. Both schemes are explicit in the forces and are stable only for small enough steps.
+For a single node with an effective stiffness <span class="math notranslate nohighlight">\(k\)</span> (for example <span class="math notranslate nohighlight">\(\xi A_f\)</span> for a contact spring),
+standard linear stability estimates are</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta t &lt; 2\sqrt{\frac{m}{k}} \ \text{ and } \ \Delta t &lt; \frac{2m}{\zeta}
+\quad \text{(dynamic)}, \qquad
+\Delta t &lt; \frac{2\zeta}{k} \quad \text{(overdamped)} .
+\]</div>
+<p>The node mass falls with the mesh resolution (smaller <span class="math notranslate nohighlight">\(l_{\min}\)</span> means more nodes per cell), so
+a finer mesh needs a smaller time step. In practice, check a configuration by halving the time
+step and comparing the results.</p>
+<p>All shipped parameter files use <span class="math notranslate nohighlight">\(\Delta t = 10^{-7}\)</span> s, the value of the paper’s Table 2, except
+<code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code> (<span class="math notranslate nohighlight">\(5\times10^{-7}\)</span> s, a short smoke test). The
+damping coefficients are <span class="math notranslate nohighlight">\(2.5\times10^{-10}\)</span> to <span class="math notranslate nohighlight">\(2\times10^{-9}\)</span> kg/s with the dynamic model and
+<span class="math notranslate nohighlight">\(3\times10^{-9}\)</span> kg/s in <code class="docutils literal notranslate"><span class="pre">parameters_default_overdamped.xml</span></code>; Table 2 gives
+<span class="math notranslate nohighlight">\(2.5\times10^{-10}\)</span> kg/s (dynamic) and <span class="math notranslate nohighlight">\(3\times10^{-9}\)</span> kg/s (overdamped).</p>
+<p>A diverging simulation shows up as cells that stretch to many times their size or nodes with
+non-finite coordinates. 2.1 removes such cells and logs them (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>); frequent
+removals are a sign that the time step is too large or a parameter is out of range. The
+CHANGELOG also lists rare single-node blow-ups of unknown cause as a known issue.</p>
+</section>
+<section id="time-step-sampling-period-and-other-intervals">
+<h2>Time step, sampling period and other intervals<a class="headerlink" href="#time-step-sampling-period-and-other-intervals" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Interval</p></th>
+<th class="head"><p>Set by</p></th>
+<th class="head"><p>What happens</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>every iteration</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time_step</span></code></p></td>
+<td><p>refinement, contact, forces, integration, removal of dead cells</p></td>
+</tr>
+<tr class="row-odd"><td><p>every 5 iterations</p></td>
+<td><p>fixed</p></td>
+<td><p>division of the cells that are ready to divide</p></td>
+</tr>
+<tr class="row-even"><td><p>every 50 iterations</p></td>
+<td><p>fixed</p></td>
+<td><p>one row per cell appended to the statistics CSV</p></td>
+</tr>
+<tr class="row-odd"><td><p>every 100 iterations</p></td>
+<td><p>fixed</p></td>
+<td><p>one row appended to the diagnostics CSV</p></td>
+</tr>
+<tr class="row-even"><td><p>every <code class="docutils literal notranslate"><span class="pre">sampling_period</span></code></p></td>
+<td><p>parameter file</p></td>
+<td><p>cell and face meshes written (<code class="docutils literal notranslate"><span class="pre">result_&lt;n&gt;.vtk</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The number of iterations is <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> / <code class="docutils literal notranslate"><span class="pre">time_step</span></code>. The sampling period must be at
+least the time step; the mesh file number is <span class="math notranslate nohighlight">\(n = \lfloor t / T_s \rfloor + 1\)</span>, where <span class="math notranslate nohighlight">\(T_s\)</span> is the
+sampling period, so the first file is <code class="docutils literal notranslate"><span class="pre">result_1.vtk</span></code>. For example,
+<code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle.xml</span></code> runs <span class="math notranslate nohighlight">\(10^{-2}/10^{-7} = 10^5\)</span> iterations and writes
+meshes every <span class="math notranslate nohighlight">\(10^{-6}\)</span> s, about <span class="math notranslate nohighlight">\(10^4\)</span> files of each kind. See <a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a> for the
+files.</p>
+</section>
+<section id="reproducibility">
+<h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Link to this heading">#</a></h2>
+<p>Runs with more than one thread are not bit-reproducible: two runs with the same input can give
+slightly different results, because the order in which threads add forces and select coupling
+partners varies. In addition, several random generators are seeded from the system clock, so
+runs that use them differ even on one thread:</p>
+<ul class="simple">
+<li><p>the growth rate and division volume of each cell, when their standard deviation is not zero
+(<a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>);</p></li>
+<li><p>the point sampling that triangulates the division interface, whenever a cell divides,
+whatever the standard deviations;</p></li>
+<li><p>the surface sampling of the initial triangulation (<code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code>).</p></li>
+</ul>
+<p>A run on one thread is repeatable only when none of these is used, which excludes any run in
+which cells divide. Compare runs statistically, not iteration by iteration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">kinetic_energy</span></code> value written to the output is <span class="math notranslate nohighlight">\(\sum p_i^2/(2m)\)</span> with the dynamic model.
+With the overdamped model it is computed from <span class="math notranslate nohighlight">\(\mathbf f_i\)</span> and <span class="math notranslate nohighlight">\(\zeta\)</span> and is not a kinetic
+energy in the physical sense.</p>
+</div>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Section</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time_step</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\Delta t\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p>s</p></td>
+<td><p>Time step; <span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p>s</p></td>
+<td><p>Simulated time; <span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sampling_period</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(T_s\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p>s</p></td>
+<td><p>Interval between mesh files; <span class="math notranslate nohighlight">\(\ge \Delta t\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">damping_coefficient</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\zeta\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p>kg/s</p></td>
+<td><p>Viscous damping</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_mass_density</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\rho\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>kg/m³</p></td>
+<td><p>Sets the node mass <a class="reference internal" href="#equation-eq-node-mass">(2)</a> (dynamic model only)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a> to switch between the dynamic and overdamped models.</p></li>
+<li><p><a class="reference internal" href="../examples/single_cell_dynamic_overdamped.html"><span class="doc">Growing cell: full and overdamped dynamics</span></a> for one cell under both models.</p></li>
+<li><p><a class="reference internal" href="../api/time_integration.html"><span class="doc">Time integration</span></a> for the <code class="docutils literal notranslate"><span class="pre">time_integration_scheme</span></code> class.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_contact.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Contact between cells</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_mesh_refinement.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mesh refinement</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equations-of-motion">Equations of motion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-model-index-0-default">Dynamic model (index 0, default)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overdamped-model-index-1">Overdamped model (index 1)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coupled-nodes">Coupled nodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-time-step">Choosing the time step</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-step-sampling-period-and-other-intervals">Time step, sampling period and other intervals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+/* Site-specific adjustments to the PyData Sphinx theme. Keep this file small. */
+
+/* Wrap long cells (XML tags, paths) instead of forcing a horizontal scroll. */
+.bd-article table.table td,
+.bd-article table.table th {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* The theme sets white-space: nowrap on inline code; let long names wrap in tables. */
+.bd-article table.table td code,
+.bd-article table.table th code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Keep wide parameter tables readable. */
+.bd-article table.table {
+  width: 100%;
+}
+
+/* Text logo in the navbar. */
+.navbar-brand .logo__title {
+  font-weight: 600;
+}
+
+/* Landing-page cards: equal height. */
+.sd-card {
+  height: 100%;
+}

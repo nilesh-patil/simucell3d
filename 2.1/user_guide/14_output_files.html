@@ -1,0 +1,1166 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Output files &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/14_output_files';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/14_output_files.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualization" href="15_visualization.html" />
+    <link rel="prev" title="Running simulations" href="13_running_simulations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Output files</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="output-files">
+<span id="ug-output-files"></span><h1>Output files<a class="headerlink" href="#output-files" title="Link to this heading">#</a></h1>
+<p>A run writes the shapes of all cells at regular intervals as VTK meshes, per-cell statistics
+as a CSV file, and computational diagnostics as a second CSV file. This chapter describes each
+file, when it is written and what its columns and arrays contain. Viewing and plotting the
+files is covered in <a class="reference internal" href="15_visualization.html"><span class="doc">Visualization</span></a>.</p>
+<section id="output-folder">
+<h2>Output folder<a class="headerlink" href="#output-folder" title="Link to this heading">#</a></h2>
+<p>All files go to the output folder: <code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code> from the <a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter file</span></a>,
+or the folder given with <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code> (<a class="reference internal" href="13_running_simulations.html"><span class="doc">Running simulations</span></a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The output folder is deleted with all its contents when a run starts.</p>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;output folder&gt;/
+├── simulation_statistics.csv     per-cell statistics, every 50 iterations
+├── performance_diagnostics.csv   diagnostics, every 100 iterations (unless --diagnostics-csv)
+├── cell_data/
+│   ├── result_1.vtk              one polyhedron per cell, with cell arrays
+│   ├── result_2.vtk
+│   └── ...
+├── face_data/
+│   ├── result_1.vtk              one triangle per face, with face and node arrays
+│   ├── result_2.vtk
+│   └── ...
+└── region_data/                  only with POLARIZATION_MODE_INDEX 2
+    └── result_&lt;n&gt;.vtk
+</pre></div>
+</div>
+</section>
+<section id="mesh-files">
+<h2>Mesh files<a class="headerlink" href="#mesh-files" title="Link to this heading">#</a></h2>
+<section id="when-mesh-files-are-written">
+<h3>When mesh files are written<a class="headerlink" href="#when-mesh-files-are-written" title="Link to this heading">#</a></h3>
+<p>At the start of every iteration, before the mesh refiner runs, the solver computes</p>
+<div class="math notranslate nohighlight">
+\[
+n = \left\lfloor \frac{t}{T_s} \right\rfloor + 1,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(t\)</span> is the simulation time and <span class="math notranslate nohighlight">\(T_s\)</span> the <code class="docutils literal notranslate"><span class="pre">sampling_period</span></code>. When <span class="math notranslate nohighlight">\(n\)</span> differs from the
+number of the last file written, it writes <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code> and
+<code class="docutils literal notranslate"><span class="pre">face_data/result_&lt;n&gt;.vtk</span></code>. So <code class="docutils literal notranslate"><span class="pre">result_1.vtk</span></code> is the initial state (<span class="math notranslate nohighlight">\(t = 0\)</span>), and file <span class="math notranslate nohighlight">\(n\)</span>
+is the first state at or after <span class="math notranslate nohighlight">\(t = (n-1)\,T_s\)</span>. A run writes about
+<code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">sampling_period</span></code> files of each kind; no file is written at the very end
+of the run.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">time_step</span></code> <span class="math notranslate nohighlight">\(10^{-7}\)</span> s and <code class="docutils literal notranslate"><span class="pre">sampling_period</span></code> <span class="math notranslate nohighlight">\(10^{-6}\)</span> s, a mesh pair is written every
+10 iterations. The shipped <code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code> has <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> <span class="math notranslate nohighlight">\(10^{-2}\)</span> s and
+therefore writes about <span class="math notranslate nohighlight">\(10^4\)</span> pairs.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The files are ASCII and large. For the 434-cell vesicle mesh (<code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code>), the first
+<code class="docutils literal notranslate"><span class="pre">cell_data</span></code> file is about 29 MB and the first <code class="docutils literal notranslate"><span class="pre">face_data</span></code> file about 78 MB. Check
+<code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">sampling_period</span></code> against the free disk space before a long run, and
+increase <code class="docutils literal notranslate"><span class="pre">sampling_period</span></code> if necessary.</p>
+</div>
+<p>All mesh files are legacy VTK 4.2 ASCII unstructured grids with node coordinates in metres.
+Both kinds contain the same nodes; they differ in how the faces are grouped and in the data
+arrays attached.</p>
+</section>
+<section id="cell-meshes-cell-data">
+<h3>Cell meshes (<code class="docutils literal notranslate"><span class="pre">cell_data/</span></code>)<a class="headerlink" href="#cell-meshes-cell-data" title="Link to this heading">#</a></h3>
+<p>Each cell is one polyhedron (VTK cell type 42) made of its triangles, so ParaView treats a
+whole cell as one object and colours it by cell values. The format is the input-mesh format
+(<a class="reference internal" href="12_input_meshes.html"><span class="doc">Input meshes</span></a>), so these files can be used as input meshes.</p>
+<figure class="align-default" id="id1">
+<img alt="Tissue rendered in ParaView with each cell coloured uniformly by a cell value." src="../_images/cell_mesh.png" />
+<figcaption>
+<p><span class="caption-text">A cell mesh coloured by a cell array.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Cell arrays (defined in <code class="docutils literal notranslate"><span class="pre">cell_data_mapper_lst</span></code>, <code class="docutils literal notranslate"><span class="pre">include/io/mesh_data.hpp</span></code>):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Array</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_id</span></code></p></td>
+<td><p>int</p></td>
+<td><p></p></td>
+<td><p>Identifier of the cell. Unique within a run: daughters of a division receive new identifiers, and identifiers of removed cells are not reused.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code></p></td>
+<td><p>int</p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> of the cell’s type, that is its <a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell class</span></a> (0 epithelial, 1 ECM, 2 lumen, 3 nucleus, 4 static).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_area</span></code></p></td>
+<td><p>float</p></td>
+<td><p>m²</p></td>
+<td><p>Surface area <span class="math notranslate nohighlight">\(A\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_volume</span></code></p></td>
+<td><p>float</p></td>
+<td><p>m³</p></td>
+<td><p>Volume <span class="math notranslate nohighlight">\(V\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_pressure</span></code></p></td>
+<td><p>float</p></td>
+<td><p>Pa</p></td>
+<td><p>Pressure <span class="math notranslate nohighlight">\(p\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_growth_rate</span></code></p></td>
+<td><p>float</p></td>
+<td><p>m³/s</p></td>
+<td><p>Growth rate drawn for this cell.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_division_vol</span></code></p></td>
+<td><p>float</p></td>
+<td><p>m³</p></td>
+<td><p>Volume at which the cell divides; <code class="docutils literal notranslate"><span class="pre">-1.0</span></code> if it never divides (<code class="docutils literal notranslate"><span class="pre">inf</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_is_static</span></code></p></td>
+<td><p>int</p></td>
+<td><p></p></td>
+<td><p>1 for static cells, 0 otherwise.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="face-meshes-face-data">
+<h3>Face meshes (<code class="docutils literal notranslate"><span class="pre">face_data/</span></code>)<a class="headerlink" href="#face-meshes-face-data" title="Link to this heading">#</a></h3>
+<p>Each triangle is a separate VTK cell (written as VTK cell type 7, a polygon with three nodes),
+so ParaView colours each face by its own value. Use these files to look at face types,
+polarization and contacts.</p>
+<figure class="align-default" id="id2">
+<img alt="Tissue rendered in ParaView with individual triangles coloured by a face value." src="../_images/face_mesh.png" />
+<figcaption>
+<p><span class="caption-text">A face mesh coloured by a face array.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Face arrays (defined in <code class="docutils literal notranslate"><span class="pre">face_data_mapper_lst</span></code>):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Array</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">face_area</span></code></p></td>
+<td><p>float</p></td>
+<td><p>m²</p></td>
+<td><p>Area of the triangle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">face_cell_id</span></code></p></td>
+<td><p>float</p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cell_id</span></code> of the cell that owns the face.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">face_type_id</span></code></p></td>
+<td><p>int</p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">global_face_id</span></code> of the face’s type (apical, lateral, …).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">face_surface_tension</span></code></p></td>
+<td><p>float</p></td>
+<td><p>N/m</p></td>
+<td><p>Surface tension of the face’s type.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">face_adhesion_energy</span></code>, <code class="docutils literal notranslate"><span class="pre">face_repulsion_energy</span></code></p></td>
+<td><p>float</p></td>
+<td><p>J</p></td>
+<td><p>Contact energies of the face. Only if <code class="docutils literal notranslate"><span class="pre">FACE_STORE_CONTACT_ENERGY</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code> (default <code class="docutils literal notranslate"><span class="pre">false</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">face_normals</span></code></p></td>
+<td><p>vector</p></td>
+<td><p></p></td>
+<td><p>Outward unit normal of the face. Only if <code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code> (the default).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Node arrays (defined in <code class="docutils literal notranslate"><span class="pre">node_data_mapper_lst</span></code>), written only with contact model 2
+(<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, the default):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Array</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">node_is_coupled</span></code></p></td>
+<td><p>int</p></td>
+<td><p></p></td>
+<td><p>1 if the node is coupled to a node of another cell.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mean_curvature</span></code></p></td>
+<td><p>double</p></td>
+<td><p>1/m</p></td>
+<td><p>Mean curvature at the node, as compared with <code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nb_coupled_node</span></code></p></td>
+<td><p>int</p></td>
+<td><p></p></td>
+<td><p>Number of nodes of other cells coupled to this node.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The compile-time switches <code class="docutils literal notranslate"><span class="pre">FACE_STORE_CONTACT_ENERGY</span></code>, <code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span></code> and
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code> are described in <a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>.</p>
+</section>
+<section id="region-meshes-region-data">
+<h3>Region meshes (<code class="docutils literal notranslate"><span class="pre">region_data/</span></code>)<a class="headerlink" href="#region-meshes-region-data" title="Link to this heading">#</a></h3>
+<p>Only with <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">2</span></code> (polarization by discretisation of space): the folder
+<code class="docutils literal notranslate"><span class="pre">region_data/</span></code> receives, together with each mesh pair after the first iteration, a file
+<code class="docutils literal notranslate"><span class="pre">result_&lt;n&gt;.vtk</span></code> with the spatial regions that the automatic polarizer uses
+(<a class="reference internal" href="07_polarization.html"><span class="doc">Polarization</span></a>).</p>
+</section>
+</section>
+<section id="statistics-csv">
+<h2>Statistics CSV<a class="headerlink" href="#statistics-csv" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code> (the <a class="reference internal" href="../glossary.html#term-statistics-CSV"><span class="xref std std-term">statistics CSV</span></a>) holds one row per cell per sample. It
+is written at iterations 0, 50, 100, … (every 50 iterations, independently of
+<code class="docutils literal notranslate"><span class="pre">sampling_period</span></code>) and once more when the run ends normally. Rows are appended as the run
+proceeds, so the file is usable while the run is in progress.</p>
+<p>Header and first row from a run of <code class="docutils literal notranslate"><span class="pre">parameters_vesicle_quick.xml</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>iteration,computation_time_(hh::mm:ss),simulation_time,cell_id,type_id,area,target_area,volume,target_volume,pressure,cell_contact_area_fraction,kinetic_energy,surface_tension_energy,membrane_elasticity_energy,bending_energy,pressure_energy,total_potential_energy,
+0,00:00:04,1.00e-07,0,2,4.723e-09,9.746e-10,3.043e-14,3.043e-14,2.517e-03,0.000,1.837e-17,9.446e-13,0.000e+00,0.000e+00,7.607e-11,7.701e-11,
+</pre></div>
+</div>
+<p>Every line ends with a comma, so CSV readers see one extra, empty column at the end (pandas
+names it <code class="docutils literal notranslate"><span class="pre">Unnamed:</span> <span class="pre">17</span></code> in this example).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code></p></td>
+<td><p></p></td>
+<td><p>Iteration at which the row was written.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">computation_time_(hh::mm:ss)</span></code></p></td>
+<td><p></p></td>
+<td><p>Wall-clock time since the solver started, as <code class="docutils literal notranslate"><span class="pre">hh:mm:ss</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">simulation_time</span></code></p></td>
+<td><p>s</p></td>
+<td><p>Simulation time at the end of that iteration, with three significant digits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_id</span></code></p></td>
+<td><p></p></td>
+<td><p>As in the cell meshes. The number of cells at a sample is the number of rows with that <code class="docutils literal notranslate"><span class="pre">iteration</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">type_id</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> of the cell’s type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">area</span></code></p></td>
+<td><p>m²</p></td>
+<td><p>Surface area <span class="math notranslate nohighlight">\(A\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">target_area</span></code></p></td>
+<td><p>m²</p></td>
+<td><p><span class="math notranslate nohighlight">\(A_0 = (Q\,V^2)^{1/3}\)</span>, with <span class="math notranslate nohighlight">\(Q\)</span> the <code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code> and <span class="math notranslate nohighlight">\(V\)</span> the current volume.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">volume</span></code></p></td>
+<td><p>m³</p></td>
+<td><p>Volume <span class="math notranslate nohighlight">\(V\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">target_volume</span></code></p></td>
+<td><p>m³</p></td>
+<td><p>Target volume <span class="math notranslate nohighlight">\(V_0\)</span>, which grows with the growth rate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pressure</span></code></p></td>
+<td><p>Pa</p></td>
+<td><p>Pressure <span class="math notranslate nohighlight">\(p\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_contact_area_fraction</span></code></p></td>
+<td><p></p></td>
+<td><p>Fraction of the cell surface in contact with other cells. Only with <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code> (the default); 0 for cells other than epithelial cells.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">adhesion_energy</span></code>, <code class="docutils literal notranslate"><span class="pre">repulsion_energy</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Contact energies of the cell. Only if <code class="docutils literal notranslate"><span class="pre">FACE_STORE_CONTACT_ENERGY</span></code> is <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kinetic_energy</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Kinetic energy of the cell’s nodes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">surface_tension_energy</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Surface tension energy.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">membrane_elasticity_energy</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Area elasticity energy.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bending_energy</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Bending energy.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pressure_energy</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Pressure energy.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">total_potential_energy</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Sum of the four preceding energies (contact energies are not included).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The energy terms are defined in <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span><code class="docutils literal notranslate"><span class="pre">membrane_elasticity_energy</span></code> was always 0 in earlier versions.</p>
+</div>
+<p>Python runs (<a class="reference internal" href="16_python_interface.html"><span class="doc">Python interface</span></a>) do not write this file; the same table is
+returned as a string.</p>
+<section id="reading-the-statistics-csv">
+<h3>Reading the statistics CSV<a class="headerlink" href="#reading-the-statistics-csv" title="Link to this heading">#</a></h3>
+<p>With pandas:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"simulation_statistics.csv"</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="o">~</span><span class="n">stats</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Unnamed"</span><span class="p">)]</span>  <span class="c1"># drop the empty last column</span>
+
+<span class="n">per_sample</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"iteration"</span><span class="p">)</span>
+<span class="n">n_cells</span> <span class="o">=</span> <span class="n">per_sample</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>                  <span class="c1"># number of cells at each sample</span>
+<span class="n">mean_pressure</span> <span class="o">=</span> <span class="n">per_sample</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">per_sample</span><span class="p">[</span><span class="s2">"simulation_time"</span><span class="p">]</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/data_plotting/plot_data.py</span></code> plots the main quantities of this file
+(<a class="reference internal" href="15_visualization.html"><span class="doc">Visualization</span></a>).</p>
+</section>
+</section>
+<section id="diagnostics-csv">
+<h2>Diagnostics CSV<a class="headerlink" href="#diagnostics-csv" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a> records the cost of the computation and the activity of the
+<a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a>. It is written to <code class="docutils literal notranslate"><span class="pre">performance_diagnostics.csv</span></code> in the output
+folder, or to the path given with <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv</span></code>. A row is appended every 100 iterations,
+starting at iteration 100, so runs shorter than 100 iterations do not produce the file. Each
+row summarises the 100 iterations since the previous row.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The file is opened in append mode and the header is written only when the file does not exist
+yet. The default location is inside the output folder, which is cleared at start, so it always
+starts empty. A path given with <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv</span></code> outside the output folder keeps the rows
+of earlier runs; delete the file first if that is not wanted.</p>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Content</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sim_time</span></code></p></td>
+<td><p>s</p></td>
+<td><p>Simulation time, written with three decimals (<code class="docutils literal notranslate"><span class="pre">0.001</span></code> for 1 ms). Short runs show <code class="docutils literal notranslate"><span class="pre">0.000</span></code>; use <code class="docutils literal notranslate"><span class="pre">iteration</span></code> and the time step instead.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">wall_epoch</span></code></p></td>
+<td><p>s</p></td>
+<td><p>Wall-clock time as a Unix timestamp.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code></p></td>
+<td><p></p></td>
+<td><p>Iteration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cells</span></code></p></td>
+<td><p></p></td>
+<td><p>Number of cells.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">divisions</span></code></p></td>
+<td><p></p></td>
+<td><p>Divisions since the previous row.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cov</span></code></p></td>
+<td><p></p></td>
+<td><p>Coefficient of variation of an estimated per-cell workload (number of faces, contacts and other terms). Used by the adaptive scheduling mode (<a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">phase</span></code></p></td>
+<td><p></p></td>
+<td><p>Phase detected by the adaptive scheduling mode: <code class="docutils literal notranslate"><span class="pre">INITIALIZATION</span></code> (fewer than 10 cells), <code class="docutils literal notranslate"><span class="pre">GROWTH</span></code> (more than 1% of cells divided in the last 50 iterations) or <code class="docutils literal notranslate"><span class="pre">HOMEOSTASIS</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mesh_refinement_ms</span></code></p></td>
+<td><p>ms</p></td>
+<td><p>Mean time per iteration of the mesh refinement, over the window.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">contact_detection_ms</span></code></p></td>
+<td><p>ms</p></td>
+<td><p>Mean time per iteration of contact detection and contact forces.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">polarization_internal_forces_ms</span></code></p></td>
+<td><p>ms</p></td>
+<td><p>Mean time per iteration of polarization and the internal forces of the cells.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time_integration_ms</span></code></p></td>
+<td><p>ms</p></td>
+<td><p>Mean time per iteration of the time integration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">total_iteration_ms</span></code></p></td>
+<td><p>ms</p></td>
+<td><p>Sum of the four preceding columns. It excludes cell division, output and the other steps of an iteration, so it is lower than the wall-clock time per iteration.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">thread_imbalance_pct</span></code></p></td>
+<td><p>%</p></td>
+<td><p>100 x <code class="docutils literal notranslate"><span class="pre">cov</span></code>. An estimate derived from the workload model, not a measured imbalance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code></p></td>
+<td><p></p></td>
+<td><p>Cells removed by the safeguards since the previous row: numerically unstable cells and cells whose mesh refinement failed (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To estimate the wall-clock time per iteration, use the difference of <code class="docutils literal notranslate"><span class="pre">wall_epoch</span></code> between two
+rows divided by 100.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1: </span>The <code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code> column.</p>
+</div>
+</section>
+<section id="adding-a-column-or-array">
+<h2>Adding a column or array<a class="headerlink" href="#adding-a-column-or-array" title="Link to this heading">#</a></h2>
+<p>The CSV columns and mesh arrays are produced by lists of small functions (“mappers”) in
+<code class="docutils literal notranslate"><span class="pre">include/io/mesh_data.hpp</span></code>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>List</p></th>
+<th class="head"><p>Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">file_data_mapper_lst</span></code></p></td>
+<td><p>columns of <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code> (and of the Python statistics string)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_data_mapper_lst</span></code></p></td>
+<td><p>cell arrays of <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">face_data_mapper_lst</span></code></p></td>
+<td><p>face arrays of <code class="docutils literal notranslate"><span class="pre">face_data/result_&lt;n&gt;.vtk</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">node_data_mapper_lst</span></code></p></td>
+<td><p>node arrays of <code class="docutils literal notranslate"><span class="pre">face_data/result_&lt;n&gt;.vtk</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each entry gives the column name, a VTK type name and a function that returns the value as a
+string. For example, to add the number of nodes of each cell to the statistics CSV, add this
+entry to <code class="docutils literal notranslate"><span class="pre">file_data_mapper_lst</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cell_data_mapper</span><span class="p">(</span><span class="s">"cell_nb_nodes"</span><span class="p">,</span><span class="w"> </span><span class="s">"int"</span><span class="p">,</span><span class="w"> </span><span class="p">[](</span><span class="n">cell_ptr</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">format_number</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">get_node_lst</span><span class="p">().</span><span class="n">size</span><span class="p">()),</span><span class="w"> </span><span class="s">"%d"</span><span class="p">);</span>
+<span class="p">}),</span>
+</pre></div>
+</div>
+<p>and rebuild (<code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">build</span></code>). The new column appears after the existing ones.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="15_visualization.html"><span class="doc">Visualization</span></a>: ParaView and plotting.</p></li>
+<li><p><a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>: the messages and counters of the safeguards.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="13_running_simulations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Running simulations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="15_visualization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Visualization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-folder">Output folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mesh-files">Mesh files</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-mesh-files-are-written">When mesh files are written</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-meshes-cell-data">Cell meshes (<code class="docutils literal notranslate"><span class="pre">cell_data/</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#face-meshes-face-data">Face meshes (<code class="docutils literal notranslate"><span class="pre">face_data/</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#region-meshes-region-data">Region meshes (<code class="docutils literal notranslate"><span class="pre">region_data/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistics-csv">Statistics CSV</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-the-statistics-csv">Reading the statistics CSV</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-csv">Diagnostics CSV</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-column-or-array">Adding a column or array</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

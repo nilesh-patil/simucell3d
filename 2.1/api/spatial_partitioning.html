@@ -1,0 +1,1144 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Spatial partitioning &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/spatial_partitioning';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/api/spatial_partitioning.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mathematics" href="math.html" />
+    <link rel="prev" title="Polarization" href="polarization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver and configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">Cell meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_models.html">Contact models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="triangulation.html">Triangulation and division</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polarization.html">Polarization</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Spatial partitioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Spatial partitioning</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="spatial-partitioning">
+<span id="api-spatial-partitioning"></span><h1>Spatial partitioning<a class="headerlink" href="#spatial-partitioning" title="Link to this heading">#</a></h1>
+<p>A uniform spatial partitioning grid (USPG) sorts objects into cubic voxels so that a
+neighbour search only visits nearby voxels. <a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">uspg_4d</span></code></a> stores any number of objects
+per voxel and is used by contact models 0 and 1 and by the initial triangulation;
+<a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">uspg_3d</span></code></a> stores at most one object per voxel and is used by the automatic
+polarizer. <a class="reference internal" href="#_CPPv411morton_code" title="morton_code"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">morton_code</span></code></a> computes Morton (Z-order) codes; it is used by
+<a class="reference internal" href="contact_models.html#_CPPv431contact_detection_uspg_strategy" title="contact_detection_uspg_strategy"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_detection_uspg_strategy</span></code></a> to sort faces by position before inserting them.</p>
+<section id="grids">
+<h2>Grids<a class="headerlink" href="#grids" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv413uspg_abstract">
+<span id="_CPPv313uspg_abstract"></span><span id="_CPPv213uspg_abstract"></span><span id="uspg_abstract"></span><span class="target" id="classuspg__abstract"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uspg_abstract</span></span></span><a class="headerlink" href="#_CPPv413uspg_abstract" title="Link to this definition">#</a><br /></dt>
+<dd><p>Base class of the uniform spatial partitioning grids (USPG). </p>
+<p>A USPG divides an axis-aligned box into cubic voxels of equal edge length, so that a neighbour search only visits the voxels near a point (C. Ericson, <em>Real-Time Collision Detection</em>, section 7.1). Voxels are stored in a flat array indexed x + y n_x + z n_x n_y. The derived classes define what a voxel holds: <a class="reference internal" href="#classuspg__4d"><span class="std std-ref">uspg_4d</span></a> any number of objects, <a class="reference internal" href="#classuspg__3d"><span class="std std-ref">uspg_3d</span></a> at most one. </p>
+<p>Subclassed by <a class="reference internal" href="#classuspg__3d"><span class="std std-ref">uspg_3d&lt; unsigned short &gt;</span></a>, <a class="reference internal" href="#classuspg__4d"><span class="std std-ref">uspg_4d&lt; oriented_point &gt;</span></a>, <a class="reference internal" href="#classuspg__4d"><span class="std std-ref">uspg_4d&lt; face * &gt;</span></a>, <a class="reference internal" href="#classuspg__3d"><span class="std std-ref">uspg_3d&lt; T &gt;</span></a>, <a class="reference internal" href="#classuspg__4d"><span class="std std-ref">uspg_4d&lt; T &gt;</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract14get_voxel_sizeEv">
+<span id="_CPPv3NK13uspg_abstract14get_voxel_sizeEv"></span><span id="_CPPv2NK13uspg_abstract14get_voxel_sizeEv"></span><span id="uspg_abstract::get_voxel_sizeC"></span><span class="target" id="classuspg__abstract_1a02ef0381a76a5afcb2ca9683cbcee960"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_voxel_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract14get_voxel_sizeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the voxel edge length, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract14get_min_cornerEv">
+<span id="_CPPv3NK13uspg_abstract14get_min_cornerEv"></span><span id="_CPPv2NK13uspg_abstract14get_min_cornerEv"></span><span id="uspg_abstract::get_min_cornerC"></span><span class="target" id="classuspg__abstract_1aeb82f15521508a2654454ac36b3fbd41"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_min_corner</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract14get_min_cornerEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the minimum corner (x, y, z) of the grid, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract14get_max_cornerEv">
+<span id="_CPPv3NK13uspg_abstract14get_max_cornerEv"></span><span id="_CPPv2NK13uspg_abstract14get_max_cornerEv"></span><span id="uspg_abstract::get_max_cornerC"></span><span class="target" id="classuspg__abstract_1a83c824744e9068d9a1718f1ecbb9a7f7"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_max_corner</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract14get_max_cornerEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the maximum corner (x, y, z) of the grid, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract13get_nb_voxelsEv">
+<span id="_CPPv3NK13uspg_abstract13get_nb_voxelsEv"></span><span id="_CPPv2NK13uspg_abstract13get_nb_voxelsEv"></span><span id="uspg_abstract::get_nb_voxelsC"></span><span class="target" id="classuspg__abstract_1a16f138b344f4a4953eaab6897b42624a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_nb_voxels</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract13get_nb_voxelsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the number of voxels along x, y and z. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract18get_3d_voxel_indexERK4vec3">
+<span id="_CPPv3NK13uspg_abstract18get_3d_voxel_indexERK4vec3"></span><span id="_CPPv2NK13uspg_abstract18get_3d_voxel_indexERK4vec3"></span><span id="uspg_abstract::get_3d_voxel_index__vec3CRC"></span><span class="target" id="classuspg__abstract_1a5f449d573d6dd4ee94d451303fe73858"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_3d_voxel_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract18get_3d_voxel_indexERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the (i, j, k) index of the voxel that contains a point. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> – Position, m. Must lie inside the grid (checked by assertions only). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract18get_3d_voxel_indexEKdKdKd">
+<span id="_CPPv3NK13uspg_abstract18get_3d_voxel_indexEKdKdKd"></span><span id="_CPPv2NK13uspg_abstract18get_3d_voxel_indexEKdKdKd"></span><span id="uspg_abstract::get_3d_voxel_index__doubleC.doubleC.doubleCC"></span><span class="target" id="classuspg__abstract_1a118557db0b22efcfa66f6cf536fecd78"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_3d_voxel_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract18get_3d_voxel_indexEKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__abstract_1a5f449d573d6dd4ee94d451303fe73858"><span class="std std-ref">get_3d_voxel_index()</span></a> taking the three coordinates, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract15get_voxel_indexERK4vec3">
+<span id="_CPPv3NK13uspg_abstract15get_voxel_indexERK4vec3"></span><span id="_CPPv2NK13uspg_abstract15get_voxel_indexERK4vec3"></span><span id="uspg_abstract::get_voxel_index__vec3CRC"></span><span class="target" id="classuspg__abstract_1a7e30ddd1c496e0013a345301faf67ee4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_voxel_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract15get_voxel_indexERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the flat index of the voxel that contains a point. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> – Position, m. Must lie inside the grid. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract15get_voxel_indexEKdKdKd">
+<span id="_CPPv3NK13uspg_abstract15get_voxel_indexEKdKdKd"></span><span id="_CPPv2NK13uspg_abstract15get_voxel_indexEKdKdKd"></span><span id="uspg_abstract::get_voxel_index__doubleC.doubleC.doubleCC"></span><span class="target" id="classuspg__abstract_1a960093adbd06392f6d756d13b3dc3750"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_voxel_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract15get_voxel_indexEKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__abstract_1a7e30ddd1c496e0013a345301faf67ee4"><span class="std std-ref">get_voxel_index()</span></a> taking the three coordinates, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract15get_voxel_indexEKjKjKj">
+<span id="_CPPv3NK13uspg_abstract15get_voxel_indexEKjKjKj"></span><span id="_CPPv2NK13uspg_abstract15get_voxel_indexEKjKjKj"></span><span id="uspg_abstract::get_voxel_index__unsignedC.unsignedC.unsignedCC"></span><span class="target" id="classuspg__abstract_1a298a34b26bf35010f1ea7fd2cdda0aa8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_voxel_index</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_x_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_y_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_z_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract15get_voxel_indexEKjKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the flat index of the voxel (i, j, k). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uspg_abstract17update_dimensionsEK6size_tKdKdKdKdKdKd">
+<span id="_CPPv3N13uspg_abstract17update_dimensionsEK6size_tKdKdKdKdKdKd"></span><span id="_CPPv2N13uspg_abstract17update_dimensionsEK6size_tKdKdKdKdKdKd"></span><span id="uspg_abstract::update_dimensions__sC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="classuspg__abstract_1aef93da660e86ac83d36c6545b1f83858"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_dimensions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_objects</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N13uspg_abstract17update_dimensionsEK6size_tKdKdKdKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Empty the grid and resize it to cover a box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nb_objects</strong> – Number of objects that will be stored (0 with an empty box gives a single-voxel grid, see <a class="reference internal" href="#classuspg__abstract_1a983f9f96d11cdb42542da783caf433db"><span class="std std-ref">set_empty_grid()</span></a>). </p></li>
+<li><p><strong>min_x, min_y, min_z</strong> – Minimum corner of the box, m. </p></li>
+<li><p><strong>max_x, max_y, max_z</strong> – Maximum corner of the box, m. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the box is not finite, needs too many voxels, or the grid cannot be allocated (a cell has diverged). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13uspg_abstract17compute_nb_voxelsEKdKdKc">
+<span id="_CPPv3NK13uspg_abstract17compute_nb_voxelsEKdKdKc"></span><span id="_CPPv2NK13uspg_abstract17compute_nb_voxelsEKdKdKc"></span><span id="uspg_abstract::compute_nb_voxels__doubleC.doubleC.cCC"></span><span class="target" id="classuspg__abstract_1a93289ed37c1f5a64e56794e5e0731efe"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_nb_voxels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">axis</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK13uspg_abstract17compute_nb_voxelsEKdKdKc" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the number of voxels needed to cover [min, max] along one axis. </p>
+<p>A cell whose nodes have diverged gives an extent that does not fit in an unsigned count; the method throws instead of letting the count wrap, and the contact models let the exception reach the solver’s caller, which ends the run with the extent in the message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min</strong> – Lower bound, m. </p></li>
+<li><p><strong>max</strong> – Upper bound, m. </p></li>
+<li><p><strong>axis</strong> – Axis name used in the error message (‘x’, ‘y’ or ‘z’). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If a bound is not finite or more than 2^31 voxels would be needed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13uspg_abstract14set_empty_gridEK6size_tKdKdKdKdKdKd">
+<span id="_CPPv3N13uspg_abstract14set_empty_gridEK6size_tKdKdKdKdKdKd"></span><span id="_CPPv2N13uspg_abstract14set_empty_gridEK6size_tKdKdKdKdKdKd"></span><span id="uspg_abstract::set_empty_grid__sC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="classuspg__abstract_1a983f9f96d11cdb42542da783caf433db"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_empty_grid</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_objects</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N13uspg_abstract14set_empty_gridEK6size_tKdKdKdKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Collapse the grid to a single voxel at the origin when there is nothing to store. </p>
+<p>With no objects (for example after every cell has been removed), the contact model passes the inverted (+inf, -inf) box of an empty face list; this is not treated as a diverged domain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if <code class="docutils literal notranslate"><span class="pre">nb_objects</span></code> is 0 and the box is not a proper finite box, in which case the grid was set to one voxel. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4I0E7uspg_4d">
+<span id="_CPPv3I0E7uspg_4d"></span><span id="_CPPv2I0E7uspg_4d"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classuspg__4d"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uspg_4d</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv413uspg_abstract" title="uspg_abstract"><span class="n"><span class="pre">uspg_abstract</span></span></a><a class="headerlink" href="#_CPPv4I0E7uspg_4d" title="Link to this definition">#</a><br /></dt>
+<dd><p>Uniform spatial partitioning grid whose voxels hold any number of objects. </p>
+<p>Each voxel stores a std::vector of copies of the objects placed in it. Used with <code class="docutils literal notranslate"><span class="pre">face*</span></code> by the contact models and the USPG contact detection strategy, and with <a class="reference internal" href="solver.html#structoriented__point"><span class="std std-ref">oriented_point</span></a> by the initial triangulation (Poisson sampling and ball pivoting).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – Type of the stored objects (copied into the voxels). </p>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_4d7uspg_4dEKdKdKdKdKdKdKdK6size_t">
+<span id="_CPPv3N7uspg_4d7uspg_4dEKdKdKdKdKdKdKdK6size_t"></span><span id="_CPPv2N7uspg_4d7uspg_4dEKdKdKdKdKdKdKdK6size_t"></span><span id="uspg_4d::uspg_4d__doubleC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC.sC"></span><span class="target" id="classuspg__4d_1af9bfb0c22de8cb59e462cf7b019a16b6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uspg_4d</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_objects</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N7uspg_4d7uspg_4dEKdKdKdKdKdKdKdK6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a grid covering a box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_x, min_y, min_z</strong> – Minimum corner, m. </p></li>
+<li><p><strong>max_x, max_y, max_z</strong> – Maximum corner, m. </p></li>
+<li><p><strong>voxel_size</strong> – Voxel edge length, m. </p></li>
+<li><p><strong>nb_objects</strong> – Number of objects that will be stored. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – See <a class="reference internal" href="#classuspg__4d_1af55c42cd98a7fbda61fd4e14ce269995"><span class="std std-ref">update_dimensions()</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_4d17update_dimensionsEK6size_tKdKdKdKdKdKd">
+<span id="_CPPv3N7uspg_4d17update_dimensionsEK6size_tKdKdKdKdKdKd"></span><span id="_CPPv2N7uspg_4d17update_dimensionsEK6size_tKdKdKdKdKdKd"></span><span id="uspg_4d::update_dimensions__sC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="classuspg__4d_1af55c42cd98a7fbda61fd4e14ce269995"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_dimensions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_objects</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N7uspg_4d17update_dimensionsEK6size_tKdKdKdKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Empty the grid and resize it to cover a box. </p>
+<p>A degenerate box (max &lt;= min along an axis) is widened to 1e-10 m along that axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nb_objects</strong> – Number of objects that will be stored (0 with an empty box gives a single-voxel grid, see <a class="reference internal" href="#classuspg__abstract_1a983f9f96d11cdb42542da783caf433db"><span class="std std-ref">set_empty_grid()</span></a>). </p></li>
+<li><p><strong>min_x, min_y, min_z</strong> – Minimum corner of the box, m. </p></li>
+<li><p><strong>max_x, max_y, max_z</strong> – Maximum corner of the box, m. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the box is not finite, needs too many voxels, or the grid cannot be allocated (a cell has diverged).   </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_4d17get_voxel_contentEKjKjKj">
+<span id="_CPPv3NK7uspg_4d17get_voxel_contentEKjKjKj"></span><span id="_CPPv2NK7uspg_4d17get_voxel_contentEKjKjKj"></span><span id="uspg_4d::get_voxel_content__unsignedC.unsignedC.unsignedCC"></span><span class="target" id="classuspg__4d_1af86e31a48c1edfd13c3766f9c1765dd5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_voxel_content</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_x_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_y_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_z_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_4d17get_voxel_contentEKjKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the objects stored in the voxel (i, j, k). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_4d12place_objectERK1TRK4vec3">
+<span id="_CPPv3N7uspg_4d12place_objectERK1TRK4vec3"></span><span id="_CPPv2N7uspg_4d12place_objectERK1TRK4vec3"></span><span id="uspg_4d::place_object__TCR.vec3CR"></span><span class="target" id="classuspg__4d_1aee9a9ae0b214ec05446d1054d4a6b81a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">place_object</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_4d12place_objectERK1TRK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append a copy of an object to the voxel that contains a point. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> – Object to store. </p></li>
+<li><p><strong>pos</strong> – Position, m. Must lie inside the grid. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_4d12place_objectERK1TKdKdKd">
+<span id="_CPPv3N7uspg_4d12place_objectERK1TKdKdKd"></span><span id="_CPPv2N7uspg_4d12place_objectERK1TKdKdKd"></span><span id="uspg_4d::place_object__TCR.doubleC.doubleC.doubleC"></span><span class="target" id="classuspg__4d_1ac50f67e736c81f5408e29468e25f865d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">place_object</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_4d12place_objectERK1TKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__4d_1aee9a9ae0b214ec05446d1054d4a6b81a"><span class="std std-ref">place_object()</span></a> taking the three coordinates, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_4d12place_objectERK1TK6size_t">
+<span id="_CPPv3N7uspg_4d12place_objectERK1TK6size_t"></span><span id="_CPPv2N7uspg_4d12place_objectERK1TK6size_t"></span><span id="uspg_4d::place_object__TCR.sC"></span><span class="target" id="classuspg__4d_1a3066bd14e1791d26ac1b2d2aab043ee8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">place_object</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_4d12place_objectERK1TK6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append a copy of an object to the voxel with the given flat index. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_4d16get_neighborhoodERK4vec3">
+<span id="_CPPv3NK7uspg_4d16get_neighborhoodERK4vec3"></span><span id="_CPPv2NK7uspg_4d16get_neighborhoodERK4vec3"></span><span id="uspg_4d::get_neighborhood__vec3CRC"></span><span class="target" id="classuspg__4d_1a56885cabbac746a4555256cf47053686"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighborhood</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_4d16get_neighborhoodERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return copies of the objects in the 3 x 3 x 3 voxels around a point. </p>
+<p>Voxels outside the grid are skipped. An object stored in several of these voxels appears once per voxel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> – Position, m. Must lie inside the grid. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_4d16get_neighborhoodEKdKdKd">
+<span id="_CPPv3NK7uspg_4d16get_neighborhoodEKdKdKd"></span><span id="_CPPv2NK7uspg_4d16get_neighborhoodEKdKdKd"></span><span id="uspg_4d::get_neighborhood__doubleC.doubleC.doubleCC"></span><span class="target" id="classuspg__4d_1a7e7b537355f27b3f77a886a2277ad76d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighborhood</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_4d16get_neighborhoodEKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__4d_1a56885cabbac746a4555256cf47053686"><span class="std std-ref">get_neighborhood()</span></a> taking the three coordinates, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_4d16get_neighborhoodEKjKjKj">
+<span id="_CPPv3NK7uspg_4d16get_neighborhoodEKjKjKj"></span><span id="_CPPv2NK7uspg_4d16get_neighborhoodEKjKjKj"></span><span id="uspg_4d::get_neighborhood__unsignedC.unsignedC.unsignedCC"></span><span class="target" id="classuspg__4d_1a6321021caf7daa512fe758824f9b469c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighborhood</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">object_voxel_x_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">object_voxel_y_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">object_voxel_z_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_4d16get_neighborhoodEKjKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__4d_1a56885cabbac746a4555256cf47053686"><span class="std std-ref">get_neighborhood()</span></a> taking the voxel index (i, j, k). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_4d16get_grid_contentEv">
+<span id="_CPPv3NK7uspg_4d16get_grid_contentEv"></span><span id="_CPPv2NK7uspg_4d16get_grid_contentEv"></span><span id="uspg_4d::get_grid_contentC"></span><span class="target" id="classuspg__4d_1a58071252b1894e091920512c4490980e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_4d" title="uspg_4d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_grid_content</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_4d16get_grid_contentEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return copies of all stored objects, once per voxel they were placed in. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4I0E7uspg_3d">
+<span id="_CPPv3I0E7uspg_3d"></span><span id="_CPPv2I0E7uspg_3d"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classuspg__3d"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uspg_3d</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv413uspg_abstract" title="uspg_abstract"><span class="n"><span class="pre">uspg_abstract</span></span></a><a class="headerlink" href="#_CPPv4I0E7uspg_3d" title="Link to this definition">#</a><br /></dt>
+<dd><p>Uniform spatial partitioning grid whose voxels hold at most one object. </p>
+<p>Each voxel stores an optional value; placing an object overwrites the previous one. Used with <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">short</span></code> region labels by the <a class="reference internal" href="polarization.html#classautomatic__polarizer"><span class="std std-ref">automatic_polarizer</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – Type of the stored value. </p>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_3d7uspg_3dEKdKdKdKdKdKdKdK6size_t">
+<span id="_CPPv3N7uspg_3d7uspg_3dEKdKdKdKdKdKdKdK6size_t"></span><span id="_CPPv2N7uspg_3d7uspg_3dEKdKdKdKdKdKdKdK6size_t"></span><span id="uspg_3d::uspg_3d__doubleC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC.sC"></span><span class="target" id="classuspg__3d_1ad35525e4d2f29b036435b27dea197941"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uspg_3d</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_size</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_objects</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N7uspg_3d7uspg_3dEKdKdKdKdKdKdKdK6size_t" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a grid covering a box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_x, min_y, min_z</strong> – Minimum corner, m. </p></li>
+<li><p><strong>max_x, max_y, max_z</strong> – Maximum corner, m. </p></li>
+<li><p><strong>voxel_size</strong> – Voxel edge length, m. </p></li>
+<li><p><strong>nb_objects</strong> – Number of objects that will be stored. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – See <a class="reference internal" href="#classuspg__3d_1aa6cb6396824f2dfea6e4c8f5d0fe5755"><span class="std std-ref">update_dimensions()</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_3d17update_dimensionsEK6size_tKdKdKdKdKdKd">
+<span id="_CPPv3N7uspg_3d17update_dimensionsEK6size_tKdKdKdKdKdKd"></span><span id="_CPPv2N7uspg_3d17update_dimensionsEK6size_tKdKdKdKdKdKd"></span><span id="uspg_3d::update_dimensions__sC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="classuspg__3d_1aa6cb6396824f2dfea6e4c8f5d0fe5755"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_dimensions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_objects</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N7uspg_3d17update_dimensionsEK6size_tKdKdKdKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Empty the grid and resize it to cover a box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nb_objects</strong> – Number of objects that will be stored (0 with an empty box gives a single-voxel grid, see <a class="reference internal" href="#classuspg__abstract_1a983f9f96d11cdb42542da783caf433db"><span class="std std-ref">set_empty_grid()</span></a>). </p></li>
+<li><p><strong>min_x, min_y, min_z</strong> – Minimum corner of the box, m. </p></li>
+<li><p><strong>max_x, max_y, max_z</strong> – Maximum corner of the box, m. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the box is not finite, needs too many voxels, or the grid cannot be allocated (a cell has diverged).   </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_3d17get_voxel_contentEKjKjKj">
+<span id="_CPPv3NK7uspg_3d17get_voxel_contentEKjKjKj"></span><span id="_CPPv2NK7uspg_3d17get_voxel_contentEKjKjKj"></span><span id="uspg_3d::get_voxel_content__unsignedC.unsignedC.unsignedCC"></span><span class="target" id="classuspg__3d_1ab576f04de2f7e1ec4f96fc016d22cf3c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_voxel_content</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_x_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_y_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_z_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_3d17get_voxel_contentEKjKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the value of the voxel (i, j, k), or an empty optional if none was placed. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_3d12place_objectERK1TKdKdKd">
+<span id="_CPPv3N7uspg_3d12place_objectERK1TKdKdKd"></span><span id="_CPPv2N7uspg_3d12place_objectERK1TKdKdKd"></span><span id="uspg_3d::place_object__TCR.doubleC.doubleC.doubleC"></span><span class="target" id="classuspg__3d_1a04755e0eb1e9ddfa45822a891f6fc616"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">place_object</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_3d12place_objectERK1TKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Store a copy of an object in the voxel that contains a point, replacing its value. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> – Object to store. </p></li>
+<li><p><strong>pos_x, pos_y, pos_z</strong> – Position, m. Must lie inside the grid. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_3d12place_objectERR1TKdKdKd">
+<span id="_CPPv3N7uspg_3d12place_objectERR1TKdKdKd"></span><span id="_CPPv2N7uspg_3d12place_objectERR1TKdKdKd"></span><span id="uspg_3d::place_object__TRR.doubleC.doubleC.doubleC"></span><span class="target" id="classuspg__3d_1acd9a239a430c77a287a522a3cb006f32"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">place_object</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_3d12place_objectERR1TKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__3d_1a04755e0eb1e9ddfa45822a891f6fc616"><span class="std std-ref">place_object()</span></a> for an rvalue object. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_3d12place_objectERK1TRK4vec3">
+<span id="_CPPv3N7uspg_3d12place_objectERK1TRK4vec3"></span><span id="_CPPv2N7uspg_3d12place_objectERK1TRK4vec3"></span><span id="uspg_3d::place_object__TCR.vec3CR"></span><span class="target" id="classuspg__3d_1a7831564a12f223551e5887f041bd6b9c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">place_object</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_3d12place_objectERK1TRK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__3d_1a04755e0eb1e9ddfa45822a891f6fc616"><span class="std std-ref">place_object()</span></a> taking a position vector, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_3d12place_objectERR1TRK4vec3">
+<span id="_CPPv3N7uspg_3d12place_objectERR1TRK4vec3"></span><span id="_CPPv2N7uspg_3d12place_objectERR1TRK4vec3"></span><span id="uspg_3d::place_object__TRR.vec3CR"></span><span class="target" id="classuspg__3d_1aeabf020a1b26243b43ad6680c084b9b6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">place_object</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_3d12place_objectERR1TRK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__3d_1a04755e0eb1e9ddfa45822a891f6fc616"><span class="std std-ref">place_object()</span></a> for an rvalue object and a position vector, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7uspg_3d12update_voxelEKjKjKjRK1T">
+<span id="_CPPv3N7uspg_3d12update_voxelEKjKjKjRK1T"></span><span id="_CPPv2N7uspg_3d12update_voxelEKjKjKjRK1T"></span><span id="uspg_3d::update_voxel__unsignedC.unsignedC.unsignedC.TCR"></span><span class="target" id="classuspg__3d_1af462fdba2922e8b37fe72245e65175e4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_voxel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_x_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_y_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_z_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">object</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N7uspg_3d12update_voxelEKjKjKjRK1T" title="Link to this definition">#</a><br /></dt>
+<dd><p>Store a copy of an object in the voxel (i, j, k), replacing its value. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_3d16get_neighborhoodERK4vec3">
+<span id="_CPPv3NK7uspg_3d16get_neighborhoodERK4vec3"></span><span id="_CPPv2NK7uspg_3d16get_neighborhoodERK4vec3"></span><span id="uspg_3d::get_neighborhood__vec3CRC"></span><span class="target" id="classuspg__3d_1a0b53815dce0f3fe73b625c942d889f29"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">forward_list</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighborhood</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_3d16get_neighborhoodERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return copies of the values in the 3 x 3 x 3 voxels around a point. </p>
+<p>Empty voxels and voxels outside the grid are skipped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> – Position, m. Must lie inside the grid. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_3d16get_neighborhoodEKdKdKd">
+<span id="_CPPv3NK7uspg_3d16get_neighborhoodEKdKdKd"></span><span id="_CPPv2NK7uspg_3d16get_neighborhoodEKdKdKd"></span><span id="uspg_3d::get_neighborhood__doubleC.doubleC.doubleCC"></span><span class="target" id="classuspg__3d_1a3266d57aa15e1fa406d95e60060ce01c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">forward_list</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighborhood</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pos_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_3d16get_neighborhoodEKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__3d_1a0b53815dce0f3fe73b625c942d889f29"><span class="std std-ref">get_neighborhood()</span></a> taking the three coordinates, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_3d16get_neighborhoodEKjKjKj">
+<span id="_CPPv3NK7uspg_3d16get_neighborhoodEKjKjKj"></span><span id="_CPPv2NK7uspg_3d16get_neighborhoodEKjKjKj"></span><span id="uspg_3d::get_neighborhood__unsignedC.unsignedC.unsignedCC"></span><span class="target" id="classuspg__3d_1a2c1543338845ca00c98c92e26cc7002e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">forward_list</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighborhood</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">object_voxel_x_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">object_voxel_y_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">object_voxel_z_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_3d16get_neighborhoodEKjKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Overload of <a class="reference internal" href="#classuspg__3d_1a0b53815dce0f3fe73b625c942d889f29"><span class="std std-ref">get_neighborhood()</span></a> taking the voxel index (i, j, k). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK7uspg_3d16get_grid_contentEv">
+<span id="_CPPv3NK7uspg_3d16get_grid_contentEv"></span><span id="_CPPv2NK7uspg_3d16get_grid_contentEv"></span><span id="uspg_3d::get_grid_contentC"></span><span class="target" id="classuspg__3d_1a78a4159d344346a6fde18055089af8ff"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">forward_list</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0E7uspg_3d" title="uspg_3d::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_grid_content</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK7uspg_3d16get_grid_contentEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return copies of the values of all non-empty voxels. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv411morton_code">
+<span id="_CPPv311morton_code"></span><span id="_CPPv211morton_code"></span><span id="morton_code"></span><span class="target" id="classmorton__code"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">morton_code</span></span></span><a class="headerlink" href="#_CPPv411morton_code" title="Link to this definition">#</a><br /></dt>
+<dd><p>Morton (Z-order curve) encoding of 3D positions. </p>
+<p>Each coordinate is quantized to 21 bits and the bits are interleaved into a 63-bit code: x bits go to positions 0, 3, 6, …, y bits to 1, 4, 7, …, z bits to 2, 5, 8, …. Sorting objects by their code places nearby objects close together in memory. The USPG contact detection strategy sorts faces this way before inserting them into its grid. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11morton_code17encode_normalizedEddd">
+<span id="_CPPv3N11morton_code17encode_normalizedEddd"></span><span id="_CPPv2N11morton_code17encode_normalizedEddd"></span><span id="morton_code::encode_normalized__double.double.double"></span><span class="target" id="classmorton__code_1a2aa3aab401e99e37d5013b989658be33"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">encode_normalized</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nx</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ny</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nz</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11morton_code17encode_normalizedEddd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the Morton code of a point given in normalized coordinates. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nx, ny, nz</strong> – Coordinates in [0, 1]; values outside are clamped. Each is quantized to 21 bits. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The 63-bit interleaved code. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11morton_code6encodeERK4vec3PKd">
+<span id="_CPPv3N11morton_code6encodeERK4vec3PKd"></span><span id="_CPPv2N11morton_code6encodeERK4vec3PKd"></span><span id="morton_code::encode__vec3CR.doubleCP"></span><span class="target" id="classmorton__code_1a6fd42e24bbd7f0e49246f53e06c4ea3c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">encode</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">pos</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">bounds</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11morton_code6encodeERK4vec3PKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the Morton code of a position within a box. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> – Position, m. </p></li>
+<li><p><strong>bounds</strong> – Box as six values {min_x, min_y, min_z, max_x, max_y, max_z}, m. An axis of zero extent maps to coordinate 0. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The 63-bit interleaved code. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="polarization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Polarization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="math.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mathematics</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grids">Grids</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv413uspg_abstract"><code class="docutils literal notranslate"><span class="pre">uspg_abstract</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract14get_voxel_sizeEv"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_voxel_size()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract14get_min_cornerEv"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_min_corner()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract14get_max_cornerEv"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_max_corner()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract13get_nb_voxelsEv"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_nb_voxels()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract18get_3d_voxel_indexERK4vec3"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_3d_voxel_index()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract18get_3d_voxel_indexEKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_3d_voxel_index()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract15get_voxel_indexERK4vec3"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_voxel_index()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract15get_voxel_indexEKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_voxel_index()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract15get_voxel_indexEKjKjKj"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::get_voxel_index()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uspg_abstract17update_dimensionsEK6size_tKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::update_dimensions()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13uspg_abstract17compute_nb_voxelsEKdKdKc"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::compute_nb_voxels()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13uspg_abstract14set_empty_gridEK6size_tKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_abstract::set_empty_grid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0E7uspg_4d"><code class="docutils literal notranslate"><span class="pre">uspg_4d</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_4d7uspg_4dEKdKdKdKdKdKdKdK6size_t"><code class="docutils literal notranslate"><span class="pre">uspg_4d::uspg_4d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_4d17update_dimensionsEK6size_tKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_4d::update_dimensions()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_4d17get_voxel_contentEKjKjKj"><code class="docutils literal notranslate"><span class="pre">uspg_4d::get_voxel_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_4d12place_objectERK1TRK4vec3"><code class="docutils literal notranslate"><span class="pre">uspg_4d::place_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_4d12place_objectERK1TKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_4d::place_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_4d12place_objectERK1TK6size_t"><code class="docutils literal notranslate"><span class="pre">uspg_4d::place_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_4d16get_neighborhoodERK4vec3"><code class="docutils literal notranslate"><span class="pre">uspg_4d::get_neighborhood()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_4d16get_neighborhoodEKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_4d::get_neighborhood()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_4d16get_neighborhoodEKjKjKj"><code class="docutils literal notranslate"><span class="pre">uspg_4d::get_neighborhood()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_4d16get_grid_contentEv"><code class="docutils literal notranslate"><span class="pre">uspg_4d::get_grid_content()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0E7uspg_3d"><code class="docutils literal notranslate"><span class="pre">uspg_3d</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_3d7uspg_3dEKdKdKdKdKdKdKdK6size_t"><code class="docutils literal notranslate"><span class="pre">uspg_3d::uspg_3d()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_3d17update_dimensionsEK6size_tKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_3d::update_dimensions()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_3d17get_voxel_contentEKjKjKj"><code class="docutils literal notranslate"><span class="pre">uspg_3d::get_voxel_content()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_3d12place_objectERK1TKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_3d::place_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_3d12place_objectERR1TKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_3d::place_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_3d12place_objectERK1TRK4vec3"><code class="docutils literal notranslate"><span class="pre">uspg_3d::place_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_3d12place_objectERR1TRK4vec3"><code class="docutils literal notranslate"><span class="pre">uspg_3d::place_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N7uspg_3d12update_voxelEKjKjKjRK1T"><code class="docutils literal notranslate"><span class="pre">uspg_3d::update_voxel()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_3d16get_neighborhoodERK4vec3"><code class="docutils literal notranslate"><span class="pre">uspg_3d::get_neighborhood()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_3d16get_neighborhoodEKdKdKd"><code class="docutils literal notranslate"><span class="pre">uspg_3d::get_neighborhood()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_3d16get_neighborhoodEKjKjKj"><code class="docutils literal notranslate"><span class="pre">uspg_3d::get_neighborhood()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK7uspg_3d16get_grid_contentEv"><code class="docutils literal notranslate"><span class="pre">uspg_3d::get_grid_content()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv411morton_code"><code class="docutils literal notranslate"><span class="pre">morton_code</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11morton_code17encode_normalizedEddd"><code class="docutils literal notranslate"><span class="pre">morton_code::encode_normalized()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11morton_code6encodeERK4vec3PKd"><code class="docutils literal notranslate"><span class="pre">morton_code::encode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

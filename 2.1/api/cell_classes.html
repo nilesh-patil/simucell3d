@@ -1,0 +1,956 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cell classes &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/cell_classes';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/api/cell_classes.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contact models" href="contact_models.html" />
+    <link rel="prev" title="Cell meshes" href="mesh.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver and configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">Cell meshes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_models.html">Contact models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="triangulation.html">Triangulation and division</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial_partitioning.html">Spatial partitioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Cell classes</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cell-classes">
+<span id="api-cell-classes"></span><h1>Cell classes<a class="headerlink" href="#cell-classes" title="Link to this heading">#</a></h1>
+<p>Each <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block of the parameter file selects one of five classes through its
+<code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>: 0 <a class="reference internal" href="#_CPPv415epithelial_cell" title="epithelial_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">epithelial_cell</span></code></a>, 1 <a class="reference internal" href="#_CPPv48ecm_cell" title="ecm_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ecm_cell</span></code></a>,
+2 <a class="reference internal" href="#_CPPv410lumen_cell" title="lumen_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">lumen_cell</span></code></a>, 3 <a class="reference internal" href="#_CPPv412nucleus_cell" title="nucleus_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">nucleus_cell</span></code></a>, 4 <a class="reference internal" href="#_CPPv411static_cell" title="static_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">static_cell</span></code></a>
+(<code class="docutils literal notranslate"><span class="pre">src/io/simulation_initializer.cpp</span></code>). Each class derives from <a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">cell</span></code></a> and overrides
+the parts of the mechanics or the polarization that differ for that kind of cell. The
+narrative description is in <a class="reference internal" href="../user_guide/08_cell_classes.html"><span class="doc">Cell classes</span></a>.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv415epithelial_cell">
+<span id="_CPPv315epithelial_cell"></span><span id="_CPPv215epithelial_cell"></span><span id="epithelial_cell"></span><span class="target" id="classepithelial__cell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">epithelial_cell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><a class="headerlink" href="#_CPPv415epithelial_cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Epithelial cell, selected by <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> 0. </p>
+<p>The only cell class that divides: <a class="reference internal" href="#classepithelial__cell_1a3c08c36397eb5f8f6993099f11551c46"><span class="std std-ref">is_ready_to_divide()</span></a> is true once the volume reaches the division volume drawn at creation. Its faces are polarized by contacts. Face types are indices into the cell type’s face types and are used as 0 apical, 1 lateral, 2 basal, so an epithelial cell type is expected to list its face types in that order.</p>
+<p>At every iteration <a class="reference internal" href="#classepithelial__cell_1aecd53a51e354f5e8dd4dd2c81ecb0358"><span class="std std-ref">update_face_types()</span></a> marks all faces apical. Then, with POLARIZATION_MODE_INDEX 1:<ul class="simple">
+<li><p>with contact model 0, the contact model calls <a class="reference internal" href="#classepithelial__cell_1abf567eaa9a64dcc25c0fcf166410c39f"><span class="std std-ref">face_is_in_contact()</span></a> for each face in contact (basal next to an ECM cell, apical next to a lumen, lateral otherwise);</p></li>
+<li><p>with contact models 1 and 2, <a class="reference internal" href="#classepithelial__cell_1ab9f8283128b9bfe4a88a18d6080dfbcd"><span class="std std-ref">special_polarization_update()</span></a> marks a face lateral when its three nodes are coupled to nodes of one other cell that form an edge triangle (model 1) or a face (model 2) of that cell. </p></li>
+</ul>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell15epithelial_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr">
+<span id="_CPPv3N15epithelial_cell15epithelial_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="_CPPv2N15epithelial_cell15epithelial_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="epithelial_cell::epithelial_cell__std::vector:node:CR.std::vector:face:CR.unsigned-i.cell_type_param_ptr"></span><span class="target" id="classepithelial__cell_1a70eb3faf729e19e5b5ea1e381ccf0f7e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">epithelial_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_lst</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell15epithelial_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from its nodes and faces; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell15epithelial_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr">
+<span id="_CPPv3N15epithelial_cell15epithelial_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="_CPPv2N15epithelial_cell15epithelial_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="epithelial_cell::epithelial_cell__std::vector:double:CR.std::vector:unsigned:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classepithelial__cell_1a84c4569641a49e24a8c02f5a28869243"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">epithelial_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_position</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_node_ids</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell15epithelial_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from flat node coordinates (m) and face node ids; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell15epithelial_cellERK4meshj19cell_type_param_ptr">
+<span id="_CPPv3N15epithelial_cell15epithelial_cellERK4meshj19cell_type_param_ptr"></span><span id="_CPPv2N15epithelial_cell15epithelial_cellERK4meshj19cell_type_param_ptr"></span><span id="epithelial_cell::epithelial_cell__meshCR.unsigned.cell_type_param_ptr"></span><span class="target" id="classepithelial__cell_1a61dace83596f6f1dd1981f1427a575d2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">epithelial_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell15epithelial_cellERK4meshj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from a mesh; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK15epithelial_cell18is_ready_to_divideEv">
+<span id="_CPPv3NK15epithelial_cell18is_ready_to_divideEv"></span><span id="_CPPv2NK15epithelial_cell18is_ready_to_divideEv"></span><span id="epithelial_cell::is_ready_to_divideC"></span><span class="target" id="classepithelial__cell_1a3c08c36397eb5f8f6993099f11551c46"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_ready_to_divide</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK15epithelial_cell18is_ready_to_divideEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return true once the volume (m^3) has reached the cell’s division volume. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell18get_cell_same_typeERK4mesh">
+<span id="_CPPv3N15epithelial_cell18get_cell_same_typeERK4mesh"></span><span id="_CPPv2N15epithelial_cell18get_cell_same_typeERK4mesh"></span><span id="epithelial_cell::get_cell_same_type__meshCR"></span><span class="target" id="classepithelial__cell_1ab9de773a16df0e22b4b55a2ec5fb0706"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_same_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell18get_cell_same_typeERK4mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return a new <a class="reference internal" href="#classepithelial__cell"><span class="std std-ref">epithelial_cell</span></a> built from <code class="docutils literal notranslate"><span class="pre">m</span></code>, with the same id and cell type (used for daughters). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell18face_is_in_contactEKjK8cell_ptrRK4face">
+<span id="_CPPv3N15epithelial_cell18face_is_in_contactEKjK8cell_ptrRK4face"></span><span id="_CPPv2N15epithelial_cell18face_is_in_contactEKjK8cell_ptrRK4face"></span><span id="epithelial_cell::face_is_in_contact__unsignedC.cell_ptrC.faceCR"></span><span class="target" id="classepithelial__cell_1abf567eaa9a64dcc25c0fcf166410c39f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_is_in_contact</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_local_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">other_cell</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">other_face</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell18face_is_in_contactEKjK8cell_ptrRK4face" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the type of face <code class="docutils literal notranslate"><span class="pre">face_local_id</span></code> from the global face type id of the face it touches. </p>
+<p>Global face type 3 (ECM) gives basal (2), 4 (lumen) gives apical (0), 5 (nucleus) leaves the face unchanged, any other gives lateral (1). Not called by the 2.1 contact models. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell18face_is_in_contactEKjK8cell_ptr">
+<span id="_CPPv3N15epithelial_cell18face_is_in_contactEKjK8cell_ptr"></span><span id="_CPPv2N15epithelial_cell18face_is_in_contactEKjK8cell_ptr"></span><span id="epithelial_cell::face_is_in_contact__unsignedC.cell_ptrC"></span><span class="target" id="classepithelial__cell_1a7db85b036c68031ffcb69064d67a78b2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_is_in_contact</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_local_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">other_cell</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell18face_is_in_contactEKjK8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the type of face <code class="docutils literal notranslate"><span class="pre">face_local_id</span></code> from the class of the cell it touches. </p>
+<p>ECM (<code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> 1) gives basal (2), lumen (2) gives apical (0), any other gives lateral (1). Called by contact model 0 when POLARIZATION_MODE_INDEX is 1. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell27special_polarization_updateERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N15epithelial_cell27special_polarization_updateERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N15epithelial_cell27special_polarization_updateERKNSt6vectorI8cell_ptrEE"></span><span id="epithelial_cell::special_polarization_update__std::vector:cell_ptr:CR"></span><span class="target" id="classepithelial__cell_1ab9f8283128b9bfe4a88a18d6080dfbcd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">special_polarization_update</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell27special_polarization_updateERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Mark as lateral (1) the faces coupled to a face of one neighbouring cell, the others apical (0). </p>
+<p>A face is lateral when its three nodes are coupled to nodes of a single other cell and those nodes form a face (contact model 2) or three edges (contact model 1) of that cell. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Does nothing unless POLARIZATION_MODE_INDEX is 1 and CONTACT_MODEL_INDEX is 1 or 2. Reads the node couplings without locks; call it after the contact phase. </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell17update_face_typesEv">
+<span id="_CPPv3N15epithelial_cell17update_face_typesEv"></span><span id="_CPPv2N15epithelial_cell17update_face_typesEv"></span><span id="epithelial_cell::update_face_types"></span><span class="target" id="classepithelial__cell_1aecd53a51e354f5e8dd4dd2c81ecb0358"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_face_types</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell17update_face_typesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reset every face to apical (0); called at the start of each iteration. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N15epithelial_cell25get_contact_area_fractionEv">
+<span id="_CPPv3N15epithelial_cell25get_contact_area_fractionEv"></span><span id="_CPPv2N15epithelial_cell25get_contact_area_fractionEv"></span><span id="epithelial_cell::get_contact_area_fraction"></span><span class="target" id="classepithelial__cell_1af8eac5c270fb44322ce91d5bd0020be6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_contact_area_fraction</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N15epithelial_cell25get_contact_area_fractionEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the area of the lateral faces (type 1) divided by the cell area. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv48ecm_cell">
+<span id="_CPPv38ecm_cell"></span><span id="_CPPv28ecm_cell"></span><span id="ecm_cell"></span><span class="target" id="classecm__cell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ecm_cell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><a class="headerlink" href="#_CPPv48ecm_cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Extracellular matrix (ECM) cell, selected by <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> 1. </p>
+<p>An ECM cell is static: it does not move (the time integration skips it) and its internal forces are not computed (<a class="reference internal" href="#classecm__cell_1ad60486e029e49a729254517438ad2da8"><span class="std std-ref">apply_internal_forces()</span></a> does nothing). It still takes part in contact detection. With contact model 0 and contact-based polarization (POLARIZATION_MODE_INDEX 1), epithelial faces in contact with an ECM cell become basal. ECM cells do not divide. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ecm_cell8ecm_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr">
+<span id="_CPPv3N8ecm_cell8ecm_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="_CPPv2N8ecm_cell8ecm_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="ecm_cell::ecm_cell__std::vector:node:CR.std::vector:face:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classecm__cell_1a734028f07c4951400e8c8592b8e857d0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ecm_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_lst</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N8ecm_cell8ecm_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from its nodes and faces; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ecm_cell8ecm_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr">
+<span id="_CPPv3N8ecm_cell8ecm_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="_CPPv2N8ecm_cell8ecm_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="ecm_cell::ecm_cell__std::vector:double:CR.std::vector:unsigned:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classecm__cell_1af4dc8b2fe63617d39af0e0793022f687"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ecm_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_position</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_node_ids</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N8ecm_cell8ecm_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from flat node coordinates (m) and face node ids; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ecm_cell8ecm_cellERK4meshj19cell_type_param_ptr">
+<span id="_CPPv3N8ecm_cell8ecm_cellERK4meshj19cell_type_param_ptr"></span><span id="_CPPv2N8ecm_cell8ecm_cellERK4meshj19cell_type_param_ptr"></span><span id="ecm_cell::ecm_cell__meshCR.unsigned.cell_type_param_ptr"></span><span class="target" id="classecm__cell_1a27dfd136efac41e8960dd51ea7e8faa1"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ecm_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N8ecm_cell8ecm_cellERK4meshj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from a mesh; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ecm_cell21apply_internal_forcesEKd">
+<span id="_CPPv3N8ecm_cell21apply_internal_forcesEKd"></span><span id="_CPPv2N8ecm_cell21apply_internal_forcesEKd"></span><span id="ecm_cell::apply_internal_forces__doubleC"></span><span class="target" id="classecm__cell_1ad60486e029e49a729254517438ad2da8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">apply_internal_forces</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">time_step</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N8ecm_cell21apply_internal_forcesEKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Do nothing: ECM cells are static, so no internal forces are computed. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ecm_cell18get_cell_same_typeERK4mesh">
+<span id="_CPPv3N8ecm_cell18get_cell_same_typeERK4mesh"></span><span id="_CPPv2N8ecm_cell18get_cell_same_typeERK4mesh"></span><span id="ecm_cell::get_cell_same_type__meshCR"></span><span class="target" id="classecm__cell_1ac9b82423e829a62aa94f7a098e68409e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_same_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N8ecm_cell18get_cell_same_typeERK4mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return a new <a class="reference internal" href="#classecm__cell"><span class="std std-ref">ecm_cell</span></a> built from <code class="docutils literal notranslate"><span class="pre">m</span></code>, with the same id and cell type. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv410lumen_cell">
+<span id="_CPPv310lumen_cell"></span><span id="_CPPv210lumen_cell"></span><span id="lumen_cell"></span><span class="target" id="classlumen__cell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lumen_cell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><a class="headerlink" href="#_CPPv410lumen_cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Lumen cell, selected by <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> 2. </p>
+<p>A lumen is a deformable cell with the mechanics of the base class cell and no overrides other than <a class="reference internal" href="#classlumen__cell_1a110de6fd55a25b82a43ec247b2a9760a"><span class="std std-ref">get_cell_same_type()</span></a>. With contact model 0 and contact-based polarization (POLARIZATION_MODE_INDEX 1), epithelial faces in contact with a lumen become apical. Lumen cells do not divide. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10lumen_cell10lumen_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr">
+<span id="_CPPv3N10lumen_cell10lumen_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="_CPPv2N10lumen_cell10lumen_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="lumen_cell::lumen_cell__std::vector:node:CR.std::vector:face:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classlumen__cell_1a4d2ceb55db6f21bb0562a0b662280944"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lumen_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_lst</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N10lumen_cell10lumen_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from its nodes and faces; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10lumen_cell10lumen_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr">
+<span id="_CPPv3N10lumen_cell10lumen_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="_CPPv2N10lumen_cell10lumen_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="lumen_cell::lumen_cell__std::vector:double:CR.std::vector:unsigned:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classlumen__cell_1a010a1e8aacf6ba3f32aa882636efae04"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lumen_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_position</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_node_ids</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N10lumen_cell10lumen_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from flat node coordinates (m) and face node ids; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10lumen_cell10lumen_cellERK4meshj19cell_type_param_ptr">
+<span id="_CPPv3N10lumen_cell10lumen_cellERK4meshj19cell_type_param_ptr"></span><span id="_CPPv2N10lumen_cell10lumen_cellERK4meshj19cell_type_param_ptr"></span><span id="lumen_cell::lumen_cell__meshCR.unsigned.cell_type_param_ptr"></span><span class="target" id="classlumen__cell_1a2714196d09d8dac1cae690aa9a107879"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">lumen_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N10lumen_cell10lumen_cellERK4meshj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from a mesh; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N10lumen_cell18get_cell_same_typeERK4mesh">
+<span id="_CPPv3N10lumen_cell18get_cell_same_typeERK4mesh"></span><span id="_CPPv2N10lumen_cell18get_cell_same_typeERK4mesh"></span><span id="lumen_cell::get_cell_same_type__meshCR"></span><span class="target" id="classlumen__cell_1a110de6fd55a25b82a43ec247b2a9760a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_same_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N10lumen_cell18get_cell_same_typeERK4mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return a new <a class="reference internal" href="#classlumen__cell"><span class="std std-ref">lumen_cell</span></a> built from <code class="docutils literal notranslate"><span class="pre">m</span></code>, with the same id and cell type. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv412nucleus_cell">
+<span id="_CPPv312nucleus_cell"></span><span id="_CPPv212nucleus_cell"></span><span id="nucleus_cell"></span><span class="target" id="classnucleus__cell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nucleus_cell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><a class="headerlink" href="#_CPPv412nucleus_cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Nucleus, selected by <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> 3. </p>
+<p>A nucleus is a deformable cell with the mechanics of the base class cell and no overrides other than <a class="reference internal" href="#classnucleus__cell_1a1d579f4a1a5868acce063ec5c7db0274"><span class="std std-ref">get_cell_same_type()</span></a>. Nuclei do not divide. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12nucleus_cell12nucleus_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr">
+<span id="_CPPv3N12nucleus_cell12nucleus_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="_CPPv2N12nucleus_cell12nucleus_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="nucleus_cell::nucleus_cell__std::vector:node:CR.std::vector:face:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classnucleus__cell_1aa1a3723f8c7a889c994fe95d13579796"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nucleus_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_lst</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12nucleus_cell12nucleus_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from its nodes and faces; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12nucleus_cell12nucleus_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr">
+<span id="_CPPv3N12nucleus_cell12nucleus_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="_CPPv2N12nucleus_cell12nucleus_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="nucleus_cell::nucleus_cell__std::vector:double:CR.std::vector:unsigned:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classnucleus__cell_1a80a674e812664ba87c06bf2738debd26"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nucleus_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_position</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_node_ids</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12nucleus_cell12nucleus_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from flat node coordinates (m) and face node ids; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12nucleus_cell12nucleus_cellERK4meshj19cell_type_param_ptr">
+<span id="_CPPv3N12nucleus_cell12nucleus_cellERK4meshj19cell_type_param_ptr"></span><span id="_CPPv2N12nucleus_cell12nucleus_cellERK4meshj19cell_type_param_ptr"></span><span id="nucleus_cell::nucleus_cell__meshCR.unsigned.cell_type_param_ptr"></span><span class="target" id="classnucleus__cell_1a84ac9065ff755cac3860a9dd9fec7ff4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nucleus_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12nucleus_cell12nucleus_cellERK4meshj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from a mesh; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12nucleus_cell18get_cell_same_typeERK4mesh">
+<span id="_CPPv3N12nucleus_cell18get_cell_same_typeERK4mesh"></span><span id="_CPPv2N12nucleus_cell18get_cell_same_typeERK4mesh"></span><span id="nucleus_cell::get_cell_same_type__meshCR"></span><span class="target" id="classnucleus__cell_1a1d579f4a1a5868acce063ec5c7db0274"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_same_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N12nucleus_cell18get_cell_same_typeERK4mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return a new <a class="reference internal" href="#classnucleus__cell"><span class="std std-ref">nucleus_cell</span></a> built from <code class="docutils literal notranslate"><span class="pre">m</span></code>, with the same id and cell type. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv411static_cell">
+<span id="_CPPv311static_cell"></span><span id="_CPPv211static_cell"></span><span id="static_cell"></span><span class="target" id="classstatic__cell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">static_cell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><a class="headerlink" href="#_CPPv411static_cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Static cell, selected by <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> 4. </p>
+<p>A static cell does not move: the time integration skips it. Unlike <a class="reference internal" href="#classecm__cell"><span class="std std-ref">ecm_cell</span></a>, its internal forces are still computed, and it takes part in contact detection. Static cells do not divide and are not checked for inside-out or self-intersecting surfaces by <a class="reference internal" href="mesh.html#classcell_1a7a404a7dbd3ba0edcc71e85dba018cc5"><span class="std std-ref">cell::check_numerical_stability()</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11static_cell11static_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr">
+<span id="_CPPv3N11static_cell11static_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="_CPPv2N11static_cell11static_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"></span><span id="static_cell::static_cell__std::vector:node:CR.std::vector:face:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classstatic__cell_1ac3e004f031329e3456cb9c0597d22066"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">static_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_lst</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11static_cell11static_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from its nodes and faces; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11static_cell11static_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr">
+<span id="_CPPv3N11static_cell11static_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="_CPPv2N11static_cell11static_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"></span><span id="static_cell::static_cell__std::vector:double:CR.std::vector:unsigned:CR.unsigned.cell_type_param_ptr"></span><span class="target" id="classstatic__cell_1a79c9ad46cc2e952210c2aa4ab2fdf578"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">static_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_position</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_node_ids</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11static_cell11static_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from flat node coordinates (m) and face node ids; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11static_cell11static_cellERK4meshj19cell_type_param_ptr">
+<span id="_CPPv3N11static_cell11static_cellERK4meshj19cell_type_param_ptr"></span><span id="_CPPv2N11static_cell11static_cellERK4meshj19cell_type_param_ptr"></span><span id="static_cell::static_cell__meshCR.unsigned.cell_type_param_ptr"></span><span class="target" id="classstatic__cell_1a6f73929e927000948cf4325b961fbe57"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">static_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span>, <span class="n"><span class="pre">cell_type_param_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_type_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N11static_cell11static_cellERK4meshj19cell_type_param_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cell from a mesh; see the corresponding cell constructor. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N11static_cell18get_cell_same_typeERK4mesh">
+<span id="_CPPv3N11static_cell18get_cell_same_typeERK4mesh"></span><span id="_CPPv2N11static_cell18get_cell_same_typeERK4mesh"></span><span id="static_cell::get_cell_same_type__meshCR"></span><span class="target" id="classstatic__cell_1a41b40241d35f178773fc85a9e678c351"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_same_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N11static_cell18get_cell_same_typeERK4mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return a new <a class="reference internal" href="#classstatic__cell"><span class="std std-ref">static_cell</span></a> built from <code class="docutils literal notranslate"><span class="pre">m</span></code>, with the same id and cell type. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mesh.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Cell meshes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="contact_models.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Contact models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv415epithelial_cell"><code class="docutils literal notranslate"><span class="pre">epithelial_cell</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell15epithelial_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::epithelial_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell15epithelial_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::epithelial_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell15epithelial_cellERK4meshj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::epithelial_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK15epithelial_cell18is_ready_to_divideEv"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::is_ready_to_divide()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell18get_cell_same_typeERK4mesh"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::get_cell_same_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell18face_is_in_contactEKjK8cell_ptrRK4face"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::face_is_in_contact()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell18face_is_in_contactEKjK8cell_ptr"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::face_is_in_contact()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell27special_polarization_updateERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::special_polarization_update()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell17update_face_typesEv"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::update_face_types()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N15epithelial_cell25get_contact_area_fractionEv"><code class="docutils literal notranslate"><span class="pre">epithelial_cell::get_contact_area_fraction()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv48ecm_cell"><code class="docutils literal notranslate"><span class="pre">ecm_cell</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N8ecm_cell8ecm_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">ecm_cell::ecm_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N8ecm_cell8ecm_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">ecm_cell::ecm_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N8ecm_cell8ecm_cellERK4meshj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">ecm_cell::ecm_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N8ecm_cell21apply_internal_forcesEKd"><code class="docutils literal notranslate"><span class="pre">ecm_cell::apply_internal_forces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N8ecm_cell18get_cell_same_typeERK4mesh"><code class="docutils literal notranslate"><span class="pre">ecm_cell::get_cell_same_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv410lumen_cell"><code class="docutils literal notranslate"><span class="pre">lumen_cell</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N10lumen_cell10lumen_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">lumen_cell::lumen_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N10lumen_cell10lumen_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">lumen_cell::lumen_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N10lumen_cell10lumen_cellERK4meshj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">lumen_cell::lumen_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N10lumen_cell18get_cell_same_typeERK4mesh"><code class="docutils literal notranslate"><span class="pre">lumen_cell::get_cell_same_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv412nucleus_cell"><code class="docutils literal notranslate"><span class="pre">nucleus_cell</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12nucleus_cell12nucleus_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">nucleus_cell::nucleus_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12nucleus_cell12nucleus_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">nucleus_cell::nucleus_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12nucleus_cell12nucleus_cellERK4meshj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">nucleus_cell::nucleus_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12nucleus_cell18get_cell_same_typeERK4mesh"><code class="docutils literal notranslate"><span class="pre">nucleus_cell::get_cell_same_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv411static_cell"><code class="docutils literal notranslate"><span class="pre">static_cell</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11static_cell11static_cellERKNSt6vectorI4nodeEERKNSt6vectorI4faceEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">static_cell::static_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11static_cell11static_cellERKNSt6vectorIdEERKNSt6vectorIjEEj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">static_cell::static_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11static_cell11static_cellERK4meshj19cell_type_param_ptr"><code class="docutils literal notranslate"><span class="pre">static_cell::static_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N11static_cell18get_cell_same_typeERK4mesh"><code class="docutils literal notranslate"><span class="pre">static_cell::get_cell_same_type()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

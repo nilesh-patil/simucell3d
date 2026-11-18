@@ -1,0 +1,1724 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Solver and configuration &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/solver';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/api/solver.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Input and output" href="io.html" />
+    <link rel="prev" title="API reference" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Solver and configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">Cell meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_models.html">Contact models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="triangulation.html">Triangulation and division</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial_partitioning.html">Spatial partitioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Solver and...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="solver-and-configuration">
+<span id="api-solver"></span><h1>Solver and configuration<a class="headerlink" href="#solver-and-configuration" title="Link to this heading">#</a></h1>
+<p>The <a class="reference internal" href="#_CPPv46solver" title="solver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">solver</span></code></a> owns the cells of a simulation and runs the main loop. Its constructor
+receives the numerical parameters (<a class="reference internal" href="#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">global_simulation_parameters</span></code></a>) and the list of
+cells built by <a class="reference internal" href="io.html#_CPPv422simulation_initializer" title="simulation_initializer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">simulation_initializer</span></code></a>; <a class="reference internal" href="#_CPPv4N6solver3runEv" title="solver::run"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">solver::run()</span></code></a> then advances the
+simulation until the simulation duration is reached, writing output every sampling period.
+One iteration (<a class="reference internal" href="#_CPPv4N6solver13run_iterationEv" title="solver::run_iteration"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code></a>) writes the output meshes when a sampling
+period has elapsed, divides the cells that have reached their division volume (checked every
+5 iterations), updates the face types, refines the cell meshes, computes the contact forces,
+updates the polarization of the faces, computes the internal forces of each cell (which also advances its target volume), integrates
+the equations of motion, and removes cells below their minimum volume or found numerically
+unstable. The narrative description is in <a class="reference internal" href="../user_guide/01_model_overview.html"><span class="doc">Model overview</span></a>.</p>
+<p>The macros in <code class="docutils literal notranslate"><span class="pre">global_configuration.hpp</span></code> select the contact model, the dynamic model and the
+polarization mode at compile time (<a class="reference internal" href="../user_guide/10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>). The parameter structures mirror the
+sections of the parameter file (<a class="reference internal" href="../user_guide/11_parameter_file.html"><span class="doc">Parameter file reference</span></a>). Errors are reported with the
+exception classes listed at the end of this page.</p>
+<section id="solver">
+<h2>Solver<a class="headerlink" href="#solver" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv46solver">
+<span id="_CPPv36solver"></span><span id="_CPPv26solver"></span><span class="target" id="classsolver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">solver</span></span></span><a class="headerlink" href="#_CPPv46solver" title="Link to this definition">#</a><br /></dt>
+<dd><p>Runs a simulation: owns the cells and the modules that update them at every iteration. </p>
+<p>The constructor sets up the thread count and placement, the OpenMP scheduling, the output folder and the modules (local mesh refiner, contact model, time integration scheme, statistics writer). <a class="reference internal" href="#classsolver_1a036060e39cb6a1faa23bfdd3f7b49a0f"><span class="std std-ref">run()</span></a> then calls <a class="reference internal" href="#classsolver_1aae6e34827ceaba27b02c9c551c2f1675"><span class="std std-ref">run_iteration()</span></a> until the simulation duration is reached or no cell is left. One iteration writes the output meshes when a new sampling period starts, divides cells (every 5 iterations), updates the face types, refines the meshes, computes the contact forces, updates the polarization, computes the internal forces of each cell (which also advances its target volume), moves the nodes, writes the statistics every 50 iterations and the diagnostics every 100 iterations, and removes dead or numerically unstable cells.</p>
+<p>The contact model, dynamic model and polarization mode are fixed at compile time (global_configuration.hpp). </p>
+<p>Subclassed by solver_python_wrapper</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solver6solverEv">
+<span id="_CPPv3N6solver6solverEv"></span><span id="_CPPv2N6solver6solverEv"></span><span id="solver::solver"></span><span class="target" id="classsolver_1a4137e76971a8529dad949b4ad8f352eb"></span><span class="sig-name descname"><span class="n"><span class="pre">solver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N6solver6solverEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an empty solver; use the parameter constructor to run a simulation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solverD0Ev">
+<span id="_CPPv3N6solverD0Ev"></span><span id="_CPPv2N6solverD0Ev"></span><span id="solver::~solver"></span><span class="target" id="classsolver_1a7f25bb5ed8f7c3696b16e7d605ff7f8b"></span><span class="sig-name descname"><span class="n"><span class="pre">~solver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N6solverD0Ev" title="Link to this definition">#</a><br /></dt>
+<dd><p>Release the modules of the solver in reverse order of creation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solver6solverERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibbRKNSt6stringERKNSt6stringE">
+<span id="_CPPv3N6solver6solverERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibbRKNSt6stringERKNSt6stringE"></span><span id="_CPPv2N6solver6solverERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibbRKNSt6stringERKNSt6stringE"></span><span id="solver::solver__global_simulation_parametersCR.std::vector:cell_ptr:CR.i.b.b.ssCR.ssCR"></span><span class="target" id="classsolver_1a64c54f26c38895478dd2e4a74f04512f"></span><span class="sig-name descname"><span class="n"><span class="pre">solver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_threads</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">write_cell_stats_in_string</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">schedule_mode</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;adaptive&quot;</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">diagnostics_csv_path</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N6solver6solverERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibbRKNSt6stringERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set up a simulation. </p>
+<p>Chooses the thread count, pins one thread per physical core (unless <a class="reference internal" href="runtime.html#namespacecpu__topology_1a8cdee73ce879abf4012e4f2b0c7fb071"><span class="std std-ref">cpu_topology::pinning_requested()</span></a> is false), configures the OpenMP scheduling, deletes and re-creates the output folder (with <code class="docutils literal notranslate"><span class="pre">cell_data/</span></code>, <code class="docutils literal notranslate"><span class="pre">face_data/</span></code> and, with POLARIZATION_MODE_INDEX 2, <code class="docutils literal notranslate"><span class="pre">region_data/</span></code>), assigns cell ids, sets the initial target volumes and creates the modules.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The output folder is deleted, with all its content, before it is re-created. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sim_parameters</strong> – Numerical parameters of the simulation. </p></li>
+<li><p><strong>cell_lst</strong> – Cells to simulate, as built by <a class="reference internal" href="io.html#classsimulation__initializer"><span class="std std-ref">simulation_initializer</span></a>. </p></li>
+<li><p><strong>nb_threads</strong> – Number of OpenMP threads; 0 or less uses one thread per physical core. </p></li>
+<li><p><strong>write_cell_stats_in_string</strong> – Write the per-cell statistics to a string (read with <a class="reference internal" href="#classsolver_1a1dfd67957bcc2630c72f50ef4f015a24"><span class="std std-ref">get_simulation_statistics()</span></a>) instead of <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code>. </p></li>
+<li><p><strong>verbose</strong> – Print the progress of the simulation. </p></li>
+<li><p><strong>schedule_mode</strong> – OpenMP scheduling mode: <code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">dynamic</span></code>, <code class="docutils literal notranslate"><span class="pre">guided</span></code> or <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>. </p></li>
+<li><p><strong>diagnostics_csv_path</strong> – Path of the diagnostics CSV; empty for <code class="docutils literal notranslate"><span class="pre">&lt;output</span> <span class="pre">folder&gt;/performance_diagnostics.csv</span></code>. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If the scheduling mode is invalid or the output folders cannot be created. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solver3runEv">
+<span id="_CPPv3N6solver3runEv"></span><span id="_CPPv2N6solver3runEv"></span><span id="solver::run"></span><span class="target" id="classsolver_1a036060e39cb6a1faa23bfdd3f7b49a0f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N6solver3runEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Run the main loop until the simulation duration is reached or no cell is left. </p>
+<p>Calls <a class="reference internal" href="#classsolver_1aae6e34827ceaba27b02c9c551c2f1675"><span class="std std-ref">run_iteration()</span></a> repeatedly, then writes a last row of statistics and, if verbose, prints the performance report. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the simulation diverges (see <a class="reference internal" href="#classsolver_1aae6e34827ceaba27b02c9c551c2f1675"><span class="std std-ref">run_iteration()</span></a>). </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If the statistics file cannot be written. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solver13run_iterationEv">
+<span id="_CPPv3N6solver13run_iterationEv"></span><span id="_CPPv2N6solver13run_iterationEv"></span><span id="solver::run_iteration"></span><span class="target" id="classsolver_1aae6e34827ceaba27b02c9c551c2f1675"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_iteration</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N6solver13run_iterationEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Run one iteration (one time step) of the simulation. </p>
+<p>Virtual so that derived solvers can add work to each iteration (solver_python_wrapper checks for Ctrl-C here). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If too many mesh refinements fail (<a class="reference internal" href="#classsolver_1a0aaaaab314bde8700e5cd0a85544ef1a"><span class="std std-ref">handle_refinement_failures()</span></a>) or the contact grid cannot be built for a diverged tissue. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv423intialization_exception" title="intialization_exception"><span class="n">intialization_exception</span></a></span></span> – If the statistics file cannot be written. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If an output mesh cannot be written. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solver9save_meshEv">
+<span id="_CPPv3N6solver9save_meshEv"></span><span id="_CPPv2N6solver9save_meshEv"></span><span id="solver::save_mesh"></span><span class="target" id="classsolver_1a3b2348b99610f42d876fb129d68c1793"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">save_mesh</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N6solver9save_meshEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the cell and face meshes if a new sampling period has started. </p>
+<p>Files are <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code> and <code class="docutils literal notranslate"><span class="pre">face_data/result_&lt;n&gt;.vtk</span></code> with n = floor(t / sampling period) + 1 (and <code class="docutils literal notranslate"><span class="pre">region_data/result_&lt;n&gt;.vtk</span></code> with POLARIZATION_MODE_INDEX 2). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If a file cannot be written. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solver17remove_dead_cellsEv">
+<span id="_CPPv3N6solver17remove_dead_cellsEv"></span><span id="_CPPv2N6solver17remove_dead_cellsEv"></span><span id="solver::remove_dead_cells"></span><span class="target" id="classsolver_1a2e322a67dc3687a4aecac7125775cea1"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_dead_cells</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N6solver17remove_dead_cellsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Erase the cells below their minimum volume and the numerically unstable ones. </p>
+<p>Last step of <a class="reference internal" href="#classsolver_1aae6e34827ceaba27b02c9c551c2f1675"><span class="std std-ref">run_iteration()</span></a>. Each unstable cell is reported on standard error and counted in <a class="reference internal" href="#classsolver_1a1de3258fc7135baf63dd644c80d69121"><span class="std std-ref">get_nb_unstable_cells_removed()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N6solver26handle_refinement_failuresERKNSt6vectorIN18local_mesh_refiner18refinement_failureEEE">
+<span id="_CPPv3N6solver26handle_refinement_failuresERKNSt6vectorIN18local_mesh_refiner18refinement_failureEEE"></span><span id="_CPPv2N6solver26handle_refinement_failuresERKNSt6vectorIN18local_mesh_refiner18refinement_failureEEE"></span><span id="solver::handle_refinement_failures__std::vector:local_mesh_refiner::refinement_failure:CR"></span><span class="target" id="classsolver_1a0aaaaab314bde8700e5cd0a85544ef1a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">handle_refinement_failures</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="triangulation.html#_CPPv418local_mesh_refiner" title="local_mesh_refiner"><span class="n"><span class="pre">local_mesh_refiner</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="triangulation.html#_CPPv4N18local_mesh_refiner18refinement_failureE" title="local_mesh_refiner::refinement_failure"><span class="n"><span class="pre">refinement_failure</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">failures</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N6solver26handle_refinement_failuresERKNSt6vectorIN18local_mesh_refiner18refinement_failureEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Erase the cells whose mesh refinement failed in this iteration. </p>
+<p>Called by <a class="reference internal" href="#classsolver_1aae6e34827ceaba27b02c9c551c2f1675"><span class="std std-ref">run_iteration()</span></a> right after the mesh refinement, before contact detection. Each removed cell is reported on standard error and counted in <a class="reference internal" href="#classsolver_1a1de3258fc7135baf63dd644c80d69121"><span class="std std-ref">get_nb_unstable_cells_removed()</span></a>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>failures</strong> – Cells reported by <a class="reference internal" href="triangulation.html#classlocal__mesh__refiner_1aa8c1e6f3cac992b378e1d5693469251a"><span class="std std-ref">local_mesh_refiner::refine_meshes()</span></a>, with the reason of each failure. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If there are more failures than refinement_failure_limit() allows (max(10, 1 % of the cells)) or if the failures cover every cell. Nothing is erased then. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6solver12get_cell_lstEv">
+<span id="_CPPv3NK6solver12get_cell_lstEv"></span><span id="_CPPv2NK6solver12get_cell_lstEv"></span><span id="solver::get_cell_lstC"></span><span class="target" id="classsolver_1ad89c7c8583cfe5c9f079ce7d3446e8a8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_cell_lst</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK6solver12get_cell_lstEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the cells currently simulated. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6solver14get_nb_threadsEv">
+<span id="_CPPv3NK6solver14get_nb_threadsEv"></span><span id="_CPPv2NK6solver14get_nb_threadsEv"></span><span id="solver::get_nb_threadsC"></span><span class="target" id="classsolver_1a315c41c9b1404186af67870000013572"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_nb_threads</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK6solver14get_nb_threadsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the number of OpenMP threads used by the solver. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6solver29get_nb_unstable_cells_removedEv">
+<span id="_CPPv3NK6solver29get_nb_unstable_cells_removedEv"></span><span id="_CPPv2NK6solver29get_nb_unstable_cells_removedEv"></span><span id="solver::get_nb_unstable_cells_removedC"></span><span class="target" id="classsolver_1a1de3258fc7135baf63dd644c80d69121"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_nb_unstable_cells_removed</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK6solver29get_nb_unstable_cells_removedEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the number of cells removed as numerically unstable or after a failed mesh refinement since the start. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6solver18get_sim_parametersEv">
+<span id="_CPPv3NK6solver18get_sim_parametersEv"></span><span id="_CPPv2NK6solver18get_sim_parametersEv"></span><span id="solver::get_sim_parametersC"></span><span class="target" id="classsolver_1af829da42a55994f7ff405d942f4df8b2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_sim_parameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK6solver18get_sim_parametersEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the numerical parameters of the simulation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK6solver25get_simulation_statisticsEv">
+<span id="_CPPv3NK6solver25get_simulation_statisticsEv"></span><span id="_CPPv2NK6solver25get_simulation_statisticsEv"></span><span id="solver::get_simulation_statisticsC"></span><span class="target" id="classsolver_1a1dfd67957bcc2630c72f50ef4f015a24"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_simulation_statistics</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK6solver25get_simulation_statisticsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the per-cell statistics written to a string. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – If the solver was constructed with write_cell_stats_in_string = false. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The statistics in CSV format. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="compile-time-configuration">
+<h2>Compile-time configuration<a class="headerlink" href="#compile-time-configuration" title="Link to this heading">#</a></h2>
+<p>The switches are macros in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>; changing one requires a rebuild
+(<a class="reference internal" href="../user_guide/10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Macro</p></th>
+<th class="head"><p>Values (default in bold)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code></p></td>
+<td><p>0: springs between nodes and faces of adjacent cells; 1: coupling of pairs of adjacent nodes; <strong>2</strong>: coupling of pairs of adjacent faces</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span></code></p></td>
+<td><p><strong>0</strong>: full equations of motion, semi-implicit Euler; 1: overdamped, forward Euler</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code></p></td>
+<td><p>0: none; <strong>1</strong>: from the contacts of the cell; 2: from a discretization of the simulation space</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FACE_STORE_CONTACT_ENERGY</span></code></p></td>
+<td><p><strong>false</strong>; true stores the adhesion and repulsion energies on each face</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span></code></p></td>
+<td><p>false; <strong>true</strong> writes face and node normals in the output meshes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="parameters-and-results">
+<h2>Parameters and results<a class="headerlink" href="#parameters-and-results" title="Link to this heading">#</a></h2>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv425ContactDetectionAlgorithm">
+<span id="_CPPv325ContactDetectionAlgorithm"></span><span id="_CPPv225ContactDetectionAlgorithm"></span><span class="target" id="group__core_1ga7ca9b09213b6714309be70daf6478543"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ContactDetectionAlgorithm</span></span></span><a class="headerlink" href="#_CPPv425ContactDetectionAlgorithm" title="Link to this definition">#</a><br /></dt>
+<dd><p>Contact detection algorithm, set by the optional <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> tag of the parameter file. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N25ContactDetectionAlgorithm4USPGE">
+<span id="_CPPv3N25ContactDetectionAlgorithm4USPGE"></span><span id="_CPPv2N25ContactDetectionAlgorithm4USPGE"></span><span class="target" id="group__core_1gga7ca9b09213b6714309be70daf6478543a96ef443cc78f8a9099bddbacb6771838"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">USPG</span></span></span><a class="headerlink" href="#_CPPv4N25ContactDetectionAlgorithm4USPGE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Uniform spatial partitioning grid (<code class="docutils literal notranslate"><span class="pre">uspg</span></code>, default). </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N25ContactDetectionAlgorithm15SWEEP_AND_PRUNEE">
+<span id="_CPPv3N25ContactDetectionAlgorithm15SWEEP_AND_PRUNEE"></span><span id="_CPPv2N25ContactDetectionAlgorithm15SWEEP_AND_PRUNEE"></span><span class="target" id="group__core_1gga7ca9b09213b6714309be70daf6478543adfd74642bf6059a95e277ae4091fa548"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SWEEP_AND_PRUNE</span></span></span><a class="headerlink" href="#_CPPv4N25ContactDetectionAlgorithm15SWEEP_AND_PRUNEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sweep and prune on the axis-aligned bounding boxes of the cells (<code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N25ContactDetectionAlgorithm8ADAPTIVEE">
+<span id="_CPPv3N25ContactDetectionAlgorithm8ADAPTIVEE"></span><span id="_CPPv2N25ContactDetectionAlgorithm8ADAPTIVEE"></span><span class="target" id="group__core_1gga7ca9b09213b6714309be70daf6478543a90cff4f81e21a20801df4abe9cbf0cbe"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ADAPTIVE</span></span></span><a class="headerlink" href="#_CPPv4N25ContactDetectionAlgorithm8ADAPTIVEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>USPG below ADAPTIVE_SAP_CELL_THRESHOLD cells, sweep and prune from that count on (<code class="docutils literal notranslate"><span class="pre">adaptive</span></code>). </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv428global_simulation_parameters">
+<span id="_CPPv328global_simulation_parameters"></span><span id="_CPPv228global_simulation_parameters"></span><span id="global_simulation_parameters"></span><span class="target" id="structglobal__simulation__parameters"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">global_simulation_parameters</span></span></span><a class="headerlink" href="#_CPPv428global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Numerical parameters of a simulation, from the <code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code> section of the parameter file. </p>
+<p>Members without a default must be set before the structure is used. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters19output_folder_path_E">
+<span id="_CPPv3N28global_simulation_parameters19output_folder_path_E"></span><span id="_CPPv2N28global_simulation_parameters19output_folder_path_E"></span><span id="global_simulation_parameters::output_folder_path___ss"></span><span class="target" id="structglobal__simulation__parameters_1a4c86c08e5aace89bd180649b4fc5dbba"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">output_folder_path_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters19output_folder_path_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Folder where all output files are written (<code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code>). </p>
+<p>Absolute, or relative to the working directory. The solver deletes and re-creates it at the start of a run. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters16input_mesh_path_E">
+<span id="_CPPv3N28global_simulation_parameters16input_mesh_path_E"></span><span id="_CPPv2N28global_simulation_parameters16input_mesh_path_E"></span><span id="global_simulation_parameters::input_mesh_path___ss"></span><span class="target" id="structglobal__simulation__parameters_1a06cb385d42c8201997cd18163ddfc9e4"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">input_mesh_path_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters16input_mesh_path_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Input mesh file (<code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code>). </p>
+<p>Tried as given (absolute, or relative to the working directory), then relative to the source directory recorded at configure time. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters30perform_initial_triangulation_E">
+<span id="_CPPv3N28global_simulation_parameters30perform_initial_triangulation_E"></span><span id="_CPPv2N28global_simulation_parameters30perform_initial_triangulation_E"></span><span id="global_simulation_parameters::perform_initial_triangulation___b"></span><span class="target" id="structglobal__simulation__parameters_1a5a747eb6ca54eb38cc37e51e8e8ccf4b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">perform_initial_triangulation_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters30perform_initial_triangulation_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Re-triangulate the input cell meshes before the run (<code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters27enable_edge_swap_operation_E">
+<span id="_CPPv3N28global_simulation_parameters27enable_edge_swap_operation_E"></span><span id="_CPPv2N28global_simulation_parameters27enable_edge_swap_operation_E"></span><span id="global_simulation_parameters::enable_edge_swap_operation___b"></span><span class="target" id="structglobal__simulation__parameters_1a8c74fd3f6b3ff3f5a67b8b8352ff6144"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">enable_edge_swap_operation_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters27enable_edge_swap_operation_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Let the local mesh refiner swap the longest edge of triangles with a high aspect ratio (<code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters20damping_coefficient_E">
+<span id="_CPPv3N28global_simulation_parameters20damping_coefficient_E"></span><span id="_CPPv2N28global_simulation_parameters20damping_coefficient_E"></span><span id="global_simulation_parameters::damping_coefficient___double"></span><span class="target" id="structglobal__simulation__parameters_1aded4776ea70496d73ca8412f2f54aa4d"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">damping_coefficient_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters20damping_coefficient_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Damping coefficient, kg/s (<code class="docutils literal notranslate"><span class="pre">damping_coefficient</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters20simulation_duration_E">
+<span id="_CPPv3N28global_simulation_parameters20simulation_duration_E"></span><span id="_CPPv2N28global_simulation_parameters20simulation_duration_E"></span><span id="global_simulation_parameters::simulation_duration___double"></span><span class="target" id="structglobal__simulation__parameters_1a398460e92caa75e508cdfefd38890013"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">simulation_duration_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters20simulation_duration_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Simulated time, s (<code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters16sampling_period_E">
+<span id="_CPPv3N28global_simulation_parameters16sampling_period_E"></span><span id="_CPPv2N28global_simulation_parameters16sampling_period_E"></span><span id="global_simulation_parameters::sampling_period___double"></span><span class="target" id="structglobal__simulation__parameters_1a3fe2bbae1f7de9ccfa9f56c41b902731"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sampling_period_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters16sampling_period_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Simulated time between two output meshes, s (<code class="docutils literal notranslate"><span class="pre">sampling_period</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters10time_step_E">
+<span id="_CPPv3N28global_simulation_parameters10time_step_E"></span><span id="_CPPv2N28global_simulation_parameters10time_step_E"></span><span id="global_simulation_parameters::time_step___double"></span><span class="target" id="structglobal__simulation__parameters_1a6582301a991de33fad545d1e249b6d83"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">time_step_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters10time_step_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Time step, s (<code class="docutils literal notranslate"><span class="pre">time_step</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters13min_edge_len_E">
+<span id="_CPPv3N28global_simulation_parameters13min_edge_len_E"></span><span id="_CPPv2N28global_simulation_parameters13min_edge_len_E"></span><span id="global_simulation_parameters::min_edge_len___double"></span><span class="target" id="structglobal__simulation__parameters_1af2bd5a867c64ebcdfa13562e5bfc3542"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">min_edge_len_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters13min_edge_len_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Minimum edge length of the cell meshes, m (<code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>). The maximum edge length is three times this value. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters24contact_cutoff_adhesion_E">
+<span id="_CPPv3N28global_simulation_parameters24contact_cutoff_adhesion_E"></span><span id="_CPPv2N28global_simulation_parameters24contact_cutoff_adhesion_E"></span><span id="global_simulation_parameters::contact_cutoff_adhesion___double"></span><span class="target" id="structglobal__simulation__parameters_1a8e4af512d657b88344c4415f7b7cacbf"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_cutoff_adhesion_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters24contact_cutoff_adhesion_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Distance beyond which adhesion forces are zero, m (<code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters25contact_cutoff_repulsion_E">
+<span id="_CPPv3N28global_simulation_parameters25contact_cutoff_repulsion_E"></span><span id="_CPPv2N28global_simulation_parameters25contact_cutoff_repulsion_E"></span><span id="global_simulation_parameters::contact_cutoff_repulsion___double"></span><span class="target" id="structglobal__simulation__parameters_1affb0f4e70324c770f7e3681fa470db9b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_cutoff_repulsion_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters25contact_cutoff_repulsion_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Distance beyond which repulsion forces are zero, m (<code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N28global_simulation_parameters28contact_detection_algorithm_E">
+<span id="_CPPv3N28global_simulation_parameters28contact_detection_algorithm_E"></span><span id="_CPPv2N28global_simulation_parameters28contact_detection_algorithm_E"></span><span id="global_simulation_parameters::contact_detection_algorithm___ContactDetectionAlgorithm"></span><span class="target" id="structglobal__simulation__parameters_1ad97e45d1a1569c858d8c698f70998a28"></span><a class="reference internal" href="#_CPPv425ContactDetectionAlgorithm" title="ContactDetectionAlgorithm"><span class="n"><span class="pre">ContactDetectionAlgorithm</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_detection_algorithm_</span></span></span><a class="headerlink" href="#_CPPv4N28global_simulation_parameters28contact_detection_algorithm_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Contact detection algorithm (<code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code>, optional). Default: USPG. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv420cell_type_parameters">
+<span id="_CPPv320cell_type_parameters"></span><span id="_CPPv220cell_type_parameters"></span><span id="cell_type_parameters"></span><span class="target" id="structcell__type__parameters"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_type_parameters</span></span></span><a class="headerlink" href="#_CPPv420cell_type_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Parameters of one cell type, from a <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block of the parameter file. </p>
+<p>The position of the block in the file is the <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> used by the input mesh; <code class="docutils literal notranslate"><span class="pre">global_type_id_</span></code> selects the cell class. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters13add_face_typeERK20face_type_parameters">
+<span id="_CPPv3N20cell_type_parameters13add_face_typeERK20face_type_parameters"></span><span id="_CPPv2N20cell_type_parameters13add_face_typeERK20face_type_parameters"></span><span id="cell_type_parameters::add_face_type__face_type_parametersCR"></span><span class="target" id="structcell__type__parameters_1ad21742baca052ea8f9f1453f1444ff1c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_face_type</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv420face_type_parameters" title="face_type_parameters"><span class="n"><span class="pre">face_type_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters13add_face_typeERK20face_type_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append a face type to face_types_. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters24add_additional_parameterERKNSt6stringEKd">
+<span id="_CPPv3N20cell_type_parameters24add_additional_parameterERKNSt6stringEKd"></span><span id="_CPPv2N20cell_type_parameters24add_additional_parameterERKNSt6stringEKd"></span><span id="cell_type_parameters::add_additional_parameter__ssCR.doubleC"></span><span class="target" id="structcell__type__parameters_1a36523432b4e116f73ec89ade6afcea32"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_additional_parameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameter_name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">parameter_value</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters24add_additional_parameterERKNSt6stringEKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Store a named extra parameter in additional_parameters_. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters20cell_type_parametersEv">
+<span id="_CPPv3N20cell_type_parameters20cell_type_parametersEv"></span><span id="_CPPv2N20cell_type_parameters20cell_type_parametersEv"></span><span id="cell_type_parameters::cell_type_parameters"></span><span class="target" id="structcell__type__parameters_1acc6ec375afe52a8670328874e19402f6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_type_parameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N20cell_type_parameters20cell_type_parametersEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a cell type with the default values. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters5name_E">
+<span id="_CPPv3N20cell_type_parameters5name_E"></span><span id="_CPPv2N20cell_type_parameters5name_E"></span><span id="cell_type_parameters::name___ss"></span><span class="target" id="structcell__type__parameters_1aef0d8cef76b41e015b7a57003c7b24af"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters5name_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Name of the cell type (<code class="docutils literal notranslate"><span class="pre">cell_type_name</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters15global_type_id_E">
+<span id="_CPPv3N20cell_type_parameters15global_type_id_E"></span><span id="_CPPv2N20cell_type_parameters15global_type_id_E"></span><span id="cell_type_parameters::global_type_id___short"></span><span class="target" id="structcell__type__parameters_1ad438867cf7e64bc8f27eb8b440ed86f2"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">global_type_id_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters15global_type_id_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Cell class (<code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>): 0 epithelial, 1 ECM, 2 lumen, 3 nucleus, 4 static. Also written to the output meshes. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters13mass_density_E">
+<span id="_CPPv3N20cell_type_parameters13mass_density_E"></span><span id="_CPPv2N20cell_type_parameters13mass_density_E"></span><span id="cell_type_parameters::mass_density___double"></span><span class="target" id="structcell__type__parameters_1a02bf039cf2a0a66504cfe95f28bf4887"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mass_density_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters13mass_density_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Mass density, kg/m^3 (<code class="docutils literal notranslate"><span class="pre">cell_mass_density</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters13bulk_modulus_E">
+<span id="_CPPv3N20cell_type_parameters13bulk_modulus_E"></span><span id="_CPPv2N20cell_type_parameters13bulk_modulus_E"></span><span id="cell_type_parameters::bulk_modulus___double"></span><span class="target" id="structcell__type__parameters_1a076e0549befec0bc73dd19f4cca1dc5c"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bulk_modulus_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters13bulk_modulus_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Bulk modulus K of the cytoplasm, Pa (<code class="docutils literal notranslate"><span class="pre">cell_bulk_modulus</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters13max_pressure_E">
+<span id="_CPPv3N20cell_type_parameters13max_pressure_E"></span><span id="_CPPv2N20cell_type_parameters13max_pressure_E"></span><span id="cell_type_parameters::max_pressure___double"></span><span class="target" id="structcell__type__parameters_1aa8665fea9c6d20d5426444c58367e482"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_pressure_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters13max_pressure_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Upper bound of the cell pressure, Pa (<code class="docutils literal notranslate"><span class="pre">max_inner_pressure</span></code>; <code class="docutils literal notranslate"><span class="pre">inf</span></code> for no bound). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters17initial_pressure_E">
+<span id="_CPPv3N20cell_type_parameters17initial_pressure_E"></span><span id="_CPPv2N20cell_type_parameters17initial_pressure_E"></span><span id="cell_type_parameters::initial_pressure___double"></span><span class="target" id="structcell__type__parameters_1ad46a69ffb967ff33b1516a6eb96b0e02"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initial_pressure_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters17initial_pressure_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Pressure at the start of the run, Pa. </p>
+<p>Sets the initial target volume to V exp(initial_pressure_ / K). Not read from the parameter file (always 0 there); settable from Python. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters24area_elasticity_modulus_E">
+<span id="_CPPv3N20cell_type_parameters24area_elasticity_modulus_E"></span><span id="_CPPv2N20cell_type_parameters24area_elasticity_modulus_E"></span><span id="cell_type_parameters::area_elasticity_modulus___double"></span><span class="target" id="structcell__type__parameters_1a6480dc823db5d606ef2574eebb276b4b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">area_elasticity_modulus_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters24area_elasticity_modulus_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Area elasticity modulus, J (<code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters17avg_division_vol_E">
+<span id="_CPPv3N20cell_type_parameters17avg_division_vol_E"></span><span id="_CPPv2N20cell_type_parameters17avg_division_vol_E"></span><span id="cell_type_parameters::avg_division_vol___double"></span><span class="target" id="structcell__type__parameters_1a3834b39d6786214e8c65b78adfc73322"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">avg_division_vol_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters17avg_division_vol_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Mean and standard deviation of the normal distribution of division volumes, m^3 (<code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code>, <code class="docutils literal notranslate"><span class="pre">std_division_volume</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters17std_division_vol_E">
+<span id="_CPPv3N20cell_type_parameters17std_division_vol_E"></span><span id="_CPPv2N20cell_type_parameters17std_division_vol_E"></span><span id="cell_type_parameters::std_division_vol___double"></span><span class="target" id="structcell__type__parameters_1aa0b14d8035e7c3cdb1090ceaf706782f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">std_division_vol_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters17std_division_vol_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>See avg_division_vol_. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters16avg_growth_rate_E">
+<span id="_CPPv3N20cell_type_parameters16avg_growth_rate_E"></span><span id="_CPPv2N20cell_type_parameters16avg_growth_rate_E"></span><span id="cell_type_parameters::avg_growth_rate___double"></span><span class="target" id="structcell__type__parameters_1af1dafc4b97fc65e166835ff17174e704"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">avg_growth_rate_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters16avg_growth_rate_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Mean and standard deviation of the normal distribution of growth rates of the target volume, m^3/s (<code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters16std_growth_rate_E">
+<span id="_CPPv3N20cell_type_parameters16std_growth_rate_E"></span><span id="_CPPv2N20cell_type_parameters16std_growth_rate_E"></span><span id="cell_type_parameters::std_growth_rate___double"></span><span class="target" id="structcell__type__parameters_1aa3c28fe6c6d28666066c0d86a2d2c97e"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">std_growth_rate_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters16std_growth_rate_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>See avg_growth_rate_. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters8min_vol_E">
+<span id="_CPPv3N20cell_type_parameters8min_vol_E"></span><span id="_CPPv2N20cell_type_parameters8min_vol_E"></span><span id="cell_type_parameters::min_vol___double"></span><span class="target" id="structcell__type__parameters_1ab4149ed09fccc5e002ef36215ac5be1a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">min_vol_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters8min_vol_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Volume below which a cell is removed, m^3 (<code class="docutils literal notranslate"><span class="pre">min_vol</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters28angle_regularization_factor_E">
+<span id="_CPPv3N20cell_type_parameters28angle_regularization_factor_E"></span><span id="_CPPv2N20cell_type_parameters28angle_regularization_factor_E"></span><span id="cell_type_parameters::angle_regularization_factor___double"></span><span class="target" id="structcell__type__parameters_1a6af05a4fab1d4de1eb1b0508a850fc8a"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">angle_regularization_factor_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters28angle_regularization_factor_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Strength of the force that drives the angles of the triangular faces towards 60 degrees (<code class="docutils literal notranslate"><span class="pre">angle_regularization_factor</span></code>); 0 disables it. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters27target_isoperimetric_ratio_E">
+<span id="_CPPv3N20cell_type_parameters27target_isoperimetric_ratio_E"></span><span id="_CPPv2N20cell_type_parameters27target_isoperimetric_ratio_E"></span><span id="cell_type_parameters::target_isoperimetric_ratio___double"></span><span class="target" id="structcell__type__parameters_1a89f39cfb12719dd611f5bbbcc04942fa"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">target_isoperimetric_ratio_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters27target_isoperimetric_ratio_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Target isoperimetric ratio A^3/V^2, dimensionless (<code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters31surface_coupling_max_curvature_E">
+<span id="_CPPv3N20cell_type_parameters31surface_coupling_max_curvature_E"></span><span id="_CPPv2N20cell_type_parameters31surface_coupling_max_curvature_E"></span><span id="cell_type_parameters::surface_coupling_max_curvature___double"></span><span class="target" id="structcell__type__parameters_1a3883a8325f57af7cfed44367bc0437b0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">surface_coupling_max_curvature_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters31surface_coupling_max_curvature_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Curvature, 1/m, from which a node is no longer coupled to adjacent cells (<code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code>). </p>
+<p>Used by contact models 1 and 2. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters11face_types_E">
+<span id="_CPPv3N20cell_type_parameters11face_types_E"></span><span id="_CPPv2N20cell_type_parameters11face_types_E"></span><span id="cell_type_parameters::face_types___std::vector:face_type_parameters:"></span><span class="target" id="structcell__type__parameters_1afa5bf508b846564a3308bd5ce86f15d3"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv420face_type_parameters" title="face_type_parameters"><span class="n"><span class="pre">face_type_parameters</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_types_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters11face_types_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Face types of the cell type, in file order. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20cell_type_parameters22additional_parameters_E">
+<span id="_CPPv3N20cell_type_parameters22additional_parameters_E"></span><span id="_CPPv2N20cell_type_parameters22additional_parameters_E"></span><span id="cell_type_parameters::additional_parameters___std::map:ss.double:"></span><span class="target" id="structcell__type__parameters_1a3649401be0a30273b0753d8a79721e3f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">additional_parameters_</span></span></span><a class="headerlink" href="#_CPPv4N20cell_type_parameters22additional_parameters_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Named extra parameters. Settable from Python; not read from the parameter file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv420face_type_parameters">
+<span id="_CPPv320face_type_parameters"></span><span id="_CPPv220face_type_parameters"></span><span id="face_type_parameters"></span><span class="target" id="structface__type__parameters"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_type_parameters</span></span></span><a class="headerlink" href="#_CPPv420face_type_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Parameters of one face type, from a <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> block of the parameter file. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N20face_type_parameters20face_type_parametersEv">
+<span id="_CPPv3N20face_type_parameters20face_type_parametersEv"></span><span id="_CPPv2N20face_type_parameters20face_type_parametersEv"></span><span id="face_type_parameters::face_type_parameters"></span><span class="target" id="structface__type__parameters_1a3f7d12a24a23b2fc2387f60f3ff0f6d6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_type_parameters</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N20face_type_parameters20face_type_parametersEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a face type with the default values. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20face_type_parameters5name_E">
+<span id="_CPPv3N20face_type_parameters5name_E"></span><span id="_CPPv2N20face_type_parameters5name_E"></span><span id="face_type_parameters::name___ss"></span><span class="target" id="structface__type__parameters_1a75437d5c27aea374ba748fb07bfd811d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name_</span></span></span><a class="headerlink" href="#_CPPv4N20face_type_parameters5name_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Name of the face type (<code class="docutils literal notranslate"><span class="pre">face_type_name</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20face_type_parameters20face_type_global_id_E">
+<span id="_CPPv3N20face_type_parameters20face_type_global_id_E"></span><span id="_CPPv2N20face_type_parameters20face_type_global_id_E"></span><span id="face_type_parameters::face_type_global_id___short"></span><span class="target" id="structface__type__parameters_1a08e89ee9a6b7e5d4cf25916304040b73"></span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_type_global_id_</span></span></span><a class="headerlink" href="#_CPPv4N20face_type_parameters20face_type_global_id_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Identifier of the face type written to the output meshes (<code class="docutils literal notranslate"><span class="pre">global_face_id</span></code>). </p>
+<p>Cells refer to their face types internally by local ids. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20face_type_parameters16surface_tension_E">
+<span id="_CPPv3N20face_type_parameters16surface_tension_E"></span><span id="_CPPv2N20face_type_parameters16surface_tension_E"></span><span id="face_type_parameters::surface_tension___double"></span><span class="target" id="structface__type__parameters_1ab8cda7f5b25e6dc4926b65383fd1d5f1"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">surface_tension_</span></span></span><a class="headerlink" href="#_CPPv4N20face_type_parameters16surface_tension_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Surface tension, N/m (<code class="docutils literal notranslate"><span class="pre">surface_tension</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20face_type_parameters19adherence_strength_E">
+<span id="_CPPv3N20face_type_parameters19adherence_strength_E"></span><span id="_CPPv2N20face_type_parameters19adherence_strength_E"></span><span id="face_type_parameters::adherence_strength___double"></span><span class="target" id="structface__type__parameters_1a9bde3350e77758691fc730ba0d0402b8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">adherence_strength_</span></span></span><a class="headerlink" href="#_CPPv4N20face_type_parameters19adherence_strength_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Adherence strength towards faces of adjacent cells, N/m^3 (<code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20face_type_parameters19repulsion_strength_E">
+<span id="_CPPv3N20face_type_parameters19repulsion_strength_E"></span><span id="_CPPv2N20face_type_parameters19repulsion_strength_E"></span><span id="face_type_parameters::repulsion_strength___double"></span><span class="target" id="structface__type__parameters_1a8ab47f90da10a6cbde4bc972e0d953e3"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">repulsion_strength_</span></span></span><a class="headerlink" href="#_CPPv4N20face_type_parameters19repulsion_strength_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Repulsion strength towards faces of adjacent cells, N/m^3 (<code class="docutils literal notranslate"><span class="pre">repulsion_strength</span></code>). No default. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N20face_type_parameters16bending_modulus_E">
+<span id="_CPPv3N20face_type_parameters16bending_modulus_E"></span><span id="_CPPv2N20face_type_parameters16bending_modulus_E"></span><span id="face_type_parameters::bending_modulus___double"></span><span class="target" id="structface__type__parameters_1aa5f63624af391889d8d0afcd6252fb9b"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bending_modulus_</span></span></span><a class="headerlink" href="#_CPPv4N20face_type_parameters16bending_modulus_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Bending modulus, J (<code class="docutils literal notranslate"><span class="pre">bending_modulus</span></code>). </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv418simulation_outputs">
+<span id="_CPPv318simulation_outputs"></span><span id="_CPPv218simulation_outputs"></span><span id="simulation_outputs"></span><span class="target" id="structsimulation__outputs"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">simulation_outputs</span></span></span><a class="headerlink" href="#_CPPv418simulation_outputs" title="Link to this definition">#</a><br /></dt>
+<dd><p>Result of a simulation run through the Python module (simucell3d_wrapper). </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N18simulation_outputs18simulation_outputsEv">
+<span id="_CPPv3N18simulation_outputs18simulation_outputsEv"></span><span id="_CPPv2N18simulation_outputs18simulation_outputsEv"></span><span id="simulation_outputs::simulation_outputs"></span><span class="target" id="structsimulation__outputs_1a5c82166f71ba1912f81f8742350510c9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">simulation_outputs</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18simulation_outputs18simulation_outputsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct an empty result. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N18simulation_outputs12RETURN_CODE_E">
+<span id="_CPPv3N18simulation_outputs12RETURN_CODE_E"></span><span id="_CPPv2N18simulation_outputs12RETURN_CODE_E"></span><span id="simulation_outputs::RETURN_CODE___b"></span><span class="target" id="structsimulation__outputs_1a1ac9bedf8ae31a8c20c4b92516061f43"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RETURN_CODE_</span></span></span><a class="headerlink" href="#_CPPv4N18simulation_outputs12RETURN_CODE_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>0 if the run completed, 1 if an exception stopped it. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N18simulation_outputs14error_message_E">
+<span id="_CPPv3N18simulation_outputs14error_message_E"></span><span id="_CPPv2N18simulation_outputs14error_message_E"></span><span id="simulation_outputs::error_message___ss"></span><span class="target" id="structsimulation__outputs_1aaa8f1ec07ba7f84be931cedf0a359768"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">error_message_</span></span></span><a class="headerlink" href="#_CPPv4N18simulation_outputs14error_message_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Message of the exception that stopped the run; empty on success. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N18simulation_outputs16cell_statistics_E">
+<span id="_CPPv3N18simulation_outputs16cell_statistics_E"></span><span id="_CPPv2N18simulation_outputs16cell_statistics_E"></span><span id="simulation_outputs::cell_statistics___ss"></span><span class="target" id="structsimulation__outputs_1a6445a5218355e303120f8650396d0c2b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_statistics_</span></span></span><a class="headerlink" href="#_CPPv4N18simulation_outputs16cell_statistics_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Per-cell statistics in CSV format (same columns as <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code>). </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N18simulation_outputs9cell_lst_E">
+<span id="_CPPv3N18simulation_outputs9cell_lst_E"></span><span id="_CPPv2N18simulation_outputs9cell_lst_E"></span><span id="simulation_outputs::cell_lst___std::vector:std::shared_ptr:cell::"></span><span class="target" id="structsimulation__outputs_1a797273498f8d0f671ffa4bacb7acd110"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_lst_</span></span></span><a class="headerlink" href="#_CPPv4N18simulation_outputs9cell_lst_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>The cells at the end of the run. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv44mesh">
+<span id="_CPPv34mesh"></span><span id="_CPPv24mesh"></span><span id="mesh"></span><span class="target" id="structmesh"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh</span></span></span><a class="headerlink" href="#_CPPv44mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Lightweight polygon mesh used to read cell meshes and to divide cells. </p>
+<p>The faces need not be triangles. Layout:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">face_point_ids</span> <span class="pre">=</span> <span class="pre">{{f0_n0,</span> <span class="pre">f0_n1,</span> <span class="pre">f0_n2,</span> <span class="pre">f0_n3},</span> <span class="pre">{f1_n0,</span> <span class="pre">f1_n1,</span> <span class="pre">f1_n2},</span> <span class="pre">...}</span></code>, where <code class="docutils literal notranslate"><span class="pre">f0_n1</span></code> is the id of the second node of the first face;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">node_pos_lst</span> <span class="pre">=</span> <span class="pre">{x0,</span> <span class="pre">y0,</span> <span class="pre">z0,</span> <span class="pre">x1,</span> <span class="pre">y1,</span> <span class="pre">z1,</span> <span class="pre">...}</span></code>. </p></li>
+</ul>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4mesh12get_nb_nodesEv">
+<span id="_CPPv3NK4mesh12get_nb_nodesEv"></span><span id="_CPPv2NK4mesh12get_nb_nodesEv"></span><span id="mesh::get_nb_nodesC"></span><span class="target" id="structmesh_1acadb2f37f61e4ac53465838e25113620"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_nb_nodes</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4mesh12get_nb_nodesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the number of nodes. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4mesh12get_nb_facesEv">
+<span id="_CPPv3NK4mesh12get_nb_facesEv"></span><span id="_CPPv2NK4mesh12get_nb_facesEv"></span><span id="mesh::get_nb_facesC"></span><span class="target" id="structmesh_1a2b53b452f11b0d7411a0489f1c72c246"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_nb_faces</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4mesh12get_nb_facesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the number of faces. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4mesh12get_node_posEKj">
+<span id="_CPPv3N4mesh12get_node_posEKj"></span><span id="_CPPv2N4mesh12get_node_posEKj"></span><span id="mesh::get_node_pos__unsignedC"></span><span class="target" id="structmesh_1aab1bc4583b52d2055664bdb819de23fe"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_node_pos</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">node_id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4mesh12get_node_posEKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the position of the node <code class="docutils literal notranslate"><span class="pre">node_id</span></code>, m. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4mesh14face_point_idsE">
+<span id="_CPPv3N4mesh14face_point_idsE"></span><span id="_CPPv2N4mesh14face_point_idsE"></span><span id="mesh::face_point_ids__std::vector:std::vector:unsigned::"></span><span class="target" id="structmesh_1a63ee12912f7182da5eed6558cdb8f958"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_point_ids</span></span></span><a class="headerlink" href="#_CPPv4N4mesh14face_point_idsE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Node ids of each face. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4mesh12node_pos_lstE">
+<span id="_CPPv3N4mesh12node_pos_lstE"></span><span id="_CPPv2N4mesh12node_pos_lstE"></span><span id="mesh::node_pos_lst__std::vector:double:"></span><span class="target" id="structmesh_1a104053029344367a6167c8e320c51b3b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_pos_lst</span></span></span><a class="headerlink" href="#_CPPv4N4mesh12node_pos_lstE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Node coordinates, flattened as x, y, z per node, m. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv414oriented_point">
+<span id="_CPPv314oriented_point"></span><span id="_CPPv214oriented_point"></span><span id="oriented_point"></span><span class="target" id="structoriented__point"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">oriented_point</span></span></span><a class="headerlink" href="#_CPPv414oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>A point with a normal vector, used by the initial triangulation and the cell division. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N14oriented_point14oriented_pointERK4vec3RK4vec3">
+<span id="_CPPv3N14oriented_point14oriented_pointERK4vec3RK4vec3"></span><span id="_CPPv2N14oriented_point14oriented_pointERK4vec3RK4vec3"></span><span id="oriented_point::oriented_point__vec3CR.vec3CR"></span><span class="target" id="structoriented__point_1af8e00f031ffa1e0192f44cac0968b1bb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">oriented_point</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_pos</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_normal</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N14oriented_point14oriented_pointERK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a point from its position and normal. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N14oriented_point14oriented_pointEKjRK4vec3RK4vec3">
+<span id="_CPPv3N14oriented_point14oriented_pointEKjRK4vec3RK4vec3"></span><span id="_CPPv2N14oriented_point14oriented_pointEKjRK4vec3RK4vec3"></span><span id="oriented_point::oriented_point__unsignedC.vec3CR.vec3CR"></span><span class="target" id="structoriented__point_1a89e639ba9584b07521d4a615306b8c1a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">oriented_point</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_pos</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_normal</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N14oriented_point14oriented_pointEKjRK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a point from its identifier, position and normal. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N14oriented_point14oriented_pointEv">
+<span id="_CPPv3N14oriented_point14oriented_pointEv"></span><span id="_CPPv2N14oriented_point14oriented_pointEv"></span><span id="oriented_point::oriented_point"></span><span class="target" id="structoriented__point_1ad0725026b0c5b3eca3b0517ef9ea71fd"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">oriented_point</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N14oriented_point14oriented_pointEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a point at the origin with a zero normal. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14oriented_point3id_E">
+<span id="_CPPv3N14oriented_point3id_E"></span><span id="_CPPv2N14oriented_point3id_E"></span><span id="oriented_point::id___unsigned"></span><span class="target" id="structoriented__point_1ab6b1f4ec7879c461de43271540514c42"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id_</span></span></span><a class="headerlink" href="#_CPPv4N14oriented_point3id_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Identifier of the point. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14oriented_point9position_E">
+<span id="_CPPv3N14oriented_point9position_E"></span><span id="_CPPv2N14oriented_point9position_E"></span><span id="oriented_point::position___vec3"></span><span class="target" id="structoriented__point_1a1193de1dd63f09dd4fdbceabbcebd3d5"></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">position_</span></span></span><a class="headerlink" href="#_CPPv4N14oriented_point9position_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Position, m. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14oriented_point7normal_E">
+<span id="_CPPv3N14oriented_point7normal_E"></span><span id="_CPPv2N14oriented_point7normal_E"></span><span id="oriented_point::normal___vec3"></span><span class="target" id="structoriented__point_1a87e81cfa2792d3736fba7e562d1dcb3a"></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">normal_</span></span></span><a class="headerlink" href="#_CPPv4N14oriented_point7normal_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>Normal vector at the point. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14oriented_point28created_by_poisson_sampling_E">
+<span id="_CPPv3N14oriented_point28created_by_poisson_sampling_E"></span><span id="_CPPv2N14oriented_point28created_by_poisson_sampling_E"></span><span id="oriented_point::created_by_poisson_sampling___b"></span><span class="target" id="structoriented__point_1a1d9cc93c6b58eaa14f077357a2425d55"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">created_by_poisson_sampling_</span></span></span><a class="headerlink" href="#_CPPv4N14oriented_point28created_by_poisson_sampling_E" title="Link to this definition">#</a><br /></dt>
+<dd><p>True if the point was created by the Poisson sampling, false if it was already a node of the mesh. </p>
+<p>Used during cell division. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv426parameter_reader_exception">
+<span id="_CPPv326parameter_reader_exception"></span><span id="_CPPv226parameter_reader_exception"></span><span id="parameter_reader_exception"></span><span class="target" id="classparameter__reader__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parameter_reader_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv426parameter_reader_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when the parameter file cannot be opened, is malformed or misses a required tag. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N26parameter_reader_exception26parameter_reader_exceptionERKNSt6stringE">
+<span id="_CPPv3N26parameter_reader_exception26parameter_reader_exceptionERKNSt6stringE"></span><span id="_CPPv2N26parameter_reader_exception26parameter_reader_exceptionERKNSt6stringE"></span><span id="parameter_reader_exception::parameter_reader_exception__ssCR"></span><span class="target" id="classparameter__reader__exception_1acb2709f36f17e49f50f57a90ea76c63b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">parameter_reader_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N26parameter_reader_exception26parameter_reader_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classparameter__reader__exception_1ab5548ad10b6e46b0aede9a2bb6b5e6f2"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK26parameter_reader_exception4whatEv">
+<span id="_CPPv3NK26parameter_reader_exception4whatEv"></span><span id="_CPPv2NK26parameter_reader_exception4whatEv"></span><span id="parameter_reader_exception::whatC"></span><span class="target" id="classparameter__reader__exception_1ab5548ad10b6e46b0aede9a2bb6b5e6f2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK26parameter_reader_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv421mesh_reader_exception">
+<span id="_CPPv321mesh_reader_exception"></span><span id="_CPPv221mesh_reader_exception"></span><span id="mesh_reader_exception"></span><span class="target" id="classmesh__reader__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_reader_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv421mesh_reader_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when the input mesh file cannot be opened or is not in the expected VTK format. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21mesh_reader_exception21mesh_reader_exceptionERKNSt6stringE">
+<span id="_CPPv3N21mesh_reader_exception21mesh_reader_exceptionERKNSt6stringE"></span><span id="_CPPv2N21mesh_reader_exception21mesh_reader_exceptionERKNSt6stringE"></span><span id="mesh_reader_exception::mesh_reader_exception__ssCR"></span><span class="target" id="classmesh__reader__exception_1a849ec6a947c5f4add4efc470355b3d97"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_reader_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N21mesh_reader_exception21mesh_reader_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classmesh__reader__exception_1a4cacbd4b8ccb2c1f9afd86dbd49f0b9b"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK21mesh_reader_exception4whatEv">
+<span id="_CPPv3NK21mesh_reader_exception4whatEv"></span><span id="_CPPv2NK21mesh_reader_exception4whatEv"></span><span id="mesh_reader_exception::whatC"></span><span class="target" id="classmesh__reader__exception_1a4cacbd4b8ccb2c1f9afd86dbd49f0b9b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK21mesh_reader_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv421mesh_writer_exception">
+<span id="_CPPv321mesh_writer_exception"></span><span id="_CPPv221mesh_writer_exception"></span><span id="mesh_writer_exception"></span><span class="target" id="classmesh__writer__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_writer_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv421mesh_writer_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when an output mesh file cannot be written. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21mesh_writer_exception21mesh_writer_exceptionERKNSt6stringE">
+<span id="_CPPv3N21mesh_writer_exception21mesh_writer_exceptionERKNSt6stringE"></span><span id="_CPPv2N21mesh_writer_exception21mesh_writer_exceptionERKNSt6stringE"></span><span id="mesh_writer_exception::mesh_writer_exception__ssCR"></span><span class="target" id="classmesh__writer__exception_1a23d32da8861f5d93d8537093e2ed2dc4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_writer_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N21mesh_writer_exception21mesh_writer_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classmesh__writer__exception_1a0499cd720f46770997b72e28cd09cb13"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK21mesh_writer_exception4whatEv">
+<span id="_CPPv3NK21mesh_writer_exception4whatEv"></span><span id="_CPPv2NK21mesh_writer_exception4whatEv"></span><span id="mesh_writer_exception::whatC"></span><span class="target" id="classmesh__writer__exception_1a0499cd720f46770997b72e28cd09cb13"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK21mesh_writer_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv423intialization_exception">
+<span id="_CPPv323intialization_exception"></span><span id="_CPPv223intialization_exception"></span><span id="intialization_exception"></span><span class="target" id="classintialization__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">intialization_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv423intialization_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when a simulation cannot be set up or its output cannot be written. </p>
+<p>Examples: inconsistent cell types and input mesh, an invalid scheduling mode, an output folder or statistics file that cannot be created or written. The class name keeps its historical spelling. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23intialization_exception23intialization_exceptionERKNSt6stringE">
+<span id="_CPPv3N23intialization_exception23intialization_exceptionERKNSt6stringE"></span><span id="_CPPv2N23intialization_exception23intialization_exceptionERKNSt6stringE"></span><span id="intialization_exception::intialization_exception__ssCR"></span><span class="target" id="classintialization__exception_1a7c739f40eb1a7f4c5f6f2141a133d68c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">intialization_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N23intialization_exception23intialization_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classintialization__exception_1aede13c3499df81d812fe56d7fb68fd28"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23intialization_exception4whatEv">
+<span id="_CPPv3NK23intialization_exception4whatEv"></span><span id="_CPPv2NK23intialization_exception4whatEv"></span><span id="intialization_exception::whatC"></span><span class="target" id="classintialization__exception_1aede13c3499df81d812fe56d7fb68fd28"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK23intialization_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv431initial_triangulation_exception">
+<span id="_CPPv331initial_triangulation_exception"></span><span id="_CPPv231initial_triangulation_exception"></span><span id="initial_triangulation_exception"></span><span class="target" id="classinitial__triangulation__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initial_triangulation_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv431initial_triangulation_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when the initial triangulation of an input cell mesh fails. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N31initial_triangulation_exception31initial_triangulation_exceptionERKNSt6stringE">
+<span id="_CPPv3N31initial_triangulation_exception31initial_triangulation_exceptionERKNSt6stringE"></span><span id="_CPPv2N31initial_triangulation_exception31initial_triangulation_exceptionERKNSt6stringE"></span><span id="initial_triangulation_exception::initial_triangulation_exception__ssCR"></span><span class="target" id="classinitial__triangulation__exception_1a2fdf3598a5a12a2e9f7a0f10f404fe76"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initial_triangulation_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N31initial_triangulation_exception31initial_triangulation_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classinitial__triangulation__exception_1ab5a6155ab1ce8a35c6ff064893a1cd62"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK31initial_triangulation_exception4whatEv">
+<span id="_CPPv3NK31initial_triangulation_exception4whatEv"></span><span id="_CPPv2NK31initial_triangulation_exception4whatEv"></span><span id="initial_triangulation_exception::whatC"></span><span class="target" id="classinitial__triangulation__exception_1ab5a6155ab1ce8a35c6ff064893a1cd62"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK31initial_triangulation_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv413bpa_exception">
+<span id="_CPPv313bpa_exception"></span><span id="_CPPv213bpa_exception"></span><span id="bpa_exception"></span><span class="target" id="classbpa__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bpa_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv413bpa_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when the ball pivoting algorithm cannot triangulate a point cloud. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N13bpa_exception13bpa_exceptionERKNSt6stringE">
+<span id="_CPPv3N13bpa_exception13bpa_exceptionERKNSt6stringE"></span><span id="_CPPv2N13bpa_exception13bpa_exceptionERKNSt6stringE"></span><span id="bpa_exception::bpa_exception__ssCR"></span><span class="target" id="classbpa__exception_1a3517372eaac4d4f05e433993f83ef14e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bpa_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13bpa_exception13bpa_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classbpa__exception_1a1dc813d5f3731c4ee45b55375c75644b"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK13bpa_exception4whatEv">
+<span id="_CPPv3NK13bpa_exception4whatEv"></span><span id="_CPPv2NK13bpa_exception4whatEv"></span><span id="bpa_exception::whatC"></span><span class="target" id="classbpa__exception_1a1dc813d5f3731c4ee45b55375c75644b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK13bpa_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv424mesh_integrity_exception">
+<span id="_CPPv324mesh_integrity_exception"></span><span id="_CPPv224mesh_integrity_exception"></span><span id="mesh_integrity_exception"></span><span class="target" id="classmesh__integrity__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_integrity_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv424mesh_integrity_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when a cell mesh is not a valid closed manifold surface. </p>
+<p>For example a hole in the mesh or an edge shared by more than two faces. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N24mesh_integrity_exception24mesh_integrity_exceptionERKNSt6stringE">
+<span id="_CPPv3N24mesh_integrity_exception24mesh_integrity_exceptionERKNSt6stringE"></span><span id="_CPPv2N24mesh_integrity_exception24mesh_integrity_exceptionERKNSt6stringE"></span><span id="mesh_integrity_exception::mesh_integrity_exception__ssCR"></span><span class="target" id="classmesh__integrity__exception_1a64d0f352300d0bb1a4c0a9d471c4c38d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mesh_integrity_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N24mesh_integrity_exception24mesh_integrity_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classmesh__integrity__exception_1a8f4808bba9d16da1d66d79ea1ecaef31"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK24mesh_integrity_exception4whatEv">
+<span id="_CPPv3NK24mesh_integrity_exception4whatEv"></span><span id="_CPPv2NK24mesh_integrity_exception4whatEv"></span><span id="mesh_integrity_exception::whatC"></span><span class="target" id="classmesh__integrity__exception_1a8f4808bba9d16da1d66d79ea1ecaef31"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK24mesh_integrity_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv418division_exception">
+<span id="_CPPv318division_exception"></span><span id="_CPPv218division_exception"></span><span id="division_exception"></span><span class="target" id="classdivision__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">division_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv418division_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when a cell division fails (<a class="reference internal" href="triangulation.html#classcell__divider"><span class="std std-ref">cell_divider</span></a>, <a class="reference internal" href="triangulation.html#classpoisson__sampling"><span class="std std-ref">poisson_sampling</span></a>). </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N18division_exception18division_exceptionERKNSt6stringE">
+<span id="_CPPv3N18division_exception18division_exceptionERKNSt6stringE"></span><span id="_CPPv2N18division_exception18division_exceptionERKNSt6stringE"></span><span id="division_exception::division_exception__ssCR"></span><span class="target" id="classdivision__exception_1a95d81735b83a9dadf6e058aad29a295d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">division_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18division_exception18division_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classdivision__exception_1a81ab9cdb1f6104e0278531937ec5561a"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18division_exception4whatEv">
+<span id="_CPPv3NK18division_exception4whatEv"></span><span id="_CPPv2NK18division_exception4whatEv"></span><span id="division_exception::whatC"></span><span class="target" id="classdivision__exception_1a81ab9cdb1f6104e0278531937ec5561a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK18division_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv429unstable_simulation_exception">
+<span id="_CPPv329unstable_simulation_exception"></span><span id="_CPPv229unstable_simulation_exception"></span><span id="unstable_simulation_exception"></span><span class="target" id="classunstable__simulation__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unstable_simulation_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv429unstable_simulation_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown when the simulation has diverged and cannot continue. </p>
+<p>Raised when the bounding box of the tissue is not finite or too large for a spatial grid, and by <a class="reference internal" href="#classsolver_1a0aaaaab314bde8700e5cd0a85544ef1a"><span class="std std-ref">solver::handle_refinement_failures()</span></a> when too many mesh refinements fail in one iteration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N29unstable_simulation_exception29unstable_simulation_exceptionERKNSt6stringE">
+<span id="_CPPv3N29unstable_simulation_exception29unstable_simulation_exceptionERKNSt6stringE"></span><span id="_CPPv2N29unstable_simulation_exception29unstable_simulation_exceptionERKNSt6stringE"></span><span id="unstable_simulation_exception::unstable_simulation_exception__ssCR"></span><span class="target" id="classunstable__simulation__exception_1ae6e960582ad13187a554f01293b13604"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unstable_simulation_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N29unstable_simulation_exception29unstable_simulation_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classunstable__simulation__exception_1a1cdf5b39e5ee988422e2a5d43a7410fb"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK29unstable_simulation_exception4whatEv">
+<span id="_CPPv3NK29unstable_simulation_exception4whatEv"></span><span id="_CPPv2NK29unstable_simulation_exception4whatEv"></span><span id="unstable_simulation_exception::whatC"></span><span class="target" id="classunstable__simulation__exception_1a1cdf5b39e5ee988422e2a5d43a7410fb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK29unstable_simulation_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv432automatic_polarization_exception">
+<span id="_CPPv332automatic_polarization_exception"></span><span id="_CPPv232automatic_polarization_exception"></span><span id="automatic_polarization_exception"></span><span class="target" id="classautomatic__polarization__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">automatic_polarization_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv432automatic_polarization_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Thrown by the <a class="reference internal" href="polarization.html#classautomatic__polarizer"><span class="std std-ref">automatic_polarizer</span></a> when the faces cannot be polarized. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N32automatic_polarization_exception32automatic_polarization_exceptionERKNSt6stringE">
+<span id="_CPPv3N32automatic_polarization_exception32automatic_polarization_exceptionERKNSt6stringE"></span><span id="_CPPv2N32automatic_polarization_exception32automatic_polarization_exceptionERKNSt6stringE"></span><span id="automatic_polarization_exception::automatic_polarization_exception__ssCR"></span><span class="target" id="classautomatic__polarization__exception_1a0a6c8fb9cb99bc3049dd12ea5aded0dc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">automatic_polarization_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N32automatic_polarization_exception32automatic_polarization_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classautomatic__polarization__exception_1acfb813e494f2ff2601e0e63ef484b250"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK32automatic_polarization_exception4whatEv">
+<span id="_CPPv3NK32automatic_polarization_exception4whatEv"></span><span id="_CPPv2NK32automatic_polarization_exception4whatEv"></span><span id="automatic_polarization_exception::whatC"></span><span class="target" id="classautomatic__polarization__exception_1acfb813e494f2ff2601e0e63ef484b250"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK32automatic_polarization_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv414uspg_exception">
+<span id="_CPPv314uspg_exception"></span><span id="_CPPv214uspg_exception"></span><span id="uspg_exception"></span><span class="target" id="classuspg__exception"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uspg_exception</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><a class="headerlink" href="#_CPPv414uspg_exception" title="Link to this definition">#</a><br /></dt>
+<dd><p>Exception reserved for the uniform spatial partitioning grids. </p>
+<p>Not thrown by the current code: the grids report an oversized domain with <a class="reference internal" href="#classunstable__simulation__exception"><span class="std std-ref">unstable_simulation_exception</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N14uspg_exception14uspg_exceptionERKNSt6stringE">
+<span id="_CPPv3N14uspg_exception14uspg_exceptionERKNSt6stringE"></span><span id="_CPPv2N14uspg_exception14uspg_exceptionERKNSt6stringE"></span><span id="uspg_exception::uspg_exception__ssCR"></span><span class="target" id="classuspg__exception_1a64fcd55fd5cdd6543adc4900e6210df3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uspg_exception</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">error_msg</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N14uspg_exception14uspg_exceptionERKNSt6stringE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the exception with the message returned by <a class="reference internal" href="#classuspg__exception_1a6c42cf153da26f4c155d68720336b80d"><span class="std std-ref">what()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK14uspg_exception4whatEv">
+<span id="_CPPv3NK14uspg_exception4whatEv"></span><span id="_CPPv2NK14uspg_exception4whatEv"></span><span id="uspg_exception::whatC"></span><span class="target" id="classuspg__exception_1a6c42cf153da26f4c155d68720336b80d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK14uspg_exception4whatEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the error message. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="io.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Input and output</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solver">Solver</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv46solver"><code class="docutils literal notranslate"><span class="pre">solver</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solver6solverEv"><code class="docutils literal notranslate"><span class="pre">solver::solver()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solverD0Ev"><code class="docutils literal notranslate"><span class="pre">solver::~solver()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solver6solverERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibbRKNSt6stringERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">solver::solver()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solver3runEv"><code class="docutils literal notranslate"><span class="pre">solver::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solver13run_iterationEv"><code class="docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solver9save_meshEv"><code class="docutils literal notranslate"><span class="pre">solver::save_mesh()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solver17remove_dead_cellsEv"><code class="docutils literal notranslate"><span class="pre">solver::remove_dead_cells()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N6solver26handle_refinement_failuresERKNSt6vectorIN18local_mesh_refiner18refinement_failureEEE"><code class="docutils literal notranslate"><span class="pre">solver::handle_refinement_failures()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6solver12get_cell_lstEv"><code class="docutils literal notranslate"><span class="pre">solver::get_cell_lst()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6solver14get_nb_threadsEv"><code class="docutils literal notranslate"><span class="pre">solver::get_nb_threads()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6solver29get_nb_unstable_cells_removedEv"><code class="docutils literal notranslate"><span class="pre">solver::get_nb_unstable_cells_removed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6solver18get_sim_parametersEv"><code class="docutils literal notranslate"><span class="pre">solver::get_sim_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK6solver25get_simulation_statisticsEv"><code class="docutils literal notranslate"><span class="pre">solver::get_simulation_statistics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-time-configuration">Compile-time configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters-and-results">Parameters and results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv425ContactDetectionAlgorithm"><code class="docutils literal notranslate"><span class="pre">ContactDetectionAlgorithm</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N25ContactDetectionAlgorithm4USPGE"><code class="docutils literal notranslate"><span class="pre">ContactDetectionAlgorithm::USPG</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N25ContactDetectionAlgorithm15SWEEP_AND_PRUNEE"><code class="docutils literal notranslate"><span class="pre">ContactDetectionAlgorithm::SWEEP_AND_PRUNE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N25ContactDetectionAlgorithm8ADAPTIVEE"><code class="docutils literal notranslate"><span class="pre">ContactDetectionAlgorithm::ADAPTIVE</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv428global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters19output_folder_path_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::output_folder_path_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters16input_mesh_path_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::input_mesh_path_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters30perform_initial_triangulation_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::perform_initial_triangulation_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters27enable_edge_swap_operation_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::enable_edge_swap_operation_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters20damping_coefficient_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::damping_coefficient_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters20simulation_duration_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::simulation_duration_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters16sampling_period_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::sampling_period_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters10time_step_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::time_step_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters13min_edge_len_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::min_edge_len_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters24contact_cutoff_adhesion_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::contact_cutoff_adhesion_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters25contact_cutoff_repulsion_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::contact_cutoff_repulsion_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28global_simulation_parameters28contact_detection_algorithm_E"><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters::contact_detection_algorithm_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv420cell_type_parameters"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters13add_face_typeERK20face_type_parameters"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::add_face_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters24add_additional_parameterERKNSt6stringEKd"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::add_additional_parameter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters20cell_type_parametersEv"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::cell_type_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters5name_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::name_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters15global_type_id_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::global_type_id_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters13mass_density_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::mass_density_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters13bulk_modulus_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::bulk_modulus_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters13max_pressure_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::max_pressure_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters17initial_pressure_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::initial_pressure_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters24area_elasticity_modulus_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::area_elasticity_modulus_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters17avg_division_vol_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::avg_division_vol_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters17std_division_vol_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::std_division_vol_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters16avg_growth_rate_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::avg_growth_rate_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters16std_growth_rate_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::std_growth_rate_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters8min_vol_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::min_vol_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters28angle_regularization_factor_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::angle_regularization_factor_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters27target_isoperimetric_ratio_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::target_isoperimetric_ratio_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters31surface_coupling_max_curvature_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::surface_coupling_max_curvature_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters11face_types_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::face_types_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20cell_type_parameters22additional_parameters_E"><code class="docutils literal notranslate"><span class="pre">cell_type_parameters::additional_parameters_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv420face_type_parameters"><code class="docutils literal notranslate"><span class="pre">face_type_parameters</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20face_type_parameters20face_type_parametersEv"><code class="docutils literal notranslate"><span class="pre">face_type_parameters::face_type_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20face_type_parameters5name_E"><code class="docutils literal notranslate"><span class="pre">face_type_parameters::name_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20face_type_parameters20face_type_global_id_E"><code class="docutils literal notranslate"><span class="pre">face_type_parameters::face_type_global_id_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20face_type_parameters16surface_tension_E"><code class="docutils literal notranslate"><span class="pre">face_type_parameters::surface_tension_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20face_type_parameters19adherence_strength_E"><code class="docutils literal notranslate"><span class="pre">face_type_parameters::adherence_strength_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20face_type_parameters19repulsion_strength_E"><code class="docutils literal notranslate"><span class="pre">face_type_parameters::repulsion_strength_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N20face_type_parameters16bending_modulus_E"><code class="docutils literal notranslate"><span class="pre">face_type_parameters::bending_modulus_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv418simulation_outputs"><code class="docutils literal notranslate"><span class="pre">simulation_outputs</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18simulation_outputs18simulation_outputsEv"><code class="docutils literal notranslate"><span class="pre">simulation_outputs::simulation_outputs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18simulation_outputs12RETURN_CODE_E"><code class="docutils literal notranslate"><span class="pre">simulation_outputs::RETURN_CODE_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18simulation_outputs14error_message_E"><code class="docutils literal notranslate"><span class="pre">simulation_outputs::error_message_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18simulation_outputs16cell_statistics_E"><code class="docutils literal notranslate"><span class="pre">simulation_outputs::cell_statistics_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18simulation_outputs9cell_lst_E"><code class="docutils literal notranslate"><span class="pre">simulation_outputs::cell_lst_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv44mesh"><code class="docutils literal notranslate"><span class="pre">mesh</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK4mesh12get_nb_nodesEv"><code class="docutils literal notranslate"><span class="pre">mesh::get_nb_nodes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK4mesh12get_nb_facesEv"><code class="docutils literal notranslate"><span class="pre">mesh::get_nb_faces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4mesh12get_node_posEKj"><code class="docutils literal notranslate"><span class="pre">mesh::get_node_pos()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4mesh14face_point_idsE"><code class="docutils literal notranslate"><span class="pre">mesh::face_point_ids</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4mesh12node_pos_lstE"><code class="docutils literal notranslate"><span class="pre">mesh::node_pos_lst</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv414oriented_point"><code class="docutils literal notranslate"><span class="pre">oriented_point</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14oriented_point14oriented_pointERK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">oriented_point::oriented_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14oriented_point14oriented_pointEKjRK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">oriented_point::oriented_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14oriented_point14oriented_pointEv"><code class="docutils literal notranslate"><span class="pre">oriented_point::oriented_point()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14oriented_point3id_E"><code class="docutils literal notranslate"><span class="pre">oriented_point::id_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14oriented_point9position_E"><code class="docutils literal notranslate"><span class="pre">oriented_point::position_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14oriented_point7normal_E"><code class="docutils literal notranslate"><span class="pre">oriented_point::normal_</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14oriented_point28created_by_poisson_sampling_E"><code class="docutils literal notranslate"><span class="pre">oriented_point::created_by_poisson_sampling_</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions">Exceptions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv426parameter_reader_exception"><code class="docutils literal notranslate"><span class="pre">parameter_reader_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N26parameter_reader_exception26parameter_reader_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">parameter_reader_exception::parameter_reader_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK26parameter_reader_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">parameter_reader_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv421mesh_reader_exception"><code class="docutils literal notranslate"><span class="pre">mesh_reader_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21mesh_reader_exception21mesh_reader_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">mesh_reader_exception::mesh_reader_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK21mesh_reader_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">mesh_reader_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv421mesh_writer_exception"><code class="docutils literal notranslate"><span class="pre">mesh_writer_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21mesh_writer_exception21mesh_writer_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">mesh_writer_exception::mesh_writer_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK21mesh_writer_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">mesh_writer_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv423intialization_exception"><code class="docutils literal notranslate"><span class="pre">intialization_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23intialization_exception23intialization_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">intialization_exception::intialization_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23intialization_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">intialization_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv431initial_triangulation_exception"><code class="docutils literal notranslate"><span class="pre">initial_triangulation_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N31initial_triangulation_exception31initial_triangulation_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">initial_triangulation_exception::initial_triangulation_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK31initial_triangulation_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">initial_triangulation_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv413bpa_exception"><code class="docutils literal notranslate"><span class="pre">bpa_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N13bpa_exception13bpa_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">bpa_exception::bpa_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK13bpa_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">bpa_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv424mesh_integrity_exception"><code class="docutils literal notranslate"><span class="pre">mesh_integrity_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N24mesh_integrity_exception24mesh_integrity_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">mesh_integrity_exception::mesh_integrity_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK24mesh_integrity_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">mesh_integrity_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv418division_exception"><code class="docutils literal notranslate"><span class="pre">division_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18division_exception18division_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">division_exception::division_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18division_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">division_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv429unstable_simulation_exception"><code class="docutils literal notranslate"><span class="pre">unstable_simulation_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N29unstable_simulation_exception29unstable_simulation_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">unstable_simulation_exception::unstable_simulation_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK29unstable_simulation_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">unstable_simulation_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv432automatic_polarization_exception"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N32automatic_polarization_exception32automatic_polarization_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_exception::automatic_polarization_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK32automatic_polarization_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_exception::what()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv414uspg_exception"><code class="docutils literal notranslate"><span class="pre">uspg_exception</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N14uspg_exception14uspg_exceptionERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">uspg_exception::uspg_exception()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK14uspg_exception4whatEv"><code class="docutils literal notranslate"><span class="pre">uspg_exception::what()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parallel performance &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/18_parallel_performance';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/18_parallel_performance.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="../examples/index.html" />
+    <link rel="prev" title="Parameter screening" href="17_parameter_screening.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Parallel performance</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="parallel-performance">
+<span id="ug-parallel-performance"></span><h1>Parallel performance<a class="headerlink" href="#parallel-performance" title="Link to this heading">#</a></h1>
+<p>SimuCell3D runs on one shared-memory machine and parallelizes each iteration over the cells
+with OpenMP. This chapter explains the choices that affect run time: the number of threads and
+where they run, the OpenMP <a class="reference internal" href="../glossary.html#term-scheduling-mode"><span class="xref std std-term">scheduling mode</span></a>, the contact detection algorithm, and the
+parameters that determine the cost of an iteration. The thread count, the scheduling mode and
+the contact detection algorithm do not change the model; with more than one thread, results
+vary slightly between runs in any case (see <a class="reference internal" href="#reproducibility">Reproducibility</a>).</p>
+<p>Implementation details of the scheduler and the performance monitor are in the developer
+guide (<a class="reference internal" href="../developers/performance_internals.html"><span class="doc">Performance internals</span></a>).</p>
+<section id="threads">
+<h2>Threads<a class="headerlink" href="#threads" title="Link to this heading">#</a></h2>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> starts one OpenMP thread per physical core and pins thread <span class="math notranslate nohighlight">\(i\)</span> to one
+CPU, so that no two threads share a core:</p>
+<ul class="simple">
+<li><p><strong>Which cores.</strong> The cores are those of the CPUs the process is allowed to run on (its
+affinity mask). The mask is set by <code class="docutils literal notranslate"><span class="pre">taskset</span></code>, by a container runtime with a CPU set, or by a
+batch scheduler that binds jobs to CPUs. Physical cores are recognised from
+<code class="docutils literal notranslate"><span class="pre">/sys/devices/system/cpu/</span></code>; where that is not available, every logical CPU counts as a core.</p></li>
+<li><p><strong>Placement.</strong> Threads go first to one logical CPU of each physical core, alternating
+between sockets on multi-socket machines, and only then to the second hyperthread of each
+core.</p></li>
+<li><p><strong>Override.</strong> <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code> sets the number of threads. With more threads than physical
+cores, the extra threads are placed on hyperthreads.</p></li>
+<li><p><strong>Pinning off.</strong> <code class="docutils literal notranslate"><span class="pre">SIMUCELL3D_PIN_THREADS=0</span></code>, or any value of <code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code>, switches
+pinning off and leaves placement to the OpenMP runtime.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code> is ignored.</p></li>
+</ul>
+<p>The start of every run reports the decision, for example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Thread count: Using 8 physical cores (out of 16 allowed logical CPUs, 2 threads/core, 1 socket(s))
+Thread pinning: enabled, thread i -&gt; CPU 0,1,2,3,4,5,6,7
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.1: </span>Thread pinning and the physical-core default. Before 2.1, threads could end up in pairs on
+the two hyperthreads of one core while other cores were idle.</p>
+</div>
+<section id="several-runs-on-one-machine">
+<h3>Several runs on one machine<a class="headerlink" href="#several-runs-on-one-machine" title="Link to this heading">#</a></h3>
+<p>Each run pins its threads starting from the first CPU of its affinity mask. Two runs started
+side by side with the default settings therefore pin their threads to the <strong>same</strong> CPUs and
+compete for them. Give each run its own set of CPUs:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>taskset<span class="w"> </span>-c<span class="w"> </span><span class="m">0</span>-3<span class="w"> </span>./simucell3d<span class="w"> </span>../parameters/core/parameters_sheet.xml<span class="w"> </span>--output-dir<span class="o">=</span>../results/sheet<span class="w"> </span><span class="p">&amp;</span>
+<span class="gp">$ </span>taskset<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span>-7<span class="w"> </span>./simucell3d<span class="w"> </span>../parameters/core/parameters_tube.xml<span class="w"> </span>--output-dir<span class="o">=</span>../results/tube<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+<p>Each run then uses the physical cores among its CPUs. On a machine with hyperthreads, check
+with <code class="docutils literal notranslate"><span class="pre">lscpu</span> <span class="pre">--extended</span></code> which logical CPUs belong to the same core, and give each run whole
+cores. Alternatively, set <code class="docutils literal notranslate"><span class="pre">SIMUCELL3D_PIN_THREADS=0</span></code> and <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code> for every run and let the
+operating system distribute them.</p>
+<p>On a cluster, request whole cores from the batch system and let <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> count them; pass
+<code class="docutils literal notranslate"><span class="pre">--threads=N</span></code> if the batch system does not restrict the affinity mask.</p>
+</section>
+</section>
+<section id="scheduling-modes">
+<h2>Scheduling modes<a class="headerlink" href="#scheduling-modes" title="Link to this heading">#</a></h2>
+<p>The loops over cells are not balanced: cells differ in size, number of faces and number of
+contacts. The OpenMP schedule decides how the cells are distributed over the threads. It is set
+with <code class="docutils literal notranslate"><span class="pre">--schedule</span></code>:</p>
+<dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">adaptive</span></code> (default)</dt><dd><p>Every phase of an iteration sets its own schedule for its parallel loops: dynamic for contact detection, guided for
+polarization, internal forces and time integration, static for the face-type update and the
+mesh refinement, and dynamic with small chunks for the division check. A base schedule for
+the remaining loops is chosen at start from the number of cells and an estimate of how
+unequal the work per cell is, and is changed when the run moves between the phases
+<code class="docutils literal notranslate"><span class="pre">INITIALIZATION</span></code> (fewer than 10 cells), <code class="docutils literal notranslate"><span class="pre">GROWTH</span></code> (more than 1% of the cells divided in the
+last 50 iterations) and <code class="docutils literal notranslate"><span class="pre">HOMEOSTASIS</span></code>. Messages starting with <code class="docutils literal notranslate"><span class="pre">[Iteration</span> <span class="pre">N]</span></code> on standard
+output report these changes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">dynamic</span></code>, <code class="docutils literal notranslate"><span class="pre">guided</span></code></dt><dd><p>One OpenMP schedule of that kind for all loops. For <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> and <code class="docutils literal notranslate"><span class="pre">guided</span></code>, the chunk size is
+recomputed every 50 iterations from the number of cells and the workload estimate, and
+reduced temporarily after many divisions.</p>
+</dd>
+</dl>
+<p>The workload estimate is the coefficient of variation of a per-cell cost model (number of
+faces, contacts, growth and other terms). It is written as <code class="docutils literal notranslate"><span class="pre">cov</span></code> in the
+<a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a> (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p>
+<p><code class="docutils literal notranslate"><span class="pre">adaptive</span></code> is the recommended mode. If a run spends most of its time in one phase (see
+<a class="reference internal" href="#finding-where-the-time-goes">Finding where the time goes</a>), a short comparison of the four
+modes on the same tissue, with the same thread count, shows whether a fixed schedule is faster
+for it.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span><code class="docutils literal notranslate"><span class="pre">--schedule=auto</span></code> and <code class="docutils literal notranslate"><span class="pre">--enable-per-loop-scheduling</span></code> were removed; <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> covers both
+(<a class="reference internal" href="13_running_simulations.html"><span class="doc">Running simulations</span></a>).</p>
+</div>
+</section>
+<section id="contact-detection-algorithm">
+<h2>Contact detection algorithm<a class="headerlink" href="#contact-detection-algorithm" title="Link to this heading">#</a></h2>
+<p>Finding the pairs of nearby faces of different cells is the broad phase of contact detection.
+It is chosen with <code class="docutils literal notranslate"><span class="pre">&lt;contact_detection_algorithm&gt;</span></code> in the parameter file
+(<a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a>):</p>
+<dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">uspg</span></code> (default)</dt><dd><p>A uniform spatial partitioning grid (USPG): space is divided into cubic voxels, each face is
+binned into the voxels that its bounding box (enlarged by the contact cutoff) overlaps, and
+only faces that share a voxel are compared.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code></dt><dd><p>Sweep-and-Prune on the bounding boxes of the faces, sorted along the coordinate axes.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">adaptive</span></code></dt><dd><p>The grid below 500 cells and Sweep-and-Prune from 500 cells on.</p>
+</dd>
+</dl>
+<p>The choice applies only to contact model 2 (face-face coupling, the default build); contact
+models 0 and 1 always use the grid. The choice affects only how candidate face pairs are
+found; the contact forces are computed by the same code. The shipped parameter files all use
+the default. Which algorithm is faster depends on the tissue; compare them on a short run.</p>
+</section>
+<section id="what-determines-the-cost-of-an-iteration">
+<h2>What determines the cost of an iteration<a class="headerlink" href="#what-determines-the-cost-of-an-iteration" title="Link to this heading">#</a></h2>
+<p>The work per iteration grows with the number of cells and with the number of faces per cell.</p>
+<ul class="simple">
+<li><p><strong>Number of cells.</strong> Runser, Vetter &amp; Iber (2024) report that the total time complexity of a
+growth simulation is <span class="math notranslate nohighlight">\(\mathcal{O}(N_c^{4/3})\)</span> in the number of cells <span class="math notranslate nohighlight">\(N_c\)</span>.</p></li>
+<li><p><strong>Faces per cell.</strong> The mesh refiner keeps edge lengths between <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> and three
+times that value (<a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>), so the number of faces of a cell
+of area <span class="math notranslate nohighlight">\(A\)</span> grows as <span class="math notranslate nohighlight">\(A / l_{\min}^2\)</span>. Halving <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> roughly quadruples the
+faces per cell and the cost per cell.</p></li>
+<li><p><strong>Contacts.</strong> Larger contact cutoffs give more candidate pairs per face.</p></li>
+<li><p><strong>Time step.</strong> The run needs <code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">time_step</span></code> iterations. The largest
+stable time step depends on the mechanical parameters and the mesh resolution; a time step
+that is too large shows up as unstable cells being removed
+(<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></li>
+<li><p><strong>Output.</strong> Every mesh pair is written as ASCII text; a short <code class="docutils literal notranslate"><span class="pre">sampling_period</span></code> slows the run
+and fills the disk (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p></li>
+</ul>
+<section id="reference-figures">
+<h3>Reference figures<a class="headerlink" href="#reference-figures" title="Link to this heading">#</a></h3>
+<p>The measurements below are the only ones given for this purpose; they come with their
+conditions and are not guarantees for other machines.</p>
+<ul class="simple">
+<li><p>Runser, Vetter &amp; Iber (2024), with release 1.0: growth from one cell to 125,000 cells in one
+day of computation on an Intel Xeon W-2245 (eight cores, 3.9 GHz) with 16 threads, for cells
+with 121 nodes and 238 triangular faces on average. The paper reports that the parallel
+efficiency follows Amdahl’s law (its Supplementary Fig. 6).</p></li>
+<li><p>2.1 (from <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>): the compact face grid of face-face contact halves the contact
+step, from 1,059 to 500 ms per iteration at 2.6k cells with 4 threads. In 8-core runs of the
+reconstructed paper-like growth configuration (<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, not the
+lab’s configuration; <a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>), 2.1 needs
+44-46% less time per iteration at 30k cells than the development builds that preceded it,
+and reaches 30k cells in about 4 hours.</p></li>
+</ul>
+<p>Because 2.1 also changes the physics (<a class="reference internal" href="../whats_new/v2.1.html"><span class="doc">Release 2.1</span></a>), run times of 1.0 and 2.1 are not
+a like-for-like comparison.</p>
+</section>
+</section>
+<section id="finding-where-the-time-goes">
+<h2>Finding where the time goes<a class="headerlink" href="#finding-where-the-time-goes" title="Link to this heading">#</a></h2>
+<p>Two outputs show where a run spends its time:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a> gives, every 100 iterations, the mean time per iteration of mesh
+refinement, contact detection, polarization and internal forces, and time integration, with
+the number of cells. The difference of <code class="docutils literal notranslate"><span class="pre">wall_epoch</span></code> between rows, divided by 100, is the
+wall-clock time per iteration, including output and divisions.</p></li>
+<li><p>At the end of a run, standard output shows a performance report with the time spent in each
+of these phases.</p></li>
+</ul>
+<p>To measure the effect of a setting, run the same parameter file for a few hundred iterations
+(reduce <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code>), once per setting, with the same <code class="docutils literal notranslate"><span class="pre">--threads</span></code>, and compare the
+per-phase times.</p>
+</section>
+<section id="reproducibility">
+<h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>With more than one thread, two runs with the same input are not bit-identical: contact
+forces are summed in an order that depends on the thread timing, and the rounding
+differences grow over time.</p></li>
+<li><p>Growth rates and division volumes with a non-zero standard deviation are drawn from a random
+generator seeded from the clock, so runs that use them differ even on one thread.</p></li>
+<li><p>Cell division (to triangulate the division interface) and the initial triangulation sample
+points with a generator that is also seeded from the clock. A run in which cells divide therefore differs from one run to the
+next even with <code class="docutils literal notranslate"><span class="pre">--threads=1</span></code> and standard deviations of 0: in a test with
+<code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code> on one thread, two runs were identical up to the first division and
+differed afterwards (per-cell volumes by up to 0.5% after 6,000 iterations).</p></li>
+</ul>
+<p>A run on one thread is repeatable value by value only when cells do not divide, the standard
+deviations are 0 and <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> is off (see
+<a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a> and <a class="reference internal" href="../faq.html"><span class="doc">Frequently asked questions</span></a>). Compare runs with divisions statistically.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="13_running_simulations.html"><span class="doc">Running simulations</span></a>: <code class="docutils literal notranslate"><span class="pre">--threads</span></code>, <code class="docutils literal notranslate"><span class="pre">--schedule</span></code> and the environment
+variables.</p></li>
+<li><p><a class="reference internal" href="../developers/performance_internals.html"><span class="doc">Performance internals</span></a>: how the adaptive mode and the pinning are
+implemented.</p></li>
+<li><p><a class="reference internal" href="../developers/benchmarking.html"><span class="doc">Benchmarking</span></a>: the benchmark scripts.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="17_parameter_screening.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Parameter screening</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../examples/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#threads">Threads</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#several-runs-on-one-machine">Several runs on one machine</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scheduling-modes">Scheduling modes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-detection-algorithm">Contact detection algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-determines-the-cost-of-an-iteration">What determines the cost of an iteration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-figures">Reference figures</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-where-the-time-goes">Finding where the time goes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
