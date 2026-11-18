@@ -89,7 +89,7 @@ int ContactModelIntegrationTester::strategy_factory_overhead_negligible() {
         }
     });
 
-    bool test1 = time_ms < 5.0;  // Less than 5 milliseconds (conservative threshold for ASAN builds)
+    bool test1 = time_ms < 50.0;  // 50 us per strategy; ASan builds on CI runners take 6-8 ms in total
 
     std::cout << "  Creation time for 1000 strategies: " << time_ms << " ms" << std::endl;
     print_test_result("overhead_negligible", test1);
