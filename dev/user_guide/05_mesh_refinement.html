@@ -1,0 +1,858 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mesh refinement &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/05_mesh_refinement';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/05_mesh_refinement.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Growth, division and removal" href="06_growth_division_removal.html" />
+    <link rel="prev" title="Time integration" href="04_time_integration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Mesh refinement</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mesh-refinement">
+<span id="ug-mesh-refinement"></span><h1>Mesh refinement<a class="headerlink" href="#mesh-refinement" title="Link to this heading">#</a></h1>
+<p>Cells change shape, grow and divide, so a mesh that was well shaped at the start would soon have
+edges that are much too long or too short. SimuCell3D keeps the resolution of every cell surface
+in a fixed range with a <a class="reference internal" href="../glossary.html#term-local-mesh-refiner"><span class="xref std std-term">local mesh refiner</span></a> that runs at every <a class="reference internal" href="../glossary.html#term-iteration"><span class="xref std std-term">iteration</span></a>. This
+chapter describes the edge-length bounds, the three local operations, the initial
+triangulation of the input mesh, and the checks that 2.1 adds to the refiner.</p>
+<section id="edge-length-bounds">
+<h2>Edge-length bounds<a class="headerlink" href="#edge-length-bounds" title="Link to this heading">#</a></h2>
+<p>All edges of all cells are kept in the range</p>
+<div class="math notranslate nohighlight">
+\[
+l_{\min} \le l \le l_{\max}, \qquad l_{\max} = 3\, l_{\min},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(l_{\min}\)</span> is <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>. The maximum is not a parameter: as in the paper’s
+Methods, it is always three times the minimum. The bounds set the resolution of the model. A cell
+of area <span class="math notranslate nohighlight">\(A\)</span> has of the order of <span class="math notranslate nohighlight">\(A / l_{\min}^2\)</span> faces, and the cost of a run grows with the
+total number of faces.</p>
+</section>
+<section id="local-operations">
+<h2>Local operations<a class="headerlink" href="#local-operations" title="Link to this heading">#</a></h2>
+<p>At every iteration, before contact detection, the refiner processes each cell independently (in
+parallel over cells):</p>
+<ol class="arabic simple">
+<li><p><strong>Edge swap</strong> (only if <code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code> is 1). Every face with a quality score
+<span class="math notranslate nohighlight">\(S_f = \dfrac{36}{\sqrt 3}\, \dfrac{A_f}{P_f^2}\)</span> below 0.2, where <span class="math notranslate nohighlight">\(P_f\)</span> is the perimeter, has its
+longest edge swapped: the two triangles that share the edge are reconnected along the other
+diagonal. The swap is skipped if that diagonal is already an edge of the mesh. <span class="math notranslate nohighlight">\(S_f = 1\)</span> for an equilateral triangle and tends to 0 for a needle or a sliver. The
+nodes do not move.</p></li>
+<li><p><strong>Edge split.</strong> An edge longer than <span class="math notranslate nohighlight">\(l_{\max}\)</span> is split at its midpoint, which adds one node
+and replaces two faces by four. The new faces copy the face type of the faces they replace.</p></li>
+<li><p><strong>Edge collapse.</strong> An edge shorter than <span class="math notranslate nohighlight">\(l_{\min}\)</span> is collapsed into one node at its midpoint,
+which removes one node and two faces. The collapse is allowed only if the two end nodes share
+exactly two neighbours; otherwise it would create an edge shared by more than two faces, and
+the edge is left as it is.</p></li>
+</ol>
+<p>Splits and collapses are repeated until no edge is out of range. In the dynamic model the
+momentum is carried over: on a split each end node gives one third of its momentum to the new
+node; on a collapse the new node gets the sum of the two momenta.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The paper’s Methods give a swap threshold of <span class="math notranslate nohighlight">\(S_f &lt; 0.3\)</span>; the code uses 0.2. The edge swap is
+disabled (<code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code> 0) in every shipped parameter file except
+<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>When the refiner split an edge, it oriented the new triangles with the normals stored on the old
+faces, which can be out of date within one refinement pass. Some new triangles came out inside
+out, and the cell kept an inverted patch: its volume was mis-measured, its pressure stopped
+resisting compression, and it swelled to several times its target volume or stretched into a
+long thin cell. The new triangles now copy the winding of the face they replace. 1.0 has the
+same bug, so this change alters results.</p>
+</div>
+</section>
+<section id="limits-and-failure-handling">
+<h2>Limits and failure handling<a class="headerlink" href="#limits-and-failure-handling" title="Link to this heading">#</a></h2>
+<p>Two limits stop the refinement of a cell that does not converge:</p>
+<ul class="simple">
+<li><p><strong>Oscillation bail-out.</strong> Each split or collapse is counted against a cubic bucket of edge
+<span class="math notranslate nohighlight">\(10^{-7}\)</span> m that contains the midpoint of the edge. If more than 50 operations fall in the same
+bucket within one call, the refiner stops working on that cell for the current iteration, logs
+it, and continues with the other cells. Some edges of that cell can stay outside
+<span class="math notranslate nohighlight">\([l_{\min}, l_{\max}]\)</span> until the next iteration. The bucket size is fixed; it does not scale with
+<code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>.</p></li>
+<li><p><strong>Operation cap.</strong> More than 500,000 operations on one cell in one call raise an error
+(“The refinement of the mesh of cell X failed”).</p></li>
+</ul>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>In 1.0 a cell that did not converge, or any error raised while refining one cell, ended the whole
+run. In 2.1 the bail-out lets the run continue (introduced in 2.0, logged since 2.1), and a cell
+whose refinement raises an error is removed from the tissue before contact detection, unless so
+many cells fail in one iteration that a bug is more likely. The rules and log lines are in
+<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
+</div>
+</section>
+<section id="orientation-self-check">
+<h2>Orientation self-check<a class="headerlink" href="#orientation-self-check" title="Link to this heading">#</a></h2>
+<p>All operations are meant to preserve the orientation of the surface. 2.1 verifies it after every
+refinement: each cell checks that the two faces of every edge traverse it in opposite directions.
+The check first computes a cheap checksum over all faces and counts edges only if the checksum is
+non-zero. A cell that fails is logged and all its faces are re-oriented from one seed face, as for
+a new cell; a cell whose surface is no longer manifold is logged but cannot be repaired. The check
+costs about 0.25% of a time step.</p>
+</section>
+<section id="initial-triangulation">
+<h2>Initial triangulation<a class="headerlink" href="#initial-triangulation" title="Link to this heading">#</a></h2>
+<p>The input mesh describes each cell by polygons that need not be triangles or respect the edge
+bounds (<a class="reference internal" href="12_input_meshes.html"><span class="doc">Input meshes</span></a>). With <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> set to 1, each cell surface
+is rebuilt before the first iteration, following the procedure of the paper’s Methods and
+Supplementary Fig. 1:</p>
+<ol class="arabic simple">
+<li><p>Each polygon is split into triangles around its centre.</p></li>
+<li><p>The surface is sampled with Poisson disk sampling, with a minimum point separation of
+<span class="math notranslate nohighlight">\(l_{\min}\)</span>.</p></li>
+<li><p>The ball pivoting algorithm connects the sample points into a closed triangle mesh.</p></li>
+</ol>
+<p>The resulting edges are at least <span class="math notranslate nohighlight">\(l_{\min}\)</span> long; edges longer than <span class="math notranslate nohighlight">\(l_{\max}\)</span> are split by the
+refiner during the first iteration. The faces are oriented outwards, and the surface must be
+closed and manifold. A cell whose triangulation fails is retried up to 10 times (the sampling is
+random), with a log line for each attempt; after the tenth failure the run stops.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> set to 0, the input mesh is used as given and must already
+consist of triangles. Its edges are brought into range by the refiner during the first iteration.
+The vesicle files, <code class="docutils literal notranslate"><span class="pre">fig3e_*.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">parameters_paper_exact_fast_growth.xml</span></code> use this
+setting.</p>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Section</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(l_{\min}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p>m</p></td>
+<td><p>Minimum edge length; <span class="math notranslate nohighlight">\(l_{\max} = 3 l_{\min}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p></p></td>
+<td><p>1 enables the edge swap, 0 disables it</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code></p></td>
+<td><p></p></td>
+<td><p>1 re-triangulates the input mesh; 0 uses it as given</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="practical-guidance">
+<h2>Practical guidance<a class="headerlink" href="#practical-guidance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Resolution and contact range.</strong> The contact cutoffs (<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>) should be compared
+with <span class="math notranslate nohighlight">\(l_{\min}\)</span>: a node can only couple with or be repelled by a nearby surface within the cutoff,
+and the faces of a coarse mesh are large compared with a short cutoff. The paper’s Table 2 sets
+<span class="math notranslate nohighlight">\(l_{\min} = c = 2\times10^{-7}\)</span> m. <code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, the reconstructed
+paper-like configuration of 2.x, uses <span class="math notranslate nohighlight">\(l_{\min} = 10^{-6}\)</span> m with <span class="math notranslate nohighlight">\(c = 2\times10^{-7}\)</span> m, aiming
+at the mesh size reported for the paper’s growth benchmark (121 nodes and 238 faces per cell on
+average, Runser, Vetter &amp; Iber (2024)); the lab’s own benchmark file of 1.0,
+<code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code>, uses <span class="math notranslate nohighlight">\(l_{\min} = 6\times10^{-7}\)</span> m with <span class="math notranslate nohighlight">\(c = 5\times10^{-7}\)</span> m
+(<a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>). The CHANGELOG lists cell interpenetration as a known
+issue and names the ratio of the reconstruction as one possible cause.</p></li>
+<li><p><strong>Resolution and time step.</strong> A finer mesh has lighter nodes and smaller faces, and usually needs
+a smaller time step (<a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a>).</p></li>
+<li><p><strong>Log lines.</strong> Occasional oscillation bail-outs are expected with fine meshes and small cells.
+Frequent ones, or many re-oriented cells, point to a time step that is too large or to strongly
+deformed cells. The first 20 occurrences of each message are logged, then every 1000th.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>: the daughters of a division are refined at once.</p></li>
+<li><p><a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>: log lines and failure limits.</p></li>
+<li><p><a class="reference internal" href="../api/triangulation.html"><span class="doc">Triangulation and division</span></a> for <code class="docutils literal notranslate"><span class="pre">local_mesh_refiner</span></code> and the initial triangulation.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_time_integration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Time integration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_growth_division_removal.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Growth, division and removal</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-length-bounds">Edge-length bounds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-operations">Local operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limits-and-failure-handling">Limits and failure handling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orientation-self-check">Orientation self-check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-triangulation">Initial triangulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-guidance">Practical guidance</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

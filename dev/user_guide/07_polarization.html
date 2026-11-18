@@ -1,0 +1,877 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Polarization &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/07_polarization';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/07_polarization.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cell classes" href="08_cell_classes.html" />
+    <link rel="prev" title="Growth, division and removal" href="06_growth_division_removal.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Polarization</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="polarization">
+<span id="ug-polarization"></span><h1>Polarization<a class="headerlink" href="#polarization" title="Link to this heading">#</a></h1>
+<p>Epithelial cells have membrane regions with different mechanical properties: an apical side
+facing a lumen or the outside, lateral sides in contact with neighbouring cells, and a basal side
+facing the extracellular matrix. SimuCell3D represents these regions by <a class="reference internal" href="../glossary.html#term-face-type"><span class="xref std std-term">face types</span></a>,
+each with its own surface tension, bending modulus, adherence strength and repulsion strength.
+This chapter explains how faces receive their types and how the <a class="reference internal" href="../glossary.html#term-polarization-mode"><span class="xref std std-term">polarization mode</span></a>
+(<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code>, a compile-time choice) relabels them during a run.</p>
+<section id="face-types">
+<h2>Face types<a class="headerlink" href="#face-types" title="Link to this heading">#</a></h2>
+<p>Each <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> of the parameter file lists one or more <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> entries. Inside a cell,
+a face refers to its face type by <strong>position</strong> in that list: the first entry is local face type 0,
+the second 1, the third 2. The tag <code class="docutils literal notranslate"><span class="pre">global_face_id</span></code> is the number written to the output meshes as
+<code class="docutils literal notranslate"><span class="pre">face_type_id</span></code>, so that face types of different cell types can be told apart in ParaView; it does
+not select the face type.</p>
+<p>The polarization code assigns local types to the faces of epithelial cells with this meaning:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Local face type</p></th>
+<th class="head"><p>Region</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>apical</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>lateral</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>basal</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The face types of an epithelial cell type must therefore be listed in the order apical, lateral,
+basal, as in every shipped parameter file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;face_types&gt;</span>
+<span class="w">    </span><span class="nt">&lt;face_type&gt;</span>
+<span class="w">        </span><span class="nt">&lt;global_face_id&gt;</span>0<span class="nt">&lt;/global_face_id&gt;</span>
+<span class="w">        </span><span class="nt">&lt;face_type_name&gt;</span>apical<span class="nt">&lt;/face_type_name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;adherence_strength&gt;</span>1e9<span class="nt">&lt;/adherence_strength&gt;</span>
+<span class="w">        </span><span class="nt">&lt;repulsion_strength&gt;</span>1e9<span class="nt">&lt;/repulsion_strength&gt;</span>
+<span class="w">        </span><span class="nt">&lt;surface_tension&gt;</span>1e-3<span class="nt">&lt;/surface_tension&gt;</span>
+<span class="w">        </span><span class="nt">&lt;bending_modulus&gt;</span>0<span class="nt">&lt;/bending_modulus&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/face_type&gt;</span>
+<span class="w">    </span><span class="nt">&lt;face_type&gt;</span>
+<span class="w">        </span><span class="nt">&lt;global_face_id&gt;</span>1<span class="nt">&lt;/global_face_id&gt;</span>
+<span class="w">        </span><span class="nt">&lt;face_type_name&gt;</span>lateral<span class="nt">&lt;/face_type_name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;adherence_strength&gt;</span>1e9<span class="nt">&lt;/adherence_strength&gt;</span>
+<span class="w">        </span><span class="nt">&lt;repulsion_strength&gt;</span>1e9<span class="nt">&lt;/repulsion_strength&gt;</span>
+<span class="w">        </span><span class="nt">&lt;surface_tension&gt;</span>4e-4<span class="nt">&lt;/surface_tension&gt;</span>
+<span class="w">        </span><span class="nt">&lt;bending_modulus&gt;</span>0<span class="nt">&lt;/bending_modulus&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/face_type&gt;</span>
+<span class="w">    </span><span class="nt">&lt;face_type&gt;</span>
+<span class="w">        </span><span class="nt">&lt;global_face_id&gt;</span>2<span class="nt">&lt;/global_face_id&gt;</span>
+<span class="w">        </span><span class="nt">&lt;face_type_name&gt;</span>basal<span class="nt">&lt;/face_type_name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;adherence_strength&gt;</span>0<span class="nt">&lt;/adherence_strength&gt;</span>
+<span class="w">        </span><span class="nt">&lt;repulsion_strength&gt;</span>5e8<span class="nt">&lt;/repulsion_strength&gt;</span>
+<span class="w">        </span><span class="nt">&lt;surface_tension&gt;</span>1e-3<span class="nt">&lt;/surface_tension&gt;</span>
+<span class="w">        </span><span class="nt">&lt;bending_modulus&gt;</span>0<span class="nt">&lt;/bending_modulus&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/face_type&gt;</span>
+<span class="nt">&lt;/face_types&gt;</span>
+</pre></div>
+</div>
+<p>(from <code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle.xml</span></code>). The input mesh carries no face types: every face
+starts with local type 0. Faces created by an edge split copy the type of the face they replace. Only epithelial cells are relabelled; the faces of lumen, ECM, nucleus and static cells
+keep local type 0, so these cell types need only one face type.</p>
+</section>
+<section id="polarization-modes">
+<h2>Polarization modes<a class="headerlink" href="#polarization-modes" title="Link to this heading">#</a></h2>
+<p>At the start of every iteration, all faces of every epithelial cell are reset to local type 0
+(apical). The polarization mode then decides which faces become lateral or basal in the same
+iteration, before the internal forces are computed.</p>
+<section id="mode-0-no-polarization">
+<h3>Mode 0: no polarization<a class="headerlink" href="#mode-0-no-polarization" title="Link to this heading">#</a></h3>
+<p>No face is relabelled. All faces of epithelial cells use the first face type for the whole run.</p>
+</section>
+<section id="mode-1-from-contacts-default">
+<h3>Mode 1: from contacts (default)<a class="headerlink" href="#mode-1-from-contacts-default" title="Link to this heading">#</a></h3>
+<p>Faces are labelled from the contacts found by the <a class="reference internal" href="../glossary.html#term-contact-model"><span class="xref std std-term">contact model</span></a>. The rule depends on the
+contact model:</p>
+<ul class="simple">
+<li><p><strong>Contact model 0.</strong> When a node of another cell is in adhesive or repulsive contact with a
+face of an epithelial cell, the face is labelled from the <a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell class</span></a> of the touching
+cell: ECM gives basal (2), lumen gives apical (0), any other class gives lateral (1).</p></li>
+<li><p><strong>Contact model 2.</strong> A face is lateral (1) if its three nodes are all coupled to nodes of the
+same neighbouring cell and the three partner nodes form a face of that cell. All other faces are
+apical (0).</p></li>
+<li><p><strong>Contact model 1.</strong> A face whose three nodes are all coupled, and at least one of whose node
+normals points to the same side as the face normal, is lateral (1) if the partners lie on
+different cells or are joined by edges on the same cell, and apical (0) otherwise. Faces with an
+uncoupled node stay apical.</p></li>
+</ul>
+<p>No face becomes basal with contact models 1 and 2, because couplings exist only between
+epithelial cells.</p>
+<p>With contact models 1 and 2, mode 1 therefore distinguishes only contact with another epithelial
+cell (lateral) from everything else (apical); the basal face type is not used.</p>
+</section>
+<section id="mode-2-from-a-voxel-map-of-the-tissue">
+<h3>Mode 2: from a voxel map of the tissue<a class="headerlink" href="#mode-2-from-a-voxel-map-of-the-tissue" title="Link to this heading">#</a></h3>
+<p>This mode follows the second algorithm of Runser, Vetter &amp; Iber (2024), Fig. 2, and works without
+contact information. At every iteration:</p>
+<ol class="arabic simple">
+<li><p>The bounding box of the tissue, enlarged by two voxels on each side, is divided into cubic
+voxels of edge <span class="math notranslate nohighlight">\(3\,l_{\min}\)</span>.</p></li>
+<li><p>Every voxel that contains a mesh node is a boundary voxel.</p></li>
+<li><p>Starting from the voxel of each cell’s centroid, a flood fill over face-adjacent voxels marks
+the cytoplasm of every cell, stopping at boundary voxels.</p></li>
+<li><p>A flood fill from a corner of the box marks the exterior. (The paper names the
+Hoshen-Kopelman algorithm for this clustering; the code uses flood fills over the six
+face neighbours of each voxel.)</p></li>
+<li><p>All remaining voxels are luminal.</p></li>
+<li><p>For every face of an epithelial cell, a ray is cast from its first node along the outward face
+normal. The first non-boundary voxel it reaches gives the region the face looks at.</p></li>
+</ol>
+<p>In 2.1 a face that looks at exterior space becomes local type 0, and a face that looks at
+cytoplasm or at a lumen becomes local type 1. The voxel map is written at every sampling period
+to <code class="docutils literal notranslate"><span class="pre">region_data/result_&lt;n&gt;.vtk</span></code>, from the second iteration on (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The paper describes the outcome as lateral (facing another cell), apical (facing an enclosed
+volume such as a lumen) and basal (facing the surrounding medium or ECM). The 2.1 code, unchanged
+from 1.0, maps lumen and cytoplasm to the same local type 1 and the exterior to local type 0, and
+never assigns local type 2. Check the <code class="docutils literal notranslate"><span class="pre">face_type_id</span></code> array of the face meshes before relying on
+mode 2 for apical-basal differences.</p>
+</div>
+<p>The cytoplasm flood fill starts at the centroid of the cell surface. For a strongly non-convex cell
+whose centroid lies outside the cell, the fill marks the wrong region. A ray that runs along a row
+of boundary voxels can also report the exterior for a face that is in contact with another cell.</p>
+</section>
+</section>
+<section id="effect-on-the-mechanics">
+<h2>Effect on the mechanics<a class="headerlink" href="#effect-on-the-mechanics" title="Link to this heading">#</a></h2>
+<p>The face type of a face selects, at every iteration:</p>
+<ul class="simple">
+<li><p>its surface tension <span class="math notranslate nohighlight">\(\gamma\)</span> and the bending modulus used for the hinges at its edges
+(<a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>);</p></li>
+<li><p>the adherence strength <span class="math notranslate nohighlight">\(\omega\)</span> and repulsion strength <span class="math notranslate nohighlight">\(\xi\)</span> applied when a node of another cell
+touches it (<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>).</p></li>
+</ul>
+<p>A lower lateral than apical surface tension, as in the shipped files, favours large contacts
+between cells: for two coupled cells the contact angle <span class="math notranslate nohighlight">\(\theta\)</span> follows the Young-Dupré relation
+<span class="math notranslate nohighlight">\(\cos\theta = \gamma_l/\gamma_a\)</span> (paper, Supplementary Fig. 5). The paper explores the balance
+between surface tension and adhesion in its Figs. 3 and 4.</p>
+</section>
+<section id="contact-area-fraction">
+<h2>Contact area fraction<a class="headerlink" href="#contact-area-fraction" title="Link to this heading">#</a></h2>
+<p>With polarization mode 1, the statistics CSV has a column <code class="docutils literal notranslate"><span class="pre">cell_contact_area_fraction</span></code>: for an
+epithelial cell, the area of its lateral faces divided by its total area; for other cells, 0. The
+column is absent in the other modes (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p>
+</section>
+<section id="compile-time-options">
+<h2>Compile-time options<a class="headerlink" href="#compile-time-options" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code></p></th>
+<th class="head"><p>Behaviour</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>No relabelling; epithelial faces stay apical</p></td>
+</tr>
+<tr class="row-odd"><td><p>1 (default)</p></td>
+<td><p>From contacts, as described above</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>From the voxel map; writes <code class="docutils literal notranslate"><span class="pre">region_data/</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Every shipped parameter file that states its configuration was written for mode 1
+(<code class="docutils literal notranslate"><span class="pre">fig3e_*.xml</span></code> state none). Changing the mode requires a rebuild (<a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="08_cell_classes.html"><span class="doc">Cell classes</span></a> for which classes are polarized.</p></li>
+<li><p><a class="reference internal" href="../api/polarization.html"><span class="doc">Polarization</span></a> for the automatic polarizer.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="06_growth_division_removal.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Growth, division and removal</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="08_cell_classes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Cell classes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#face-types">Face types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polarization-modes">Polarization modes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode-0-no-polarization">Mode 0: no polarization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode-1-from-contacts-default">Mode 1: from contacts (default)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode-2-from-a-voxel-map-of-the-tissue">Mode 2: from a voxel map of the tissue</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#effect-on-the-mechanics">Effect on the mechanics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-area-fraction">Contact area fraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-time-options">Compile-time options</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

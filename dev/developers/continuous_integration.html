@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Continuous integration &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developers/continuous_integration';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/continuous_integration.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Benchmarking" href="benchmarking.html" />
+    <link rel="prev" title="Testing" href="testing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_setup.html">Development setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Continuous integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_internals.html">Performance internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_style.html">Coding style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_process.html">Release process</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Continuous...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="continuous-integration">
+<span id="dev-ci"></span><h1>Continuous integration<a class="headerlink" href="#continuous-integration" title="Link to this heading">#</a></h1>
+<p>SimuCell3D uses GitHub Actions; the workflows are in <code class="docutils literal notranslate"><span class="pre">.github/workflows/</span></code>. They follow three
+rules: a red required check means the code is broken (never the runner or benchmark noise), every
+pull request runs the simulator end to end, and nothing runs on a schedule. Expensive checks run
+when a release is prepared or when a maintainer asks for them.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Workflow</p></th>
+<th class="head"><p>Runs on</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ci.yml</span></code> (CI)</p></td>
+<td><p>every pull request; pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code> and <code class="docutils literal notranslate"><span class="pre">release/**</span></code>; by hand; called by <code class="docutils literal notranslate"><span class="pre">release.yml</span></code></p></td>
+<td><p>the required checks</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">long.yml</span></code> (Long tests)</p></td>
+<td><p>pull requests touching <code class="docutils literal notranslate"><span class="pre">src/</span></code> or <code class="docutils literal notranslate"><span class="pre">include/</span></code> with the label <code class="docutils literal notranslate"><span class="pre">run-long-tests</span></code>; pushes to <code class="docutils literal notranslate"><span class="pre">release/**</span></code>; called by <code class="docutils literal notranslate"><span class="pre">release.yml</span></code>; by hand</p></td>
+<td><p>the <code class="docutils literal notranslate"><span class="pre">long</span></code> test tier and the micro-benchmarks</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">perf.yml</span></code> (Performance A/B)</p></td>
+<td><p>pull requests touching <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, <code class="docutils literal notranslate"><span class="pre">lib/</span></code>, <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">parameters/</span></code>; by hand</p></td>
+<td><p>timing comparison with the base branch; informational</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker.yml</span></code> (Docker)</p></td>
+<td><p>pull requests and pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code> that change the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, <code class="docutils literal notranslate"><span class="pre">.dockerignore</span></code>, the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code> or <code class="docutils literal notranslate"><span class="pre">lib/</span></code></p></td>
+<td><p>builds the Docker image and runs <code class="docutils literal notranslate"><span class="pre">simucell3d</span> <span class="pre">--version</span></code>; informational</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docs.yml</span></code> (Docs)</p></td>
+<td><p>pull requests touching <code class="docutils literal notranslate"><span class="pre">doc/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>, <code class="docutils literal notranslate"><span class="pre">README.md</span></code> or <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>; pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code>; tags <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code>; by hand</p></td>
+<td><p>builds and deploys the documentation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">release.yml</span></code> (Release)</p></td>
+<td><p>tags <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code> and <code class="docutils literal notranslate"><span class="pre">vX.Y.Z-rcN</span></code></p></td>
+<td><p>publishes a release</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>There is no nightly or weekly workflow.</p>
+</section>
+<section id="ci-yml">
+<h2><code class="docutils literal notranslate"><span class="pre">ci.yml</span></code><a class="headerlink" href="#ci-yml" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Job</p></th>
+<th class="head"><p>Configuration</p></th>
+<th class="head"><p>What it checks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lint</span></code></p></td>
+<td><p>Ubuntu 24.04</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">actionlint</span></code> on the workflow files; <code class="docutils literal notranslate"><span class="pre">ruff</span> <span class="pre">--select</span> <span class="pre">E9,F63,F7,F82</span></code> (syntax errors and undefined names) on <code class="docutils literal notranslate"><span class="pre">scripts/</span></code> and <code class="docutils literal notranslate"><span class="pre">tests/</span></code>; <code class="docutils literal notranslate"><span class="pre">clang-format</span></code> on the changed lines, <strong>advisory</strong>: differences are reported as a warning and a diff in the job summary, but do not fail the job</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">build-oldest</span></code></p></td>
+<td><p>GCC 10 in a <code class="docutils literal notranslate"><span class="pre">debian:bullseye</span></code> container, Release</p></td>
+<td><p>build, <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">&quot;unit|integration&quot;</span></code> on the oldest supported toolchain</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">build-test</span></code></p></td>
+<td><p>GCC 13 Release; GCC 13 Debug; <code class="docutils literal notranslate"><span class="pre">ubuntu-latest</span></code> Release (canary, allowed to fail)</p></td>
+<td><p>build, <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">&quot;unit|integration&quot;</span></code>; the canary shows a runner-image upgrade without blocking merges</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sanitizers</span></code></p></td>
+<td><p>Debug, <code class="docutils literal notranslate"><span class="pre">-fsanitize=address,undefined</span> <span class="pre">-fno-sanitize-recover=undefined</span> <span class="pre">-fno-omit-frame-pointer</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">&quot;unit|integration&quot;</span></code> with <code class="docutils literal notranslate"><span class="pre">ASAN_OPTIONS=detect_leaks=0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">python</span></code></p></td>
+<td><p>Python 3.10 and 3.12, packages from <code class="docutils literal notranslate"><span class="pre">scripts/ci/requirements.txt</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pytest</span> <span class="pre">tests</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bindings</span></code></p></td>
+<td><p>Release with <code class="docutils literal notranslate"><span class="pre">-DENABLE_PYTHON_BINDINGS=TRUE</span></code></p></td>
+<td><p>builds <code class="docutils literal notranslate"><span class="pre">simucell3d_python_wrapper</span></code> and imports it</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">version-check</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">scripts/ci/check_version.py</span></code> (<a class="reference internal" href="release_process.html#dev-release"><span class="std std-ref">Release process</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ci-ok</span></code> (CI result)</p></td>
+<td><p></p></td>
+<td><p>succeeds only if all jobs above succeeded; the single check to require in branch protection</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The integration tier includes end-to-end runs of the <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> executable (a growth run with
+one division, 20 iterations of the 434-cell vesicle, and error-path tests), so every
+pull request runs the simulator (<a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a>).</p>
+<p>When a build job fails, its CTest logs (<code class="docutils literal notranslate"><span class="pre">Testing/</span></code>) are uploaded as an artifact. A new push to a
+pull request cancels the run of the previous push. <code class="docutils literal notranslate"><span class="pre">ci.yml</span></code> can be started by hand for any
+branch, tag or commit (Actions tab, “CI”, “Run workflow”, field <code class="docutils literal notranslate"><span class="pre">ref</span></code>).</p>
+</section>
+<section id="the-long-tier-long-yml">
+<h2>The long tier: <code class="docutils literal notranslate"><span class="pre">long.yml</span></code><a class="headerlink" href="#the-long-tier-long-yml" title="Link to this heading">#</a></h2>
+<p>The workflow runs <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">long</span></code> in two builds, Release and RelWithDebInfo with
+AddressSanitizer and UndefinedBehaviorSanitizer, and <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">benchmark</span></code> (report only) in the
+Release build. The <code class="docutils literal notranslate"><span class="pre">long</span></code> tier holds the stability and scientific-validation suites and the growth
+run <code class="docutils literal notranslate"><span class="pre">e2e_growth_long</span></code> (<a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a>).</p>
+<p>It runs only:</p>
+<ul class="simple">
+<li><p>on a pull request that touches <code class="docutils literal notranslate"><span class="pre">src/</span></code> or <code class="docutils literal notranslate"><span class="pre">include/</span></code> and carries the label <code class="docutils literal notranslate"><span class="pre">run-long-tests</span></code>.
+A maintainer adds the label; the run starts when it is added and repeats on every push while
+it stays;</p></li>
+<li><p>on every push to a <code class="docutils literal notranslate"><span class="pre">release/**</span></code> branch;</p></li>
+<li><p>from <code class="docutils literal notranslate"><span class="pre">release.yml</span></code>, for every tag;</p></li>
+<li><p>by hand (Actions tab, “Long tests”, “Run workflow”).</p></li>
+</ul>
+<p>Use the label for changes to the physics, the mesh operations, the contact models or the
+parallel code, where the short tiers can miss a regression that appears only after many
+iterations.</p>
+</section>
+<section id="performance-comparison-perf-yml">
+<h2>Performance comparison: <code class="docutils literal notranslate"><span class="pre">perf.yml</span></code><a class="headerlink" href="#performance-comparison-perf-yml" title="Link to this heading">#</a></h2>
+<p>The job builds the pull request and its base on the same runner and times both on the same fixed
+amount of work with <code class="docutils literal notranslate"><span class="pre">scripts/ci/perf_ab.py</span></code>: <code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code>
+cut to <span class="math notranslate nohighlight">\(2 \times 10^{-6}\)</span> s (20 iterations of the 434-cell vesicle, mesh written at the start and
+the end only), one warm-up, then five repetitions per build, alternating between them. It posts (or updates) one pull-request comment with the medians and
+ranges, and adds the label <code class="docutils literal notranslate"><span class="pre">perf:</span> <span class="pre">slower</span></code> when the head build’s median is more than 10 % above
+the base and the ranges do not overlap. It fails only if the pull-request build cannot run the
+workload at all; a slowdown never fails it. Shared runners are too noisy for a hard threshold,
+and timings from different runners are not comparable, so a maintainer reads the comment and,
+for a real slowdown, asks for a measurement on a dedicated machine (<a class="reference internal" href="benchmarking.html#dev-benchmarking"><span class="std std-ref">Benchmarking</span></a>).</p>
+</section>
+<section id="documentation-docs-yml">
+<h2>Documentation: <code class="docutils literal notranslate"><span class="pre">docs.yml</span></code><a class="headerlink" href="#documentation-docs-yml" title="Link to this heading">#</a></h2>
+<p>The job installs Doxygen and the packages of <code class="docutils literal notranslate"><span class="pre">doc/requirements.txt</span></code>, writes the Doxygen XML
+(<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">doxygen</span></code>), and builds the site with warnings as errors (<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html-strict</span></code>). It sets
+<code class="docutils literal notranslate"><span class="pre">SIMUCELL3D_REQUIRE_DOXYGEN=1</span></code>, so the build fails rather than publish API pages without the C++
+reference. On a pull request the HTML is uploaded as the artifact <code class="docutils literal notranslate"><span class="pre">docs-html</span></code> (kept 14 days) for
+review.</p>
+<p>On a push to <code class="docutils literal notranslate"><span class="pre">main</span></code> the site is deployed to the <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> branch under <code class="docutils literal notranslate"><span class="pre">/dev/</span></code>. On a tag
+<code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code> it is deployed to <code class="docutils literal notranslate"><span class="pre">/X.Y/</span></code> and, if X.Y is the newest release, also to <code class="docutils literal notranslate"><span class="pre">/stable/</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">switcher.json</span></code> at the site root (the version menu) is updated. Other directories on <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
+are kept, so older versions stay online. The site root redirects to <code class="docutils literal notranslate"><span class="pre">/stable/</span></code> once a release
+has been deployed, and to <code class="docutils literal notranslate"><span class="pre">/dev/</span></code> before that.</p>
+</section>
+<section id="releases-release-yml">
+<h2>Releases: <code class="docutils literal notranslate"><span class="pre">release.yml</span></code><a class="headerlink" href="#releases-release-yml" title="Link to this heading">#</a></h2>
+<p>Pushing a tag <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code> (or <code class="docutils literal notranslate"><span class="pre">vX.Y.Z-rcN</span></code>) runs, in order: <code class="docutils literal notranslate"><span class="pre">verify</span></code>
+(<code class="docutils literal notranslate"><span class="pre">check_version.py</span> <span class="pre">--tag</span></code>), <code class="docutils literal notranslate"><span class="pre">ci</span></code> (calls <code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>), <code class="docutils literal notranslate"><span class="pre">long</span></code> (calls <code class="docutils literal notranslate"><span class="pre">long.yml</span></code>), <code class="docutils literal notranslate"><span class="pre">dist</span></code> (source
+tarball <code class="docutils literal notranslate"><span class="pre">simucell3d-X.Y.Z.tar.gz</span></code> made with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">archive</span></code>, plus <code class="docutils literal notranslate"><span class="pre">SHA256SUMS</span></code>; the tarball is
+built and tested on its own), and <code class="docutils literal notranslate"><span class="pre">publish</span></code> (GitHub release with notes from
+<code class="docutils literal notranslate"><span class="pre">scripts/ci/changelog_section.py</span></code>, a pre-release for <code class="docutils literal notranslate"><span class="pre">-rcN</span></code>). The documentation for the tag is
+deployed by <code class="docutils literal notranslate"><span class="pre">docs.yml</span></code>, which has its own tag trigger. The workflow never pushes commits or
+moves tags. The procedure around it is in <code class="docutils literal notranslate"><span class="pre">RELEASING.md</span></code> and <a class="reference internal" href="release_process.html#dev-release"><span class="std std-ref">Release process</span></a>.</p>
+</section>
+<section id="reproducing-a-ci-job-locally">
+<h2>Reproducing a CI job locally<a class="headerlink" href="#reproducing-a-ci-job-locally" title="Link to this heading">#</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release
+<span class="gp">$ </span>cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ctest<span class="w"> </span>-L<span class="w"> </span><span class="s2">"unit|integration"</span><span class="w"> </span>-j
+</pre></div>
+</div>
+<p>For the sanitizer job, configure as in <a class="reference internal" href="development_setup.html#dev-setup"><span class="std std-ref">Development setup</span></a>; for the GCC 10 job, use the
+<code class="docutils literal notranslate"><span class="pre">debian:bullseye</span></code> container shown there. For the lint job:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ruff<span class="w"> </span>check<span class="w"> </span>--select<span class="w"> </span>E9,F63,F7,F82<span class="w"> </span>scripts<span class="w"> </span>tests
+<span class="gp">$ </span>git<span class="w"> </span>clang-format<span class="w"> </span>--diff<span class="w"> </span>origin/main
+</pre></div>
+</div>
+<p>When a job fails only in CI, download the <code class="docutils literal notranslate"><span class="pre">Testing/</span></code> artifact from the run page;
+<code class="docutils literal notranslate"><span class="pre">Testing/Temporary/LastTest.log</span></code> holds the output of every test.</p>
+</section>
+<section id="branch-protection">
+<h2>Branch protection<a class="headerlink" href="#branch-protection" title="Link to this heading">#</a></h2>
+<p>The recommended settings for <code class="docutils literal notranslate"><span class="pre">main</span></code> and the <code class="docutils literal notranslate"><span class="pre">release/*</span></code> branches are: changes through pull
+requests only, the check “CI result” (<code class="docutils literal notranslate"><span class="pre">ci-ok</span></code>) required, no force pushes. Requiring only
+<code class="docutils literal notranslate"><span class="pre">ci-ok</span></code> keeps the protection rule unchanged when jobs are added to <code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a> for the test tiers and labels.</p></li>
+<li><p><a class="reference internal" href="release_process.html#dev-release"><span class="std std-ref">Release process</span></a> for the release procedure.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="testing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Testing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="benchmarking.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Benchmarking</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ci-yml"><code class="docutils literal notranslate"><span class="pre">ci.yml</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-long-tier-long-yml">The long tier: <code class="docutils literal notranslate"><span class="pre">long.yml</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-comparison-perf-yml">Performance comparison: <code class="docutils literal notranslate"><span class="pre">perf.yml</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-docs-yml">Documentation: <code class="docutils literal notranslate"><span class="pre">docs.yml</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#releases-release-yml">Releases: <code class="docutils literal notranslate"><span class="pre">release.yml</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducing-a-ci-job-locally">Reproducing a CI job locally</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branch-protection">Branch protection</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

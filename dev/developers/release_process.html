@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Release process &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developers/release_process';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/release_process.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Release history" href="../whats_new/index.html" />
+    <link rel="prev" title="Writing documentation" href="writing_documentation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_setup.html">Development setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="continuous_integration.html">Continuous integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_internals.html">Performance internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_style.html">Coding style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Release process</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Release process</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="release-process">
+<span id="dev-release"></span><h1>Release process<a class="headerlink" href="#release-process" title="Link to this heading">#</a></h1>
+<p>This page explains how SimuCell3D versions are numbered and checked, what must pass before a
+release, and what the release automation does. The step-by-step checklist is
+<a class="reference external" href="https://github.com/nilesh-patil/simucell3d/blob/main/RELEASING.md"><code class="docutils literal notranslate"><span class="pre">RELEASING.md</span></code></a> at the
+repository root; it is the canonical procedure, and the issue template
+<code class="docutils literal notranslate"><span class="pre">.github/ISSUE_TEMPLATE/release.md</span></code> is its copy for the release issue.</p>
+<section id="versions-and-tags">
+<h2>Versions and tags<a class="headerlink" href="#versions-and-tags" title="Link to this heading">#</a></h2>
+<p>SimuCell3D follows <a class="reference external" href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Releases are
+tagged <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code> (for example <code class="docutils literal notranslate"><span class="pre">v2.1.0</span></code>); release candidates are tagged <code class="docutils literal notranslate"><span class="pre">vX.Y.Z-rcN</span></code>. The older
+tags <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> and <code class="docutils literal notranslate"><span class="pre">v2.0</span></code> predate this scheme and stay as they are.</p>
+<p>The version is defined in one place, the <code class="docutils literal notranslate"><span class="pre">project()</span></code> command of the top-level
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">project</span><span class="p">(</span><span class="s">SimuCell3D</span><span class="w"> </span><span class="s">VERSION</span><span class="w"> </span><span class="s">2.1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Everything else derives from it or is checked against it:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Consumer</p></th>
+<th class="head"><p>How it gets the version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">simucell3d</span> <span class="pre">--version</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/version.hpp.in</span></code>, configured by CMake into <code class="docutils literal notranslate"><span class="pre">generated/version.hpp</span></code>; checked by the <code class="docutils literal notranslate"><span class="pre">cli_version_flag</span></code> test</p></td>
+</tr>
+<tr class="row-odd"><td><p>documentation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/conf.py</span></code> reads it from <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code></p></td>
+<td><p>the top heading <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">[X.Y.Z]</span> <span class="pre">-</span> <span class="pre">unreleased</span></code> or <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">[X.Y.Z]</span> <span class="pre">-</span> <span class="pre">YYYY-MM-DD</span></code>; checked</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">version:</span></code> and <code class="docutils literal notranslate"><span class="pre">date-released:</span></code>; checked</p></td>
+</tr>
+<tr class="row-even"><td><p>git tag</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code>; checked when the tag is pushed</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/ci/check_version.py</span></code> performs the checks; CI runs it on every pull request:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>scripts/ci/check_version.py<span class="w">                 </span><span class="c1"># branch mode</span>
+<span class="go">Version 2.1.0 is consistent.</span>
+<span class="gp">$ </span>python3<span class="w"> </span>scripts/ci/check_version.py<span class="w"> </span>--tag<span class="w"> </span>v2.1.0<span class="w">    </span><span class="c1"># release mode</span>
+<span class="gp">$ </span>python3<span class="w"> </span>scripts/ci/check_version.py<span class="w"> </span>--print-version
+<span class="go">2.1.0</span>
+</pre></div>
+</div>
+<p>In branch mode it checks that the top CHANGELOG heading names the CMake version and is dated
+<code class="docutils literal notranslate"><span class="pre">unreleased</span></code> or <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code>, that the headings are in descending order and each has a compare
+link at the bottom of the file, that <code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code> states the CMake version or the newest
+released version, and that <code class="docutils literal notranslate"><span class="pre">version.hpp.in</span></code> takes the version from CMake. In release mode it
+also checks that the tag names the CMake version, that the top heading is dated (a <code class="docutils literal notranslate"><span class="pre">-rcN</span></code> tag
+may still be <code class="docutils literal notranslate"><span class="pre">unreleased</span></code>), that its compare link ends at the tag rather than at <code class="docutils literal notranslate"><span class="pre">HEAD</span></code>, and that
+<code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code> states the released version and date.</p>
+</section>
+<section id="what-gates-a-release">
+<h2>What gates a release<a class="headerlink" href="#what-gates-a-release" title="Link to this heading">#</a></h2>
+<p>A release is published only when all of the following hold for the commit to be tagged:</p>
+<ol class="arabic simple">
+<li><p><strong>CI is green</strong> (<a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a>): the check “CI result” (<code class="docutils literal notranslate"><span class="pre">ci-ok</span></code>) of <code class="docutils literal notranslate"><span class="pre">ci.yml</span></code>.</p></li>
+<li><p><strong>The long test tier is green</strong> (<code class="docutils literal notranslate"><span class="pre">long.yml</span></code>): it runs automatically on pushes to <code class="docutils literal notranslate"><span class="pre">release/**</span></code>
+branches and on the tag, and can be started by hand.</p></li>
+<li><p><strong>A growth run to 30,000 cells completed</strong> on the reference machine, with its results
+recorded in the release issue (below). It is required for minor releases and for patch
+releases that change <code class="docutils literal notranslate"><span class="pre">src/</span></code> or <code class="docutils literal notranslate"><span class="pre">include/</span></code>.</p></li>
+<li><p><strong>No open issue is labelled <code class="docutils literal notranslate"><span class="pre">release-blocker</span></code>.</strong></p></li>
+</ol>
+<p>The documentation is also expected to build without warnings (<code class="docutils literal notranslate"><span class="pre">docs.yml</span></code>).</p>
+<p>Performance comparisons with the previous release are recorded for information; they do not
+block a release.</p>
+</section>
+<section id="the-growth-run">
+<h2>The growth run<a class="headerlink" href="#the-growth-run" title="Link to this heading">#</a></h2>
+<p>The growth run exercises what the test suite cannot: thousands of divisions, mesh refinement
+and contact detection over many hours, and the <a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a> under load. It
+grows a tissue from one cell with the reconstructed paper-like configuration
+(<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>; it is a 2.x reconstruction from Table 2 of the paper, not
+the lab’s configuration, see <a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>). The criterion is 30,000 cells. For reference,
+<code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> records that 2.1.0 reaches 30,000 cells in about 4 hours on 8 cores, and that
+5 % of division attempts were refused below 30,000 cells in an 8-core run.</p>
+<ol class="arabic">
+<li><p>Build the release candidate in Release mode on the reference machine (8 physical cores
+for 2.1), in <code class="docutils literal notranslate"><span class="pre">build/</span></code>.</p></li>
+<li><p>Start the run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>bash<span class="w"> </span>scripts/runs/launch_longrun_20k.sh
+</pre></div>
+</div>
+<p>The script runs <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> in the background with <code class="docutils literal notranslate"><span class="pre">--schedule=adaptive</span></code>, writes the output
+to <code class="docutils literal notranslate"><span class="pre">simulation_results/longrun_20k_fast_growth/</span></code> and the log and process id to
+<code class="docutils literal notranslate"><span class="pre">simulation_results/longrun_20k_fast_growth_logs/</span></code>.</p>
+</li>
+<li><p>Follow the cell count: <code class="docutils literal notranslate"><span class="pre">nb</span> <span class="pre">cells</span></code> in the progress lines of
+<code class="docutils literal notranslate"><span class="pre">simulation_results/longrun_20k_fast_growth_logs/run.log</span></code>, or the <code class="docutils literal notranslate"><span class="pre">cells</span></code> column of
+<code class="docutils literal notranslate"><span class="pre">simulation_results/longrun_20k_fast_growth/performance_diagnostics.csv</span></code> (one row every 100
+iterations):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>simulation_results/longrun_20k_fast_growth_logs/run.log
+</pre></div>
+</div>
+</li>
+<li><p>When the cell count passes 30,000, stop the run, for example with
+<code class="docutils literal notranslate"><span class="pre">pkill</span> <span class="pre">-f</span> <span class="pre">longrun_20k_fast_growth</span></code>, which matches the <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> process and its wrapper.</p></li>
+<li><p>Fill in the results table of the release issue (template
+<code class="docutils literal notranslate"><span class="pre">.github/ISSUE_TEMPLATE/release.md</span></code>), with the same rows for the previous release on the same
+machine type:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Row</p></th>
+<th class="head"><p>Where to find it</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Commit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">./build/simucell3d</span> <span class="pre">--version</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Machine type, cores, threads</p></td>
+<td><p>CPU model (<code class="docutils literal notranslate"><span class="pre">lscpu</span></code>); the <code class="docutils literal notranslate"><span class="pre">Thread</span> <span class="pre">count:</span></code> line at the start of <code class="docutils literal notranslate"><span class="pre">run.log</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Cells reached, simulated time reached [s]</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cells</span></code> and <code class="docutils literal notranslate"><span class="pre">sim_time</span></code> of the last row of the diagnostics CSV</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wall time [h]</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wall_epoch</span></code> of that row minus <code class="docutils literal notranslate"><span class="pre">wall_epoch</span></code> of the first row</p></td>
+</tr>
+<tr class="row-even"><td><p>Exit status or abort message</p></td>
+<td><p>the end of <code class="docutils literal notranslate"><span class="pre">run.log</span></code>: an exception message, a signal, or the process stopped by hand at 30,000 cells</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell</span></code> lines</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-c</span> <span class="pre">&quot;Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell&quot;</span> <span class="pre">run.log</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">division</span> <span class="pre">failed</span> <span class="pre">for</span> <span class="pre">cell</span></code> lines</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-c</span> <span class="pre">&quot;Cell</span> <span class="pre">division</span> <span class="pre">failed</span> <span class="pre">for</span> <span class="pre">cell&quot;</span> <span class="pre">run.log</span></code> (refused divisions)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+<p>The run fails the gate if it ends before 30,000 cells, if <code class="docutils literal notranslate"><span class="pre">run.log</span></code> ends with an exception or a
+signal, or if the refusal or removal counts are far above those recorded for the previous
+release; the last point is a judgement for the maintainer, documented in the issue.</p>
+</section>
+<section id="the-release-procedure">
+<h2>The release procedure<a class="headerlink" href="#the-release-procedure" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">RELEASING.md</span></code> lists the steps; in outline:</p>
+<ol class="arabic">
+<li><p>Open a release issue from the template <code class="docutils literal notranslate"><span class="pre">.github/ISSUE_TEMPLATE/release.md</span></code>.</p></li>
+<li><p>Push the release candidate commit to a branch <code class="docutils literal notranslate"><span class="pre">release/X.Y.Z-prep</span></code>; the push runs CI and the
+long tier. Patch releases of an older minor version are made from a <code class="docutils literal notranslate"><span class="pre">release/X.Y</span></code> branch.</p></li>
+<li><p>Finish <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> (every user-visible change, results-changing items under “Changed
+behaviour”) and the matching <code class="docutils literal notranslate"><span class="pre">whats_new/</span></code> page, and run the growth run.</p></li>
+<li><p>In one pull request from <code class="docutils literal notranslate"><span class="pre">release/X.Y.Z-prep</span></code>, date the CHANGELOG heading, point its compare link at the new tag, and
+set <code class="docutils literal notranslate"><span class="pre">version:</span></code> and <code class="docutils literal notranslate"><span class="pre">date-released:</span></code> in <code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code>. Before merging:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>scripts/ci/check_version.py<span class="w"> </span>--tag<span class="w"> </span>vX.Y.Z
+<span class="gp">$ </span>python3<span class="w"> </span>scripts/ci/changelog_section.py<span class="w"> </span>X.Y.Z
+</pre></div>
+</div>
+<p>The second command prints the release notes as they will be published.</p>
+</li>
+<li><p>Push the tag <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code> (or <code class="docutils literal notranslate"><span class="pre">vX.Y.Z-rcN</span></code> for a candidate). Two workflows start:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">release.yml</span></code> checks the version, runs <code class="docutils literal notranslate"><span class="pre">ci.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">long.yml</span></code> on the tagged commit,
+builds <code class="docutils literal notranslate"><span class="pre">simucell3d-X.Y.Z.tar.gz</span></code> with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">archive</span></code> and its <code class="docutils literal notranslate"><span class="pre">SHA256SUMS</span></code>, builds and tests
+the tarball, and creates the GitHub release with the notes from <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> (a
+pre-release for <code class="docutils literal notranslate"><span class="pre">-rcN</span></code>). Release notes never come from the commit log.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs.yml</span></code> deploys the documentation to <code class="docutils literal notranslate"><span class="pre">/X.Y/</span></code> and, for the newest release, to
+<code class="docutils literal notranslate"><span class="pre">/stable/</span></code>, and updates the version menu.</p></li>
+</ul>
+</li>
+<li><p>Check the release page, the tarball checksum and the documentation, then open the next
+development cycle on <code class="docutils literal notranslate"><span class="pre">main</span></code> with a new <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">[X.Y.Z]</span> <span class="pre">-</span> <span class="pre">unreleased</span></code> CHANGELOG section.</p></li>
+</ol>
+<p>A published tag is never moved or deleted; a broken release is fixed by the next patch
+release. The release artifacts for 2.1 are the source tarball and <code class="docutils literal notranslate"><span class="pre">SHA256SUMS</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RELEASING.md</span></code> at the repository root (the checklist).</p></li>
+<li><p><a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a> for the workflows.</p></li>
+<li><p><a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a> for the test tiers.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="writing_documentation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Writing documentation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../whats_new/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Release history</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#versions-and-tags">Versions and tags</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-gates-a-release">What gates a release</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-growth-run">The growth run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-release-procedure">The release procedure</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

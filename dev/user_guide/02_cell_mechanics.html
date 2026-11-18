@@ -1,0 +1,975 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cell mechanics &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/02_cell_mechanics';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/02_cell_mechanics.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contact between cells" href="03_contact.html" />
+    <link rel="prev" title="Model overview" href="01_model_overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Cell mechanics</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cell-mechanics">
+<span id="ug-cell-mechanics"></span><h1>Cell mechanics<a class="headerlink" href="#cell-mechanics" title="Link to this heading">#</a></h1>
+<p>Each cell resists changes of its volume, regulates its surface area, is pulled together by
+cortical surface tension and, optionally, resists bending of its surface. This chapter gives
+the energy that encodes these effects, the discrete nodal forces that SimuCell3D 2.1 computes
+from it, and the parameters that control them. Contact forces between cells are the subject of
+<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>.</p>
+<section id="energy">
+<h2>Energy<a class="headerlink" href="#energy" title="Link to this heading">#</a></h2>
+<p>Runser, Vetter &amp; Iber (2024), Eq. (1), define the potential energy of one cell as</p>
+<div class="math notranslate nohighlight" id="equation-eq-cell-energy">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-cell-energy" title="Link to this equation">#</a></span>\[
+U = K V \left(\ln\frac{V}{V_0} - 1\right)
+  + \frac{k_a}{2}\left(\frac{A}{A_0} - 1\right)^2
+  + \int_{\partial\Omega} \left(\gamma + \frac{k_b}{2}\,(2H)^2\right) \mathrm{d}S ,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(A\)</span> are the volume and surface area of the cell, <span class="math notranslate nohighlight">\(V_0\)</span> and <span class="math notranslate nohighlight">\(A_0\)</span> their target
+values, <span class="math notranslate nohighlight">\(K\)</span> the <a class="reference internal" href="../glossary.html#term-bulk-modulus"><span class="xref std std-term">bulk modulus</span></a>, <span class="math notranslate nohighlight">\(k_a\)</span> the <a class="reference internal" href="../glossary.html#term-area-elasticity-modulus"><span class="xref std std-term">area elasticity modulus</span></a>, <span class="math notranslate nohighlight">\(\gamma\)</span> the
+<a class="reference internal" href="../glossary.html#term-surface-tension"><span class="xref std std-term">surface tension</span></a>, <span class="math notranslate nohighlight">\(k_b\)</span> the <a class="reference internal" href="../glossary.html#term-bending-modulus"><span class="xref std std-term">bending modulus</span></a> and <span class="math notranslate nohighlight">\(H\)</span> the local mean curvature of
+the surface <span class="math notranslate nohighlight">\(\partial\Omega\)</span>. The first term is the work of a net internal pressure of a
+slightly compressible cytoplasm. The second lets the cell regulate its area. The surface
+integral models the tension of the actomyosin cortex and its resistance to bending. <span class="math notranslate nohighlight">\(\gamma\)</span>
+and <span class="math notranslate nohighlight">\(k_b\)</span> are properties of the <a class="reference internal" href="../glossary.html#term-face-type"><span class="xref std std-term">face type</span></a>, so they can differ between apical, lateral
+and basal membrane; <span class="math notranslate nohighlight">\(K\)</span>, <span class="math notranslate nohighlight">\(k_a\)</span> and the target values are properties of the <a class="reference internal" href="../glossary.html#term-cell-type"><span class="xref std std-term">cell type</span></a>.</p>
+<p>The nodal forces are the negative gradients of the discretised terms with respect to the node
+positions <span class="math notranslate nohighlight">\(\mathbf r_i\)</span>, except for bending, whose implemented force is not an exact gradient
+(see the section on bending below). They are evaluated once per <a class="reference internal" href="../glossary.html#term-iteration"><span class="xref std std-term">iteration</span></a>, after mesh refinement
+and contact detection, in the order of the following sections.</p>
+</section>
+<section id="discrete-geometry">
+<h2>Discrete geometry<a class="headerlink" href="#discrete-geometry" title="Link to this heading">#</a></h2>
+<p>A face <span class="math notranslate nohighlight">\(f\)</span> has nodes <span class="math notranslate nohighlight">\((i, j, k)\)</span> in its winding order, which is counterclockwise seen from
+outside the cell, an area <span class="math notranslate nohighlight">\(A_f\)</span> and an outward unit normal <span class="math notranslate nohighlight">\(\hat{\mathbf n}_f\)</span>. The cell area
+is <span class="math notranslate nohighlight">\(A = \sum_f A_f\)</span>. The volume is computed with the divergence theorem (the “shoelace”
+formula of the paper’s Methods):</p>
+<div class="math notranslate nohighlight" id="equation-eq-volume">
+<span class="eqno">(2)<a class="headerlink" href="#equation-eq-volume" title="Link to this equation">#</a></span>\[
+V_s = \frac{1}{6} \sum_{f} \det\left[\mathbf r_i\ \mathbf r_j\ \mathbf r_k\right], \qquad
+V = \lvert V_s \rvert .
+\]</div>
+<p>The signed volume <span class="math notranslate nohighlight">\(V_s\)</span> is positive for a correctly oriented surface. 2.1 keeps it so that the
+safeguards can detect a cell that has turned inside out (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p>
+</section>
+<section id="pressure">
+<h2>Pressure<a class="headerlink" href="#pressure" title="Link to this heading">#</a></h2>
+<p>The pressure difference between the cytoplasm and the exterior is</p>
+<div class="math notranslate nohighlight" id="equation-eq-pressure">
+<span class="eqno">(3)<a class="headerlink" href="#equation-eq-pressure" title="Link to this equation">#</a></span>\[
+p = -K \ln\frac{V}{V_0}, \qquad p \leftarrow \min(p,\ p_{\max}),
+\]</div>
+<p>so a compressed cell (<span class="math notranslate nohighlight">\(V &lt; V_0\)</span>) has a positive pressure. The cap <span class="math notranslate nohighlight">\(p_{\max}\)</span>
+(<code class="docutils literal notranslate"><span class="pre">max_inner_pressure</span></code>) limits only the positive pressure of a compressed cell; the negative
+pressure of a swollen cell is not limited. With <span class="math notranslate nohighlight">\(K = 0\)</span> the pressure is set to 0 and the cell
+has no volume regulation (the shipped files use this for the ECM).</p>
+<p>The pressure acts on each face as <span class="math notranslate nohighlight">\(p A_f \hat{\mathbf n}_f\)</span>, shared equally by its three
+nodes:</p>
+<div class="math notranslate nohighlight" id="equation-eq-pressure-force">
+<span class="eqno">(4)<a class="headerlink" href="#equation-eq-pressure-force" title="Link to this equation">#</a></span>\[
+\mathbf f_{p,i} = \frac{1}{3} \sum_{f \ni i} p\, A_f\, \hat{\mathbf n}_f .
+\]</div>
+<p>At the start of a run the target volume of every cell is set to its initial volume, so the
+initial pressure is 0. During the run <span class="math notranslate nohighlight">\(V_0\)</span> changes only through growth and division
+(<a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>).</p>
+</section>
+<section id="surface-tension-and-area-elasticity">
+<h2>Surface tension and area elasticity<a class="headerlink" href="#surface-tension-and-area-elasticity" title="Link to this heading">#</a></h2>
+<p>Surface tension and area elasticity both act along the area gradient of each face, so they are
+computed together. For a face with nodes <span class="math notranslate nohighlight">\((i, j, k)\)</span> in winding order,</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_i A_f = \tfrac{1}{2}\, \hat{\mathbf n}_f \times (\mathbf r_k - \mathbf r_j),
+\]</div>
+<p>and the force on node <span class="math notranslate nohighlight">\(i\)</span> is</p>
+<div class="math notranslate nohighlight" id="equation-eq-tension-force">
+<span class="eqno">(5)<a class="headerlink" href="#equation-eq-tension-force" title="Link to this equation">#</a></span>\[
+\mathbf f_{s,i} + \mathbf f_{m,i}
+  = -\sum_{f \ni i} \left[ \gamma_f + \frac{k_a}{A_0}\left(\frac{A}{A_0} - 1\right) \right]
+    \nabla_i A_f ,
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(\gamma_f\)</span> the surface tension of the face type of <span class="math notranslate nohighlight">\(f\)</span>. The target area follows from the
+<a class="reference internal" href="../glossary.html#term-isoperimetric-ratio"><span class="xref std std-term">isoperimetric ratio</span></a> <span class="math notranslate nohighlight">\(Q = A^3/V^2\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-eq-target-area">
+<span class="eqno">(6)<a class="headerlink" href="#equation-eq-target-area" title="Link to this equation">#</a></span>\[
+A_0 = \left(Q_0\, V^2\right)^{1/3},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(Q_0\)</span> is <code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code>. A sphere has the smallest possible ratio,
+<span class="math notranslate nohighlight">\(Q = 36\pi \approx 113\)</span>; larger values of <span class="math notranslate nohighlight">\(Q_0\)</span> let the cell keep more area than a sphere of
+the same volume, for example to take a columnar shape. <span class="math notranslate nohighlight">\(A_0\)</span> is recomputed at every iteration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The paper’s Methods couple <span class="math notranslate nohighlight">\(A_0\)</span> to the target volume, <span class="math notranslate nohighlight">\(A_0 = (Q_0 V_0^2)^{1/3}\)</span>. The code
+uses the current volume <span class="math notranslate nohighlight">\(V\)</span>. The force <a class="reference internal" href="#equation-eq-tension-force">(5)</a> treats <span class="math notranslate nohighlight">\(A_0\)</span> as a constant, in
+both the paper and the code.</p>
+</div>
+</section>
+<section id="bending">
+<h2>Bending<a class="headerlink" href="#bending" title="Link to this heading">#</a></h2>
+<p>Bending uses the discrete hinge energy of Wardetzky et al. (2007), as in the paper’s Methods.
+Every edge <span class="math notranslate nohighlight">\(e\)</span> is shared by two faces <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>, which form a “diamond” of four nodes: the
+edge nodes <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span> and the opposite nodes <span class="math notranslate nohighlight">\(k\)</span> (in <span class="math notranslate nohighlight">\(a\)</span>) and <span class="math notranslate nohighlight">\(l\)</span> (in <span class="math notranslate nohighlight">\(b\)</span>). With
+<span class="math notranslate nohighlight">\(\mathbf e = \mathbf r_j - \mathbf r_i\)</span>, <span class="math notranslate nohighlight">\(A_e = A_a + A_b\)</span>, and <span class="math notranslate nohighlight">\(\bar k_b\)</span> the mean bending
+modulus of the two face types,</p>
+<div class="math notranslate nohighlight" id="equation-eq-bending-energy">
+<span class="eqno">(7)<a class="headerlink" href="#equation-eq-bending-energy" title="Link to this equation">#</a></span>\[
+U_b = \sum_{e} \bar k_b\, \frac{\lVert\mathbf e\rVert^2}{A_e}
+      \left(2 \cos\frac{\theta_e}{2}\right)^2, \qquad
+\theta_e = -\operatorname{sgn}(\hat{\mathbf n}_a \cdot \mathbf e_{il})
+           \arccos(-\hat{\mathbf n}_a \cdot \hat{\mathbf n}_b),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf e_{il} = \mathbf r_l - \mathbf r_i\)</span>. For a flat hinge <span class="math notranslate nohighlight">\(\theta_e = \pi\)</span> and the
+term vanishes; the sign separates convex from concave hinges. The force on each of the four
+nodes <span class="math notranslate nohighlight">\(q \in \{i, j, k, l\}\)</span> implemented in 2.1 is</p>
+<div class="math notranslate nohighlight" id="equation-eq-bending-force">
+<span class="eqno">(8)<a class="headerlink" href="#equation-eq-bending-force" title="Link to this equation">#</a></span>\[
+\mathbf f_{b,q} = 3\,\bar k_b \left[ \frac{\lVert\mathbf e\rVert^2}{A_e} \sin\theta_e\,
+  \nabla_q \theta_e - (1 + \cos\theta_e)\, \nabla_q\!\left(\frac{\lVert\mathbf e\rVert^2}{A_e}\right)
+  \right],
+\]</div>
+<p>summed over all hinges that contain <span class="math notranslate nohighlight">\(q\)</span>. The gradients of <span class="math notranslate nohighlight">\(\theta_e\)</span> and of
+<span class="math notranslate nohighlight">\(\lVert\mathbf e\rVert^2/A_e\)</span> follow Wardetzky et al. (2007).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Prefactor.</strong> The paper’s Methods give the same expression with a prefactor of 2, which
+corresponds to <a class="reference internal" href="#equation-eq-bending-energy">(7)</a>. The code (1.0 and 2.1) uses 3. The difference lies in
+the Methods’ discrete formula, not in the code: <a class="reference internal" href="#equation-eq-bending-energy">(7)</a> leaves out the area
+weight <span class="math notranslate nohighlight">\(A_e/3\)</span> of the discrete-shells energy, and on regular, sphere-like meshes it gives about
+2/3 of the bending term of <a class="reference internal" href="#equation-eq-cell-energy">(1)</a>. On icospheres of 42 to 10,242 nodes the sum
+<span class="math notranslate nohighlight">\(\sum_e \lVert\mathbf e\rVert^2/A_e\,(2\cos(\theta_e/2))^2\)</span> is 17.0 to 17.1, so 1.5 times it is
+within 2% of <span class="math notranslate nohighlight">\(\tfrac12\int (2H)^2\,\mathrm dS = 8\pi\)</span>. A prefactor of 3 therefore matches the
+bending modulus of Eq. (1) and of the paper’s Table 2; a prefactor of 2 would make cells about a
+third softer. The <code class="docutils literal notranslate"><span class="pre">bending_energy</span></code> written to the output is <a class="reference internal" href="#equation-eq-bending-energy">(7)</a>, about 2/3
+of the bending term of Eq. (1). (This correspondence holds on regular meshes; the discrete
+energy does not converge to the continuum one on general irregular meshes.)</p>
+<p><strong>Not an exact gradient.</strong> The implemented force is not the gradient of
+<a class="reference internal" href="#equation-eq-bending-energy">(7)</a> or of any multiple of it. The computation of <span class="math notranslate nohighlight">\(\nabla_q \theta_e\)</span> has
+two defects, both present since 1.0: the cotangent terms of face <span class="math notranslate nohighlight">\(b\)</span> at the edge nodes use the
+normal of face <span class="math notranslate nohighlight">\(a\)</span> instead of that of <span class="math notranslate nohighlight">\(b\)</span>; and the edge direction is taken from the order of
+the node ids rather than from the winding of face <span class="math notranslate nohighlight">\(a\)</span>, so the tangent and rotation conventions
+are wrong for about half of the hinges. The forces on a hinge then do not sum to zero, and the
+error grows with the fold angle and depends on the node numbering. On a test sphere of 300 to
+1416 nodes, the best fit of the force to the finite-difference gradient of
+<a class="reference internal" href="#equation-eq-bending-energy">(7)</a> is 1.49 to 1.59 times the gradient, with a relative residual of 0.26
+to 0.40; per node the ratio ranges from 0.4 to 2.1 (5th to 95th percentile). With both defects
+corrected, the force would be exactly 1.5 times the gradient. 2.1 leaves the bending force as in
+1.0, so that results stay comparable with the published ones; this is listed as a known issue in
+<a class="reference internal" href="../whats_new/v2.1.html"><span class="doc">Release 2.1</span></a>.</p>
+</div>
+<p>A hinge contributes no force when:</p>
+<ul class="simple">
+<li><p>the angle between the two face normals exceeds 135 degrees (a fold sharper than 45 degrees);</p></li>
+<li><p>the edge or one of the two faces has zero length or area, or one of the four angles of the
+diamond at the edge is zero;</p></li>
+<li><p><em>(2.1)</em> one of the two triangles is a sliver: its area is below <span class="math notranslate nohighlight">\(10^{-4}\,l_{\max,f}^2\)</span>,
+where <span class="math notranslate nohighlight">\(l_{\max,f}\)</span> is its longest edge (an equilateral triangle has <span class="math notranslate nohighlight">\(0.433\,l^2\)</span>).</p></li>
+</ul>
+<p>In addition, 2.1 caps <span class="math notranslate nohighlight">\(\lvert\cot\alpha\rvert\)</span> at 1000 in the gradient of <span class="math notranslate nohighlight">\(\theta_e\)</span>, where
+<span class="math notranslate nohighlight">\(\alpha\)</span> are the angles of the diamond at the edge nodes. If every face type of a cell type has
+<span class="math notranslate nohighlight">\(k_b = 0\)</span>, the bending computation is skipped for its cells.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>On a nearly flat triangle the <span class="math notranslate nohighlight">\(1/A\)</span> and <span class="math notranslate nohighlight">\(\cot\alpha\)</span> factors of the bending force could exceed
+their normal size by more than a factor of <span class="math notranslate nohighlight">\(10^6\)</span> and move a node by centimetres in one time
+step. The sliver test and the cotangent cap remove these hinges. A mesh maintained by the
+<a class="reference internal" href="../glossary.html#term-local-mesh-refiner"><span class="xref std std-term">local mesh refiner</span></a> has triangles far above the sliver threshold, so well-shaped hinges
+give exactly the same force as in 1.0.</p>
+</div>
+</section>
+<section id="angle-regularisation">
+<h2>Angle regularisation<a class="headerlink" href="#angle-regularisation" title="Link to this heading">#</a></h2>
+<p>SimuCell3D can add a force, not part of the paper’s model, that drives every angle <span class="math notranslate nohighlight">\(\alpha\)</span> of
+every triangle towards 60 degrees:</p>
+<div class="math notranslate nohighlight" id="equation-eq-angle-regularization">
+<span class="eqno">(9)<a class="headerlink" href="#equation-eq-angle-regularization" title="Link to this equation">#</a></span>\[
+\mathbf f_{r,i} = k_r \sum_{f \ni i}\ \sum_{\alpha \in f}
+  \left(\frac{\pi}{3} - \alpha\right) \nabla_i \alpha ,
+\]</div>
+<p>which is the negative gradient of <span class="math notranslate nohighlight">\(\tfrac{k_r}{2}\sum (\alpha - \pi/3)^2\)</span>. A face with an angle
+below 10 degrees or above 170 degrees is skipped. <span class="math notranslate nohighlight">\(k_r\)</span> is <code class="docutils literal notranslate"><span class="pre">angle_regularization_factor</span></code>
+(unit J); every shipped parameter file sets it to 0.</p>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Section</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_bulk_modulus</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(K\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>Pa</p></td>
+<td><p>Volume stiffness; 0 disables the pressure</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">max_inner_pressure</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_{\max}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>Pa</p></td>
+<td><p>Upper bound of <span class="math notranslate nohighlight">\(p\)</span>; <code class="docutils literal notranslate"><span class="pre">inf</span></code> for no bound</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(k_a\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Area elasticity modulus</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(Q_0\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Sets <span class="math notranslate nohighlight">\(A_0\)</span> by <a class="reference internal" href="#equation-eq-target-area">(6)</a>; must be positive</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">angle_regularization_factor</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(k_r\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Angle regularisation strength; 0 disables it</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">surface_tension</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\gamma\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code></p></td>
+<td><p>N/m</p></td>
+<td><p>Cortical surface tension</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bending_modulus</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(k_b\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code></p></td>
+<td><p>J</p></td>
+<td><p>Bending modulus</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The comments in the shipped parameter files give <code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code> the dimension
+M/(T² L²); from <a class="reference internal" href="#equation-eq-cell-energy">(1)</a> it is an energy, in J (see <a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a>).
+The mass density, which sets the node mass, is described in <a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a>.</p>
+</section>
+<section id="practical-guidance">
+<h2>Practical guidance<a class="headerlink" href="#practical-guidance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Values in the shipped files. The epithelial cell types use <span class="math notranslate nohighlight">\(K = 2.5\times10^{3}\)</span> Pa,
+<span class="math notranslate nohighlight">\(Q_0 = 250\)</span>, a basal surface tension of <span class="math notranslate nohighlight">\(10^{-3}\)</span> N/m, an apical one of <span class="math notranslate nohighlight">\(10^{-3}\)</span> N/m
+(except <code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code>, <span class="math notranslate nohighlight">\(10^{-5}\)</span> N/m) and a lower lateral one: <span class="math notranslate nohighlight">\(4\times10^{-4}\)</span> N/m
+in the vesicle and tube files, <span class="math notranslate nohighlight">\(5\times10^{-4}\)</span> N/m in the sheet file and
+<span class="math notranslate nohighlight">\(8\times10^{-4}\)</span> N/m in <code class="docutils literal notranslate"><span class="pre">parameters_default_*.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">parameters_paper_exact*.xml</span></code> and
+<code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code>. The vesicle, sheet, tube, <code class="docutils literal notranslate"><span class="pre">fig3e_*</span></code> and
+<code class="docutils literal notranslate"><span class="pre">parameters_default_overdamped.xml</span></code> files set <span class="math notranslate nohighlight">\(k_a = 0\)</span>; the others use <span class="math notranslate nohighlight">\(k_a = 10^{-15}\)</span> J,
+the value of the paper’s Table 2. Only <code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code> enables
+bending, with the Table 2 value <span class="math notranslate nohighlight">\(k_b = 2\times10^{-18}\)</span> J; all other files set <span class="math notranslate nohighlight">\(k_b = 0\)</span>.</p></li>
+<li><p>The pressure cap cannot stabilise a swelling or exploding cell: it bounds only the pressure
+of a compressed cell.</p></li>
+<li><p>With <span class="math notranslate nohighlight">\(k_a &gt; 0\)</span>, <span class="math notranslate nohighlight">\(Q_0\)</span> below <span class="math notranslate nohighlight">\(36\pi\)</span> asks for less area than any closed surface can have, so
+the area term then always contracts the cell. The lumen, ECM, nucleus and static cell types of
+the shipped files set <span class="math notranslate nohighlight">\(Q_0 = 1\)</span> together with <span class="math notranslate nohighlight">\(k_a = 0\)</span>, which makes <span class="math notranslate nohighlight">\(Q_0\)</span> irrelevant.</p></li>
+<li><p>The ratio <span class="math notranslate nohighlight">\(\gamma / (K l)\)</span>, with <span class="math notranslate nohighlight">\(l\)</span> a cell length, compares surface tension with volume
+stiffness. Runser, Vetter &amp; Iber (2024) use this normalised surface tension
+<span class="math notranslate nohighlight">\(\tilde\gamma\)</span> to describe the transition from a monolayer to a multilayer
+(<a class="reference internal" href="../examples/monolayer_multilayer.html"><span class="doc">Monolayer and multilayer epithelia</span></a>).</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Energies written to the output (see <a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>) are diagnostics and do not all equal
+the terms of <a class="reference internal" href="#equation-eq-cell-energy">(1)</a>: <code class="docutils literal notranslate"><span class="pre">surface_tension_energy</span></code> is <span class="math notranslate nohighlight">\(\tfrac12\sum_f \gamma_f A_f\)</span>,
+half of the surface tension energy; <code class="docutils literal notranslate"><span class="pre">pressure_energy</span></code> is <span class="math notranslate nohighlight">\(\lvert K V(\ln(V/V_0) - 1)\rvert\)</span>;
+<code class="docutils literal notranslate"><span class="pre">bending_energy</span></code> is <a class="reference internal" href="#equation-eq-bending-energy">(7)</a>, about 2/3 of the bending term (see the note on
+the bending prefactor);
+<code class="docutils literal notranslate"><span class="pre">membrane_elasticity_energy</span></code> is the area term. In 1.0 <code class="docutils literal notranslate"><span class="pre">membrane_elasticity_energy</span></code> was always
+written as 0.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a> for the forces between cells.</p></li>
+<li><p><a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a> for how <span class="math notranslate nohighlight">\(V_0\)</span> changes.</p></li>
+<li><p>Wardetzky, M., Bergou, M., Harmon, D., Zorin, D. &amp; Grinspun, E. Discrete quadratic curvature
+energies. <em>Comput. Aided Geom. Des.</em> <strong>24</strong>, 499-518 (2007).</p></li>
+<li><p><a class="reference internal" href="../api/mesh.html"><span class="doc">Cell meshes</span></a> for the <code class="docutils literal notranslate"><span class="pre">cell</span></code> class.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_model_overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Model overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_contact.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Contact between cells</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#energy">Energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-geometry">Discrete geometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pressure">Pressure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#surface-tension-and-area-elasticity">Surface tension and area elasticity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bending">Bending</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#angle-regularisation">Angle regularisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-guidance">Practical guidance</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

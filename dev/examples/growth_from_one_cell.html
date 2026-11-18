@@ -1,0 +1,916 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tissue growth from a single cell &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/growth_from_one_cell';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/examples/growth_from_one_cell.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Batch runs from Python" href="python_batch_runs.html" />
+    <link rel="prev" title="Growing cell: full and overdamped dynamics" href="single_cell_dynamic_overdamped.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="vesicle_quick.html">Short vesicle run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vesicle.html">Epithelial vesicle with lumen and ECM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monolayer_multilayer.html">Monolayer and multilayer epithelia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sheet.html">Epithelial sheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tube.html">Epithelial tube</a></li>
+<li class="toctree-l1"><a class="reference internal" href="single_cell_dynamic_overdamped.html">Growing cell: full and overdamped dynamics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tissue growth from a single cell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_batch_runs.html">Batch runs from Python</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Tissue...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tissue-growth-from-a-single-cell">
+<span id="ex-growth"></span><h1>Tissue growth from a single cell<a class="headerlink" href="#tissue-growth-from-a-single-cell" title="Link to this heading">#</a></h1>
+<p>Grow a tissue from one cell by repeated growth and division. This is the exponential-growth
+scenario that Runser, Vetter &amp; Iber (2024) use to measure computational efficiency (Fig. 1e of
+the paper; <a class="reference internal" href="../citing.html"><span class="doc">Citing SimuCell3D</span></a>): they report growing a tissue to 125,000 cells in one day of
+computation on an eight-core Intel Xeon W-2245 with 16 threads, for cells with 121 nodes and 238
+faces on average. The parameter file of this example is not the lab’s configuration: it was
+reconstructed for 2.x from Table 2 of the paper and is called the <em>reconstructed paper-like
+configuration</em> in these pages (<a class="reference internal" href="#ex-growth-reconstruction"><span class="std std-ref">Differences from the paper</span></a>). It is the long-run test case of
+release 2.1.</p>
+<p><strong>Files</strong>: <code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">data/input_meshes/paper_sphere.vtk</span></code> (one cell,
+about 12 µm in diameter, volume about <span class="math notranslate nohighlight">\(10^{-15}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>); launcher <code class="docutils literal notranslate"><span class="pre">scripts/runs/launch_longrun_20k.sh</span></code>.
+<strong>Compile-time configuration</strong>: the defaults (<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>).
+<strong>Length</strong>: very long. <span class="math notranslate nohighlight">\(2\times10^{-3}\)</span> s of simulated time at a time step of <span class="math notranslate nohighlight">\(10^{-7}\)</span> s
+(<span class="math notranslate nohighlight">\(2\times10^4\)</span> iterations), with a cost per iteration that grows with the number of cells.</p>
+<section id="the-parameter-file">
+<h2>The parameter file<a class="headerlink" href="#the-parameter-file" title="Link to this heading">#</a></h2>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">parameters/longrun_fast_growth.xml (numerical parameters)</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;numerical_parameters&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Single paper-sized cell (V=1.0e-15 m^3) for exponential growth --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input_mesh_file_path&gt;</span>data/input_meshes/paper_sphere.vtk<span class="nt">&lt;/input_mesh_file_path&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Output path (can be overridden via command line) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;output_mesh_folder_path&gt;</span>../simulation_results/longrun_20k_fast_growth<span class="nt">&lt;/output_mesh_folder_path&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Re-triangulate the input at l_min (paper's Poisson-disc init, Supp. Fig. 1) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;perform_initial_triangulation&gt;</span>1<span class="nt">&lt;/perform_initial_triangulation&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Edge swaps are part of the paper's mesh maintenance (Supp. Fig. 2c) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;enable_edge_swap_operation&gt;</span>1<span class="nt">&lt;/enable_edge_swap_operation&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Damping coefficient [kg/s] - Table 2 (dynamic): 2.5e-10 --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;damping_coefficient&gt;</span>2.5e-10<span class="nt">&lt;/damping_coefficient&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Simulation duration [s] - ~28 cell cycles; wall-clock cap governs in practice --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;simulation_duration&gt;</span>2e-3<span class="nt">&lt;/simulation_duration&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- VTK snapshot every 1e-4 s of sim time = every 1000 iterations --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;sampling_period&gt;</span>1e-4<span class="nt">&lt;/sampling_period&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Time step [s] - Table 2: 1e-7 s --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;time_step&gt;</span>1e-7<span class="nt">&lt;/time_step&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Mesh resolution [m] - reproduces paper's 121 nodes / 238 faces per cell</span>
+<span class="cm">         at paper cell size (see header for why NOT Table 2's 2e-7) --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;min_edge_length&gt;</span>1e-6<span class="nt">&lt;/min_edge_length&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!-- Contact cutoffs [m] - Table 2: c = 2e-7 --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;contact_cutoff_adhesion&gt;</span>2e-7<span class="nt">&lt;/contact_cutoff_adhesion&gt;</span>
+<span class="w">    </span><span class="nt">&lt;contact_cutoff_repulsion&gt;</span>2e-7<span class="nt">&lt;/contact_cutoff_repulsion&gt;</span>
+<span class="nt">&lt;/numerical_parameters&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>The file defines a single cell type, <code class="docutils literal notranslate"><span class="pre">epithelial</span></code>, with these properties:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p>XML tag</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bulk modulus, pressure cap</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cell_bulk_modulus</span></code>, <code class="docutils literal notranslate"><span class="pre">max_inner_pressure</span></code></p></td>
+<td><p>2.5e3</p></td>
+<td><p>Pa</p></td>
+</tr>
+<tr class="row-odd"><td><p>Area elasticity modulus</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code></p></td>
+<td><p>1e-15</p></td>
+<td><p>J</p></td>
+</tr>
+<tr class="row-even"><td><p>Target isoperimetric ratio</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code></p></td>
+<td><p>250</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Growth rate (mean, standard deviation)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code></p></td>
+<td><p>1e-11, 1e-12</p></td>
+<td><p>m³/s</p></td>
+</tr>
+<tr class="row-even"><td><p>Division volume (mean, standard deviation)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code>, <code class="docutils literal notranslate"><span class="pre">std_division_volume</span></code></p></td>
+<td><p>1.4e-15, 1.4e-16</p></td>
+<td><p>m³</p></td>
+</tr>
+<tr class="row-odd"><td><p>Minimum volume</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">min_vol</span></code></p></td>
+<td><p>3.7e-16</p></td>
+<td><p>m³</p></td>
+</tr>
+<tr class="row-even"><td><p>Surface tension (apical, lateral, basal)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">surface_tension</span></code></p></td>
+<td><p>1e-3, 8e-4, 1e-3</p></td>
+<td><p>N/m</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bending modulus (all faces)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bending_modulus</span></code></p></td>
+<td><p>2e-18</p></td>
+<td><p>J</p></td>
+</tr>
+<tr class="row-even"><td><p>Adherence strength (apical, lateral, basal)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code></p></td>
+<td><p>1e9, 1e9, 0</p></td>
+<td><p>N/m³</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A daughter cell of about half the division volume reaches the division volume again after about
+<span class="math notranslate nohighlight">\(0.7\times10^{-15} / 10^{-11} = 7\times10^{-5}\)</span> s, that is 700 iterations. The minimum edge length
+is <span class="math notranslate nohighlight">\(10^{-6}\)</span> m, coarser than the value in Table 2 of the paper; the header comment of the file
+gives the reason (the mesh resolution the paper reports for this benchmark). The input cell is
+re-triangulated at the start of the run, and edge swaps are enabled. With the default build the
+basal face type and <code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code> have no effect
+(<a class="reference internal" href="../user_guide/10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p>
+<section id="differences-from-the-paper">
+<span id="ex-growth-reconstruction"></span><h3>Differences from the paper<a class="headerlink" href="#differences-from-the-paper" title="Link to this heading">#</a></h3>
+<p>The file differs from Table 2 of the paper (dynamic column) in:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p>Table 2</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Minimum edge length <span class="math notranslate nohighlight">\(l_{\min}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> m</p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-6}\)</span> m</p></td>
+</tr>
+<tr class="row-odd"><td><p>Contact cutoff <span class="math notranslate nohighlight">\(c\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> m</p></td>
+<td><p><span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> m (so <span class="math notranslate nohighlight">\(c = l_{\min}/5\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Lateral surface tension</p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{-3}\)</span> N/m</p></td>
+<td><p><span class="math notranslate nohighlight">\(8\times10^{-4}\)</span> N/m</p></td>
+</tr>
+<tr class="row-odd"><td><p>Basal adhesion <span class="math notranslate nohighlight">\(\omega\)</span>, repulsion <span class="math notranslate nohighlight">\(\xi\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(10^{9}\)</span>, <span class="math notranslate nohighlight">\(10^{9}\)</span> Pa/m</p></td>
+<td><p>0, <span class="math notranslate nohighlight">\(5\times10^{8}\)</span> Pa/m (no effect with contact model 2)</p></td>
+</tr>
+<tr class="row-even"><td><p>Contact model</p></td>
+<td><p>not stated per figure</p></td>
+<td><p>2 (face-face coupling, not described in the paper)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Standard deviations of growth rate and division volume</p></td>
+<td><p>none listed</p></td>
+<td><p>10% of the means</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Release 1.0 shipped the lab’s own benchmark file, <code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> (contact model 1,
+polarization mode 0, <span class="math notranslate nohighlight">\(l_{\min} = 6\times10^{-7}\)</span> m and <span class="math notranslate nohighlight">\(c = 5\times10^{-7}\)</span> m, among other
+differences from Table 2). It was removed in 2.0 without a note and can be obtained with
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span> <span class="pre">v1.0:parameters_benchmarck.xml</span></code>. It was run once per setting on 8 cores in November
+2026, with its compile-time switches. At its shipped time step of <span class="math notranslate nohighlight">\(10^{-7}\)</span> s, 2.1 removed
+blown-up cells in large numbers from about 9,000 cells on (4,456 of 157,716 cells created) and was
+stopped at 28,600 cells; at <span class="math notranslate nohighlight">\(2.5\times10^{-8}\)</span> s it grew to 18,300 cells without removals before
+it was stopped. 1.0 stopped with a mesh refinement error at about 170 cells at <span class="math notranslate nohighlight">\(10^{-7}\)</span> s. These
+are single runs, not a validation.</p>
+</section>
+</section>
+<section id="run">
+<h2>Run<a class="headerlink" href="#run" title="Link to this heading">#</a></h2>
+<p>The launcher starts the run in the background from <code class="docutils literal notranslate"><span class="pre">build/</span></code> with
+<code class="docutils literal notranslate"><span class="pre">--output-dir=simulation_results/longrun_20k_fast_growth</span></code> and the diagnostics CSV in that folder,
+and writes the log, which contains the safeguard messages, to
+<code class="docutils literal notranslate"><span class="pre">simulation_results/longrun_20k_fast_growth_logs/run.log</span></code> (outside the output folder, which the
+program deletes at start). It also deletes the previous output and log folders and stops a
+running instance with the same output folder. From the repository root:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>scripts/runs/launch_longrun_20k.sh
+<span class="gp">$ </span>tail<span class="w"> </span>-f<span class="w"> </span>simulation_results/longrun_20k_fast_growth_logs/run.log
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">THREADS=N</span> <span class="pre">scripts/runs/launch_longrun_20k.sh</span></code> passes <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code>. The launcher uses
+<code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span></code> and <code class="docutils literal notranslate"><span class="pre">stdbuf</span></code>, which are part of the GNU <code class="docutils literal notranslate"><span class="pre">time</span></code> and <code class="docutils literal notranslate"><span class="pre">coreutils</span></code> packages.
+Without the launcher, the equivalent foreground run is, from <code class="docutils literal notranslate"><span class="pre">build/</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./simucell3d<span class="w"> </span>../parameters/longrun_fast_growth.xml<span class="w"> </span>--output-dir<span class="o">=</span>../simulation_results/longrun_20k_fast_growth
+</pre></div>
+</div>
+</section>
+<section id="what-to-expect">
+<h2>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h2>
+<p>The CHANGELOG reports these measurements for 2.1 with this configuration:</p>
+<ul class="simple">
+<li><p>On 8 cores, the run reaches 30,000 cells in about 4 hours.</p></li>
+<li><p>In an 8-core run from 1 to 150,498 cells, 14% of division attempts were refused (5% below
+30,000 cells, 21% between 125,000 and 150,000 cells). A refused mother tries again at the next
+division check; each refusal is logged with the cell id.</p></li>
+<li><p>Isolated cells are removed by the safeguards during long runs, sometimes in small groups after
+a single node is thrown far from its cell. Each removal is logged, and counted in the
+<code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code> column of <code class="docutils literal notranslate"><span class="pre">performance_diagnostics.csv</span></code>.</p></li>
+<li><p>Cells interpenetrate, with 2.1 and with 1.0. One possible cause is the contact cutoff of
+<span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> m, five times smaller than the minimum edge length of this file; Table 2 of
+the paper uses the same value for both.</p></li>
+<li><p>Count the removals in the log of every run: the unstable-cell removal has no limit, and a run
+that diverges can lose most of its cells and still exit with status 0
+(<a class="reference internal" href="../user_guide/09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></li>
+</ul>
+<p>See <a class="reference internal" href="../whats_new/v2.1.html#whatsnew-v2-1-known-issues"><span class="std std-ref">Known issues</span></a> and <a class="reference internal" href="../user_guide/09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
+</section>
+<section id="what-to-look-at">
+<h2>What to look at<a class="headerlink" href="#what-to-look-at" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">cells</span></code> column of <code class="docutils literal notranslate"><span class="pre">performance_diagnostics.csv</span></code> (every 100 iterations) gives the number of
+cells, and <code class="docutils literal notranslate"><span class="pre">total_iteration_ms</span></code> the wall time per iteration, for a plot of cost against cell
+count as in Fig. 1e of the paper.</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> <span class="math notranslate nohighlight">\(10^{-4}\)</span> s the run writes a pair of mesh files every 1000 iterations.
+Colour <code class="docutils literal notranslate"><span class="pre">cell_data/result_*.vtk</span></code> by <code class="docutils literal notranslate"><span class="pre">cell_volume</span></code> or <code class="docutils literal notranslate"><span class="pre">cell_pressure</span></code> in ParaView.</p></li>
+</ul>
+</section>
+<section id="variant">
+<h2>Variant<a class="headerlink" href="#variant" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">parameters/parameters_paper_exact_fast_growth.xml</span></code> uses the larger <code class="docutils literal notranslate"><span class="pre">big_sphere.vtk</span></code> cell, a
+division volume of <span class="math notranslate nohighlight">\(1.4\times10^{-14}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>, a growth rate of <span class="math notranslate nohighlight">\(5\times10^{-11}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>/s, contact
+cutoffs of <span class="math notranslate nohighlight">\(5\times10^{-7}\)</span> m and no bending; its sampling period of 1 s is longer than any
+practical run, so it writes almost no mesh files.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="single_cell_dynamic_overdamped.html"><span class="doc">Growing cell: full and overdamped dynamics</span></a>: growth from one larger cell with the 1.0 default
+parameter files.</p></li>
+<li><p><a class="reference internal" href="../user_guide/18_parallel_performance.html"><span class="doc">Parallel performance</span></a>: thread count, pinning and scheduling for long runs.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="single_cell_dynamic_overdamped.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Growing cell: full and overdamped dynamics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="python_batch_runs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Batch runs from Python</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-parameter-file">The parameter file</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#differences-from-the-paper">Differences from the paper</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">Run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">What to expect</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-look-at">What to look at</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variant">Variant</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

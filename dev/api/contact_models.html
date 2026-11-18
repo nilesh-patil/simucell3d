@@ -1,0 +1,1380 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Contact models &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/contact_models';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/api/contact_models.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Time integration" href="time_integration.html" />
+    <link rel="prev" title="Cell classes" href="cell_classes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver and configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">Cell meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contact models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="triangulation.html">Triangulation and division</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial_partitioning.html">Spatial partitioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Contact models</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="contact-models">
+<span id="api-contact-models"></span><h1>Contact models<a class="headerlink" href="#contact-models" title="Link to this heading">#</a></h1>
+<p>At each iteration, after mesh refinement, the contact model finds pairs of cells whose
+surfaces are within the contact cutoffs and applies adhesion and repulsion. The class is
+chosen at compile time by <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code> in <code class="docutils literal notranslate"><span class="pre">global_configuration.hpp</span></code>:
+0 <a class="reference internal" href="#_CPPv428contact_node_face_via_spring" title="contact_node_face_via_spring"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_node_face_via_spring</span></code></a>, 1 <a class="reference internal" href="#_CPPv430contact_node_node_via_coupling" title="contact_node_node_via_coupling"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_node_node_via_coupling</span></code></a>,
+2 <a class="reference internal" href="#_CPPv430contact_face_face_via_coupling" title="contact_face_face_via_coupling"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_face_face_via_coupling</span></code></a> (default). All three derive from
+<a class="reference internal" href="#_CPPv422contact_model_abstract" title="contact_model_abstract"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_model_abstract</span></code></a>.</p>
+<p>With contact model 2, the <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> parameter selects how candidate
+node-face pairs are found: <code class="docutils literal notranslate"><span class="pre">uspg</span></code> (default) bins the bounding boxes of all faces in a uniform
+grid built by the model itself; <code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code> uses
+<a class="reference internal" href="#_CPPv430contact_detection_sap_strategy" title="contact_detection_sap_strategy"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_detection_sap_strategy</span></code></a>; <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> uses the grid and switches to sweep
+and prune when the number of cells reaches <code class="docutils literal notranslate"><span class="pre">ADAPTIVE_SAP_CELL_THRESHOLD</span></code> (500). Contact
+models 0 and 1 ignore the parameter and always use the uniform spatial partitioning grid of
+<a class="reference internal" href="#_CPPv422contact_model_abstract" title="contact_model_abstract"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_model_abstract</span></code></a>. <a class="reference internal" href="#_CPPv431contact_detection_uspg_strategy" title="contact_detection_uspg_strategy"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_detection_uspg_strategy</span></code></a> implements
+the same strategy interface on a USPG but is not queried by the contact models during a
+simulation. The narrative description is in <a class="reference internal" href="../user_guide/03_contact.html"><span class="doc">Contact between cells</span></a>.</p>
+<section id="id1">
+<h2>Contact models<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv422contact_model_abstract">
+<span id="_CPPv322contact_model_abstract"></span><span id="_CPPv222contact_model_abstract"></span><span id="contact_model_abstract"></span><span class="target" id="classcontact__model__abstract"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_model_abstract</span></span></span><a class="headerlink" href="#_CPPv422contact_model_abstract" title="Link to this definition">#</a><br /></dt>
+<dd><p>Base class of the contact models. </p>
+<p>A contact model finds the nodes of a cell that lie within the contact cutoffs of a face of another cell and applies adhesion and repulsion to them. The solver owns exactly one model, selected at compile time by <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code> in <code class="docutils literal notranslate"><span class="pre">global_configuration.hpp</span></code>: 0 <a class="reference internal" href="#classcontact__node__face__via__spring"><span class="std std-ref">contact_node_face_via_spring</span></a>, 1 <a class="reference internal" href="#classcontact__node__node__via__coupling"><span class="std std-ref">contact_node_node_via_coupling</span></a>, 2 <a class="reference internal" href="#classcontact__face__face__via__coupling"><span class="std std-ref">contact_face_face_via_coupling</span></a> (default).</p>
+<p>The base class holds the padded axis-aligned bounding boxes (AABB) of all faces, a uniform spatial partitioning grid of faces (USPG), and the contact detection strategy chosen by the <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> parameter. With <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>, the detection starts with the USPG and switches to sweep and prune when the number of cells reaches <code class="docutils literal notranslate"><span class="pre">ADAPTIVE_SAP_CELL_THRESHOLD</span></code> (500). Only <a class="reference internal" href="#classcontact__face__face__via__coupling"><span class="std std-ref">contact_face_face_via_coupling</span></a> consults the detection strategy; models 0 and 1 always use the USPG. </p>
+<p>Subclassed by <a class="reference internal" href="#classcontact__face__face__via__coupling"><span class="std std-ref">contact_face_face_via_coupling</span></a>, <a class="reference internal" href="#classcontact__node__face__via__spring"><span class="std std-ref">contact_node_face_via_spring</span></a>, <a class="reference internal" href="#classcontact__node__node__via__coupling"><span class="std std-ref">contact_node_node_via_coupling</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22contact_model_abstract22contact_model_abstractERK28global_simulation_parameters">
+<span id="_CPPv3N22contact_model_abstract22contact_model_abstractERK28global_simulation_parameters"></span><span id="_CPPv2N22contact_model_abstract22contact_model_abstractERK28global_simulation_parameters"></span><span id="contact_model_abstract::contact_model_abstract__global_simulation_parametersCR"></span><span class="target" id="classcontact__model__abstract_1abd7e404ee3bd99ad921e956d8890e322"></span><span class="sig-name descname"><span class="n"><span class="pre">contact_model_abstract</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N22contact_model_abstract22contact_model_abstractERK28global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Store the contact cutoffs and create the contact detection strategy. </p>
+<p>The AABB padding is the larger of the two contact cutoffs, and the voxel edge of the face grid is 3 x <code class="docutils literal notranslate"><span class="pre">min_edge_len_</span></code> + 2 x padding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_parameters</strong> – Numerical parameters; uses <code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion_</span></code> (m), <code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion_</span></code> (m), <code class="docutils literal notranslate"><span class="pre">min_edge_len_</span></code> (m) and <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm_</span></code>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22contact_model_abstract3runERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N22contact_model_abstract3runERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N22contact_model_abstract3runERKNSt6vectorI8cell_ptrEE"></span><span id="contact_model_abstract::run__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__model__abstract_1a7300e8794e6d5dcdf1f15acc9128fdd2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N22contact_model_abstract3runERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Find the contacts between the cells and apply the contact forces to their nodes. </p>
+<p>Called once per iteration by the solver, outside any parallel region (the method opens its own).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the domain has diverged and the contact grid cannot be built. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22contact_model_abstract17update_face_aabbsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N22contact_model_abstract17update_face_aabbsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N22contact_model_abstract17update_face_aabbsERKNSt6vectorI8cell_ptrEE"></span><span id="contact_model_abstract::update_face_aabbs__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__model__abstract_1a9f9767ffab686a977187bea5d6801c33"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_face_aabbs</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N22contact_model_abstract17update_face_aabbsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Recompute the padded AABB of every face in the face list and the bounds of the domain. </p>
+<p>Each face AABB is enlarged by the padding (the larger contact cutoff) on every side.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22contact_model_abstract18store_face_in_uspgEv">
+<span id="_CPPv3N22contact_model_abstract18store_face_in_uspgEv"></span><span id="_CPPv2N22contact_model_abstract18store_face_in_uspgEv"></span><span id="contact_model_abstract::store_face_in_uspg"></span><span class="target" id="classcontact__model__abstract_1a7fc5d7a79f92629ef59f1ebf4058aa2c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">store_face_in_uspg</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N22contact_model_abstract18store_face_in_uspgEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resize the face grid to the current domain and insert every face in all the voxels its AABB overlaps. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the domain has diverged (see <a class="reference internal" href="spatial_partitioning.html#classuspg__abstract_1a93289ed37c1f5a64e56794e5e0731efe"><span class="std std-ref">uspg_abstract::compute_nb_voxels()</span></a>) or the grid cannot be allocated. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK22contact_model_abstract23aabb_intersection_checkEK6size_tRK4vec3">
+<span id="_CPPv3NK22contact_model_abstract23aabb_intersection_checkEK6size_tRK4vec3"></span><span id="_CPPv2NK22contact_model_abstract23aabb_intersection_checkEK6size_tRK4vec3"></span><span id="contact_model_abstract::aabb_intersection_check__sC.vec3CRC"></span><span class="target" id="classcontact__model__abstract_1aea7a6bc63e8cad35f38fa8f20347c275"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">aabb_intersection_check</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_aabb_pos</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node_pos</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK22contact_model_abstract23aabb_intersection_checkEK6size_tRK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Test whether a point lies in the padded AABB of a face. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>face_aabb_pos</strong> – Index of the AABB in the flat AABB list (6 x global face id). </p></li>
+<li><p><strong>node_pos</strong> – Position of the point, m. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the point is inside the box (boundary included). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK22contact_model_abstract22get_detection_strategyEv">
+<span id="_CPPv3NK22contact_model_abstract22get_detection_strategyEv"></span><span id="_CPPv2NK22contact_model_abstract22get_detection_strategyEv"></span><span id="contact_model_abstract::get_detection_strategyC"></span><span class="target" id="classcontact__model__abstract_1a2a1f4761d75d2ea1c82dc137c1153678"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv426contact_detection_strategy" title="contact_detection_strategy"><span class="n"><span class="pre">contact_detection_strategy</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_detection_strategy</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK22contact_model_abstract22get_detection_strategyEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the current contact detection strategy (for tests and diagnostics). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Non-owning pointer; may change between iterations in adaptive mode. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N22contact_model_abstract30compute_node_triangle_distanceERK4vec3RK4vec3RK4vec3RK4vec3">
+<span id="_CPPv3N22contact_model_abstract30compute_node_triangle_distanceERK4vec3RK4vec3RK4vec3RK4vec3"></span><span id="_CPPv2N22contact_model_abstract30compute_node_triangle_distanceERK4vec3RK4vec3RK4vec3RK4vec3"></span><span id="contact_model_abstract::compute_node_triangle_distance__vec3CR.vec3CR.vec3CR.vec3CR"></span><span class="target" id="classcontact__model__abstract_1a9c05b1e47dbf95c8c491c97669dfbae7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_node_triangle_distance</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">b</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N22contact_model_abstract30compute_node_triangle_distanceERK4vec3RK4vec3RK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Find the point of a triangle closest to a given point. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> – Query point, m. </p></li>
+<li><p><strong>a</strong> – First vertex of the triangle, m. </p></li>
+<li><p><strong>b</strong> – Second vertex of the triangle, m. </p></li>
+<li><p><strong>c</strong> – Third vertex of the triangle, m. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The squared distance between <code class="docutils literal notranslate"><span class="pre">p</span></code> and the closest point (m^2), and the barycentric coordinates (u, v, w) of that point with respect to (a, b, c). </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv430contact_face_face_via_coupling">
+<span id="_CPPv330contact_face_face_via_coupling"></span><span id="_CPPv230contact_face_face_via_coupling"></span><span id="contact_face_face_via_coupling"></span><span class="target" id="classcontact__face__face__via__coupling"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_face_face_via_coupling</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv422contact_model_abstract" title="contact_model_abstract"><span class="n"><span class="pre">contact_model_abstract</span></span></a><a class="headerlink" href="#_CPPv430contact_face_face_via_coupling" title="Link to this definition">#</a><br /></dt>
+<dd><p>Contact model 2 (<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, default): face-face coupling. </p>
+<p>For each node of a cell, candidate faces of other cells are those whose padded AABB contains the node. Between two epithelial cells (cell class 0), the node is coupled to the closest node of the candidate face if their distance is below the adhesion cutoff, the angle between the two node normals is at least 90 degrees, the curvature of both nodes is below <code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code>, and neither node already has a closer partner on that cell. A node keeps at most one partner per adjacent cell. After the search, every group of coupled nodes is moved to its mean position. In all other cases (other cell classes, or no coupling), a node that has penetrated the face receives a repulsion force of magnitude <code class="docutils literal notranslate"><span class="pre">repulsion_strength</span></code> x face area x distance, shared with the face nodes by barycentric weights. Nodes whose curvature is at or above <code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code> are skipped.</p>
+<p>Candidate faces come from an internal grid binned by face AABB, or from the sweep-and-prune strategy when <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> selects it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Thread-safe: contact forces are added with atomic updates and the coupling maps of the nodes are written under the node locks (<a class="reference internal" href="mesh.html#classnode_1a54fa9eedc7707b105104cb001e3f1244"><span class="std std-ref">node::couple_if_closest()</span></a>). </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_face_face_via_coupling30contact_face_face_via_couplingERK28global_simulation_parameters">
+<span id="_CPPv3N30contact_face_face_via_coupling30contact_face_face_via_couplingERK28global_simulation_parameters"></span><span id="_CPPv2N30contact_face_face_via_coupling30contact_face_face_via_couplingERK28global_simulation_parameters"></span><span id="contact_face_face_via_coupling::contact_face_face_via_coupling__global_simulation_parametersCR"></span><span class="target" id="classcontact__face__face__via__coupling_1a5cce068d19178b6eab3fabc20657381c"></span><span class="sig-name descname"><span class="n"><span class="pre">contact_face_face_via_coupling</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N30contact_face_face_via_coupling30contact_face_face_via_couplingERK28global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the model; see contact_model_abstract::contact_model_abstract(). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_parameters</strong> – Numerical parameters (contact cutoffs in m, minimum edge length in m, contact detection algorithm). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_face_face_via_coupling3runERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N30contact_face_face_via_coupling3runERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N30contact_face_face_via_coupling3runERKNSt6vectorI8cell_ptrEE"></span><span id="contact_face_face_via_coupling::run__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__face__face__via__coupling_1aa13a51f34207d3cdf92a685c0277d41c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N30contact_face_face_via_coupling3runERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Number the faces, reset the couplings, build the broad phase and resolve all contacts. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the bounding box of the domain is not finite or the contact grid would be too large (a cell has diverged). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_face_face_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N30contact_face_face_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N30contact_face_face_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE"></span><span id="contact_face_face_via_coupling::resolve_all_contacts__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__face__face__via__coupling_1aed1a887351cf55c49ce8ffd5e5f7c9be"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resolve_all_contacts</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N30contact_face_face_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Visit every node/candidate-face pair, couple or repel them, then move each group of coupled nodes to its mean position. </p>
+<p>In adaptive mode, this is where the detection strategy is switched when the number of cells crosses the threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK30contact_face_face_via_coupling15resolve_contactERK8cell_ptrRK8cell_ptrR4nodeP4face">
+<span id="_CPPv3NK30contact_face_face_via_coupling15resolve_contactERK8cell_ptrRK8cell_ptrR4nodeP4face"></span><span id="_CPPv2NK30contact_face_face_via_coupling15resolve_contactERK8cell_ptrRK8cell_ptrR4nodeP4face"></span><span id="contact_face_face_via_coupling::resolve_contact__cell_ptrCR.cell_ptrCR.nodeR.facePC"></span><span class="target" id="classcontact__face__face__via__coupling_1a90ca9d06032152e3c5ddf68b9cf9fe35"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resolve_contact</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">c1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">c2</span></span>, <a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span>, <a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">f</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK30contact_face_face_via_coupling15resolve_contactERK8cell_ptrRK8cell_ptrR4nodeP4face" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resolve the contact between one node and one face of another cell. </p>
+<p>Between two epithelial cells, first try to couple the node to the closest node of the face; if no coupling is stored, apply repulsion when the node lies on the inner side of the face (the side is inverted for an epithelial node against an ECM face and for a nucleus node against an epithelial face) and within the larger contact cutoff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c1</strong> – Cell that owns the node. </p></li>
+<li><p><strong>c2</strong> – Cell that owns the face. </p></li>
+<li><p><strong>n</strong> – Node of <code class="docutils literal notranslate"><span class="pre">c1</span></code>. </p></li>
+<li><p><strong>f</strong> – Face of <code class="docutils literal notranslate"><span class="pre">c2</span></code>. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv430contact_node_node_via_coupling">
+<span id="_CPPv330contact_node_node_via_coupling"></span><span id="_CPPv230contact_node_node_via_coupling"></span><span id="contact_node_node_via_coupling"></span><span class="target" id="classcontact__node__node__via__coupling"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_node_node_via_coupling</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv422contact_model_abstract" title="contact_model_abstract"><span class="n"><span class="pre">contact_model_abstract</span></span></a><a class="headerlink" href="#_CPPv430contact_node_node_via_coupling" title="Link to this definition">#</a><br /></dt>
+<dd><p>Contact model 1 (<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">1</span></code>): node-node coupling. </p>
+<p>Like <a class="reference internal" href="#classcontact__face__face__via__coupling"><span class="std std-ref">contact_face_face_via_coupling</span></a>, but each node has at most one partner in total (not one per adjacent cell), the angle between the normals of the two nodes must be at least 45 degrees (90 degrees in model 2), and after the search each coupled pair is moved to its midpoint. Faces are found with the uniform spatial partitioning grid of the base class; the <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> parameter has no effect. Non-coupled contacts receive the same repulsion as in model 2.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Repulsion forces are added without atomic operations while several threads may update the same node; the coupling itself is stored under the node lock. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_node_node_via_coupling30contact_node_node_via_couplingERK28global_simulation_parameters">
+<span id="_CPPv3N30contact_node_node_via_coupling30contact_node_node_via_couplingERK28global_simulation_parameters"></span><span id="_CPPv2N30contact_node_node_via_coupling30contact_node_node_via_couplingERK28global_simulation_parameters"></span><span id="contact_node_node_via_coupling::contact_node_node_via_coupling__global_simulation_parametersCR"></span><span class="target" id="classcontact__node__node__via__coupling_1a3acdd8fac65fed1f13070e9404a9a51a"></span><span class="sig-name descname"><span class="n"><span class="pre">contact_node_node_via_coupling</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N30contact_node_node_via_coupling30contact_node_node_via_couplingERK28global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the model; see contact_model_abstract::contact_model_abstract(). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_parameters</strong> – Numerical parameters (contact cutoffs in m, minimum edge length in m). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_node_node_via_coupling3runERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N30contact_node_node_via_coupling3runERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N30contact_node_node_via_coupling3runERKNSt6vectorI8cell_ptrEE"></span><span id="contact_node_node_via_coupling::run__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__node__node__via__coupling_1a97847dbb3493f6b7aaf55e2121c0da58"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N30contact_node_node_via_coupling3runERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Number the faces, reset the couplings, fill the face grid and resolve all contacts. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the domain has diverged and the face grid cannot be built. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_node_node_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N30contact_node_node_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N30contact_node_node_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE"></span><span id="contact_node_node_via_coupling::resolve_all_contacts__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__node__node__via__coupling_1a579cc4f6b7b6106ed69934e1c13efd76"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resolve_all_contacts</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N30contact_node_node_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Visit every node/candidate-face pair, couple or repel them, then move each coupled pair to its midpoint. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK30contact_node_node_via_coupling15resolve_contactE8cell_ptr8cell_ptrR4nodeP4face">
+<span id="_CPPv3NK30contact_node_node_via_coupling15resolve_contactE8cell_ptr8cell_ptrR4nodeP4face"></span><span id="_CPPv2NK30contact_node_node_via_coupling15resolve_contactE8cell_ptr8cell_ptrR4nodeP4face"></span><span id="contact_node_node_via_coupling::resolve_contact__cell_ptr.cell_ptr.nodeR.facePC"></span><span class="target" id="classcontact__node__node__via__coupling_1a12345792d440a220ae3e94a50547b995"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resolve_contact</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c1</span></span>, <span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c2</span></span>, <a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span>, <a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">f</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK30contact_node_node_via_coupling15resolve_contactE8cell_ptr8cell_ptrR4nodeP4face" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resolve the contact between one node and one face of another cell. </p>
+<p>Between two epithelial cells, first try to couple the node to the closest node of the face; otherwise apply repulsion as in <a class="reference internal" href="#classcontact__face__face__via__coupling_1a90ca9d06032152e3c5ddf68b9cf9fe35"><span class="std std-ref">contact_face_face_via_coupling::resolve_contact()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c1</strong> – Cell that owns the node. </p></li>
+<li><p><strong>c2</strong> – Cell that owns the face. </p></li>
+<li><p><strong>n</strong> – Node of <code class="docutils literal notranslate"><span class="pre">c1</span></code>. </p></li>
+<li><p><strong>f</strong> – Face of <code class="docutils literal notranslate"><span class="pre">c2</span></code>. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv428contact_node_face_via_spring">
+<span id="_CPPv328contact_node_face_via_spring"></span><span id="_CPPv228contact_node_face_via_spring"></span><span id="contact_node_face_via_spring"></span><span class="target" id="classcontact__node__face__via__spring"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_node_face_via_spring</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv422contact_model_abstract" title="contact_model_abstract"><span class="n"><span class="pre">contact_model_abstract</span></span></a><a class="headerlink" href="#_CPPv428contact_node_face_via_spring" title="Link to this definition">#</a><br /></dt>
+<dd><p>Contact model 0 (<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">0</span></code>): node-face springs. </p>
+<p>The padded AABBs of all faces are stored in the uniform spatial partitioning grid of the base class. For every node, each face of another cell whose AABB contains the node is tested: the distance d between the node and the closest point of the face decides the force, which acts along the line between the two points and is shared with the face nodes by barycentric weights. With A the face area, c the adhesion cutoff, omega the <code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code> and xi the <code class="docutils literal notranslate"><span class="pre">repulsion_strength</span></code> of the face type (N/m^3):</p>
+<p><ul class="simple">
+<li><p>node on the outer side of the face and d &lt; c: adhesion of magnitude omega A d for d &lt; c/2, and omega A (c - d) for d &gt;= c/2;</p></li>
+<li><p>node on the inner side and d below the repulsion cutoff: repulsion of magnitude xi A d.</p></li>
+</ul>
+</p>
+<p>The side is inverted for an epithelial node against an ECM face and for a nucleus node against an epithelial face. With <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>, each face in contact is reported to its cell for polarization. The <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> parameter has no effect on this model.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Forces are added without atomic operations while several threads may update the same node. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N28contact_node_face_via_spring28contact_node_face_via_springERK28global_simulation_parameters">
+<span id="_CPPv3N28contact_node_face_via_spring28contact_node_face_via_springERK28global_simulation_parameters"></span><span id="_CPPv2N28contact_node_face_via_spring28contact_node_face_via_springERK28global_simulation_parameters"></span><span id="contact_node_face_via_spring::contact_node_face_via_spring__global_simulation_parametersCR"></span><span class="target" id="classcontact__node__face__via__spring_1a5ec5382de41cf51f4de1043972315777"></span><span class="sig-name descname"><span class="n"><span class="pre">contact_node_face_via_spring</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N28contact_node_face_via_spring28contact_node_face_via_springERK28global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the model; see contact_model_abstract::contact_model_abstract(). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sim_parameters</strong> – Numerical parameters (contact cutoffs in m, minimum edge length in m). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N28contact_node_face_via_spring3runERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N28contact_node_face_via_spring3runERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N28contact_node_face_via_spring3runERKNSt6vectorI8cell_ptrEE"></span><span id="contact_node_face_via_spring::run__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__node__face__via__spring_1aaef3d110f4def0c71bd15223d98c46b4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N28contact_node_face_via_spring3runERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Number the faces, fill the face grid and apply the contact forces. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the domain has diverged and the face grid cannot be built. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N28contact_node_face_via_spring16resolve_contactsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N28contact_node_face_via_spring16resolve_contactsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N28contact_node_face_via_spring16resolve_contactsERKNSt6vectorI8cell_ptrEE"></span><span id="contact_node_face_via_spring::resolve_contacts__std::vector:cell_ptr:CR"></span><span class="target" id="classcontact__node__face__via__spring_1a6641dd13e6426d9ffe64226006acb823"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resolve_contacts</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N28contact_node_face_via_spring16resolve_contactsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>For every node, apply the contact forces with the faces of other cells whose AABB contains it. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK28contact_node_face_via_spring20apply_contact_forcesE8cell_ptrR4nodeP4face">
+<span id="_CPPv3NK28contact_node_face_via_spring20apply_contact_forcesE8cell_ptrR4nodeP4face"></span><span id="_CPPv2NK28contact_node_face_via_spring20apply_contact_forcesE8cell_ptrR4nodeP4face"></span><span id="contact_node_face_via_spring::apply_contact_forces__cell_ptr.nodeR.facePC"></span><span class="target" id="classcontact__node__face__via__spring_1a723d31eed940e9572f08b0630d4e51d3"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">apply_contact_forces</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c1</span></span>, <a class="reference internal" href="mesh.html#_CPPv44node" title="node"><span class="n"><span class="pre">node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span>, <a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">f</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK28contact_node_face_via_spring20apply_contact_forcesE8cell_ptrR4nodeP4face" title="Link to this definition">#</a><br /></dt>
+<dd><p>Compute the node-face distance and apply the adhesion or repulsion force. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c1</strong> – Cell that owns the node. </p></li>
+<li><p><strong>n</strong> – Node of <code class="docutils literal notranslate"><span class="pre">c1</span></code>. </p></li>
+<li><p><strong>f</strong> – Face of another cell. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="contact-detection">
+<h2>Contact detection<a class="headerlink" href="#contact-detection" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv426contact_detection_strategy">
+<span id="_CPPv326contact_detection_strategy"></span><span id="_CPPv226contact_detection_strategy"></span><span id="contact_detection_strategy"></span><span class="target" id="classcontact__detection__strategy"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_detection_strategy</span></span></span><a class="headerlink" href="#_CPPv426contact_detection_strategy" title="Link to this definition">#</a><br /></dt>
+<dd><p>Interface of the broad-phase contact detection strategies. </p>
+<p>A strategy returns, for a query position, the faces of other cells that may be in contact with it; the contact model then performs the exact distance test. The strategy is selected at run time by the <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code> parameter:</p>
+<p><ul class="simple">
+<li><p><a class="reference internal" href="#classcontact__detection__uspg__strategy"><span class="std std-ref">contact_detection_uspg_strategy</span></a> (<code class="docutils literal notranslate"><span class="pre">uspg</span></code>): uniform spatial partitioning grid (USPG) of face AABBs; a query visits the voxel of the point and its 26 neighbours.</p></li>
+<li><p><a class="reference internal" href="#classcontact__detection__sap__strategy"><span class="std std-ref">contact_detection_sap_strategy</span></a> (<code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code>): sweep and prune over the AABBs of the cells; a query visits the faces of the cells whose AABB overlaps that of the query cell.</p></li>
+</ul>
+</p>
+<p><a class="reference internal" href="#classcontact__detection__strategy_1af05dca5666eac3b99a57a4fc4c9d0533"><span class="std std-ref">prepare()</span></a> is called once per iteration, serially, before the parallel contact loop; it may throw <a class="reference internal" href="solver.html#classunstable__simulation__exception"><span class="std std-ref">unstable_simulation_exception</span></a> when the domain has diverged. <a class="reference internal" href="#classcontact__detection__strategy_1adcfa23faa3d0b7a63e81ef894f3a5ffe"><span class="std std-ref">get_candidate_faces()</span></a> is called once per node inside the parallel loop and does not throw.</p>
+<p>Usage: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auto</span> <span class="n">strategy</span> <span class="o">=</span> <span class="n">contact_detection_strategy</span><span class="p">::</span><span class="n">create</span><span class="p">(</span><span class="n">algorithm</span><span class="p">,</span> <span class="n">params</span><span class="p">);</span>
+<span class="n">strategy</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">aabbs</span><span class="p">,</span> <span class="n">bounds</span><span class="p">);</span>
+<span class="o">//</span> <span class="k">for</span> <span class="n">each</span> <span class="n">node</span> <span class="n">n</span> <span class="n">of</span> <span class="n">cell</span> <span class="n">c</span><span class="p">:</span>
+<span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">face</span><span class="o">*&gt;</span> <span class="n">candidates</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">-&gt;</span><span class="n">get_candidate_faces</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">pos</span><span class="p">(),</span> <span class="n">c</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>Subclassed by <a class="reference internal" href="#classcontact__detection__sap__strategy"><span class="std std-ref">contact_detection_sap_strategy</span></a>, <a class="reference internal" href="#classcontact__detection__uspg__strategy"><span class="std std-ref">contact_detection_uspg_strategy</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N26contact_detection_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3">
+<span id="_CPPv3N26contact_detection_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"></span><span id="_CPPv2N26contact_detection_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"></span><span id="contact_detection_strategy::prepare__std::vector:cellP:CR.std::vector:faceP:CR.std::vector:aabb:CR.vec3CR"></span><span class="target" id="classcontact__detection__strategy_1af05dca5666eac3b99a57a4fc4c9d0533"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prepare</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cells</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">faces</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv44aabb" title="aabb"><span class="n"><span class="pre">aabb</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">aabbs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bounds</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N26contact_detection_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Build the acceleration structure from the current face positions. </p>
+<p>Called once per iteration from a single thread, before the parallel contact loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cells</strong> – All cells of the simulation. </p></li>
+<li><p><strong>faces</strong> – All faces of all cells. </p></li>
+<li><p><strong>aabbs</strong> – Bounding box of each face, in the same order as <code class="docutils literal notranslate"><span class="pre">faces</span></code>, m. </p></li>
+<li><p><strong>bounds</strong> – Maximum corner of the simulation domain, m (not used by every strategy). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the domain has diverged (USPG strategy). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK26contact_detection_strategy19get_candidate_facesERK4vec3P4cell">
+<span id="_CPPv3NK26contact_detection_strategy19get_candidate_facesERK4vec3P4cell"></span><span id="_CPPv2NK26contact_detection_strategy19get_candidate_facesERK4vec3P4cell"></span><span id="contact_detection_strategy::get_candidate_faces__vec3CR.cellPC"></span><span class="target" id="classcontact__detection__strategy_1adcfa23faa3d0b7a63e81ef894f3a5ffe"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_candidate_faces</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">query_pos</span></span>, <a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">query_cell</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK26contact_detection_strategy19get_candidate_facesERK4vec3P4cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the faces that may be in contact with a point. </p>
+<p>The result is a superset of the faces in contact: the caller still performs the AABB and distance tests.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Safe to call concurrently from several threads after <a class="reference internal" href="#classcontact__detection__strategy_1af05dca5666eac3b99a57a4fc4c9d0533"><span class="std std-ref">prepare()</span></a>. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_pos</strong> – Position to query (usually a node position), m. </p></li>
+<li><p><strong>query_cell</strong> – Cell whose own faces are excluded, or nullptr for no exclusion. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new vector of candidate faces (possibly empty). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK26contact_detection_strategy14algorithm_typeEv">
+<span id="_CPPv3NK26contact_detection_strategy14algorithm_typeEv"></span><span id="_CPPv2NK26contact_detection_strategy14algorithm_typeEv"></span><span id="contact_detection_strategy::algorithm_typeC"></span><span class="target" id="classcontact__detection__strategy_1a7b59731a53083a754ed7bee9677cf663"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv425ContactDetectionAlgorithm" title="ContactDetectionAlgorithm"><span class="n"><span class="pre">ContactDetectionAlgorithm</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">algorithm_type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK26contact_detection_strategy14algorithm_typeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the algorithm implemented by this strategy. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="solver.html#group__core_1gga7ca9b09213b6714309be70daf6478543a96ef443cc78f8a9099bddbacb6771838"><span class="std std-ref">ContactDetectionAlgorithm::USPG</span></a> or <a class="reference internal" href="solver.html#group__core_1gga7ca9b09213b6714309be70daf6478543adfd74642bf6059a95e277ae4091fa548"><span class="std std-ref">ContactDetectionAlgorithm::SWEEP_AND_PRUNE</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N26contact_detection_strategy6createE25ContactDetectionAlgorithmRK28global_simulation_parameters">
+<span id="_CPPv3N26contact_detection_strategy6createE25ContactDetectionAlgorithmRK28global_simulation_parameters"></span><span id="_CPPv2N26contact_detection_strategy6createE25ContactDetectionAlgorithmRK28global_simulation_parameters"></span><span id="contact_detection_strategy::create__ContactDetectionAlgorithm.global_simulation_parametersCR"></span><span class="target" id="classcontact__detection__strategy_1a6db36852a936f48e84dc2f283c4a6638"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv426contact_detection_strategy" title="contact_detection_strategy"><span class="n"><span class="pre">contact_detection_strategy</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="solver.html#_CPPv425ContactDetectionAlgorithm" title="ContactDetectionAlgorithm"><span class="n"><span class="pre">ContactDetectionAlgorithm</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">algorithm</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N26contact_detection_strategy6createE25ContactDetectionAlgorithmRK28global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the strategy for an algorithm. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>algorithm</strong> – USPG or SWEEP_AND_PRUNE. Any other value, including ADAPTIVE, creates the USPG strategy; the adaptive switch is made by the contact model. </p></li>
+<li><p><strong>params</strong> – Numerical parameters (contact cutoffs and minimum edge length, m). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new strategy; never null. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv431contact_detection_uspg_strategy">
+<span id="_CPPv331contact_detection_uspg_strategy"></span><span id="_CPPv231contact_detection_uspg_strategy"></span><span id="contact_detection_uspg_strategy"></span><span class="target" id="classcontact__detection__uspg__strategy"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_detection_uspg_strategy</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv426contact_detection_strategy" title="contact_detection_strategy"><span class="n"><span class="pre">contact_detection_strategy</span></span></a><a class="headerlink" href="#_CPPv431contact_detection_uspg_strategy" title="Link to this definition">#</a><br /></dt>
+<dd><p>Contact detection strategy based on a uniform spatial partitioning grid (USPG). </p>
+<p>Space is divided into cubic voxels of edge 3 x <code class="docutils literal notranslate"><span class="pre">min_edge_len_</span></code> + 2 x padding, where the padding is the larger contact cutoff. Each face is inserted, in Morton (Z-order) order of its AABB centre, into every voxel its padded AABB overlaps. A query returns the faces stored in the voxel of the point and its 26 neighbours, excluding faces of the query cell.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#classcontact__face__face__via__coupling"><span class="std std-ref">contact_face_face_via_coupling</span></a> bins faces in its own grid when this algorithm is selected; this class is the strategy-interface implementation of the same idea. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N31contact_detection_uspg_strategy31contact_detection_uspg_strategyERK28global_simulation_parameters">
+<span id="_CPPv3N31contact_detection_uspg_strategy31contact_detection_uspg_strategyERK28global_simulation_parameters"></span><span id="_CPPv2N31contact_detection_uspg_strategy31contact_detection_uspg_strategyERK28global_simulation_parameters"></span><span id="contact_detection_uspg_strategy::contact_detection_uspg_strategy__global_simulation_parametersCR"></span><span class="target" id="classcontact__detection__uspg__strategy_1a1838ffc4a5067e79adb34a58d6f79bef"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_detection_uspg_strategy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N31contact_detection_uspg_strategy31contact_detection_uspg_strategyERK28global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the padding and the voxel edge from the parameters. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> – Numerical parameters; uses <code class="docutils literal notranslate"><span class="pre">min_edge_len_</span></code> and the two contact cutoffs (m). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N31contact_detection_uspg_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3">
+<span id="_CPPv3N31contact_detection_uspg_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"></span><span id="_CPPv2N31contact_detection_uspg_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"></span><span id="contact_detection_uspg_strategy::prepare__std::vector:cellP:CR.std::vector:faceP:CR.std::vector:aabb:CR.vec3CR"></span><span class="target" id="classcontact__detection__uspg__strategy_1a9e0286e4c6600414fa1dd137c63e9796"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prepare</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cells</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">faces</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv44aabb" title="aabb"><span class="n"><span class="pre">aabb</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">aabbs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bounds</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N31contact_detection_uspg_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Pad the face AABBs, size the grid to the domain and insert the faces. </p>
+<p>Called once per iteration from a single thread, before the parallel contact loop.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">bounds</span></code> is not used; the grid is sized from the face AABBs. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cells</strong> – All cells of the simulation. </p></li>
+<li><p><strong>faces</strong> – All faces of all cells. </p></li>
+<li><p><strong>aabbs</strong> – Bounding box of each face, in the same order as <code class="docutils literal notranslate"><span class="pre">faces</span></code>, m. </p></li>
+<li><p><strong>bounds</strong> – Maximum corner of the simulation domain, m (not used by every strategy). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If the domain has diverged (USPG strategy).   </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK31contact_detection_uspg_strategy19get_candidate_facesERK4vec3P4cell">
+<span id="_CPPv3NK31contact_detection_uspg_strategy19get_candidate_facesERK4vec3P4cell"></span><span id="_CPPv2NK31contact_detection_uspg_strategy19get_candidate_facesERK4vec3P4cell"></span><span id="contact_detection_uspg_strategy::get_candidate_faces__vec3CR.cellPC"></span><span class="target" id="classcontact__detection__uspg__strategy_1a7fed3d99277d80a43bf5300d9d58fb55"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_candidate_faces</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">query_pos</span></span>, <a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">query_cell</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK31contact_detection_uspg_strategy19get_candidate_facesERK4vec3P4cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the faces in the 3 x 3 x 3 voxels around a point, excluding those of <code class="docutils literal notranslate"><span class="pre">query_cell</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_pos</strong> – Position to query, m. A point outside the grid returns no faces. </p></li>
+<li><p><strong>query_cell</strong> – Cell whose own faces are excluded, or nullptr. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new vector of candidate faces. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK31contact_detection_uspg_strategy14algorithm_typeEv">
+<span id="_CPPv3NK31contact_detection_uspg_strategy14algorithm_typeEv"></span><span id="_CPPv2NK31contact_detection_uspg_strategy14algorithm_typeEv"></span><span id="contact_detection_uspg_strategy::algorithm_typeC"></span><span class="target" id="classcontact__detection__uspg__strategy_1a7242fb41b30f8bbbf4e4809cf9f51965"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv425ContactDetectionAlgorithm" title="ContactDetectionAlgorithm"><span class="n"><span class="pre">ContactDetectionAlgorithm</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">algorithm_type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK31contact_detection_uspg_strategy14algorithm_typeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return <a class="reference internal" href="solver.html#group__core_1gga7ca9b09213b6714309be70daf6478543a96ef443cc78f8a9099bddbacb6771838"><span class="std std-ref">ContactDetectionAlgorithm::USPG</span></a>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv430contact_detection_sap_strategy">
+<span id="_CPPv330contact_detection_sap_strategy"></span><span id="_CPPv230contact_detection_sap_strategy"></span><span id="contact_detection_sap_strategy"></span><span class="target" id="classcontact__detection__sap__strategy"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_detection_sap_strategy</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv426contact_detection_strategy" title="contact_detection_strategy"><span class="n"><span class="pre">contact_detection_strategy</span></span></a><a class="headerlink" href="#_CPPv430contact_detection_sap_strategy" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sweep-and-prune (SAP) contact detection strategy. </p>
+<p>Broad phase on cell bounding boxes along the three axes:<ol class="loweralpha simple">
+<li><p>Build cell-to-faces map (which faces belong to which cell)</p></li>
+<li><p>Compute cell AABBs (union of all face AABBs for each cell, with padding)</p></li>
+<li><p>Build sorted endpoint lists for X, Y, Z axes</p></li>
+<li><p>Sweep X-axis to find pairs overlapping on X</p></li>
+<li><p>Filter by Y-axis overlap</p></li>
+<li><p>Filter by Z-axis overlap</p></li>
+<li><p>Store the overlapping cell pairs, used by the queries</p></li>
+</ol>
+</p>
+<p>Complexity:<ul class="simple">
+<li><p><a class="reference internal" href="#classcontact__detection__sap__strategy_1aa4ac6312c14c2f4637216b8969105fff"><span class="std std-ref">prepare()</span></a>: O(C log C + F + P) for C cells, F faces and P overlapping cell pairs</p></li>
+<li><p><a class="reference internal" href="#classcontact__detection__sap__strategy_1a08455c5938d17579d8bbf791d2ec8476"><span class="std std-ref">get_candidate_faces()</span></a>: linear in the number of faces of the cells that overlap the query cell</p></li>
+</ul>
+</p>
+<p>The result is conservative: every face that can be within the contact cutoffs of the query point is returned, possibly with extra faces.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#classcontact__detection__sap__strategy_1aa4ac6312c14c2f4637216b8969105fff"><span class="std std-ref">prepare()</span></a> must be called from a single thread; <a class="reference internal" href="#classcontact__detection__sap__strategy_1a08455c5938d17579d8bbf791d2ec8476"><span class="std std-ref">get_candidate_faces()</span></a> may then be called concurrently. </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_detection_sap_strategy30contact_detection_sap_strategyERK28global_simulation_parameters">
+<span id="_CPPv3N30contact_detection_sap_strategy30contact_detection_sap_strategyERK28global_simulation_parameters"></span><span id="_CPPv2N30contact_detection_sap_strategy30contact_detection_sap_strategyERK28global_simulation_parameters"></span><span id="contact_detection_sap_strategy::contact_detection_sap_strategy__global_simulation_parametersCR"></span><span class="target" id="classcontact__detection__sap__strategy_1af702a8408fa108f85396d86eb7152b63"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contact_detection_sap_strategy</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">params</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N30contact_detection_sap_strategy30contact_detection_sap_strategyERK28global_simulation_parameters" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the AABB padding to the larger of the two contact cutoffs. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> – Numerical parameters; uses <code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion_</span></code> and <code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion_</span></code> (m). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N30contact_detection_sap_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3">
+<span id="_CPPv3N30contact_detection_sap_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"></span><span id="_CPPv2N30contact_detection_sap_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"></span><span id="contact_detection_sap_strategy::prepare__std::vector:cellP:CR.std::vector:faceP:CR.std::vector:aabb:CR.vec3CR"></span><span class="target" id="classcontact__detection__sap__strategy_1aa4ac6312c14c2f4637216b8969105fff"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">prepare</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cells</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">faces</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv44aabb" title="aabb"><span class="n"><span class="pre">aabb</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">aabbs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bounds</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N30contact_detection_sap_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Group the faces by cell, compute the padded cell AABBs and find the overlapping cell pairs. </p>
+<p>Must be called from a single thread before the parallel queries. Does not throw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cells</strong> – All cells of the simulation. </p></li>
+<li><p><strong>faces</strong> – All faces of all cells. </p></li>
+<li><p><strong>aabbs</strong> – Bounding box of each face, in the same order as <code class="docutils literal notranslate"><span class="pre">faces</span></code>, m. </p></li>
+<li><p><strong>bounds</strong> – Maximum corner of the simulation domain, m. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK30contact_detection_sap_strategy19get_candidate_facesERK4vec3P4cell">
+<span id="_CPPv3NK30contact_detection_sap_strategy19get_candidate_facesERK4vec3P4cell"></span><span id="_CPPv2NK30contact_detection_sap_strategy19get_candidate_facesERK4vec3P4cell"></span><span id="contact_detection_sap_strategy::get_candidate_faces__vec3CR.cellPC"></span><span class="target" id="classcontact__detection__sap__strategy_1a08455c5938d17579d8bbf791d2ec8476"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_candidate_faces</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">query_pos</span></span>, <a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><span class="n"><span class="pre">cell</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">query_cell</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK30contact_detection_sap_strategy19get_candidate_facesERK4vec3P4cell" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the faces of the cells overlapping <code class="docutils literal notranslate"><span class="pre">query_cell</span></code> whose AABB contains the point. </p>
+<p>The faces of <code class="docutils literal notranslate"><span class="pre">query_cell</span></code> itself are excluded. If <code class="docutils literal notranslate"><span class="pre">query_cell</span></code> is nullptr or unknown, every cell whose AABB contains the point is searched.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Thread-safe after <a class="reference internal" href="#classcontact__detection__sap__strategy_1aa4ac6312c14c2f4637216b8969105fff"><span class="std std-ref">prepare()</span></a>. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query_pos</strong> – Position to query (usually a node position), m. </p></li>
+<li><p><strong>query_cell</strong> – Cell whose own faces are excluded, or nullptr. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new vector of candidate faces. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK30contact_detection_sap_strategy14algorithm_typeEv">
+<span id="_CPPv3NK30contact_detection_sap_strategy14algorithm_typeEv"></span><span id="_CPPv2NK30contact_detection_sap_strategy14algorithm_typeEv"></span><span id="contact_detection_sap_strategy::algorithm_typeC"></span><span class="target" id="classcontact__detection__sap__strategy_1a75d691e8e068ff246a081f55def98071"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv425ContactDetectionAlgorithm" title="ContactDetectionAlgorithm"><span class="n"><span class="pre">ContactDetectionAlgorithm</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">algorithm_type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK30contact_detection_sap_strategy14algorithm_typeEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return <a class="reference internal" href="solver.html#group__core_1gga7ca9b09213b6714309be70daf6478543adfd74642bf6059a95e277ae4091fa548"><span class="std std-ref">ContactDetectionAlgorithm::SWEEP_AND_PRUNE</span></a>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv44aabb">
+<span id="_CPPv34aabb"></span><span id="_CPPv24aabb"></span><span id="aabb"></span><span class="target" id="structaabb"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">aabb</span></span></span><a class="headerlink" href="#_CPPv44aabb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Axis-aligned bounding box, passed to the contact detection strategies. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4aabb4aabbEv">
+<span id="_CPPv3N4aabb4aabbEv"></span><span id="_CPPv2N4aabb4aabbEv"></span><span id="aabb::aabb"></span><span class="target" id="structaabb_1a997edf5656d7753d7b2febed0d4b2a6d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">aabb</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4aabb4aabbEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Box with both corners at the origin. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4aabb4aabbERK4vec3RK4vec3">
+<span id="_CPPv3N4aabb4aabbERK4vec3RK4vec3"></span><span id="_CPPv2N4aabb4aabbERK4vec3RK4vec3"></span><span id="aabb::aabb__vec3CR.vec3CR"></span><span class="target" id="structaabb_1a8412f47a6c1149862dea542f07833395"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">aabb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">min_pt</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">max_pt</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4aabb4aabbERK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Box from its two corners (m). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4aabb4aabbEdddddd">
+<span id="_CPPv3N4aabb4aabbEdddddd"></span><span id="_CPPv2N4aabb4aabbEdddddd"></span><span id="aabb::aabb__double.double.double.double.double.double"></span><span class="target" id="structaabb_1ad553ce46d24e3053a68f7148a84bade3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">aabb</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4aabb4aabbEdddddd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Box from six coordinates (min_x, min_y, min_z, max_x, max_y, max_z), m. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4aabb10min_cornerE">
+<span id="_CPPv3N4aabb10min_cornerE"></span><span id="_CPPv2N4aabb10min_cornerE"></span><span id="aabb::min_corner__vec3"></span><span class="target" id="structaabb_1a45c785cfccf34c64cf07d19cc1f4d143"></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">min_corner</span></span></span><a class="headerlink" href="#_CPPv4N4aabb10min_cornerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Corner with the smallest coordinates, m. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4aabb10max_cornerE">
+<span id="_CPPv3N4aabb10max_cornerE"></span><span id="_CPPv2N4aabb10max_cornerE"></span><span id="aabb::max_corner__vec3"></span><span class="target" id="structaabb_1ad8e1dd2c84dae1411469ecb9b0e85eb9"></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">max_corner</span></span></span><a class="headerlink" href="#_CPPv4N4aabb10max_cornerE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Corner with the largest coordinates, m. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="cell_classes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Cell classes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="time_integration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Time integration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Contact models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv422contact_model_abstract"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22contact_model_abstract22contact_model_abstractERK28global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract::contact_model_abstract()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22contact_model_abstract3runERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22contact_model_abstract17update_face_aabbsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract::update_face_aabbs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22contact_model_abstract18store_face_in_uspgEv"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract::store_face_in_uspg()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK22contact_model_abstract23aabb_intersection_checkEK6size_tRK4vec3"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract::aabb_intersection_check()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK22contact_model_abstract22get_detection_strategyEv"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract::get_detection_strategy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N22contact_model_abstract30compute_node_triangle_distanceERK4vec3RK4vec3RK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">contact_model_abstract::compute_node_triangle_distance()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv430contact_face_face_via_coupling"><code class="docutils literal notranslate"><span class="pre">contact_face_face_via_coupling</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_face_face_via_coupling30contact_face_face_via_couplingERK28global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">contact_face_face_via_coupling::contact_face_face_via_coupling()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_face_face_via_coupling3runERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_face_face_via_coupling::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_face_face_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_face_face_via_coupling::resolve_all_contacts()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK30contact_face_face_via_coupling15resolve_contactERK8cell_ptrRK8cell_ptrR4nodeP4face"><code class="docutils literal notranslate"><span class="pre">contact_face_face_via_coupling::resolve_contact()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv430contact_node_node_via_coupling"><code class="docutils literal notranslate"><span class="pre">contact_node_node_via_coupling</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_node_node_via_coupling30contact_node_node_via_couplingERK28global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">contact_node_node_via_coupling::contact_node_node_via_coupling()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_node_node_via_coupling3runERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_node_node_via_coupling::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_node_node_via_coupling20resolve_all_contactsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_node_node_via_coupling::resolve_all_contacts()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK30contact_node_node_via_coupling15resolve_contactE8cell_ptr8cell_ptrR4nodeP4face"><code class="docutils literal notranslate"><span class="pre">contact_node_node_via_coupling::resolve_contact()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv428contact_node_face_via_spring"><code class="docutils literal notranslate"><span class="pre">contact_node_face_via_spring</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28contact_node_face_via_spring28contact_node_face_via_springERK28global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">contact_node_face_via_spring::contact_node_face_via_spring()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28contact_node_face_via_spring3runERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_node_face_via_spring::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N28contact_node_face_via_spring16resolve_contactsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">contact_node_face_via_spring::resolve_contacts()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK28contact_node_face_via_spring20apply_contact_forcesE8cell_ptrR4nodeP4face"><code class="docutils literal notranslate"><span class="pre">contact_node_face_via_spring::apply_contact_forces()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-detection">Contact detection</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv426contact_detection_strategy"><code class="docutils literal notranslate"><span class="pre">contact_detection_strategy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N26contact_detection_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"><code class="docutils literal notranslate"><span class="pre">contact_detection_strategy::prepare()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK26contact_detection_strategy19get_candidate_facesERK4vec3P4cell"><code class="docutils literal notranslate"><span class="pre">contact_detection_strategy::get_candidate_faces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK26contact_detection_strategy14algorithm_typeEv"><code class="docutils literal notranslate"><span class="pre">contact_detection_strategy::algorithm_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N26contact_detection_strategy6createE25ContactDetectionAlgorithmRK28global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">contact_detection_strategy::create()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv431contact_detection_uspg_strategy"><code class="docutils literal notranslate"><span class="pre">contact_detection_uspg_strategy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N31contact_detection_uspg_strategy31contact_detection_uspg_strategyERK28global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">contact_detection_uspg_strategy::contact_detection_uspg_strategy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N31contact_detection_uspg_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"><code class="docutils literal notranslate"><span class="pre">contact_detection_uspg_strategy::prepare()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK31contact_detection_uspg_strategy19get_candidate_facesERK4vec3P4cell"><code class="docutils literal notranslate"><span class="pre">contact_detection_uspg_strategy::get_candidate_faces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK31contact_detection_uspg_strategy14algorithm_typeEv"><code class="docutils literal notranslate"><span class="pre">contact_detection_uspg_strategy::algorithm_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv430contact_detection_sap_strategy"><code class="docutils literal notranslate"><span class="pre">contact_detection_sap_strategy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_detection_sap_strategy30contact_detection_sap_strategyERK28global_simulation_parameters"><code class="docutils literal notranslate"><span class="pre">contact_detection_sap_strategy::contact_detection_sap_strategy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N30contact_detection_sap_strategy7prepareERKNSt6vectorIP4cellEERKNSt6vectorIP4faceEERKNSt6vectorI4aabbEERK4vec3"><code class="docutils literal notranslate"><span class="pre">contact_detection_sap_strategy::prepare()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK30contact_detection_sap_strategy19get_candidate_facesERK4vec3P4cell"><code class="docutils literal notranslate"><span class="pre">contact_detection_sap_strategy::get_candidate_faces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK30contact_detection_sap_strategy14algorithm_typeEv"><code class="docutils literal notranslate"><span class="pre">contact_detection_sap_strategy::algorithm_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv44aabb"><code class="docutils literal notranslate"><span class="pre">aabb</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4aabb4aabbEv"><code class="docutils literal notranslate"><span class="pre">aabb::aabb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4aabb4aabbERK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">aabb::aabb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4aabb4aabbEdddddd"><code class="docutils literal notranslate"><span class="pre">aabb::aabb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4aabb10min_cornerE"><code class="docutils literal notranslate"><span class="pre">aabb::min_corner</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N4aabb10max_cornerE"><code class="docutils literal notranslate"><span class="pre">aabb::max_corner</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

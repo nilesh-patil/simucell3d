@@ -1,0 +1,990 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Performance internals &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developers/performance_internals';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/performance_internals.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Debugging" href="debugging.html" />
+    <link rel="prev" title="Benchmarking" href="benchmarking.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_setup.html">Development setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="continuous_integration.html">Continuous integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Performance internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_style.html">Coding style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_process.html">Release process</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Performance...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="performance-internals">
+<span id="dev-performance-internals"></span><h1>Performance internals<a class="headerlink" href="#performance-internals" title="Link to this heading">#</a></h1>
+<p>This page explains how the solver chooses its thread count, places its threads, schedules its
+OpenMP loops and measures itself, and how to profile it. The user-facing options (<code class="docutils literal notranslate"><span class="pre">--threads</span></code>,
+<code class="docutils literal notranslate"><span class="pre">--schedule</span></code>, the contact detection algorithm) are described in
+<a class="reference internal" href="../user_guide/18_parallel_performance.html"><span class="doc">Parallel performance</span></a>; how to run comparative benchmarks is described in
+<a class="reference internal" href="benchmarking.html#dev-benchmarking"><span class="std std-ref">Benchmarking</span></a>.</p>
+<section id="parallel-structure">
+<h2>Parallel structure<a class="headerlink" href="#parallel-structure" title="Link to this heading">#</a></h2>
+<p>All parallelism is OpenMP over cells: each parallel loop in <code class="docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code> iterates
+over <code class="docutils literal notranslate"><span class="pre">cell_lst_</span></code>, and the work of one cell (refining its mesh, computing its internal forces,
+integrating its nodes) is done by one thread. The cost of a cell grows with its number of faces
+and with the number of its contacts, so the work per loop iteration is uneven, which is why the
+loop schedule matters. The face-face contact model (index 2) additionally splits the contact
+work of very large cells into several work units (<code class="docutils literal notranslate"><span class="pre">contact_face_face_via_coupling::build_work_units()</span></code>).</p>
+<p>A loop follows the selected schedule only if it is written with <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code>; the
+schedule is then set with <code class="docutils literal notranslate"><span class="pre">omp_set_schedule()</span></code> before the loop. The loops over cells in
+<code class="docutils literal notranslate"><span class="pre">run_iteration()</span></code>, <code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refine_meshes()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code> and the sweep-and-prune path of the contact
+model use <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code>. Other loops fix their schedule in the pragma: the face numbering
+and grid construction of contact model 2 use <code class="docutils literal notranslate"><span class="pre">schedule(static)</span></code>, its grid-based contact
+resolution uses <code class="docutils literal notranslate"><span class="pre">schedule(dynamic,</span> <span class="pre">1)</span></code> over work units, and the loop in <code class="docutils literal notranslate"><span class="pre">cell_divider::run()</span></code> has
+no schedule clause (implementation default). New parallel loops over cells should use
+<code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code> unless there is a reason to fix the schedule.</p>
+</section>
+<section id="thread-count-and-placement">
+<h2>Thread count and placement<a class="headerlink" href="#thread-count-and-placement" title="Link to this heading">#</a></h2>
+<p>Code: <code class="docutils literal notranslate"><span class="pre">solver::solver()</span></code> in <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">include/cpu_topology.hpp</span></code>.</p>
+<ol class="arabic simple">
+<li><p><strong>Allowed CPUs.</strong> <code class="docutils literal notranslate"><span class="pre">cpu_topology::allowed_cpus()</span></code> returns the logical CPUs the process may
+use: the OpenMP place list if one exists, otherwise the affinity mask
+(<code class="docutils literal notranslate"><span class="pre">sched_getaffinity</span></code>, which reflects <code class="docutils literal notranslate"><span class="pre">taskset</span></code> and cgroup CPU sets), otherwise all
+processors. The result is computed once per process and cached, because after the first
+solver has pinned the calling thread the affinity mask reports a single CPU.</p></li>
+<li><p><strong>Topology.</strong> <code class="docutils literal notranslate"><span class="pre">cpu_topology::detect()</span></code> groups the allowed CPUs into physical cores from
+<code class="docutils literal notranslate"><span class="pre">/sys/devices/system/cpu/cpu&lt;N&gt;/topology/{physical_package_id,core_id}</span></code>. Without sysfs,
+each logical CPU counts as a core. There is no parsing of Slurm variables or cgroup CPU
+quotas.</p></li>
+<li><p><strong>Thread count.</strong> One thread per physical core, unless <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code> (or the <code class="docutils literal notranslate"><span class="pre">nb_threads</span></code>
+argument of the Python module) is positive. The solver calls <code class="docutils literal notranslate"><span class="pre">omp_set_num_threads()</span></code>, so
+<code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code> has no effect on a run.</p></li>
+<li><p><strong>Pinning.</strong> Unless <code class="docutils literal notranslate"><span class="pre">SIMUCELL3D_PIN_THREADS=0</span></code> or <code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code> is set, OpenMP thread <span class="math notranslate nohighlight">\(i\)</span> is
+pinned with <code class="docutils literal notranslate"><span class="pre">pthread_setaffinity_np</span></code> to the <span class="math notranslate nohighlight">\(i\)</span>-th CPU of
+<code class="docutils literal notranslate"><span class="pre">cpu_topology::placement_order()</span></code>: first one CPU of every physical core, then the
+hyperthread siblings. The solver pins its own threads because libgomp reads
+<code class="docutils literal notranslate"><span class="pre">OMP_PROC_BIND</span></code>/<code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code> before <code class="docutils literal notranslate"><span class="pre">main()</span></code> runs, and with <code class="docutils literal notranslate"><span class="pre">OMP_PROC_BIND=close</span></code> but no
+<code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code> libgomp places consecutive threads on sibling hyperthreads, leaving physical
+cores idle.</p></li>
+</ol>
+<p>The constructor prints the outcome:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Thread count: Using 8 physical cores (out of 16 allowed logical CPUs, 2 threads/core, 1 socket(s))
+Thread pinning: enabled, thread i -&gt; CPU 0,1,2,3,4,5,6,7
+</pre></div>
+</div>
+<p>The CPU list in the second line depends on how the kernel numbers sibling hyperthreads.</p>
+</section>
+<section id="loop-scheduling">
+<h2>Loop scheduling<a class="headerlink" href="#loop-scheduling" title="Link to this heading">#</a></h2>
+<p>Code: <code class="docutils literal notranslate"><span class="pre">solver::solver()</span></code>, <code class="docutils literal notranslate"><span class="pre">initialize_per_loop_schedules()</span></code>, <code class="docutils literal notranslate"><span class="pre">update_workload_heterogeneity()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">adaptive_schedule_update()</span></code>, <code class="docutils literal notranslate"><span class="pre">handle_division_event()</span></code> and the file-static helpers at the top
+of <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code>.</p>
+<section id="workload-heterogeneity">
+<h3>Workload heterogeneity<a class="headerlink" href="#workload-heterogeneity" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">calculate_workload_heterogeneity()</span></code> assigns each cell an estimated cost, starting from its face
+count and adding terms for contacts (scaled by the fraction of coupled nodes and by the contact
+model), time integration, polarization, growth and large meshes; static cells get a reduced
+contact term and no integration term. The estimate is clamped to <span class="math notranslate nohighlight">\([0.2, 2.5]\)</span> times the face
+count. The function returns the coefficient of variation (CoV, standard deviation divided by
+mean) of these estimates over all cells. It is a model of the work, not a measurement. The
+<code class="docutils literal notranslate"><span class="pre">cov</span></code> column of the diagnostics CSV is this value, and <code class="docutils literal notranslate"><span class="pre">thread_imbalance_pct</span></code> is the same value
+multiplied by 100.</p>
+</section>
+<section id="chunk-size">
+<h3>Chunk size<a class="headerlink" href="#chunk-size" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">calculate_optimal_chunk_size()</span></code> returns 0 (OpenMP default) for static scheduling. Otherwise it
+returns <span class="math notranslate nohighlight">\(\max(1, \lfloor N / (4T) \rfloor)\)</span> for <span class="math notranslate nohighlight">\(N &lt; 100\)</span> cells and <span class="math notranslate nohighlight">\(T\)</span> threads, and for larger
+<span class="math notranslate nohighlight">\(N\)</span> the value <span class="math notranslate nohighlight">\(\lfloor N / (T\,d) \rfloor\)</span> clamped to <span class="math notranslate nohighlight">\([1, 100]\)</span>, with <span class="math notranslate nohighlight">\(d = 20\)</span> for
+CoV <span class="math notranslate nohighlight">\(&gt; 0.6\)</span>, <span class="math notranslate nohighlight">\(d = 10\)</span> for CoV <span class="math notranslate nohighlight">\(&gt; 0.4\)</span> and <span class="math notranslate nohighlight">\(d = 4\)</span> otherwise. Guided scheduling uses twice the
+dynamic chunk size.</p>
+</section>
+<section id="modes">
+<h3>Modes<a class="headerlink" href="#modes" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">dynamic</span></code>, <code class="docutils literal notranslate"><span class="pre">guided</span></code></dt><dd><p>The schedule kind is fixed for the whole run. Every 50 iterations
+<code class="docutils literal notranslate"><span class="pre">update_workload_heterogeneity()</span></code> recomputes the CoV; if it changed by more than 20 % and the
+resulting chunk size differs by more than 20 %, the chunk size is updated.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">adaptive</span></code> (default)</dt><dd><p>At construction, a base schedule is chosen from the initial cell count with the table in
+<code class="docutils literal notranslate"><span class="pre">lookup_benchmark_mode()</span></code> (13 cell-count bands). <code class="docutils literal notranslate"><span class="pre">multi_factor_heuristic()</span></code> computes a second
+opinion from the CoV and the number of cells per thread; when the two disagree, the table
+wins and the disagreement is printed. In addition, four per-loop schedules are fixed at
+construction and selected before the corresponding phase of each iteration:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Phase</p></th>
+<th class="head"><p>Kind</p></th>
+<th class="head"><p>Chunk size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>contact detection</p></td>
+<td><p>dynamic</p></td>
+<td><p>base chunk, at least 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>polarization, internal forces, time integration</p></td>
+<td><p>guided</p></td>
+<td><p>2 x base chunk</p></td>
+</tr>
+<tr class="row-even"><td><p>face type updates, mesh refinement</p></td>
+<td><p>static</p></td>
+<td><p>default</p></td>
+</tr>
+<tr class="row-odd"><td><p>cell division</p></td>
+<td><p>dynamic</p></td>
+<td><p>base chunk / 2, at least 1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The chunk-size update of <code class="docutils literal notranslate"><span class="pre">update_workload_heterogeneity()</span></code> is skipped in this mode. Every 50
+iterations, <code class="docutils literal notranslate"><span class="pre">adaptive_schedule_update()</span></code> classifies the run as INITIALIZATION (fewer than 10
+cells), GROWTH (more than 1 % of the cells divided in the last 50 iterations) or HOMEOSTASIS,
+and on a phase change sets a new global schedule (dynamic, guided or static, depending on
+the phase, the CoV and the cell count). After a division, <code class="docutils literal notranslate"><span class="pre">handle_division_event()</span></code> reduces
+the chunk size of the global schedule at the start of the next iteration. Because each phase
+of the iteration selects its own per-loop schedule first, these global updates affect only
+loops that run outside the four phases.</p>
+</dd>
+</dl>
+<p>The selection is printed once at start-up, in this form:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Using OpenMP adaptive (base: static, per-loop: ON) scheduling
+  Cells: 434, Threads: 8, Chunk size: 0
+  Workload heterogeneity (CoV): &lt;value&gt;
+</pre></div>
+</div>
+<p>The phase reported in the diagnostics CSV comes from <code class="docutils literal notranslate"><span class="pre">detect_simulation_phase()</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The band table in <code class="docutils literal notranslate"><span class="pre">lookup_benchmark_mode()</span></code> encodes measurements made during 2.0 development on
+one machine. It is a heuristic: a mode that is fastest on one machine and cell count need not be
+fastest on another. Compare modes on the target machine with <a class="reference internal" href="benchmarking.html#dev-benchmarking"><span class="std std-ref">Benchmarking</span></a> before
+changing the defaults.</p>
+</div>
+</section>
+</section>
+<section id="synchronisation">
+<h2>Synchronisation<a class="headerlink" href="#synchronisation" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Each node owns a <code class="docutils literal notranslate"><span class="pre">std::mutex</span></code> (<code class="docutils literal notranslate"><span class="pre">include/mesh/node.hpp</span></code>). Contact model 2 updates the coupling
+maps of two nodes under both locks and adds contact forces to nodes of other cells with
+<code class="docutils literal notranslate"><span class="pre">vec3::atomic_translate()</span></code> (through <code class="docutils literal notranslate"><span class="pre">node::add_force_atomic()</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vec3::translate()</span></code> contains <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">atomic</span></code> directives, but they have no effect because
+the <code class="docutils literal notranslate"><span class="pre">math_modules</span></code> library is compiled without OpenMP. A vector that several threads add to
+must be updated with <code class="docutils literal notranslate"><span class="pre">vec3::atomic_translate()</span></code>, which uses the GCC/Clang <code class="docutils literal notranslate"><span class="pre">__atomic</span></code>
+builtins.</p></li>
+<li><p>Before cells are removed, contact models 1 and 2 pass through an empty parallel region that
+acts as a barrier, so no thread still holds a node lock of a cell being destroyed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">omp_set_schedule()</span></code> after a division is deferred to the next iteration
+(<code class="docutils literal notranslate"><span class="pre">pending_division_update_</span></code>), so it is never called while a parallel region may still read
+the cell list.</p></li>
+<li><p>Results are not bit-reproducible across thread counts: the order of floating-point additions
+into a node depends on the schedule. The determinism tests run single-threaded
+(<a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a>).</p></li>
+</ul>
+</section>
+<section id="performance-monitor-and-diagnostics">
+<h2>Performance monitor and diagnostics<a class="headerlink" href="#performance-monitor-and-diagnostics" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">PerformanceMonitor</span></code> (<code class="docutils literal notranslate"><span class="pre">include/performance_monitor.hpp</span></code>) accumulates wall-clock timings of named
+sections; <code class="docutils literal notranslate"><span class="pre">PerformanceMonitor::ScopedTimer</span></code> times a scope:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="n">PerformanceMonitor</span><span class="o">::</span><span class="n">ScopedTimer</span><span class="w"> </span><span class="n">timer</span><span class="p">(</span><span class="n">perf_monitor_</span><span class="p">,</span><span class="w"> </span><span class="s">"contact_detection"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">contact_model_ptr_</span><span class="o">-&gt;</span><span class="n">run</span><span class="p">(</span><span class="n">cell_lst_</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The solver times four sections: <code class="docutils literal notranslate"><span class="pre">mesh_refinement</span></code>, <code class="docutils literal notranslate"><span class="pre">contact_detection</span></code>,
+<code class="docutils literal notranslate"><span class="pre">polarization_and_internal_forces</span></code> and <code class="docutils literal notranslate"><span class="pre">time_integration</span></code>. Every 100 iterations
+<code class="docutils literal notranslate"><span class="pre">solver::export_diagnostics()</span></code> appends one row to the diagnostics CSV with the average of each
+timer over the window, then resets the timers. The file is
+<code class="docutils literal notranslate"><span class="pre">&lt;output</span> <span class="pre">folder&gt;/performance_diagnostics.csv</span></code>, or the path given with <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv</span></code>. Its
+columns:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sim_time</span></code></p></td>
+<td><p>simulation time, s</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">wall_epoch</span></code></p></td>
+<td><p>wall-clock time, seconds since the Unix epoch</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code></p></td>
+<td><p>iteration number</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cells</span></code></p></td>
+<td><p>number of cells</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">divisions</span></code></p></td>
+<td><p>divisions in the last 100 iterations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cov</span></code></p></td>
+<td><p>workload CoV (see above)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">phase</span></code></p></td>
+<td><p>INITIALIZATION, GROWTH or HOMEOSTASIS</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mesh_refinement_ms</span></code>, <code class="docutils literal notranslate"><span class="pre">contact_detection_ms</span></code>, <code class="docutils literal notranslate"><span class="pre">polarization_internal_forces_ms</span></code>, <code class="docutils literal notranslate"><span class="pre">time_integration_ms</span></code></p></td>
+<td><p>mean time per call of each section over the window, ms</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">total_iteration_ms</span></code></p></td>
+<td><p>sum of the four section times, ms; excludes output writing, division and cell removal</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">thread_imbalance_pct</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cov</span></code> x 100 (an estimate, not a measurement)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code></p></td>
+<td><p>cells removed by the stability checks or after a failed refinement in the window</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>With verbose output (the command-line default), <code class="docutils literal notranslate"><span class="pre">solver::run()</span></code> prints the monitor’s summary
+table at the end of the run.</p>
+</section>
+<section id="profiling">
+<h2>Profiling<a class="headerlink" href="#profiling" title="Link to this heading">#</a></h2>
+<section id="whole-runs">
+<h3>Whole runs<a class="headerlink" href="#whole-runs" title="Link to this heading">#</a></h3>
+<p>Use a Release build (CMake’s default flags, <code class="docutils literal notranslate"><span class="pre">-O3</span> <span class="pre">-DNDEBUG</span></code>) with frame pointers for usable call
+graphs:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cmake<span class="w"> </span>-B<span class="w"> </span>build-prof<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">"-fno-omit-frame-pointer"</span>
+<span class="gp">$ </span>cmake<span class="w"> </span>--build<span class="w"> </span>build-prof<span class="w"> </span>-j
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build-prof
+<span class="gp">$ </span>perf<span class="w"> </span>record<span class="w"> </span>-g<span class="w"> </span>./simucell3d<span class="w"> </span>../parameters/core/parameters_vesicle_quick.xml<span class="w"> </span>--threads<span class="o">=</span><span class="m">4</span><span class="w"> </span>--output-dir<span class="o">=</span>prof_run
+<span class="gp">$ </span>perf<span class="w"> </span>report
+</pre></div>
+</div>
+<p>The phase timings in the diagnostics CSV are often enough to locate a regression; <code class="docutils literal notranslate"><span class="pre">perf</span></code> then
+narrows it down within the phase.</p>
+</section>
+<section id="micro-benchmarks">
+<h3>Micro-benchmarks<a class="headerlink" href="#micro-benchmarks" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">test/test_benchmarks/</span></code> holds three executables registered as CTest targets with the prefix
+<code class="docutils literal notranslate"><span class="pre">benchmark_</span></code>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Executable</p></th>
+<th class="head"><p>Measures</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_contact_latency</span></code></p></td>
+<td><p>broad-phase contact detection, USPG and sweep-and-prune, on cubic grids of 64, 216 and 1000 cell bounding boxes, plus a scaling run; 3 warm-up and 10 measured trials, median reported</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_atomic_contention</span></code></p></td>
+<td><p>cost of an uncontended and contended <code class="docutils literal notranslate"><span class="pre">std::mutex</span></code>, atomic versus mutex accumulation, false sharing, the per-node mutex pattern</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_memory_bandwidth</span></code></p></td>
+<td><p>sequential read bandwidth, <code class="docutils literal notranslate"><span class="pre">vec3</span></code> array traversal, random access latency, structure-of-arrays versus array-of-structures, bandwidth versus thread count</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>They report numbers and always return 0, so they never fail a build. Run one directly from the
+build directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./test/test_benchmarks/test_contact_latency<span class="w"> </span>test_uspg_latency_large
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/benchmarking/latency/perf_wrapper.sh</span></code> runs a benchmark under <code class="docutils literal notranslate"><span class="pre">perf</span> <span class="pre">stat</span></code> and writes the
+hardware counters as JSON (requires <code class="docutils literal notranslate"><span class="pre">perf</span></code> and, for non-root users, a permissive
+<code class="docutils literal notranslate"><span class="pre">kernel.perf_event_paranoid</span></code>); <code class="docutils literal notranslate"><span class="pre">roofline_analysis.py</span></code> plots the JSON results on a roofline
+model. From the repository root, after building into <code class="docutils literal notranslate"><span class="pre">build/</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>scripts/benchmarking/latency/perf_wrapper.sh<span class="w"> </span>--all<span class="w"> </span>--output-dir<span class="o">=</span>results/
+<span class="gp">$ </span>scripts/benchmarking/latency/perf_wrapper.sh<span class="w"> </span>--summary<span class="w"> </span>results/*.json
+<span class="gp">$ </span>python3<span class="w"> </span>scripts/benchmarking/latency/roofline_analysis.py<span class="w"> </span>--json<span class="w"> </span>results/<span class="w"> </span>--output<span class="w"> </span>roofline.png
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">roofline_analysis.py</span></code> detects peak FLOP/s and bandwidth unless <code class="docutils literal notranslate"><span class="pre">--peak-flops</span></code> and
+<code class="docutils literal notranslate"><span class="pre">--peak-bandwidth</span></code> (GFLOP/s, GB/s) are given; <code class="docutils literal notranslate"><span class="pre">--summary-only</span></code> skips the plot.</p>
+</section>
+<section id="memory">
+<h3>Memory<a class="headerlink" href="#memory" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/benchmarking/stability/</span></code> holds a long-run memory monitor and a Valgrind wrapper; see
+<a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a>. With <code class="docutils literal notranslate"><span class="pre">numactl</span></code> available, <code class="docutils literal notranslate"><span class="pre">numastat</span> <span class="pre">-p</span> <span class="pre">&lt;pid&gt;</span></code> shows whether a run’s memory
+is spread over NUMA nodes on multi-socket machines.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../user_guide/18_parallel_performance.html"><span class="doc">Parallel performance</span></a></p></li>
+<li><p><a class="reference internal" href="architecture.html#dev-architecture"><span class="std std-ref">Architecture</span></a></p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="benchmarking.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Benchmarking</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="debugging.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Debugging</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-structure">Parallel structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#thread-count-and-placement">Thread count and placement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loop-scheduling">Loop scheduling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workload-heterogeneity">Workload heterogeneity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chunk-size">Chunk size</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modes">Modes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synchronisation">Synchronisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-monitor-and-diagnostics">Performance monitor and diagnostics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling">Profiling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#whole-runs">Whole runs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#micro-benchmarks">Micro-benchmarks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory">Memory</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

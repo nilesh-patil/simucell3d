@@ -1,0 +1,1389 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parameter file reference &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/11_parameter_file';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/11_parameter_file.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Input meshes" href="12_input_meshes.html" />
+    <link rel="prev" title="Compile-time configuration" href="10_compile_time_configuration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Parameter...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="parameter-file-reference">
+<span id="ug-parameter-file"></span><h1>Parameter file reference<a class="headerlink" href="#parameter-file-reference" title="Link to this heading">#</a></h1>
+<p>A simulation is configured by one XML <a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter file</span></a>, passed to <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> on the
+command line. It names the <a class="reference internal" href="../glossary.html#term-input-mesh"><span class="xref std std-term">input mesh</span></a> and the output folder, sets the time step and
+the other numerical parameters, and defines the mechanical properties of every
+<a class="reference internal" href="../glossary.html#term-cell-type"><span class="xref std std-term">cell type</span></a> and <a class="reference internal" href="../glossary.html#term-face-type"><span class="xref std std-term">face type</span></a>. This chapter lists every tag that SimuCell3D 2.1
+reads, with its type, unit, validation rule and meaning, and the parameter files shipped in
+<code class="docutils literal notranslate"><span class="pre">parameters/</span></code>.</p>
+<p>Three choices are not in the parameter file: the contact model, the dynamic model and the
+polarization mode are compile-time options in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>
+(<a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>). Every shipped parameter file states in its
+header comment which compile-time configuration it was written for.</p>
+<section id="file-structure">
+<h2>File structure<a class="headerlink" href="#file-structure" title="Link to this heading">#</a></h2>
+<p>A parameter file has two top-level sections, <code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;cell_types&gt;</span></code>.
+<code class="docutils literal notranslate"><span class="pre">&lt;cell_types&gt;</span></code> holds one or more <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> blocks, and each cell type holds a
+<code class="docutils literal notranslate"><span class="pre">&lt;face_types&gt;</span></code> block with one or more <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> entries:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+
+<span class="nt">&lt;numerical_parameters&gt;</span>
+<span class="w">    </span><span class="nt">&lt;input_mesh_file_path&gt;</span>...<span class="nt">&lt;/input_mesh_file_path&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- ... the other numerical parameters ... --&gt;</span>
+<span class="nt">&lt;/numerical_parameters&gt;</span>
+
+<span class="nt">&lt;cell_types&gt;</span>
+<span class="w">    </span><span class="nt">&lt;cell_type&gt;</span>
+<span class="w">        </span><span class="nt">&lt;cell_type_name&gt;</span>epithelial<span class="nt">&lt;/cell_type_name&gt;</span>
+<span class="w">        </span><span class="nt">&lt;global_cell_id&gt;</span>0<span class="nt">&lt;/global_cell_id&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- ... the other cell-type parameters ... --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;face_types&gt;</span>
+<span class="w">            </span><span class="nt">&lt;face_type&gt;</span>
+<span class="w">                </span><span class="nt">&lt;global_face_id&gt;</span>0<span class="nt">&lt;/global_face_id&gt;</span>
+<span class="w">                </span><span class="nt">&lt;face_type_name&gt;</span>apical<span class="nt">&lt;/face_type_name&gt;</span>
+<span class="w">                </span><span class="cm">&lt;!-- ... the other face-type parameters ... --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/face_type&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/face_types&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/cell_type&gt;</span>
+<span class="nt">&lt;/cell_types&gt;</span>
+</pre></div>
+</div>
+<p>The reader (<code class="docutils literal notranslate"><span class="pre">src/io/parameter_reader.cpp</span></code>, based on tinyxml2) applies these rules:</p>
+<ul class="simple">
+<li><p>Within a section the order of the tags does not matter. If a tag appears twice, the first
+occurrence is used.</p></li>
+<li><p>Tags that the reader does not know are ignored without a warning. Check the spelling of
+every tag against the tables below: a misspelled required tag stops the run, but a
+misspelled optional tag (<code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code>) is silently replaced by its default.</p></li>
+<li><p>Every tag in the tables is required, except <code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code>. There are no
+defaults for required tags.</p></li>
+<li><p>The order of the <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> blocks matters: the input mesh refers to cell types by their
+position in the file (see <a class="reference internal" href="#cell-types-and-the-input-mesh">Cell types and the input mesh</a>).</p></li>
+<li><p>The order of the <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> entries inside a cell type also matters for epithelial cells:
+see <a class="reference internal" href="#face-types">Face types</a>.</p></li>
+<li><p>XML comments (<code class="docutils literal notranslate"><span class="pre">&lt;!--</span> <span class="pre">...</span> <span class="pre">--&gt;</span></code>) are allowed anywhere.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Parameter files of release 1.0 contain an <code class="docutils literal notranslate"><span class="pre">&lt;INMForce&gt;</span></code> tag in the nucleus cell type. No code
+reads it, so it has no effect; the files shipped with 2.1 no longer contain it.</p>
+</div>
+<section id="values">
+<h3>Values<a class="headerlink" href="#values" title="Link to this heading">#</a></h3>
+<p>Numbers are read with the C++ functions <code class="docutils literal notranslate"><span class="pre">std::stod</span></code> (real numbers) and <code class="docutils literal notranslate"><span class="pre">std::stoi</span></code>
+(integers). Plain decimal and scientific notation are accepted (<code class="docutils literal notranslate"><span class="pre">1000</span></code>, <code class="docutils literal notranslate"><span class="pre">2.5e3</span></code>, <code class="docutils literal notranslate"><span class="pre">5e-7</span></code>).
+Characters after a valid number are ignored, so <code class="docutils literal notranslate"><span class="pre">1e-7</span> <span class="pre">s</span></code> is read as <span class="math notranslate nohighlight">\(10^{-7}\)</span>; do not rely on
+this. A value that does not start with a number stops the program before the simulation
+starts, with the one-word message <code class="docutils literal notranslate"><span class="pre">stod</span></code> or <code class="docutils literal notranslate"><span class="pre">stoi</span></code>.</p>
+<p>Where a table says that <code class="docutils literal notranslate"><span class="pre">inf</span></code> is accepted, the value is compared case-insensitively, so <code class="docutils literal notranslate"><span class="pre">inf</span></code>,
+<code class="docutils literal notranslate"><span class="pre">INF</span></code> and <code class="docutils literal notranslate"><span class="pre">Inf</span></code> all mean <span class="math notranslate nohighlight">\(+\infty\)</span>.</p>
+<p>Switches (<code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code>, <code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code>) are integers: <code class="docutils literal notranslate"><span class="pre">0</span></code>
+means off and any other integer means on. Words such as <code class="docutils literal notranslate"><span class="pre">true</span></code> are not accepted.</p>
+</section>
+<section id="units">
+<h3>Units<a class="headerlink" href="#units" title="Link to this heading">#</a></h3>
+<p>All values are in SI units. The comments in the shipped files give units as dimensions
+(M for mass, L for length, T for time); the <code class="docutils literal notranslate"><span class="pre">Unit</span></code> columns below translate them. One of
+those comments is wrong:</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The comments in the shipped files give <code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code> the dimension
+<code class="docutils literal notranslate"><span class="pre">[M</span> <span class="pre">/</span> <span class="pre">(T^2</span> <span class="pre">L^2)]</span></code>. The code uses it as an energy: the area elasticity energy of a cell is
+<span class="math notranslate nohighlight">\(\frac{k_a}{2}(A/A_0 - 1)^2\)</span>, so <span class="math notranslate nohighlight">\(k_a\)</span> is in joules (J). The header of
+<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> gives the correct unit.</p>
+</div>
+</section>
+</section>
+<section id="numerical-parameters">
+<h2>Numerical parameters<a class="headerlink" href="#numerical-parameters" title="Link to this heading">#</a></h2>
+<p>Section <code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code>. These apply to the whole simulation.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Valid values</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code></p></td>
+<td><p>path</p></td>
+<td><p>an existing legacy VTK file</p></td>
+<td><p>Input mesh with the initial cells. See <a class="reference internal" href="#paths">Paths</a> and <a class="reference internal" href="12_input_meshes.html"><span class="doc">Input meshes</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code></p></td>
+<td><p>path</p></td>
+<td><p>a folder that may be deleted</p></td>
+<td><p>Folder for all output. <strong>Deleted and re-created at start.</strong> Overridden by <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code>. See <a class="reference internal" href="#paths">Paths</a> and <a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code></p></td>
+<td><p>switch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> or any other integer</p></td>
+<td><p>If on, every cell surface is re-triangulated before the first iteration, with edge lengths between <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> and 3 x <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>. If off, the input mesh must already consist of triangles. See <a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code></p></td>
+<td><p>switch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> or any other integer</p></td>
+<td><p>If on, the local mesh refiner also swaps the longest edge of badly shaped triangles.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">damping_coefficient</span></code></p></td>
+<td><p>real, kg/s</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+<td><p>Damping coefficient <span class="math notranslate nohighlight">\(\zeta\)</span> of the equations of motion. See <a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code></p></td>
+<td><p>real, s</p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+<td><p>Simulated time. The run stops when the simulation time reaches this value, or earlier if no cell is left.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time_step</span></code></p></td>
+<td><p>real, s</p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+<td><p>Time step <span class="math notranslate nohighlight">\(\Delta t\)</span> of the integrator. The number of iterations is <code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">time_step</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sampling_period</span></code></p></td>
+<td><p>real, s</p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span> and <span class="math notranslate nohighlight">\(\ge\)</span> <code class="docutils literal notranslate"><span class="pre">time_step</span></code></p></td>
+<td><p>Simulated time between two output mesh files.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code></p></td>
+<td><p>real, m</p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+<td><p>Minimum edge length of the cell meshes. The maximum edge length is not a parameter: it is 3 x <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>. See <a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion</span></code></p></td>
+<td><p>real, m</p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+<td><p>Distance between two cell surfaces above which there is no adhesion. See <a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion</span></code></p></td>
+<td><p>real, m</p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+<td><p>Distance between two cell surfaces above which there is no repulsion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code></p></td>
+<td><p>word</p></td>
+<td><p>Optional, default <code class="docutils literal notranslate"><span class="pre">uspg</span></code>; <code class="docutils literal notranslate"><span class="pre">uspg</span></code>, <code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code>, <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> (case-insensitive)</p></td>
+<td><p>Broad-phase contact detection. Used only with contact model 2 (face-face coupling, the default build); contact models 0 and 1 always use the uniform spatial partitioning grid (USPG). <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> uses the grid below 500 cells and Sweep-and-Prune from 500 cells on. See <a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 2.0: </span><code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code>. No shipped parameter file sets it, so all of them use the
+spatial grid.</p>
+</div>
+<p>The reader rejects a <code class="docutils literal notranslate"><span class="pre">damping_coefficient</span></code> below zero with the message
+“The damping_coefficient_ must be strictly positive”, although zero itself is accepted.</p>
+<section id="values-in-the-shipped-files">
+<h3>Values in the shipped files<a class="headerlink" href="#values-in-the-shipped-files" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Input mesh</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle_quick.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle_realistic_biology.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_sheet.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_1_sheet_geometry.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_tube.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_1_tube.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_default_dynamic.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">big_sphere.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_default_overdamped.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">big_sphere.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">paper_sphere.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">big_sphere.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact_fast_growth.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">big_sphere.vtk</span></code></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\Delta t\)</span> (s)</p></th>
+<th class="head"><p>Duration (s)</p></th>
+<th class="head"><p>Sampling period (s)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(l_{\min}\)</span> (m)</p></th>
+<th class="head"><p>Cutoffs (m)</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\zeta\)</span> (kg/s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle_quick.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>2e-5</p></td>
+<td><p>5e-6</p></td>
+<td><p>4e-7</p></td>
+<td><p>2e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>1e-2</p></td>
+<td><p>1e-6</p></td>
+<td><p>4e-7</p></td>
+<td><p>2e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle_realistic_biology.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>0.5</p></td>
+<td><p>0.01</p></td>
+<td><p>4e-7</p></td>
+<td><p>2e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_sheet.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>1e-2</p></td>
+<td><p>1e-6</p></td>
+<td><p>4e-7</p></td>
+<td><p>2.5e-7</p></td>
+<td><p>2e-9</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_tube.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>1e-2</p></td>
+<td><p>1e-6</p></td>
+<td><p>4e-7</p></td>
+<td><p>2.5e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_default_dynamic.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>1e-2</p></td>
+<td><p>1e-6</p></td>
+<td><p>7.5e-7</p></td>
+<td><p>5e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_default_overdamped.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>1e-2</p></td>
+<td><p>5e-6</p></td>
+<td><p>7.5e-7</p></td>
+<td><p>5e-7</p></td>
+<td><p>3e-9</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>1e-2</p></td>
+<td><p>1e-4</p></td>
+<td><p>4e-7</p></td>
+<td><p>2e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>1e-2</p></td>
+<td><p>1e-4</p></td>
+<td><p>4e-7</p></td>
+<td><p>2e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>2e-3</p></td>
+<td><p>1e-4</p></td>
+<td><p>1e-6</p></td>
+<td><p>2e-7</p></td>
+<td><p>2.5e-10</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>5e-2</p></td>
+<td><p>1e-4</p></td>
+<td><p>7.5e-7</p></td>
+<td><p>5e-7</p></td>
+<td><p>5e-10</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact_fast_growth.xml</span></code></p></td>
+<td><p>1e-7</p></td>
+<td><p>100.0</p></td>
+<td><p>1.0</p></td>
+<td><p>1e-6</p></td>
+<td><p>5e-7</p></td>
+<td><p>2.5e-10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The files are in <code class="docutils literal notranslate"><span class="pre">parameters/</span></code> and its sub-folders (see <a class="reference internal" href="#shipped-parameter-files">Shipped parameter files</a>);
+the meshes are in <code class="docutils literal notranslate"><span class="pre">data/input_meshes/</span></code>. In the second table, <span class="math notranslate nohighlight">\(l_{\min}\)</span> is <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>,
+<span class="math notranslate nohighlight">\(\zeta\)</span> is <code class="docutils literal notranslate"><span class="pre">damping_coefficient</span></code>, and the cutoffs are <code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion</span></code> and
+<code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion</span></code>, which are equal in every shipped file.</p>
+</section>
+</section>
+<section id="cell-types">
+<h2>Cell types<a class="headerlink" href="#cell-types" title="Link to this heading">#</a></h2>
+<p>Section <code class="docutils literal notranslate"><span class="pre">&lt;cell_types&gt;</span></code>, one <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block per cell type. At least one cell type must be
+defined, and each must have at least one face type.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Valid values</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_type_name</span></code></p></td>
+<td><p>text</p></td>
+<td><p>any</p></td>
+<td><p>Name used in log and error messages.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code></p></td>
+<td><p>integer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
+<td><p>Selects the <a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell class</span></a>: 0 epithelial, 1 extracellular matrix (ECM), 2 lumen, 3 nucleus, 4 static. Written to the output as <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> (cell meshes) and <code class="docutils literal notranslate"><span class="pre">type_id</span></code> (statistics CSV). See <a class="reference internal" href="08_cell_classes.html"><span class="doc">Cell classes</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_mass_density</span></code></p></td>
+<td><p>real, kg/m³</p></td>
+<td><p>not checked</p></td>
+<td><p>Mass density <span class="math notranslate nohighlight">\(\rho\)</span>; node masses follow from it and the cell volume. Enters the full equations of motion (dynamic model 0) and, in both dynamic models, the kinetic energy written to the output.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_bulk_modulus</span></code></p></td>
+<td><p>real, Pa</p></td>
+<td><p>not checked</p></td>
+<td><p>Bulk modulus <span class="math notranslate nohighlight">\(K\)</span> in the pressure <span class="math notranslate nohighlight">\(p = -K \ln(V/V_0)\)</span>. With 0 the cell has no pressure. See <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_inner_pressure</span></code></p></td>
+<td><p>real or <code class="docutils literal notranslate"><span class="pre">inf</span></code>, Pa</p></td>
+<td><p>not checked</p></td>
+<td><p>Upper bound on the pressure <span class="math notranslate nohighlight">\(p\)</span>. <code class="docutils literal notranslate"><span class="pre">inf</span></code> means no bound.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code></p></td>
+<td><p>real, J</p></td>
+<td><p>not checked</p></td>
+<td><p>Area elasticity modulus <span class="math notranslate nohighlight">\(k_a\)</span>. See the unit note above.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code></p></td>
+<td><p>real, dimensionless</p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
+<td><p>Target isoperimetric ratio <span class="math notranslate nohighlight">\(A^3/V^2\)</span>; with the cell volume it sets the target area <span class="math notranslate nohighlight">\(A_0\)</span>. A sphere has <span class="math notranslate nohighlight">\(36\pi \approx 113\)</span>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">angle_regularization_factor</span></code></p></td>
+<td><p>real, J</p></td>
+<td><p>not checked</p></td>
+<td><p>Strength of a force that drives the angles of each triangle towards 60 degrees. 0 disables it; all shipped files use 0.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code></p></td>
+<td><p>real, m³/s</p></td>
+<td><p>not checked</p></td>
+<td><p>Mean of the normal distribution from which each cell draws its growth rate. The target volume grows by <code class="docutils literal notranslate"><span class="pre">growth_rate</span> <span class="pre">x</span> <span class="pre">time_step</span></code> every iteration. See <a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code></p></td>
+<td><p>real, m³/s</p></td>
+<td><p>not checked</p></td>
+<td><p>Standard deviation of that distribution. Drawn values are limited to the mean <span class="math notranslate nohighlight">\(\pm\)</span> 3 standard deviations; 0 gives every cell the mean.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code></p></td>
+<td><p>real or <code class="docutils literal notranslate"><span class="pre">inf</span></code>, m³</p></td>
+<td><p>not checked</p></td>
+<td><p>Mean of the normal distribution from which each cell draws the volume at which it divides. <code class="docutils literal notranslate"><span class="pre">inf</span></code> disables division.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std_division_volume</span></code></p></td>
+<td><p>real, m³</p></td>
+<td><p>not checked</p></td>
+<td><p>Standard deviation of that distribution, limited as for the growth rate. Ignored when <code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code> is <code class="docutils literal notranslate"><span class="pre">inf</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_vol</span></code></p></td>
+<td><p>real, m³</p></td>
+<td><p>not checked</p></td>
+<td><p>A cell whose volume falls below this value is removed. The target volume is never set below it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code></p></td>
+<td><p>real, 1/m</p></td>
+<td><p>not checked (see note)</p></td>
+<td><p>A node whose absolute mean curvature exceeds this value is not coupled to another cell. Used by contact models 1 and 2. See <a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The reader intends to require a positive <code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code>, but the check
+tests <code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code> instead, so any value is accepted.</p>
+</div>
+<p>Each cell draws its growth rate and division volume when it is created (at the start, and for each daughter at division). The random generator is seeded from the system clock, so two runs with a non-zero standard deviation differ even on one thread.</p>
+<p>Not read from the parameter file: the initial pressure of the cells is 0 Pa, so each cell
+starts at its target volume. The Python interface can set it (<code class="docutils literal notranslate"><span class="pre">initial_pressure_</span></code>,
+<a class="reference internal" href="16_python_interface.html"><span class="doc">Python interface</span></a>).</p>
+<section id="cell-types-and-the-input-mesh">
+<h3>Cell types and the input mesh<a class="headerlink" href="#cell-types-and-the-input-mesh" title="Link to this heading">#</a></h3>
+<p>Each cell in the input mesh carries an integer <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code>. SimuCell3D uses it as an index
+into the list of <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> blocks <strong>in the order in which they appear in the parameter
+file</strong>: <code class="docutils literal notranslate"><span class="pre">cell_type_id</span> <span class="pre">0</span></code> is the first block, <code class="docutils literal notranslate"><span class="pre">1</span></code> the second, and so on. The <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>
+of that block then selects the cell class. A <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> equal to or larger than the number
+of cell types stops the run with “The cell type id of cell N (X) is not valid”.</p>
+<p>All shipped parameter files define their cell types in the order of their <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>
+(epithelial 0, ECM 1, lumen 2, nucleus 3, static 4), so in these files the input-mesh
+<code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> and the <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> coincide. If you reorder the blocks, or define
+several cell types of the same class, they no longer coincide.</p>
+<p><code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> itself is checked only when a cell of that type is created: a value outside
+0 to 4 makes the triangulation of that cell fail ten times and then stops the run with
+“The cell N could not be triangulated after 10 attempts”. A cell type that no cell in the
+input mesh uses is never checked.</p>
+</section>
+</section>
+<section id="face-types">
+<h2>Face types<a class="headerlink" href="#face-types" title="Link to this heading">#</a></h2>
+<p>Inside each <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code>, the <code class="docutils literal notranslate"><span class="pre">&lt;face_types&gt;</span></code> block holds one or more <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> entries.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Valid values</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">face_type_name</span></code></p></td>
+<td><p>text</p></td>
+<td><p>any</p></td>
+<td><p>Name used in error messages.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">global_face_id</span></code></p></td>
+<td><p>integer</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+<td><p>Identifier written to the face meshes as <code class="docutils literal notranslate"><span class="pre">face_type_id</span></code>. It is not used by the model; give each face type in the file a distinct value so that the output can be told apart.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">surface_tension</span></code></p></td>
+<td><p>real, N/m</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+<td><p>Surface tension <span class="math notranslate nohighlight">\(\gamma\)</span> of faces of this type. See <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bending_modulus</span></code></p></td>
+<td><p>real, J</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+<td><p>Bending modulus <span class="math notranslate nohighlight">\(k_b\)</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code></p></td>
+<td><p>real, N/m³</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+<td><p>Adhesion strength <span class="math notranslate nohighlight">\(\omega\)</span> between this face and the surface of another cell. See <a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">repulsion_strength</span></code></p></td>
+<td><p>real, N/m³</p></td>
+<td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
+<td><p>Repulsion strength <span class="math notranslate nohighlight">\(\xi\)</span>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Inside the solver a face type is identified by its position in the <code class="docutils literal notranslate"><span class="pre">&lt;face_types&gt;</span></code> block (0, 1,
+2, …), not by <code class="docutils literal notranslate"><span class="pre">global_face_id</span></code>. For epithelial cells this position has a meaning: with
+contact-based polarization (<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>, the default build) the cell labels
+its faces with position 0 for apical, 1 for lateral and 2 for basal faces, depending on what
+each face touches. An epithelial cell type therefore needs its face types in the order
+apical, lateral, basal, as in every shipped file. See <a class="reference internal" href="07_polarization.html"><span class="doc">Polarization</span></a>.</p>
+</section>
+<section id="paths">
+<h2>Paths<a class="headerlink" href="#paths" title="Link to this heading">#</a></h2>
+<p>Paths in the parameter file and on the command line are resolved as follows.</p>
+<dl class="simple myst">
+<dt>The parameter file</dt><dd><p>The path on the command line is opened as given: an absolute path, or a path relative to
+the current working directory. The error message “The path to the parameter file must be an
+absolute path” is printed for any file that cannot be opened or is not well-formed XML;
+relative paths work.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code></dt><dd><p>First opened as given (absolute, or relative to the working directory). If that fails, it
+is opened relative to the source directory of the SimuCell3D checkout that the executable
+was built from (the CMake <code class="docutils literal notranslate"><span class="pre">PROJECT_SOURCE_DIR</span></code>, fixed at configure time). The shipped files
+use paths such as <code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_3_vesicle.vtk</span></code> and <code class="docutils literal notranslate"><span class="pre">/data/input_meshes/big_sphere.vtk</span></code>,
+which work only through this second rule. When it is used, the run prints
+“WARNING: the absolute mesh file path: … was not found” followed by the path it tries
+instead. This is expected.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code></dt><dd><p>Used as given: absolute, or relative to the working directory. The shipped files use
+<code class="docutils literal notranslate"><span class="pre">../simulation_results/&lt;name&gt;</span></code>, which from the <code class="docutils literal notranslate"><span class="pre">build/</span></code> directory is
+<code class="docutils literal notranslate"><span class="pre">simulation_results/&lt;name&gt;</span></code> in the repository root. The command-line option
+<code class="docutils literal notranslate"><span class="pre">--output-dir=PATH</span></code> replaces it (<a class="reference internal" href="13_running_simulations.html"><span class="doc">Running simulations</span></a>).</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> deletes the output folder, with everything in it, before it starts writing. Do
+not point <code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code> or <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code> at a folder that contains anything else,
+and copy the results of a run elsewhere before running the same parameter file again.</p>
+</div>
+</section>
+<section id="error-messages">
+<h2>Error messages<a class="headerlink" href="#error-messages" title="Link to this heading">#</a></h2>
+<p>The parameter file is read before any output is written. A problem stops the program with
+exit status 1 and one line on the standard error stream. The most common messages are:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Message</p></th>
+<th class="head"><p>Cause</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">parameter</span> <span class="pre">file</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">found</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">path:</span> <span class="pre">&lt;path&gt;</span></code></p></td>
+<td><p>The file does not exist. The path may be absolute or relative to the working directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">parameter</span> <span class="pre">file</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">read:</span> <span class="pre">&lt;path&gt;</span></code></p></td>
+<td><p>The file exists but cannot be opened or read; the next line gives the tinyxml2 error.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">parameter</span> <span class="pre">file</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">valid</span> <span class="pre">XML</span> <span class="pre">(line</span> <span class="pre">N):</span> <span class="pre">&lt;path&gt;</span></code></p></td>
+<td><p>The file is not well-formed XML (for example a closing tag that does not match); the next line gives the tinyxml2 error.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">section</span> <span class="pre">&quot;numerical_parameters&quot;</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">parameter</span> <span class="pre">file.</span></code></p></td>
+<td><p>Missing or misspelled section (<code class="docutils literal notranslate"><span class="pre">cell_types</span></code> likewise).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">xml</span> <span class="pre">markup</span> <span class="pre">&quot;&lt;tag&gt;&quot;</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">parameter</span> <span class="pre">file.</span></code></p></td>
+<td><p>A required numerical parameter is missing or misspelled. The cell-type and face-type messages add the name of the cell type or face type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stod</span></code> or <code class="docutils literal notranslate"><span class="pre">stoi</span></code></p></td>
+<td><p>A value is not a number.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">&lt;name&gt;_</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">strictly</span> <span class="pre">positive</span></code></p></td>
+<td><p>A value fails its range check (for example <code class="docutils literal notranslate"><span class="pre">time_step</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">sampling_period_</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">greater</span> <span class="pre">than</span> <span class="pre">the</span> <span class="pre">time</span> <span class="pre">step</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sampling_period</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">time_step</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Invalid</span> <span class="pre">contact_detection_algorithm:</span> <span class="pre">'&lt;value&gt;'.</span> <span class="pre">Valid</span> <span class="pre">values:</span> <span class="pre">'uspg',</span> <span class="pre">'sweep_and_prune',</span> <span class="pre">'adaptive'</span></code></p></td>
+<td><p>Unknown algorithm name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">cell</span> <span class="pre">type</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">defined</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">parameter</span> <span class="pre">file.</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_types&gt;</span></code> contains no <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">face</span> <span class="pre">type</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">defined</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">cell</span> <span class="pre">type</span> <span class="pre">&lt;name&gt;</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">parameter</span> <span class="pre">file.</span></code></p></td>
+<td><p>Empty <code class="docutils literal notranslate"><span class="pre">&lt;face_types&gt;</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="shipped-parameter-files">
+<h2>Shipped parameter files<a class="headerlink" href="#shipped-parameter-files" title="Link to this heading">#</a></h2>
+<p>All files are in <code class="docutils literal notranslate"><span class="pre">parameters/</span></code>. Each file’s header comment states the compile-time
+configuration it assumes; running it with a different build gives a different model.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Compile-time configuration</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Example page</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_vesicle_quick.xml</span></code></p></td>
+<td><p>default (polarization 1, contact 2, dynamic 0)</p></td>
+<td><p>Short version of the vesicle run, 200 iterations. Smoke test.</p></td>
+<td><p><a class="reference internal" href="../examples/vesicle_quick.html"><span class="doc">Short vesicle run</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_vesicle.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>Vesicle: 432 epithelial cells, one lumen cell and one ECM cell; <span class="math notranslate nohighlight">\(10^5\)</span> iterations.</p></td>
+<td><p><a class="reference internal" href="../examples/vesicle.html"><span class="doc">Epithelial vesicle with lumen and ECM</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_vesicle_realistic_biology.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>Variant of the vesicle file with a 0.5 s duration and division enabled.</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_sheet.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>Epithelial sheet (118 cells).</p></td>
+<td><p><a class="reference internal" href="../examples/sheet.html"><span class="doc">Epithelial sheet</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_tube.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>Epithelial tube (192 cells).</p></td>
+<td><p><a class="reference internal" href="../examples/tube.html"><span class="doc">Epithelial tube</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_default_dynamic.xml</span></code></p></td>
+<td><p>contact model 1</p></td>
+<td><p>Single growing and dividing cell, full equations of motion.</p></td>
+<td><p><a class="reference internal" href="../examples/single_cell_dynamic_overdamped.html"><span class="doc">Growing cell: full and overdamped dynamics</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_default_overdamped.xml</span></code></p></td>
+<td><p>contact model 0, dynamic model 1</p></td>
+<td><p>Single growing and dividing cell, overdamped equations of motion.</p></td>
+<td><p><a class="reference internal" href="../examples/single_cell_dynamic_overdamped.html"><span class="doc">Growing cell: full and overdamped dynamics</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">benchmarks/fig3e_monolayer.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>Vesicle with surface tensions that give a monolayer (paper Fig. 3e).</p></td>
+<td><p><a class="reference internal" href="../examples/monolayer_multilayer.html"><span class="doc">Monolayer and multilayer epithelia</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">benchmarks/fig3e_multilayer.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>As above, with surface tensions that give a multilayer.</p></td>
+<td><p><a class="reference internal" href="../examples/monolayer_multilayer.html"><span class="doc">Monolayer and multilayer epithelia</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>Growth from one cell, a 2.x reconstruction of the paper’s Fig. 1e setup, not the lab’s file. Differs from paper Table 2 in <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> (1e-6 m instead of 2e-7 m), lateral <code class="docutils literal notranslate"><span class="pre">surface_tension</span></code> (8e-4 N/m instead of 1e-3), basal <code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code> 0 and <code class="docutils literal notranslate"><span class="pre">repulsion_strength</span></code> 5e8 (instead of 1e9; inert with contact model 2), the contact model (2) and 10% standard deviations of growth rate and division volume. Used by <code class="docutils literal notranslate"><span class="pre">scripts/runs/launch_longrun_20k.sh</span></code>.</p></td>
+<td><p><a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact.xml</span></code></p></td>
+<td><p>contact model 1</p></td>
+<td><p>The 1.0 default dynamic configuration (coarser mesh and larger cells than paper Table 2; the header lists the differences). Single starting cell.</p></td>
+<td><p><a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact_fast_growth.xml</span></code></p></td>
+<td><p>default</p></td>
+<td><p>Growth benchmark with a coarser mesh, larger cells and a faster growth rate than paper Table 2.</p></td>
+<td><p><a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The safest way to write a new parameter file is to copy the shipped file closest to the
+intended simulation, check its header comment against your build, and change one value at a
+time.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="12_input_meshes.html"><span class="doc">Input meshes</span></a>: the format of the file named in <code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code>.</p></li>
+<li><p><a class="reference internal" href="13_running_simulations.html"><span class="doc">Running simulations</span></a>: command-line options and working directory.</p></li>
+<li><p><a class="reference internal" href="16_python_interface.html"><span class="doc">Python interface</span></a>: the same parameters set from Python.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="10_compile_time_configuration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Compile-time configuration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="12_input_meshes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Input meshes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-structure">File structure</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values">Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#units">Units</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-parameters">Numerical parameters</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values-in-the-shipped-files">Values in the shipped files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-types">Cell types</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-types-and-the-input-mesh">Cell types and the input mesh</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#face-types">Face types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#paths">Paths</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-messages">Error messages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shipped-parameter-files">Shipped parameter files</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,877 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Growth, division and removal &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/06_growth_division_removal';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/06_growth_division_removal.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Polarization" href="07_polarization.html" />
+    <link rel="prev" title="Mesh refinement" href="05_mesh_refinement.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12_input_meshes.html">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Growth,...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="growth-division-and-removal">
+<span id="ug-growth-division"></span><h1>Growth, division and removal<a class="headerlink" href="#growth-division-and-removal" title="Link to this heading">#</a></h1>
+<p>The number and size of cells change during a run. Cells grow by increasing their
+<a class="reference internal" href="../glossary.html#term-target-volume"><span class="xref std std-term">target volume</span></a>, epithelial cells divide when they reach a division volume, and cells are
+removed when their volume falls below a minimum. This chapter describes each rule as
+implemented in 2.1, with its parameters, and the divisions that 2.1 refuses.</p>
+<section id="growth">
+<h2>Growth<a class="headerlink" href="#growth" title="Link to this heading">#</a></h2>
+<p>Growth acts on the target volume <span class="math notranslate nohighlight">\(V_0\)</span>, not on the volume directly. At every iteration, before
+the pressure is computed,</p>
+<div class="math notranslate nohighlight" id="equation-eq-growth">
+<span class="eqno">(1)<a class="headerlink" href="#equation-eq-growth" title="Link to this equation">#</a></span>\[
+V_0 \leftarrow \max\left(V_0 + g\, \Delta t,\ V_{\min}\right),
+\]</div>
+<p>which is the linear growth law <span class="math notranslate nohighlight">\(\mathrm dV_0/\mathrm dt = g\)</span> of the paper’s Methods, with
+<span class="math notranslate nohighlight">\(V_{\min}\)</span> (<code class="docutils literal notranslate"><span class="pre">min_vol</span></code>) as a lower bound. The cell’s volume then follows <span class="math notranslate nohighlight">\(V_0\)</span> through the pressure
+term (<a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>): a cell whose volume lags behind its target volume has a positive
+pressure and expands. A negative <span class="math notranslate nohighlight">\(g\)</span> shrinks the cell. Growth applies to every cell class whose
+internal forces are computed, that is all classes except the ECM; the shipped files give growth
+only to epithelial cells.</p>
+<p>The growth rate <span class="math notranslate nohighlight">\(g\)</span> is a property of each cell. It is drawn when the cell is created (at start-up
+or at its birth by division) from a normal distribution with mean <code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code> and standard
+deviation <code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code>, clipped to the mean <span class="math notranslate nohighlight">\(\pm 3\)</span> standard deviations. With a standard
+deviation of 0 every cell gets the mean. The growth rate is in m³ per second of simulation time;
+the shipped files do not define a conversion to biological time.</p>
+</section>
+<section id="division">
+<h2>Division<a class="headerlink" href="#division" title="Link to this heading">#</a></h2>
+<p>Only epithelial cells divide. Every 5 iterations, each epithelial cell whose current volume
+<span class="math notranslate nohighlight">\(V\)</span> has reached its division volume <span class="math notranslate nohighlight">\(V_\mathrm{div}\)</span> is divided. Like the growth rate,
+<span class="math notranslate nohighlight">\(V_\mathrm{div}\)</span> is drawn per cell from a normal distribution (<code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code>,
+<code class="docutils literal notranslate"><span class="pre">std_division_volume</span></code>), clipped to <span class="math notranslate nohighlight">\(\pm 3\)</span> standard deviations; if the standard deviation is 0 or
+the mean is <code class="docutils literal notranslate"><span class="pre">inf</span></code>, the mean is used. <code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code> set to <code class="docutils literal notranslate"><span class="pre">inf</span></code> disables division.</p>
+<p>The division of a mother cell proceeds as follows:</p>
+<ol class="arabic simple">
+<li><p><strong>Plane.</strong> The cutting plane passes through the area-weighted centroid of the surface and is
+normal to the cell’s longest axis: the eigenvector with the largest eigenvalue of the
+covariance matrix of the node positions. This is Hertwig’s rule.</p></li>
+<li><p><strong>Cut.</strong> The points where the plane crosses the edges of the mesh are inserted, and the faces
+they split are re-triangulated.</p></li>
+<li><p><strong>Interface.</strong> The outline of the cut is a polygon in the plane. It is filled with points by
+Poisson disk sampling at spacing <span class="math notranslate nohighlight">\(l_{\min}\)</span> and triangulated with a two-dimensional Delaunay
+triangulation, so that the new wall respects the edge-length bounds and the rest of the surface
+is kept from the mother.</p></li>
+<li><p><strong>Daughters.</strong> The surface is split into two closed meshes, one on each side of the cut, each
+closed by the triangulated interface. Both are refined by the <a class="reference internal" href="../glossary.html#term-local-mesh-refiner"><span class="xref std std-term">local mesh refiner</span></a>.</p></li>
+<li><p><strong>Properties.</strong> Each daughter receives half the target volume of the mother, a new identifier,
+and newly drawn growth rate and division volume. The daughters have the cell type of the mother.</p></li>
+</ol>
+<p>The mother is removed and the two daughters are added to the tissue. Runser, Vetter &amp; Iber (2024)
+report that a division takes a few microseconds of computation time.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The paper’s Methods allow a randomly oriented division plane as an alternative. The 2.1 code has
+only the longest-axis plane.</p>
+</div>
+<section id="cuts-with-several-loops">
+<h3>Cuts with several loops<a class="headerlink" href="#cuts-with-several-loops" title="Link to this heading">#</a></h3>
+<p>If the plane also crosses a thin protrusion of the cell, its intersection with the surface
+consists of more than one closed loop.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Every loop is traced, the cell is cut along the longest one, and the two daughters are separated
+by a flood fill over the surface that does not cross the cut. In 1.0 only one loop was followed,
+the division failed, and the cell retried at every iteration.</p>
+</div>
+</section>
+<section id="refused-divisions">
+<h3>Refused divisions<a class="headerlink" href="#refused-divisions" title="Link to this heading">#</a></h3>
+<p>The two-dimensional Delaunay triangulation is not constrained by the outline of the interface. If
+the outline is not convex, some of its sides can be missing from the triangulation, which would
+leave a hole between the interface and the rest of each daughter.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>Such a division is refused: the mother is left unchanged and divides at a later division check,
+with new random interior points. The log line is</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Cell division failed for cell &lt;id&gt;: Interface outline not covered by the Delaunay triangulation (&lt;k&gt; of &lt;n&gt; sides missing); division refused
+</pre></div>
+</div>
+<p>An earlier 2.1 development version patched these interfaces instead; the refiner could not repair
+the resulting daughters, which were then removed as unstable.</p>
+</div>
+<p>Refusals become more frequent as the tissue grows. In an 8-core run of the reconstructed
+paper-like configuration (<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, not the lab’s configuration;
+<a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>) from 1 to 150,498 cells, 14% of division attempts were refused (5% below 30,000 cells, 21% between
+125,000 and 150,000 cells); a refused mother was refused 1.75 times on average, at most 31 times.
+A cell with a fixed shape can be refused every time until its shape changes. Refused divisions
+therefore delay some divisions; they do not lose cells. The CHANGELOG lists them as a known issue.</p>
+<p>Other errors during a division (for example a cut that does not split the surface in two) are
+logged with the same <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">division</span> <span class="pre">failed</span> <span class="pre">for</span> <span class="pre">cell</span> <span class="pre">&lt;id&gt;:</span></code> prefix, and the mother also retries at
+the next division check.</p>
+</section>
+</section>
+<section id="removal">
+<h2>Removal<a class="headerlink" href="#removal" title="Link to this heading">#</a></h2>
+<p>At the end of every iteration, a cell is removed if its volume is below its minimum volume:</p>
+<div class="math notranslate nohighlight">
+\[
+V &lt; V_{\min}.
+\]</div>
+<p>This models cell death (apoptosis) in the paper. The removal applies to every cell class and is
+not logged. Because the target volume never falls below <span class="math notranslate nohighlight">\(V_{\min}\)</span> (<a class="reference internal" href="#equation-eq-growth">(1)</a>), shrinkage
+alone brings a cell only down to about <span class="math notranslate nohighlight">\(V_{\min}\)</span>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 2.1: </span>The same step also removes numerically unstable cells, and a cell whose mesh refinement fails is
+removed earlier in the iteration. These are <a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a> that are not part of the
+published model; see <a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
+</div>
+</section>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>XML tag</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Section</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\bar g\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>m³/s</p></td>
+<td><p>Mean growth rate of the target volume</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>m³/s</p></td>
+<td><p>Standard deviation of the growth rate</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(\bar V_\mathrm{div}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>m³</p></td>
+<td><p>Mean division volume; <code class="docutils literal notranslate"><span class="pre">inf</span></code> disables division</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std_division_volume</span></code></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>m³</p></td>
+<td><p>Standard deviation of the division volume</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_vol</span></code></p></td>
+<td><p><span class="math notranslate nohighlight">\(V_{\min}\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
+<td><p>m³</p></td>
+<td><p>Volume below which the cell is removed; lower bound of <span class="math notranslate nohighlight">\(V_0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The paper’s Table 2 gives <span class="math notranslate nohighlight">\(g = 10^{-11}\)</span> m³/s, <span class="math notranslate nohighlight">\(V_\mathrm{div} = 1.4\times10^{-15}\)</span> m³ (called
+<span class="math notranslate nohighlight">\(V_{\max}\)</span> there) and <span class="math notranslate nohighlight">\(V_{\min} = 3.7\times10^{-16}\)</span> m³; <code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> uses
+these values with standard deviations of 10% of the means.</p>
+</section>
+<section id="practical-guidance">
+<h2>Practical guidance<a class="headerlink" href="#practical-guidance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Growth rate and time step.</strong> The target volume grows by <span class="math notranslate nohighlight">\(g\Delta t\)</span> per iteration. With the
+Table 2 values, a cell takes <span class="math notranslate nohighlight">\((V_\mathrm{div} - V_\mathrm{div}/2)/g = 7\times10^{-5}\)</span> s, or 700
+iterations at <span class="math notranslate nohighlight">\(\Delta t = 10^{-7}\)</span> s, from birth to division. The paper describes this rate as
+“pushed to the limit” for its growth benchmark; the volume can lag behind the target volume at
+such rates.</p></li>
+<li><p><strong>Random draws.</strong> The generators are seeded from the system clock, so with non-zero standard
+deviations two runs never draw the same values. The point sampling that triangulates the division
+interface is also seeded from the clock, so runs in which cells divide differ even with standard deviations of 0
+and one thread.</p></li>
+<li><p><strong>Synchronous divisions.</strong> With standard deviations of 0, cells born together grow at the same
+rate and tend to divide at the same division check, which produces bursts of divisions and of
+mesh operations.</p></li>
+<li><p><strong>Counting divisions.</strong> The <code class="docutils literal notranslate"><span class="pre">divisions</span></code> column of the diagnostics CSV counts divisions per
+100 iterations. Refusals and other division failures appear only in the log
+(<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a> for the growth benchmark of the paper (Fig. 1e).</p></li>
+<li><p><a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a> for the refinement of the daughters.</p></li>
+<li><p><a class="reference internal" href="../api/triangulation.html"><span class="doc">Triangulation and division</span></a> for the <code class="docutils literal notranslate"><span class="pre">cell_divider</span></code> class.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_mesh_refinement.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Mesh refinement</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="07_polarization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Polarization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#growth">Growth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division">Division</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuts-with-several-loops">Cuts with several loops</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refused-divisions">Refused divisions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#removal">Removal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-guidance">Practical guidance</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

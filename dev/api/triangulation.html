@@ -1,0 +1,1494 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Triangulation and division &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/triangulation';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/api/triangulation.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Polarization" href="polarization.html" />
+    <link rel="prev" title="Time integration" href="time_integration.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver and configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">Cell meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_models.html">Contact models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_integration.html">Time integration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Triangulation and division</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial_partitioning.html">Spatial partitioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Triangulatio...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="triangulation-and-division">
+<span id="api-triangulation"></span><h1>Triangulation and division<a class="headerlink" href="#triangulation-and-division" title="Link to this heading">#</a></h1>
+<p>These classes create and maintain the cell surface meshes. <a class="reference internal" href="#_CPPv418local_mesh_refiner" title="local_mesh_refiner"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">local_mesh_refiner</span></code></a>
+keeps edge lengths between the minimum edge length and three times that value by splitting,
+collapsing and swapping edges at every iteration (<a class="reference internal" href="../user_guide/05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>).
+<a class="reference internal" href="#_CPPv412cell_divider" title="cell_divider"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">cell_divider</span></code></a> splits a cell that has reached its division volume along the plane
+normal to its longest axis (<a class="reference internal" href="../user_guide/06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>). When <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code>
+is enabled, <a class="reference internal" href="#_CPPv421initial_triangulation" title="initial_triangulation"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">initial_triangulation</span></code></a> re-triangulates the input meshes with
+<a class="reference internal" href="#_CPPv416poisson_sampling" title="poisson_sampling"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">poisson_sampling</span></code></a> and <a class="reference internal" href="#_CPPv423ball_pivoting_algorithm" title="ball_pivoting_algorithm"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ball_pivoting_algorithm</span></code></a>.</p>
+<section id="mesh-refinement">
+<h2>Mesh refinement<a class="headerlink" href="#mesh-refinement" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv418local_mesh_refiner">
+<span id="_CPPv318local_mesh_refiner"></span><span id="_CPPv218local_mesh_refiner"></span><span id="local_mesh_refiner"></span><span class="target" id="classlocal__mesh__refiner"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">local_mesh_refiner</span></span></span><a class="headerlink" href="#_CPPv418local_mesh_refiner" title="Link to this definition">#</a><br /></dt>
+<dd><p>Keeps the edge lengths of every cell surface in [l_min, l_max]. </p>
+<p>Called by the solver at every iteration. An edge longer than l_max is split at its midpoint; an edge shorter than l_min is collapsed into a node at its midpoint, unless the collapse would make an edge shared by more than two faces. If edge swaps are enabled, triangles whose quality score (36/sqrt(3) * area / perimeter^2, 1 for an equilateral triangle) is below 0.2 first have their longest edge swapped. With the full equations of motion (DYNAMIC_MODEL_INDEX 0), the momentum of the nodes is redistributed so that it is conserved by each operation.</p>
+<p>The solver uses l_max = 3 * l_min, with l_min the min_edge_length of the parameter file. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner9get_l_maxEv">
+<span id="_CPPv3NK18local_mesh_refiner9get_l_maxEv"></span><span id="_CPPv2NK18local_mesh_refiner9get_l_maxEv"></span><span id="local_mesh_refiner::get_l_maxC"></span><span class="target" id="classlocal__mesh__refiner_1a21f110c54ee9669de552ee57bd18ad53"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_l_max</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner9get_l_maxEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Minimum edge length, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner17get_l_min_squaredEv">
+<span id="_CPPv3NK18local_mesh_refiner17get_l_min_squaredEv"></span><span id="_CPPv2NK18local_mesh_refiner17get_l_min_squaredEv"></span><span id="local_mesh_refiner::get_l_min_squaredC"></span><span class="target" id="classlocal__mesh__refiner_1a279ed2cd4eb2d56e4cc4e7061920be69"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_l_min_squared</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner17get_l_min_squaredEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Maximum edge length, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner17get_l_max_squaredEv">
+<span id="_CPPv3NK18local_mesh_refiner17get_l_max_squaredEv"></span><span id="_CPPv2NK18local_mesh_refiner17get_l_max_squaredEv"></span><span id="local_mesh_refiner::get_l_max_squaredC"></span><span class="target" id="classlocal__mesh__refiner_1af060aa7deb30fb01801eec533e4efb17"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_l_max_squared</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner17get_l_max_squaredEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Square of the minimum edge length, m^2. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N18local_mesh_refiner18local_mesh_refinerEKdKdKb">
+<span id="_CPPv3N18local_mesh_refiner18local_mesh_refinerEKdKdKb"></span><span id="_CPPv2N18local_mesh_refiner18local_mesh_refinerEKdKdKb"></span><span id="local_mesh_refiner::local_mesh_refiner__doubleC.doubleC.bC"></span><span class="target" id="classlocal__mesh__refiner_1a1b79a57bb35daba04176fe98fad92018"></span><span class="sig-name descname"><span class="n"><span class="pre">local_mesh_refiner</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_max</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enable_edge_swap_operation</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N18local_mesh_refiner18local_mesh_refinerEKdKdKb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Square of the maximum edge length, m^2. </p>
+<p>Construct the refiner. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l_min</strong> – Minimum edge length, m; must be positive. </p></li>
+<li><p><strong>l_max</strong> – Maximum edge length, m; must be greater than <code class="docutils literal notranslate"><span class="pre">l_min</span></code>. </p></li>
+<li><p><strong>enable_edge_swap_operation</strong> – Swap the longest edge of low-quality triangles (enable_edge_swap_operation in the parameter file). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner13refine_meshesERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3NK18local_mesh_refiner13refine_meshesERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2NK18local_mesh_refiner13refine_meshesERKNSt6vectorI8cell_ptrEE"></span><span id="local_mesh_refiner::refine_meshes__std::vector:cell_ptr:CRC"></span><span class="target" id="classlocal__mesh__refiner_1aa8c1e6f3cac992b378e1d5693469251a"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N18local_mesh_refiner18refinement_failureE" title="local_mesh_refiner::refinement_failure"><span class="n"><span class="pre">refinement_failure</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">refine_meshes</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner13refine_meshesERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Refine the meshes of all cells in parallel. </p>
+<p>A cell whose refinement throws a std::exception is left as it is and returned in the list of failures (in no particular order); the other cells are refined as if alone. The solver removes the failed cells, or stops the run if there are too many (<a class="reference internal" href="solver.html#classsolver_1a0aaaaab314bde8700e5cd0a85544ef1a"><span class="std std-ref">solver::handle_refinement_failures()</span></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – The cells. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv429unstable_simulation_exception" title="unstable_simulation_exception"><span class="n">unstable_simulation_exception</span></a></span></span> – If thrown for a cell; rethrown after the parallel loop ends. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">bad_alloc</span></span></span> – If thrown for a cell; rethrown after the parallel loop ends. Exceptions not derived from std::exception are rethrown the same way. If several are thrown, the first one stored is rethrown. </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The cells whose refinement failed, with the error message. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner11refine_meshE8cell_ptr">
+<span id="_CPPv3NK18local_mesh_refiner11refine_meshE8cell_ptr"></span><span id="_CPPv2NK18local_mesh_refiner11refine_meshE8cell_ptr"></span><span id="local_mesh_refiner::refine_mesh__cell_ptrC"></span><span class="target" id="classlocal__mesh__refiner_1ade15a9796a084e326ed489717410e387"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">refine_mesh</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner11refine_meshE8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Refine the mesh of one cell. </p>
+<p>Swaps edges of low-quality triangles (if enabled), then splits and collapses edges until every edge is in [l_min, l_max]. If more than 50 split or collapse operations fall in the same cube of side 1e-7 m (a split/collapse cycle), the refinement stops early for this call, leaving some edges out of range, and a line is written to standard error (the first 20 occurrences, then every 1000th). Finally the face winding is checked and repaired (<a class="reference internal" href="#classlocal__mesh__refiner_1a3b40d364d02cdd3b47a0376c2ec7b763"><span class="std std-ref">repair_inconsistent_winding()</span></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c</strong> – The cell. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv424mesh_integrity_exception" title="mesh_integrity_exception"><span class="n">mesh_integrity_exception</span></a></span></span> – if 500000 operations are reached without convergence. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner26remove_elongated_trianglesE8cell_ptr">
+<span id="_CPPv3NK18local_mesh_refiner26remove_elongated_trianglesE8cell_ptr"></span><span id="_CPPv2NK18local_mesh_refiner26remove_elongated_trianglesE8cell_ptr"></span><span id="local_mesh_refiner::remove_elongated_triangles__cell_ptrC"></span><span class="target" id="classlocal__mesh__refiner_1a9594a541c9268e05d78947c56a81b087"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_elongated_triangles</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner26remove_elongated_trianglesE8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Swap the longest edge of every face whose quality score is below 0.2. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c</strong> – The cell. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner18get_triangle_scoreE8cell_ptrRK4face">
+<span id="_CPPv3NK18local_mesh_refiner18get_triangle_scoreE8cell_ptrRK4face"></span><span id="_CPPv2NK18local_mesh_refiner18get_triangle_scoreE8cell_ptrRK4face"></span><span id="local_mesh_refiner::get_triangle_score__cell_ptr.faceCRC"></span><span class="target" id="classlocal__mesh__refiner_1a32fe8f293482b8ff229bf0c4c253a754"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_triangle_score</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">f</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner18get_triangle_scoreE8cell_ptrRK4face" title="Link to this definition">#</a><br /></dt>
+<dd><p>Quality score of a triangle and its longest edge. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> – The cell that owns the face. </p></li>
+<li><p><strong>f</strong> – A used face of <code class="docutils literal notranslate"><span class="pre">c</span></code>. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The score 36/sqrt(3) * area / perimeter^2 (1 for an equilateral triangle, towards 0 for a degenerate one) and the longest edge. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner13can_be_mergedER4edge8cell_ptr">
+<span id="_CPPv3NK18local_mesh_refiner13can_be_mergedER4edge8cell_ptr"></span><span id="_CPPv2NK18local_mesh_refiner13can_be_mergedER4edge8cell_ptr"></span><span id="local_mesh_refiner::can_be_merged__edgeR.cell_ptrC"></span><span class="target" id="classlocal__mesh__refiner_1a10fc685cae6d3e11bbf5522425c5bf75"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">can_be_merged</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">e_ab</span></span>, <span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner13can_be_mergedER4edge8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether an edge can be collapsed into a node. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>false if the two end nodes share more than two neighbours, in which case the collapse would create an edge shared by more than two faces. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner9swap_edgeER4edge8cell_ptr">
+<span id="_CPPv3NK18local_mesh_refiner9swap_edgeER4edge8cell_ptr"></span><span id="_CPPv2NK18local_mesh_refiner9swap_edgeER4edge8cell_ptr"></span><span id="local_mesh_refiner::swap_edge__edgeR.cell_ptrC"></span><span class="target" id="classlocal__mesh__refiner_1a3a265779bd2d01f8e4d770fd74baaff8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">swap_edge</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">e_ab</span></span>, <span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner9swap_edgeER4edge8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Replace the edge AB shared by faces ABC and ABD by the edge CD. </p>
+<p>Nothing is done if the edge CD already exists or the configuration is degenerate. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner10split_edgeER4edge8cell_ptrR8edge_set">
+<span id="_CPPv3NK18local_mesh_refiner10split_edgeER4edge8cell_ptrR8edge_set"></span><span id="_CPPv2NK18local_mesh_refiner10split_edgeER4edge8cell_ptrR8edge_set"></span><span id="local_mesh_refiner::split_edge__edgeR.cell_ptr.edge_setRC"></span><span class="target" id="classlocal__mesh__refiner_1aef74d160bd77aff96fddc99ae0b9fb98"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">split_edge</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">e_ab</span></span>, <span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="n"><span class="pre">edge_set</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">edge_to_check_set</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner10split_edgeER4edge8cell_ptrR8edge_set" title="Link to this definition">#</a><br /></dt>
+<dd><p>Split an edge at its midpoint, replacing its two faces by four. </p>
+<p>The new faces inherit the winding and the face type of the faces they replace. The new and modified edges are added to or updated in <code class="docutils literal notranslate"><span class="pre">edge_to_check_set</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner10merge_edgeER4edge8cell_ptrR8edge_set">
+<span id="_CPPv3NK18local_mesh_refiner10merge_edgeER4edge8cell_ptrR8edge_set"></span><span id="_CPPv2NK18local_mesh_refiner10merge_edgeER4edge8cell_ptrR8edge_set"></span><span id="local_mesh_refiner::merge_edge__edgeR.cell_ptr.edge_setRC"></span><span class="target" id="classlocal__mesh__refiner_1a700d90c9bd01eefd5e0426540acc2f2c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">merge_edge</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">e_ab</span></span>, <span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="n"><span class="pre">edge_set</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">edge_to_check_set</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner10merge_edgeER4edge8cell_ptrR8edge_set" title="Link to this definition">#</a><br /></dt>
+<dd><p>Collapse an edge into a new node at its midpoint and delete its two faces. </p>
+<p>Deleted edges are removed from, and new edges added to, <code class="docutils literal notranslate"><span class="pre">edge_to_check_set</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18local_mesh_refiner27repair_inconsistent_windingE8cell_ptr">
+<span id="_CPPv3NK18local_mesh_refiner27repair_inconsistent_windingE8cell_ptr"></span><span id="_CPPv2NK18local_mesh_refiner27repair_inconsistent_windingE8cell_ptr"></span><span id="local_mesh_refiner::repair_inconsistent_winding__cell_ptrC"></span><span class="target" id="classlocal__mesh__refiner_1a3b40d364d02cdd3b47a0376c2ec7b763"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">repair_inconsistent_winding</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK18local_mesh_refiner27repair_inconsistent_windingE8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Detect and repair an inconsistent face winding. </p>
+<p>If the winding is inconsistent, a line is written to standard error (the first 20 occurrences, then every 1000th) and, if the surface is manifold, all faces are re-oriented from one seed face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c</strong> – The cell. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of inconsistently wound edges found (0 if none). </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N18local_mesh_refiner32count_inconsistently_wound_edgesERK8cell_ptr">
+<span id="_CPPv3N18local_mesh_refiner32count_inconsistently_wound_edgesERK8cell_ptr"></span><span id="_CPPv2N18local_mesh_refiner32count_inconsistently_wound_edgesERK8cell_ptr"></span><span id="local_mesh_refiner::count_inconsistently_wound_edges__cell_ptrCR"></span><span class="target" id="classlocal__mesh__refiner_1a1617ff044a4db3a88e55254e4baaf919"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count_inconsistently_wound_edges</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N18local_mesh_refiner32count_inconsistently_wound_edgesERK8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Number of edges whose two faces traverse them in the same direction. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0 for a consistently wound (oriented) surface. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N18local_mesh_refiner16winding_checksumERK8cell_ptr">
+<span id="_CPPv3N18local_mesh_refiner16winding_checksumERK8cell_ptr"></span><span id="_CPPv2N18local_mesh_refiner16winding_checksumERK8cell_ptr"></span><span id="local_mesh_refiner::winding_checksum__cell_ptrCR"></span><span class="target" id="classlocal__mesh__refiner_1a85f5351692e89b642908bc9dd133ee1b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">winding_checksum</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N18local_mesh_refiner16winding_checksumERK8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Fast check of the face winding in one pass over the faces. </p>
+<p>Sums an antisymmetric hash g(a, b) = -g(b, a) over all directed edges (a, b) of the faces, modulo 2^64.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0 for a consistently wound closed surface; non-zero, except with a probability of about 2^-64, if any edge is inconsistent. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N18local_mesh_refiner18refinement_failureE">
+<span id="_CPPv3N18local_mesh_refiner18refinement_failureE"></span><span id="_CPPv2N18local_mesh_refiner18refinement_failureE"></span><span id="local_mesh_refiner::refinement_failure"></span><span class="target" id="structlocal__mesh__refiner_1_1refinement__failure"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">refinement_failure</span></span></span><a class="headerlink" href="#_CPPv4N18local_mesh_refiner18refinement_failureE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A cell whose refinement threw an ordinary error during <a class="reference internal" href="#classlocal__mesh__refiner_1aa8c1e6f3cac992b378e1d5693469251a"><span class="std std-ref">refine_meshes()</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N18local_mesh_refiner18refinement_failure4cellE">
+<span id="_CPPv3N18local_mesh_refiner18refinement_failure4cellE"></span><span id="_CPPv2N18local_mesh_refiner18refinement_failure4cellE"></span><span id="local_mesh_refiner::refinement_failure::cell__cell_ptr"></span><span class="target" id="structlocal__mesh__refiner_1_1refinement__failure_1a3d50831efc06554f2a7d3d7e132bb49b"></span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell</span></span></span><a class="headerlink" href="#_CPPv4N18local_mesh_refiner18refinement_failure4cellE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The cell; its mesh may be damaged. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N18local_mesh_refiner18refinement_failure6reasonE">
+<span id="_CPPv3N18local_mesh_refiner18refinement_failure6reasonE"></span><span id="_CPPv2N18local_mesh_refiner18refinement_failure6reasonE"></span><span id="local_mesh_refiner::refinement_failure::reason__ss"></span><span class="target" id="structlocal__mesh__refiner_1_1refinement__failure_1a9304f61ca9d7f9c0759e2b3842d4d46b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reason</span></span></span><a class="headerlink" href="#_CPPv4N18local_mesh_refiner18refinement_failure6reasonE" title="Link to this definition">#</a><br /></dt>
+<dd><p>The what() of the error. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cell-division">
+<h2>Cell division<a class="headerlink" href="#cell-division" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv412cell_divider">
+<span id="_CPPv312cell_divider"></span><span id="_CPPv212cell_divider"></span><span id="cell_divider"></span><span class="target" id="classcell__divider"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cell_divider</span></span></span><a class="headerlink" href="#_CPPv412cell_divider" title="Link to this definition">#</a><br /></dt>
+<dd><p>Divides cells that have reached their division volume. </p>
+<p>All methods are static; the class cannot be instantiated. The solver calls <a class="reference internal" href="#classcell__divider_1a7424a887f7b7652b1652b3ba495f50bd"><span class="std std-ref">run()</span></a> every 5 iterations. A cell is cut by the plane through its centroid normal to its longest axis (<a class="reference internal" href="mesh.html#classcell_1a6cfa06b9f88fc63d32afe4bc83f4f829"><span class="std std-ref">cell::get_cell_division_axis()</span></a>). The cut interface is triangulated with Poisson-disk sampling and a 2D Delaunay triangulation, each daughter receives one side of the surface plus the interface, and both daughters are refined by the local mesh refiner.</p>
+<p>A division can be refused. The mother cell is then left unchanged, a line “Cell division failed for cell &lt;id&gt;: &lt;reason&gt;” is written to standard error, and the division is tried again at the next check. Reasons include: no closed cut curve can be traced; the Delaunay triangulation does not cover every side of the interface outline; the cut does not split the surface into exactly two pieces. When the plane meets the surface along several closed curves, the cell is cut along the longest one. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider3runERNSt6vectorI8cell_ptrEEKdRK18local_mesh_refinerRjb">
+<span id="_CPPv3N12cell_divider3runERNSt6vectorI8cell_ptrEEKdRK18local_mesh_refinerRjb"></span><span id="_CPPv2N12cell_divider3runERNSt6vectorI8cell_ptrEEKdRK18local_mesh_refinerRjb"></span><span id="cell_divider::run__std::vector:cell_ptr:R.doubleC.local_mesh_refinerCR.unsignedR.b"></span><span class="target" id="classcell__divider_1a7424a887f7b7652b1652b3ba495f50bd"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv418local_mesh_refiner" title="local_mesh_refiner"><span class="n"><span class="pre">local_mesh_refiner</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lmr</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">max_cell_id_</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12cell_divider3runERNSt6vectorI8cell_ptrEEKdRK18local_mesh_refinerRjb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Divide every cell that is ready to divide (<a class="reference internal" href="mesh.html#classcell_1ae1457893f2b7a7bbadc1daebee15b25a"><span class="std std-ref">cell::is_ready_to_divide()</span></a>). </p>
+<p>Cells are processed in an OpenMP parallel loop. Each successful division replaces the mother in <code class="docutils literal notranslate"><span class="pre">cell_lst</span></code> by two daughters, appended at the end of the list with new ids; local ids are then renumbered. Refused divisions leave the mother in place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cell_lst</strong> – All cells; modified in place. </p></li>
+<li><p><strong>l_min</strong> – Minimum edge length, m. </p></li>
+<li><p><strong>lmr</strong> – Mesh refiner applied to the daughter cells. </p></li>
+<li><p><strong>max_cell_id_</strong> – Next unused cell id; incremented by 2 per division. </p></li>
+<li><p><strong>verbose</strong> – Not used by the current implementation. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider11divide_cellE8cell_ptrKdRK18local_mesh_refiner">
+<span id="_CPPv3N12cell_divider11divide_cellE8cell_ptrKdRK18local_mesh_refiner"></span><span id="_CPPv2N12cell_divider11divide_cellE8cell_ptrKdRK18local_mesh_refiner"></span><span id="cell_divider::divide_cell__cell_ptr.doubleC.local_mesh_refinerCR"></span><span class="target" id="classcell__divider_1ab71f64eefbfb2e4e680e5e5e9750d167"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">divide_cell</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv418local_mesh_refiner" title="local_mesh_refiner"><span class="n"><span class="pre">local_mesh_refiner</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lmr</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12cell_divider11divide_cellE8cell_ptrKdRK18local_mesh_refiner" title="Link to this definition">#</a><br /></dt>
+<dd><p>Divide one cell into two daughter cells. </p>
+<p>The mother cell is not modified, apart from <a class="reference internal" href="mesh.html#classcell_1a3fffbe6ad7ed5769149a9ef969c0272e"><span class="std std-ref">cell::rebase()</span></a>. Each daughter gets half of the mother’s target volume and draws a new growth rate and division volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> – The mother cell. </p></li>
+<li><p><strong>l_min</strong> – Minimum edge length, m. </p></li>
+<li><p><strong>lmr</strong> – Mesh refiner applied to the daughter cells. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The two daughters, or an empty optional if the division was refused (any std::exception is caught, logged to standard error and turned into a refusal). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider23add_intersection_pointsE8cell_ptrRK4vec3RK4vec3">
+<span id="_CPPv3N12cell_divider23add_intersection_pointsE8cell_ptrRK4vec3RK4vec3"></span><span id="_CPPv2N12cell_divider23add_intersection_pointsE8cell_ptrRK4vec3RK4vec3"></span><span id="cell_divider::add_intersection_points__cell_ptr.vec3CR.vec3CR"></span><span class="target" id="classcell__divider_1a806a90fe6ac7e098397a34cfa88c149b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_intersection_points</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N12cell_divider23add_intersection_pointsE8cell_ptrRK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Mesh of the cell with the points where the cut curve crosses its edges. </p>
+<p>All closed curves along which the plane meets the surface are traced; only the longest is inserted into the mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> – The cell; it is not modified. </p></li>
+<li><p><strong>p</strong> – A point of the plane, m. </p></li>
+<li><p><strong>n</strong> – Normal of the plane. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv418division_exception" title="division_exception"><span class="n">division_exception</span></a></span></span> – if no closed curve can be traced. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider28find_edge_plane_intersectionERK4vec3RK4vec3RK4vec3RK4vec3">
+<span id="_CPPv3N12cell_divider28find_edge_plane_intersectionERK4vec3RK4vec3RK4vec3RK4vec3"></span><span id="_CPPv2N12cell_divider28find_edge_plane_intersectionERK4vec3RK4vec3RK4vec3RK4vec3"></span><span id="cell_divider::find_edge_plane_intersection__vec3CR.vec3CR.vec3CR.vec3CR"></span><span class="target" id="classcell__divider_1ad889e7a720304bce230e58e2039b4c40"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find_edge_plane_intersection</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">e1</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">e2</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N12cell_divider28find_edge_plane_intersectionERK4vec3RK4vec3RK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Intersection of a line segment with a plane. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The intersection point, or an empty optional if the segment does not reach the plane or is parallel to it. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider14trace_cut_loopE8cell_ptrRK4edgeRK4vec3RK4vec3">
+<span id="_CPPv3N12cell_divider14trace_cut_loopE8cell_ptrRK4edgeRK4vec3RK4vec3"></span><span id="_CPPv2N12cell_divider14trace_cut_loopE8cell_ptrRK4edgeRK4vec3RK4vec3"></span><span id="cell_divider::trace_cut_loop__cell_ptr.edgeCR.vec3CR.vec3CR"></span><span class="target" id="classcell__divider_1a19d5778f052c9aa0117f89b5ce0cfac0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">trace_cut_loop</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">seed_edge</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N12cell_divider14trace_cut_loopE8cell_ptrRK4edgeRK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Follow the closed curve along which the plane cuts the cell surface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> – The cell. </p></li>
+<li><p><strong>seed_edge</strong> – An edge intersected by the plane. </p></li>
+<li><p><strong>p</strong> – A point of the plane, m. </p></li>
+<li><p><strong>n</strong> – Normal of the plane. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv418division_exception" title="division_exception"><span class="n">division_exception</span></a></span></span> – if the curve cannot be followed (for example when the plane passes through a node) or does not close. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The cut edges in order, each with its intersection point. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider19face_side_wrt_planeERK4faceK8cell_ptrRK4vec3RK4vec3">
+<span id="_CPPv3N12cell_divider19face_side_wrt_planeERK4faceK8cell_ptrRK4vec3RK4vec3"></span><span id="_CPPv2N12cell_divider19face_side_wrt_planeERK4faceK8cell_ptrRK4vec3RK4vec3"></span><span id="cell_divider::face_side_wrt_plane__faceCR.cell_ptrC.vec3CR.vec3CR"></span><span class="target" id="classcell__divider_1a484753291eb720b7b0384b035afe94ae"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">face_side_wrt_plane</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">f</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12cell_divider19face_side_wrt_planeERK4faceK8cell_ptrRK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Side of the plane on which a face lies. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>true if the face centroid is on the side the normal <code class="docutils literal notranslate"><span class="pre">n</span></code> points to. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider17add_point_to_faceER4meshKjKjKjKj">
+<span id="_CPPv3N12cell_divider17add_point_to_faceER4meshKjKjKjKj"></span><span id="_CPPv2N12cell_divider17add_point_to_faceER4meshKjKjKjKj"></span><span id="cell_divider::add_point_to_face__meshR.unsignedC.unsignedC.unsignedC.unsignedC"></span><span class="target" id="classcell__divider_1a05cbf9dd35491cad7ccb528b0c787e4c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">add_point_to_face</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n_a_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n_b_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">n_p_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N12cell_divider17add_point_to_faceER4meshKjKjKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Insert node <code class="docutils literal notranslate"><span class="pre">n_p_id</span></code> into face <code class="docutils literal notranslate"><span class="pre">face_id</span></code> of <code class="docutils literal notranslate"><span class="pre">m</span></code> between nodes <code class="docutils literal notranslate"><span class="pre">n_a_id</span></code> and <code class="docutils literal notranslate"><span class="pre">n_b_id</span></code>. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv418division_exception" title="division_exception"><span class="n">division_exception</span></a></span></span> – if the face does not exist, has fewer than 3 nodes, or does not contain the edge (n_a, n_b). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider12divide_facesER4meshKj">
+<span id="_CPPv3N12cell_divider12divide_facesER4meshKj"></span><span id="_CPPv2N12cell_divider12divide_facesER4meshKj"></span><span id="cell_divider::divide_faces__meshR.unsignedC"></span><span class="target" id="classcell__divider_1a47b88e8dd87435ddfcceed7bbf373181"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">divide_faces</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">intersection_point_ids_threshold</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N12cell_divider12divide_facesER4meshKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Split the faces crossed by the cut into triangles. </p>
+<p>After <a class="reference internal" href="#classcell__divider_1a806a90fe6ac7e098397a34cfa88c149b"><span class="std std-ref">add_intersection_points()</span></a>, a face crossed by the cut has 5 nodes (two of its edges were cut); it is replaced by 3 triangles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> – The mesh. </p></li>
+<li><p><strong>intersection_point_ids_threshold</strong> – Id of the first intersection point; all intersection points have ids greater than or equal to it. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider22map_points_to_xy_planeER4meshKjRK4vec3">
+<span id="_CPPv3N12cell_divider22map_points_to_xy_planeER4meshKjRK4vec3"></span><span id="_CPPv2N12cell_divider22map_points_to_xy_planeER4meshKjRK4vec3"></span><span id="cell_divider::map_points_to_xy_plane__meshR.unsignedC.vec3CR"></span><span class="target" id="classcell__divider_1a36b8579668f1b6764e05af8bf397b46a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv45mat33" title="mat33"><span class="n"><span class="pre">mat33</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">map_points_to_xy_plane</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_point_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">n</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12cell_divider22map_points_to_xy_planeER4meshKjRK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Move the interface points (ids from <code class="docutils literal notranslate"><span class="pre">division_point_ids_threshold</span></code>) into the xy plane: centroid to the origin, then a rotation of <code class="docutils literal notranslate"><span class="pre">n</span></code> onto the z axis. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The translation and the rotation that were applied. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider30triangulate_division_interfaceEKdR4meshKjKjRK4vec3">
+<span id="_CPPv3N12cell_divider30triangulate_division_interfaceEKdR4meshKjKjRK4vec3"></span><span id="_CPPv2N12cell_divider30triangulate_division_interfaceEKdR4meshKjKjRK4vec3"></span><span id="cell_divider::triangulate_division_interface__doubleC.meshR.unsignedC.unsignedC.vec3CR"></span><span class="target" id="classcell__divider_1a437a08e507147e69c631c3c5abecfd10"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">triangulate_division_interface</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_point_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_face_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">division_face_normal</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N12cell_divider30triangulate_division_interfaceEKdR4meshKjKjRK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Triangulate the interface between the two daughter cells. </p>
+<p>Adds interior points by Poisson-disk sampling with spacing l_min, then triangulates all interface points with a 2D Delaunay triangulation, keeping the triangles whose centroid lies inside the interface outline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv418division_exception" title="division_exception"><span class="n">division_exception</span></a></span></span> – if the Delaunay triangulation fails or does not cover every side of the interface outline (possible when the outline is not convex); the division is then refused. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider28map_points_to_division_planeER4meshKjRK4vec3RK5mat33">
+<span id="_CPPv3N12cell_divider28map_points_to_division_planeER4meshKjRK4vec3RK5mat33"></span><span id="_CPPv2N12cell_divider28map_points_to_division_planeER4meshKjRK4vec3RK5mat33"></span><span id="cell_divider::map_points_to_division_plane__meshR.unsignedC.vec3CR.mat33CR"></span><span class="target" id="classcell__divider_1a1865f67a5903bbb0fde68baee4763d30"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">map_points_to_division_plane</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_point_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">translation</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv45mat33" title="mat33"><span class="n"><span class="pre">mat33</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rotation_matrix</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12cell_divider28map_points_to_division_planeER4meshKjRK4vec3RK5mat33" title="Link to this definition">#</a><br /></dt>
+<dd><p>Undo <a class="reference internal" href="#classcell__divider_1a36b8579668f1b6764e05af8bf397b46a"><span class="std std-ref">map_points_to_xy_plane()</span></a> for the interface points. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider19point_is_in_polygonERKNSt6vectorI4vec3EERK4vec3">
+<span id="_CPPv3N12cell_divider19point_is_in_polygonERKNSt6vectorI4vec3EERK4vec3"></span><span id="_CPPv2N12cell_divider19point_is_in_polygonERKNSt6vectorI4vec3EERK4vec3"></span><span id="cell_divider::point_is_in_polygon__std::vector:vec3:CR.vec3CR"></span><span class="target" id="classcell__divider_1ad370eb334d573df65764beddb6a1470d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">point_is_in_polygon</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">polygon</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N12cell_divider19point_is_in_polygonERKNSt6vectorI4vec3EERK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether a point lies inside a polygon, using the x and y coordinates only (crossing-number test). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N12cell_divider21create_daughter_cellsE8cell_ptrR4meshKjKjRK4vec3RK4vec3">
+<span id="_CPPv3N12cell_divider21create_daughter_cellsE8cell_ptrR4meshKjKjRK4vec3RK4vec3"></span><span id="_CPPv2N12cell_divider21create_daughter_cellsE8cell_ptrR4meshKjKjRK4vec3RK4vec3"></span><span id="cell_divider::create_daughter_cells__cell_ptr.meshR.unsignedC.unsignedC.vec3CR.vec3CR"></span><span class="target" id="classcell__divider_1aa320c9524da4065b661454053f22b1de"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">pair</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">create_daughter_cells</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">mother_cell</span></span>, <a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mother_cell_mesh</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_point_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_face_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">division_plane_normal</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">division_plane_origin</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N12cell_divider21create_daughter_cellsE8cell_ptrR4meshKjKjRK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Build the two daughter cells from the cut mesh of the mother cell. </p>
+<p>The faces of the mother are split into the two pieces separated by the cut; each daughter gets one piece plus the interface triangles, with opposite orientation. Daughter 1 gets the piece on the negative side of the plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv418division_exception" title="division_exception"><span class="n">division_exception</span></a></span></span> – if the cut does not split the surface into exactly two pieces. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="initial-triangulation">
+<h2>Initial triangulation<a class="headerlink" href="#initial-triangulation" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv421initial_triangulation">
+<span id="_CPPv321initial_triangulation"></span><span id="_CPPv221initial_triangulation"></span><span id="initial_triangulation"></span><span class="target" id="classinitial__triangulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">initial_triangulation</span></span></span><a class="headerlink" href="#_CPPv421initial_triangulation" title="Link to this definition">#</a><br /></dt>
+<dd><p>Re-triangulates a closed input surface; all methods are static. </p>
+<p>Used by <a class="reference internal" href="io.html#classsimulation__initializer"><span class="std std-ref">simulation_initializer</span></a> when perform_initial_triangulation is enabled. The procedure is:</p>
+<p><ol class="loweralpha simple">
+<li><p>Coarsely triangulate the surface by connecting the edges of each non-triangular face to the face centre.</p></li>
+<li><p>Convert it to a cell, which orients the faces outward and checks that the surface is closed and manifold.</p></li>
+<li><p>Sample the surface with Poisson-disk sampling (points at least l_min apart).</p></li>
+<li><p>Reconstruct a triangulated surface from the points with the ball pivoting algorithm.</p></li>
+</ol>
+</p>
+<p>The edge lengths of the result are brought into [l_min, l_max] later by the local mesh refiner. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21initial_triangulation19triangulate_surfaceEKdKdRK4meshKj">
+<span id="_CPPv3N21initial_triangulation19triangulate_surfaceEKdKdRK4meshKj"></span><span id="_CPPv2N21initial_triangulation19triangulate_surfaceEKdKdRK4meshKj"></span><span id="initial_triangulation::triangulate_surface__doubleC.doubleC.meshCR.unsignedC"></span><span class="target" id="classinitial__triangulation_1ad01efab27125ef61d969427bae7b8db2"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">triangulate_surface</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_max</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">surface</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N21initial_triangulation19triangulate_surfaceEKdKdRK4meshKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Re-triangulate a closed surface. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l_min</strong> – Minimum edge length, m. </p></li>
+<li><p><strong>l_max</strong> – Maximum edge length, m (used to bound the number of sampled points). </p></li>
+<li><p><strong>surface</strong> – Input surface; faces may have more than 3 nodes. </p></li>
+<li><p><strong>cell_id</strong> – Id of the cell (not used by the current implementation). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv431initial_triangulation_exception" title="initial_triangulation_exception"><span class="n">initial_triangulation_exception</span></a></span></span> – if the surface has fewer than 4 nodes, a face with fewer than 3 nodes, is not a valid closed surface, or would need more points than an unsigned index can hold. </p></li>
+<li><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv413bpa_exception" title="bpa_exception"><span class="n">bpa_exception</span></a></span></span> – if the ball pivoting algorithm fails. </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The triangulated surface. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21initial_triangulation20coarse_triangulationER4mesh">
+<span id="_CPPv3N21initial_triangulation20coarse_triangulationER4mesh"></span><span id="_CPPv2N21initial_triangulation20coarse_triangulationER4mesh"></span><span id="initial_triangulation::coarse_triangulation__meshR"></span><span class="target" id="classinitial__triangulation_1adf2e60e9d31e85953f6df3bc83487c59"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">coarse_triangulation</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">surface</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N21initial_triangulation20coarse_triangulationER4mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Triangulate, in place, every face with more than 3 nodes by connecting its edges to a new node at the face centre. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21initial_triangulation20convert_mesh_to_cellERK4mesh">
+<span id="_CPPv3N21initial_triangulation20convert_mesh_to_cellERK4mesh"></span><span id="_CPPv2N21initial_triangulation20convert_mesh_to_cellERK4mesh"></span><span id="initial_triangulation::convert_mesh_to_cell__meshCR"></span><span class="target" id="classinitial__triangulation_1ab3b2d87c9de128102e2a82ac2b46db4c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">convert_mesh_to_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">surface</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N21initial_triangulation20convert_mesh_to_cellERK4mesh" title="Link to this definition">#</a><br /></dt>
+<dd><p>Convert a triangulated surface to a cell with outward-oriented faces. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv431initial_triangulation_exception" title="initial_triangulation_exception"><span class="n">initial_triangulation_exception</span></a></span></span> – if the cell initialization reports a mesh integrity error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21initial_triangulation28generate_poisson_point_cloudEKdK8cell_ptr">
+<span id="_CPPv3N21initial_triangulation28generate_poisson_point_cloudEKdK8cell_ptr"></span><span id="_CPPv2N21initial_triangulation28generate_poisson_point_cloudEKdK8cell_ptr"></span><span id="initial_triangulation::generate_poisson_point_cloud__doubleC.cell_ptrC"></span><span class="target" id="classinitial__triangulation_1aba809c55ec9b5a41f4304a69e67d9e74"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">generate_poisson_point_cloud</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N21initial_triangulation28generate_poisson_point_cloudEKdK8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Poisson-disk point cloud of the surface of a cell, points at least <code class="docutils literal notranslate"><span class="pre">l_min</span></code> (m) apart; see <a class="reference internal" href="#classpoisson__sampling_1ae1b0d8649944d1f01bc71156aa5f7d2c"><span class="std std-ref">poisson_sampling::compute_poisson_point_cloud()</span></a>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv416poisson_sampling">
+<span id="_CPPv316poisson_sampling"></span><span id="_CPPv216poisson_sampling"></span><span id="poisson_sampling"></span><span class="target" id="classpoisson__sampling"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">poisson_sampling</span></span></span><a class="headerlink" href="#_CPPv416poisson_sampling" title="Link to this definition">#</a><br /></dt>
+<dd><p>Poisson-disk sampling of a triangulated surface; all methods are static. </p>
+<p>Returns points on the surface that are at least l_min apart. The surface is first sampled densely and uniformly; points are then accepted voxel by voxel in a uniform spatial partitioning grid if they are at least l_min from the points already accepted. The method follows Bowers et al., “Parallel Poisson disk sampling with spectrum analysis on surfaces”, SIGGRAPH Asia 2010. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16poisson_sampling27compute_poisson_point_cloudEKdK8cell_ptr">
+<span id="_CPPv3N16poisson_sampling27compute_poisson_point_cloudEKdK8cell_ptr"></span><span id="_CPPv2N16poisson_sampling27compute_poisson_point_cloudEKdK8cell_ptr"></span><span id="poisson_sampling::compute_poisson_point_cloud__doubleC.cell_ptrC"></span><span class="target" id="classpoisson__sampling_1ae1b0d8649944d1f01bc71156aa5f7d2c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_poisson_point_cloud</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">input_cell</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16poisson_sampling27compute_poisson_point_cloudEKdK8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Poisson-disk point cloud of the surface of a cell. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l_min</strong> – Minimum distance between points, m. </p></li>
+<li><p><strong>input_cell</strong> – Triangulated cell with outward face normals. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Points on the surface, each with the normal of the face it was sampled on. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16poisson_sampling27compute_poisson_point_cloudEKdR4meshKjKjK4vec3">
+<span id="_CPPv3N16poisson_sampling27compute_poisson_point_cloudEKdR4meshKjKjK4vec3"></span><span id="_CPPv2N16poisson_sampling27compute_poisson_point_cloudEKdR4meshKjKjK4vec3"></span><span id="poisson_sampling::compute_poisson_point_cloud__doubleC.meshR.unsignedC.unsignedC.vec3C"></span><span class="target" id="classpoisson__sampling_1a409632d03ae65232693a79f5e85699aa"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_poisson_point_cloud</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_point_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_face_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">division_plane_normal</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16poisson_sampling27compute_poisson_point_cloudEKdR4meshKjKjK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Poisson-disk point cloud of the division interface, used by <a class="reference internal" href="#classcell__divider"><span class="std std-ref">cell_divider</span></a>. </p>
+<p>The interface nodes (ids from <code class="docutils literal notranslate"><span class="pre">division_point_ids_threshold</span></code>) are always kept, marked with <a class="reference internal" href="solver.html#structoriented__point_1a1d9cc93c6b58eaa14f077357a2425d55"><span class="std std-ref">oriented_point::created_by_poisson_sampling_</span></a> = false; new points are sampled on the faces with ids from <code class="docutils literal notranslate"><span class="pre">division_face_ids_threshold</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l_min</strong> – Minimum distance between points, m. </p></li>
+<li><p><strong>m</strong> – Triangulated mesh containing the interface. </p></li>
+<li><p><strong>division_point_ids_threshold</strong> – Id of the first interface node. </p></li>
+<li><p><strong>division_face_ids_threshold</strong> – Id of the first interface face. </p></li>
+<li><p><strong>division_plane_normal</strong> – Normal given to the points. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv418division_exception" title="division_exception"><span class="n">division_exception</span></a></span></span> – if a face would need more uniform samples than an unsigned index can hold. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16poisson_sampling16uniform_samplingE8cell_ptrKd">
+<span id="_CPPv3N16poisson_sampling16uniform_samplingE8cell_ptrKd"></span><span id="_CPPv2N16poisson_sampling16uniform_samplingE8cell_ptrKd"></span><span id="poisson_sampling::uniform_sampling__cell_ptr.doubleC"></span><span class="target" id="classpoisson__sampling_1acc53e7a94592327579aa8e00a1e2214d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uniform_sampling</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">input_cell</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16poisson_sampling16uniform_samplingE8cell_ptrKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Dense uniform random sampling of the faces of a cell (about 1000 points per disk of radius l_min). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16poisson_sampling16uniform_samplingERK4meshKjKd">
+<span id="_CPPv3N16poisson_sampling16uniform_samplingERK4meshKjKd"></span><span id="_CPPv2N16poisson_sampling16uniform_samplingERK4meshKjKd"></span><span id="poisson_sampling::uniform_sampling__meshCR.unsignedC.doubleC"></span><span class="target" id="classpoisson__sampling_1af4d563bbb79064deb5d51929fb5fef62"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">uniform_sampling</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_face_ids_threshold</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N16poisson_sampling16uniform_samplingERK4meshKjKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Dense uniform random sampling of the faces of <code class="docutils literal notranslate"><span class="pre">m</span></code> with ids from <code class="docutils literal notranslate"><span class="pre">division_face_ids_threshold</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16poisson_sampling21poisson_disk_samplingERK7uspg_4dI14oriented_pointER7uspg_4dI14oriented_pointEKd">
+<span id="_CPPv3N16poisson_sampling21poisson_disk_samplingERK7uspg_4dI14oriented_pointER7uspg_4dI14oriented_pointEKd"></span><span id="_CPPv2N16poisson_sampling21poisson_disk_samplingERK7uspg_4dI14oriented_pointER7uspg_4dI14oriented_pointEKd"></span><span id="poisson_sampling::poisson_disk_sampling__uspg_4d:oriented_point:CR.uspg_4d:oriented_point:R.doubleC"></span><span class="target" id="classpoisson__sampling_1ac9620177365a6e10a3d6f7381397a366"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">poisson_disk_sampling</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spatial_partitioning.html#_CPPv4I0E7uspg_4d" title="uspg_4d"><span class="n"><span class="pre">uspg_4d</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid_1</span></span>, <a class="reference internal" href="spatial_partitioning.html#_CPPv4I0E7uspg_4d" title="uspg_4d"><span class="n"><span class="pre">uspg_4d</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid_2</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N16poisson_sampling21poisson_disk_samplingERK7uspg_4dI14oriented_pointER7uspg_4dI14oriented_pointEKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Select from the uniform samples in <code class="docutils literal notranslate"><span class="pre">grid_1</span></code> the points that are at least <code class="docutils literal notranslate"><span class="pre">l_min</span></code> (m) from all points already in <code class="docutils literal notranslate"><span class="pre">grid_2</span></code>, at most one new point per voxel, trying at most 30 candidates per voxel. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>All points in <code class="docutils literal notranslate"><span class="pre">grid_2</span></code> after the selection. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16poisson_sampling16get_surface_aabbERK4meshKNSt6vectorIjEE">
+<span id="_CPPv3N16poisson_sampling16get_surface_aabbERK4meshKNSt6vectorIjEE"></span><span id="_CPPv2N16poisson_sampling16get_surface_aabbERK4meshKNSt6vectorIjEE"></span><span id="poisson_sampling::get_surface_aabb__meshCR.std::vector:unsigned:C"></span><span class="target" id="classpoisson__sampling_1a8edd59cd29dc6748c0897e10a3b814ca"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">6</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_surface_aabb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">face_to_sample_ids</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N16poisson_sampling16get_surface_aabbERK4meshKNSt6vectorIjEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Axis-aligned bounding box {min_x, min_y, min_z, max_x, max_y, max_z} of the given faces, m. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N16poisson_sampling16get_surface_aabbERK4meshKj">
+<span id="_CPPv3N16poisson_sampling16get_surface_aabbERK4meshKj"></span><span id="_CPPv2N16poisson_sampling16get_surface_aabbERK4meshKj"></span><span id="poisson_sampling::get_surface_aabb__meshCR.unsignedC"></span><span class="target" id="classpoisson__sampling_1a2197ba91ecb7291e134325fe9a74f745"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">6</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_surface_aabb</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv44mesh" title="mesh"><span class="n"><span class="pre">mesh</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">m</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">division_face_ids_threshold</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N16poisson_sampling16get_surface_aabbERK4meshKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Axis-aligned bounding box of the faces with ids from <code class="docutils literal notranslate"><span class="pre">division_face_ids_threshold</span></code>, m. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv423ball_pivoting_algorithm">
+<span id="_CPPv323ball_pivoting_algorithm"></span><span id="_CPPv223ball_pivoting_algorithm"></span><span id="ball_pivoting_algorithm"></span><span class="target" id="classball__pivoting__algorithm"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ball_pivoting_algorithm</span></span></span><a class="headerlink" href="#_CPPv423ball_pivoting_algorithm" title="Link to this definition">#</a><br /></dt>
+<dd><p>Reconstructs a closed triangulated surface from a Poisson-disk point cloud. </p>
+<p><p>Implements the ball pivoting algorithm of Bernardini et al., “The ball-pivoting algorithm</p>
+<p>for surface reconstruction”, IEEE TVCG 5(4), 1999, doi:10.1109/2945.817351, with a ball of radius 1.7 * l_min. After the front has been expanded, holes of up to about 10 nodes are closed by fans around a new centre node. Used by</p>
+<a class="reference internal" href="#classinitial__triangulation"><span class="std std-ref">initial_triangulation</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm23ball_pivoting_algorithmERKNSt6vectorI14oriented_pointEEKdKdKdKdKdKdKd">
+<span id="_CPPv3N23ball_pivoting_algorithm23ball_pivoting_algorithmERKNSt6vectorI14oriented_pointEEKdKdKdKdKdKdKd"></span><span id="_CPPv2N23ball_pivoting_algorithm23ball_pivoting_algorithmERKNSt6vectorI14oriented_pointEEKdKdKdKdKdKdKd"></span><span id="ball_pivoting_algorithm::ball_pivoting_algorithm__std::vector:oriented_point:CR.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC.doubleC"></span><span class="target" id="classball__pivoting__algorithm_1a8f4f2af8a16a363d6ab4df34bc076e5e"></span><span class="sig-name descname"><span class="n"><span class="pre">ball_pivoting_algorithm</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">poisson_point_cloud</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">l_min</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">min_z</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_x</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_y</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm23ball_pivoting_algorithmERKNSt6vectorI14oriented_pointEEKdKdKdKdKdKdKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Prepare the reconstruction. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poisson_point_cloud</strong> – At least 4 oriented points, typically at least l_min apart. </p></li>
+<li><p><strong>l_min</strong> – Minimum edge length, m; the ball radius is 1.7 * l_min. </p></li>
+<li><p><strong>min_x, min_y, min_z, max_x, max_y, max_z</strong> – Bounding box of the points, m. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm3runEv">
+<span id="_CPPv3N23ball_pivoting_algorithm3runEv"></span><span id="_CPPv2N23ball_pivoting_algorithm3runEv"></span><span id="ball_pivoting_algorithm::run"></span><span class="target" id="classball__pivoting__algorithm_1ae4c280c4ab575a9d40063b485b0b082a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm3runEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Run the reconstruction: seed triangle, front expansion, hole filling. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv413bpa_exception" title="bpa_exception"><span class="n">bpa_exception</span></a></span></span> – if no seed triangle is found, a hole is too large (more than about 10 nodes) or has fewer than 3 nodes, or the surface is not watertight. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm18find_seed_triangleEv">
+<span id="_CPPv3N23ball_pivoting_algorithm18find_seed_triangleEv"></span><span id="_CPPv2N23ball_pivoting_algorithm18find_seed_triangleEv"></span><span id="ball_pivoting_algorithm::find_seed_triangle"></span><span class="target" id="classball__pivoting__algorithm_1a3a5fcf92c0debbb917cd6233d18b1325"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find_seed_triangle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm18find_seed_triangleEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Find a first triangle whose ball contains no other point. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv413bpa_exception" title="bpa_exception"><span class="n">bpa_exception</span></a></span></span> – if none is found. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm12get_face_lstEv">
+<span id="_CPPv3NK23ball_pivoting_algorithm12get_face_lstEv"></span><span id="_CPPv2NK23ball_pivoting_algorithm12get_face_lstEv"></span><span id="ball_pivoting_algorithm::get_face_lstC"></span><span class="target" id="classball__pivoting__algorithm_1a894f2ddef2ecb8d8dda765618240a399"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_face_lst</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm12get_face_lstEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Copy of the created faces. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm12get_edge_lstEv">
+<span id="_CPPv3NK23ball_pivoting_algorithm12get_edge_lstEv"></span><span id="_CPPv2NK23ball_pivoting_algorithm12get_edge_lstEv"></span><span id="ball_pivoting_algorithm::get_edge_lstC"></span><span class="target" id="classball__pivoting__algorithm_1a2ee5664b8971d1d7e70bba1a33d70bf9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="mesh.html#_CPPv44edge" title="edge"><span class="n"><span class="pre">edge</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_edge_lst</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm12get_edge_lstEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Copy of the created edges. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm12get_node_lstEv">
+<span id="_CPPv3NK23ball_pivoting_algorithm12get_node_lstEv"></span><span id="_CPPv2NK23ball_pivoting_algorithm12get_node_lstEv"></span><span id="ball_pivoting_algorithm::get_node_lstC"></span><span class="target" id="classball__pivoting__algorithm_1ae7b47022226e7ff748c92eae32f3e10c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_node_lst</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm12get_node_lstEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Copy of the points, including hole centres. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm20expand_triangulationEv">
+<span id="_CPPv3N23ball_pivoting_algorithm20expand_triangulationEv"></span><span id="_CPPv2N23ball_pivoting_algorithm20expand_triangulationEv"></span><span id="ball_pivoting_algorithm::expand_triangulation"></span><span class="target" id="classball__pivoting__algorithm_1a6ae5e753a37c3845b1ace6b9d0dee2fe"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expand_triangulation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm20expand_triangulationEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Pivot the ball around the front edges until no new triangle can be added. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK14oriented_pointRK14oriented_pointRK14oriented_point">
+<span id="_CPPv3NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="_CPPv2NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="ball_pivoting_algorithm::compute_circum_sphere_center__oriented_pointCR.oriented_pointCR.oriented_pointCRC"></span><span class="target" id="classball__pivoting__algorithm_1ae28c34eaed54df06da469bbfb18492d8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_circum_sphere_center</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_b</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK14oriented_pointRK14oriented_pointRK14oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>Centre of the ball through the three points, on the side of their normals. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The centre, or an empty optional if the ball is too small to touch all three. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK4face">
+<span id="_CPPv3NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK4face"></span><span id="_CPPv2NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK4face"></span><span id="ball_pivoting_algorithm::compute_circum_sphere_center__faceCRC"></span><span class="target" id="classball__pivoting__algorithm_1abe3b1891774fa4d90146db325521752e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_circum_sphere_center</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">f</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK4face" title="Link to this definition">#</a><br /></dt>
+<dd><p><a class="reference internal" href="#classball__pivoting__algorithm_1ae28c34eaed54df06da469bbfb18492d8"><span class="std std-ref">compute_circum_sphere_center()</span></a> for the three nodes of a face. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm22circum_sphere_is_emptyERK4vec3RK14oriented_pointRK14oriented_pointRK14oriented_point">
+<span id="_CPPv3NK23ball_pivoting_algorithm22circum_sphere_is_emptyERK4vec3RK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="_CPPv2NK23ball_pivoting_algorithm22circum_sphere_is_emptyERK4vec3RK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="ball_pivoting_algorithm::circum_sphere_is_empty__vec3CR.oriented_pointCR.oriented_pointCR.oriented_pointCRC"></span><span class="target" id="classball__pivoting__algorithm_1a5c300a4d812c098e61b69b92ae8d07f0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">circum_sphere_is_empty</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">circum_sphere_center</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_b</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm22circum_sphere_is_emptyERK4vec3RK14oriented_pointRK14oriented_pointRK14oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the ball at <code class="docutils literal notranslate"><span class="pre">circum_sphere_center</span></code> contains no point other than a, b and c. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm8get_edgeEKjKj">
+<span id="_CPPv3N23ball_pivoting_algorithm8get_edgeEKjKj"></span><span id="_CPPv2N23ball_pivoting_algorithm8get_edgeEKjKj"></span><span id="ball_pivoting_algorithm::get_edge__unsignedC.unsignedC"></span><span class="target" id="classball__pivoting__algorithm_1a73044db1610dc9a3979ca820a7f7effb"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_edge</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">point_1_id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">point_2_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm8get_edgeEKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Id of the edge between two points. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm8get_edgeERK14oriented_pointRK14oriented_point">
+<span id="_CPPv3N23ball_pivoting_algorithm8get_edgeERK14oriented_pointRK14oriented_point"></span><span id="_CPPv2N23ball_pivoting_algorithm8get_edgeERK14oriented_pointRK14oriented_point"></span><span id="ball_pivoting_algorithm::get_edge__oriented_pointCR.oriented_pointCR"></span><span class="target" id="classball__pivoting__algorithm_1a837834287114c9b32bd3b3787010eeea"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_edge</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_b</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm8get_edgeERK14oriented_pointRK14oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>Id of the edge between two points. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm19find_candidate_nodeERK4edge">
+<span id="_CPPv3NK23ball_pivoting_algorithm19find_candidate_nodeERK4edge"></span><span id="_CPPv2NK23ball_pivoting_algorithm19find_candidate_nodeERK4edge"></span><span id="ball_pivoting_algorithm::find_candidate_node__edgeCRC"></span><span class="target" id="classball__pivoting__algorithm_1a539aa69e94f5722ba8b1fd5c9bd90393"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">find_candidate_node</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK23ball_pivoting_algorithm19find_candidate_nodeERK4edge" title="ball_pivoting_algorithm::find_candidate_node::edge"><span class="n"><span class="pre">edge</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">edge</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm19find_candidate_nodeERK4edge" title="Link to this definition">#</a><br /></dt>
+<dd><p>The point that the ball reaches first when pivoting around <code class="docutils literal notranslate"><span class="pre">edge</span></code>, if any. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm20node_is_inner_vertexEKj">
+<span id="_CPPv3NK23ball_pivoting_algorithm20node_is_inner_vertexEKj"></span><span id="_CPPv2NK23ball_pivoting_algorithm20node_is_inner_vertexEKj"></span><span id="ball_pivoting_algorithm::node_is_inner_vertex__unsignedCC"></span><span class="target" id="classball__pivoting__algorithm_1acd8ce4b366ee2dea4253a2f91187a85f"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_is_inner_vertex</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">point_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm20node_is_inner_vertexEKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the point is already inside the triangulated region. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm20node_is_inner_vertexERK14oriented_point">
+<span id="_CPPv3NK23ball_pivoting_algorithm20node_is_inner_vertexERK14oriented_point"></span><span id="_CPPv2NK23ball_pivoting_algorithm20node_is_inner_vertexERK14oriented_point"></span><span id="ball_pivoting_algorithm::node_is_inner_vertex__oriented_pointCRC"></span><span class="target" id="classball__pivoting__algorithm_1a7b0071bb91f7e384456bda7818cb3b8e"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_is_inner_vertex</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm20node_is_inner_vertexERK14oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the point is already inside the triangulated region. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm18fill_surface_holesEv">
+<span id="_CPPv3N23ball_pivoting_algorithm18fill_surface_holesEv"></span><span id="_CPPv2N23ball_pivoting_algorithm18fill_surface_holesEv"></span><span id="ball_pivoting_algorithm::fill_surface_holes"></span><span class="target" id="classball__pivoting__algorithm_1a1376eeda800448228a654c23a45d5f22"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">fill_surface_holes</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm18fill_surface_holesEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Close the remaining holes with fans of triangles around a new centre node. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv413bpa_exception" title="bpa_exception"><span class="n">bpa_exception</span></a></span></span> – if a hole is too large (more than about 10 nodes) or has fewer than 3 nodes. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK23ball_pivoting_algorithm25get_next_node_of_the_holeEKjKj">
+<span id="_CPPv3NK23ball_pivoting_algorithm25get_next_node_of_the_holeEKjKj"></span><span id="_CPPv2NK23ball_pivoting_algorithm25get_next_node_of_the_holeEKjKj"></span><span id="ball_pivoting_algorithm::get_next_node_of_the_hole__unsignedC.unsignedCC"></span><span class="target" id="classball__pivoting__algorithm_1ad54ebc2524f84b600f820c83a5c6a38e"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_next_node_of_the_hole</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">previous_node</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">current_node</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK23ball_pivoting_algorithm25get_next_node_of_the_holeEKjKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Next node along the boundary of a hole. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv413bpa_exception" title="bpa_exception"><span class="n">bpa_exception</span></a></span></span> – if the boundary cannot be followed (surface not watertight). </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm26points_coherently_orientedERK14oriented_pointRK14oriented_pointRK14oriented_point">
+<span id="_CPPv3N23ball_pivoting_algorithm26points_coherently_orientedERK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="_CPPv2N23ball_pivoting_algorithm26points_coherently_orientedERK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="ball_pivoting_algorithm::points_coherently_oriented__oriented_pointCR.oriented_pointCR.oriented_pointCR"></span><span class="target" id="classball__pivoting__algorithm_1a4e8aec973d8a365691a80e363b8714e3"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">points_coherently_oriented</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">b</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm26points_coherently_orientedERK14oriented_pointRK14oriented_pointRK14oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the normals of the three points point in the same direction. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm23compute_oriented_normalERK14oriented_pointRK14oriented_pointRK14oriented_point">
+<span id="_CPPv3N23ball_pivoting_algorithm23compute_oriented_normalERK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="_CPPv2N23ball_pivoting_algorithm23compute_oriented_normalERK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="ball_pivoting_algorithm::compute_oriented_normal__oriented_pointCR.oriented_pointCR.oriented_pointCR"></span><span class="target" id="classball__pivoting__algorithm_1a27603cd7dfe6732f914a67ea2770c61a"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_oriented_normal</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_b</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">point_c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm23compute_oriented_normalERK14oriented_pointRK14oriented_pointRK14oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>Unit normal of the plane through the three points, oriented like the points’ normals. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm28node_is_compatible_with_edgeERK14oriented_pointRK14oriented_pointRK14oriented_pointRK14oriented_point">
+<span id="_CPPv3N23ball_pivoting_algorithm28node_is_compatible_with_edgeERK14oriented_pointRK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="_CPPv2N23ball_pivoting_algorithm28node_is_compatible_with_edgeERK14oriented_pointRK14oriented_pointRK14oriented_pointRK14oriented_point"></span><span id="ball_pivoting_algorithm::node_is_compatible_with_edge__oriented_pointCR.oriented_pointCR.oriented_pointCR.oriented_pointCR"></span><span class="target" id="classball__pivoting__algorithm_1a725fa546e7c3bb9b6d96592d64bb1b98"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">node_is_compatible_with_edge</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">f1_a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">f1_b</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv414oriented_point" title="oriented_point"><span class="n"><span class="pre">oriented_point</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">f1_c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm28node_is_compatible_with_edgeERK14oriented_pointRK14oriented_pointRK14oriented_pointRK14oriented_point" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the face {f1_a, f1_b, p} has a normal pointing in the same direction as the face {f1_a, f1_b, f1_c}. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N23ball_pivoting_algorithm35compute_angle_between_circumspheresERK4vec3RK4vec3RK4vec3">
+<span id="_CPPv3N23ball_pivoting_algorithm35compute_angle_between_circumspheresERK4vec3RK4vec3RK4vec3"></span><span id="_CPPv2N23ball_pivoting_algorithm35compute_angle_between_circumspheresERK4vec3RK4vec3RK4vec3"></span><span id="ball_pivoting_algorithm::compute_angle_between_circumspheres__vec3CR.vec3CR.vec3CR"></span><span class="target" id="classball__pivoting__algorithm_1a9eaf74a3d3db9d9b8ead5e552dec9c6c"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">compute_angle_between_circumspheres</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_a_circum_center</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">face_b_circum_center</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">edge_center_vec</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N23ball_pivoting_algorithm35compute_angle_between_circumspheresERK4vec3RK4vec3RK4vec3" title="Link to this definition">#</a><br /></dt>
+<dd><p>Pivoting angle, in [0, 2 pi], between two ball centres seen from the edge centre; the candidate with the smallest angle is chosen. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="time_integration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Time integration</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="polarization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Polarization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mesh-refinement">Mesh refinement</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv418local_mesh_refiner"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner9get_l_maxEv"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::get_l_max()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner17get_l_min_squaredEv"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::get_l_min_squared()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner17get_l_max_squaredEv"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::get_l_max_squared()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18local_mesh_refiner18local_mesh_refinerEKdKdKb"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::local_mesh_refiner()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner13refine_meshesERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refine_meshes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner11refine_meshE8cell_ptr"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refine_mesh()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner26remove_elongated_trianglesE8cell_ptr"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::remove_elongated_triangles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner18get_triangle_scoreE8cell_ptrRK4face"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::get_triangle_score()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner13can_be_mergedER4edge8cell_ptr"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::can_be_merged()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner9swap_edgeER4edge8cell_ptr"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::swap_edge()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner10split_edgeER4edge8cell_ptrR8edge_set"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::split_edge()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner10merge_edgeER4edge8cell_ptrR8edge_set"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::merge_edge()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18local_mesh_refiner27repair_inconsistent_windingE8cell_ptr"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::repair_inconsistent_winding()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18local_mesh_refiner32count_inconsistently_wound_edgesERK8cell_ptr"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::count_inconsistently_wound_edges()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18local_mesh_refiner16winding_checksumERK8cell_ptr"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::winding_checksum()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18local_mesh_refiner18refinement_failureE"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refinement_failure</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18local_mesh_refiner18refinement_failure4cellE"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refinement_failure::cell</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18local_mesh_refiner18refinement_failure6reasonE"><code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refinement_failure::reason</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-division">Cell division</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv412cell_divider"><code class="docutils literal notranslate"><span class="pre">cell_divider</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider3runERNSt6vectorI8cell_ptrEEKdRK18local_mesh_refinerRjb"><code class="docutils literal notranslate"><span class="pre">cell_divider::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider11divide_cellE8cell_ptrKdRK18local_mesh_refiner"><code class="docutils literal notranslate"><span class="pre">cell_divider::divide_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider23add_intersection_pointsE8cell_ptrRK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::add_intersection_points()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider28find_edge_plane_intersectionERK4vec3RK4vec3RK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::find_edge_plane_intersection()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider14trace_cut_loopE8cell_ptrRK4edgeRK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::trace_cut_loop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider19face_side_wrt_planeERK4faceK8cell_ptrRK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::face_side_wrt_plane()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider17add_point_to_faceER4meshKjKjKjKj"><code class="docutils literal notranslate"><span class="pre">cell_divider::add_point_to_face()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider12divide_facesER4meshKj"><code class="docutils literal notranslate"><span class="pre">cell_divider::divide_faces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider22map_points_to_xy_planeER4meshKjRK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::map_points_to_xy_plane()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider30triangulate_division_interfaceEKdR4meshKjKjRK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::triangulate_division_interface()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider28map_points_to_division_planeER4meshKjRK4vec3RK5mat33"><code class="docutils literal notranslate"><span class="pre">cell_divider::map_points_to_division_plane()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider19point_is_in_polygonERKNSt6vectorI4vec3EERK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::point_is_in_polygon()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N12cell_divider21create_daughter_cellsE8cell_ptrR4meshKjKjRK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">cell_divider::create_daughter_cells()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-triangulation">Initial triangulation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv421initial_triangulation"><code class="docutils literal notranslate"><span class="pre">initial_triangulation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21initial_triangulation19triangulate_surfaceEKdKdRK4meshKj"><code class="docutils literal notranslate"><span class="pre">initial_triangulation::triangulate_surface()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21initial_triangulation20coarse_triangulationER4mesh"><code class="docutils literal notranslate"><span class="pre">initial_triangulation::coarse_triangulation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21initial_triangulation20convert_mesh_to_cellERK4mesh"><code class="docutils literal notranslate"><span class="pre">initial_triangulation::convert_mesh_to_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21initial_triangulation28generate_poisson_point_cloudEKdK8cell_ptr"><code class="docutils literal notranslate"><span class="pre">initial_triangulation::generate_poisson_point_cloud()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv416poisson_sampling"><code class="docutils literal notranslate"><span class="pre">poisson_sampling</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16poisson_sampling27compute_poisson_point_cloudEKdK8cell_ptr"><code class="docutils literal notranslate"><span class="pre">poisson_sampling::compute_poisson_point_cloud()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16poisson_sampling27compute_poisson_point_cloudEKdR4meshKjKjK4vec3"><code class="docutils literal notranslate"><span class="pre">poisson_sampling::compute_poisson_point_cloud()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16poisson_sampling16uniform_samplingE8cell_ptrKd"><code class="docutils literal notranslate"><span class="pre">poisson_sampling::uniform_sampling()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16poisson_sampling16uniform_samplingERK4meshKjKd"><code class="docutils literal notranslate"><span class="pre">poisson_sampling::uniform_sampling()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16poisson_sampling21poisson_disk_samplingERK7uspg_4dI14oriented_pointER7uspg_4dI14oriented_pointEKd"><code class="docutils literal notranslate"><span class="pre">poisson_sampling::poisson_disk_sampling()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16poisson_sampling16get_surface_aabbERK4meshKNSt6vectorIjEE"><code class="docutils literal notranslate"><span class="pre">poisson_sampling::get_surface_aabb()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N16poisson_sampling16get_surface_aabbERK4meshKj"><code class="docutils literal notranslate"><span class="pre">poisson_sampling::get_surface_aabb()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv423ball_pivoting_algorithm"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm23ball_pivoting_algorithmERKNSt6vectorI14oriented_pointEEKdKdKdKdKdKdKd"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::ball_pivoting_algorithm()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm3runEv"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm18find_seed_triangleEv"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::find_seed_triangle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm12get_face_lstEv"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::get_face_lst()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm12get_edge_lstEv"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::get_edge_lst()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm12get_node_lstEv"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::get_node_lst()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm20expand_triangulationEv"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::expand_triangulation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK14oriented_pointRK14oriented_pointRK14oriented_point"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::compute_circum_sphere_center()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm28compute_circum_sphere_centerERK4face"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::compute_circum_sphere_center()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm22circum_sphere_is_emptyERK4vec3RK14oriented_pointRK14oriented_pointRK14oriented_point"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::circum_sphere_is_empty()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm8get_edgeEKjKj"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::get_edge()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm8get_edgeERK14oriented_pointRK14oriented_point"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::get_edge()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm19find_candidate_nodeERK4edge"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::find_candidate_node()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm20node_is_inner_vertexEKj"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::node_is_inner_vertex()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm20node_is_inner_vertexERK14oriented_point"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::node_is_inner_vertex()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm18fill_surface_holesEv"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::fill_surface_holes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK23ball_pivoting_algorithm25get_next_node_of_the_holeEKjKj"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::get_next_node_of_the_hole()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm26points_coherently_orientedERK14oriented_pointRK14oriented_pointRK14oriented_point"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::points_coherently_oriented()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm23compute_oriented_normalERK14oriented_pointRK14oriented_pointRK14oriented_point"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::compute_oriented_normal()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm28node_is_compatible_with_edgeERK14oriented_pointRK14oriented_pointRK14oriented_pointRK14oriented_point"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::node_is_compatible_with_edge()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N23ball_pivoting_algorithm35compute_angle_between_circumspheresERK4vec3RK4vec3RK4vec3"><code class="docutils literal notranslate"><span class="pre">ball_pivoting_algorithm::compute_angle_between_circumspheres()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

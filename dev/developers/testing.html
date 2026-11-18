@@ -1,0 +1,1082 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Testing &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'developers/testing';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/testing.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Continuous integration" href="continuous_integration.html" />
+    <link rel="prev" title="Architecture" href="architecture.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_setup.html">Development setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="continuous_integration.html">Continuous integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance_internals.html">Performance internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_style.html">Coding style</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_process.html">Release process</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Testing</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="testing">
+<span id="dev-testing"></span><h1>Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h1>
+<p>The C++ tests live in <code class="docutils literal notranslate"><span class="pre">test/</span></code>, one subdirectory per module, and are registered with CTest.
+Labels place each test in one or more tiers; CI selects tiers by label. Python tests for the
+CI scripts live in <code class="docutils literal notranslate"><span class="pre">tests/</span></code>. This page explains how to run the tests, how a test is written and
+registered, and what each tier contains.</p>
+<section id="running-the-tests">
+<h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Link to this heading">#</a></h2>
+<p>From a configured and built build directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ctest<span class="w"> </span>-L<span class="w"> </span><span class="s2">"unit|integration"</span><span class="w"> </span>--output-on-failure<span class="w"> </span>-j
+</pre></div>
+</div>
+<p>Useful variants:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>Runs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-N</span></code></p></td>
+<td><p>lists the registered tests without running them</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">unit</span></code></p></td>
+<td><p>one tier, selected by label (a regular expression)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">e2e</span></code></p></td>
+<td><p>the end-to-end runs of <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">stability_</span></code></p></td>
+<td><p>tests whose name matches a regular expression</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">mesh_edge</span> <span class="pre">--output-on-failure</span> <span class="pre">-V</span></code></p></td>
+<td><p>verbose output of matching tests</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">--rerun-failed</span> <span class="pre">--output-on-failure</span></code></p></td>
+<td><p>only the tests that failed in the last run</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A bare <code class="docutils literal notranslate"><span class="pre">ctest</span></code> runs every registered test, including the long and benchmark tiers.</p>
+<p>The Python tests use pytest, with the packages pinned in <code class="docutils literal notranslate"><span class="pre">scripts/ci/requirements.txt</span></code>
+(the same versions as CI, which tests Python 3.10 and 3.12):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>scripts/ci/requirements.txt
+<span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests/
+</pre></div>
+</div>
+</section>
+<section id="tiers">
+<h2>Tiers<a class="headerlink" href="#tiers" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tier</p></th>
+<th class="head"><p>Label</p></th>
+<th class="head"><p>Content</p></th>
+<th class="head"><p>Runs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Unit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unit</span></code></p></td>
+<td><p>Tests of single classes and functions in <code class="docutils literal notranslate"><span class="pre">test/test_*</span></code>: mesh, math, I/O, triangulation, contact models, spatial grids, solver steps, thread placement. The <code class="docutils literal notranslate"><span class="pre">stability_*</span></code> and <code class="docutils literal notranslate"><span class="pre">scientific_*</span></code> tests are also <code class="docutils literal notranslate"><span class="pre">unit</span></code>, because they finish in seconds.</p></td>
+<td><p>every CI build (<a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Integration</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integration</span></code></p></td>
+<td><p>Tests across modules and end-to-end runs of the <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> executable: <code class="docutils literal notranslate"><span class="pre">cli_version_flag</span></code>, <code class="docutils literal notranslate"><span class="pre">test_contact_model_integration</span></code>, and the short tests in <code class="docutils literal notranslate"><span class="pre">test/test_e2e/</span></code>.</p></td>
+<td><p>every CI build</p></td>
+</tr>
+<tr class="row-even"><td><p>Benchmark</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">benchmark</span></code></p></td>
+<td><p>The micro-benchmarks in <code class="docutils literal notranslate"><span class="pre">test/test_benchmarks/</span></code> (<code class="docutils literal notranslate"><span class="pre">benchmark_*</span></code>). They report timings and never fail on speed; their numbers are meaningful only in a Release build (<a class="reference internal" href="performance_internals.html#dev-performance-internals"><span class="std std-ref">Performance internals</span></a>).</p></td>
+<td><p>the long-tier workflow, Release only</p></td>
+</tr>
+<tr class="row-odd"><td><p>Long</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">long</span></code></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">stability_*</span></code> and <code class="docutils literal notranslate"><span class="pre">scientific_*</span></code> tests and <code class="docutils literal notranslate"><span class="pre">e2e_growth_long</span></code>, a growth run from one cell to at least 100 cells (7000 iterations).</p></td>
+<td><p>release branches, tags, labelled pull requests, by hand (<a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Further labels group tests within the tiers: <code class="docutils literal notranslate"><span class="pre">e2e</span></code>, <code class="docutils literal notranslate"><span class="pre">stability</span></code>, <code class="docutils literal notranslate"><span class="pre">scientific</span></code>,
+<code class="docutils literal notranslate"><span class="pre">contact_models</span></code>.</p>
+<p>What CI runs, by tier:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ctest<span class="w"> </span>-L<span class="w"> </span><span class="s2">"unit|integration"</span><span class="w">   </span><span class="c1"># every CI run: Release, Debug, sanitizers, GCC 10</span>
+<span class="gp">$ </span>ctest<span class="w"> </span>-L<span class="w"> </span>long<span class="w">                 </span><span class="c1"># the long-tier workflow</span>
+<span class="gp">$ </span>ctest<span class="w"> </span>-L<span class="w"> </span>benchmark<span class="w">            </span><span class="c1"># the long-tier workflow, Release build only</span>
+</pre></div>
+</div>
+<p>In 2.1.0 the tiers hold 314 <code class="docutils literal notranslate"><span class="pre">unit</span></code>, 8 <code class="docutils literal notranslate"><span class="pre">integration</span></code>, 17 <code class="docutils literal notranslate"><span class="pre">benchmark</span></code> and 27 <code class="docutils literal notranslate"><span class="pre">long</span></code> tests, 340
+registered tests in all (the <code class="docutils literal notranslate"><span class="pre">stability_*</span></code> and <code class="docutils literal notranslate"><span class="pre">scientific_*</span></code> tests count in both <code class="docutils literal notranslate"><span class="pre">unit</span></code> and
+<code class="docutils literal notranslate"><span class="pre">long</span></code>). <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-N</span> <span class="pre">-L</span> <span class="pre">&lt;label&gt;</span></code> prints the current numbers.</p>
+<p>One check sits outside CTest: a growth simulation to 30,000 cells, run before every release
+(<a class="reference internal" href="release_process.html#dev-release"><span class="std std-ref">Release process</span></a>).</p>
+<p>Run <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">&quot;unit|integration&quot;</span></code> in a Release build before opening a pull request, and also in
+a sanitizer build when the change touches memory handling or parallel code (<a class="reference internal" href="development_setup.html#dev-setup"><span class="std std-ref">Development setup</span></a>).</p>
+<section id="end-to-end-tests">
+<h3>End-to-end tests<a class="headerlink" href="#end-to-end-tests" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">test/test_e2e/CMakeLists.txt</span></code> registers tests that run the <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> executable. The run
+tests are driven by <code class="docutils literal notranslate"><span class="pre">test/test_e2e/run_simulation.cmake</span></code> (a CMake script, run with <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-P</span></code>),
+which copies a shipped parameter file with a shorter <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> and
+<code class="docutils literal notranslate"><span class="pre">sampling_period</span></code>, runs it with <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code> in the build tree and a fixed <code class="docutils literal notranslate"><span class="pre">--threads</span></code>, and
+checks that:</p>
+<ol class="arabic simple">
+<li><p>the program exits with status 0;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cell_data/</span></code> and <code class="docutils literal notranslate"><span class="pre">face_data/</span></code> hold at least two VTK files with a valid header;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code> has the expected header, no <code class="docutils literal notranslate"><span class="pre">nan</span></code> or <code class="docutils literal notranslate"><span class="pre">inf</span></code>, and a last row at the
+final iteration;</p></li>
+<li><p>the last statistics row lists at least a minimum number of cells.</p></li>
+</ol>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Test</p></th>
+<th class="head"><p>Labels</p></th>
+<th class="head"><p>Run</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_growth_division</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integration;e2e</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> for <span class="math notranslate nohighlight">\(10^{-4}\)</span> s (1000 iterations, one division), 2 threads</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_vesicle_quick</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integration;e2e</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code> for <span class="math notranslate nohighlight">\(2 \times 10^{-6}\)</span> s (20 iterations), 2 threads; all 434 cells must remain (about 22 s in Release, several minutes under ASan)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_growth_long</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">long;e2e</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> for <span class="math notranslate nohighlight">\(7 \times 10^{-4}\)</span> s (7000 iterations), 4 threads, at least 100 cells at the end</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_missing_parameter_file</span></code>, <code class="docutils literal notranslate"><span class="pre">e2e_malformed_parameter_file</span></code>, <code class="docutils literal notranslate"><span class="pre">e2e_incomplete_parameter_file</span></code>, <code class="docutils literal notranslate"><span class="pre">e2e_invalid_threads_flag</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integration;e2e</span></code></p></td>
+<td><p>invalid input must give exit status 1 and an error message (<code class="docutils literal notranslate"><span class="pre">expect_failure.cmake</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The duration and minimum cell count of <code class="docutils literal notranslate"><span class="pre">e2e_growth_long</span></code> can be overridden at configure time
+with <code class="docutils literal notranslate"><span class="pre">-DE2E_LONG_DURATION=&lt;s&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">-DE2E_LONG_MIN_CELLS=&lt;n&gt;</span></code>. A new end-to-end run is added with
+<code class="docutils literal notranslate"><span class="pre">simucell3d_add_e2e_run()</span></code> in the same file.</p>
+</section>
+</section>
+<section id="how-a-test-is-written">
+<h2>How a test is written<a class="headerlink" href="#how-a-test-is-written" title="Link to this heading">#</a></h2>
+<p>The tests do not use a test framework. Each test executable is a C++ program whose <code class="docutils literal notranslate"><span class="pre">main()</span></code>
+selects one test function by name from its first argument; each test function returns 0 on
+success and a non-zero value on failure:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">is_manifold_test</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... build a small mesh ...</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">is_manifold</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="n">t1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">t2</span><span class="p">);</span><span class="w">  </span><span class="c1">// 0 = pass</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">argc</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">test_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">test_name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"is_manifold_test"</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">is_manifold_test</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// ... one line per test ...</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"TEST NAME :"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">test_name</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">" DOES NOT EXIST"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> of the test directory builds the executable, links the module libraries it
+needs, and registers one CTest test per function:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">add_executable</span><span class="p">(</span><span class="s">test_edge</span><span class="w"> </span><span class="s">test_edge.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test_edge</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">src</span><span class="w"> </span><span class="s">mesh</span><span class="p">)</span>
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="s">test_edge</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/math_modules"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/mesh"</span><span class="p">)</span>
+
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">mesh_edge_is_manifold_test</span><span class="w"> </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_edge</span><span class="w"> </span><span class="s">is_manifold_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Conventions:</p>
+<ul class="simple">
+<li><p>New test names follow <code class="docutils literal notranslate"><span class="pre">&lt;module&gt;_&lt;submodule&gt;_&lt;function&gt;</span></code>, for example
+<code class="docutils literal notranslate"><span class="pre">mesh_edge_is_manifold_test</span></code> or <code class="docutils literal notranslate"><span class="pre">solver_test_unstable_cell_removed</span></code>, so that
+<code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">&lt;module&gt;_</span></code> selects a module. A few older directories use other prefixes (table
+below).</p></li>
+<li><p>Check results with explicit comparisons and the return value, not with <code class="docutils literal notranslate"><span class="pre">assert</span></code>: assertions
+are compiled out in Release builds, where the check would silently pass.</p></li>
+<li><p>Print the values that are compared (<code class="docutils literal notranslate"><span class="pre">std::cout</span></code>), so that a failure in CI can be diagnosed
+from the log.</p></li>
+<li><p>Test input files are found through the <code class="docutils literal notranslate"><span class="pre">PROJECT_SOURCE_DIR</span></code> macro, which the test’s
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> defines with <code class="docutils literal notranslate"><span class="pre">add_definitions(-DPROJECT_SOURCE_DIR=&quot;${PROJECT_SOURCE_DIR}&quot;)</span></code>;
+never through the current directory.</p></li>
+<li><p>A test that cannot run in the current configuration returns 77 and sets
+<code class="docutils literal notranslate"><span class="pre">SKIP_RETURN_CODE</span> <span class="pre">77</span></code>, so that CTest reports it as skipped. Example:
+<code class="docutils literal notranslate"><span class="pre">solver_test_refinement_failure_end_to_end</span></code> skips in Debug builds, where an assertion in the
+refiner fires before the code path under test.</p></li>
+<li><p>Parallel code is tested with more than one thread: call <code class="docutils literal notranslate"><span class="pre">omp_set_num_threads()</span></code> or construct
+the solver with an explicit thread count.</p></li>
+<li><p>Tests that call private members use a <code class="docutils literal notranslate"><span class="pre">friend</span></code> tester class declared in the header (for
+example <code class="docutils literal notranslate"><span class="pre">local_mesh_refiner_tester</span></code>, <code class="docutils literal notranslate"><span class="pre">tester_contact_model_abstract</span></code>).</p></li>
+</ul>
+</section>
+<section id="adding-a-test">
+<h2>Adding a test<a class="headerlink" href="#adding-a-test" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Add the test function to the existing test file of the module, or create
+<code class="docutils literal notranslate"><span class="pre">test/test_&lt;module&gt;/test_&lt;name&gt;/</span></code> with a <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> file and a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, and add the
+directory with <code class="docutils literal notranslate"><span class="pre">add_subdirectory()</span></code> to the parent <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>.</p></li>
+<li><p>Add the dispatch line to <code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p></li>
+<li><p>Register it with <code class="docutils literal notranslate"><span class="pre">add_test(NAME</span> <span class="pre">&lt;module&gt;_&lt;submodule&gt;_&lt;function&gt;</span> <span class="pre">COMMAND</span> <span class="pre">&lt;exe&gt;</span> <span class="pre">&lt;function&gt;)</span></code>.</p></li>
+<li><p>For a new directory, end its <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> with the <code class="docutils literal notranslate"><span class="pre">include()</span></code> of
+<code class="docutils literal notranslate"><span class="pre">test/test_labels.cmake</span></code>; set <code class="docutils literal notranslate"><span class="pre">LABELS</span></code> explicitly only for tests that are not fast unit tests
+(see below).</p></li>
+<li><p>Build and run it alone: <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">&lt;name&gt;</span> <span class="pre">--output-on-failure</span> <span class="pre">-V</span></code>.</p></li>
+</ol>
+<p>For a bug fix, commit the test first, failing, and the fix in a separate commit (see
+<a class="reference internal" href="contributing.html#dev-contributing"><span class="std std-ref">Contributing</span></a>).</p>
+<section id="labels">
+<h3>Labels<a class="headerlink" href="#labels" title="Link to this heading">#</a></h3>
+<p>Labels are assigned by <code class="docutils literal notranslate"><span class="pre">test/test_labels.cmake</span></code>, which every test <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> includes
+after its <code class="docutils literal notranslate"><span class="pre">add_test</span></code> lines:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">include</span><span class="p">(</span><span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/test/test_labels.cmake</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It labels each test of the directory that does not set <code class="docutils literal notranslate"><span class="pre">LABELS</span></code> itself, from the test name:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Labels</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">benchmark_*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">benchmark</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stability_*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unit;long;stability</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scientific_*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unit;long;scientific</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>anything else</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unit</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A new test therefore needs no label of its own if it is a fast unit test. Set <code class="docutils literal notranslate"><span class="pre">LABELS</span></code>
+explicitly (and a <code class="docutils literal notranslate"><span class="pre">TIMEOUT</span></code>) for anything else, before the <code class="docutils literal notranslate"><span class="pre">include()</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set_tests_properties</span><span class="p">(</span><span class="s">my_slow_test</span><span class="w"> </span><span class="s">PROPERTIES</span><span class="w"> </span><span class="s">LABELS</span><span class="w"> </span><span class="s2">"long"</span><span class="w"> </span><span class="s">TIMEOUT</span><span class="w"> </span><span class="s">1800</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A new test directory must end with the <code class="docutils literal notranslate"><span class="pre">include()</span></code> line, otherwise its tests have no label and
+are not selected by <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">&quot;unit|integration&quot;</span></code>, so CI does not run them. List unlabelled
+tests with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>ctest<span class="w"> </span>-N<span class="w"> </span>-LE<span class="w"> </span><span class="s2">"unit|integration|benchmark|long"</span>
+</pre></div>
+</div>
+<p>The list should be empty.</p>
+</section>
+</section>
+<section id="test-suites-by-directory">
+<h2>Test suites by directory<a class="headerlink" href="#test-suites-by-directory" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Directory</p></th>
+<th class="head"><p>Prefix</p></th>
+<th class="head"><p>Tests</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_math_modules/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">math_</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vec3</span></code>, <code class="docutils literal notranslate"><span class="pre">mat33</span></code>, <code class="docutils literal notranslate"><span class="pre">quaternion</span></code>, eigen solver</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_mesh/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mesh_</span></code>, <code class="docutils literal notranslate"><span class="pre">cell_</span></code></p></td>
+<td><p>node, edge, face, cell, cell classes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_io/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">io_</span></code></p></td>
+<td><p>parameter reader, mesh reader and writer, statistics writer, initializer</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_triangulation_modules/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">triangulation_</span></code></p></td>
+<td><p>local mesh refiner, cell divider, initial triangulation, ball pivoting, Poisson sampling</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_contact_models/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">contact_</span></code>, <code class="docutils literal notranslate"><span class="pre">sap_</span></code></p></td>
+<td><p>contact models, contact detection strategies, contact forces; <code class="docutils literal notranslate"><span class="pre">test_contact_model_integration</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_uspg/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">uspg_</span></code>, <code class="docutils literal notranslate"><span class="pre">morton_</span></code></p></td>
+<td><p>spatial grids and Morton codes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_time_integration/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time_</span></code></p></td>
+<td><p>time integration schemes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_automatic_polarization/</span></code></p></td>
+<td><p></p></td>
+<td><p>automatic polarizer; the executable is built but registers no CTest test</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_solver/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">solver_</span></code></p></td>
+<td><p>solver construction, scheduling, cell removal, refinement failures, thread placement</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_cpu_topology/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">test_cpu_topology_</span></code></p></td>
+<td><p>CPU topology detection and placement order</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_performance_monitor/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">performance_</span></code></p></td>
+<td><p>performance monitor</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_utils/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">test_utils_</span></code></p></td>
+<td><p>utilities</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_scientific_benchmarks/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">scientific_</span></code></p></td>
+<td><p>physical checks: energy conservation and dissipation, pressure response and the Laplace law, volume preservation, mesh quality, contact reciprocity, force balance, momentum conservation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_stability/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stability_</span></code></p></td>
+<td><p>determinism, time-step convergence, extreme parameters, bending-force bounds on degenerate triangles</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_benchmarks/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">benchmark_</span></code></p></td>
+<td><p>micro-benchmarks</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_e2e/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">e2e_</span></code></p></td>
+<td><p>end-to-end runs of <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src/app/CMakeLists.txt</span></code> registers <code class="docutils literal notranslate"><span class="pre">cli_version_flag</span></code> (<code class="docutils literal notranslate"><span class="pre">simucell3d</span> <span class="pre">--version</span></code> must print
+<code class="docutils literal notranslate"><span class="pre">SimuCell3D</span> <span class="pre">&lt;version&gt;</span> <span class="pre">(&lt;commit&gt;)</span></code> and exit with status 0); <code class="docutils literal notranslate"><span class="pre">test/test_e2e/</span></code> holds the other
+tests that run the executable.</p>
+<p>The physics-level suites:</p>
+<ul class="simple">
+<li><p><strong>Determinism</strong> (<code class="docutils literal notranslate"><span class="pre">stability_determinism_*</span></code>): two single-threaded runs of 200 iterations of
+<code class="docutils literal notranslate"><span class="pre">test_scientific_benchmarks/params_single_sphere.xml</span></code> must give bitwise identical positions,
+volumes and energies (<code class="docutils literal notranslate"><span class="pre">std::memcmp</span></code>). The sphere does not divide; cell division samples
+points with a clock-seeded generator, so single-threaded runs with divisions are not
+repeatable and are not covered. Runs with more than one thread are not bitwise
+reproducible, because the order of floating-point additions depends on the schedule.</p></li>
+<li><p><strong>Time-step convergence</strong> (<code class="docutils literal notranslate"><span class="pre">stability_timestep_*</span></code>): the same sphere with <span class="math notranslate nohighlight">\(\Delta t\)</span> =
+<span class="math notranslate nohighlight">\(10^{-7}\)</span>, <span class="math notranslate nohighlight">\(\Delta t/2\)</span>, <span class="math notranslate nohighlight">\(\Delta t/4\)</span> s for <span class="math notranslate nohighlight">\(5 \times 10^{-6}\)</span> s of simulated time; the
+observed order <span class="math notranslate nohighlight">\(p = \log_2(e_{\Delta t} / e_{\Delta t/2})\)</span> must lie in <span class="math notranslate nohighlight">\([0.3, 1.7]\)</span>
+(semi-implicit Euler is first order). Volume errors below <span class="math notranslate nohighlight">\(10^{-17}\)</span> are treated as
+floating-point noise.</p></li>
+<li><p><strong>Extreme parameters</strong> (<code class="docutils literal notranslate"><span class="pre">stability_extreme_*</span></code>): zero bulk modulus, high pressure, edges at
+half the minimum length, contact cutoff equal to the minimum edge length; the run must
+complete without non-finite values.</p></li>
+<li><p><strong>Degenerate hinge</strong> (<code class="docutils literal notranslate"><span class="pre">stability_degenerate_hinge_*</span></code>, <code class="docutils literal notranslate"><span class="pre">stability_healthy_mesh_untouched_by_guard</span></code>):
+the bending force on a near-degenerate triangle must stay bounded, and the guard must not
+change the force on a healthy mesh. These tests build their parameters in code.</p></li>
+</ul>
+<p>These tests call <code class="docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code> a fixed number of times rather than
+<code class="docutils literal notranslate"><span class="pre">solver::run()</span></code>, so their cost is fixed.</p>
+</section>
+<section id="python-tests">
+<h2>Python tests<a class="headerlink" href="#python-tests" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">tests/ci/</span></code> holds pytest tests of the scripts in <code class="docutils literal notranslate"><span class="pre">scripts/ci/</span></code>: the version check, the CHANGELOG
+section extraction, and the benchmark result aggregation and comparison tools. Their
+dependencies are pinned in <code class="docutils literal notranslate"><span class="pre">scripts/ci/requirements.txt</span></code>; they run in CI (<a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a>).</p>
+</section>
+<section id="long-running-and-memory-checks">
+<h2>Long-running and memory checks<a class="headerlink" href="#long-running-and-memory-checks" title="Link to this heading">#</a></h2>
+<p>Outside CTest, <code class="docutils literal notranslate"><span class="pre">scripts/benchmarking/stability/</span></code> has three tools for long runs:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>scripts/benchmarking/stability/run_24hr_test.sh<span class="w"> </span>parameters/core/parameters_vesicle.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--duration-hours<span class="w"> </span><span class="m">24</span><span class="w"> </span>--build-dir<span class="w"> </span>build
+<span class="gp">$ </span>scripts/benchmarking/stability/oom_monitor.sh<span class="w"> </span>&lt;pid&gt;<span class="w"> </span>--threshold-mb<span class="w"> </span><span class="m">2048</span><span class="w"> </span>--interval-sec<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>memory.csv
+<span class="gp">$ </span>scripts/benchmarking/stability/run_valgrind_check.sh<span class="w"> </span>--build-dir<span class="w"> </span>build<span class="w"> </span>--test-pattern<span class="w"> </span>stability
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">run_24hr_test.sh</span></code> runs a simulation for the given number of hours while recording memory use
+(<code class="docutils literal notranslate"><span class="pre">memory.csv</span></code>) and the log; <code class="docutils literal notranslate"><span class="pre">oom_monitor.sh</span></code> records the resident memory of a running process and
+warns when it exceeds the threshold or doubles; <code class="docutils literal notranslate"><span class="pre">run_valgrind_check.sh</span></code> runs the matching CTest
+tests under Valgrind memcheck with the suppressions in <code class="docutils literal notranslate"><span class="pre">valgrind_suppressions.supp</span></code>.</p>
+<p>The release growth run is described in <a class="reference internal" href="release_process.html#dev-release"><span class="std std-ref">Release process</span></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a> for which tiers run where.</p></li>
+<li><p><a class="reference internal" href="debugging.html#dev-debugging"><span class="std std-ref">Debugging</span></a> for sanitizer builds.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="architecture.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Architecture</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="continuous_integration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Continuous integration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-tests">Running the tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tiers">Tiers</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-tests">End-to-end tests</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-a-test-is-written">How a test is written</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-test">Adding a test</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labels">Labels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-suites-by-directory">Test suites by directory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-tests">Python tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#long-running-and-memory-checks">Long-running and memory checks</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

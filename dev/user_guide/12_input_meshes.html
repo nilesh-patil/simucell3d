@@ -1,0 +1,1061 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Input meshes &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/12_input_meshes';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/12_input_meshes.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Running simulations" href="13_running_simulations.html" />
+    <link rel="prev" title="Parameter file reference" href="11_parameter_file.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_model_overview.html">Model overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cell_mechanics.html">Cell mechanics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_compile_time_configuration.html">Compile-time configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_parameter_file.html">Parameter file reference</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Input meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13_running_simulations.html">Running simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14_output_files.html">Output files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15_visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16_python_interface.html">Python interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17_parameter_screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18_parallel_performance.html">Parallel performance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Input meshes</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="input-meshes">
+<span id="ug-input-meshes"></span><h1>Input meshes<a class="headerlink" href="#input-meshes" title="Link to this heading">#</a></h1>
+<p>The <a class="reference internal" href="../glossary.html#term-input-mesh"><span class="xref std std-term">input mesh</span></a> holds the initial geometry of a simulation: the surface of every cell
+and the cell type of each one. Its path is given by <code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code> in the
+<a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter file</span></a> (<a class="reference internal" href="11_parameter_file.html"><span class="doc">Parameter file reference</span></a>). This chapter describes the file
+format, the meshes shipped in <code class="docutils literal notranslate"><span class="pre">data/input_meshes/</span></code>, and how to build a new mesh.</p>
+<section id="file-format">
+<h2>File format<a class="headerlink" href="#file-format" title="Link to this heading">#</a></h2>
+<p>SimuCell3D reads the legacy VTK format in ASCII, as an unstructured grid in which every
+biological cell is one polyhedron (VTK cell type 42). A minimal file with two cubic cells,
+taken from <code class="docutils literal notranslate"><span class="pre">data/input_meshes/2_cubes.vtk</span></code> (metadata lines removed):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># vtk DataFile Version 4.2
+vtk output
+ASCII
+DATASET UNSTRUCTURED_GRID
+POINTS 16 float
+5e-07 0 0 7.5e-06 0 0 7.5e-06 0 7e-06
+5e-07 0 7e-06 5e-07 7e-06 0 7.5e-06 7e-06 0
+5e-07 7e-06 7e-06 7.5e-06 7e-06 7e-06 8e-06 0 0
+1.5e-05 0 0 1.5e-05 0 7e-06 8e-06 0 7e-06
+8e-06 7e-06 0 1.5e-05 7e-06 0 8e-06 7e-06 7e-06
+1.5e-05 7e-06 7e-06
+
+CELLS 2 100
+49 12 3 0 1 3 3 2 3 1 3 0 4 1 3 5 1 4 3 0 3 4 3 6 4 3 3 1 5 2 3 7 2 5 3 5 4 7 3 6 7 4 3 3 2 6 3 7 6 2
+49 12 3 8 9 11 3 10 11 9 3 8 12 9 3 13 9 12 3 8 11 12 3 14 12 11 3 9 13 10 3 15 10 13 3 13 12 15 3 14 15 12 3 11 10 14 3 15 14 10
+CELL_TYPES 2
+42
+42
+
+CELL_DATA 2
+FIELD FieldData 1
+cell_type_id 1 2 int
+0 0
+</pre></div>
+</div>
+<p>The sections are:</p>
+<dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">vtk</span> <span class="pre">DataFile</span> <span class="pre">Version</span> <span class="pre">4.2</span></code></dt><dd><p>The version line is required. A version other than 4.2 is accepted with a warning.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">POINTS</span> <span class="pre">&lt;n&gt;</span> <span class="pre">float</span></code> (or <code class="docutils literal notranslate"><span class="pre">double</span></code>)</dt><dd><p>The node coordinates, three numbers per node, in metres. Line breaks are free. The shipped
+meshes have cells about 10 to 20 micrometres across, so coordinates are of the order of
+<span class="math notranslate nohighlight">\(10^{-5}\)</span>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CELLS</span> <span class="pre">&lt;number</span> <span class="pre">of</span> <span class="pre">cells&gt;</span> <span class="pre">&lt;size&gt;</span></code></dt><dd><p>One line per cell. The first integer is the number of integers that follow on the line,
+the second is the number of faces of the cell; then each face is written as its number of
+nodes followed by the node indices (0-based, into <code class="docutils literal notranslate"><span class="pre">POINTS</span></code>). In the example, each cube has
+12 triangles: <span class="math notranslate nohighlight">\(1 + 12 \times 4 = 49\)</span> integers. <strong>Each cell must be on a single line</strong>; the
+reader splits this section by line.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CELL_TYPES</span> <span class="pre">&lt;number</span> <span class="pre">of</span> <span class="pre">cells&gt;</span></code></dt><dd><p>One <code class="docutils literal notranslate"><span class="pre">42</span></code> (polyhedron) per cell. Any other value stops the run.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code></dt><dd><p>An integer array with one value per cell, in a <code class="docutils literal notranslate"><span class="pre">CELL_DATA</span></code> field. It selects the
+<code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block of the parameter file by position: 0 is the first block in the file, 1
+the second, and so on (see
+<a class="reference internal" href="11_parameter_file.html#cell-types-and-the-input-mesh"><span class="std std-ref">Cell types and the input mesh</span></a>). It is not the
+<a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell class</span></a>; the class comes from that block’s <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>. The array is
+required. It may be accompanied by other arrays in the same <code class="docutils literal notranslate"><span class="pre">FIELD</span></code>.</p>
+</dd>
+</dl>
+<section id="requirements-on-the-cell-surfaces">
+<h3>Requirements on the cell surfaces<a class="headerlink" href="#requirements-on-the-cell-surfaces" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Each cell must be a closed surface without boundary in which every edge is shared by
+exactly two faces (a manifold surface). A cell that fails this check stops the run with
+“The surface of cell N is not properly triangulated.”</p></li>
+<li><p>Faces may have any number of nodes if <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> is 1: the surfaces
+are then re-meshed at the start with edge lengths between <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> and three times
+that value. If <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> is 0, every face must be a triangle, and the
+triangles should already have edge lengths close to that range.</p></li>
+<li><p>The orientation of the faces does not matter: when a cell is created, its faces are
+re-oriented so that their normals point outward.</p></li>
+<li><p>Cells may share points in the file. Each cell receives its own copy of the nodes it uses,
+so cells that touch in the file are separate surfaces in the simulation.</p></li>
+<li><p>Cells should not overlap. SimuCell3D does not check this.</p></li>
+</ul>
+</section>
+</section>
+<section id="shipped-meshes">
+<h2>Shipped meshes<a class="headerlink" href="#shipped-meshes" title="Link to this heading">#</a></h2>
+<p>All meshes are in <code class="docutils literal notranslate"><span class="pre">data/input_meshes/</span></code>. Counts are from the files; “polygons” means that the
+faces are quadrilaterals and pentagons, so the mesh needs <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> 1.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Cells</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> values (count)</p></th>
+<th class="head"><p>Faces</p></th>
+<th class="head"><p>Used by</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code></p></td>
+<td><p>434</p></td>
+<td><p>0 (432), 1 (1), 2 (1)</p></td>
+<td><p>triangles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_vesicle*.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">benchmarks/fig3e_*.xml</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fig_1_vesicle.vtk</span></code></p></td>
+<td><p>50</p></td>
+<td><p>0 (48), 1 (1), 2 (1)</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fig_1_sheet_geometry.vtk</span></code></p></td>
+<td><p>118</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_sheet.xml</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fig_1_tube.vtk</span></code></p></td>
+<td><p>192</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_tube.xml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">big_sphere.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">core/parameters_default_*.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">parameters_paper_exact*.xml</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">paper_sphere.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sphere.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cube.vtk</span></code>, <code class="docutils literal notranslate"><span class="pre">big_cube.vtk</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">2_cubes.vtk</span></code>, <code class="docutils literal notranslate"><span class="pre">2_big_cubes.vtk</span></code></p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">4_cubes.vtk</span></code></p></td>
+<td><p>4</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_triplet.vtk</span></code></p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">young_laplace_test_geom.vtk</span></code></p></td>
+<td><p>2</p></td>
+<td><p>0 (1), 1 (1)</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lumen_initial_mesh.vtk</span></code></p></td>
+<td><p>13</p></td>
+<td><p>0 (12), 2 (1)</p></td>
+<td><p>polygons</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lumen_initial_mesh_triangulated.vtk</span></code></p></td>
+<td><p>13</p></td>
+<td><p>0 (12), 2 (1)</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">embryo_1.vtk</span></code>, <code class="docutils literal notranslate"><span class="pre">embryo_5.vtk</span></code></p></td>
+<td><p>16</p></td>
+<td><p>0 to 15, one cell each</p></td>
+<td><p>triangles</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">embryo_*.vtk</span></code> meshes give every cell its own <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code>, so a parameter file for them
+needs 16 <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> blocks. No shipped parameter file uses them.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code> and <code class="docutils literal notranslate"><span class="pre">fig_1_vesicle.vtk</span></code>, <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> 1 and 2 select the second and
+third <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> blocks, which in the shipped files are the ECM cell and the lumen cell.</p>
+</section>
+<section id="building-a-mesh">
+<h2>Building a mesh<a class="headerlink" href="#building-a-mesh" title="Link to this heading">#</a></h2>
+<p>A new mesh is usually assembled from existing cells or drawn in a 3D modelling program, then
+converted to the format above.</p>
+<section id="paraview">
+<h3>ParaView<a class="headerlink" href="#paraview" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://www.paraview.org/download/">ParaView</a> opens the legacy VTK files directly and can
+assemble a tissue from cells of existing meshes:</p>
+<ol class="arabic">
+<li><p>Open a mesh (for example a shipped one, or the <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code> output of a
+previous run; see <a class="reference internal" href="#reusing-simulation-output">Reusing simulation output</a>).</p></li>
+<li><p>Select a cell with the <em>Select Cells On</em> tool and click on it.</p>
+<figure class="align-default" id="id1">
+<img alt="ParaView window with one cell of a tissue selected and highlighted." src="../_images/cell_selection.png" />
+<figcaption>
+<p><span class="caption-text">Selecting one cell in ParaView.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</li>
+<li><p>Extract it with the <em>Extract Selection</em> filter.</p>
+<figure class="align-default" id="id2">
+<img alt="ParaView with the Extract Selection filter applied to the selected cell." src="../_images/extract_from_selection.png" />
+<figcaption>
+<p><span class="caption-text">The selected cell extracted into its own dataset.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</li>
+<li><p>Move, rotate or scale it with the <em>Transform</em> filter.</p>
+<figure class="align-default" id="id3">
+<img alt="ParaView Transform filter panel with translation, rotation and scale fields." src="../_images/transform_filter.png" />
+<figcaption>
+<p><span class="caption-text">Placing the extracted cell with the Transform filter.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</li>
+<li><p>Combine several datasets into one with <em>Append Datasets</em>, then save the result with
+<em>File &gt; Save Data</em> as a legacy VTK file in ASCII.</p>
+<figure class="align-default" id="id4">
+<img alt="ParaView Append Datasets filter combining several cell datasets." src="../_images/append_filter.png" />
+<figcaption>
+<p><span class="caption-text">Combining cells into one mesh with Append Datasets.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</li>
+</ol>
+<p>Check that the saved file still contains the <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> array and that each cell is one
+polyhedron (see <a class="reference internal" href="#checking-a-mesh">Checking a mesh</a>).</p>
+</section>
+<section id="meshlab-and-blender">
+<h3>MeshLab and Blender<a class="headerlink" href="#meshlab-and-blender" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://www.meshlab.net/">MeshLab</a> has filters to smooth, simplify and re-mesh surfaces,
+which helps to prepare cell shapes that come from imaging data.</p>
+<figure class="align-default" id="id5">
+<img alt="MeshLab filter menu with smoothing, cleaning and remeshing filters." src="../_images/meshlab_filters.png" />
+<figcaption>
+<p><span class="caption-text">MeshLab filters for cleaning and re-meshing surfaces.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference external" href="https://www.blender.org/download/">Blender</a> is suited to drawing cells from scratch:
+modelling, sculpting and positioning closed surfaces.</p>
+<figure class="align-default" id="id6">
+<img alt="Blender viewport with several closed cell surfaces being modelled." src="../_images/blender.png" />
+<figcaption>
+<p><span class="caption-text">Modelling cell surfaces in Blender.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Both programs export STL, PLY or OBJ files. These formats store all triangles of a scene as
+one list, without grouping them by cell, so they have to be converted.</p>
+</section>
+<section id="converting-stl-ply-and-obj-files">
+<h3>Converting STL, PLY and OBJ files<a class="headerlink" href="#converting-stl-ply-and-obj-files" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">scripts/mesh_conversion/convert_to_cell_mesh.py</span></code> groups the triangles of a mesh into cells
+and writes a legacy VTK file with one polyhedron per cell. It reads <code class="docutils literal notranslate"><span class="pre">.stl</span></code>, <code class="docutils literal notranslate"><span class="pre">.ply</span></code>, <code class="docutils literal notranslate"><span class="pre">.obj</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.vtp</span></code>, <code class="docutils literal notranslate"><span class="pre">.vtu</span></code> and legacy <code class="docutils literal notranslate"><span class="pre">.vtk</span></code> files and needs the Python packages <code class="docutils literal notranslate"><span class="pre">vtk</span></code> and <code class="docutils literal notranslate"><span class="pre">numpy</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>vtk<span class="w"> </span>numpy
+<span class="gp">$ </span>python3<span class="w"> </span>scripts/mesh_conversion/convert_to_cell_mesh.py<span class="w"> </span>tissue.stl<span class="w"> </span>tissue.vtk
+</pre></div>
+</div>
+<p>The script assigns faces to cells by connectivity: every connected set of triangles becomes
+one cell. Cells that share a node or an edge in the input are therefore merged into one
+cell; keep a gap between cell surfaces before converting.</p>
+<p>The converted file has no <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> array, which SimuCell3D requires. Append one; for
+example, to give every cell <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> 0:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nv">n</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-m1<span class="w"> </span><span class="s1">'^CELLS'</span><span class="w"> </span>tissue.vtk<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="s1">' '</span><span class="w"> </span>-f2<span class="k">)</span>
+<span class="gp">$ </span><span class="o">{</span><span class="w"> </span><span class="nb">printf</span><span class="w"> </span><span class="s1">'\nCELL_DATA %s\nFIELD FieldData 1\ncell_type_id 1 %s int\n'</span><span class="w"> </span><span class="s2">"</span><span class="nv">$n</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$n</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span>yes<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$n</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>tissue.vtk
+</pre></div>
+</div>
+<p>For several cell types, write the values in the order of the cells in the <code class="docutils literal notranslate"><span class="pre">CELLS</span></code> section.</p>
+</section>
+<section id="reusing-simulation-output">
+<h3>Reusing simulation output<a class="headerlink" href="#reusing-simulation-output" title="Link to this heading">#</a></h3>
+<p>The files <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code> written by a run (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>)
+have the input format: one polyhedron per cell on one line, triangulated faces, and a
+<code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> array. They can be used as the input mesh of a new run, for example to start
+from a relaxed tissue. Two points need care:</p>
+<ul class="simple">
+<li><p>The output <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> is the <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> of each cell’s type, while the input
+<code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> is a position in the parameter file. The two agree only if the <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code>
+blocks of the new parameter file are in the order of their <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> (0, 1, 2, …),
+as in all shipped files.</p></li>
+<li><p>The output does not store growth rates or target volumes in a form that the reader uses.
+Each cell starts with its current volume as target volume and draws a new growth rate and
+division volume from the distributions of its cell type.</p></li>
+</ul>
+</section>
+</section>
+<section id="checking-a-mesh">
+<h2>Checking a mesh<a class="headerlink" href="#checking-a-mesh" title="Link to this heading">#</a></h2>
+<p>Open the file in ParaView, choose the cell-selection tool and click on a cell. If the file is
+correct, the whole cell is highlighted:</p>
+<figure class="align-default" id="id7">
+<img alt="ParaView showing one complete cell highlighted after a click." src="../_images/correct_cell_mesh.png" />
+<figcaption>
+<p><span class="caption-text">Correct mesh: the selection picks a whole cell.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>If only one triangle is highlighted, each face is a separate VTK cell and the file has to be
+converted:</p>
+<figure class="align-default" id="id8">
+<img alt="ParaView showing a single triangle highlighted after a click." src="../_images/incorrect_cell_mesh.png" />
+<figcaption>
+<p><span class="caption-text">Incorrect mesh: the selection picks a single triangle.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Colour the mesh by <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> to check the cell types. The quickest test of a new mesh is
+a short run: set <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> to a few time steps and check that the run starts and
+writes <code class="docutils literal notranslate"><span class="pre">cell_data/result_1.vtk</span></code>.</p>
+</section>
+<section id="error-messages">
+<h2>Error messages<a class="headerlink" href="#error-messages" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Message</p></th>
+<th class="head"><p>Cause</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">input</span> <span class="pre">mesh</span> <span class="pre">file</span> <span class="pre">&lt;path&gt;</span> <span class="pre">not</span> <span class="pre">found</span></code></p></td>
+<td><p>Neither the path as given nor the path relative to the source directory exists (see <a class="reference internal" href="11_parameter_file.html#paths"><span class="std std-ref">Paths</span></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">header</span> <span class="pre">with</span> <span class="pre">.vtk</span> <span class="pre">file</span> <span class="pre">version</span> <span class="pre">not</span> <span class="pre">found</span></code></p></td>
+<td><p>Not a legacy VTK file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">input</span> <span class="pre">mesh</span> <span class="pre">file,</span> <span class="pre">nodes</span> <span class="pre">have</span> <span class="pre">incorrect</span> <span class="pre">format:</span> <span class="pre">&lt;type&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">POINTS</span></code> type other than <code class="docutils literal notranslate"><span class="pre">float</span></code> or <code class="docutils literal notranslate"><span class="pre">double</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">cell</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">polyhedron</span> <span class="pre">(type</span> <span class="pre">42)</span> <span class="pre">but</span> <span class="pre">has</span> <span class="pre">type:</span> <span class="pre">&lt;n&gt;</span></code></p></td>
+<td><p>A <code class="docutils literal notranslate"><span class="pre">CELL_TYPES</span></code> entry is not 42; each face may have been written as a separate cell.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ERROR</span> <span class="pre">mesh_reader:</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">locate</span> <span class="pre">the</span> <span class="pre">cell_type_id</span> <span class="pre">array</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">input</span> <span class="pre">VTK</span> <span class="pre">file</span></code></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> array is missing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">cell</span> <span class="pre">type</span> <span class="pre">id</span> <span class="pre">of</span> <span class="pre">cell</span> <span class="pre">N</span> <span class="pre">(X)</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">valid</span></code></p></td>
+<td><p>A <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> value is not smaller than the number of <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> blocks.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">If</span> <span class="pre">you</span> <span class="pre">disable</span> <span class="pre">the</span> <span class="pre">initial</span> <span class="pre">triangulation,</span> <span class="pre">the</span> <span class="pre">input</span> <span class="pre">cell</span> <span class="pre">meshes</span> <span class="pre">must</span> <span class="pre">already</span> <span class="pre">be</span> <span class="pre">triangulated</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> is 0 and a face is not a triangle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">cell</span> <span class="pre">N</span> <span class="pre">could</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">triangulated</span> <span class="pre">after</span> <span class="pre">10</span> <span class="pre">attempts</span></code></p></td>
+<td><p>Initial triangulation or cell creation failed ten times; the preceding lines give the reason for each attempt.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>: initial triangulation and the mesh refiner.</p></li>
+<li><p><a class="reference internal" href="08_cell_classes.html"><span class="doc">Cell classes</span></a>: the cell classes selected through the cell types.</p></li>
+<li><p><a class="reference internal" href="15_visualization.html"><span class="doc">Visualization</span></a>: viewing meshes in ParaView.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="11_parameter_file.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Parameter file reference</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="13_running_simulations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Running simulations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-format">File format</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements-on-the-cell-surfaces">Requirements on the cell surfaces</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shipped-meshes">Shipped meshes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-mesh">Building a mesh</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#paraview">ParaView</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meshlab-and-blender">MeshLab and Blender</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#converting-stl-ply-and-obj-files">Converting STL, PLY and OBJ files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reusing-simulation-output">Reusing simulation output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-a-mesh">Checking a mesh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-messages">Error messages</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

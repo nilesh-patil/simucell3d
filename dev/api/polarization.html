@@ -1,0 +1,913 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Polarization &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/polarization';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/api/polarization.html" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spatial partitioning" href="spatial_partitioning.html" />
+    <link rel="prev" title="Triangulation and division" href="triangulation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Installing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developer guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Release history
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    Frequently asked questions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing SimuCell3D
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About SimuCell3D
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="solver.html">Solver and configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh.html">Cell meshes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cell_classes.html">Cell classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact_models.html">Contact models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_integration.html">Time integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="triangulation.html">Triangulation and division</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Polarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spatial_partitioning.html">Spatial partitioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">Mathematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python module</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Polarization</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="polarization">
+<span id="api-polarization"></span><h1>Polarization<a class="headerlink" href="#polarization" title="Link to this heading">#</a></h1>
+<p>With <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">2</span></code>, the solver uses <a class="reference internal" href="#_CPPv419automatic_polarizer" title="automatic_polarizer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">automatic_polarizer</span></code></a> to assign
+face types from a discretisation of the simulation space, and
+<a class="reference internal" href="#_CPPv429automatic_polarization_writer" title="automatic_polarization_writer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">automatic_polarization_writer</span></code></a> writes the resulting regions to <code class="docutils literal notranslate"><span class="pre">region_data/</span></code>.
+With <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code> (default), polarization is based on cell contacts and is
+implemented in the cell classes, mainly <a class="reference internal" href="cell_classes.html#_CPPv415epithelial_cell" title="epithelial_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">epithelial_cell</span></code></a>. The narrative description
+is in <a class="reference internal" href="../user_guide/07_polarization.html"><span class="doc">Polarization</span></a>.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv419automatic_polarizer">
+<span id="_CPPv319automatic_polarizer"></span><span id="_CPPv219automatic_polarizer"></span><span id="automatic_polarizer"></span><span class="target" id="classautomatic__polarizer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">automatic_polarizer</span></span></span><a class="headerlink" href="#_CPPv419automatic_polarizer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Assigns face types to epithelial cells from a voxel discretization of the space. </p>
+<p>Used by the solver when <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code> is 2. At each call of <a class="reference internal" href="#classautomatic__polarizer_1a108b05eabc194bf5d96094e42433f403"><span class="std std-ref">polarize_faces()</span></a>:</p>
+<p><ol class="loweralpha simple">
+<li><p>A <a class="reference internal" href="spatial_partitioning.html#classuspg__3d"><span class="std std-ref">uspg_3d</span></a> grid of voxel edge <code class="docutils literal notranslate"><span class="pre">max_edge_length</span></code> covers the nodes plus two voxels of margin.</p></li>
+<li><p>Voxels that contain a node are labelled boundary.</p></li>
+<li><p>From the voxel of each cell centroid, the cytoplasm label is flood-filled (6-connected) up to the boundary voxels.</p></li>
+<li><p>From the corner voxel (0, 0, 0), the exterior label is flood-filled the same way.</p></li>
+<li><p>The remaining unlabelled voxels are labelled lumen.</p></li>
+<li><p>For each face of each epithelial cell (cell class 0), a ray is cast from its first node along the face normal; the first non-boundary voxel gives the region in contact. Faces facing the exterior get face type 0; faces facing a lumen or another cell get face type 1 (indices into the face types of the cell type).</p></li>
+</ol>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The cytoplasm fill starts at the centroid, so it fails for a cell whose centroid lies outside its volume (strongly concave cells). </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer19automatic_polarizerEKd">
+<span id="_CPPv3N19automatic_polarizer19automatic_polarizerEKd"></span><span id="_CPPv2N19automatic_polarizer19automatic_polarizerEKd"></span><span id="automatic_polarizer::automatic_polarizer__doubleC"></span><span class="target" id="classautomatic__polarizer_1ad97864d673e8c3dc73366576eb02cee8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">automatic_polarizer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_edge_length</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N19automatic_polarizer19automatic_polarizerEKd" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct a polarizer with a given voxel edge. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_edge_length</strong> – Voxel edge length, m. The solver passes the maximum edge length (3 x <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK19automatic_polarizer8get_gridEv">
+<span id="_CPPv3NK19automatic_polarizer8get_gridEv"></span><span id="_CPPv2NK19automatic_polarizer8get_gridEv"></span><span id="automatic_polarizer::get_gridC"></span><span class="target" id="classautomatic__polarizer_1a1fa1599ea138517e3452ccc6cc334d18"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spatial_partitioning.html#_CPPv4I0E7uspg_3d" title="uspg_3d"><span class="n"><span class="pre">uspg_3d</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_grid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK19automatic_polarizer8get_gridEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the labelled voxel grid of the last call to <a class="reference internal" href="#classautomatic__polarizer_1a108b05eabc194bf5d96094e42433f403"><span class="std std-ref">polarize_faces()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer14polarize_facesERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N19automatic_polarizer14polarize_facesERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N19automatic_polarizer14polarize_facesERKNSt6vectorI8cell_ptrEE"></span><span id="automatic_polarizer::polarize_faces__std::vector:cell_ptr:CR"></span><span class="target" id="classautomatic__polarizer_1a108b05eabc194bf5d96094e42433f403"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">polarize_faces</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N19automatic_polarizer14polarize_facesERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Rebuild and label the voxel grid, then set the face types of all epithelial cells. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv432automatic_polarization_exception" title="automatic_polarization_exception"><span class="n">automatic_polarization_exception</span></a></span></span> – If the ray cast from a face finds no non-boundary voxel. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer22update_grid_dimensionsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N19automatic_polarizer22update_grid_dimensionsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N19automatic_polarizer22update_grid_dimensionsERKNSt6vectorI8cell_ptrEE"></span><span id="automatic_polarizer::update_grid_dimensions__std::vector:cell_ptr:CR"></span><span class="target" id="classautomatic__polarizer_1a0e204f3d8e978719e36f8f361de65a3f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update_grid_dimensions</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N19automatic_polarizer22update_grid_dimensionsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Resize the grid to the bounding box of all nodes plus two voxels on each side. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cell_lst</strong> – All cells of the simulation. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer20mark_boundary_voxelsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N19automatic_polarizer20mark_boundary_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N19automatic_polarizer20mark_boundary_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="automatic_polarizer::mark_boundary_voxels__std::vector:cell_ptr:CR"></span><span class="target" id="classautomatic__polarizer_1af89d8233e287769c404b3e8e29a49a8a"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mark_boundary_voxels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N19automatic_polarizer20mark_boundary_voxelsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Label as boundary every voxel that contains a node. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer21mark_cytoplasm_voxelsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N19automatic_polarizer21mark_cytoplasm_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N19automatic_polarizer21mark_cytoplasm_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="automatic_polarizer::mark_cytoplasm_voxels__std::vector:cell_ptr:CR"></span><span class="target" id="classautomatic__polarizer_1aa9f4a0de8c178c4b716ea350f2905c65"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mark_cytoplasm_voxels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N19automatic_polarizer21mark_cytoplasm_voxelsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Label the cytoplasm of each cell by flood fill from the voxel of its centroid. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer26mark_exterior_space_voxelsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N19automatic_polarizer26mark_exterior_space_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N19automatic_polarizer26mark_exterior_space_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="automatic_polarizer::mark_exterior_space_voxels__std::vector:cell_ptr:CR"></span><span class="target" id="classautomatic__polarizer_1a1a2134c5daf46a7e3007c19e9106fb0e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mark_exterior_space_voxels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N19automatic_polarizer26mark_exterior_space_voxelsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Label the exterior space by flood fill from the voxel (0, 0, 0). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer19mark_luminal_voxelsERKNSt6vectorI8cell_ptrEE">
+<span id="_CPPv3N19automatic_polarizer19mark_luminal_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="_CPPv2N19automatic_polarizer19mark_luminal_voxelsERKNSt6vectorI8cell_ptrEE"></span><span id="automatic_polarizer::mark_luminal_voxels__std::vector:cell_ptr:CR"></span><span class="target" id="classautomatic__polarizer_1ad2ecc1815696433ab5543bff75171605"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mark_luminal_voxels</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N19automatic_polarizer19mark_luminal_voxelsERKNSt6vectorI8cell_ptrEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Label as lumen every voxel still unlabelled after the other steps. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N19automatic_polarizer18expand_voxel_labelERKNSt5arrayIjXL3EEEEKt">
+<span id="_CPPv3N19automatic_polarizer18expand_voxel_labelERKNSt5arrayIjXL3EEEEKt"></span><span id="_CPPv2N19automatic_polarizer18expand_voxel_labelERKNSt5arrayIjX3EEEKt"></span><span id="automatic_polarizer::expand_voxel_label__std::array:unsigned.3:CR.unsigned-shortC"></span><span class="target" id="classautomatic__polarizer_1a63551a85c0cf3316519c840c366b97f2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expand_voxel_label</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">voxel_index</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">label</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N19automatic_polarizer18expand_voxel_labelERKNSt5arrayIjXL3EEEEKt" title="Link to this definition">#</a><br /></dt>
+<dd><p>Flood-fill a label from a voxel through its 6-connected unlabelled neighbours. </p>
+<p>The fill stops at labelled voxels and at the edge of the grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voxel_index</strong> – Index (i, j, k) of the start voxel. </p></li>
+<li><p><strong>label</strong> – Region label to propagate. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK19automatic_polarizer19get_neighbor_voxelsENSt5arrayIjXL3EEEE">
+<span id="_CPPv3NK19automatic_polarizer19get_neighbor_voxelsENSt5arrayIjXL3EEEE"></span><span id="_CPPv2NK19automatic_polarizer19get_neighbor_voxelsENSt5arrayIjX3EEE"></span><span id="automatic_polarizer::get_neighbor_voxels__std::array:unsigned.3:C"></span><span class="target" id="classautomatic__polarizer_1ab1ff26003f6f1a69c4328d997b238415"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">set</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_neighbor_voxels</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">voxel_index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK19automatic_polarizer19get_neighbor_voxelsENSt5arrayIjXL3EEEE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the indices of the face-adjacent (6-connected) neighbours of a voxel. </p>
+<p>At the edge of the grid the voxel itself is returned in place of a missing neighbour. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK19automatic_polarizer55polarize_faces_based_on_contacts_with_discretized_spaceE8cell_ptr">
+<span id="_CPPv3NK19automatic_polarizer55polarize_faces_based_on_contacts_with_discretized_spaceE8cell_ptr"></span><span id="_CPPv2NK19automatic_polarizer55polarize_faces_based_on_contacts_with_discretized_spaceE8cell_ptr"></span><span id="automatic_polarizer::polarize_faces_based_on_contacts_with_discretized_space__cell_ptrC"></span><span class="target" id="classautomatic__polarizer_1a5c95350098def194268b6eac1d5c51e5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">polarize_faces_based_on_contacts_with_discretized_space</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK19automatic_polarizer55polarize_faces_based_on_contacts_with_discretized_spaceE8cell_ptr" title="Link to this definition">#</a><br /></dt>
+<dd><p>Set the face type of every face of an epithelial cell from the region it faces. </p>
+<p>Exterior space gives face type 0; lumen or cytoplasm of another cell gives face type 1. Cells of other classes are left unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c</strong> – Cell to polarize. </p>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv432automatic_polarization_exception" title="automatic_polarization_exception"><span class="n">automatic_polarization_exception</span></a></span></span> – See <a class="reference internal" href="#classautomatic__polarizer_1a218180ccd23b25ffe0f85c9df796eed8"><span class="std std-ref">get_region_in_contact_with_face()</span></a>. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK19automatic_polarizer31get_region_in_contact_with_faceE8cell_ptrRK4face">
+<span id="_CPPv3NK19automatic_polarizer31get_region_in_contact_with_faceE8cell_ptrRK4face"></span><span id="_CPPv2NK19automatic_polarizer31get_region_in_contact_with_faceE8cell_ptrRK4face"></span><span id="automatic_polarizer::get_region_in_contact_with_face__cell_ptr.faceCRC"></span><span class="target" id="classautomatic__polarizer_1a218180ccd23b25ffe0f85c9df796eed8"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_region_in_contact_with_face</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">c</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="mesh.html#_CPPv44face" title="face"><span class="n"><span class="pre">face</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">f</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK19automatic_polarizer31get_region_in_contact_with_faceE8cell_ptrRK4face" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return the region label of the first non-boundary voxel along a ray from the face. </p>
+<p>The ray starts at the first node of the face and follows the face normal (voxel traversal after C. Ericson, <em>Real-Time Collision Detection</em>, section 7.4.2).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> – Cell that owns the face. </p></li>
+<li><p><strong>f</strong> – Face of <code class="docutils literal notranslate"><span class="pre">c</span></code>. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv432automatic_polarization_exception" title="automatic_polarization_exception"><span class="n">automatic_polarization_exception</span></a></span></span> – If no non-boundary voxel is found within 3 x the largest number of voxels along an axis. </p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>cytoplasm_region_id, exterior_region_id or lumen_region_id. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv429automatic_polarization_writer">
+<span id="_CPPv329automatic_polarization_writer"></span><span id="_CPPv229automatic_polarization_writer"></span><span id="automatic_polarization_writer"></span><span class="target" id="classautomatic__polarization__writer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">automatic_polarization_writer</span></span></span><a class="headerlink" href="#_CPPv429automatic_polarization_writer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Writes the voxel grid of an <a class="reference internal" href="#classautomatic__polarizer"><span class="std std-ref">automatic_polarizer</span></a> to a legacy VTK file. </p>
+<p>With <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">2</span></code>, the solver calls <a class="reference internal" href="#classautomatic__polarization__writer_1aaec79a95b0a857e25304fe3f2d9ee268"><span class="std std-ref">write()</span></a> each time it writes the output meshes after the first iteration, into <code class="docutils literal notranslate"><span class="pre">&lt;output&gt;/region_data/result_&lt;n&gt;.vtk</span></code>. Each voxel is written as a cube with the cell array <code class="docutils literal notranslate"><span class="pre">voxel_type_id</span></code>: -1 unlabelled, 0 boundary, 1 cytoplasm, 2 exterior space, 3 lumen. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N29automatic_polarization_writer19generate_cubic_cellERK4vec3KdKj">
+<span id="_CPPv3N29automatic_polarization_writer19generate_cubic_cellERK4vec3KdKj"></span><span id="_CPPv2N29automatic_polarization_writer19generate_cubic_cellERK4vec3KdKj"></span><span id="automatic_polarization_writer::generate_cubic_cell__vec3CR.doubleC.unsignedC"></span><span class="target" id="classautomatic__polarization__writer_1aeef627cd30d11be4b41411f6fed930e8"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">cell_ptr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">generate_cubic_cell</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="math.html#_CPPv44vec3" title="vec3"><span class="n"><span class="pre">vec3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">min_corner</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">edge_length</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cell_id</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N29automatic_polarization_writer19generate_cubic_cellERK4vec3KdKj" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create a cube-shaped cell of 8 nodes and 12 triangles. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>min_corner</strong> – Corner with the smallest coordinates, m. </p></li>
+<li><p><strong>edge_length</strong> – Edge length of the cube, m. </p></li>
+<li><p><strong>cell_id</strong> – Identifier of the new cell. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N29automatic_polarization_writer5writeERKNSt6stringERK19automatic_polarizer">
+<span id="_CPPv3N29automatic_polarization_writer5writeERKNSt6stringERK19automatic_polarizer"></span><span id="_CPPv2N29automatic_polarization_writer5writeERKNSt6stringERK19automatic_polarizer"></span><span id="automatic_polarization_writer::write__ssCR.automatic_polarizerCR"></span><span class="target" id="classautomatic__polarization__writer_1aaec79a95b0a857e25304fe3f2d9ee268"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output_path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv419automatic_polarizer" title="automatic_polarizer"><span class="n"><span class="pre">automatic_polarizer</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">polarizer</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N29automatic_polarization_writer5writeERKNSt6stringERK19automatic_polarizer" title="Link to this definition">#</a><br /></dt>
+<dd><p>Write the labelled voxel grid of a polarizer to a VTK file. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> – Path of the file to create. </p></li>
+<li><p><strong>polarizer</strong> – Polarizer whose grid is written. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><a class="reference internal" href="solver.html#_CPPv421mesh_writer_exception" title="mesh_writer_exception"><span class="n">mesh_writer_exception</span></a></span></span> – If the file cannot be opened. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N29automatic_polarization_writer28convert_grid_voxels_to_cellsERK7uspg_3dItE">
+<span id="_CPPv3N29automatic_polarization_writer28convert_grid_voxels_to_cellsERK7uspg_3dItE"></span><span id="_CPPv2N29automatic_polarization_writer28convert_grid_voxels_to_cellsERK7uspg_3dItE"></span><span id="automatic_polarization_writer::convert_grid_voxels_to_cells__uspg_3d:unsigned-short:CR"></span><span class="target" id="classautomatic__polarization__writer_1a73137ca93fa3bcffa12ea6f12b1d5fe0"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">convert_grid_voxels_to_cells</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spatial_partitioning.html#_CPPv4I0E7uspg_3d" title="uspg_3d"><span class="n"><span class="pre">uspg_3d</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N29automatic_polarization_writer28convert_grid_voxels_to_cellsERK7uspg_3dItE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create one cube cell per voxel of the grid (loop order: x outer, then y, z inner). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N29automatic_polarization_writer21write_voxel_type_dataERNSt8ofstreamERK7uspg_3dItE">
+<span id="_CPPv3N29automatic_polarization_writer21write_voxel_type_dataERNSt8ofstreamERK7uspg_3dItE"></span><span id="_CPPv2N29automatic_polarization_writer21write_voxel_type_dataERNSt8ofstreamERK7uspg_3dItE"></span><span id="automatic_polarization_writer::write_voxel_type_data__std::ofstreamR.uspg_3d:unsigned-short:CR"></span><span class="target" id="classautomatic__polarization__writer_1ad98a5ae4351f768a11ab066696b6368b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_voxel_type_data</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ofstream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">polarization_data_file</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="spatial_partitioning.html#_CPPv4I0E7uspg_3d" title="uspg_3d"><span class="n"><span class="pre">uspg_3d</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">short</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N29automatic_polarization_writer21write_voxel_type_dataERNSt8ofstreamERK7uspg_3dItE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Append the <code class="docutils literal notranslate"><span class="pre">voxel_type_id</span></code> cell array (one value per voxel) to an open VTK file. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="triangulation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Triangulation and division</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="spatial_partitioning.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Spatial partitioning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv419automatic_polarizer"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer19automatic_polarizerEKd"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::automatic_polarizer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK19automatic_polarizer8get_gridEv"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::get_grid()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer14polarize_facesERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::polarize_faces()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer22update_grid_dimensionsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::update_grid_dimensions()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer20mark_boundary_voxelsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::mark_boundary_voxels()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer21mark_cytoplasm_voxelsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::mark_cytoplasm_voxels()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer26mark_exterior_space_voxelsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::mark_exterior_space_voxels()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer19mark_luminal_voxelsERKNSt6vectorI8cell_ptrEE"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::mark_luminal_voxels()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N19automatic_polarizer18expand_voxel_labelERKNSt5arrayIjXL3EEEEKt"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::expand_voxel_label()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK19automatic_polarizer19get_neighbor_voxelsENSt5arrayIjXL3EEEE"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::get_neighbor_voxels()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK19automatic_polarizer55polarize_faces_based_on_contacts_with_discretized_spaceE8cell_ptr"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::polarize_faces_based_on_contacts_with_discretized_space()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK19automatic_polarizer31get_region_in_contact_with_faceE8cell_ptrRK4face"><code class="docutils literal notranslate"><span class="pre">automatic_polarizer::get_region_in_contact_with_face()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv429automatic_polarization_writer"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_writer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N29automatic_polarization_writer19generate_cubic_cellERK4vec3KdKj"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_writer::generate_cubic_cell()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N29automatic_polarization_writer5writeERKNSt6stringERK19automatic_polarizer"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_writer::write()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N29automatic_polarization_writer28convert_grid_voxels_to_cellsERK7uspg_3dItE"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_writer::convert_grid_voxels_to_cells()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N29automatic_polarization_writer21write_voxel_type_dataERNSt8ofstreamERK7uspg_3dItE"><code class="docutils literal notranslate"><span class="pre">automatic_polarization_writer::write_voxel_type_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
