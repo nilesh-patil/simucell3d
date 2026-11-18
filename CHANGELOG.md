@@ -4,7 +4,7 @@ All notable changes to SimuCell3D are recorded in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and version
 numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.1.0] - unreleased
+## [2.1.0] - 2026-11-18
 
 > **Results differ from 1.0.** A simulation run with 2.1.0 will not reproduce the numbers
 > produced by 1.0.0, the code published with Runser et al., *Nature Computational Science*
@@ -301,6 +301,6 @@ cited by the paper ([doi:10.5281/zenodo.10796908](https://doi.org/10.5281/zenodo
 commit `5342bf8`, published 2024-03-08). The tag adds the input meshes and parameter files of
 Figs. 1 and 3 and changes the default `CONTACT_MODEL_INDEX` from 1 to 2.
 
-[2.1.0]: https://github.com/nilesh-patil/simucell3d/compare/v2.0...HEAD
+[2.1.0]: https://github.com/nilesh-patil/simucell3d/compare/v2.0...v2.1.0
 [2.0.0]: https://github.com/nilesh-patil/simucell3d/compare/v1.0...v2.0
 [1.0.0]: https://github.com/nilesh-patil/simucell3d/releases/tag/v1.0
