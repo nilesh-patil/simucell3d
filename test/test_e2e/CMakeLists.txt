@@ -35,10 +35,13 @@ function(simucell3d_add_e2e_run name parameter_file duration sampling threads mi
 endfunction()
 
 # Growth and division: one cell from parameters/longrun_fast_growth.xml (the fast-growth
-# configuration of the 2.1 long runs) grows and divides once in the first 1000 iterations
-# (1e-4 s at a time step of 1e-7 s). About 3 s in Release with 2 threads.
+# configuration of the 2.1 long runs) grows and divides at least once in 2000 iterations
+# (2e-4 s at a time step of 1e-7 s). The division volume is drawn with a 10 % standard
+# deviation, so the first division comes anywhere between about iteration 250 and 1400;
+# 1000 iterations failed in about 1 run in 40 (60 of 60 passed with 2000). About 3 s in
+# Release with 2 threads.
 simucell3d_add_e2e_run(e2e_growth_division
-    parameters/longrun_fast_growth.xml 1e-4 2e-5 2 2 900 "integration;e2e")
+    parameters/longrun_fast_growth.xml 2e-4 4e-5 2 2 900 "integration;e2e")
 
 # The 434-cell vesicle of parameters/core/parameters_vesicle_quick.xml (default compile
 # switches), cut to 2e-6 s = 20 iterations at a time step of 1e-7 s. Requiring all 434
