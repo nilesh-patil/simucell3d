@@ -29,6 +29,19 @@ the apical faces of the epithelial cells:
 except for a sampling period of $10^{-4}$ s (100 pairs of mesh files instead of $10^4$). The
 epithelial cells grow at $10^{-12}$ m$^3$/s and do not divide.
 
+:::{warning}
+In the default build (`CONTACT_MODEL_INDEX 2`) the basal column of this table and the adhesion
+strength have no effect. No face is ever labelled basal, so the faces of the epithelial cells
+that face the ECM run with the apical surface tension ($10^{-5}$ or $10^{-3}$ N/m), not with the
+basal $10^{-3}$ N/m; and `adherence_strength` ($\omega$) is not used, because adhesion in
+contact model 2 is a rigid coupling between nodes ({doc}`/user_guide/07_polarization`,
+{doc}`/user_guide/03_contact`). The paper's Fig. 3e varies the normalized adhesion strength
+$\tilde\omega = \omega l / K$ over two orders of magnitude; that axis cannot be reproduced with these
+files on a default build, where every $\omega$ gives the same result. Only contact model 0 uses
+$\omega$ and basal faces, and these files have not been tested with it. Which contact model the
+paper used for Fig. 3e is not documented ({doc}`/whats_new/v1.0`).
+:::
+
 :::{note}
 The paper expresses surface tension in the non-dimensional form
 $\tilde\gamma = \gamma / (K l)$, with $K$ the bulk modulus and $l = \langle V(t=0) \rangle^{1/3}$
@@ -42,7 +55,7 @@ with $K = 2.5\times10^{3}$ Pa:
 | apical, `fig3e_monolayer.xml` | $10^{-5}$ | $7\times10^{-4}$ |
 | apical, `fig3e_multilayer.xml` | $10^{-3}$ | 0.072 |
 | lateral | $4\times10^{-4}$ | 0.029 |
-| basal | $10^{-3}$ | 0.072 |
+| basal (not used in the default build) | $10^{-3}$ | 0.072 |
 
 The paper varies one surface tension for the whole cell, whereas these files vary only the apical
 tension, and the apical value of the monolayer file lies below the range explored in the paper.

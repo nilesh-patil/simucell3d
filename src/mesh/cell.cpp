@@ -1635,6 +1635,10 @@ void cell::apply_bending_forces() noexcept{
 
         //Compute the gradient of the angle theta wrt the position of each node position
         //(cot() is clamped: it diverges for the near-collinear triangles the refiner cannot repair)
+        //KNOWN ISSUE (inherited from 1.0, kept so that results stay comparable): the cot(alpha_2)
+        //and cot(alpha_4) terms belong to f2 and should use normal_2, and e.n1()/e.n2() follow the
+        //node ids, not the winding of f1. The resulting force is therefore not an exact gradient of
+        //bending_energy_ (with both fixed it would be exactly 1.5 times it). See CHANGELOG, Known issues.
         const vec3 grad_x0_theta = (normal_1 * clamped_cot(alpha_3) + normal_1 * clamped_cot(alpha_4)) * (-1. / edge_length);
         const vec3 grad_x1_theta = (normal_1 * clamped_cot(alpha_1) + normal_1 * clamped_cot(alpha_2)) * (-1. / edge_length);
         const vec3 grad_x2_theta = normal_1 * (edge_length / (2. * f1.get_area()));

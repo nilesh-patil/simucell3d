@@ -89,8 +89,9 @@ An earlier 2.1 development version patched these interfaces instead; the refiner
 the resulting daughters, which were then removed as unstable.
 :::
 
-Refusals become more frequent as the tissue grows. In an 8-core run of the paper configuration
-from 1 to 150,498 cells, 14% of division attempts were refused (5% below 30,000 cells, 21% between
+Refusals become more frequent as the tissue grows. In an 8-core run of the reconstructed
+paper-like configuration (`parameters/longrun_fast_growth.xml`, not the lab's configuration;
+{doc}`/examples/growth_from_one_cell`) from 1 to 150,498 cells, 14% of division attempts were refused (5% below 30,000 cells, 21% between
 125,000 and 150,000 cells); a refused mother was refused 1.75 times on average, at most 31 times.
 A cell with a fixed shape can be refused every time until its shape changes. Refused divisions
 therefore delay some divisions; they do not lose cells. The CHANGELOG lists them as a known issue.
@@ -139,7 +140,9 @@ these values with standard deviations of 10% of the means.
   "pushed to the limit" for its growth benchmark; the volume can lag behind the target volume at
   such rates.
 - **Random draws.** The generators are seeded from the system clock, so with non-zero standard
-  deviations two runs never draw the same values.
+  deviations two runs never draw the same values. The point sampling that triangulates the division
+  interface is also seeded from the clock, so runs in which cells divide differ even with standard deviations of 0
+  and one thread.
 - **Synchronous divisions.** With standard deviations of 0, cells born together grow at the same
   rate and tend to divide at the same division check, which produces bursts of divisions and of
   mesh operations.

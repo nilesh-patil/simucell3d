@@ -13,9 +13,15 @@ apical, lateral and basal) with their own mechanical parameters, so that cell po
 modelled. Besides epithelial cells, a tissue can contain nuclei, extracellular matrix (ECM),
 lumens and static obstacles. Cells grow, divide and are removed during a simulation.
 
-SimuCell3D was created by Steve Runser in the Iber Lab (ETH Zurich) and is described in
-Runser, Vetter & Iber, *Nature Computational Science* **4**, 299-309 (2024),
-[doi:10.1038/s43588-024-00620-9](https://doi.org/10.1038/s43588-024-00620-9).
+SimuCell3D was created by Steve Runser in the Iber Lab (D-BSSE, ETH Zurich, and the Swiss
+Institute of Bioinformatics) and is described in Runser, Vetter & Iber, *Nature Computational
+Science* **4**, 299-309 (2024),
+[doi:10.1038/s43588-024-00620-9](https://doi.org/10.1038/s43588-024-00620-9). As stated in the
+article, the concept is by Roman Vetter and Dagmar Iber, the model and algorithms were developed
+by Steve Runser and Roman Vetter, and the program was implemented by Steve Runser.
+
+This repository holds the 2.x maintenance releases, maintained by Nilesh Patil. They are not
+reviewed or endorsed by the authors of the article, the Iber Lab or ETH Zurich.
 
 <p align="center">
   <img src="./doc/images/tissue_topologies.png" alt="Tissues of several topologies simulated with SimuCell3D" width="80%">
@@ -25,10 +31,13 @@ Runser, Vetter & Iber, *Nature Computational Science* **4**, 299-309 (2024),
 
 > **Results differ from 1.0.** SimuCell3D 2.1 fixes bugs in the 1.0 code published with the
 > paper, and these fixes change simulation results. It also adds safeguards that remove
-> numerically unstable cells during long runs. To compare with the published figures, use
-> release 1.0 (tag `v1.0`, archived at
-> [doi:10.5281/zenodo.10796908](https://doi.org/10.5281/zenodo.10796908)). See
-> [CHANGELOG.md](./CHANGELOG.md) for the changes and the known issues.
+> numerically unstable cells during long runs; a run can lose many cells this way and still
+> exit with status 0, so check the removal counts in its log. To compare with the published
+> figures, use the 1.0 code. The Zenodo archive cited by the paper,
+> [doi:10.5281/zenodo.10796908](https://doi.org/10.5281/zenodo.10796908), is commit `5342bf8`,
+> whose default contact model is 1. The tag `v1.0` is a later commit by the same author
+> (`38af451`) that adds the input files of Figs. 1 and 3 and makes contact model 2 the default.
+> See [CHANGELOG.md](./CHANGELOG.md) for the changes and the known issues.
 
 ## Requirements
 
@@ -121,8 +130,10 @@ If SimuCell3D contributes to a publication, please cite:
 }
 ```
 
-[`CITATION.cff`](./CITATION.cff) gives the same reference in machine-readable form, together with
-the software version.
+[`CITATION.cff`](./CITATION.cff) gives the same reference in machine-readable form as the
+preferred citation. It also lists the 2.x software version with its maintainer as software
+author, and the Zenodo archive of the 1.0 code as a reference. State the version you used,
+because results differ between releases.
 
 ## Contributing
 
@@ -130,5 +141,6 @@ Bug reports and pull requests are welcome; see [CONTRIBUTING.md](./CONTRIBUTING.
 
 ## License
 
-BSD 3-Clause License, copyright (c) 2024, ETH Zurich (Steve Runser and the Iber Lab).
-See [LICENSE](./LICENSE).
+BSD 3-Clause License. [LICENSE](./LICENSE) is the licence text of release 1.0, unchanged. The
+changes made since 1.0 are copyright (c) 2026 Nilesh Patil and are released under the same
+licence; see [NOTICE](./NOTICE).

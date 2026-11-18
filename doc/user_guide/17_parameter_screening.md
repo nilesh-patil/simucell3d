@@ -175,6 +175,14 @@ its `std_out_err/stdout_<i>.txt` is missing, or if the last non-empty line of th
 `simucell3d exit status: 0`. A task that Slurm kills (for example at the time limit) never
 writes that line and therefore counts as crashed; its `file_count` shows how far it got.
 
+:::{warning}
+`has_crashed` is false for a run in which the safeguards removed most of the cells. In 2.1 the
+unstable-cell removal has no limit, and a run whose tissue diverges can exit with status 0 after
+losing almost all of its cells ({doc}`09_safeguards`). For each run, also count the
+`Removing` lines in `std_out_err/stdout_<i>.txt`, which holds both output streams, and compare
+them with the cell count before treating a parameter point as a valid result.
+:::
+
 :::{note}
 `collect_screening_data.py` overwrites the table in the screen folder with the extended table,
 which gains an extra index column, and stops if `summary_folder/` already exists. Delete or

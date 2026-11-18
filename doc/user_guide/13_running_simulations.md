@@ -154,7 +154,7 @@ A run ends in one of these ways:
 | End | Exit status | What is written last |
 |---|---|---|
 | The simulation time reaches `simulation_duration` | 0 | A final block of rows in the {term}`statistics CSV`; the performance report on standard output. |
-| No cell is left (all were removed) | 0 | As above. |
+| No cell is left (all were removed) | 0 | As above. A run can also end normally after the safeguards removed most of its cells: the exit status does not reflect removals ({doc}`09_safeguards`). |
 | An error: invalid input, a diverged domain ("the contact grid refuses a diverged domain"), mesh refinement failing for too many cells in one iteration, a non-finite coordinate when a mesh file is written, a full disk | 1 | The error message on standard error. Output written up to that point is kept. |
 | Termination by a signal (`Ctrl-C`, `kill`) | signal status (130 for `Ctrl-C`) | Output written up to that point is kept. |
 | An internal check fails in a `noexcept` function (a known issue in 2.1, see {doc}`/whats_new/v2.1`) | 134 (`SIGABRT`) | Output written up to that point is kept. |
@@ -170,8 +170,8 @@ starts at simulation time 0 and with new random growth rates.
 ## Long runs
 
 Runs of many hours should be started detached from the terminal, with the log outside the
-output folder. `scripts/runs/launch_longrun_20k.sh` does this for the growth benchmark of
-`parameters/longrun_fast_growth.xml`; it is a template for other long runs:
+output folder. `scripts/runs/launch_longrun_20k.sh` does this for the reconstructed paper-like
+growth run of `parameters/longrun_fast_growth.xml`; it is a template for other long runs:
 
 ```bash
 cd "$PROJECT/build"

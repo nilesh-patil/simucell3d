@@ -37,8 +37,10 @@ def _read_version() -> str:
 
 
 project = "SimuCell3D"
-author = "Steve Runser, Roman Vetter, Dagmar Iber and contributors"
-copyright = "2024, ETH Zurich (Steve Runser and the Iber Lab)"
+# This documentation was written for the 2.x releases by their maintainer. SimuCell3D itself
+# was created by Steve Runser in the Iber Lab; see doc/about.md and the NOTICE file.
+author = "Nilesh Patil"
+copyright = "2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE)"
 release = _read_version()
 version = ".".join(release.split(".")[:2])
 

@@ -146,7 +146,8 @@ conditions and are not guarantees for other machines.
   efficiency follows Amdahl's law (its Supplementary Fig. 6).
 - 2.1 (from `CHANGELOG.md`): the compact face grid of face-face contact halves the contact
   step, from 1,059 to 500 ms per iteration at 2.6k cells with 4 threads. In 8-core runs of the
-  paper-configuration growth simulation (`parameters/longrun_fast_growth.xml`), 2.1 needs
+  reconstructed paper-like growth configuration (`parameters/longrun_fast_growth.xml`, not the
+  lab's configuration; {doc}`/examples/growth_from_one_cell`), 2.1 needs
   44-46% less time per iteration at 30k cells than the development builds that preceded it,
   and reaches 30k cells in about 4 hours.
 
@@ -175,9 +176,15 @@ per-phase times.
   differences grow over time.
 - Growth rates and division volumes with a non-zero standard deviation are drawn from a random
   generator seeded from the clock, so runs that use them differ even on one thread.
+- Cell division (to triangulate the division interface) and the initial triangulation sample
+  points with a generator that is also seeded from the clock. A run in which cells divide therefore differs from one run to the
+  next even with `--threads=1` and standard deviations of 0: in a test with
+  `longrun_fast_growth.xml` on one thread, two runs were identical up to the first division and
+  differed afterwards (per-cell volumes by up to 0.5% after 6,000 iterations).
 
-For runs that must be compared value by value, use `--threads=1` and set the standard
-deviations to 0.
+A run on one thread is repeatable value by value only when cells do not divide, the standard
+deviations are 0 and `perform_initial_triangulation` is off (see
+{doc}`04_time_integration` and {doc}`/faq`). Compare runs with divisions statistically.
 
 :::{seealso}
 - {doc}`/user_guide/13_running_simulations`: `--threads`, `--schedule` and the environment

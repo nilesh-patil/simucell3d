@@ -1,29 +1,22 @@
 cff-version: 1.2.0
 message: >-
   If you use SimuCell3D in your research, please cite the article in
-  "preferred-citation".
+  "preferred-citation", and state the software version you used. Releases 2.x
+  are maintenance releases by Nilesh Patil of the code published with the
+  article; they are not reviewed or endorsed by the authors of the article,
+  the Iber Lab or ETH Zurich. The release 1.0 code cited by the article is
+  listed under "references".
 title: SimuCell3D
 type: software
 abstract: >-
   SimuCell3D simulates the mechanics of three-dimensional tissues at
   subcellular resolution, with cells represented as deformable triangulated
   surfaces with polarized membranes, nuclei, extracellular matrix and lumens.
+  Releases 2.x fix bugs in, add safeguards to and speed up release 1.0, the
+  code published with Runser, Vetter & Iber (2024).
 authors:
-  - family-names: Runser
-    given-names: Steve
-    affiliation: >-
-      Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
-      Basel, Switzerland
-  - family-names: Vetter
-    given-names: Roman
-    affiliation: >-
-      Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
-      Basel, Switzerland
-  - family-names: Iber
-    given-names: Dagmar
-    affiliation: >-
-      Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
-      Basel, Switzerland
+  - family-names: Patil
+    given-names: Nilesh
 version: 2.1.0
 license: BSD-3-Clause
 repository-code: "https://github.com/nilesh-patil/simucell3d"
@@ -34,22 +27,49 @@ keywords:
   - deformable cell model
   - cell polarization
   - simulation
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.10796908
-    description: Source code of SimuCell3D 1.0 (Zenodo archive)
-  - type: doi
-    value: 10.1038/s43588-024-00620-9
-    description: The article describing SimuCell3D
+references:
+  - type: software
+    title: Source code of SimuCell3D
+    authors:
+      - family-names: Runser
+        given-names: Steve
+        affiliation: >-
+          Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
+          Basel, Switzerland; Swiss Institute of Bioinformatics (SIB), Basel,
+          Switzerland
+    year: 2024
+    doi: 10.5281/zenodo.10796908
+    repository-code: "https://git.bsse.ethz.ch/iber/Publications/2024_runser_simucell3d"
+    commit: 5342bf8e6e27b3b82a643fb948c4364f792da154
+    license: BSD-3-Clause
+    notes: >-
+      Zenodo archive cited by the article (its ref. 76), published
+      2024-03-08; it contains commit 5342bf8, with CONTACT_MODEL_INDEX 1 as
+      the default. The tag v1.0 of this repository is the later commit
+      38af451 (2024-06-26) by the same author, which adds the Fig. 1 and
+      Fig. 3 input meshes and parameter files and makes CONTACT_MODEL_INDEX 2
+      the default.
 preferred-citation:
   type: article
   authors:
     - family-names: Runser
       given-names: Steve
+      affiliation: >-
+        Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
+        Basel, Switzerland; Swiss Institute of Bioinformatics (SIB), Basel,
+        Switzerland
     - family-names: Vetter
       given-names: Roman
+      affiliation: >-
+        Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
+        Basel, Switzerland; Swiss Institute of Bioinformatics (SIB), Basel,
+        Switzerland
     - family-names: Iber
       given-names: Dagmar
+      affiliation: >-
+        Department of Biosystems Science and Engineering (D-BSSE), ETH Zurich,
+        Basel, Switzerland; Swiss Institute of Bioinformatics (SIB), Basel,
+        Switzerland
   title: >-
     SimuCell3D: three-dimensional simulation of tissue mechanics with cell
     polarization

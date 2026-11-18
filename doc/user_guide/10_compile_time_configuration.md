@@ -65,16 +65,27 @@ shipped files state their configuration in their header comment:
 | `parameters/core/parameters_default_dynamic.xml` | 1 | 1 | 0 |
 | `parameters/parameters_paper_exact.xml` | 1 | 1 | 0 |
 | `parameters/core/parameters_default_overdamped.xml` | 1 | 0 | 1 |
-| `parameters/benchmarks/fig3e_monolayer.xml`, `fig3e_multilayer.xml` | not stated | not stated | not stated |
+| `parameters/benchmarks/fig3e_monolayer.xml`, `fig3e_multilayer.xml` | 1 | 2 | 0 |
 
-The default build (1, 2, 0) matches every file of the first two rows. The `fig3e_*` files use
-the same input mesh, cell types and time step as `parameters_vesicle.xml`, which is written for
-the default build ({doc}`/examples/monolayer_multilayer`).
+The default build (1, 2, 0) matches the files of the first two rows and the `fig3e_*` files.
+
+:::{warning}
+In the default build, the basal face type and `adherence_strength` have no effect: with contact
+models 1 and 2, polarization mode 1 never labels a face basal, so faces facing the ECM or the
+outside use the apical parameters ({doc}`07_polarization`), and adhesion is a rigid tie between
+nodes rather than a force of strength $\omega$ ({doc}`03_contact`). Basal faces and $\omega$ act
+only with `CONTACT_MODEL_INDEX 0` (and, for basal faces, `POLARIZATION_MODE_INDEX 1`). The shipped
+files that define basal face types or a non-zero `adherence_strength` but are written for the
+default build (the vesicle, sheet and tube files, `fig3e_*`, `longrun_fast_growth.xml` and
+`parameters_paper_exact_fast_growth.xml`) have not been tested with contact model 0.
+:::
 
 :::{important}
 The paper's Methods describe contact models 0 and 1; the simulations of its figures were solved
-with the dynamic model. Contact model 2 has been the default since release 1.0. When comparing
-with a figure of the paper, check which contact model it used.
+with the dynamic model. Contact model 2 is the default of 2.x and of the tag `v1.0` (commit
+`38af451`), but the Zenodo archive cited by the paper (commit `5342bf8`) has contact model 1 as
+its default ({doc}`/whats_new/v1.0`). When comparing with a figure of the paper, check which
+contact model it used.
 :::
 
 ## Changing the configuration

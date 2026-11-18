@@ -39,8 +39,10 @@ $$
 $$ (eq-semi-implicit-euler)
 
 The momentum is updated first and the new momentum moves the node. The scheme is first order
-and resolves elastic oscillations, so it suits phenomena on short time scales. The figures of
-the paper were computed with this model.
+and resolves elastic oscillations, so it suits phenomena on short time scales. The dynamic
+model is the one used for the figures of the paper, but with the default contact model 2 the
+1.0 code did not implement this scheme: it moved every node with its old momentum, a forward
+Euler step (see the note at the end of [Coupled nodes](#coupled-nodes)).
 
 When the mesh refiner splits an edge, the two end nodes each give one third of their momentum
 to the new node; when it collapses an edge, the new node receives the sum of the two momenta
@@ -86,10 +88,19 @@ $\Delta t\, \bar{\mathbf f} / \zeta$. With contact model 2 this update runs seri
 models 0 and 1 the integration runs in parallel over cells.
 
 :::{versionchanged} 2.0
-With the dynamic model and contact model 2, 1.0 moved coupled nodes with their *old* averaged
-momentum, which is an explicit Euler step. The momentum is now updated first and the new
-averaged momentum moves the group, as in {eq}`eq-semi-implicit-euler`. This changes results
-compared with 1.0.
+With the dynamic model and contact model 2 (the default build), 1.0 moved *every* node with its
+old momentum, coupled or not: the integrator branch of contact model 2 also handled nodes
+without a partner, and moved all nodes before using the updated momentum. That is an explicit
+(forward) Euler step, not the semi-implicit scheme of the paper's Methods. 2.0 and 2.1 update
+the momentum first and move every node, and every coupled group, with the new momentum, as in
+{eq}`eq-semi-implicit-euler`. Contact models 0 and 1 were already semi-implicit in 1.0.
+
+For a mode of stiffness $k$, one forward Euler step damps it as if the damping coefficient were
+$\zeta - k\,\Delta t$ instead of $\zeta$. Modes stiffer than $\zeta/\Delta t$ were therefore
+anti-damped in 1.0: with $\Delta t = 10^{-7}$ s and $\zeta = 2.5	imes10^{-10}$ kg/s, that is
+$k > 2.5	imes10^{-3}$ N/m. The relaxation of every cell surface, not only of cell-cell
+contacts, changes compared with 1.0, so 2.1 does not reproduce the dynamics of results
+computed with 1.0 in this configuration, which is the default build.
 :::
 
 Cells of a {term}`cell class` that does not move (ECM and static cells) are skipped by the
@@ -144,10 +155,17 @@ files.
 
 Runs with more than one thread are not bit-reproducible: two runs with the same input can give
 slightly different results, because the order in which threads add forces and select coupling
-partners varies. In addition, cells draw their growth rate and division volume from random
-generators seeded from the system clock ({doc}`06_growth_division_removal`), so runs with a
-non-zero standard deviation differ even on one thread. Compare runs statistically, not
-iteration by iteration.
+partners varies. In addition, several random generators are seeded from the system clock, so
+runs that use them differ even on one thread:
+
+- the growth rate and division volume of each cell, when their standard deviation is not zero
+  ({doc}`06_growth_division_removal`);
+- the point sampling that triangulates the division interface, whenever a cell divides,
+  whatever the standard deviations;
+- the surface sampling of the initial triangulation (`perform_initial_triangulation`).
+
+A run on one thread is repeatable only when none of these is used, which excludes any run in
+which cells divide. Compare runs statistically, not iteration by iteration.
 
 :::{note}
 The `kinetic_energy` value written to the output is $\sum p_i^2/(2m)$ with the dynamic model.

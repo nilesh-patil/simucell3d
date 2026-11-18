@@ -28,8 +28,12 @@ For example, for the dynamic file, change `#define CONTACT_MODEL_INDEX 2` to
 
 ```console
 $ make -j4
-$ ./simucell3d ../parameters/core/parameters_default_dynamic.xml
+$ ./simucell3d ../parameters/core/parameters_default_dynamic.xml --threads=1
 ```
+
+Contact models 0 and 1 add contact forces to the nodes of neighbouring cells without an atomic
+add, so with more than one thread some contact forces can be lost, without a warning (a known
+issue of 2.1, {doc}`/user_guide/03_contact`). Run both files with `--threads=1`, as above.
 
 Restore the defaults and rebuild afterwards. The compile-time options are described in
 {doc}`/user_guide/10_compile_time_configuration`, the dynamic models in

@@ -14,7 +14,15 @@ numbers follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 > results from the two versions.
 
 These notes compare 2.1.0 with 1.0.0, because that is the version used in the paper. Items
-marked *(2.0.0)* were already in the 2.0.0 release.
+marked *(2.0.0)* were already in the 2.0.0 release. "1.0" means the tag `v1.0` (commit
+`38af451`, 2024-06-26). The Zenodo archive cited by the paper
+([doi:10.5281/zenodo.10796908](https://doi.org/10.5281/zenodo.10796908)) is the earlier commit
+`5342bf8`; its source files are the same, but its default contact model is 1 instead of 2, and it
+lacks the input files of Figs. 1 and 3.
+
+Measurements below marked "reconstructed configuration" come from
+`parameters/longrun_fast_growth.xml`, a growth configuration written for 2.x from Table 2 of the
+paper. It is not the lab's configuration and differs from Table 2 (see Known issues).
 
 ### Changed behaviour (results differ from 1.0)
 
@@ -22,11 +30,15 @@ marked *(2.0.0)* were already in the 2.0.0 release.
   triangle, 1.0 computed the closest point as `a + ab*v + a + ac*w`, with one vertex `a` too
   many. The distance was measured to the wrong point, so repulsion missed contacts in face
   interiors. The closest point is now `a + ab*v + ac*w`. *(2.0.0)*
-- **Semi-implicit Euler for coupled nodes.** With the full equations of motion
-  (`DYNAMIC_MODEL_INDEX 0`) and face-face coupling, 1.0 moved nodes coupled across a cell-cell
-  contact with their old momentum. That is an explicit (forward) Euler step, although the scheme
-  is documented as semi-implicit. The momentum is now updated first, and the new averaged
-  momentum moves the coupled nodes. *(2.0.0)*
+- **Semi-implicit Euler for all nodes.** With the full equations of motion
+  (`DYNAMIC_MODEL_INDEX 0`) and face-face coupling (contact model 2, the default), 1.0 moved
+  every node with its old momentum, coupled across a cell-cell contact or not. That is an
+  explicit (forward) Euler step, although the paper's Methods describe a semi-implicit one; for
+  a mode of stiffness k it acts like a damping coefficient of zeta - k*dt, so modes stiffer than
+  zeta/dt were amplified. The momentum is now updated first, and the new momentum (averaged over
+  a coupled group) moves every node, as in the Methods. Every cell surface relaxes differently,
+  not only the contacts, so 2.1 does not reproduce the dynamics of results computed with 1.0 in
+  this configuration. Contact models 0 and 1 were already semi-implicit in 1.0. *(2.0.0)*
 - **Coupling partner lookup ([#113](https://github.com/nilesh-patil/simucell3d/issues/113)).**
   The face-face coupling model looked up a node's current partner by the other cell's global id,
   but the table is indexed by local id. Once cells had divided, the two ids differ, the lookup
@@ -43,7 +55,8 @@ marked *(2.0.0)* were already in the 2.0.0 release.
   also cut through a thin protrusion of the cell, 1.0 followed only one of the intersection loops,
   the division failed ("not properly triangulated"), and the cell retried every iteration. Now
   every loop is traced, the cell is cut along the longest one, and the two daughters are separated
-  by a flood fill that does not cross the cut. When the Delaunay triangulation of the cut face does
+  by a flood fill that does not cross the cut (but see Known issues: a loop nested inside the
+longest one is not detected). When the Delaunay triangulation of the cut face does
   not cover its whole outline, the division is refused and the mother tries again at the next
   division check, with new random interior points; the log line names the cell. This happens more
   often as the tissue grows (see Known issues). In a single-threaded test run of an earlier version
@@ -90,7 +103,7 @@ is reported so that you can see how often it acted.
 ### Fixed
 
 - Crash after a cell was removed: the remaining cells kept stale local ids, which the contact
-  model uses as list indices (segfault at about 2.7k cells in the paper configuration).
+  model uses as list indices (segfault at about 2.7k cells in the reconstructed configuration).
 - Race condition in cell division: daughters were appended to the cell list from inside the
   parallel loop that iterates over it.
 - Heap use-after-free in the mesh refiner's edge split. *(2.0.0)*
@@ -112,8 +125,8 @@ is reported so that you can see how often it acted.
   destructor, so the derived contact model was deleted without its destructor and its face grid
   was never freed. AddressSanitizer reported it as a new-delete type mismatch.
 - One damaged cell ended the whole run: an error thrown while refining one cell's mesh left the
-  refiner and reached the error handler, which stopped the simulation. An 8-core
-  paper-configuration run ended this way at 79,635 cells with an uncaught
+  refiner and reached the error handler, which stopped the simulation. An 8-core run of the
+  reconstructed configuration ended this way at 79,635 cells with an uncaught
   `std::bad_optional_access`. The same code is in 1.0. The cell is now removed instead (see
   Added safeguards).
 
@@ -137,7 +150,7 @@ is reported so that you can see how often it acted.
   in the parameter file; the spatial grid remains the default). *(2.0.0)*
 - Face-face contact uses a compact face grid and splits the work of very large cells across
   threads. This halves the contact step (2.6k cells, 4 threads: 1,059 to 500 ms per iteration).
-- In 8-core runs of the paper-configuration growth simulation, 2.1.0 needs 44-46% less time per
+- In 8-core runs of the reconstructed configuration, 2.1.0 needs 44-46% less time per
   iteration at 30k cells than the previous development builds, and reaches 30k cells in about
   4 hours. 1.0 with only the local-id crash fix needed 28.5 hours. Because the physics also
   differs (see above), this last comparison is not like-for-like.
@@ -161,26 +174,70 @@ is reported so that you can see how often it acted.
   `CITATION.cff` added.
 - Every shipped parameter file states in its header the compile-time switches it needs.
   `parameters/core/parameters_vesicle_quick.xml` now runs at a stable time step (1e-7 s) for
-  200 steps; at 5e-7 s it removed about a quarter of its cells as unstable within four
-  iterations. The unused `<INMForce>` tag was removed from the shipped parameter files.
+  200 steps; at 5e-7 s the unstable-cell safeguard removed nearly all of its cells within a few
+  iterations, and the run still exited with status 0 (see Known issues). The unused `<INMForce>`
+  tag was removed from the shipped parameter files.
 - Parameter screening: `collect_screening_data.py` writes `<screen>/summary_folder/`, the path the
   analysis scripts read, and detects crashed runs from the exit status that the launcher records,
   instead of looking for a `mesh_before_crash.vtk` file that is never written.
 - Run launchers live in `scripts/runs/`, and the long-run growth configuration is
-  `parameters/longrun_fast_growth.xml`.
+  `parameters/longrun_fast_growth.xml`, the reconstructed configuration described under Known
+  issues.
+- `NOTICE` added. `LICENSE` is again the licence text of 1.0, unchanged (the 2.0 file had added a
+  copyright line that 1.0 does not have); the changes since 1.0 are copyright Nilesh Patil under
+  the same licence, and 2.x is not reviewed or endorsed by the Iber Lab or ETH Zurich.
+  `CITATION.cff` names the 2.x maintainer as software author, the article as the preferred
+  citation and the 1.0 Zenodo archive as a reference.
 - `simucell3d --version` prints the version and the git commit it was configured from.
 - CMake 3.10 or newer is required, and CMake 4 is supported.
 
 ### Known issues
 
-- **Cells interpenetrate**, in every version including 1.0. The likely cause is that, in the
-  paper configuration, the contact cutoff (2e-7 m) is five times smaller than the minimum edge
-  length (1e-6 m).
+- **Unstable-cell removal has no limit, and a diverged run still exits with status 0.** Unlike
+  refinement failures, unstable cells are removed without any limit per iteration or per run. In a
+  review run of `parameters/core/parameters_vesicle_quick.xml` with the time step raised to 5e-7 s
+  (its 2.0 value), all 432 epithelial cells were removed within 8 iterations, and the run exited
+  with status 0. The total number of removals is not printed; the diagnostics CSV is written every
+  100 iterations, so removals in the last partial window are missing and a run shorter than 100
+  iterations writes no CSV; and `collect_screening_data.py` counts every run with exit status 0 as
+  a success. Count the `Removing` lines in the standard error of every run (user guide,
+  Safeguards) and treat a run with many removals as failed.
+- **A division along a nested cut can give interpenetrating daughters.** When the division plane
+  cuts the surface in several loops, the divider keeps the longest loop and does not check
+  whether another loop lies inside it. For a cup-shaped or invaginated cell the interface then
+  spans the cavity: in a review test (a cylinder with an axial dimple), 20 of 20 divisions went
+  ahead with the interface across the cavity, the daughters' total volume was 3.4% larger than the
+  mother's, and part of one daughter lay inside the other. Both daughters pass the unstable-cell
+  checks and nothing is logged. How often this happens in growth runs has not been measured.
+  Judging from its code, 1.0 failed such divisions instead.
+- **Contact models 0 and 1 can lose contact forces with more than one thread.** They add forces
+  to the nodes of neighbouring cells with a non-atomic add inside parallel loops, so with several
+  threads some contact forces can be lost; only model 2 was fixed (see Fixed). Models 0 and 1 are
+  the two models described in the paper, and `parameters_default_dynamic.xml`,
+  `parameters_paper_exact.xml` (model 1) and `parameters_default_overdamped.xml` (model 0) need
+  them. Run these models with `--threads=1`, or use model 2. No warning is printed.
+- **The reconstructed configuration is not the lab's.** `parameters/longrun_fast_growth.xml`
+  differs from Table 2 of the paper: minimum edge length 1e-6 m instead of 2e-7 m, lateral surface
+  tension 8e-4 N/m instead of 1e-3 N/m, basal adhesion 0 and basal repulsion 5e8 Pa/m instead of
+  1e9 Pa/m (both without effect with contact model 2), contact model 2, which the paper does not
+  describe, and 10% standard deviations of growth rate and division volume, which Table 2 does
+  not list. The lab's own benchmark file of 1.0, `parameters_benchmarck.xml` (contact model 1,
+  polarization mode 0, minimum edge length 6e-7 m), was removed in 2.0.0 without a note. In
+  November 2026 it was run once per setting on 8 cores with the matching compile-time switches. At
+  its shipped time step of 1e-7 s, 2.1.0 removed blown-up cells in large numbers from about 9,000
+  cells on (4,456 of 157,716 cells created) and was stopped at 28,600 cells; at 2.5e-8 s it grew
+  to 18,300 cells without removals before it was stopped. 1.0 stopped with a mesh refinement error
+  at about 170 cells at 1e-7 s.
+- **Cells interpenetrate** in long growth runs of the reconstructed configuration, with 2.1 and
+  with 1.0. In that file the contact cutoff (2e-7 m) is five times smaller than the minimum edge
+  length (1e-6 m). Table 2 of the paper uses 2e-7 m for both, so this ratio belongs to the
+  reconstruction, not to the published configuration; it may be one cause. Whether the lab's
+  configurations show the same overlap has not been measured.
 - **Some divisions are deferred, more often as the tissue grows.** A division is refused when the
   Delaunay triangulation of the cut face does not cover its outline, and the mother tries again at
-  the next division check. In an 8-core run of the paper configuration from 1 to 150,498 cells, 14%
-  of division attempts (refusals plus divisions) were refused: 5% below 30,000 cells, rising to 21%
-  between 125,000 and 150,000. A mother that was refused was refused 1.75 times on average (median
+  the next division check. In an 8-core run of the reconstructed configuration from 1 to 150,498
+  cells, 14% of division attempts (refusals plus divisions) were refused: 5% below 30,000 cells,
+  rising to 21% between 125,000 and 150,000. A mother that was refused was refused 1.75 times on average (median
   1, at most 31). At a fixed shape some are refused every time (1 of 5 test mothers was refused 100
   of 100 times) until the cell's shape changes. An earlier version of 2.1 patched these cut faces
   by ear clipping their outline instead; the mesh refiner could not repair the resulting daughters,
@@ -198,11 +255,20 @@ is reported so that you can see how often it acted.
   SIGABRT if a mesh is damaged, because they are declared `noexcept`.
 - **Stale coupling links.** When a node switches to a closer coupling partner, its old partner
   keeps a link back to it until the coupling maps are rebuilt. This has been present since 1.0.
-- Contact models 0 and 1 still add contact forces without an atomic add. The paper
-  configuration uses model 2, which is fixed.
-- **Bending force prefactor.** The bending force uses a prefactor of 3 where the paper's Methods
-  give 2, so it is 1.5 times the gradient of the bending energy written to the output (which uses
-  the paper's formula). This is unchanged since 1.0, so published results include it. See the user
+- **The bending force is not an exact gradient.** Two defects in the gradient of the hinge angle
+  make the bending force deviate from the gradient of the bending energy: the cotangent terms of
+  the second face use the normal of the first face (`src/mesh/cell.cpp`, `grad_x0_theta` and
+  `grad_x1_theta`), and the edge direction follows the node ids rather than the winding of the
+  first face. Compared with a finite-difference gradient on a test sphere, the force is on
+  average about 1.5 times the gradient, with a relative residual of 0.26 to 0.40 that grows with
+  the fold angle and depends on node numbering. With both defects fixed it would be exactly 1.5
+  times the gradient. Both are inherited from 1.0 and left unchanged in 2.1, so that results stay
+  comparable with the published ones.
+- **Bending prefactor and `bending_energy`.** The bending force uses a prefactor of 3 where the
+  paper's Methods give 2. The code is consistent with Eq. (1) of the paper: on regular,
+  sphere-like meshes the Methods' discrete bending energy is about 2/3 of the Eq. (1) bending
+  term, and the code's 3 restores it. The `bending_energy` written to the output uses the
+  Methods' formula, so it is about 2/3 of the Eq. (1) term. Unchanged since 1.0. See the user
   guide chapter on cell mechanics.
 - **Unknown command-line options are ignored.** A mistyped `--option` is silently ignored.
 - **Python bindings are only smoke-tested.** CI builds the module and imports it, but no test runs a
@@ -218,16 +284,22 @@ First maintenance release after 1.0.
 - Adaptive OpenMP scheduling (`--schedule`), a faster spatial grid (vector storage, Morton
   order), optional Sweep-and-Prune contact detection, and a per-iteration diagnostics CSV.
 - First correctness fixes, which already change results compared with 1.0: the contact
-  closest-point error and the semi-implicit Euler step for coupled nodes (see 2.1.0).
+  closest-point error and the semi-implicit Euler step for all nodes with contact model 2 (see 2.1.0).
 - Memory-safety and robustness fixes (heap use-after-free in edge splits, division-by-zero
   guards, spatial-grid integer overflow) and an oscillation bail-out in the mesh refiner.
+- The parameter file `parameters_benchmarck.xml` of 1.0, the lab's growth benchmark, was removed
+  (not recorded at the time; see Known issues of 2.1.0).
 - GitHub Actions CI with sanitizer builds and benchmark workflows; the test suite grew to 294
   registered ctest targets.
 
 ## [1.0.0] - 2024-06-26
 
 The code published with Runser et al., "SimuCell3D: three-dimensional simulation of tissue
-mechanics with cell polarization", *Nature Computational Science* (2024).
+mechanics with cell polarization", *Nature Computational Science* (2024). The date is that of the
+tag `v1.0` (commit `38af451`), a commit by the original author made after the Zenodo archive
+cited by the paper ([doi:10.5281/zenodo.10796908](https://doi.org/10.5281/zenodo.10796908),
+commit `5342bf8`, published 2024-03-08). The tag adds the input meshes and parameter files of
+Figs. 1 and 3 and changes the default `CONTACT_MODEL_INDEX` from 1 to 2.
 
 [2.1.0]: https://github.com/nilesh-patil/simucell3d/compare/v2.0...HEAD
 [2.0.0]: https://github.com/nilesh-patil/simucell3d/compare/v1.0...v2.0

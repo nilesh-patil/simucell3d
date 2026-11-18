@@ -27,7 +27,8 @@ and $k_b$ are properties of the {term}`face type`, so they can differ between ap
 and basal membrane; $K$, $k_a$ and the target values are properties of the {term}`cell type`.
 
 The nodal forces are the negative gradients of the discretised terms with respect to the node
-positions $\mathbf r_i$. They are evaluated once per {term}`iteration`, after mesh refinement
+positions $\mathbf r_i$, except for bending, whose implemented force is not an exact gradient
+(see the section on bending below). They are evaluated once per {term}`iteration`, after mesh refinement
 and contact detection, in the order of the following sections.
 
 ## Discrete geometry
@@ -132,11 +133,31 @@ summed over all hinges that contain $q$. The gradients of $\theta_e$ and of
 $\lVert\mathbf e\rVert^2/A_e$ follow Wardetzky et al. (2007).
 
 :::{note}
-The paper's Methods give the same expression with a prefactor of 2, which is the gradient of
-{eq}`eq-bending-energy`. The code (1.0 and 2.1) uses 3, so the implemented bending force is
-1.5 times the gradient of the energy written in the paper, and of the `bending_energy` written
-to the output. Equivalently, the effective bending modulus of a simulation is $1.5\,k_b$
-relative to the paper's energy.
+**Prefactor.** The paper's Methods give the same expression with a prefactor of 2, which
+corresponds to {eq}`eq-bending-energy`. The code (1.0 and 2.1) uses 3. The difference lies in
+the Methods' discrete formula, not in the code: {eq}`eq-bending-energy` leaves out the area
+weight $A_e/3$ of the discrete-shells energy, and on regular, sphere-like meshes it gives about
+2/3 of the bending term of {eq}`eq-cell-energy`. On icospheres of 42 to 10,242 nodes the sum
+$\sum_e \lVert\mathbf e\rVert^2/A_e\,(2\cos(\theta_e/2))^2$ is 17.0 to 17.1, so 1.5 times it is
+within 2% of $\tfrac12\int (2H)^2\,\mathrm dS = 8\pi$. A prefactor of 3 therefore matches the
+bending modulus of Eq. (1) and of the paper's Table 2; a prefactor of 2 would make cells about a
+third softer. The `bending_energy` written to the output is {eq}`eq-bending-energy`, about 2/3
+of the bending term of Eq. (1). (This correspondence holds on regular meshes; the discrete
+energy does not converge to the continuum one on general irregular meshes.)
+
+**Not an exact gradient.** The implemented force is not the gradient of
+{eq}`eq-bending-energy` or of any multiple of it. The computation of $\nabla_q \theta_e$ has
+two defects, both present since 1.0: the cotangent terms of face $b$ at the edge nodes use the
+normal of face $a$ instead of that of $b$; and the edge direction is taken from the order of
+the node ids rather than from the winding of face $a$, so the tangent and rotation conventions
+are wrong for about half of the hinges. The forces on a hinge then do not sum to zero, and the
+error grows with the fold angle and depends on the node numbering. On a test sphere of 300 to
+1416 nodes, the best fit of the force to the finite-difference gradient of
+{eq}`eq-bending-energy` is 1.49 to 1.59 times the gradient, with a relative residual of 0.26
+to 0.40; per node the ratio ranges from 0.4 to 2.1 (5th to 95th percentile). With both defects
+corrected, the force would be exactly 1.5 times the gradient. 2.1 leaves the bending force as in
+1.0, so that results stay comparable with the published ones; this is listed as a known issue in
+{doc}`/whats_new/v2.1`.
 :::
 
 A hinge contributes no force when:
@@ -214,7 +235,8 @@ The mass density, which sets the node mass, is described in {doc}`04_time_integr
 Energies written to the output (see {doc}`14_output_files`) are diagnostics and do not all equal
 the terms of {eq}`eq-cell-energy`: `surface_tension_energy` is $\tfrac12\sum_f \gamma_f A_f$,
 half of the surface tension energy; `pressure_energy` is $\lvert K V(\ln(V/V_0) - 1)\rvert$;
-`bending_energy` is {eq}`eq-bending-energy` (see the note on the bending prefactor);
+`bending_energy` is {eq}`eq-bending-energy`, about 2/3 of the bending term (see the note on
+the bending prefactor);
 `membrane_elasticity_energy` is the area term. In 1.0 `membrane_elasticity_energy` was always
 written as 0.
 :::

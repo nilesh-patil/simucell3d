@@ -41,8 +41,9 @@ mesh path starting with `/data/` is resolved relative to the source directory af
 ## What to look at
 
 Open `cell_data/result_*.vtk` in ParaView and colour by `cell_pressure`; open
-`face_data/result_*.vtk` and colour by `face_type_id` to see the apical, lateral and
-basal labels assigned from cell contacts.
+`face_data/result_*.vtk` and colour by `face_type_id` to see the apical and lateral labels
+assigned from cell contacts. As for the sheet, the basal face type and `adherence_strength` of
+the file have no effect in the default build ({doc}`/user_guide/10_compile_time_configuration`).
 
 :::{seealso}
 - {doc}`sheet`

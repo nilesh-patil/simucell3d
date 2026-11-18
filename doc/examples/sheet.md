@@ -46,8 +46,10 @@ relative to the source directory; this is expected.
 
 Open `cell_data/result_*.vtk` in ParaView and colour by `cell_pressure` or `cell_volume`; open
 `face_data/result_*.vtk` and colour by `face_type_id` to see how the faces of each cell are
-labelled apical, lateral or basal from their contacts (contact-based polarization,
-{doc}`/user_guide/07_polarization`).
+labelled from their contacts (contact-based polarization, {doc}`/user_guide/07_polarization`). In
+the default build a face is lateral where it touches another epithelial cell and apical
+everywhere else; the basal face type and `adherence_strength` defined in the file have no effect
+with contact model 2 ({doc}`/user_guide/10_compile_time_configuration`).
 
 :::{seealso}
 - {doc}`tube`: the same parameters on a tubular tissue.

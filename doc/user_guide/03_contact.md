@@ -21,8 +21,9 @@ Models 1 and 2 replace a finite adhesion stiffness by a rigid tie between nodes,
 mechanics do not depend on an adhesion strength. Runser, Vetter & Iber (2024) validate the
 coupling model against the Young-Dupré relation for cell doublets and triplets (Supplementary
 Fig. 5) and report that the spring model depends somewhat on mesh resolution (Supplementary
-Fig. 4). Model 2 has been the default since release 1.0; the parameter files for the vesicle,
-sheet, tube and growth examples are written for it.
+Fig. 4). Model 2 is the default of 2.x and of the tag `v1.0`; the Zenodo archive of 1.0 cited by
+the paper has model 1 as its default ({doc}`/whats_new/v1.0`). The parameter files for the
+vesicle, sheet, tube and growth examples are written for model 2.
 
 ## Finding contacts
 
@@ -196,11 +197,13 @@ The unit N/m³ of $\omega$ and $\xi$ (stress per length) equals the Pa/m of the 
   ($\xi = 10^{9}$ N/m³, $c = 2\times10^{-7}$ m) this is 200 Pa. Where cells press on each other
   with a larger pressure (see {doc}`02_cell_mechanics`), repulsion cannot hold them apart and
   they can pass through each other. Penetration deeper than the range produces no force.
-- **Cells interpenetrate in all versions**, including 1.0. The CHANGELOG lists this as a known
-  issue; a likely cause in the paper configuration is that the contact cutoff
-  ($2\times10^{-7}$ m) is five times smaller than the minimum edge length ($10^{-6}$ m) of
-  `parameters/longrun_fast_growth.xml`. Check the overlap of cells in the output when the
-  geometry of contacts matters.
+- **Cells interpenetrate** in long growth runs of the reconstructed paper-like configuration
+  `parameters/longrun_fast_growth.xml`, with 2.1 and with 1.0. The CHANGELOG lists this as a known
+  issue. In that file the contact cutoff ($2\times10^{-7}$ m) is five times smaller than the
+  minimum edge length ($10^{-6}$ m), which may be one cause; the paper's Table 2 uses
+  $2\times10^{-7}$ m for both, and the file is a reconstruction for 2.x, not the lab's
+  configuration ({doc}`/examples/growth_from_one_cell`). Check the overlap of cells in the output
+  when the geometry of contacts matters.
 - **Adhesion in models 1 and 2 exists only between epithelial cells.** Contacts with lumen, ECM,
   nucleus and static cells are purely repulsive. $\omega$ has an effect only with model 0.
 - **Shipped values.** Most epithelial face types use $\omega = \xi = 10^{9}$ N/m³ on apical and lateral
@@ -208,9 +211,11 @@ The unit N/m³ of $\omega$ and $\xi$ (stress per length) equals the Pa/m of the 
   use $\xi$ between $10^{9}$ and $5\times10^{9}$ N/m³. Cutoffs are $2\times10^{-7}$ to
   $5\times10^{-7}$ m and $H_{\max}$ is $2.5\times10^{6}$ or $5\times10^{6}$ 1/m for epithelial
   cells.
-- **Thread safety.** Models 0 and 1 add contact forces without an atomic add; with several
-  threads, forces on shared nodes can be lost. Model 2 is not affected. Multi-threaded runs of any
-  model are not bit-reproducible.
+- **Thread safety.** Models 0 and 1 add contact forces to the nodes of other cells without an
+  atomic add, inside parallel loops; with several threads, some contact forces can be lost, and no
+  warning is printed. These are the two models described in the paper. Run them with
+  `--threads=1`. Model 2 is not affected. Multi-threaded runs of any model are not
+  bit-reproducible.
 - **Stale links.** When a node switches to a closer partner, its old partner keeps a link back to
   it until the couplings are rebuilt at the next iteration. This behaviour is present since 1.0.
 - The contact model is a compile-time choice; a parameter file written for one model gives a

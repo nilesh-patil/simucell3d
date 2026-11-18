@@ -14,6 +14,10 @@ and the known issues.
 A safeguard changes the simulated tissue: a removed cell disappears with its volume, and its
 neighbours relax into the gap. Count the safeguard events of every run and report them with the
 results. A run with many events is not a faithful solution of the model.
+
+The unstable-cell removal has no limit: a run whose tissue diverges can lose almost all of its
+cells and still exit with status 0 (see {ref}`ug-safeguards-known-issues`). The exit status alone
+does not show that a run succeeded.
 :::
 
 ## Overview
@@ -30,7 +34,10 @@ results. A run with many events is not a faithful solution of the model.
 
 All log lines go to standard error. The diagnostics CSV is `performance_diagnostics.csv` in the
 output folder, or the file given with `--diagnostics-csv` ({doc}`14_output_files`); it has one row
-per 100 iterations, and `unstable_cells_removed` counts the removals in that window.
+per 100 iterations, and `unstable_cells_removed` counts the removals in that window. Removals in
+the last, incomplete window of a run are not written, and a run shorter than 100 iterations
+writes no diagnostics CSV at all; the run total is not printed. The standard error log is
+therefore the complete record.
 
 ## Unstable-cell removal
 
@@ -48,7 +55,9 @@ is unstable if
 The two volume tests use the signed volume of the last force evaluation and are not applied to
 ECM and static cells ({doc}`08_cell_classes`).
 
-**Action.** The cell is removed in the same step as the cells below their minimum volume.
+**Action.** The cell is removed in the same step as the cells below their minimum volume. There
+is no limit on the number of cells removed in one iteration or in a run, unlike the
+refinement-failure removal below.
 
 **Log line.**
 
@@ -96,7 +105,8 @@ diverged domain.
 
 :::{versionchanged} 2.1
 In 1.0 (and 2.0) any error while refining one cell ended the whole run. An 8-core run of the
-paper configuration ended this way at 79,635 cells.
+reconstructed paper-like configuration (`parameters/longrun_fast_growth.xml`, not the lab's
+configuration; {doc}`/examples/growth_from_one_cell`) ended this way at 79,635 cells.
 :::
 
 ## Refiner oscillation bail-out
@@ -147,8 +157,12 @@ mother divides at a later division check ({doc}`06_growth_division_removal`). Th
 Cell division failed for cell <id>: Interface outline not covered by the Delaunay triangulation (<k> of <n> sides missing); division refused
 ```
 
-Refusals delay divisions but do not remove cells. In an 8-core run of the paper configuration
-from 1 to 150,498 cells, 14% of division attempts were refused.
+Refusals delay divisions but do not remove cells. In an 8-core run of the reconstructed
+paper-like configuration from 1 to 150,498 cells, 14% of division attempts were refused.
+
+A division is not refused when the cutting plane crosses the cell in a loop nested inside the
+longest loop, as in a cup-shaped cell. The division then goes ahead with daughters that
+interpenetrate, and no safeguard detects it (see {ref}`ug-safeguards-known-issues`).
 
 ## Diverged domain
 
@@ -173,6 +187,7 @@ The bending force skips hinges with a sliver triangle and caps $\lvert\cot\alpha
 under changed behaviour, not a safeguard. It is silent: no log line, no counter. Well-shaped
 hinges are not affected.
 
+(ug-safeguards-counting)=
 ## Counting safeguard events
 
 Capture standard error to a file when running a simulation. From the `build/` directory:
@@ -189,7 +204,11 @@ $ grep "inconsistent face winding" run.err | tail -n 1
 The first three commands count events. The bail-out and winding messages are rate-limited, so for
 them read the `occurrence` number of the last line, which bounds the number of events from below.
 The column `unstable_cells_removed` of the diagnostics CSV gives the number of removals per
-100 iterations, which shows when in the run they happened.
+100 iterations, which shows when in the run they happened, but it misses the last incomplete
+window. Compare the number of removals with the number of cells: the program does not stop or
+change its exit status however many cells it removes, and
+`scripts/parameter_screening/collect_screening_data.py` treats every run with exit status 0 as a
+success ({doc}`17_parameter_screening`).
 
 ## Conditions that still stop a run
 
@@ -202,21 +221,35 @@ The column `unstable_cells_removed` of the diagnostics CSV gives the number of r
   `edge::f2()` and the triangle score) cannot be caught; on a damaged mesh they end the program
   with SIGABRT.
 
+(ug-safeguards-known-issues)=
 ## Known issues
 
 The CHANGELOG of 2.1 lists these known issues; they concern the safeguards or the events they
 handle.
 
+- **No limit on unstable-cell removal; a diverged run exits with status 0.** In a review run of
+  `parameters_vesicle_quick.xml` with the time step raised to $5\times10^{-7}$ s, all 432
+  epithelial cells were removed within 8 iterations, and the run exited with status 0. Count the
+  removals of every run as described above.
+- **Nested cut loops in divisions.** The divider cuts along the longest intersection loop and does
+  not check whether another loop lies inside it. For a cup-shaped or invaginated cell, the
+  interface then spans the cavity: in a review test with a dimpled cylinder, 20 of 20 divisions
+  went ahead this way, the daughters' total volume exceeded the mother's by 3.4%, and part of one
+  daughter lay inside the other. Both daughters pass the unstable-cell checks, and nothing is
+  logged. How often this happens in growth runs has not been measured.
 - **Rare blow-ups of single nodes.** Occasionally a node is thrown far from its cell in one time
   step, sometimes to a non-finite position. The unstable-cell removal deletes the cell, but
   neighbouring cells can go with it: in a 150,000-cell run, 8 cells with one non-finite node each
   were removed in one iteration, and 4 cells with the same extent of $1.5\times10^{9}$ m in another.
   All three long 2.1 test runs had such groups. The cause is not yet known.
 - **Deferred divisions** become more frequent as the tissue grows ({doc}`06_growth_division_removal`).
-- **Cells interpenetrate** in every version, including 1.0 ({doc}`03_contact`).
+- **Cells interpenetrate** in long growth runs of the reconstructed paper-like configuration,
+  with 2.1 and with 1.0 ({doc}`03_contact`).
 - **Unchecked lookups in `noexcept` functions** (see above).
-- **Stale coupling links** and **non-atomic contact forces in contact models 0 and 1**
-  ({doc}`03_contact`).
+- **Stale coupling links** ({doc}`03_contact`).
+- **Contact models 0 and 1 can lose contact forces with more than one thread**, because they add
+  forces to other cells' nodes without an atomic add. They are the two models described in the
+  paper. Run them with `--threads=1`, or use model 2 ({doc}`03_contact`).
 - **Multi-threaded runs are not bit-reproducible** ({doc}`04_time_integration`).
 
 :::{seealso}

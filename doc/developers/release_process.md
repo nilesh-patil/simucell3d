@@ -69,8 +69,9 @@ block a release.
 
 The growth run exercises what the test suite cannot: thousands of divisions, mesh refinement
 and contact detection over many hours, and the {term}`safeguards <safeguard>` under load. It
-grows a tissue from one cell with the paper-configuration parameters
-(`parameters/longrun_fast_growth.xml`). The criterion is 30,000 cells. For reference,
+grows a tissue from one cell with the reconstructed paper-like configuration
+(`parameters/longrun_fast_growth.xml`; it is a 2.x reconstruction from Table 2 of the paper, not
+the lab's configuration, see {doc}`/examples/growth_from_one_cell`). The criterion is 30,000 cells. For reference,
 `CHANGELOG.md` records that 2.1.0 reaches 30,000 cells in about 4 hours on 8 cores, and that
 5 % of division attempts were refused below 30,000 cells in an 8-core run.
 

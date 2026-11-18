@@ -9,7 +9,7 @@ authoritative record; these pages present the same content for users.
 |---|---|---|
 | {doc}`2.1 <v2.1>` | unreleased | Fixes that change results, safeguards for long growth runs, faster contact step |
 | {doc}`2.0 <v2.0>` | 2026-03-02 | Rename to SimuCell3D, adaptive OpenMP scheduling, first correctness fixes |
-| {doc}`1.0 <v1.0>` | 2024-06-26 | The code published with Runser, Vetter & Iber (2024) |
+| {doc}`1.0 <v1.0>` | 2024-03-08 (Zenodo), 2024-06-26 (tag) | The code published with Runser, Vetter & Iber (2024) |
 
 ```{toctree}
 :hidden:

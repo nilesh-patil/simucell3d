@@ -229,7 +229,9 @@ The physics-level suites:
 
 - **Determinism** (`stability_determinism_*`): two single-threaded runs of 200 iterations of
   `test_scientific_benchmarks/params_single_sphere.xml` must give bitwise identical positions,
-  volumes and energies (`std::memcmp`). Runs with more than one thread are not bitwise
+  volumes and energies (`std::memcmp`). The sphere does not divide; cell division samples
+  points with a clock-seeded generator, so single-threaded runs with divisions are not
+  repeatable and are not covered. Runs with more than one thread are not bitwise
   reproducible, because the order of floating-point additions depends on the schedule.
 - **Time-step convergence** (`stability_timestep_*`): the same sphere with $\Delta t$ =
   $10^{-7}$, $\Delta t/2$, $\Delta t/4$ s for $5 \times 10^{-6}$ s of simulated time; the

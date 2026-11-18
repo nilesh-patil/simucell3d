@@ -26,10 +26,18 @@ The numerical parameters of the run:
 The file defines five cell types, in this order: `epithelial`, `ecm`, `lumen`, `nucleus` and
 `static_cell`. The `cell_type_id` of each cell in the input mesh is the position of its cell type
 in this list, so the mesh uses the first three. Epithelial cells have three face types (apical,
-lateral, basal) with surface tensions of $10^{-3}$, $4\times10^{-4}$ and $10^{-3}$ N/m; apical and
-lateral faces adhere with an adherence strength of $10^{9}$ N/m$^3$, basal faces do not adhere.
+lateral, basal) with surface tensions of $10^{-3}$, $4\times10^{-4}$ and $10^{-3}$ N/m; the file
+gives apical and lateral faces an adherence strength of $10^{9}$ N/m$^3$ and basal faces none.
 The epithelial cells grow ($10^{-12}$ m$^3$/s) but never divide (`avg_division_volume` is `inf`).
 The full parameter reference is {doc}`/user_guide/11_parameter_file`.
+
+:::{important}
+In the default build (contact model 2) the basal face type and `adherence_strength` have no
+effect. Polarization never labels a face basal, so the faces that face the ECM use the apical
+parameters, and adhesion is a rigid coupling between nodes of neighbouring epithelial cells, not a
+force of strength $\omega$. Only contact model 0 uses basal faces and $\omega$; this file has not
+been tested with it ({doc}`/user_guide/10_compile_time_configuration`).
+:::
 
 ## Run
 
@@ -55,8 +63,8 @@ loads the mesh relative to the source directory instead; this is expected.
 
 - In ParaView, open the series `cell_data/result_*.vtk` and colour by `cell_type_id` to separate
   the epithelium, the lumen and the ECM, or by `cell_pressure` and `cell_volume`.
-- Open `face_data/result_*.vtk` and colour by `face_type_id` to see the apical, lateral and basal
-  faces, or by `face_surface_tension`.
+- Open `face_data/result_*.vtk` and colour by `face_type_id` to see the apical and lateral faces
+  (no face is basal in the default build), or by `face_surface_tension`.
 - `simulation_statistics.csv` has one row per cell every 50 iterations; plot it with
   `python3 scripts/data_plotting/plot_data.py simulation_results/simulation_vesicle` from the
   repository root ({doc}`/getting_started`).

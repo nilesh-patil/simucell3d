@@ -146,9 +146,11 @@ All files are described in {doc}`/user_guide/14_output_files`.
 4. Apply *Filters > Common > Clip* to cut the vesicle open and see the lumen inside.
 5. Use the time controls of the toolbar to step through the output files.
 
-Open the `face_data/` series in the same way and colour by `face_type_id` to see the apical,
-lateral and basal faces of the epithelial cells. {doc}`/user_guide/15_visualization` describes
-more filters and arrays.
+Open the `face_data/` series in the same way and colour by `face_type_id` to see the apical and
+lateral faces of the epithelial cells. The parameter file also defines a basal face type, but the
+default build never uses it: with the default contact model, faces that face the ECM or the
+lumen are labelled apical ({doc}`/user_guide/07_polarization`).
+{doc}`/user_guide/15_visualization` describes more filters and arrays.
 
 ### Plot the statistics
 

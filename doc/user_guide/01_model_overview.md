@@ -46,7 +46,8 @@ their class.
 The mechanical state of a cell is described by the potential energy of Runser, Vetter & Iber
 (2024), Eq. (1): a pressure term that keeps the volume near a {term}`target volume`, an area
 elasticity term, surface tension, and bending. Its negative gradient gives the internal nodal
-forces (chapter {doc}`02_cell_mechanics`). Contact forces between cells come from one of three
+forces, except that the implemented bending force is not an exact gradient
+(chapter {doc}`02_cell_mechanics`). Contact forces between cells come from one of three
 {term}`contact models <contact model>`: springs between nodes and faces, or a mechanical
 coupling of nodes on adjacent cells (chapter {doc}`03_contact`). The nodes then move according
 to either the full equations of motion with viscous damping or their overdamped limit
@@ -119,22 +120,25 @@ differences listed in the notes of the following chapters. The main ones are:
 
 - The default contact model in the code, face-face coupling (contact model 2), is not one of
   the two models described in the paper's Methods; it extends the node-node coupling of the
-  paper so that a node can be coupled to one node on each neighbouring cell. It has been the
-  default since release 1.0.
+  paper so that a node can be coupled to one node on each neighbouring cell. It is the default
+  of the tag `v1.0` and of 2.x, but not of the Zenodo archive cited by the paper, whose default
+  is contact model 1 ({doc}`/whats_new/v1.0`).
 - The target area is computed from the current volume, not from the target volume
   (chapter {doc}`02_cell_mechanics`).
-- The bending force has a prefactor of 3 where the paper's Methods give 2
-  (chapter {doc}`02_cell_mechanics`).
+- The bending force has a prefactor of 3 where the paper's Methods give 2. The code's 3
+  matches Eq. (1); the Methods' discrete bending energy, and the `bending_energy` written to the
+  output, are about 2/3 of it. The implemented bending force is also not an exact gradient of
+  the bending energy, a defect inherited from 1.0 (chapter {doc}`02_cell_mechanics`).
 - The division plane is always normal to the longest cell axis; there is no random orientation
   (chapter {doc}`06_growth_division_removal`).
 
 :::{important}
 Results differ from 1.0. A simulation run with SimuCell3D 2.1 does not reproduce the numbers
 produced by 1.0, the code published with the paper. Several 1.0 bugs changed the physics (the
-contact distance to a face interior, the time step of coupled nodes, the choice of coupling
-partner, the face orientation after an edge split), and fixing them changes trajectories. 2.1
-also adds safeguards that remove or repair cells that 1.0 kept or crashed on. To compare with
-the published figures, run release 1.0. The full list is in {doc}`/whats_new/v2.1`.
+contact distance to a face interior, the time step of every node with contact model 2, the
+choice of coupling partner, the face orientation after an edge split), and fixing them changes
+trajectories. 2.1 also adds safeguards that remove or repair cells that 1.0 kept or crashed on.
+To compare with the published figures, run release 1.0. The full list is in {doc}`/whats_new/v2.1`.
 :::
 
 :::{seealso}

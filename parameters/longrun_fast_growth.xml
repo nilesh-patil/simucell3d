@@ -8,12 +8,27 @@
 -->
 
 <!--
-    PAPER-CONFIG GROWTH RUN (Fig. 1e / Table 2, Runser et al. 2024)
+    RECONSTRUCTED PAPER-LIKE GROWTH RUN (after Fig. 1e / Table 2,
+    Runser et al. 2024)
 
-    PURPOSE: Exponential growth from a single cell, matching the paper's
-    125k-cell benchmark configuration (Nature Comp. Sci. 4, 299-309).
+    PURPOSE: Exponential growth from a single cell, modelled on the paper's
+    125k-cell benchmark (Nature Comp. Sci. 4, 299-309). This file was
+    reconstructed for SimuCell3D 2.x from Table 2 of the paper. It is NOT the
+    lab's configuration: the lab's own benchmark file of release 1.0 is
+    parameters_benchmarck.xml (`git show v1.0:parameters_benchmarck.xml`;
+    contact model 1, polarization mode 0, min_edge_length 6e-7), which 2.0
+    removed.
 
-    PARAMETERS MATCHING PAPER TABLE 2 (dynamic column):
+    DIFFERENCES FROM TABLE 2 (dynamic column):
+    - min_edge_length 1e-6 m instead of 2e-7 m (see below)
+    - lateral surface tension 8e-4 N/m instead of 1e-3 N/m
+    - basal adherence_strength 0 and repulsion_strength 5e8 instead of 1e9
+      (the basal face type has no effect with contact model 2)
+    - contact model 2 (face-face coupling), not described in the paper
+    - 10% standard deviations of growth rate and division volume, which
+      Table 2 does not list
+
+    PARAMETERS TAKEN FROM PAPER TABLE 2 (dynamic column), except as above:
     - Time step:            1e-7 s
     - Damping:              2.5e-10 kg/s
     - Bulk modulus K:       2500 Pa       - Max pressure p_max: 2500 Pa
@@ -27,7 +42,7 @@
     - Growth rate g:        1e-11 m^3/s -> cell cycle = 7e-5 s ("pushed to
                             the limit": 125k cells in ~1.2e-3 s sim time)
 
-    DOCUMENTED DEVIATION FROM TABLE 2:
+    WHY min_edge_length DIFFERS FROM TABLE 2:
     - min_edge_length 1e-6 m (not Table 2's 2e-7). The paper's own 125k run
       used coarse cells: "121 nodes and 238 triangular faces on average"
       (p.301). At V_max=1.4e-15, l_min=1e-6 reproduces that (~240-480

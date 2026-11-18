@@ -121,11 +121,13 @@ setting.
 - **Resolution and contact range.** The contact cutoffs ({doc}`03_contact`) should be compared
   with $l_{\min}$: a node can only couple with or be repelled by a nearby surface within the cutoff,
   and the faces of a coarse mesh are large compared with a short cutoff. The paper's Table 2 sets
-  $l_{\min} = c = 2\times10^{-7}$ m; `parameters/longrun_fast_growth.xml` uses
-  $l_{\min} = 10^{-6}$ m with $c = 2\times10^{-7}$ m, to reproduce the mesh size reported for the
-  paper's growth benchmark (121 nodes and 238 faces per cell on average, Runser, Vetter & Iber
-  (2024)). The CHANGELOG lists cell interpenetration as a known issue and names this ratio as a
-  likely cause.
+  $l_{\min} = c = 2\times10^{-7}$ m. `parameters/longrun_fast_growth.xml`, the reconstructed
+  paper-like configuration of 2.x, uses $l_{\min} = 10^{-6}$ m with $c = 2\times10^{-7}$ m, aiming
+  at the mesh size reported for the paper's growth benchmark (121 nodes and 238 faces per cell on
+  average, Runser, Vetter & Iber (2024)); the lab's own benchmark file of 1.0,
+  `parameters_benchmarck.xml`, uses $l_{\min} = 6\times10^{-7}$ m with $c = 5\times10^{-7}$ m
+  ({doc}`/examples/growth_from_one_cell`). The CHANGELOG lists cell interpenetration as a known
+  issue and names the ratio of the reconstruction as one possible cause.
 - **Resolution and time step.** A finer mesh has lighter nodes and smaller faces, and usually needs
   a smaller time step ({doc}`04_time_integration`).
 - **Log lines.** Occasional oscillation bail-outs are expected with fine meshes and small cells.
