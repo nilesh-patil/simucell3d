@@ -81,7 +81,7 @@ checks that:
 
 | Test | Labels | Run |
 |---|---|---|
-| `e2e_growth_division` | `integration;e2e` | `parameters/longrun_fast_growth.xml` for $10^{-4}$ s (1000 iterations, one division), 2 threads |
+| `e2e_growth_division` | `integration;e2e` | `parameters/longrun_fast_growth.xml` for $2 \times 10^{-4}$ s (2000 iterations, at least one division), 2 threads |
 | `e2e_vesicle_quick` | `integration;e2e` | `parameters/core/parameters_vesicle_quick.xml` for $2 \times 10^{-6}$ s (20 iterations), 2 threads; all 434 cells must remain (about 22 s in Release, several minutes under ASan) |
 | `e2e_growth_long` | `long;e2e` | `parameters/longrun_fast_growth.xml` for $7 \times 10^{-4}$ s (7000 iterations), 4 threads, at least 100 cells at the end |
 | `e2e_missing_parameter_file`, `e2e_malformed_parameter_file`, `e2e_incomplete_parameter_file`, `e2e_invalid_threads_flag` | `integration;e2e` | invalid input must give exit status 1 and an error message (`expect_failure.cmake`) |
