@@ -32,7 +32,7 @@ The dashboard layout depends on the number of screened parameters:
 
 | One parameter | Two parameters | More than two parameters |
 |---|---|---|
-| ![Dashboard for one screened parameter](../../doc/images/screening_dashboard_type_1.jpg) | ![Dashboard for two screened parameters](../../doc/images/screening_dashboard_type_2.jpg) | ![Dashboard for more than two screened parameters](../../doc/images/screening_dashboard_type_3.jpg) |
+| ![Dashboard for one screened parameter](../../doc/images/screening_dashboard_type_1.jpg) | ![Dashboard for two screened parameters](../../doc/images/screening_dashboard_type_2.jpg) | ![Dashboard for more than two screened parameters](../../doc/images/screening_dashboard_type_3_opt.jpg) |
 
 Output of `mech_props_analysis.py`:
 

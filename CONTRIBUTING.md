@@ -2,7 +2,7 @@
 
 Contributions are welcome: bug reports, fixes, tests, documentation and new model features.
 The full guide is the developer guide of the documentation:
-<https://nilesh-patil.github.io/simucell3d/stable/developers/index.html>
+<https://www.nilesh42.science/simucell3d/stable/developers/index.html>
 (source: [`doc/developers/`](doc/developers/)).
 
 ## Reporting a problem
