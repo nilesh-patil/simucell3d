@@ -62,8 +62,8 @@ keep local type 0, so these cell types need only one face type.
 
 ## Polarization modes
 
-At the start of every iteration, all faces of every epithelial cell are reset to local type 0
-(apical). The polarization mode then decides which faces become lateral or basal in the same
+In every iteration, after the division check and before mesh refinement, all faces of every
+epithelial cell are reset to local type 0 (apical), whatever the polarization mode. The polarization mode then decides which faces become lateral or basal in the same
 iteration, before the internal forces are computed.
 
 ### Mode 0: no polarization
@@ -111,7 +111,7 @@ contact information. At every iteration:
 
 In 2.1 a face that looks at exterior space becomes local type 0, and a face that looks at
 cytoplasm or at a lumen becomes local type 1. The voxel map is written at every sampling period
-to `region_data/result_<n>.vtk`, from the second iteration on ({doc}`14_output_files`).
+to `region_data/result_<n>.vtk`, from the third iteration on ({doc}`14_output_files`).
 
 :::{note}
 The paper describes the outcome as lateral (facing another cell), apical (facing an enclosed
@@ -135,8 +135,9 @@ The face type of a face selects, at every iteration:
   touches it ({doc}`03_contact`).
 
 A lower lateral than apical surface tension, as in the shipped files, favours large contacts
-between cells: for two coupled cells the contact angle $\theta$ follows the Young-Dupré relation
-$\cos\theta = \gamma_l/\gamma_a$ (paper, Supplementary Fig. 5). The paper explores the balance
+between cells: for two coupled cells, the angle $\theta$ between each free surface and the
+contact plane at the rim follows the Young-Dupré relation $\cos\theta = \gamma_l/\gamma_a$
+(paper, Supplementary Fig. 5), because the interface carries the lateral tension of both cells. The paper explores the balance
 between surface tension and adhesion in its Figs. 3 and 4.
 
 ## Contact area fraction
@@ -153,8 +154,8 @@ column is absent in the other modes ({doc}`14_output_files`).
 | 1 (default) | From contacts, as described above |
 | 2 | From the voxel map; writes `region_data/` |
 
-Every shipped parameter file that states its configuration was written for mode 1
-(`fig3e_*.xml` state none). Changing the mode requires a rebuild ({doc}`10_compile_time_configuration`).
+Every shipped parameter file states its configuration in its header, and all of them were
+written for mode 1. Changing the mode requires a rebuild ({doc}`10_compile_time_configuration`).
 
 :::{seealso}
 - {doc}`08_cell_classes` for which classes are polarized.

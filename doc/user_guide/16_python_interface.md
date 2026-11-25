@@ -37,8 +37,9 @@ The Docker image ({doc}`/user_guide/13_running_simulations`) builds the module, 
 `/app/container_build/bin/python_bindings/`.
 
 :::{note}
-The continuous-integration builds do not build the Python module. For the 2.1 release it
-was built and run on Linux with Python 3.10 and GCC. It uses the vendored pybind11 2.11.
+The continuous-integration workflow builds the module with Python 3.12 on Ubuntu 24.04 and
+checks that it imports; it does not run a simulation with it. For the 2.1 release the module
+was also built and run on Linux with Python 3.10 and GCC. It uses the vendored pybind11 2.11.
 :::
 
 ## Importing the module
@@ -91,7 +92,8 @@ sim.contact_cutoff_repulsion_ = 7.5e-7  # m
 sim.enable_edge_swap_operation_ = False
 sim.perform_initial_triangulation_ = False
 
-# One face type (a <face_type> block)
+# Face types (<face_type> blocks). An epithelial cell needs at least apical and lateral,
+# in that order: faces in contact with another cell are labelled lateral.
 apical = sc.face_type_parameters()
 apical.name_ = "apical"
 apical.face_type_global_id_ = 0
@@ -99,6 +101,14 @@ apical.surface_tension_ = 1e-3          # N/m
 apical.bending_modulus_ = 0.0           # J
 apical.adherence_strength_ = 0.0        # N/m^3
 apical.repulsion_strength_ = 1e9        # N/m^3
+
+lateral = sc.face_type_parameters()
+lateral.name_ = "lateral"
+lateral.face_type_global_id_ = 1
+lateral.surface_tension_ = 5e-4         # N/m
+lateral.bending_modulus_ = 0.0          # J
+lateral.adherence_strength_ = 0.0       # N/m^3
+lateral.repulsion_strength_ = 1e9       # N/m^3
 
 # One cell type (a <cell_type> block)
 epithelial = sc.cell_type_parameters()
@@ -118,6 +128,7 @@ epithelial.std_division_vol_ = 0.0
 epithelial.min_vol_ = 3.7e-17           # m^3
 epithelial.surface_coupling_max_curvature_ = 1e7  # 1/m
 epithelial.add_face_type(apical)
+epithelial.add_face_type(lateral)
 
 # Run: positional arguments (parameters, cell types, verbose, number of threads)
 run = sc.simucell3d_wrapper(sim, [epithelial], False, 2)
@@ -216,6 +227,9 @@ Corresponds to one `<face_type>` entry. Create it with `face_type_parameters()`.
 | `bending_modulus_` | `float` | J | `bending_modulus` |
 | `adherence_strength_` | `float` | N/m³ | `adherence_strength` |
 | `repulsion_strength_` | `float` | N/m³ | `repulsion_strength` |
+
+Unset attributes are 0, and `name_` is empty, except `repulsion_strength_`, which has no default
+value: always set it.
 
 ### `simucell3d_wrapper`
 

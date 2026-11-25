@@ -124,8 +124,10 @@ release; the last point is a judgement for the maintainer, documented in the iss
    long tier. Patch releases of an older minor version are made from a `release/X.Y` branch.
 3. Finish `CHANGELOG.md` (every user-visible change, results-changing items under "Changed
    behaviour") and the matching `whats_new/` page, and run the growth run.
-4. In one pull request from `release/X.Y.Z-prep`, date the CHANGELOG heading, point its compare link at the new tag, and
-   set `version:` and `date-released:` in `CITATION.cff`. Before merging:
+4. In one pull request from `release/X.Y.Z-prep`, set `project(SimuCell3D VERSION X.Y.Z)` in
+   `CMakeLists.txt` (if it is not set already), date the CHANGELOG heading, point its compare
+   link at the new tag, and set `version:` and `date-released:` in `CITATION.cff`. Before
+   merging:
 
    ```console
    $ python3 scripts/ci/check_version.py --tag vX.Y.Z
@@ -141,7 +143,11 @@ release; the last point is a judgement for the maintainer, documented in the iss
    - `docs.yml` deploys the documentation to `/X.Y/` and, for the newest release, to
      `/stable/`, and updates the version menu.
 6. Check the release page, the tarball checksum and the documentation, then open the next
-   development cycle on `main` with a new `## [X.Y.Z] - unreleased` CHANGELOG section.
+   development cycle on `main` in one pull request: `project(SimuCell3D VERSION X.Y+1.0)` in
+   `CMakeLists.txt`, a new `## [X.Y+1.0] - unreleased` section at the top of `CHANGELOG.md` with
+   its compare link `.../compare/vX.Y.Z...HEAD`, and `CITATION.cff` left at the released
+   version. The CHANGELOG heading alone fails the version check, because it must name the
+   CMake version.
 
 A published tag is never moved or deleted; a broken release is fixed by the next patch
 release. The release artifacts for 2.1 are the source tarball and `SHA256SUMS`.

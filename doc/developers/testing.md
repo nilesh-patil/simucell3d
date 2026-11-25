@@ -42,7 +42,7 @@ $ python -m pytest tests/
 | Unit | `unit` | Tests of single classes and functions in `test/test_*`: mesh, math, I/O, triangulation, contact models, spatial grids, solver steps, thread placement. The `stability_*` and `scientific_*` tests are also `unit`, because they finish in seconds. | every CI build ({ref}`dev-ci`) |
 | Integration | `integration` | Tests across modules and end-to-end runs of the `simucell3d` executable: `cli_version_flag`, `test_contact_model_integration`, and the short tests in `test/test_e2e/`. | every CI build |
 | Benchmark | `benchmark` | The micro-benchmarks in `test/test_benchmarks/` (`benchmark_*`). They report timings and never fail on speed; their numbers are meaningful only in a Release build ({ref}`dev-performance-internals`). | the long-tier workflow, Release only |
-| Long | `long` | The `stability_*` and `scientific_*` tests and `e2e_growth_long`, a growth run from one cell to at least 100 cells (7000 iterations). | release branches, tags, labelled pull requests, by hand ({ref}`dev-ci`) |
+| Long | `long` | The `stability_*` and `scientific_*` tests and `e2e_growth_long`, a growth run from one cell to at least 100 cells (7,000 iterations). | release branches, tags, labelled pull requests, by hand ({ref}`dev-ci`) |
 
 Further labels group tests within the tiers: `e2e`, `stability`, `scientific`,
 `contact_models`.
@@ -56,8 +56,8 @@ $ ctest -L benchmark            # the long-tier workflow, Release build only
 ```
 
 In 2.1.0 the tiers hold 314 `unit`, 8 `integration`, 17 `benchmark` and 27 `long` tests, 340
-registered tests in all (the `stability_*` and `scientific_*` tests count in both `unit` and
-`long`). `ctest -N -L <label>` prints the current numbers.
+registered tests in all (the 26 `stability_*` and `scientific_*` tests count in both `unit` and
+`long`), built from 50 test executables. `ctest -N -L <label>` prints the current numbers.
 
 One check sits outside CTest: a growth simulation to 30,000 cells, run before every release
 ({ref}`dev-release`).
@@ -81,9 +81,9 @@ checks that:
 
 | Test | Labels | Run |
 |---|---|---|
-| `e2e_growth_division` | `integration;e2e` | `parameters/longrun_fast_growth.xml` for $2 \times 10^{-4}$ s (2000 iterations, at least one division), 2 threads |
-| `e2e_vesicle_quick` | `integration;e2e` | `parameters/core/parameters_vesicle_quick.xml` for $2 \times 10^{-6}$ s (20 iterations), 2 threads; all 434 cells must remain (about 22 s in Release, several minutes under ASan) |
-| `e2e_growth_long` | `long;e2e` | `parameters/longrun_fast_growth.xml` for $7 \times 10^{-4}$ s (7000 iterations), 4 threads, at least 100 cells at the end |
+| `e2e_growth_division` | `integration;e2e` | `parameters/longrun_fast_growth.xml` for `2e-4` s (2,000 iterations, at least one division), 2 threads |
+| `e2e_vesicle_quick` | `integration;e2e` | `parameters/core/parameters_vesicle_quick.xml` for `2e-6` s (20 iterations), 2 threads; all 434 cells must remain (about 22 s in Release, several minutes under ASan) |
+| `e2e_growth_long` | `long;e2e` | `parameters/longrun_fast_growth.xml` for `7e-4` s (7,000 iterations), 4 threads, at least 100 cells at the end |
 | `e2e_missing_parameter_file`, `e2e_malformed_parameter_file`, `e2e_incomplete_parameter_file`, `e2e_invalid_threads_flag` | `integration;e2e` | invalid input must give exit status 1 and an error message (`expect_failure.cmake`) |
 
 The duration and minimum cell count of `e2e_growth_long` can be overridden at configure time
@@ -211,7 +211,7 @@ The list should be empty.
 | `test_contact_models/` | `contact_`, `sap_` | contact models, contact detection strategies, contact forces; `test_contact_model_integration` |
 | `test_uspg/` | `uspg_`, `morton_` | spatial grids and Morton codes |
 | `test_time_integration/` | `time_` | time integration schemes |
-| `test_automatic_polarization/` | | automatic polarizer; the executable is built but registers no CTest test |
+| `test_automatic_polarization/` | `automatic_polarization_` | automatic polarizer; one registered test, `automatic_polarization_unknown_region_throws` |
 | `test_solver/` | `solver_` | solver construction, scheduling, cell removal, refinement failures, thread placement |
 | `test_cpu_topology/` | `test_cpu_topology_` | CPU topology detection and placement order |
 | `test_performance_monitor/` | `performance_` | performance monitor |
@@ -234,12 +234,13 @@ The physics-level suites:
   repeatable and are not covered. Runs with more than one thread are not bitwise
   reproducible, because the order of floating-point additions depends on the schedule.
 - **Time-step convergence** (`stability_timestep_*`): the same sphere with $\Delta t$ =
-  $10^{-7}$, $\Delta t/2$, $\Delta t/4$ s for $5 \times 10^{-6}$ s of simulated time; the
+  `1e-7` s, $\Delta t/2$ and $\Delta t/4$, for `5e-6` s of simulated time; the
   observed order $p = \log_2(e_{\Delta t} / e_{\Delta t/2})$ must lie in $[0.3, 1.7]$
-  (semi-implicit Euler is first order). Volume errors below $10^{-17}$ are treated as
+  (semi-implicit Euler is first order). Volume errors below `1e-17` are treated as
   floating-point noise.
-- **Extreme parameters** (`stability_extreme_*`): zero bulk modulus, high pressure, edges at
-  half the minimum length, contact cutoff equal to the minimum edge length; the run must
+- **Extreme parameters** (`stability_extreme_*`): zero bulk modulus, high pressure (bulk
+  modulus and pressure cap multiplied by 10), the minimum edge length halved, contact cutoff equal
+  to the minimum edge length; the run must
   complete without non-finite values.
 - **Degenerate hinge** (`stability_degenerate_hinge_*`, `stability_healthy_mesh_untouched_by_guard`):
   the bending force on a near-degenerate triangle must stay bounded, and the guard must not

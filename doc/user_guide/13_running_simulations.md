@@ -98,8 +98,9 @@ of the run and, if you collect diagnostics across restarts, the `--diagnostics-c
 
 ## What a run prints
 
-Standard output reports the set-up and then one progress line per iteration. Abridged output
-of `parameters_vesicle_quick.xml` with `--threads=4`:
+The program reports the set-up and then one progress line per iteration. Abridged output of
+`parameters_vesicle_quick.xml` with `--threads=4`, both streams together (the two `WARNING`
+lines about the mesh path are on standard error, the rest on standard output):
 
 ```text
 WARNING: the absolute mesh file path: data/input_meshes/fig_3_vesicle.vtk was not found
@@ -155,7 +156,7 @@ A run ends in one of these ways:
 |---|---|---|
 | The simulation time reaches `simulation_duration` | 0 | A final block of rows in the {term}`statistics CSV`; the performance report on standard output. |
 | No cell is left (all were removed) | 0 | As above. A run can also end normally after the safeguards removed most of its cells: the exit status does not reflect removals ({doc}`09_safeguards`). |
-| An error: invalid input, a diverged domain ("the contact grid refuses a diverged domain"), mesh refinement failing for too many cells in one iteration, a non-finite coordinate when a mesh file is written, a full disk | 1 | The error message on standard error. Output written up to that point is kept. |
+| An error: invalid input, a diverged domain (for example "The contact grid would need more than 1e10 voxels: at least one cell has diverged." or "The mesh is too large, the simulation is probably unstable. Reducing the time step might help."), mesh refinement failing for too many cells in one iteration, a non-finite coordinate when a mesh file is written, a full disk | 1 | The error message on standard error. Output written up to that point is kept. |
 | Termination by a signal (`Ctrl-C`, `kill`) | signal status (130 for `Ctrl-C`) | Output written up to that point is kept. |
 | An internal check fails in a `noexcept` function (a known issue in 2.1, see {doc}`/whats_new/v2.1`) | 134 (`SIGABRT`) | Output written up to that point is kept. |
 
@@ -166,6 +167,83 @@ A run cannot be resumed: there is no checkpoint file. To continue from the state
 earlier run, use its last `cell_data/result_<n>.vtk` as the input mesh of a new run
 ([Reusing simulation output](12_input_meshes.md#reusing-simulation-output)). The new run
 starts at simulation time 0 and with new random growth rates.
+
+:::{important}
+Exit status 0 means that the program reached `simulation_duration` (or ran out of cells). It does
+not mean that the tissue survived. In the November 2026 benchmark, the shipped
+`parameters/benchmarks/fig3e_monolayer.xml`, run to its full duration with 2.1.0, ended with
+status 0 and 18 of its 434 cells. Check every run as described in
+[Checking a run](#checking-a-run) and {ref}`benchmarks-validity`.
+:::
+
+(ug-running-time-step)=
+## Time step
+
+`time_step` is the setting that most often decides whether a run is usable. A step that is too
+large does not stop the run: cells blow up and are removed one by one, and the run continues.
+The November 2026 benchmark measured, with 2.1.0 ({ref}`benchmarks-time-step`):
+
+- The vesicle (at five apical surface tensions), the multilayer vesicle and the tube, built
+  from the shipped files, and the single-cell test cases run without removals at
+  `1e-7` s. Two cases complete in no version: the full-length
+  monolayer file `fig3e_monolayer.xml`, which loses most of its cells in 2.1.0, and one two-cell
+  contact case, which loses a cell ({ref}`benchmarks-completion`).
+- The lab's growth benchmark (`parameters_benchmarck.xml` of 1.0, contact model 1) is **not**
+  stable at its published `1e-7` s in any version. With 2.1.0 the first cell is removed at
+  about 4,800 cells and removals become massive from about 13,800 cells. The recommended step
+  for this file is `2.5e-8` s: with 2.1.0 it was clean in three of three 48 h runs, which grew
+  to 142,314-148,914 cells with no removal. This is a measurement, not a guarantee for other
+  machines or longer runs.
+
+For a new parameter file, run a few thousand iterations, count the removals
+([Checking a run](#checking-a-run)) and halve the time step until there are none. The cost of a
+run is close to proportional to $1/\Delta t$ ({doc}`18_parallel_performance`). The stability
+limits themselves are explained in [Choosing the time step](04_time_integration.md#choosing-the-time-step).
+
+(ug-running-checking)=
+## Checking a run
+
+Five things can happen to cells during a run. Only the first two are logged; count them in the
+standard error of every run.
+
+| Event | Logged as | Counted in |
+|---|---|---|
+| {term}`Removal <removal>` of a numerically unstable cell | `Removing numerically unstable cell N at iteration I: ...` | `unstable_cells_removed` of the {term}`diagnostics CSV` |
+| Removal of a cell whose mesh refinement failed | `Removing cell N at iteration I: mesh refinement failed: ...` | `unstable_cells_removed` |
+| {term}`Refused division <refused division>`: the mother is kept and tries again | `Cell division failed for cell N: ... division refused` | not counted |
+| {term}`Minimum-volume death <minimum-volume death>`: a cell below `min_vol` is deleted | nothing | not counted |
+| {term}`Cell superposition`: two cells end up in nearly the same place | nothing | not counted |
+
+```console
+$ ./simucell3d ../parameters/core/parameters_vesicle_quick.xml > run.log 2> run.err
+$ grep -c "Removing" run.err          # removals, both kinds
+$ grep -c "division refused" run.err  # refused divisions
+```
+
+A clean run has no removals. Any removal means that the run is no longer a faithful solution
+of the model at that time step, usually because the time step is too large or a parameter is
+out of range; when removals continue or rise with the number of cells, the tissue that is left
+is no longer the model's answer, even if the run ends with status 0
+({ref}`benchmarks-time-step`). Some refusals are normal in growing tissues;
+in the benchmark they rose from about 21% of division attempts below 30,000 cells to about 27%
+above 125,000.
+
+Minimum-volume deaths are part of the model, but they are silent. Estimate them from the cell
+identifiers in the {term}`statistics CSV`: each division gives two new identifiers, so with
+$n_0$ cells in the input mesh, $N$ cells now and $M$ the largest `cell_id` seen so far, about
+$D = (M + 1 - n_0)/2$ divisions have happened and $n_0 + D - N$ cells have been removed or have
+died. Subtract the logged removals to get the deaths. In the growth benchmark, 35.7% of all
+cells ever born had died at the minimum volume by 144,000 live cells, with a similar rate in
+1.0.
+
+Cell superposition limits large aggregates: in the growth benchmark (contact model 1) the core
+of the tissue holds more cell volume than space beyond about 5,000 cells, in every version.
+Per-cell statistics of such a run are valid only for the outer cells. The vesicle and tube
+(contact model 2) showed none. See {ref}`benchmarks-validity`.
+
+Two runs of the same file are not identical; differences of a few percent between
+{term}`replicates <replicate>` are expected ([Reproducibility](18_parallel_performance.md#reproducibility),
+{ref}`benchmarks-reproducibility`).
 
 ## Long runs
 
@@ -188,7 +266,8 @@ nohup /usr/bin/time -v stdbuf -oL -eL ./simucell3d \
   file is written in blocks of a few kilobytes, which on a large tissue can mean many minutes
   between updates.
 - `/usr/bin/time -v` adds the peak memory use and the CPU time to the end of the log.
-- The script deletes and re-creates `$OUT` and its log folder before starting. Set
+- The script first kills a run of the same launcher that is still writing to `$OUT`, then
+  deletes and re-creates `$OUT` and its log folder. Set
   `THREADS=N` in the environment to pass `--threads=N`.
 
 Monitor such a run with `tail -f` on the log, and with the diagnostics CSV, which gains one row

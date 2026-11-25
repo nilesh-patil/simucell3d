@@ -12,12 +12,13 @@ when a release is prepared or when a maintainer asks for them.
 |---|---|---|
 | `ci.yml` (CI) | every pull request; pushes to `main` and `release/**`; by hand; called by `release.yml` | the required checks |
 | `long.yml` (Long tests) | pull requests touching `src/` or `include/` with the label `run-long-tests`; pushes to `release/**`; called by `release.yml`; by hand | the `long` test tier and the micro-benchmarks |
-| `perf.yml` (Performance A/B) | pull requests touching `src/`, `include/`, `lib/`, `CMakeLists.txt` or `parameters/`; by hand | timing comparison with the base branch; informational |
-| `docker.yml` (Docker) | pull requests and pushes to `main` that change the `Dockerfile`, `.dockerignore`, the top-level `CMakeLists.txt`, `src/`, `include/` or `lib/` | builds the Docker image and runs `simucell3d --version`; informational |
-| `docs.yml` (Docs) | pull requests touching `doc/`, `include/`, `CHANGELOG.md`, `README.md` or `CMakeLists.txt`; pushes to `main`; tags `vX.Y.Z`; by hand | builds and deploys the documentation |
+| `perf.yml` (Performance A/B) | pull requests touching `src/`, `include/`, `lib/`, `CMakeLists.txt`, `parameters/` or `scripts/ci/perf_ab.py`; by hand | timing comparison with the base branch; informational |
+| `docker.yml` (Docker) | pull requests and pushes to `main` that change the `Dockerfile`, `.dockerignore`, the top-level `CMakeLists.txt`, `src/`, `include/` or `lib/` (pull requests also when the workflow changes); by hand | builds the Docker image and runs `simucell3d --version`; informational |
+| `docs.yml` (Docs) | pull requests touching `doc/`, `include/`, `CHANGELOG.md`, `README.md`, `CMakeLists.txt` or the workflow itself; pushes to `main`; tags `vX.Y.Z`; by hand | builds and deploys the documentation |
 | `release.yml` (Release) | tags `vX.Y.Z` and `vX.Y.Z-rcN` | publishes a release |
 
-There is no nightly or weekly workflow.
+There is no nightly or weekly workflow. The cross-version benchmark of November 2026 ran on
+dedicated machines outside CI ({ref}`dev-benchmarking-bench2`).
 
 ## `ci.yml`
 
@@ -36,7 +37,8 @@ The integration tier includes end-to-end runs of the `simucell3d` executable (a 
 one division, 20 iterations of the 434-cell vesicle, and error-path tests), so every
 pull request runs the simulator ({ref}`dev-testing`).
 
-When a build job fails, its CTest logs (`Testing/`) are uploaded as an artifact. A new push to a
+When a build job fails, `Testing/Temporary/LastTest.log` and the `run.log` files of the
+end-to-end tests are uploaded as an artifact (kept 14 days). A new push to a
 pull request cancels the run of the previous push. `ci.yml` can be started by hand for any
 branch, tag or commit (Actions tab, "CI", "Run workflow", field `ref`).
 
@@ -64,7 +66,7 @@ iterations.
 
 The job builds the pull request and its base on the same runner and times both on the same fixed
 amount of work with `scripts/ci/perf_ab.py`: `parameters/core/parameters_vesicle_quick.xml`
-cut to $2 \times 10^{-6}$ s (20 iterations of the 434-cell vesicle, mesh written at the start and
+cut to `2e-6` s (20 iterations of the 434-cell vesicle, mesh written at the start and
 the end only), one warm-up, then five repetitions per build, alternating between them. It posts (or updates) one pull-request comment with the medians and
 ranges, and adds the label `perf: slower` when the head build's median is more than 10 % above
 the base and the ranges do not overlap. It fails only if the pull-request build cannot run the
@@ -84,7 +86,10 @@ On a push to `main` the site is deployed to the `gh-pages` branch under `/dev/`.
 `vX.Y.Z` it is deployed to `/X.Y/` and, if X.Y is the newest release, also to `/stable/`, and
 `switcher.json` at the site root (the version menu) is updated. Other directories on `gh-pages`
 are kept, so older versions stay online. The site root redirects to `/stable/` once a release
-has been deployed, and to `/dev/` before that.
+has been deployed, and to `/dev/` before that. The public address is
+<https://www.nilesh42.science/simucell3d/>; a fork sets the repository variable
+`DOCS_SITE_URL` to its own. How the version menu is assembled is described in
+{ref}`dev-writing-docs`.
 
 ## Releases: `release.yml`
 
@@ -112,8 +117,8 @@ $ ruff check --select E9,F63,F7,F82 scripts tests
 $ git clang-format --diff origin/main
 ```
 
-When a job fails only in CI, download the `Testing/` artifact from the run page;
-`Testing/Temporary/LastTest.log` holds the output of every test.
+When a job fails only in CI, download its artifact from the run page;
+`LastTest.log` holds the output of every test.
 
 ## Branch protection
 

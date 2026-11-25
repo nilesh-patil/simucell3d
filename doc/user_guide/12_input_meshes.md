@@ -132,7 +132,7 @@ assemble a tissue from cells of existing meshes:
 
 3. Extract it with the *Extract Selection* filter.
 
-   :::{figure} /images/extract_from_selection.png
+   :::{figure} /images/extract_from_selection_opt.png
    :alt: ParaView with the Extract Selection filter applied to the selected cell.
 
    The selected cell extracted into its own dataset.
@@ -172,7 +172,7 @@ MeshLab filters for cleaning and re-meshing surfaces.
 [Blender](https://www.blender.org/download/) is suited to drawing cells from scratch:
 modelling, sculpting and positioning closed surfaces.
 
-:::{figure} /images/blender.png
+:::{figure} /images/blender_opt.png
 :alt: Blender viewport with several closed cell surfaces being modelled.
 
 Modelling cell surfaces in Blender.
@@ -226,7 +226,7 @@ from a relaxed tissue. Two points need care:
 Open the file in ParaView, choose the cell-selection tool and click on a cell. If the file is
 correct, the whole cell is highlighted:
 
-:::{figure} /images/correct_cell_mesh.png
+:::{figure} /images/correct_cell_mesh_opt.png
 :alt: ParaView showing one complete cell highlighted after a click.
 
 Correct mesh: the selection picks a whole cell.

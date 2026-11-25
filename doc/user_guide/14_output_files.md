@@ -31,6 +31,7 @@ The output folder is deleted with all its contents when a run starts.
     └── result_<n>.vtk
 ```
 
+(ug-output-mesh-files)=
 ## Mesh files
 
 ### When mesh files are written
@@ -48,7 +49,7 @@ is the first state at or after $t = (n-1)\,T_s$. A run writes about
 `simulation_duration / sampling_period` files of each kind; no file is written at the very end
 of the run.
 
-With `time_step` $10^{-7}$ s and `sampling_period` $10^{-6}$ s, a mesh pair is written every
+With `time_step` `1e-7` s and `sampling_period` `1e-6` s, a mesh pair is written every
 10 iterations. The shipped `parameters_vesicle.xml` has `simulation_duration` $10^{-2}$ s and
 therefore writes about $10^4$ pairs.
 
@@ -111,6 +112,9 @@ Face arrays (defined in `face_data_mapper_lst`):
 | `face_adhesion_energy`, `face_repulsion_energy` | float | J | Contact energies of the face. Only if `FACE_STORE_CONTACT_ENERGY` is `true` (default `false`). |
 | `face_normals` | vector | | Outward unit normal of the face. Only if `WRITE_NORMALS_IN_OUTPUT_MESH_FILE` is `true` (the default). |
 
+The writer also contains code for a node array `node_normals` with contact model 1, but in 2.1.0
+it is never reached: no build writes node normals.
+
 Node arrays (defined in `node_data_mapper_lst`), written only with contact model 2
 (`CONTACT_MODEL_INDEX 2`, the default):
 
@@ -126,10 +130,11 @@ The compile-time switches `FACE_STORE_CONTACT_ENERGY`, `WRITE_NORMALS_IN_OUTPUT_
 ### Region meshes (`region_data/`)
 
 Only with `POLARIZATION_MODE_INDEX 2` (polarization by discretisation of space): the folder
-`region_data/` receives, together with each mesh pair after the first iteration, a file
+`region_data/` receives, together with each mesh pair from the third iteration on, a file
 `result_<n>.vtk` with the spatial regions that the automatic polarizer uses
 ({doc}`/user_guide/07_polarization`).
 
+(ug-output-statistics)=
 ## Statistics CSV
 
 `simulation_statistics.csv` (the {term}`statistics CSV`) holds one row per cell per sample. It
@@ -196,12 +201,14 @@ time = per_sample["simulation_time"].first()
 `scripts/data_plotting/plot_data.py` plots the main quantities of this file
 ({doc}`/user_guide/15_visualization`).
 
+(ug-output-diagnostics)=
 ## Diagnostics CSV
 
 The {term}`diagnostics CSV` records the cost of the computation and the activity of the
 {term}`safeguards <safeguard>`. It is written to `performance_diagnostics.csv` in the output
 folder, or to the path given with `--diagnostics-csv`. A row is appended every 100 iterations,
-starting at iteration 100, so runs shorter than 100 iterations do not produce the file. Each
+starting at iteration 100. Iterations are numbered from 0, so a run of 100 iterations or fewer
+writes no diagnostics file. Each
 row summarises the 100 iterations since the previous row.
 
 :::{note}
@@ -217,7 +224,7 @@ of earlier runs; delete the file first if that is not wanted.
 | `wall_epoch` | s | Wall-clock time as a Unix timestamp. |
 | `iteration` | | Iteration. |
 | `cells` | | Number of cells. |
-| `divisions` | | Divisions since the previous row. |
+| `divisions` | | Divisions since the previous row. Refused divisions are not counted. |
 | `cov` | | Coefficient of variation of an estimated per-cell workload (number of faces, contacts and other terms). Used by the adaptive scheduling mode ({doc}`/user_guide/18_parallel_performance`). |
 | `phase` | | Phase detected by the adaptive scheduling mode: `INITIALIZATION` (fewer than 10 cells), `GROWTH` (more than 1% of cells divided in the last 50 iterations) or `HOMEOSTASIS`. |
 | `mesh_refinement_ms` | ms | Mean time per iteration of the mesh refinement, over the window. |
@@ -226,7 +233,7 @@ of earlier runs; delete the file first if that is not wanted.
 | `time_integration_ms` | ms | Mean time per iteration of the time integration. |
 | `total_iteration_ms` | ms | Sum of the four preceding columns. It excludes cell division, output and the other steps of an iteration, so it is lower than the wall-clock time per iteration. |
 | `thread_imbalance_pct` | % | 100 x `cov`. An estimate derived from the workload model, not a measured imbalance. |
-| `unstable_cells_removed` | | Cells removed by the safeguards since the previous row: numerically unstable cells and cells whose mesh refinement failed ({doc}`/user_guide/09_safeguards`). |
+| `unstable_cells_removed` | | Cells removed by the safeguards since the previous row: numerically unstable cells and cells whose mesh refinement failed ({doc}`/user_guide/09_safeguards`). Cells that die below `min_vol` are not counted. |
 
 To estimate the wall-clock time per iteration, use the difference of `wall_epoch` between two
 rows divided by 100.
@@ -234,6 +241,16 @@ rows divided by 100.
 :::{versionadded} 2.1
 The `unstable_cells_removed` column.
 :::
+
+:::{versionchanged} 2.1
+Two columns were wrong in 2.0: `divisions` was always 0, because the counter was reset by the
+scheduler every 50 iterations before the row was written, and `phase` never showed `GROWTH`.
+Diagnostics files written by 2.0 cannot be used for either.
+:::
+
+The diagnostics CSV does not record cells that die below the minimum volume or divisions that
+were refused. How to count them is described in
+[Checking a run](13_running_simulations.md#checking-a-run).
 
 ## Adding a column or array
 
@@ -253,7 +270,7 @@ entry to `file_data_mapper_lst`:
 
 ```cpp
 cell_data_mapper("cell_nb_nodes", "int", [](cell_ptr c) -> std::string {
-    return format_number(static_cast<int>(c->get_node_lst().size()), "%d");
+    return format_number(static_cast<int>(c->get_nb_of_nodes()), "%d");
 }),
 ```
 

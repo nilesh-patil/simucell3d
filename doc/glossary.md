@@ -35,6 +35,12 @@ cell class
   matrix (ECM), lumen, nucleus and static. Selected by the `global_cell_id` (0 to 4) of a cell
   type. See {doc}`/user_guide/08_cell_classes`.
 
+cell superposition
+  Two cells whose separate meshes occupy almost the same place, with nearly equal volumes. A node
+  pushed deeper into a neighbour than the contact range feels no contact force, so such a pair
+  does not separate again. Observed in the core of large growth aggregates with contact model 1;
+  nothing logs it. See {doc}`/user_guide/03_contact` and {ref}`benchmarks-validity`.
+
 cell type
   An entry `<cell_type>` of the parameter file, with the volume, area, growth and division
   parameters of a group of cells and its list of face types. Cells of the input mesh name their
@@ -110,8 +116,10 @@ isoperimetric ratio
   {doc}`/user_guide/02_cell_mechanics`.
 
 iteration
-  One time step of the solver loop: mesh refinement, contact detection, force computation, time
-  integration and the periodic division, output and removal steps. See
+  One time step of the solver loop. In order: mesh output (when due), cell division (every
+  5 iterations), face-type update, mesh refinement, contact detection, polarization and
+  internal forces, time integration, statistics (every 50 iterations) and diagnostics (every
+  100), and removal of dead and unstable cells. See
   {doc}`/user_guide/01_model_overview`.
 
 local mesh refiner
@@ -125,6 +133,11 @@ maximum edge length
 minimum edge length
   The lower bound $l_{\min}$ of the edge lengths of the cell meshes, XML tag `min_edge_length`
   (unit m). It sets the spatial resolution. See {doc}`/user_guide/05_mesh_refinement`.
+
+minimum-volume death
+  The deletion of a cell whose volume falls below its `min_vol`, at the end of an iteration. It
+  models cell death and is part of the model, not a safeguard. It is not logged or counted. See
+  {doc}`/user_guide/06_growth_division_removal`.
 
 node
   A vertex of a cell mesh. The nodes carry the degrees of freedom of the model: position and, in
@@ -141,8 +154,21 @@ polarization mode
 
 refused division
   A division that the cell divider declines because the triangulation of the cut does not cover
-  its whole outline (2.1). The mother is kept and divides at a later division check. See
-  {doc}`/user_guide/06_growth_division_removal`.
+  its whole outline (2.1). The mother is kept and divides at a later division check. Logged on
+  standard error as `Cell division failed for cell N: ... division refused`; not counted in the
+  diagnostics CSV. See {doc}`/user_guide/06_growth_division_removal`.
+
+removal
+  In these pages, the deletion of a cell by a {term}`safeguard`: a numerically
+  {term}`unstable cell`, or a cell whose mesh refinement failed. Each removal is logged on
+  standard error with a line starting `Removing` and counted in the `unstable_cells_removed`
+  column of the diagnostics CSV. Distinct from a {term}`minimum-volume death`. See
+  {doc}`/user_guide/09_safeguards`.
+
+replicate
+  One of several runs of the same parameter file with the same build and settings. Replicates
+  differ because of the clock-seeded random generator and threading, so a result is compared
+  against the spread of its replicates. See {ref}`benchmarks-reproducibility`.
 
 repulsion strength
   The slope $\xi$ of the repulsive contact law, set per face type with the XML tag
@@ -159,7 +185,8 @@ sampling period
 
 scheduling mode
   The OpenMP loop scheduling of a run, chosen with `--schedule=`: `adaptive` (default), `static`,
-  `dynamic` or `guided`. It affects run time, not results. See
+  `dynamic` or `guided`. It affects run time, not the model; multi-threaded runs differ slightly
+  between {term}`replicates <replicate>` in any case. See
   {doc}`/user_guide/18_parallel_performance`.
 
 SimuCell3D

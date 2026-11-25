@@ -41,12 +41,12 @@ the blocks of the parameter file are in class order.
 |---|---|---|---|---|---|
 | Nodes move | yes | no | yes | yes | no |
 | Internal forces (pressure, tension, area, bending) | yes | no | yes | yes | computed, no effect |
-| Target volume grows | yes | no | yes | yes | no effect |
+| Target volume grows | yes | no | yes | yes | yes, but the cell does not move |
 | Divides | yes | no | no | no | no |
 | Faces relabelled by polarization | yes | no | no | no | no |
 | Coupled to other cells (contact models 1 and 2) | with epithelial cells | no | no | no | no |
 | Repels and is repelled | yes | yes | yes | yes | yes |
-| Removed below `min_vol` | yes | yes | yes | yes | yes |
+| Dies below `min_vol` ({term}`minimum-volume death`) | yes | yes | yes | yes | yes |
 
 Notes on each class:
 
@@ -79,8 +79,8 @@ have no effect. Runser, Vetter & Iber (2024) use such cells as rigid boundaries 
 simulated cells (Fig. 4).
 
 :::{note}
-The shipped parameter files contain a tag `<INMForce>` in the nucleus cell type. No code in 2.1
-reads it, so it has no effect.
+Parameter files of release 1.0 contain a tag `<INMForce>` in the nucleus cell type. The files
+shipped with 2.1 no longer have it, and no code in 2.1 reads it, so it has no effect if present.
 :::
 
 ## Safeguards and static cells

@@ -8,6 +8,12 @@ overdamped equations with the forward Euler scheme. With contact models 1 and 2,
 on neighbouring cells are moved together. The narrative description is in
 {doc}`/user_guide/04_time_integration`.
 
+The integrator runs once per iteration, after the contact and internal forces, and advances
+the simulation time by one time step. It skips static cells ({cpp:class}`ecm_cell` and
+{cpp:class}`static_cell`). With contact models 1 and 2 it uses the local ids of the cells to
+decide which cell of a coupled group moves the group, so those ids must equal the cells'
+positions in the cell list ({ref}`dev-architecture`).
+
 ## Integrator
 
 ```{doxygenclass} time_integration_scheme

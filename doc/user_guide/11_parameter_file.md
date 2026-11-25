@@ -90,24 +90,25 @@ $\frac{k_a}{2}(A/A_0 - 1)^2$, so $k_a$ is in joules (J). The header of
 `parameters/longrun_fast_growth.xml` gives the correct unit.
 :::
 
+(ug-parameter-file-numerical)=
 ## Numerical parameters
 
 Section `<numerical_parameters>`. These apply to the whole simulation.
 
-| XML tag | Value | Valid values | Meaning |
-|---|---|---|---|
-| `input_mesh_file_path` | path | an existing legacy VTK file | Input mesh with the initial cells. See [Paths](#paths) and {doc}`/user_guide/12_input_meshes`. |
-| `output_mesh_folder_path` | path | a folder that may be deleted | Folder for all output. **Deleted and re-created at start.** Overridden by `--output-dir`. See [Paths](#paths) and {doc}`/user_guide/14_output_files`. |
-| `perform_initial_triangulation` | switch | `0` or any other integer | If on, every cell surface is re-triangulated before the first iteration, with edge lengths between `min_edge_length` and 3 x `min_edge_length`. If off, the input mesh must already consist of triangles. See {doc}`/user_guide/05_mesh_refinement`. |
-| `enable_edge_swap_operation` | switch | `0` or any other integer | If on, the local mesh refiner also swaps the longest edge of badly shaped triangles. |
-| `damping_coefficient` | real, kg/s | $\ge 0$ | Damping coefficient $\zeta$ of the equations of motion. See {doc}`/user_guide/04_time_integration`. |
-| `simulation_duration` | real, s | $> 0$ | Simulated time. The run stops when the simulation time reaches this value, or earlier if no cell is left. |
-| `time_step` | real, s | $> 0$ | Time step $\Delta t$ of the integrator. The number of iterations is `simulation_duration / time_step`. |
-| `sampling_period` | real, s | $> 0$ and $\ge$ `time_step` | Simulated time between two output mesh files. |
-| `min_edge_length` | real, m | $> 0$ | Minimum edge length of the cell meshes. The maximum edge length is not a parameter: it is 3 x `min_edge_length`. See {doc}`/user_guide/05_mesh_refinement`. |
-| `contact_cutoff_adhesion` | real, m | $> 0$ | Distance between two cell surfaces above which there is no adhesion. See {doc}`/user_guide/03_contact`. |
-| `contact_cutoff_repulsion` | real, m | $> 0$ | Distance between two cell surfaces above which there is no repulsion. |
-| `contact_detection_algorithm` | word | Optional, default `uspg`; `uspg`, `sweep_and_prune`, `adaptive` (case-insensitive) | Broad-phase contact detection. Used only with contact model 2 (face-face coupling, the default build); contact models 0 and 1 always use the uniform spatial partitioning grid (USPG). `adaptive` uses the grid below 500 cells and Sweep-and-Prune from 500 cells on. See {doc}`/user_guide/18_parallel_performance`. |
+| XML tag | Type | Unit | Valid values | Meaning |
+|---|---|---|---|---|
+| `input_mesh_file_path` | path |  | an existing legacy VTK file | Input mesh with the initial cells. See [Paths](#paths) and {doc}`/user_guide/12_input_meshes`. |
+| `output_mesh_folder_path` | path |  | a folder that may be deleted | Folder for all output. **Deleted and re-created at start.** Overridden by `--output-dir`. See [Paths](#paths) and {doc}`/user_guide/14_output_files`. |
+| `perform_initial_triangulation` | switch |  | `0` or any other integer | If on, every cell surface is re-triangulated before the first iteration, with edge lengths between `min_edge_length` and 3 x `min_edge_length`. If off, the input mesh must already consist of triangles. See {doc}`/user_guide/05_mesh_refinement`. |
+| `enable_edge_swap_operation` | switch |  | `0` or any other integer | If on, the local mesh refiner also swaps the longest edge of badly shaped triangles. |
+| `damping_coefficient` | real | kg/s | $\ge 0$ | Damping coefficient $\zeta$ of the equations of motion. See {doc}`/user_guide/04_time_integration`. |
+| `simulation_duration` | real | s | $> 0$ | Simulated time. The run stops when the simulation time reaches this value, or earlier if no cell is left. |
+| `time_step` | real | s | $> 0$ | Time step $\Delta t$ of the integrator. The number of iterations is `simulation_duration / time_step`. |
+| `sampling_period` | real | s | $> 0$ and $\ge$ `time_step` | Simulated time between two output mesh files. |
+| `min_edge_length` | real | m | $> 0$ | Minimum edge length of the cell meshes. The maximum edge length is not a parameter: it is 3 x `min_edge_length`. See {doc}`/user_guide/05_mesh_refinement`. |
+| `contact_cutoff_adhesion` | real | m | $> 0$ | Distance between two cell surfaces above which there is no adhesion. See {doc}`/user_guide/03_contact`. |
+| `contact_cutoff_repulsion` | real | m | $> 0$ | Distance between two cell surfaces above which there is no repulsion. |
+| `contact_detection_algorithm` | word |  | Optional, default `uspg`; `uspg`, `sweep_and_prune`, `adaptive` (case-insensitive) | Broad-phase contact detection. Used only with contact model 2 (face-face coupling, the default build); contact models 0 and 1 always use the uniform spatial partitioning grid (USPG). `adaptive` uses the grid below 500 cells and Sweep-and-Prune from 500 cells on. See {doc}`/user_guide/18_parallel_performance`. |
 
 :::{versionadded} 2.0
 `contact_detection_algorithm`. No shipped parameter file sets it, so all of them use the
@@ -135,7 +136,7 @@ The reader rejects a `damping_coefficient` below zero with the message
 | `parameters_paper_exact_fast_growth.xml` | `big_sphere.vtk` | 0 | 0 |
 
 | File | $\Delta t$ (s) | Duration (s) | Sampling period (s) | $l_{\min}$ (m) | Cutoffs (m) | $\zeta$ (kg/s) |
-|---|---|---|---|---|---|---|
+|---|---:|---:|---:|---:|---:|---:|
 | `parameters_vesicle_quick.xml` | 1e-7 | 2e-5 | 5e-6 | 4e-7 | 2e-7 | 5e-10 |
 | `parameters_vesicle.xml` | 1e-7 | 1e-2 | 1e-6 | 4e-7 | 2e-7 | 5e-10 |
 | `parameters_vesicle_realistic_biology.xml` | 1e-7 | 0.5 | 0.01 | 4e-7 | 2e-7 | 5e-10 |
@@ -154,27 +155,28 @@ the meshes are in `data/input_meshes/`. In the second table, $l_{\min}$ is `min_
 $\zeta$ is `damping_coefficient`, and the cutoffs are `contact_cutoff_adhesion` and
 `contact_cutoff_repulsion`, which are equal in every shipped file.
 
+(ug-parameter-file-cell-types)=
 ## Cell types
 
 Section `<cell_types>`, one `<cell_type>` block per cell type. At least one cell type must be
 defined, and each must have at least one face type.
 
-| XML tag | Value | Valid values | Meaning |
-|---|---|---|---|
-| `cell_type_name` | text | any | Name used in log and error messages. |
-| `global_cell_id` | integer | `0` to `4` | Selects the {term}`cell class`: 0 epithelial, 1 extracellular matrix (ECM), 2 lumen, 3 nucleus, 4 static. Written to the output as `cell_type_id` (cell meshes) and `type_id` (statistics CSV). See {doc}`/user_guide/08_cell_classes`. |
-| `cell_mass_density` | real, kg/m³ | not checked | Mass density $\rho$; node masses follow from it and the cell volume. Enters the full equations of motion (dynamic model 0) and, in both dynamic models, the kinetic energy written to the output. |
-| `cell_bulk_modulus` | real, Pa | not checked | Bulk modulus $K$ in the pressure $p = -K \ln(V/V_0)$. With 0 the cell has no pressure. See {doc}`/user_guide/02_cell_mechanics`. |
-| `max_inner_pressure` | real or `inf`, Pa | not checked | Upper bound on the pressure $p$. `inf` means no bound. |
-| `area_elasticity_modulus` | real, J | not checked | Area elasticity modulus $k_a$. See the unit note above. |
-| `target_isoperimetric_ratio` | real, dimensionless | $> 0$ | Target isoperimetric ratio $A^3/V^2$; with the cell volume it sets the target area $A_0$. A sphere has $36\pi \approx 113$. |
-| `angle_regularization_factor` | real, J | not checked | Strength of a force that drives the angles of each triangle towards 60 degrees. 0 disables it; all shipped files use 0. |
-| `avg_growth_rate` | real, m³/s | not checked | Mean of the normal distribution from which each cell draws its growth rate. The target volume grows by `growth_rate x time_step` every iteration. See {doc}`/user_guide/06_growth_division_removal`. |
-| `std_growth_rate` | real, m³/s | not checked | Standard deviation of that distribution. Drawn values are limited to the mean $\pm$ 3 standard deviations; 0 gives every cell the mean. |
-| `avg_division_volume` | real or `inf`, m³ | not checked | Mean of the normal distribution from which each cell draws the volume at which it divides. `inf` disables division. |
-| `std_division_volume` | real, m³ | not checked | Standard deviation of that distribution, limited as for the growth rate. Ignored when `avg_division_volume` is `inf`. |
-| `min_vol` | real, m³ | not checked | A cell whose volume falls below this value is removed. The target volume is never set below it. |
-| `surface_coupling_max_curvature` | real, 1/m | not checked (see note) | A node whose absolute mean curvature exceeds this value is not coupled to another cell. Used by contact models 1 and 2. See {doc}`/user_guide/03_contact`. |
+| XML tag | Type | Unit | Valid values | Meaning |
+|---|---|---|---|---|
+| `cell_type_name` | text |  | any | Name used in log and error messages. |
+| `global_cell_id` | integer |  | `0` to `4` | Selects the {term}`cell class`: 0 epithelial, 1 extracellular matrix (ECM), 2 lumen, 3 nucleus, 4 static. Written to the output as `cell_type_id` (cell meshes) and `type_id` (statistics CSV). See {doc}`/user_guide/08_cell_classes`. |
+| `cell_mass_density` | real | kg/m³ | not checked | Mass density $\rho$; node masses follow from it and the cell volume. Enters the full equations of motion (dynamic model 0) and, in both dynamic models, the kinetic energy written to the output. |
+| `cell_bulk_modulus` | real | Pa | not checked | Bulk modulus $K$ in the pressure $p = -K \ln(V/V_0)$. With 0 the cell has no pressure. See {doc}`/user_guide/02_cell_mechanics`. |
+| `max_inner_pressure` | real or `inf` | Pa | not checked | Upper bound on the pressure $p$. `inf` means no bound. |
+| `area_elasticity_modulus` | real | J | not checked | Area elasticity modulus $k_a$. See the unit note above. |
+| `target_isoperimetric_ratio` | real | 1 | $> 0$ | Target isoperimetric ratio $A^3/V^2$; with the cell volume it sets the target area $A_0$. A sphere has $36\pi \approx 113$. |
+| `angle_regularization_factor` | real | J | not checked | Strength of a force that drives the angles of each triangle towards 60 degrees. 0 disables it; all shipped files use 0. |
+| `avg_growth_rate` | real | m³/s | not checked | Mean of the normal distribution from which each cell draws its growth rate. The target volume grows by `growth_rate x time_step` every iteration. See {doc}`/user_guide/06_growth_division_removal`. |
+| `std_growth_rate` | real | m³/s | not checked | Standard deviation of that distribution. Drawn values are limited to the mean $\pm$ 3 standard deviations; 0 gives every cell the mean. |
+| `avg_division_volume` | real or `inf` | m³ | not checked | Mean of the normal distribution from which each cell draws the volume at which it divides. `inf` disables division. |
+| `std_division_volume` | real | m³ | not checked | Standard deviation of that distribution, limited as for the growth rate. Ignored when `avg_division_volume` is `inf`. |
+| `min_vol` | real | m³ | not checked | A cell whose volume falls below this value is removed. The target volume is never set below it. |
+| `surface_coupling_max_curvature` | real | 1/m | not checked (see note) | A node whose absolute mean curvature exceeds this value is not coupled to another cell. Used by contact models 1 and 2. See {doc}`/user_guide/03_contact`. |
 
 :::{note}
 The reader intends to require a positive `surface_coupling_max_curvature`, but the check
@@ -195,8 +197,10 @@ file**: `cell_type_id 0` is the first block, `1` the second, and so on. The `glo
 of that block then selects the cell class. A `cell_type_id` equal to or larger than the number
 of cell types stops the run with "The cell type id of cell N (X) is not valid".
 
-All shipped parameter files define their cell types in the order of their `global_cell_id`
-(epithelial 0, ECM 1, lumen 2, nucleus 3, static 4), so in these files the input-mesh
+All shipped parameter files define their cell types in the order of their `global_cell_id`:
+either all five (epithelial 0, ECM 1, lumen 2, nucleus 3, static 4) or, in
+`longrun_fast_growth.xml` and `parameters_paper_exact_fast_growth.xml`, the epithelial type
+alone. In these files the input-mesh
 `cell_type_id` and the `global_cell_id` coincide. If you reorder the blocks, or define
 several cell types of the same class, they no longer coincide.
 
@@ -205,18 +209,19 @@ several cell types of the same class, they no longer coincide.
 "The cell N could not be triangulated after 10 attempts". A cell type that no cell in the
 input mesh uses is never checked.
 
+(ug-parameter-file-face-types)=
 ## Face types
 
 Inside each `<cell_type>`, the `<face_types>` block holds one or more `<face_type>` entries.
 
-| XML tag | Value | Valid values | Meaning |
-|---|---|---|---|
-| `face_type_name` | text | any | Name used in error messages. |
-| `global_face_id` | integer | $\ge 0$ | Identifier written to the face meshes as `face_type_id`. It is not used by the model; give each face type in the file a distinct value so that the output can be told apart. |
-| `surface_tension` | real, N/m | $\ge 0$ | Surface tension $\gamma$ of faces of this type. See {doc}`/user_guide/02_cell_mechanics`. |
-| `bending_modulus` | real, J | $\ge 0$ | Bending modulus $k_b$. |
-| `adherence_strength` | real, N/m³ | $\ge 0$ | Adhesion strength $\omega$ between this face and the surface of another cell. See {doc}`/user_guide/03_contact`. |
-| `repulsion_strength` | real, N/m³ | $\ge 0$ | Repulsion strength $\xi$. |
+| XML tag | Type | Unit | Valid values | Meaning |
+|---|---|---|---|---|
+| `face_type_name` | text |  | any | Name used in error messages. |
+| `global_face_id` | integer |  | $\ge 0$ | Identifier written to the face meshes as `face_type_id`. It is not used by the model; give each face type in the file a distinct value so that the output can be told apart. |
+| `surface_tension` | real | N/m | $\ge 0$ | Surface tension $\gamma$ of faces of this type. See {doc}`/user_guide/02_cell_mechanics`. |
+| `bending_modulus` | real | J | $\ge 0$ | Bending modulus $k_b$. |
+| `adherence_strength` | real | N/m³ | $\ge 0$ | Adhesion strength $\omega$ between this face and the surface of another cell. See {doc}`/user_guide/03_contact`. |
+| `repulsion_strength` | real | N/m³ | $\ge 0$ | Repulsion strength $\xi$. |
 
 Inside the solver a face type is identified by its position in the `<face_types>` block (0, 1,
 2, ...), not by `global_face_id`. For epithelial cells this position has a meaning: with
@@ -231,9 +236,9 @@ Paths in the parameter file and on the command line are resolved as follows.
 
 The parameter file
 : The path on the command line is opened as given: an absolute path, or a path relative to
-  the current working directory. The error message "The path to the parameter file must be an
-  absolute path" is printed for any file that cannot be opened or is not well-formed XML;
-  relative paths work.
+  the current working directory. It is not tried relative to the source directory. A file that
+  does not exist, cannot be read or is not well-formed XML stops the program with one of the
+  messages in [Error messages](#error-messages).
 
 `input_mesh_file_path`
 : First opened as given (absolute, or relative to the working directory). If that fails, it
@@ -256,10 +261,11 @@ not point `output_mesh_folder_path` or `--output-dir` at a folder that contains 
 and copy the results of a run elsewhere before running the same parameter file again.
 :::
 
+(ug-parameter-file-errors)=
 ## Error messages
 
 The parameter file is read before any output is written. A problem stops the program with
-exit status 1 and one line on the standard error stream. The most common messages are:
+exit status 1 and a message on the standard error stream. The most common messages are:
 
 | Message | Cause |
 |---|---|
@@ -267,7 +273,7 @@ exit status 1 and one line on the standard error stream. The most common message
 | `The parameter file could not be read: <path>` | The file exists but cannot be opened or read; the next line gives the tinyxml2 error. |
 | `The parameter file is not valid XML (line N): <path>` | The file is not well-formed XML (for example a closing tag that does not match); the next line gives the tinyxml2 error. |
 | `The section "numerical_parameters" was not found in the parameter file.` | Missing or misspelled section (`cell_types` likewise). |
-| `The xml markup "<tag>" was not found in the parameter file.` | A required numerical parameter is missing or misspelled. The cell-type and face-type messages add the name of the cell type or face type. |
+| `The xml markup "<tag>" was not found in the parameter file.` | A required numerical parameter is missing or misspelled. The cell-type and face-type messages add the name of the cell type or face type. A missing `std_growth_rate` is reported under the name `avg_growth_rate`. |
 | `stod` or `stoi` | A value is not a number. |
 | `The <name>_ must be strictly positive` | A value fails its range check (for example `time_step`). |
 | `The sampling_period_ must be greater than the time step` | `sampling_period` < `time_step`. |
@@ -275,6 +281,7 @@ exit status 1 and one line on the standard error stream. The most common message
 | `No cell type has been defined in the parameter file.` | `<cell_types>` contains no `<cell_type>`. |
 | `No face type has been defined for the cell type <name> in the parameter file.` | Empty `<face_types>`. |
 
+(ug-parameter-file-shipped)=
 ## Shipped parameter files
 
 All files are in `parameters/`. Each file's header comment states the compile-time
@@ -294,6 +301,24 @@ configuration it assumes; running it with a different build gives a different mo
 | `longrun_fast_growth.xml` | default | Growth from one cell, a 2.x reconstruction of the paper's Fig. 1e setup, not the lab's file. Differs from paper Table 2 in `min_edge_length` (1e-6 m instead of 2e-7 m), lateral `surface_tension` (8e-4 N/m instead of 1e-3), basal `adherence_strength` 0 and `repulsion_strength` 5e8 (instead of 1e9; inert with contact model 2), the contact model (2) and 10% standard deviations of growth rate and division volume. Used by `scripts/runs/launch_longrun_20k.sh`. | {doc}`/examples/growth_from_one_cell` |
 | `parameters_paper_exact.xml` | contact model 1 | The 1.0 default dynamic configuration (coarser mesh and larger cells than paper Table 2; the header lists the differences). Single starting cell. | {doc}`/examples/growth_from_one_cell` |
 | `parameters_paper_exact_fast_growth.xml` | default | Growth benchmark with a coarser mesh, larger cells and a faster growth rate than paper Table 2. | {doc}`/examples/growth_from_one_cell` |
+
+:::{note}
+The lab's own growth benchmark, `parameters_benchmarck.xml` of release 1.0, is not shipped with
+2.x; it is the file of the November 2026 benchmark ({ref}`benchmarks-method`). To run it,
+extract it from the `v1.0` tag and build with the switches in its header comment
+(`POLARIZATION_MODE_INDEX 0`, `CONTACT_MODEL_INDEX 1`, `WRITE_NORMALS_IN_OUTPUT_MESH_FILE false`):
+
+```console
+$ git show v1.0:parameters_benchmarck.xml > parameters/parameters_benchmarck.xml
+```
+
+Its `time_step` of `1e-7` s is not stable with this file in any version. The recommended step
+is `2.5e-8` s, which was clean in three of three 48 h runs of 2.1.0
+({ref}`benchmarks-time-step`). Its `simulation_duration` of 1 s is far
+longer than any measured run, so stop the run at the cell count you need. Contact model 1 can
+lose contact forces with more than one thread
+([Compile-time configuration](10_compile_time_configuration.md#threads-and-contact-models-0-and-1)).
+:::
 
 The safest way to write a new parameter file is to copy the shipped file closest to the
 intended simulation, check its header comment against your build, and change one value at a

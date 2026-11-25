@@ -36,7 +36,7 @@ The macros are defined in `include/global_configuration.hpp`. With its comments 
 | `DYNAMIC_MODEL_INDEX` | 0, 1 | 0 | 0 full equations of motion with semi-implicit Euler, 1 overdamped with forward Euler ({doc}`04_time_integration`) |
 | `POLARIZATION_MODE_INDEX` | 0, 1, 2 | 1 | 0 none, 1 from contacts, 2 from a voxel map ({doc}`07_polarization`) |
 | `FACE_STORE_CONTACT_ENERGY` | `true`, `false` | `false` | Faces accumulate adhesion and repulsion energies; adds the columns `adhesion_energy` and `repulsion_energy` to the statistics CSV and the arrays `face_adhesion_energy` and `face_repulsion_energy` to the face meshes |
-| `WRITE_NORMALS_IN_OUTPUT_MESH_FILE` | `true`, `false` | `true` | Writes face normals to the output meshes (and node normals with contact model 1); makes the files larger |
+| `WRITE_NORMALS_IN_OUTPUT_MESH_FILE` | `true`, `false` | `true` | Writes face normals to the face meshes; makes the files larger |
 
 Note these restrictions and interactions:
 
@@ -68,6 +68,23 @@ shipped files state their configuration in their header comment:
 | `parameters/benchmarks/fig3e_monolayer.xml`, `fig3e_multilayer.xml` | 1 | 2 | 0 |
 
 The default build (1, 2, 0) matches the files of the first two rows and the `fig3e_*` files.
+
+The lab's growth benchmark of 1.0, `parameters_benchmarck.xml`, is not shipped with 2.x
+([Shipped parameter files](11_parameter_file.md#shipped-parameter-files)). Its header asks for
+polarization mode 0, contact model 1 and dynamic model 0, with
+`WRITE_NORMALS_IN_OUTPUT_MESH_FILE false`; the November 2026 benchmark built 2.1.0 that way for
+it ({ref}`benchmarks-method`).
+
+### Threads and contact models 0 and 1
+
+Contact models 0 and 1 add forces to the nodes of neighbouring cells without an atomic
+operation inside parallel loops, so with more than one thread some contact forces can be lost
+(a known issue of 2.1, listed in `CHANGELOG.md`; only model 2 was fixed). No warning is printed.
+`parameters_default_dynamic.xml`, `parameters_paper_exact.xml` (model 1) and
+`parameters_default_overdamped.xml` (model 0) need these models. For results that must not
+depend on this, run them with `--threads=1`, or use model 2. The growth benchmark, which uses
+model 1, was run with 8 threads; its replicates agree within about 2%, which bounds the scatter
+the defect adds but not a systematic bias ({ref}`benchmarks-validity`).
 
 :::{warning}
 In the default build, the basal face type and `adherence_strength` have no effect: with contact

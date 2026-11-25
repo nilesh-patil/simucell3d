@@ -66,8 +66,9 @@ Two limits stop the refinement of a cell that does not converge:
   it, and continues with the other cells. Some edges of that cell can stay outside
   $[l_{\min}, l_{\max}]$ until the next iteration. The bucket size is fixed; it does not scale with
   `min_edge_length`.
-- **Operation cap.** More than 500,000 operations on one cell in one call raise an error
-  ("The refinement of the mesh of cell X failed").
+- **Operation cap.** Reaching 500,000 splits and collapses on one cell in one call raises an
+  error ("The refinement of the mesh of cell X failed. The simulation is unstable. Reducing the
+  time step might help").
 
 :::{versionchanged} 2.1
 In 1.0 a cell that did not converge, or any error raised while refining one cell, ended the whole
@@ -100,8 +101,8 @@ Supplementary Fig. 1:
 
 The resulting edges are at least $l_{\min}$ long; edges longer than $l_{\max}$ are split by the
 refiner during the first iteration. The faces are oriented outwards, and the surface must be
-closed and manifold. A cell whose triangulation fails is retried up to 10 times (the sampling is
-random), with a log line for each attempt; after the tenth failure the run stops.
+closed and manifold. A cell is triangulated at most 10 times in total (the sampling is
+random), with a log line for each failed attempt; after the tenth failure the run stops.
 
 With `perform_initial_triangulation` set to 0, the input mesh is used as given and must already
 consist of triangles. Its edges are brought into range by the refiner during the first iteration.

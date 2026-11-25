@@ -7,6 +7,18 @@ core unless `SIMUCELL3D_PIN_THREADS=0` or `OMP_PLACES` is set ({doc}`/user_guide
 {cpp:class}`PerformanceMonitor` times the phases of each iteration and feeds the diagnostics
 CSV. `utils.hpp` holds helper templates for number formatting and floating-point comparison.
 
+Thread placement runs once, in the solver constructor. The performance monitor times four
+phases of every iteration (`mesh_refinement`, `contact_detection`,
+`polarization_and_internal_forces`, `time_integration`); the solver writes their means to the
+{term}`diagnostics CSV` every 100 iterations.
+
+| Entity | Header | Role |
+|---|---|---|
+| namespace `cpu_topology` | `cpu_topology.hpp` | Allowed CPUs, physical cores, placement order, pinning |
+| {cpp:class}`PerformanceMonitor` | `performance_monitor.hpp` | Accumulates the wall-clock time of named phases |
+| {cpp:class}`PerformanceMonitor::ScopedTimer` | `performance_monitor.hpp` | Times one scope |
+| `utils.hpp` | `utils.hpp` | Number formatting, floating-point comparison |
+
 ## Thread placement
 
 ```{doxygennamespace} cpu_topology

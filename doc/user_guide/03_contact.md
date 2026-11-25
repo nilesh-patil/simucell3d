@@ -60,11 +60,11 @@ $$
 \end{cases}
 $$ (eq-contact-stress)
 
-The stress acts over the area $A_f$ of the face, so the force has magnitude $\sigma A_f$ and
-points along $\mathbf z$: towards the face for adhesion, away from it, out of the other cell,
-for repulsion. The force on the node is $-\mathbf F$ and the opposite force is distributed
-over the three nodes of the face with weights $\lambda_1, \lambda_2, \lambda_3$, so momentum is
-conserved. $\omega$ and $\xi$ are taken from the {term}`face type` of the face that is touched.
+The stress acts over the area $A_f$ of the face, which gives the force
+$\mathbf F = \sigma(d)\,A_f\,\mathbf z/d$. The node receives $-\mathbf F$, which points
+towards the face in both regimes: for adhesion it pulls the node onto the other cell, for
+repulsion it pushes the node back out of it. The three nodes of the face receive $+\mathbf F$,
+shared with weights $\lambda_1, \lambda_2, \lambda_3$, so momentum is conserved. $\omega$ and $\xi$ are taken from the {term}`face type` of the face that is touched.
 Every node of every cell is tested against the faces of all other cells, so each contact is
 seen from both sides.
 
@@ -85,7 +85,7 @@ $n_1$ if all of the following hold:
 - the distance between $n_1$ and $n_2$ is below $c_a$ and below the distance of any partner
   $n_1$ already has;
 - $n_2$ has no closer partner;
-- the node normals point in sufficiently opposite directions
+- the node normals are at least 45 degrees apart
   ($\hat{\mathbf n}_1 \cdot \hat{\mathbf n}_2 \le \cos 45^\circ$), and the node normal of $n_1$
   points against the face normal;
 - the mean curvature at both nodes is below `surface_coupling_max_curvature` $H_{\max}$ of
@@ -97,10 +97,16 @@ and momentum, so they move together ({doc}`04_time_integration`). This transmits
 directly from one cell surface to the next, as in the paper's coupling-based model. Couplings
 are recomputed at every iteration, which lets cells detach.
 
-Pairs that are not coupled (contacts with non-epithelial cells, or epithelial nodes without a
-partner) only repel: a node behind a face, closer than $\max(c_a, c_r)$, receives the
+A node-face test that does not create a coupling falls through to repulsion. This covers every
+contact with a non-epithelial cell, and a test between epithelial cells that finds no closer
+partner, even when the node already has a partner: a node behind a face, closer than $\max(c_a, c_r)$, receives the
 repulsive stress $\xi d$ of {eq}`eq-contact-stress`. The adherence strength $\omega$ is not
 used by model 1.
+
+In models 1 and 2 two tests on the node $n_1$ come before any of this, for coupling and for
+repulsion alike: its mean curvature must be below $H_{\max}$ of its own cell type, and its node
+normal must point against the face normal ($\hat{\mathbf n}_1 \cdot \hat{\mathbf n}_f < 0$). A
+node that fails either test receives no contact force from that face. Model 0 has neither test.
 
 ## Model 2: face-face coupling
 
@@ -158,7 +164,8 @@ $R = (3V/4\pi)^{1/3}$, the direction of the mean-curvature vector is used instea
 are those of the previous iteration when contacts are detected.
 
 $H_{\max}$ lets strongly curved parts of the surface, such as the rim of a contact, detach: no
-node with $H_i > H_{\max}$ is coupled.
+node with $H_i > H_{\max}$ is coupled, and such a node is not repelled either when it is the
+touching node (see [Model 1](#model-1-node-node-coupling)).
 
 ## Contact detection algorithms
 
@@ -169,7 +176,7 @@ and 1 always use the uniform grid.
 | Value | Method |
 |---|---|
 | `uspg` (default) | Uniform grid. Model 2 bins the face boxes in a compact grid whose voxel edge is the mean box size, at most $3\,l_{\min} + 2c$, and splits the nodes of very large cells into several work units. Models 0 and 1 use the {term}`USPG` with voxel edge $3\,l_{\min} + 2c$. |
-| `sweep_and_prune` | Sweep-and-Prune over the face boxes. |
+| `sweep_and_prune` | Sweep-and-Prune over the bounding boxes of the cells; the faces of overlapping cells are then filtered by their own boxes. |
 | `adaptive` | The uniform grid below 500 cells, Sweep-and-Prune from 500 cells on. |
 
 The contact rules are the same with all three; the choice is about run time
@@ -185,7 +192,7 @@ grid would need more voxels than it can index, the run stops with an error inste
 | `contact_cutoff_repulsion` | $c_r$ | `<numerical_parameters>` | m | Repulsion range (models 1 and 2 use $\max(c_a, c_r)$) | 0, 1, 2 |
 | `adherence_strength` | $\omega$ | `<face_type>` | N/m³ | Slope of the adhesion law | 0 |
 | `repulsion_strength` | $\xi$ | `<face_type>` | N/m³ | Slope of the repulsion law | 0, 1, 2 |
-| `surface_coupling_max_curvature` | $H_{\max}$ | `<cell_type>` | 1/m | Nodes with larger mean curvature are not coupled | 1, 2 |
+| `surface_coupling_max_curvature` | $H_{\max}$ | `<cell_type>` | 1/m | A node with a larger mean curvature is neither coupled nor repelled as the touching node | 1, 2 |
 | `contact_detection_algorithm` | | `<numerical_parameters>` | | Broad phase, optional | 2 |
 
 The unit N/m³ of $\omega$ and $\xi$ (stress per length) equals the Pa/m of the paper's Table 2.
@@ -196,7 +203,16 @@ The unit N/m³ of $\omega$ and $\xi$ (stress per length) equals the Pa/m of the 
   range of the law, so the largest repulsive stress is about $\xi\,c$. With the Table 2 values
   ($\xi = 10^{9}$ N/m³, $c = 2\times10^{-7}$ m) this is 200 Pa. Where cells press on each other
   with a larger pressure (see {doc}`02_cell_mechanics`), repulsion cannot hold them apart and
-  they can pass through each other. Penetration deeper than the range produces no force.
+  they can pass through each other.
+- **No restoring force beyond the cutoff.** A node is repelled by a face only while its distance
+  $d$ to the closest point of that face is below the range ($c_r$ in model 0,
+  $\max(c_a, c_r)$ in models 1 and 2). A node pushed deeper into a neighbour, farther than the
+  range from every face of that neighbour, receives no contact force at all, so two cells that
+  have passed into each other stay superposed ({term}`cell superposition`). In the November 2026 benchmark, the core of the
+  lab's growth benchmark (contact model 1, cutoff $5\times10^{-7}$ m) came to hold superposed
+  cells, two meshes in almost the same place, in every version tested, 1.0 included. In the 2.1.0
+  runs this began between 4,000 and 13,000 cells; above about 5,000 cells, treat the per-cell
+  statistics of that tissue as valid only in its outer shell ({ref}`benchmarks-validity`).
 - **Cells interpenetrate** in long growth runs of the reconstructed paper-like configuration
   `parameters/longrun_fast_growth.xml`, with 2.1 and with 1.0. The CHANGELOG lists this as a known
   issue. In that file the contact cutoff ($2\times10^{-7}$ m) is five times smaller than the
@@ -211,11 +227,15 @@ The unit N/m³ of $\omega$ and $\xi$ (stress per length) equals the Pa/m of the 
   use $\xi$ between $10^{9}$ and $5\times10^{9}$ N/m³. Cutoffs are $2\times10^{-7}$ to
   $5\times10^{-7}$ m and $H_{\max}$ is $2.5\times10^{6}$ or $5\times10^{6}$ 1/m for epithelial
   cells.
-- **Thread safety.** Models 0 and 1 add contact forces to the nodes of other cells without an
-  atomic add, inside parallel loops; with several threads, some contact forces can be lost, and no
-  warning is printed. These are the two models described in the paper. Run them with
-  `--threads=1`. Model 2 is not affected. Multi-threaded runs of any model are not
-  bit-reproducible.
+- **Thread safety.** Models 0 and 1 add contact forces to the nodes of other cells with a plain,
+  non-atomic add, inside a loop that runs in parallel over cells; two threads that add to the same
+  node at once can lose one of the two forces, and no warning is printed
+  ([#120](https://github.com/nilesh-patil/simucell3d/issues/120)). These are the two models
+  described in the paper. Run them with `--threads=1` where exact forces matter. Model 2 uses an
+  atomic add and is not affected. The size of the error has not been measured: the multi-threaded
+  growth benchmark runs of November 2026 (contact model 1) repeated to within about 2%, which
+  bounds the scatter it adds but not a bias ({ref}`benchmarks-reproducibility`). Multi-threaded
+  runs of any model are not bit-reproducible.
 - **Stale links.** When a node switches to a closer partner, its old partner keeps a link back to
   it until the couplings are rebuilt at the next iteration. This behaviour is present since 1.0.
 - The contact model is a compile-time choice; a parameter file written for one model gives a

@@ -85,20 +85,25 @@ The argument is the output folder, not the CSV file. The script writes:
 : Mean kinetic, surface tension, membrane elasticity, pressure and total potential energy per
   cell against simulation time, most on a logarithmic axis.
 
-:::{figure} /images/geometry_data.png
-:alt: Six line plots against simulation time: number of cells, cell volume, deviation from
-  target volume, cell area, deviation from target area and cell pressure.
+:::{figure} /images/geometry_data_v21.png
+:alt: Six line plots against simulation time from 0 to 0.01 s for the 192-cell tube: number of
+  cells (constant at 192), cell volume, deviation from target volume, cell area, deviation from
+  target area and cell pressure (about 285 Pa), each mean with a shaded band of one standard
+  deviation.
 
-Geometry plots for a two-cell run, made with an earlier version of the script. The current
-script plots the absolute deviations $|V - V_0|/V_0$ and $|A - A_0|/A_0$.
+`sim_geometry_data.png` written by `plot_data.py` for the tube example
+(`parameters_tube.xml`, 192 cells, `1e-2` s) with 2.1.0. The shaded band is one standard
+deviation over the cells. The tube settles within about 1 ms and then stays at constant
+volume, area and pressure.
 :::
 
-:::{figure} /images/energy_data.png
-:alt: Line plots of mean kinetic, surface tension, membrane elasticity, pressure and total
-  energy per cell against simulation time.
+:::{figure} /images/energy_data_v21.png
+:alt: Five plots against simulation time for the same run: kinetic, surface tension, membrane
+  elasticity, pressure and total energy per cell, mean with a shaded band of one standard
+  deviation; the membrane elasticity panel is flat at zero.
 
-Energy plots for the same run, made with an earlier version of the script, in which the
-pressure and total energy panels were empty; the current script plots both.
+`sim_energy_data.png` for the same run. The energies level off after the first millisecond.
+The membrane elasticity energy is 0 because `area_elasticity_modulus` is 0 in the tube file.
 :::
 
 The statistics CSV has one row per cell, written every 50 iterations, so the curves have one

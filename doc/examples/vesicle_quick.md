@@ -5,11 +5,13 @@ Run 200 iterations of the vesicle of {doc}`vesicle`, as a check that a build wor
 first simulation of {doc}`/getting_started`.
 
 **Files**: `parameters/core/parameters_vesicle_quick.xml`, `data/input_meshes/fig_3_vesicle.vtk`
-(434 cells: 432 epithelial cells, one ECM surface, one lumen).
+(434 cells: 432 epithelial cells, one ECM surface, one lumen). \
 **Compile-time configuration**: the defaults (`POLARIZATION_MODE_INDEX 1`,
-`CONTACT_MODEL_INDEX 2`, `DYNAMIC_MODEL_INDEX 0`).
-**Length**: short. $2\times10^{-5}$ s of simulated time at a time step of $10^{-7}$ s (200
-iterations).
+`CONTACT_MODEL_INDEX 2`, `DYNAMIC_MODEL_INDEX 0`). \
+**Length**: short. $2\times10^{-5}$ s of simulated time at a time step of `1e-7` s (200
+iterations). \
+**Measured run time**: 1 min 48 s with 2.1.0 on a 4-core cloud machine (GCP c2-standard-8, 4 threads), November 2026; not part of
+the benchmark.
 
 ## The parameter file
 
@@ -36,7 +38,7 @@ The output folder is `simulation_results/simulation_vesicle/` in the repository 
 as for {doc}`vesicle`; it is deleted at the start of the run. The warning that the mesh path
 `data/input_meshes/fig_3_vesicle.vtk` was not found, followed by the path relative to the source
 directory, is expected when running from `build/`.
-The run takes a few minutes and writes about 290 MB of mesh files.
+The run takes about two minutes on 4 cores and writes about 290 MB of mesh files.
 
 ## What to look at
 
@@ -49,9 +51,10 @@ The run takes a few minutes and writes about 290 MB of mesh files.
   0, and the standard error output contains no `Removing numerically unstable cell` lines.
 
 :::{note}
-The time step cannot be raised to shorten the run. With a time step of $5\times10^{-7}$ s this
-vesicle becomes unstable within a few iterations: the mesh refiner reports oscillating cells, over
-a hundred cells are removed by the safeguards, and the remaining iterations become very slow.
+The time step cannot be raised to shorten the run. With a time step of `5e-7` s this
+vesicle becomes unstable at once. In a review run of 2.1, the safeguards removed all 432
+epithelial cells within 8 iterations, and the run still exited with status 0
+({ref}`whatsnew-v2-1-known-issues`).
 A run whose log shows many removals in its first iterations usually needs a smaller time step.
 :::
 

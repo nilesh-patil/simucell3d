@@ -5,11 +5,21 @@ Relax a flat epithelial sheet of 118 cells. A sheet is one of the tissue topolog
 Fig. 1f of Runser, Vetter & Iber (2024) ({doc}`/citing`).
 
 **Files**: `parameters/core/parameters_sheet.xml`, `data/input_meshes/fig_1_sheet_geometry.vtk`
-(118 epithelial cells).
+(118 epithelial cells). \
 **Compile-time configuration**: the defaults (`POLARIZATION_MODE_INDEX 1`,
-`CONTACT_MODEL_INDEX 2`, `DYNAMIC_MODEL_INDEX 0`).
-**Length**: long. $10^{-2}$ s of simulated time at a time step of $10^{-7}$ s ($10^5$
-iterations).
+`CONTACT_MODEL_INDEX 2`, `DYNAMIC_MODEL_INDEX 0`). \
+**Length**: long. $10^{-2}$ s of simulated time at a time step of `1e-7` s (100,000
+iterations). \
+**Measured run time**: about 3.2 hours with a release candidate of 2.1 on an 8-core cloud machine (GCP c2-standard-16, 8 threads),
+November 2026; not part of the benchmark.
+
+```{figure} /images/example_sheet.png
+:class: dark-light
+:alt: A flat, slab-shaped tissue of rounded cells in 3D, and its cross-section, two to three cells thick.
+:width: 100%
+
+The sheet after 100,000 iterations (118 cells), run with a pre-release build of 2.1, not 2.1.0: 3D view (top) and transverse mid-plane cut (bottom). The relaxed sheet is two to three cells thick. Bars 10 µm.
+```
 
 ## The parameter file
 
@@ -41,6 +51,15 @@ files; increase it in a copy of the file to limit the disk space used.
 The input mesh path `/data/input_meshes/fig_1_sheet_geometry.vtk` starts with `/` but is not an
 absolute path on most systems. The program does not find it, prints a warning, and loads it
 relative to the source directory; this is expected.
+
+## What to expect
+
+The November 2026 benchmark did not include the sheet. In an earlier 24-hour test on an 8-core
+cloud machine (GCP c2-standard-16, 8 threads), with a sampling period of $10^{-4}$ s, a release
+candidate of 2.1 ran 100,000 iterations of this file in about 3.2 hours with no cell removed;
+1.0 with two crash fixes stopped at iteration 8,790 with the error "The refinement of
+the mesh of cell 101 failed". Single runs; the cells neither grow nor divide, so the run is a
+mechanical relaxation of the input sheet.
 
 ## What to look at
 

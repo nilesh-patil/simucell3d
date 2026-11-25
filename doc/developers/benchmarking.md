@@ -3,8 +3,10 @@
 
 This page describes how to measure the speed of SimuCell3D and compare two builds or two
 {term}`scheduling modes <scheduling mode>`: the measurement method, the benchmark driver
-script and the plotting tools. It does not list results; the measurements recorded for a release
-are in `CHANGELOG.md` with their conditions. The code that is being measured is described in
+script, the plotting tools, and how the November 2026 cross-version benchmark was run so that a
+slice of it can be repeated. It does not list results: the benchmark results are on the
+{ref}`benchmarks` pages, and the measurements recorded for a release are in `CHANGELOG.md` with
+their conditions. The code that is being measured is described in
 {ref}`dev-performance-internals`.
 
 ## Method
@@ -145,7 +147,8 @@ $ scripts/generate_visualizations.sh doc/working/parallel_benchmark_<timestamp> 
    `metrics/<mode>/{computational,phase_timings,biological,workload}.csv` and
    `metrics/comparison.csv`.
 2. `python3 scripts/plot_benchmark_unified.py DIR` validates and cleans the data, then writes
-   the plots, `validation_report.json`, `audit_trail.json` and `manifest.json` to
+   the plots, `validation_report.json`, `validation_report.html`, `audit_trail.json` and
+   `manifest.json` to
    `DIR/plots-unified/`. Options: `--quality {publication,draft}` (300 or 150 dpi),
    `--plots {all,biological,computational,<id>,...}`, `--formats png,pdf,svg`,
    `--validate-only`, `--skip-sim-stats`, `--no-latex`, `--force`, `--output-dir`, `-v`.
@@ -155,12 +158,129 @@ biological (pressure, energy, cell heterogeneity, population dynamics, energy co
 contact fraction, a summary dashboard) and computational (scaling, phase timing, roofline, load
 balance, scheduler comparisons, cache efficiency, iteration-rate timeline). The helper package
 `scripts/simucell3d_viz/` holds its data validation, cleaning and statistics code. The scaling
-plot draws an $N^{4/3}$ reference curve for comparison; it is not a fit.
+plot (`04`) fits a power law to the time per iteration against the cell count, with 95 %
+prediction intervals and diagnostic panels (Q-Q, residuals, Cook's distance). It also draws a
+separate $N^{4/3}$ reference line through the medians; that line is not a fit.
 
-`generate_visualizations.sh --legacy` runs the older `plot_benchmark_results.py` instead, and
-`--all-scripts` runs the legacy, the intermediate `plot_benchmark_results_updated.py` and the
-unified script. `scripts/visualization/` holds single-purpose plotting scripts that take file
+`generate_visualizations.sh --legacy` runs the two older scripts instead of the unified one:
+`plot_benchmark_results.py` into `plots/` and `plot_benchmark_results_updated.py` into
+`plots-updated/`. `--all-scripts` runs all three. `scripts/visualization/` holds single-purpose plotting scripts that take file
 paths as positional arguments.
+
+(dev-benchmarking-bench2)=
+## The November 2026 cross-version benchmark
+
+In November 2026 the releases 1.0, 2.0 and 2.1.0 and four intermediate builds were run on the
+same machines and the same input files. The results, and the canonical description of the
+method, are in {ref}`benchmarks-method`. This section says how the runs were set up, so that a
+developer can repeat one case on one build. The harness that created the machines, launched the
+runs and copied their output is not part of the repository; everything a single run needs is.
+
+### Builds
+
+Each build is a commit compiled in Release mode, once per set of compile-time switches.
+
+| Build | Source |
+|---|---|
+| 1.0 | tag `v1.0` (38af451) |
+| 1.0 with two crash fixes | `v1.0` plus the local-id resynchronisation after a cell removal (with the fix of the daughter-append race that it needs, as in f61b620) and the face-winding fix of `split_edge` (as in 3a0fd76); the patches are not in the repository |
+| 2.0 | tag `v2.0` (343bd98) |
+| four intermediate builds | 9acfe36, ba74eed, f08df16 (the merge of 1fe5966), a331169 |
+| 2.1.0 | tag `v2.1.0` (f824dfd) |
+
+Build a tagged version from a separate worktree, never by checking out over a working tree with
+changes:
+
+```console
+$ git worktree add ../simucell3d-v2.1.0 v2.1.0
+$ cd ../simucell3d-v2.1.0
+$ cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j
+```
+
+1.0 and 2.0 declare an older minimum CMake version; with CMake 4 add
+`-DCMAKE_POLICY_VERSION_MINIMUM=3.5` to the configure command.
+
+### Tissues and cases
+
+Five tissues, all with the parameters of the paper or of the files shipped with the code:
+
+| Tissue | Input | Compile-time switches |
+|---|---|---|
+| Growth benchmark | the lab's `parameters_benchmarck.xml` of 1.0 (`git show v1.0:parameters_benchmarck.xml`; not shipped since 2.0), at four time steps: `1e-7` (as shipped), `5e-8`, `2.5e-8` and `1.25e-8` s | `CONTACT_MODEL_INDEX 1`, `POLARIZATION_MODE_INDEX 0`, `WRITE_NORMALS_IN_OUTPUT_MESH_FILE false` |
+| Vesicle, $\varepsilon$ sweep | `parameters/benchmarks/fig3e_monolayer.xml` with no growth and an apical surface tension of $\varepsilon$ × `4e-4` N/m, for $\varepsilon$ = 1, 1.5, 2, 3, 4; 100,000 iterations | defaults |
+| Mono- and multilayer vesicles | `fig3e_monolayer.xml` and `fig3e_multilayer.xml` cut to the paper's protocol (1,736 iterations), and the two files as shipped (`1e-2` s) | defaults |
+| Tube | `parameters/core/parameters_tube.xml` | defaults |
+| Analytic cases | `params_single_sphere.xml`, `params_laplace_pressure.xml`, `params_two_spheres_stable.xml` and `params_two_spheres_contact.xml` in `test/test_scientific_benchmarks/`, and the two two-sphere files again with a minimum edge length of `1.5e-7` m | defaults |
+
+The 20 cases that every build was given are: the growth benchmark at the four time steps, the
+five $\varepsilon$ values, the four mono- and multilayer files, the tube, and six analytic files.
+The growth benchmark is not the reconstructed configuration `parameters/longrun_fast_growth.xml`
+(contact model 2) that the release growth run uses ({ref}`dev-release`); do not compare numbers
+from the two.
+
+For the growth benchmark file with 2.1.0, the recommended time step is `2.5e-8` s: it was clean
+(no cell removed) in three of three 48-hour runs. This is a measurement, not a guarantee; the
+time-step results of every build are in {ref}`benchmarks-time-step`.
+
+The edits made to the shipped files (output paths, time steps, sampling periods, the end time of
+the paper protocol, a stray XML tag) are listed in {ref}`benchmarks-method`. The two-sphere
+variants exist because the shipped two-sphere meshes have edges of 0.18 to 0.31 µm, below the
+shipped minimum edge length of `7.5e-7` m.
+
+### Machine and launch
+
+One run per machine, on Google Cloud `c2-standard-16` instances (8 physical cores, 16 logical
+CPUs, 64 GB), with 8 OpenMP threads, one per physical core. The same pinning was used for
+every build, because 1.0 has no `--threads` option and does not pin its threads:
+
+```bash
+export OMP_NUM_THREADS=8 OMP_PROC_BIND=true OMP_DYNAMIC=false OMP_WAIT_POLICY=passive
+export OMP_PLACES="{0},{1},{2},{3},{4},{5},{6},{7}"
+/usr/bin/time -v taskset -c 0-7 stdbuf -oL -eL \
+    ./build/simucell3d run.xml --threads=8 --schedule=adaptive \
+    --output-dir="$OUT" --diagnostics-csv="$OUT/performance_diagnostics.csv"
+```
+
+The flags after `run.xml` are for 2.1.0 and the intermediate builds; 2.0 has no `--threads`
+and gets `taskset -c 0-15` (it derives its thread count from the affinity mask), and 1.0 takes
+the parameter file as its only argument. On these machines CPUs 0 to 7 are on distinct physical
+cores; check `/sys/devices/system/cpu/cpu0/topology/thread_siblings_list` before reusing the
+command on another machine type. Because `OMP_PLACES` is set, 2.1.0 prints
+`Thread pinning: disabled` and leaves the placement to the OpenMP runtime
+({ref}`dev-performance-internals`). Each output line was prefixed with a UTC time stamp, and wall
+times were taken from these stamps, not from a wall-clock limit.
+
+The stopping rules (150,000 cells or 48 hours for the full growth runs, 3 hours for the
+time-step sweep, a fixed number of iterations for the other tissues) and the replicates are in
+{ref}`benchmarks-method`. Besides these, a run was stopped as a hang after two hours without
+progress in its log and with the same function in repeated stack samples, and on swap
+thrashing. Failed runs were not restarted: a crash is a
+result.
+
+### Outcomes
+
+A case counts as **completed** when every run of it reached its end, or its planned time cap,
+with no cell removed by the solver. Deaths at the minimum volume and refused divisions do not
+count against it. A run is **usable** when it reaches its last iteration with no cell removed.
+The full definitions are in {ref}`benchmarks-method`. Read the outcome of a run from:
+
+- the end of `run.log`: an exception message, a signal, or a normal end;
+- `grep -c "Removing numerically unstable cell" run.log` and
+  `grep -c "Removing cell .* mesh refinement failed" run.log`;
+- the last row of `simulation_statistics.csv` for the cell count and simulated time.
+
+### Benchmark workflows
+
+No workflow runs on a schedule; there is no nightly or weekly benchmark. Two workflows measure
+performance, and both are informational ({ref}`dev-ci`):
+
+- `perf.yml` times a pull request against its base on the same runner (20 iterations of the
+  434-cell vesicle, five repetitions each) and comments the result.
+- `long.yml` runs the micro-benchmarks (`ctest -L benchmark`) in its Release build and writes
+  their output to the job summary.
+
+Neither is a substitute for the cross-version benchmark, which needs dedicated machines and
+hours to days per run.
 
 ## Other benchmark material
 

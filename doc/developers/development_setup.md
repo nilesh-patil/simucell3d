@@ -30,8 +30,8 @@ $ cd simucell3d
 ```
 
 All third-party C++ code is vendored in `lib/` (TinyXML-2, Delaunator, pybind11); there are no
-submodules. The `baselines/` directory and the database pattern in `.gitattributes` use Git LFS;
-nothing in the build needs LFS files.
+submodules. `.gitattributes` stores VTK files under `baselines/` in Git LFS; the 2.1.0 tree holds
+none (only `baselines/nature_paper/README.md`), and nothing in the build needs LFS files.
 
 ## Build configurations
 
@@ -75,11 +75,14 @@ The module libraries are in `build/bin/<module>/`, the test executables in
 ## The oldest supported compiler
 
 GCC 10 (Debian 11) is the oldest compiler CI builds with. To check a change against it
-locally without installing it, build in a container:
+locally without installing it, build in a container. The command mirrors the `build-oldest` job
+of `ci.yml`, including its first step: Debian 11 security updates moved to `archive.debian.org`,
+so the package sources must be rewritten before `apt-get update`.
 
 ```console
 $ docker run --rm -v "$PWD":/src -w /src debian:bullseye bash -c \
-    "apt-get update && apt-get install -y build-essential cmake git && \
+    "sed -i -E 's#http://(deb|security)\.debian\.org/debian-security#http://archive.debian.org/debian-security#' /etc/apt/sources.list && \
+     apt-get update && apt-get install -y build-essential cmake git && \
      cmake -B build-gcc10 -DCMAKE_BUILD_TYPE=Release && cmake --build build-gcc10 -j && \
      cd build-gcc10 && ctest -L 'unit|integration' --output-on-failure"
 ```

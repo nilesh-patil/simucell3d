@@ -3,19 +3,28 @@
 
 The {cpp:class}`solver` owns the cells of a simulation and runs the main loop. Its constructor
 receives the numerical parameters ({cpp:struct}`global_simulation_parameters`) and the list of
-cells built by {cpp:class}`simulation_initializer`; {cpp:func}`solver::run` then advances the
-simulation until the simulation duration is reached, writing output every sampling period.
-One iteration ({cpp:func}`solver::run_iteration`) writes the output meshes when a sampling
-period has elapsed, divides the cells that have reached their division volume (checked every
-5 iterations), updates the face types, refines the cell meshes, computes the contact forces,
-updates the polarization of the faces, computes the internal forces of each cell (which also advances its target volume), integrates
-the equations of motion, and removes cells below their minimum volume or found numerically
-unstable. The narrative description is in {doc}`/user_guide/01_model_overview`.
+cells built by {cpp:class}`simulation_initializer`, chooses the thread count and placement and
+the OpenMP schedule, and creates the modules (mesh refiner, contact model, time integrator,
+statistics writer). {cpp:func}`solver::run` then calls {cpp:func}`solver::run_iteration` until
+the simulation duration is reached or no cell is left. The order of the steps inside one
+iteration is given in {ref}`api-index` and, in detail, in {ref}`dev-architecture-main-loop`;
+the model is described in {doc}`/user_guide/01_model_overview`.
 
 The macros in `global_configuration.hpp` select the contact model, the dynamic model and the
-polarization mode at compile time ({doc}`/user_guide/10_compile_time_configuration`). The parameter structures mirror the
-sections of the parameter file ({doc}`/user_guide/11_parameter_file`). Errors are reported with the
-exception classes listed at the end of this page.
+polarization mode at compile time ({doc}`/user_guide/10_compile_time_configuration`). The
+parameter structures mirror the sections of the parameter file
+({doc}`/user_guide/11_parameter_file`). Errors that end a run are reported with the exception
+classes listed at the end of this page.
+
+| Class or type | Header | Role |
+|---|---|---|
+| {cpp:class}`solver` | `solver.hpp` | Owns the cells and the modules; runs the main loop |
+| {cpp:struct}`global_simulation_parameters` | `custom_structures.hpp` | Numerical section of the parameter file |
+| {cpp:struct}`cell_type_parameters`, {cpp:struct}`face_type_parameters` | `custom_structures.hpp` | One `<cell_type>` block and its `<face_type>` blocks |
+| {cpp:enum}`ContactDetectionAlgorithm` | `custom_structures.hpp` | Value of `contact_detection_algorithm` |
+| {cpp:struct}`simulation_outputs` | `custom_structures.hpp` | Result of a run of the Python module |
+| {cpp:struct}`mesh`, {cpp:struct}`oriented_point` | `custom_structures.hpp` | Light mesh and point types used while reading and triangulating |
+| exception classes | `custom_exception.hpp` | One class per kind of error that ends the run |
 
 ## Solver
 
@@ -40,6 +49,10 @@ The switches are macros in `include/global_configuration.hpp`; changing one requ
 ## Parameters and results
 
 ```{doxygenenum} ContactDetectionAlgorithm
+:project: simucell3d
+```
+
+```{doxygenvariable} ADAPTIVE_SAP_CELL_THRESHOLD
 :project: simucell3d
 ```
 
