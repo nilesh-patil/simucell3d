@@ -208,20 +208,20 @@ jobs:
             cp -a html/. "site/${dir}/"
           done
           touch site/.nojekyll
-          site_url="${SITE_URL%/}"
+          docs_base="${SITE_URL%/}"
           # The site root redirects to /stable/ once a release exists, else to /dev/.
           root="dev"
           if [ -d site/stable ]; then root="stable"; fi
           printf '<!DOCTYPE html>\n<meta charset="utf-8">\n<title>SimuCell3D documentation</title>\n<meta http-equiv="refresh" content="0; url=%s/">\n<link rel="canonical" href="%s/%s/">\n<a href="%s/">SimuCell3D documentation</a>\n' \
-            "$root" "$site_url" "$root" "$root" > site/index.html
+            "$root" "$docs_base" "$root" "$root" > site/index.html
           # GitHub Pages serves the 404.html at the root of the branch for every
           # missing path, so it is a standalone page with absolute links. The
           # URL is substituted in Python, not sed, so "&" or "#" in it are literal.
-          SITE_URL="$site_url" python3 - <<'PY'
+          DOCS_BASE="$docs_base" python3 - <<'PY'
           import os, pathlib
           src = pathlib.Path("src/doc/_templates/404-root.html").read_text(encoding="utf-8")
           pathlib.Path("site/404.html").write_text(
-              src.replace("@SITE_URL@", os.environ["SITE_URL"]), encoding="utf-8")
+              src.replace("@SITE_URL@", os.environ["DOCS_BASE"]), encoding="utf-8")
           PY
           cat site/switcher.json
 
