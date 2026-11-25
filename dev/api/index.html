@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API reference &#8212; SimuCell3D 2.1.0</title>
+    <title>API reference &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/index';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/api/index.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/api/index.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Solver and configuration" href="solver.html" />
-    <link rel="prev" title="Batch runs from Python" href="../examples/python_batch_runs.html" />
+    <link rel="prev" title="Reproducibility" href="../benchmarks/reproducibility.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="API reference - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/api/index.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -176,23 +195,30 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -384,23 +410,30 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -575,14 +608,76 @@ document.write(`
 <p>SimuCell3D is used mainly as the command-line program <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code>, configured by a
 <a class="reference internal" href="../glossary.html#term-parameter-file"><span class="xref std std-term">parameter file</span></a> and by the compile-time macros in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>.
 This reference is for readers who extend the solver in C++ (a new cell class, contact model or
-output array) or who drive it from Python. Running simulations does not require it; see the <a class="reference internal" href="../user_guide/index.html"><span class="doc">User guide</span></a>.</p>
-<section id="c-classes">
-<h2>C++ classes<a class="headerlink" href="#c-classes" title="Link to this heading">#</a></h2>
+output array) or who drive it from Python. Running simulations does not require it; see the
+<a class="reference internal" href="../user_guide/index.html"><span class="doc">User guide</span></a>.</p>
 <p>The C++ API is the set of headers in <code class="docutils literal notranslate"><span class="pre">include/</span></code>. All classes are in the global namespace, with
-two exceptions: the thread-placement functions in the namespace <code class="docutils literal notranslate"><span class="pre">cpu_topology</span></code> and the
+two exceptions: the thread-placement types and functions in the namespace <code class="docutils literal notranslate"><span class="pre">cpu_topology</span></code> and the
 eigensolver in the namespace <code class="docutils literal notranslate"><span class="pre">gte</span></code>. Class names are lower case with underscores (<code class="docutils literal notranslate"><span class="pre">solver</span></code>,
 <code class="docutils literal notranslate"><span class="pre">cell</span></code>, <code class="docutils literal notranslate"><span class="pre">local_mesh_refiner</span></code>), and data members end with an underscore.</p>
-<p>The reference is organised by module, following the subdirectories of <code class="docutils literal notranslate"><span class="pre">include/</span></code> and <code class="docutils literal notranslate"><span class="pre">src/</span></code>:</p>
+<section id="one-iteration-class-by-class">
+<h2>One iteration, class by class<a class="headerlink" href="#one-iteration-class-by-class" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="solver.html#_CPPv46solver" title="solver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">solver</span></code></a> runs the simulation. Each call of <a class="reference internal" href="solver.html#_CPPv4N6solver13run_iterationEv" title="solver::run_iteration"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code></a>
+passes the list of cells through the modules below, in this order. The step-by-step
+description, with the timers and the conditions of each step, is in
+<a class="reference internal" href="../developers/architecture.html#dev-architecture-main-loop"><span class="std std-ref">Main loop</span></a>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Code</p></th>
+<th class="head"><p>Page</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Write the output meshes when a sampling period has elapsed</p></td>
+<td><p><a class="reference internal" href="io.html#_CPPv4N11mesh_writer5writeERKNSt6stringERKNSt6stringERNSt6vectorI8cell_ptrEE" title="mesh_writer::write"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mesh_writer::write()</span></code></a></p></td>
+<td><p><a class="reference internal" href="io.html"><span class="doc">Input and output</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Divide the cells that reached their division volume (every 5 iterations)</p></td>
+<td><p><a class="reference internal" href="triangulation.html#_CPPv4N12cell_divider3runERNSt6vectorI8cell_ptrEEKdRK18local_mesh_refinerRjb" title="cell_divider::run"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">cell_divider::run()</span></code></a></p></td>
+<td><p><a class="reference internal" href="triangulation.html"><span class="doc">Triangulation and division</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Update the face types</p></td>
+<td><p><a class="reference internal" href="mesh.html#_CPPv4N4cell17update_face_typesEv" title="cell::update_face_types"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">cell::update_face_types()</span></code></a></p></td>
+<td><p><a class="reference internal" href="mesh.html"><span class="doc">Cell meshes</span></a>, <a class="reference internal" href="cell_classes.html"><span class="doc">Cell classes</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Keep edge lengths between <span class="math notranslate nohighlight">\(\ell_{min}\)</span> and <span class="math notranslate nohighlight">\(3\,\ell_{min}\)</span></p></td>
+<td><p><a class="reference internal" href="triangulation.html#_CPPv4NK18local_mesh_refiner13refine_meshesERKNSt6vectorI8cell_ptrEE" title="local_mesh_refiner::refine_meshes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">local_mesh_refiner::refine_meshes()</span></code></a></p></td>
+<td><p><a class="reference internal" href="triangulation.html"><span class="doc">Triangulation and division</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Find contacts, apply adhesion and repulsion</p></td>
+<td><p><a class="reference internal" href="contact_models.html#_CPPv4N22contact_model_abstract3runERKNSt6vectorI8cell_ptrEE" title="contact_model_abstract::run"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">contact_model_abstract::run()</span></code></a></p></td>
+<td><p><a class="reference internal" href="contact_models.html"><span class="doc">Contact models</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Polarize faces from a voxel grid (polarization mode 2 only)</p></td>
+<td><p><a class="reference internal" href="polarization.html#_CPPv4N19automatic_polarizer14polarize_facesERKNSt6vectorI8cell_ptrEE" title="automatic_polarizer::polarize_faces"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">automatic_polarizer::polarize_faces()</span></code></a></p></td>
+<td><p><a class="reference internal" href="polarization.html"><span class="doc">Polarization</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Contact-based polarization, then pressure, tension, area elasticity and bending</p></td>
+<td><p><a class="reference internal" href="mesh.html#_CPPv4N4cell27special_polarization_updateERKNSt6vectorI8cell_ptrEE" title="cell::special_polarization_update"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">cell::special_polarization_update()</span></code></a>, <a class="reference internal" href="mesh.html#_CPPv4N4cell21apply_internal_forcesEKd" title="cell::apply_internal_forces"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">cell::apply_internal_forces()</span></code></a></p></td>
+<td><p><a class="reference internal" href="mesh.html"><span class="doc">Cell meshes</span></a>, <a class="reference internal" href="cell_classes.html"><span class="doc">Cell classes</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Move the nodes, advance the time</p></td>
+<td><p><a class="reference internal" href="time_integration.html#_CPPv4N23time_integration_scheme22update_nodes_positionsERKNSt6vectorI8cell_ptrEE" title="time_integration_scheme::update_nodes_positions"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code></a></p></td>
+<td><p><a class="reference internal" href="time_integration.html"><span class="doc">Time integration</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Write a statistics row (every 50 iterations)</p></td>
+<td><p><a class="reference internal" href="io.html#_CPPv4N26abstract_statistics_writer10write_dataEKjKdRKNSt6vectorI8cell_ptrEE" title="abstract_statistics_writer::write_data"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">abstract_statistics_writer::write_data()</span></code></a></p></td>
+<td><p><a class="reference internal" href="io.html"><span class="doc">Input and output</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Remove cells below their minimum volume or numerically unstable</p></td>
+<td><p><a class="reference internal" href="mesh.html#_CPPv4NK4cell25check_numerical_stabilityEKdKd" title="cell::check_numerical_stability"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">cell::check_numerical_stability()</span></code></a></p></td>
+<td><p><a class="reference internal" href="solver.html"><span class="doc">Solver and configuration</span></a>, <a class="reference internal" href="mesh.html"><span class="doc">Cell meshes</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Before the first iteration, <a class="reference internal" href="io.html#_CPPv422simulation_initializer" title="simulation_initializer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">simulation_initializer</span></code></a> reads the parameter file
+(<a class="reference internal" href="io.html#_CPPv416parameter_reader" title="parameter_reader"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">parameter_reader</span></code></a>) and the input mesh (<a class="reference internal" href="io.html#_CPPv411mesh_reader" title="mesh_reader"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">mesh_reader</span></code></a>), re-triangulates
+each cell surface (<a class="reference internal" href="triangulation.html#_CPPv421initial_triangulation" title="initial_triangulation"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">initial_triangulation</span></code></a>) unless <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code>
+is off, and creates one object per cell.</p>
+</section>
+<section id="pages">
+<h2>Pages<a class="headerlink" href="#pages" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Page</p></th>
@@ -597,7 +692,7 @@ eigensolver in the namespace <code class="docutils literal notranslate"><span cl
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="io.html"><span class="doc">Input and output</span></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">io/</span></code></p></td>
-<td><p>Parameter file and input mesh readers, simulation initializer, mesh and statistics writers</p></td>
+<td><p>Parameter file and input mesh readers, simulation initializer, mesh and statistics writers, output arrays</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="mesh.html"><span class="doc">Cell meshes</span></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">mesh/cell.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">node.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">edge.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">face.hpp</span></code></p></td>
@@ -621,11 +716,11 @@ eigensolver in the namespace <code class="docutils literal notranslate"><span cl
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="polarization.html"><span class="doc">Polarization</span></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">automatic_polarization/</span></code></p></td>
-<td><p>Space-discretisation polarization (mode 2)</p></td>
+<td><p>Polarization by space discretisation (mode 2)</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="spatial_partitioning.html"><span class="doc">Spatial partitioning</span></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">uspg/</span></code></p></td>
-<td><p>Uniform spatial partitioning grids</p></td>
+<td><p>Uniform spatial partitioning grids, Morton codes</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="math.html"><span class="doc">Mathematics</span></a></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">math_modules/</span></code></p></td>
@@ -635,26 +730,59 @@ eigensolver in the namespace <code class="docutils literal notranslate"><span cl
 <td><p><code class="docutils literal notranslate"><span class="pre">cpu_topology.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">performance_monitor.hpp</span></code>, <code class="docutils literal notranslate"><span class="pre">utils.hpp</span></code></p></td>
 <td><p>Thread placement, timing, utilities</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="python.html"><span class="doc">Python module</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">python_bindings/</span></code></p></td>
+<td><p>The Python module <code class="docutils literal notranslate"><span class="pre">simucell3d_python_wrapper</span></code></p></td>
+</tr>
 </tbody>
 </table>
 </div>
-<p>Each page starts with a short description of the module’s role in the simulation and links to
-the user-guide chapter that explains the model. The class entries below it list the public
-members with the comments from the headers. Members that exist only for some values of the
-compile-time macros (for example only with <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code> 1 or 2) are listed whatever
-the configuration; their comment states the condition.</p>
+<p>Each page starts with the role of its classes in the simulation, a table of the classes, and a
+link to the user-guide chapter that explains the model. The class entries below list the public
+members with the comments from the headers; protected members are not listed (see the header
+when deriving a class). Members that exist only for some values of the compile-time macros (for
+example only with <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code> 1 or 2) are listed whatever the configuration; their
+comment states the condition.</p>
+</section>
+<section id="where-to-start">
+<h2>Where to start<a class="headerlink" href="#where-to-start" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Task</p></th>
+<th class="head"><p>Start with</p></th>
+<th class="head"><p>Guide</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Add a cell class</p></td>
+<td><p><a class="reference internal" href="mesh.html#_CPPv44cell" title="cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">cell</span></code></a>, <a class="reference internal" href="cell_classes.html#_CPPv410lumen_cell" title="lumen_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">lumen_cell</span></code></a> (a minimal derived class), <code class="docutils literal notranslate"><span class="pre">simulation_initializer</span></code></p></td>
+<td><p><a class="reference internal" href="../developers/architecture.html#dev-architecture"><span class="std std-ref">Architecture</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Add a contact model</p></td>
+<td><p><a class="reference internal" href="contact_models.html#_CPPv422contact_model_abstract" title="contact_model_abstract"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">contact_model_abstract</span></code></a>, <a class="reference internal" href="time_integration.html#_CPPv423time_integration_scheme" title="time_integration_scheme"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">time_integration_scheme</span></code></a></p></td>
+<td><p><a class="reference internal" href="../developers/architecture.html#dev-architecture"><span class="std std-ref">Architecture</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Add an output array or a statistics column</p></td>
+<td><p><a class="reference internal" href="io.html#_CPPv416cell_data_mapper" title="cell_data_mapper"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">cell_data_mapper</span></code></a>, <code class="docutils literal notranslate"><span class="pre">mesh_data.hpp</span></code></p></td>
+<td><p><a class="reference internal" href="../developers/architecture.html#dev-architecture"><span class="std std-ref">Architecture</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Change thread placement or scheduling</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cpu_topology</span></code>, <a class="reference internal" href="solver.html#_CPPv46solver" title="solver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">solver</span></code></a></p></td>
+<td><p><a class="reference internal" href="../developers/performance_internals.html#dev-performance-internals"><span class="std std-ref">Performance internals</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Run a simulation from Python</p></td>
+<td><p><a class="reference internal" href="python.html"><span class="doc">Python module</span></a></p></td>
+<td><p><a class="reference internal" href="../user_guide/16_python_interface.html"><span class="doc">Python interface</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The class entries are built from the Doxygen comments in <code class="docutils literal notranslate"><span class="pre">include/</span></code> when the documentation
 is published. A local build without Doxygen shows the module descriptions only; see
 <a class="reference internal" href="../developers/writing_documentation.html"><span class="doc">Writing documentation</span></a> to build the full reference.</p>
 </div>
-</section>
-<section id="python-module">
-<h2>Python module<a class="headerlink" href="#python-module" title="Link to this heading">#</a></h2>
-<p>The optional pybind11 module <code class="docutils literal notranslate"><span class="pre">simucell3d_python_wrapper</span></code> is documented on its own page,
-<a class="reference internal" href="python.html"><span class="doc">Python module</span></a>. It runs a complete simulation from Python with parameters set as attributes
-and returns per-cell statistics and the final cells.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -671,12 +799,12 @@ and returns per-cell statistics and the final cells.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../examples/python_batch_runs.html"
+       href="../benchmarks/reproducibility.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Batch runs from Python</p>
+        <p class="prev-next-title">Reproducibility</p>
       </div>
     </a>
     <a class="right-next"
@@ -706,10 +834,18 @@ and returns per-cell statistics and the final cells.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-classes">C++ classes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-module">Python module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-iteration-class-by-class">One iteration, class by class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pages">Pages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-start">Where to start</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/api/index.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -745,16 +881,28 @@ and returns per-cell statistics and the final cells.</p>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

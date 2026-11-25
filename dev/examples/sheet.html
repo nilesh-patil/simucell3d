@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Epithelial sheet &#8212; SimuCell3D 2.1.0</title>
+    <title>Epithelial sheet &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/sheet';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/examples/sheet.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/examples/sheet.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Epithelial tube" href="tube.html" />
     <link rel="prev" title="Monolayer and multilayer epithelia" href="monolayer_multilayer.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Epithelial sheet - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/examples/sheet.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -574,15 +607,24 @@ document.write(`
 <p>Relax a flat epithelial sheet of 118 cells. A sheet is one of the tissue topologies shown in
 Fig. 1f of Runser, Vetter &amp; Iber (2024) (<a class="reference internal" href="../citing.html"><span class="doc">Citing SimuCell3D</span></a>).</p>
 <p><strong>Files</strong>: <code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_sheet.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_1_sheet_geometry.vtk</span></code>
-(118 epithelial cells).
+(118 epithelial cells). <br />
 <strong>Compile-time configuration</strong>: the defaults (<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>,
-<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>).
-<strong>Length</strong>: long. <span class="math notranslate nohighlight">\(10^{-2}\)</span> s of simulated time at a time step of <span class="math notranslate nohighlight">\(10^{-7}\)</span> s (<span class="math notranslate nohighlight">\(10^5\)</span>
-iterations).</p>
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>). <br />
+<strong>Length</strong>: long. <span class="math notranslate nohighlight">\(10^{-2}\)</span> s of simulated time at a time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s (100,000
+iterations). <br />
+<strong>Measured run time</strong>: about 3.2 hours with a release candidate of 2.1 on an 8-core cloud machine (GCP c2-standard-16, 8 threads),
+November 2026; not part of the benchmark.</p>
+<figure class="align-default" id="id1">
+<a class="dark-light reference internal image-reference" href="../_images/example_sheet.png"><img alt="A flat, slab-shaped tissue of rounded cells in 3D, and its cross-section, two to three cells thick." class="dark-light" src="../_images/example_sheet.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The sheet after 100,000 iterations (118 cells), run with a pre-release build of 2.1, not 2.1.0: 3D view (top) and transverse mid-plane cut (bottom). The relaxed sheet is two to three cells thick. Bars 10 µm.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <section id="the-parameter-file">
 <h2>The parameter file<a class="headerlink" href="#the-parameter-file" title="Link to this heading">#</a></h2>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">parameters/core/parameters_sheet.xml (numerical parameters)</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">parameters/core/parameters_sheet.xml (numerical parameters)</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;numerical_parameters&gt;</span>
 <span class="w">    </span><span class="cm">&lt;!-- The mesh file containing the initial configuration &lt;! --&gt;</span>
 
@@ -640,6 +682,15 @@ files; increase it in a copy of the file to limit the disk space used.</p>
 <p>The input mesh path <code class="docutils literal notranslate"><span class="pre">/data/input_meshes/fig_1_sheet_geometry.vtk</span></code> starts with <code class="docutils literal notranslate"><span class="pre">/</span></code> but is not an
 absolute path on most systems. The program does not find it, prints a warning, and loads it
 relative to the source directory; this is expected.</p>
+</section>
+<section id="what-to-expect">
+<h2>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h2>
+<p>The November 2026 benchmark did not include the sheet. In an earlier 24-hour test on an 8-core
+cloud machine (GCP c2-standard-16, 8 threads), with a sampling period of <span class="math notranslate nohighlight">\(10^{-4}\)</span> s, a release
+candidate of 2.1 ran 100,000 iterations of this file in about 3.2 hours with no cell removed;
+1.0 with two crash fixes stopped at iteration 8,790 with the error “The refinement of
+the mesh of cell 101 failed”. Single runs; the cells neither grow nor divide, so the run is a
+mechanical relaxation of the input sheet.</p>
 </section>
 <section id="what-to-look-at">
 <h2>What to look at<a class="headerlink" href="#what-to-look-at" title="Link to this heading">#</a></h2>
@@ -707,9 +758,17 @@ with contact model 2 (<a class="reference internal" href="../user_guide/10_compi
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-parameter-file">The parameter file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">Run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">What to expect</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-look-at">What to look at</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/examples/sheet.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -745,16 +804,28 @@ with contact model 2 (<a class="reference internal" href="../user_guide/10_compi
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

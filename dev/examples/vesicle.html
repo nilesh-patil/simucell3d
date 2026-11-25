@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Epithelial vesicle with lumen and ECM &#8212; SimuCell3D 2.1.0</title>
+    <title>Epithelial vesicle with lumen and ECM &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/vesicle';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/examples/vesicle.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/examples/vesicle.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Monolayer and multilayer epithelia" href="monolayer_multilayer.html" />
     <link rel="prev" title="Short vesicle run" href="vesicle_quick.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Epithelial vesicle with lumen and ECM - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/examples/vesicle.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -575,16 +608,26 @@ document.write(`
 extracellular matrix (ECM). This is the initial tissue of Fig. 3a in Runser, Vetter &amp; Iber (2024)
 (<a class="reference internal" href="../citing.html"><span class="doc">Citing SimuCell3D</span></a>), and the starting point of <a class="reference internal" href="monolayer_multilayer.html"><span class="doc">Monolayer and multilayer epithelia</span></a>.</p>
 <p><strong>Files</strong>: <code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_3_vesicle.vtk</span></code>
-(434 cells: 432 epithelial cells, one ECM surface, one lumen).
+(434 cells: 432 epithelial cells, one ECM surface, one lumen). <br />
 <strong>Compile-time configuration</strong>: the defaults (<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>,
-<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>).
-<strong>Length</strong>: long. <span class="math notranslate nohighlight">\(10^{-2}\)</span> s of simulated time at a time step of <span class="math notranslate nohighlight">\(10^{-7}\)</span> s, that is <span class="math notranslate nohighlight">\(10^5\)</span>
-iterations.</p>
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>). <br />
+<strong>Length</strong>: very long. <span class="math notranslate nohighlight">\(10^{-2}\)</span> s of simulated time at a time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s (100,000
+iterations), with cells that grow throughout the run. <br />
+<strong>Measured run time</strong>: more than two days as shipped (87,084 iterations in 48 hours with the
+same parameters); 6.20 ± 0.95 hours with growth switched off. 2.1.0 on an 8-core cloud machine (GCP c2-standard-16, 8 threads),
+November 2026 (<a class="reference internal" href="#ex-vesicle-expect"><span class="std std-ref">What to expect</span></a>).</p>
+<figure class="align-default" id="id1">
+<a class="dark-light reference internal image-reference" href="../_images/example_vesicle.png"><img alt="Two cross-sections of the vesicle at one scale: a small ring of columnar cells around a lumen inside a green ECM outline, and the same tissue at the end of the run, many times larger, with large polygonal cells extending far beyond the ECM outline." class="dark-light" src="../_images/example_vesicle.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The vesicle with the shipped parameters, run with 2.1.0: mid-plane cross-sections of the input mesh (left) and of the last snapshot, at iteration 87,000 (right), at one scale. The cells grow without dividing and end almost entirely outside the static ECM surface (green circle), as described under <a class="reference internal" href="#ex-vesicle-expect"><span class="std std-ref">What to expect</span></a>. Outlines by face type: apical orange, lateral blue, ECM face green, lumen face amber. Bar 20 µm.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <section id="the-parameter-file">
 <h2>The parameter file<a class="headerlink" href="#the-parameter-file" title="Link to this heading">#</a></h2>
 <p>The numerical parameters of the run:</p>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">parameters/core/parameters_vesicle.xml (numerical parameters)</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">parameters/core/parameters_vesicle.xml (numerical parameters)</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;numerical_parameters&gt;</span>
 <span class="w">    </span><span class="cm">&lt;!-- The mesh file containing the initial configuration &lt;! --&gt;</span>
 
@@ -648,10 +691,11 @@ been tested with it (<a class="reference internal" href="../user_guide/10_compil
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p><code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> is <span class="math notranslate nohighlight">\(10^{-6}\)</span> s, so the run writes <span class="math notranslate nohighlight">\(10^4\)</span> pairs of mesh files. For this tissue
-one pair (<code class="docutils literal notranslate"><span class="pre">cell_data</span></code> and <code class="docutils literal notranslate"><span class="pre">face_data</span></code>) takes about 60 MB, so the complete run needs several
-hundred gigabytes. Increase <code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> in a copy of the file (for example to <span class="math notranslate nohighlight">\(10^{-4}\)</span> s,
-100 pairs) before a full run. The output folder, <code class="docutils literal notranslate"><span class="pre">simulation_results/simulation_vesicle/</span></code> in the
+<p><code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> is <span class="math notranslate nohighlight">\(10^{-6}\)</span> s, so the run writes 10,000 pairs of mesh files (<code class="docutils literal notranslate"><span class="pre">cell_data</span></code> and
+<code class="docutils literal notranslate"><span class="pre">face_data</span></code>). The pairs grow with the cells. With the same parameters, the first pair took 112 MB
+and the pair at iteration 87,000 took 651 MB. The complete run would need several terabytes.
+Set <code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> to <span class="math notranslate nohighlight">\(10^{-4}\)</span> s in a copy of the file before a full run. That gives about
+100 pairs; the 88 pairs written up to iteration 87,000 took 33 GB. The output folder, <code class="docutils literal notranslate"><span class="pre">simulation_results/simulation_vesicle/</span></code> in the
 repository root, is deleted at the start of the run.</p>
 </div>
 <p>The input mesh is given as <code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_3_vesicle.vtk</span></code>, a path relative to the
@@ -669,6 +713,44 @@ the epithelium, the lumen and the ECM, or by <code class="docutils literal notra
 <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">scripts/data_plotting/plot_data.py</span> <span class="pre">simulation_results/simulation_vesicle</span></code> from the
 repository root (<a class="reference internal" href="../getting_started.html"><span class="doc">Getting started</span></a>).</p></li>
 </ul>
+</section>
+<section id="what-to-expect">
+<span id="ex-vesicle-expect"></span><h2>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h2>
+<p>The November 2026 benchmark measured this tissue with 2.1.0 on 8-core cloud machines (GCP
+c2-standard-16, 8 threads). It did not run this file as shipped, but two files close to it:</p>
+<ul class="simple">
+<li><p><strong>The shipped parameters.</strong> <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_multilayer.xml</span></code> has the parameters of
+this file and a longer sampling period. With it, 2.1.0 completed 87,084 of the 100,000
+iterations in 48 hours, when the run was stopped. The epithelial cells grow at <span class="math notranslate nohighlight">\(10^{-12}\)</span>
+m<span class="math notranslate nohighlight">\(^3\)</span>/s for the whole run, so their target volume rises by <span class="math notranslate nohighlight">\(10^{-14}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>, about 58 times the
+mean initial cell volume, and each iteration costs more as their surfaces grow. The ECM
+surface does not hold them: late in the run, 98-100% of the epithelial cells, in every version
+tested, had more than half of their nodes outside it (<a class="reference internal" href="monolayer_multilayer.html"><span class="doc">Monolayer and multilayer epithelia</span></a>).</p></li>
+<li><p><strong>A relaxation sweep.</strong> The same tissue with growth switched off and the apical surface tension
+set to <span class="math notranslate nohighlight">\(\varepsilon \times 4\times10^{-4}\)</span> N/m, for five ratios
+<span class="math notranslate nohighlight">\(\varepsilon = \gamma_\text{apical} / \gamma_\text{lateral}\)</span> from 1 to 4 (this file corresponds to <span class="math notranslate nohighlight">\(\varepsilon = 2.5\)</span> with growth),
+three runs each. Every one of the 15 runs reached iteration 100,000 with no cell removed, in
+<span class="math notranslate nohighlight">\(6.20 \pm 0.95\)</span> hours.</p></li>
+</ul>
+<p>What the sweep showed, for 2.1.0:</p>
+<ul class="simple">
+<li><p>Readouts that respond to <span class="math notranslate nohighlight">\(\varepsilon\)</span> well beyond the noise between repeats: the median
+sphericity of the epithelial cells falls from 0.983 at <span class="math notranslate nohighlight">\(\varepsilon = 1\)</span> to 0.877 at
+<span class="math notranslate nohighlight">\(\varepsilon = 4\)</span>, the mean pressure rises from 291 to 430 Pa, and the contact-area fraction
+changes by more than ten times its repeat spread between neighbouring values, but not
+monotonically (it peaks at <span class="math notranslate nohighlight">\(\varepsilon = 3\)</span>).</p></li>
+<li><p><a class="reference internal" href="../glossary.html#term-replicate"><span class="xref std std-term">Replicates</span></a> with the same input are not identical: mean pressure varies by 0.1-1% between repeats,
+median sphericity by less than 0.1% (<a class="reference internal" href="../benchmarks/reproducibility.html#benchmarks-reproducibility"><span class="std std-ref">Reproducibility</span></a>).</p></li>
+<li><p>The static ECM shell does not confine the tissue into a monolayer. The median aspect ratio of
+the cells (from the oriented bounding box of each cell) stays between 1.09 and 1.21 over a
+fourfold change of <span class="math notranslate nohighlight">\(\varepsilon\)</span>; at <span class="math notranslate nohighlight">\(\varepsilon = 1\)</span> the epithelium splits into two layers, one on the lumen and one on the ECM,
+and above <span class="math notranslate nohighlight">\(\varepsilon = 1\)</span>, 12-27% of the cells touch neither surface. The shape of the
+epithelium in this setup is therefore not a test of how cell aspect ratio depends on tension
+(<a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>).</p></li>
+</ul>
+<p>To run the sweep, copy this file and set, for the <code class="docutils literal notranslate"><span class="pre">epithelial</span></code> cell type, <code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code> to 0
+and the <code class="docutils literal notranslate"><span class="pre">surface_tension</span></code> of the apical face type to the value for the chosen <span class="math notranslate nohighlight">\(\varepsilon\)</span>; a
+<code class="docutils literal notranslate"><span class="pre">sampling_period</span></code> of <span class="math notranslate nohighlight">\(10^{-4}\)</span> s gives 100 pairs of mesh files.</p>
 </section>
 <section id="variations">
 <h2>Variations<a class="headerlink" href="#variations" title="Link to this heading">#</a></h2>
@@ -730,9 +812,17 @@ duration, division enabled); it is not described here.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-parameter-file">The parameter file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">Run</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-look-at">What to look at</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">What to expect</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variations">Variations</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/examples/vesicle.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -768,16 +858,28 @@ duration, division enabled); it is not described here.</p></li>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

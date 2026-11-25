@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Continuous integration &#8212; SimuCell3D 2.1.0</title>
+    <title>Continuous integration &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,36 +31,45 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=fc97db16"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'developers/continuous_integration';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/continuous_integration.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/developers/continuous_integration.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Benchmarking" href="benchmarking.html" />
     <link rel="prev" title="Testing" href="testing.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Continuous integration - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/developers/continuous_integration.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +142,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +167,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +194,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +235,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +382,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +409,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +445,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -597,15 +628,15 @@ when a release is prepared or when a maintainer asks for them.</p>
 <td><p>the <code class="docutils literal notranslate"><span class="pre">long</span></code> test tier and the micro-benchmarks</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">perf.yml</span></code> (Performance A/B)</p></td>
-<td><p>pull requests touching <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, <code class="docutils literal notranslate"><span class="pre">lib/</span></code>, <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">parameters/</span></code>; by hand</p></td>
+<td><p>pull requests touching <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, <code class="docutils literal notranslate"><span class="pre">lib/</span></code>, <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">parameters/</span></code> or <code class="docutils literal notranslate"><span class="pre">scripts/ci/perf_ab.py</span></code>; by hand</p></td>
 <td><p>timing comparison with the base branch; informational</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">docker.yml</span></code> (Docker)</p></td>
-<td><p>pull requests and pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code> that change the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, <code class="docutils literal notranslate"><span class="pre">.dockerignore</span></code>, the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code> or <code class="docutils literal notranslate"><span class="pre">lib/</span></code></p></td>
+<td><p>pull requests and pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code> that change the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, <code class="docutils literal notranslate"><span class="pre">.dockerignore</span></code>, the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">src/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code> or <code class="docutils literal notranslate"><span class="pre">lib/</span></code> (pull requests also when the workflow changes); by hand</p></td>
 <td><p>builds the Docker image and runs <code class="docutils literal notranslate"><span class="pre">simucell3d</span> <span class="pre">--version</span></code>; informational</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docs.yml</span></code> (Docs)</p></td>
-<td><p>pull requests touching <code class="docutils literal notranslate"><span class="pre">doc/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>, <code class="docutils literal notranslate"><span class="pre">README.md</span></code> or <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>; pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code>; tags <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code>; by hand</p></td>
+<td><p>pull requests touching <code class="docutils literal notranslate"><span class="pre">doc/</span></code>, <code class="docutils literal notranslate"><span class="pre">include/</span></code>, <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>, <code class="docutils literal notranslate"><span class="pre">README.md</span></code>, <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> or the workflow itself; pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code>; tags <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code>; by hand</p></td>
 <td><p>builds and deploys the documentation</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">release.yml</span></code> (Release)</p></td>
@@ -615,7 +646,8 @@ when a release is prepared or when a maintainer asks for them.</p>
 </tbody>
 </table>
 </div>
-<p>There is no nightly or weekly workflow.</p>
+<p>There is no nightly or weekly workflow. The cross-version benchmark of November 2026 ran on
+dedicated machines outside CI (<a class="reference internal" href="benchmarking.html#dev-benchmarking-bench2"><span class="std std-ref">The November 2026 cross-version benchmark</span></a>).</p>
 </section>
 <section id="ci-yml">
 <h2><code class="docutils literal notranslate"><span class="pre">ci.yml</span></code><a class="headerlink" href="#ci-yml" title="Link to this heading">#</a></h2>
@@ -665,7 +697,8 @@ when a release is prepared or when a maintainer asks for them.</p>
 <p>The integration tier includes end-to-end runs of the <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> executable (a growth run with
 one division, 20 iterations of the 434-cell vesicle, and error-path tests), so every
 pull request runs the simulator (<a class="reference internal" href="testing.html#dev-testing"><span class="std std-ref">Testing</span></a>).</p>
-<p>When a build job fails, its CTest logs (<code class="docutils literal notranslate"><span class="pre">Testing/</span></code>) are uploaded as an artifact. A new push to a
+<p>When a build job fails, <code class="docutils literal notranslate"><span class="pre">Testing/Temporary/LastTest.log</span></code> and the <code class="docutils literal notranslate"><span class="pre">run.log</span></code> files of the
+end-to-end tests are uploaded as an artifact (kept 14 days). A new push to a
 pull request cancels the run of the previous push. <code class="docutils literal notranslate"><span class="pre">ci.yml</span></code> can be started by hand for any
 branch, tag or commit (Actions tab, “CI”, “Run workflow”, field <code class="docutils literal notranslate"><span class="pre">ref</span></code>).</p>
 </section>
@@ -692,7 +725,7 @@ iterations.</p>
 <h2>Performance comparison: <code class="docutils literal notranslate"><span class="pre">perf.yml</span></code><a class="headerlink" href="#performance-comparison-perf-yml" title="Link to this heading">#</a></h2>
 <p>The job builds the pull request and its base on the same runner and times both on the same fixed
 amount of work with <code class="docutils literal notranslate"><span class="pre">scripts/ci/perf_ab.py</span></code>: <code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code>
-cut to <span class="math notranslate nohighlight">\(2 \times 10^{-6}\)</span> s (20 iterations of the 434-cell vesicle, mesh written at the start and
+cut to <code class="docutils literal notranslate"><span class="pre">2e-6</span></code> s (20 iterations of the 434-cell vesicle, mesh written at the start and
 the end only), one warm-up, then five repetitions per build, alternating between them. It posts (or updates) one pull-request comment with the medians and
 ranges, and adds the label <code class="docutils literal notranslate"><span class="pre">perf:</span> <span class="pre">slower</span></code> when the head build’s median is more than 10 % above
 the base and the ranges do not overlap. It fails only if the pull-request build cannot run the
@@ -711,7 +744,10 @@ review.</p>
 <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code> it is deployed to <code class="docutils literal notranslate"><span class="pre">/X.Y/</span></code> and, if X.Y is the newest release, also to <code class="docutils literal notranslate"><span class="pre">/stable/</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">switcher.json</span></code> at the site root (the version menu) is updated. Other directories on <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>
 are kept, so older versions stay online. The site root redirects to <code class="docutils literal notranslate"><span class="pre">/stable/</span></code> once a release
-has been deployed, and to <code class="docutils literal notranslate"><span class="pre">/dev/</span></code> before that.</p>
+has been deployed, and to <code class="docutils literal notranslate"><span class="pre">/dev/</span></code> before that. The public address is
+<a class="reference external" href="https://www.nilesh42.science/simucell3d/">https://www.nilesh42.science/simucell3d/</a>; a fork sets the repository variable
+<code class="docutils literal notranslate"><span class="pre">DOCS_SITE_URL</span></code> to its own. How the version menu is assembled is described in
+<a class="reference internal" href="writing_documentation.html#dev-writing-docs"><span class="std std-ref">Writing documentation</span></a>.</p>
 </section>
 <section id="releases-release-yml">
 <h2>Releases: <code class="docutils literal notranslate"><span class="pre">release.yml</span></code><a class="headerlink" href="#releases-release-yml" title="Link to this heading">#</a></h2>
@@ -736,8 +772,8 @@ moves tags. The procedure around it is in <code class="docutils literal notransl
 <span class="gp">$ </span>git<span class="w"> </span>clang-format<span class="w"> </span>--diff<span class="w"> </span>origin/main
 </pre></div>
 </div>
-<p>When a job fails only in CI, download the <code class="docutils literal notranslate"><span class="pre">Testing/</span></code> artifact from the run page;
-<code class="docutils literal notranslate"><span class="pre">Testing/Temporary/LastTest.log</span></code> holds the output of every test.</p>
+<p>When a job fails only in CI, download its artifact from the run page;
+<code class="docutils literal notranslate"><span class="pre">LastTest.log</span></code> holds the output of every test.</p>
 </section>
 <section id="branch-protection">
 <h2>Branch protection<a class="headerlink" href="#branch-protection" title="Link to this heading">#</a></h2>
@@ -811,6 +847,13 @@ requests only, the check “CI result” (<code class="docutils literal notransl
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/developers/continuous_integration.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -845,16 +888,28 @@ requests only, the check “CI result” (<code class="docutils literal notransl
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

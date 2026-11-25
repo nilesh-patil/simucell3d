@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Release process &#8212; SimuCell3D 2.1.0</title>
+    <title>Release process &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,18 +47,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'developers/release_process';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/release_process.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/developers/release_process.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Release history" href="../whats_new/index.html" />
     <link rel="prev" title="Writing documentation" href="writing_documentation.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Release process - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/developers/release_process.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -131,6 +142,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -148,14 +167,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -175,22 +194,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -209,21 +235,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -356,14 +382,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -383,22 +409,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -412,21 +445,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -724,8 +757,10 @@ release; the last point is a judgement for the maintainer, documented in the iss
 long tier. Patch releases of an older minor version are made from a <code class="docutils literal notranslate"><span class="pre">release/X.Y</span></code> branch.</p></li>
 <li><p>Finish <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> (every user-visible change, results-changing items under “Changed
 behaviour”) and the matching <code class="docutils literal notranslate"><span class="pre">whats_new/</span></code> page, and run the growth run.</p></li>
-<li><p>In one pull request from <code class="docutils literal notranslate"><span class="pre">release/X.Y.Z-prep</span></code>, date the CHANGELOG heading, point its compare link at the new tag, and
-set <code class="docutils literal notranslate"><span class="pre">version:</span></code> and <code class="docutils literal notranslate"><span class="pre">date-released:</span></code> in <code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code>. Before merging:</p>
+<li><p>In one pull request from <code class="docutils literal notranslate"><span class="pre">release/X.Y.Z-prep</span></code>, set <code class="docutils literal notranslate"><span class="pre">project(SimuCell3D</span> <span class="pre">VERSION</span> <span class="pre">X.Y.Z)</span></code> in
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> (if it is not set already), date the CHANGELOG heading, point its compare
+link at the new tag, and set <code class="docutils literal notranslate"><span class="pre">version:</span></code> and <code class="docutils literal notranslate"><span class="pre">date-released:</span></code> in <code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code>. Before
+merging:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>scripts/ci/check_version.py<span class="w"> </span>--tag<span class="w"> </span>vX.Y.Z
 <span class="gp">$ </span>python3<span class="w"> </span>scripts/ci/changelog_section.py<span class="w"> </span>X.Y.Z
 </pre></div>
@@ -743,7 +778,11 @@ pre-release for <code class="docutils literal notranslate"><span class="pre">-rc
 </ul>
 </li>
 <li><p>Check the release page, the tarball checksum and the documentation, then open the next
-development cycle on <code class="docutils literal notranslate"><span class="pre">main</span></code> with a new <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">[X.Y.Z]</span> <span class="pre">-</span> <span class="pre">unreleased</span></code> CHANGELOG section.</p></li>
+development cycle on <code class="docutils literal notranslate"><span class="pre">main</span></code> in one pull request: <code class="docutils literal notranslate"><span class="pre">project(SimuCell3D</span> <span class="pre">VERSION</span> <span class="pre">X.Y+1.0)</span></code> in
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>, a new <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">[X.Y+1.0]</span> <span class="pre">-</span> <span class="pre">unreleased</span></code> section at the top of <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> with
+its compare link <code class="docutils literal notranslate"><span class="pre">.../compare/vX.Y.Z...HEAD</span></code>, and <code class="docutils literal notranslate"><span class="pre">CITATION.cff</span></code> left at the released
+version. The CHANGELOG heading alone fails the version check, because it must name the
+CMake version.</p></li>
 </ol>
 <p>A published tag is never moved or deleted; a broken release is fixed by the next patch
 release. The release artifacts for 2.1 are the source tarball and <code class="docutils literal notranslate"><span class="pre">SHA256SUMS</span></code>.</p>
@@ -811,6 +850,13 @@ release. The release artifacts for 2.1 are the source tarball and <code class="d
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/developers/release_process.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -845,16 +891,28 @@ release. The release artifacts for 2.1 are the source tarball and <code class="d
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

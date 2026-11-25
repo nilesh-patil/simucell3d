@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Testing &#8212; SimuCell3D 2.1.0</title>
+    <title>Testing &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'developers/testing';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/testing.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/developers/testing.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Continuous integration" href="continuous_integration.html" />
     <link rel="prev" title="Architecture" href="architecture.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Testing - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/developers/testing.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -649,7 +682,7 @@ registered, and what each tier contains.</p>
 </tr>
 <tr class="row-odd"><td><p>Long</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">long</span></code></p></td>
-<td><p>The <code class="docutils literal notranslate"><span class="pre">stability_*</span></code> and <code class="docutils literal notranslate"><span class="pre">scientific_*</span></code> tests and <code class="docutils literal notranslate"><span class="pre">e2e_growth_long</span></code>, a growth run from one cell to at least 100 cells (7000 iterations).</p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">stability_*</span></code> and <code class="docutils literal notranslate"><span class="pre">scientific_*</span></code> tests and <code class="docutils literal notranslate"><span class="pre">e2e_growth_long</span></code>, a growth run from one cell to at least 100 cells (7,000 iterations).</p></td>
 <td><p>release branches, tags, labelled pull requests, by hand (<a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a>)</p></td>
 </tr>
 </tbody>
@@ -664,8 +697,8 @@ registered, and what each tier contains.</p>
 </pre></div>
 </div>
 <p>In 2.1.0 the tiers hold 314 <code class="docutils literal notranslate"><span class="pre">unit</span></code>, 8 <code class="docutils literal notranslate"><span class="pre">integration</span></code>, 17 <code class="docutils literal notranslate"><span class="pre">benchmark</span></code> and 27 <code class="docutils literal notranslate"><span class="pre">long</span></code> tests, 340
-registered tests in all (the <code class="docutils literal notranslate"><span class="pre">stability_*</span></code> and <code class="docutils literal notranslate"><span class="pre">scientific_*</span></code> tests count in both <code class="docutils literal notranslate"><span class="pre">unit</span></code> and
-<code class="docutils literal notranslate"><span class="pre">long</span></code>). <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-N</span> <span class="pre">-L</span> <span class="pre">&lt;label&gt;</span></code> prints the current numbers.</p>
+registered tests in all (the 26 <code class="docutils literal notranslate"><span class="pre">stability_*</span></code> and <code class="docutils literal notranslate"><span class="pre">scientific_*</span></code> tests count in both <code class="docutils literal notranslate"><span class="pre">unit</span></code> and
+<code class="docutils literal notranslate"><span class="pre">long</span></code>), built from 50 test executables. <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-N</span> <span class="pre">-L</span> <span class="pre">&lt;label&gt;</span></code> prints the current numbers.</p>
 <p>One check sits outside CTest: a growth simulation to 30,000 cells, run before every release
 (<a class="reference internal" href="release_process.html#dev-release"><span class="std std-ref">Release process</span></a>).</p>
 <p>Run <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">&quot;unit|integration&quot;</span></code> in a Release build before opening a pull request, and also in
@@ -694,15 +727,15 @@ final iteration;</p></li>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_growth_division</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">integration;e2e</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> for <span class="math notranslate nohighlight">\(2 \times 10^{-4}\)</span> s (2000 iterations, at least one division), 2 threads</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> for <code class="docutils literal notranslate"><span class="pre">2e-4</span></code> s (2,000 iterations, at least one division), 2 threads</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_vesicle_quick</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">integration;e2e</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code> for <span class="math notranslate nohighlight">\(2 \times 10^{-6}\)</span> s (20 iterations), 2 threads; all 434 cells must remain (about 22 s in Release, several minutes under ASan)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code> for <code class="docutils literal notranslate"><span class="pre">2e-6</span></code> s (20 iterations), 2 threads; all 434 cells must remain (about 22 s in Release, several minutes under ASan)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_growth_long</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">long;e2e</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> for <span class="math notranslate nohighlight">\(7 \times 10^{-4}\)</span> s (7000 iterations), 4 threads, at least 100 cells at the end</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code> for <code class="docutils literal notranslate"><span class="pre">7e-4</span></code> s (7,000 iterations), 4 threads, at least 100 cells at the end</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">e2e_missing_parameter_file</span></code>, <code class="docutils literal notranslate"><span class="pre">e2e_malformed_parameter_file</span></code>, <code class="docutils literal notranslate"><span class="pre">e2e_incomplete_parameter_file</span></code>, <code class="docutils literal notranslate"><span class="pre">e2e_invalid_threads_flag</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">integration;e2e</span></code></p></td>
@@ -871,8 +904,8 @@ tests with:</p>
 <td><p>time integration schemes</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">test_automatic_polarization/</span></code></p></td>
-<td><p></p></td>
-<td><p>automatic polarizer; the executable is built but registers no CTest test</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">automatic_polarization_</span></code></p></td>
+<td><p>automatic polarizer; one registered test, <code class="docutils literal notranslate"><span class="pre">automatic_polarization_unknown_region_throws</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test_solver/</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">solver_</span></code></p></td>
@@ -921,12 +954,13 @@ points with a clock-seeded generator, so single-threaded runs with divisions are
 repeatable and are not covered. Runs with more than one thread are not bitwise
 reproducible, because the order of floating-point additions depends on the schedule.</p></li>
 <li><p><strong>Time-step convergence</strong> (<code class="docutils literal notranslate"><span class="pre">stability_timestep_*</span></code>): the same sphere with <span class="math notranslate nohighlight">\(\Delta t\)</span> =
-<span class="math notranslate nohighlight">\(10^{-7}\)</span>, <span class="math notranslate nohighlight">\(\Delta t/2\)</span>, <span class="math notranslate nohighlight">\(\Delta t/4\)</span> s for <span class="math notranslate nohighlight">\(5 \times 10^{-6}\)</span> s of simulated time; the
+<code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s, <span class="math notranslate nohighlight">\(\Delta t/2\)</span> and <span class="math notranslate nohighlight">\(\Delta t/4\)</span>, for <code class="docutils literal notranslate"><span class="pre">5e-6</span></code> s of simulated time; the
 observed order <span class="math notranslate nohighlight">\(p = \log_2(e_{\Delta t} / e_{\Delta t/2})\)</span> must lie in <span class="math notranslate nohighlight">\([0.3, 1.7]\)</span>
-(semi-implicit Euler is first order). Volume errors below <span class="math notranslate nohighlight">\(10^{-17}\)</span> are treated as
+(semi-implicit Euler is first order). Volume errors below <code class="docutils literal notranslate"><span class="pre">1e-17</span></code> are treated as
 floating-point noise.</p></li>
-<li><p><strong>Extreme parameters</strong> (<code class="docutils literal notranslate"><span class="pre">stability_extreme_*</span></code>): zero bulk modulus, high pressure, edges at
-half the minimum length, contact cutoff equal to the minimum edge length; the run must
+<li><p><strong>Extreme parameters</strong> (<code class="docutils literal notranslate"><span class="pre">stability_extreme_*</span></code>): zero bulk modulus, high pressure (bulk
+modulus and pressure cap multiplied by 10), the minimum edge length halved, contact cutoff equal
+to the minimum edge length; the run must
 complete without non-finite values.</p></li>
 <li><p><strong>Degenerate hinge</strong> (<code class="docutils literal notranslate"><span class="pre">stability_degenerate_hinge_*</span></code>, <code class="docutils literal notranslate"><span class="pre">stability_healthy_mesh_untouched_by_guard</span></code>):
 the bending force on a near-degenerate triangle must stay bounded, and the guard must not
@@ -1028,6 +1062,13 @@ tests under Valgrind memcheck with the suppressions in <code class="docutils lit
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/developers/testing.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -1062,16 +1103,28 @@ tests under Valgrind memcheck with the suppressions in <code class="docutils lit
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

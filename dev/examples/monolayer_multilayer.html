@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Monolayer and multilayer epithelia &#8212; SimuCell3D 2.1.0</title>
+    <title>Monolayer and multilayer epithelia &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/monolayer_multilayer';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/examples/monolayer_multilayer.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/examples/monolayer_multilayer.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Epithelial sheet" href="sheet.html" />
     <link rel="prev" title="Epithelial vesicle with lumen and ECM" href="vesicle.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Monolayer and multilayer epithelia - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/examples/monolayer_multilayer.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -578,11 +611,21 @@ stratification (Fig. 3b,c of the paper; <a class="reference internal" href="../c
 give one run on each side of that transition, according to their header comments.</p>
 <p><strong>Files</strong>: <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_monolayer.xml</span></code>,
 <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_multilayer.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_3_vesicle.vtk</span></code> (432
-epithelial cells, one ECM surface, one lumen).
+epithelial cells, one ECM surface, one lumen). <br />
 <strong>Compile-time configuration</strong>: the defaults (<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>,
-<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>).
-<strong>Length</strong>: long. <span class="math notranslate nohighlight">\(10^{-2}\)</span> s of simulated time at a time step of <span class="math notranslate nohighlight">\(10^{-7}\)</span> s (<span class="math notranslate nohighlight">\(10^5\)</span>
-iterations) for each file.</p>
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>). <br />
+<strong>Length</strong>: <span class="math notranslate nohighlight">\(10^{-2}\)</span> s of simulated time at a time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s (100,000 iterations)
+for each file; the paper’s protocol stops after 1,736 iterations. <br />
+<strong>Measured run time</strong>: paper’s protocol about 11 minutes for each file; as shipped, about 6.5 hours
+for the monolayer file (which loses most of its cells) and more than two days for the multilayer
+file. 2.1.0 on an 8-core cloud machine (GCP c2-standard-16, 8 threads), November 2026 (<a class="reference internal" href="#ex-multilayer-expect"><span class="std std-ref">What to expect</span></a>).</p>
+<figure class="align-default" id="id1">
+<a class="dark-light reference internal image-reference" href="../_images/example_multilayer.png"><img alt="Two cross-sections of the vesicle after the cells doubled their target volume: left, weak apical tension, rounded cells in one layer between the lumen and the ECM; right, strong apical tension, columnar cells, many of them pushing out past the ECM outline." class="dark-light" src="../_images/example_multilayer.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The monolayer file (left, apical tension <span class="math notranslate nohighlight">\(10^{-5}\)</span> N/m) and the multilayer file (right, <span class="math notranslate nohighlight">\(10^{-3}\)</span> N/m) run with 2.1.0 for the paper’s protocol, 1,700 iterations, not the full length of the shipped files. In the multilayer, many cells extend past the static ECM surface (green): 25-30% end with most of their nodes outside it (<a class="reference internal" href="#ex-multilayer-expect"><span class="std std-ref">What to expect</span></a>). Mid-plane cuts at one scale; bar 10 µm.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <section id="the-parameter-files">
 <h2>The parameter files<a class="headerlink" href="#the-parameter-files" title="Link to this heading">#</a></h2>
 <p>The two files are identical except for the output folder and one value, the surface tension of
@@ -666,7 +709,7 @@ with <span class="math notranslate nohighlight">\(K = 2.5\times10^{3}\)</span> P
 <p>The paper varies one surface tension for the whole cell, whereas these files vary only the apical
 tension, and the apical value of the monolayer file lies below the range explored in the paper.
 The two files therefore illustrate the transition but do not reproduce the Fig. 3e sweep point
-for point, and they have not been run to completion with release 2.1.
+for point.
 The publisher correction changes a label of Fig. 3c to <span class="math notranslate nohighlight">\(\tilde\gamma = 0.16\)</span> (<a class="reference internal" href="../citing.html"><span class="doc">Citing SimuCell3D</span></a>).</p>
 </div>
 <div class="admonition important">
@@ -685,6 +728,46 @@ data point for point.</p>
 </div>
 <p>Each run deletes and recreates its own output folder, so the two runs do not overwrite each
 other.</p>
+</section>
+<section id="what-to-expect">
+<span id="ex-multilayer-expect"></span><h2>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h2>
+<p>The paper grows the cells “at a uniform volumetric rate without division until they had doubled
+in size”. At <span class="math notranslate nohighlight">\(10^{-12}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>/s and a mean initial volume of <span class="math notranslate nohighlight">\(1.74\times10^{-16}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>, the
+mean target volume doubles after <span class="math notranslate nohighlight">\(1.736\times10^{-4}\)</span> s, that is 1,736 iterations. The shipped
+files run 58 times longer, <span class="math notranslate nohighlight">\(10^{-2}\)</span> s, and keep the cells growing. The November 2026 benchmark
+ran both lengths with 2.1.0 and with 1.0, one run per file and version, on 8-core cloud machines
+(GCP c2-standard-16, 8 threads).</p>
+<p><strong>The paper’s protocol</strong> (both files with <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> set to <span class="math notranslate nohighlight">\(1.736\times10^{-4}\)</span> s):</p>
+<ul class="simple">
+<li><p>Each run takes about 11 minutes (0.18 hours) with 2.1.0, and completes in every version.</p></li>
+<li><p>The monolayer stays a monolayer: every epithelial cell touches both the lumen and the ECM.</p></li>
+<li><p>In the multilayer, 37-41% of the cells lose contact with the lumen. But 25-30% of the cells end
+with more than half of their nodes outside the ECM surface, which is a static rigid shell: a
+large part of the “multilayer” is cells pushed out through the ECM, not stratification inside
+it (<a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>).</p></li>
+<li><p>The two runs differ strongly in pressure, volume and contact area, but little in layer number:
+both have a mean of about one layer.</p></li>
+</ul>
+<p><strong>The shipped length</strong> (<span class="math notranslate nohighlight">\(10^{-2}\)</span> s):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code> reached 87,084 of the 100,000 iterations in 48 hours with 2.1.0, when the
+run was stopped. Late in the run, 98-100% of the epithelial cells lay mostly outside the ECM, in
+every version tested.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code> loses its tissue in every version. The failure starts between iterations
+3,600 and 5,800, from a state in which nothing looks wrong. 1.0 stops there with its
+mesh-refinement error, and 2.0 crashes. 2.1.0 removes 400 cells as numerically unstable (399
+epithelial cells and the lumen), between iterations 5,457 and 30,560. Another 16 epithelial
+cells disappear without a log line. The run ends at iteration 100,000
+with 18 of 434 cells and exits with status 0. Check the log of every run for <code class="docutils literal notranslate"><span class="pre">Removing</span></code> lines
+(<a class="reference internal" href="../user_guide/09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></li>
+</ul>
+<p>For the paper’s protocol, copy each file and set <code class="docutils literal notranslate"><span class="pre">&lt;simulation_duration&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">1.736e-4</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">1e-5</span></code> (18 pairs of mesh files).</p>
+<p>At the end of the paper’s protocol, 1.0 and 2.x agree on the multilayer: the mean pressure is
+351-352 Pa in 1.0 and 1.0 with two crash fixes, and 350-353 Pa across the 2.x builds (351 Pa in
+2.1.0). They differ on the monolayer: 20 Pa in 1.0 against 25-27 Pa across 2.x (27 Pa in 2.1.0),
+and 1.0 detects about half the contact area. A likely cause is the closest-point
+error of 1.0 (<a class="reference internal" href="../whats_new/v1.0.html"><span class="doc">Release 1.0</span></a>).</p>
 </section>
 <section id="what-to-look-at">
 <h2>What to look at<a class="headerlink" href="#what-to-look-at" title="Link to this heading">#</a></h2>
@@ -754,9 +837,17 @@ epithelium between the lumen and the ECM.</p></li>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-parameter-files">The parameter files</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">Run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">What to expect</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-look-at">What to look at</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/examples/monolayer_multilayer.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -792,16 +883,28 @@ epithelium between the lumen and the ECM.</p></li>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

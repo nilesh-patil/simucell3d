@@ -1,0 +1,946 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Method &#8212; SimuCell3D dev</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'benchmarks/method';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/benchmarks/method.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Which cases complete" href="completion.html" />
+    <link rel="prev" title="Benchmarks" href="index.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Method - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/benchmarks/method.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Get started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Releases
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    FAQ
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Get started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    FAQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="completion.html">Which cases complete</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Wall time, scaling and memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_step.html">Stable time step</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validity.html">Limits of the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducibility.html">Reproducibility</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Benchmarks</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Method</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="method">
+<span id="benchmarks-method"></span><h1>Method<a class="headerlink" href="#method" title="Link to this heading">#</a></h1>
+<p>This page states once how the November 2026 benchmark was run and read. The other pages of the
+section refer to it.</p>
+<section id="machines-and-threads">
+<h2>Machines and threads<a class="headerlink" href="#machines-and-threads" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Machine</p></td>
+<td><p>GCP c2-standard-16 (Intel Cascade Lake), 64 GB RAM, one run at a time per machine</p></td>
+</tr>
+<tr class="row-odd"><td><p>Threads</p></td>
+<td><p>8 OpenMP threads, pinned one per physical core (<code class="docutils literal notranslate"><span class="pre">taskset</span> <span class="pre">-c</span> <span class="pre">0-7</span></code>, <code class="docutils literal notranslate"><span class="pre">OMP_PLACES={0},...,{7}</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p>2.0</p></td>
+<td><p>Launched with <code class="docutils literal notranslate"><span class="pre">taskset</span> <span class="pre">-c</span> <span class="pre">0-15</span></code> and the same <code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code>: 2.0 has no <code class="docutils literal notranslate"><span class="pre">--threads</span></code> option and derives its thread count from the affinity mask, which on this machine would give 4 threads</p></td>
+</tr>
+<tr class="row-odd"><td><p>Period</p></td>
+<td><p>18 to 22 November 2026</p></td>
+</tr>
+<tr class="row-even"><td><p>Size</p></td>
+<td><p>243 runs, 1,827 run-hours from launch to end (GNU <code class="docutils literal notranslate"><span class="pre">time</span></code> elapsed: 1,827.0 h); one run of 1.0 with two crash fixes failed on a harness error (missing input file), was rerun, and is left out of all counts</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Runs were launched in waves. The replicate runs of 1.0 with two crash fixes and 2.1.0 ran on
+different machines from the first wave, and on the vesicle the 2.1.0 replicates were 11 to 19%
+faster than its first run. Speed comparisons between builds are therefore made within one wave
+where it matters (<a class="reference internal" href="performance.html#benchmarks-performance"><span class="std std-ref">Wall time, scaling and memory</span></a>).</p>
+</section>
+<section id="builds">
+<h2>Builds<a class="headerlink" href="#builds" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name in these pages</p></th>
+<th class="head"><p>Commit</p></th>
+<th class="head"><p>What it is</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">38af451</span></code> (tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code>)</p></td>
+<td><p>The code published with the paper</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.0 with two crash fixes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">38af451</span></code> plus two patches</p></td>
+<td><p>The local-id resync after a cell removal (which also moves daughter appends out of the parallel division loop) and the face-winding fix in edge splitting: the smallest change that lets 1.0 survive its first cell removal</p></td>
+</tr>
+<tr class="row-even"><td><p>2.0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">343bd98</span></code> (tag <code class="docutils literal notranslate"><span class="pre">v2.0</span></code>)</p></td>
+<td><p>First maintenance release</p></td>
+</tr>
+<tr class="row-odd"><td><p>Intermediate builds</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">9acfe36</span></code>, <code class="docutils literal notranslate"><span class="pre">ba74eed</span></code>, <code class="docutils literal notranslate"><span class="pre">f08df16</span></code>, <code class="docutils literal notranslate"><span class="pre">a331169</span></code></p></td>
+<td><p>Four commits between 2.0 and 2.1.0, used to locate where a change arrived</p></td>
+</tr>
+<tr class="row-even"><td><p>2.1.0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f824dfd</span></code> (tag <code class="docutils literal notranslate"><span class="pre">v2.1.0</span></code>)</p></td>
+<td><p>Release documented here, 18 November 2026</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Every build was compiled twice: once with the shipped compile-time switches of
+<code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code> (contact model 2, polarization mode 1) for the vesicle, tube and
+analytic cases, and once with the switches written in the header of the growth benchmark file
+(contact model 1, polarization mode 0, <code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span> <span class="pre">false</span></code>) for the growth
+benchmark (<a class="reference internal" href="../user_guide/10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>). The parameter-file schema is the same
+in all eight builds: each requires the same 31 tags, so one input file runs unchanged on all of them.</p>
+</section>
+<section id="tissues-and-input-files">
+<h2>Tissues and input files<a class="headerlink" href="#tissues-and-input-files" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tissue</p></th>
+<th class="head"><p>Input file</p></th>
+<th class="head"><p>Mesh</p></th>
+<th class="head"><p>In the 2.1.0 tree</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Growth benchmark (paper Fig. 1e, Table 2)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/input_meshes/sphere.vtk</span></code> (one cell)</p></td>
+<td><p>No. The file is the lab’s, in the <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> tag only</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vesicle ε sweep</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_monolayer.xml</span></code>, apical tension set to ε × 4e-4 N/m and growth rate set to 0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_3_vesicle.vtk</span></code> (432 epithelial cells, lumen, ECM shell)</p></td>
+<td><p>Yes (the file; the five ε values are edits)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mono- and multilayer vesicle</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_monolayer.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code></p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tube</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_tube.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_1_tube.vtk</span></code> (192 cells)</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>Analytic one- and two-cell cases</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/params_single_sphere.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">params_laplace_pressure.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">params_two_spheres_stable.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">params_two_spheres_contact.xml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sphere.vtk</span></code>; <code class="docutils literal notranslate"><span class="pre">test/test_io/test_simulation_initializer/2_spheres.vtk</span></code></p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To repeat the growth benchmark with 2.1.0, extract the lab’s file from the <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> tag and build
+with the switches in its header:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>show<span class="w"> </span>v1.0:parameters_benchmarck.xml<span class="w"> </span>&gt;<span class="w"> </span>parameters_benchmarck.xml
+<span class="gp">$ </span>md5sum<span class="w"> </span>parameters_benchmarck.xml
+<span class="go">10b02d4fb776a9efadecbca355d90bde  parameters_benchmarck.xml</span>
+</pre></div>
+</div>
+<p>Its mesh path <code class="docutils literal notranslate"><span class="pre">data/input_meshes/sphere.vtk</span></code> is relative and resolves from the repository root.
+It is a different configuration from <code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, the reconstructed
+paper-like configuration of the growth example (<a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>), which uses
+contact model 2. Every growth-benchmark number in this section belongs to the lab’s file with
+contact model 1. Its contact cutoff is 0.5 µm; the paper’s Table 2 default is 0.2 µm.</p>
+<p>The edits made to the shipped files, all applied identically in every build:</p>
+<ul class="simple">
+<li><p>The output folder and absolute mesh paths, for every case.</p></li>
+<li><p>The time step of the growth benchmark: <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s as shipped, plus <code class="docutils literal notranslate"><span class="pre">5e-8</span></code> s, <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s and <code class="docutils literal notranslate"><span class="pre">1.25e-8</span></code> s.</p></li>
+<li><p>The output sampling period of the tube, from <code class="docutils literal notranslate"><span class="pre">1e-6</span></code> s to <code class="docutils literal notranslate"><span class="pre">1e-4</span></code> s, and of the paper-protocol
+mono- and multilayer runs, from <code class="docutils literal notranslate"><span class="pre">1e-4</span></code> s to <code class="docutils literal notranslate"><span class="pre">1e-5</span></code> s. The shipped long vesicle files already
+sample every <code class="docutils literal notranslate"><span class="pre">1e-4</span></code> s and were left unchanged. Sampling changes only how many mesh files are
+written; the statistics file is written every 50 iterations regardless.</p></li>
+<li><p>The mono- and multilayer vesicle “paper protocol” runs end at <code class="docutils literal notranslate"><span class="pre">1.736e-4</span></code> s, the time at which the
+mean target volume has doubled, as the paper describes (“grown … until they had doubled in
+size”). The shipped files run for <code class="docutils literal notranslate"><span class="pre">1e-2</span></code> s; those are kept as separate cases (“shipped file”).</p></li>
+<li><p>The “finer mesh” variants of the two-cell cases set <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> to 1.5e-7 m.</p></li>
+<li><p>Three of the analytic files end with a stray <code class="docutils literal notranslate"><span class="pre">&lt;/output&gt;</span></code> tag after which the XML reader stops
+silently; it was dropped.</p></li>
+</ul>
+</section>
+<section id="the-20-common-cases">
+<h2>The 20 common cases<a class="headerlink" href="#the-20-common-cases" title="Link to this heading">#</a></h2>
+<p>All builds ran the same 20 cases with the paper’s parameters: the growth benchmark at four time
+steps, the vesicle at five values of ε (1.0, 1.5, 2.0, 3.0, 4.0), the mono- and multilayer vesicle
+by the paper protocol and with the shipped files, the tube, and six analytic one- and two-cell
+cases. The four time steps and five ε values were chosen for the benchmark; two of the growth
+cases are 3-hour runs. A further 29 runs used a second, literature-based parameter set on four builds
+(time step <code class="docutils literal notranslate"><span class="pre">5e-8</span></code> s, except four growth runs at <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s); this section reports the paper-parameter runs unless a line says otherwise.</p>
+<p>Stopping rules: the growth benchmark stops at 150,000 cells or 48 hours of wall time (3 hours for
+the time-step sweep runs); the vesicle sweep and the tube run 100,000 iterations (<code class="docutils literal notranslate"><span class="pre">1e-2</span></code> s); the
+long vesicle files run to <code class="docutils literal notranslate"><span class="pre">1e-2</span></code> s or 48 hours.</p>
+<p>Replicates: three runs per build where a result was compared between versions. That is the
+growth benchmark at <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s (1.0 with two crash fixes and 2.1.0 to 48 hours; the four
+intermediate builds one run to 48 hours and two to 60,000 cells) and the vesicle sweep (1.0 with
+two crash fixes and 2.1.0, three runs at each ε). Other cases ran once per build.</p>
+</section>
+<section id="definitions">
+<h2>Definitions<a class="headerlink" href="#definitions" title="Link to this heading">#</a></h2>
+<dl class="simple myst">
+<dt>Outcome of one run</dt><dd><p><em>crash</em>: killed by a signal (SIGSEGV or SIGABRT). <em>Abort</em>: exit status 1, in 1.0 with the
+mesh-refinement error. <em>Hang</em>: no progress, stopped by the harness. Otherwise the run reached its
+end or its planned time cap; it then counts as <em>removes cells</em> if the solver removed at least one
+cell as unstable or after a failed refinement, and as <em>loses the tissue</em> if in addition its final
+cell count is at most half its maximum.</p>
+</dd>
+<dt>Completed case</dt><dd><p>Every run of the case reached its end or its planned cap with no cell removed by the solver. A
+case is judged by its worst run. Deaths at the minimum volume and refused divisions are part of
+the model and do not count against completion; they are reported on
+<a class="reference internal" href="validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>.</p>
+</dd>
+<dt>Usable run</dt><dd><p>One run that reached its last iteration with no cell removed. Usable means the run finished
+cleanly. It does not mean the tissue is biologically right.</p>
+</dd>
+<dt>Cell cycle</dt><dd><p>Simulated time of the growth benchmark divided by <code class="docutils literal notranslate"><span class="pre">1e-5</span></code> s, the cell-cycle time used in the
+analysis. It compares growth between versions independent of wall time.</p>
+</dd>
+</dl>
+</section>
+<section id="how-the-numbers-were-read">
+<h2>How the numbers were read<a class="headerlink" href="#how-the-numbers-were-read" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Wall time of a whole run:</strong> GNU <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">-v</span></code> elapsed.</p></li>
+<li><p><strong>Wall time to a cell count:</strong> from the time stamp of iteration 0 to the first iteration at which
+the running maximum of the cell count reaches that size, from the per-iteration lines of the run
+log.</p></li>
+<li><p><strong>Memory:</strong> maximum resident set size from GNU <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">-v</span></code>, in GiB (<span class="math notranslate nohighlight">\(2^{30}\)</span> bytes).</p></li>
+<li><p><strong>Core utilisation:</strong> (user + system CPU time) / (elapsed × 8), for runs longer than 15 minutes.</p></li>
+<li><p><strong>Removals and refusals:</strong> counted from the log lines of each run, not from the diagnostics
+file, which omits the last incomplete window (<a class="reference internal" href="../user_guide/09_safeguards.html#ug-safeguards"><span class="std std-ref">Safeguards</span></a>).</p></li>
+<li><p><strong>Scaling exponents:</strong> ordinary least squares on log–log data. For cumulative wall time T(N),
+30 log-spaced cell counts from 10,000 to the end of each run; for seconds per iteration, 12 bins
+per decade. “±” is the standard deviation over the three runs, not the fit’s standard error,
+which understates the uncertainty of cumulative data.</p></li>
+</ul>
+</section>
+<section id="data-handling-and-checks">
+<h2>Data handling and checks<a class="headerlink" href="#data-handling-and-checks" title="Link to this heading">#</a></h2>
+<p>Every run’s output was copied off its machine and checksum-verified (md5 of every file) before the
+machine was deleted. The figures in this section are drawn from small extracts of those runs,
+stored next to these pages in <code class="docutils literal notranslate"><span class="pre">doc/benchmarks/data/</span></code> and plotted by
+<code class="docutils literal notranslate"><span class="pre">doc/benchmarks/make_figures.py</span></code>. The growth curves in <code class="docutils literal notranslate"><span class="pre">growth_wall.csv</span></code> are thinned for plotting;
+the milestone times and scaling exponents in the tables come from the full per-iteration logs. The data files use short codes (B0 to B7 for the builds in the order of the table above, T1 to
+T5 for the five tissues, arm a and b for the two parameter sets); <code class="docutils literal notranslate"><span class="pre">doc/benchmarks/data/README.txt</span></code>
+explains every code, outcome value and column.</p>
+<p>Two independent passes recomputed the published results from the raw logs, the per-cell
+statistics, the mesh snapshots and the repository. The first corrected four numbers, among them
+the total compute, which had been overstated about fivefold by summing the scheduled 48-hour
+deadlines instead of the actual run times. The second found seven more that were wrong, among them
+a statement that the benchmark draws no random numbers (it does; see
+<a class="reference internal" href="reproducibility.html#benchmarks-reproducibility"><span class="std std-ref">Reproducibility</span></a>), and made more than thirty others more precise. The numbers on
+these pages are the corrected ones.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Benchmarks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="completion.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Which cases complete</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machines-and-threads">Machines and threads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#builds">Builds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tissues-and-input-files">Tissues and input files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-20-common-cases">The 20 common cases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definitions">Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-the-numbers-were-read">How the numbers were read</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-handling-and-checks">Data handling and checks</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/benchmarks/method.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

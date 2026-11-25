@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Performance internals &#8212; SimuCell3D 2.1.0</title>
+    <title>Performance internals &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'developers/performance_internals';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/performance_internals.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/developers/performance_internals.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Debugging" href="debugging.html" />
     <link rel="prev" title="Benchmarking" href="benchmarking.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Performance internals - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/developers/performance_internals.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -590,12 +623,16 @@ work of very large cells into several work units (<code class="docutils literal 
 <p>A loop follows the selected schedule only if it is written with <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code>; the
 schedule is then set with <code class="docutils literal notranslate"><span class="pre">omp_set_schedule()</span></code> before the loop. The loops over cells in
 <code class="docutils literal notranslate"><span class="pre">run_iteration()</span></code>, <code class="docutils literal notranslate"><span class="pre">local_mesh_refiner::refine_meshes()</span></code>,
-<code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code> and the sweep-and-prune path of the contact
-model use <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code>. Other loops fix their schedule in the pragma: the face numbering
-and grid construction of contact model 2 use <code class="docutils literal notranslate"><span class="pre">schedule(static)</span></code>, its grid-based contact
-resolution uses <code class="docutils literal notranslate"><span class="pre">schedule(dynamic,</span> <span class="pre">1)</span></code> over work units, and the loop in <code class="docutils literal notranslate"><span class="pre">cell_divider::run()</span></code> has
-no schedule clause (implementation default). New parallel loops over cells should use
-<code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code> unless there is a reason to fix the schedule.</p>
+<code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code> with contact models 0 and 1, the contact
+loops of contact models 0 and 1, and the sweep-and-prune path of contact model 2 use
+<code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code>. With contact model 2 the time integration runs on one thread: its loop over
+cells has no OpenMP directive (<code class="docutils literal notranslate"><span class="pre">time_integration.cpp</span></code>). Other loops fix their
+schedule in the pragma: the face numbering and compact-grid construction of contact model 2 use
+<code class="docutils literal notranslate"><span class="pre">schedule(static)</span></code> (one pass <code class="docutils literal notranslate"><span class="pre">schedule(dynamic,</span> <span class="pre">1024)</span></code>), its grid-based contact resolution uses
+<code class="docutils literal notranslate"><span class="pre">schedule(dynamic,</span> <span class="pre">1)</span></code> over work units, and the loop in <code class="docutils literal notranslate"><span class="pre">cell_divider::run()</span></code> has no schedule
+clause, so it uses the implementation’s default schedule whatever the selected mode. New
+parallel loops over cells should use <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code> unless there is a reason to fix the
+schedule.</p>
 </section>
 <section id="thread-count-and-placement">
 <h2>Thread count and placement<a class="headerlink" href="#thread-count-and-placement" title="Link to this heading">#</a></h2>
@@ -649,8 +686,9 @@ multiplied by 100.</p>
 <p><code class="docutils literal notranslate"><span class="pre">calculate_optimal_chunk_size()</span></code> returns 0 (OpenMP default) for static scheduling. Otherwise it
 returns <span class="math notranslate nohighlight">\(\max(1, \lfloor N / (4T) \rfloor)\)</span> for <span class="math notranslate nohighlight">\(N &lt; 100\)</span> cells and <span class="math notranslate nohighlight">\(T\)</span> threads, and for larger
 <span class="math notranslate nohighlight">\(N\)</span> the value <span class="math notranslate nohighlight">\(\lfloor N / (T\,d) \rfloor\)</span> clamped to <span class="math notranslate nohighlight">\([1, 100]\)</span>, with <span class="math notranslate nohighlight">\(d = 20\)</span> for
-CoV <span class="math notranslate nohighlight">\(&gt; 0.6\)</span>, <span class="math notranslate nohighlight">\(d = 10\)</span> for CoV <span class="math notranslate nohighlight">\(&gt; 0.4\)</span> and <span class="math notranslate nohighlight">\(d = 4\)</span> otherwise. Guided scheduling uses twice the
-dynamic chunk size.</p>
+CoV <span class="math notranslate nohighlight">\(&gt; 0.6\)</span>, <span class="math notranslate nohighlight">\(d = 10\)</span> for CoV <span class="math notranslate nohighlight">\(&gt; 0.4\)</span> and <span class="math notranslate nohighlight">\(d = 4\)</span> otherwise. When a guided schedule is set at
+start-up or by <code class="docutils literal notranslate"><span class="pre">adaptive_schedule_update()</span></code>, its chunk size is twice the dynamic one; the later
+updates in <code class="docutils literal notranslate"><span class="pre">guided</span></code> mode (below) use the value without the factor 2.</p>
 </section>
 <section id="modes">
 <h3>Modes<a class="headerlink" href="#modes" title="Link to this heading">#</a></h3>
@@ -676,9 +714,9 @@ construction and selected before the corresponding phase of each iteration:</p>
 <td><p>dynamic</p></td>
 <td><p>base chunk, at least 1</p></td>
 </tr>
-<tr class="row-odd"><td><p>polarization, internal forces, time integration</p></td>
+<tr class="row-odd"><td><p>polarization, internal forces; time integration with contact models 0 and 1</p></td>
 <td><p>guided</p></td>
-<td><p>2 x base chunk</p></td>
+<td><p>2 x base chunk, at least 1</p></td>
 </tr>
 <tr class="row-even"><td><p>face type updates, mesh refinement</p></td>
 <td><p>static</p></td>
@@ -691,16 +729,20 @@ construction and selected before the corresponding phase of each iteration:</p>
 </tbody>
 </table>
 </div>
+<p>The cell-division schedule is set before <code class="docutils literal notranslate"><span class="pre">cell_divider::run()</span></code>, but the loop there has no
+<code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code> clause, so it does not use it.</p>
 <p>The chunk-size update of <code class="docutils literal notranslate"><span class="pre">update_workload_heterogeneity()</span></code> is skipped in this mode. Every 50
 iterations, <code class="docutils literal notranslate"><span class="pre">adaptive_schedule_update()</span></code> classifies the run as INITIALIZATION (fewer than 10
 cells), GROWTH (more than 1 % of the cells divided in the last 50 iterations) or HOMEOSTASIS,
 and on a phase change sets a new global schedule (dynamic, guided or static, depending on
-the phase, the CoV and the cell count). After a division, <code class="docutils literal notranslate"><span class="pre">handle_division_event()</span></code> reduces
-the chunk size of the global schedule at the start of the next iteration. Because each phase
-of the iteration selects its own per-loop schedule first, these global updates affect only
-loops that run outside the four phases.</p>
+the phase, the CoV and the cell count). Every <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code> loop in <code class="docutils literal notranslate"><span class="pre">run_iteration()</span></code>
+runs under one of the four per-loop schedules, so in this mode the global updates do not change
+the schedule of any loop in the iteration.</p>
 </dd>
 </dl>
+<p>In every mode, after an iteration with divisions, <code class="docutils literal notranslate"><span class="pre">handle_division_event()</span></code> recomputes the
+chunk size of the global schedule at the start of the next iteration from a CoV raised in
+proportion to the share of cells that divided, and halves it when more than 10 % divided.</p>
 <p>The selection is printed once at start-up, in this form:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Using OpenMP adaptive (base: static, per-loop: ON) scheduling
   Cells: 434, Threads: 8, Chunk size: 0
@@ -716,6 +758,71 @@ fastest on another. Compare modes on the target machine with <a class="reference
 changing the defaults.</p>
 </div>
 </section>
+</section>
+<section id="where-the-speed-ups-since-1-0-came-from">
+<h2>Where the speed-ups since 1.0 came from<a class="headerlink" href="#where-the-speed-ups-since-1-0-came-from" title="Link to this heading">#</a></h2>
+<p>The November 2026 benchmark (<a class="reference internal" href="../benchmarks/performance.html#benchmarks-performance"><span class="std std-ref">Wall time, scaling and memory</span></a>) compared 1.0 with two crash fixes,
+2.0, four intermediate builds and 2.1.0 on the same machines (8-core cloud machines, GCP
+c2-standard-16, 8 threads). Its builds were cut at merge commits, so a speed-up can be traced to
+the changes between two consecutive builds. Measured in November 2026:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Change</p></th>
+<th class="head"><p>Code</p></th>
+<th class="head"><p>Measured effect</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.0 (343bd98), as a whole</p></td>
+<td><p>the changes listed for 2.0.0 in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>, among them adaptive OpenMP scheduling with <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code> loops and per-loop schedules (<code class="docutils literal notranslate"><span class="pre">solver.cpp</span></code>), and voxels of <code class="docutils literal notranslate"><span class="pre">uspg_4d</span></code> stored in <code class="docutils literal notranslate"><span class="pre">std::vector</span></code> instead of <code class="docutils literal notranslate"><span class="pre">std::forward_list</span></code> (<code class="docutils literal notranslate"><span class="pre">uspg/</span></code>)</p></td>
+<td><p>1.5 to 1.8 times faster than 1.0 with crash fixes on the contact model 2 tissues (vesicle, mono- and multilayer, tube); on the vesicle the share of the 8 cores in use rose from 36 % to 52 %. The benchmark does not separate the changes made in 2.0.</p></td>
+</tr>
+<tr class="row-odd"><td><p>1fe5966, merged in f08df16</p></td>
+<td><p>contact model 2: a compact grid in compressed rows (<code class="docutils literal notranslate"><span class="pre">csr_start_</span></code>, <code class="docutils literal notranslate"><span class="pre">csr_faces_</span></code>) with voxels sized to the mean face bounding box, filtering by owner id instead of copying <code class="docutils literal notranslate"><span class="pre">shared_ptr</span></code>, a parallel grid build, and work units that split the nodes of heavy cells (<code class="docutils literal notranslate"><span class="pre">build_work_units()</span></code>)</p></td>
+<td><p>another 1.4 times on the vesicle and 1.2 times on the tube; no effect on the growth benchmark, which uses contact model 1</p></td>
+</tr>
+<tr class="row-even"><td><p>2.1.0 compared with the four intermediate builds</p></td>
+<td><p>not traced to a single change</p></td>
+<td><p>4 to 7 % less wall time to 60,000 cells on the growth benchmark; no faster on the vesicle</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>On the growth benchmark (contact model 1, time step <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s), 2.1.0 reaches
+10,000 cells in 1.28 ± 0.01 h against 2.53 ± 0.06 h for 1.0 with crash fixes (three runs
+each). Most of that difference is parallel efficiency: 2.1.0 keeps 83 % of the 8 cores busy,
+1.0 with crash fixes 49 %. The per-iteration gain is already present in 2.0, which crashes on
+this file before 216 cells and so cannot be timed further. Below 100,000 cells, the cost per
+iteration of the four intermediate builds is within 6 % of that of 2.1.0. Above 100,000 cells
+the three builds that leak memory (below) start swapping and are about 20 % slower per iteration
+at 140,000 cells.</p>
+<p>In the benchmark the threads were placed by <code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code> for every build
+(<a class="reference internal" href="benchmarking.html#dev-benchmarking-bench2"><span class="std std-ref">The November 2026 cross-version benchmark</span></a>), so the solver’s own thread pinning (27cbf72) is not part of
+these numbers. Its effect shows on machines where libgomp would otherwise put two threads on
+one physical core (see Thread count and placement above).</p>
+</section>
+<section id="memory-use">
+<h2>Memory use<a class="headerlink" href="#memory-use" title="Link to this heading">#</a></h2>
+<p>On the growth benchmark, 2.1.0 holds 0.130 GiB per 1,000 cells against 0.214 GiB for 1.0 with
+crash fixes, and 18.9 GiB at 145,000 cells (peak resident memory from <code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span> <span class="pre">-v</span></code>;
+three runs each). The benchmark does not attribute the difference between 1.0 and 2.1.0 to a
+commit.</p>
+<p>Three intermediate builds (9acfe36, ba74eed and f08df16) filled the 61.6 GiB of their machines
+before the end of their 48-hour runs on that file, losing about 140 KB per failed division. The
+cause is a reference cycle: each <a class="reference internal" href="../api/mesh.html#_CPPv44face" title="face"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">face</span></code></a> holds a <code class="docutils literal notranslate"><span class="pre">std::shared_ptr</span></code> to its owning cell
+(<code class="docutils literal notranslate"><span class="pre">face::owner_cell_</span></code>), and the cell holds its faces. When <code class="docutils literal notranslate"><span class="pre">cell_divider::divide_cell()</span></code> fails
+after <code class="docutils literal notranslate"><span class="pre">create_daughter_cells()</span></code> has built the two daughters, the exception handler returns
+without clearing them, and the cycle keeps both alive. The cycle is broken only by
+<code class="docutils literal notranslate"><span class="pre">cell::clear_data()</span></code>, which <code class="docutils literal notranslate"><span class="pre">solver::remove_dead_cells()</span></code> calls for every removed cell.</p>
+<p>2.1.0 avoids the leak in practice but does not remove the cycle. In the leaking builds, most
+failed divisions produced a daughter that was not a closed surface (<code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">not</span> <span class="pre">properly</span> <span class="pre">triangulated</span></code>). From fc0e29c on, the divider follows every loop in which the plane cuts the
+surface (<code class="docutils literal notranslate"><span class="pre">add_intersection_points()</span></code>) and checks that the cut leaves exactly two pieces
+(<code class="docutils literal notranslate"><span class="pre">create_daughter_cells()</span></code>). These failures became rare, and the next intermediate build,
+a331169, held 18.7 GiB at 143,500 cells. From c949e4e on, a cut face that the Delaunay
+triangulation does not cover is refused in <code class="docutils literal notranslate"><span class="pre">triangulate_division_interface()</span></code>, before the
+daughters are built. In the three 48-hour 2.1.0 runs at <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s, 13 to 16 divisions per run
+failed for a reason other than a refusal; the <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s run, which removed 93,310 cells, had 43.
+The cycle itself is still in 2.1.0 (<code class="docutils literal notranslate"><span class="pre">include/mesh/face.hpp</span></code>).</p>
 </section>
 <section id="synchronisation">
 <h2>Synchronisation<a class="headerlink" href="#synchronisation" title="Link to this heading">#</a></h2>
@@ -797,7 +904,8 @@ columns:</p>
 </table>
 </div>
 <p>With verbose output (the command-line default), <code class="docutils literal notranslate"><span class="pre">solver::run()</span></code> prints the monitor’s summary
-table at the end of the run.</p>
+table at the end of the run. The timers are reset at every export, so the table covers only the
+iterations after the last export, not the whole run.</p>
 </section>
 <section id="profiling">
 <h2>Profiling<a class="headerlink" href="#profiling" title="Link to this heading">#</a></h2>
@@ -925,6 +1033,8 @@ is spread over NUMA nodes on multi-socket machines.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modes">Modes</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-speed-ups-since-1-0-came-from">Where the speed-ups since 1.0 came from</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-use">Memory use</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synchronisation">Synchronisation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-monitor-and-diagnostics">Performance monitor and diagnostics</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling">Profiling</a><ul class="visible nav section-nav flex-column">
@@ -935,6 +1045,13 @@ is spread over NUMA nodes on multi-socket machines.</p>
 </li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/developers/performance_internals.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -970,16 +1087,28 @@ is spread over NUMA nodes on multi-socket machines.</p>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

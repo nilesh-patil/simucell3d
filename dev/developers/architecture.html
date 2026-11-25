@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Architecture &#8212; SimuCell3D 2.1.0</title>
+    <title>Architecture &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'developers/architecture';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/architecture.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/developers/architecture.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Testing" href="testing.html" />
     <link rel="prev" title="Development setup" href="development_setup.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Architecture - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/developers/architecture.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -660,8 +693,8 @@ built from <code class="docutils literal notranslate"><span class="pre">src/app/
 </tbody>
 </table>
 </div>
-<p>Project classes live in the global namespace; the exceptions are the free functions in
-<code class="docutils literal notranslate"><span class="pre">cpu_topology</span></code> and the vendored eigen solver in <code class="docutils literal notranslate"><span class="pre">gte</span></code>. Header
+<p>Project classes live in the global namespace; the exceptions are the thread-placement types
+and functions in <code class="docutils literal notranslate"><span class="pre">cpu_topology</span></code> and the vendored eigen solver in <code class="docutils literal notranslate"><span class="pre">gte</span></code>. Header
 guards are named <code class="docutils literal notranslate"><span class="pre">DEF_&lt;NAME&gt;</span></code> (<a class="reference internal" href="coding_style.html#dev-coding-style"><span class="std std-ref">Coding style</span></a>).</p>
 <p>The top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> sets C++17, reads the version from
 <code class="docutils literal notranslate"><span class="pre">project(SimuCell3D</span> <span class="pre">VERSION</span> <span class="pre">X.Y.Z)</span></code>, writes <code class="docutils literal notranslate"><span class="pre">generated/version.hpp</span></code> into the build directory
@@ -707,8 +740,9 @@ values (<a class="reference internal" href="../user_guide/10_compile_time_config
 </table>
 </div>
 <p>Code that depends on these macros must compile for every documented
-combination; <code class="docutils literal notranslate"><span class="pre">#if</span> <span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">==</span> <span class="pre">...</span></code> blocks appear in <code class="docutils literal notranslate"><span class="pre">solver.cpp</span></code>,
-<code class="docutils literal notranslate"><span class="pre">time_integration.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">cell.cpp</span></code>.</p>
+combination; <code class="docutils literal notranslate"><span class="pre">#if</span> <span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">==</span> <span class="pre">...</span></code> blocks appear in thirteen files, among them
+<code class="docutils literal notranslate"><span class="pre">solver.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">time_integration.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">cell.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">node.hpp</span></code>, the three contact models and
+<code class="docutils literal notranslate"><span class="pre">mesh_data.hpp</span></code>.</p>
 </section>
 <section id="program-flow">
 <h2>Program flow<a class="headerlink" href="#program-flow" title="Link to this heading">#</a></h2>
@@ -750,7 +784,7 @@ modulus <span class="math notranslate nohighlight">\(K\)</span> of the cell type
 </ul>
 </section>
 <section id="main-loop">
-<h3>Main loop<a class="headerlink" href="#main-loop" title="Link to this heading">#</a></h3>
+<span id="dev-architecture-main-loop"></span><h3>Main loop<a class="headerlink" href="#main-loop" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">solver::run()</span></code> calls <code class="docutils literal notranslate"><span class="pre">run_iteration()</span></code> while the simulation time is below
 <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> and at least one cell remains, then writes a final statistics row,
 compacts every cell mesh (<code class="docutils literal notranslate"><span class="pre">cell::rebase()</span></code>) and prints the performance report.</p>
@@ -776,7 +810,8 @@ failed (<code class="docutils literal notranslate"><span class="pre">handle_refi
 (<code class="docutils literal notranslate"><span class="pre">cell::special_polarization_update()</span></code>, <code class="docutils literal notranslate"><span class="pre">cell::apply_internal_forces()</span></code>, parallel over cells)
 [<code class="docutils literal notranslate"><span class="pre">polarization_and_internal_forces</span></code>].</p></li>
 <li><p>Integrate node positions and advance the time by <span class="math notranslate nohighlight">\(\Delta t\)</span>
-(<code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code>, parallel over cells)
+(<code class="docutils literal notranslate"><span class="pre">time_integration_scheme::update_nodes_positions()</span></code>; parallel over cells with contact models
+0 and 1, on one thread with contact model 2)
 [<code class="docutils literal notranslate"><span class="pre">time_integration</span></code>].</p></li>
 <li><p>Every 50 iterations, write a statistics row (<code class="docutils literal notranslate"><span class="pre">statistics_writer::write_data()</span></code>) and update
 the workload estimate and the phase-based schedule (<code class="docutils literal notranslate"><span class="pre">update_workload_heterogeneity()</span></code>,
@@ -797,8 +832,9 @@ next contact detection, where it would make the spatial grid unbounded. The
 <p>Errors are reported in two ways. Problems confined to one cell remove that cell and print one
 line to standard error (<code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell</span> <span class="pre">...</span></code>, <code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">cell</span> <span class="pre">...</span> <span class="pre">mesh</span> <span class="pre">refinement</span> <span class="pre">failed:</span> <span class="pre">...</span></code>). Problems that invalidate the run throw an exception from
 <code class="docutils literal notranslate"><span class="pre">custom_exception.hpp</span></code> (for example <code class="docutils literal notranslate"><span class="pre">unstable_simulation_exception</span></code> when more than
-max(10, 1 % of the cells) refinements fail in one iteration, or when the contact grid cannot be
-built); the exception propagates out of <code class="docutils literal notranslate"><span class="pre">run()</span></code> to <code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p>
+max(10, 1 % of the cells) refinements fail in one iteration or every cell’s refinement fails,
+or when the contact grid cannot be built); the exception propagates out of <code class="docutils literal notranslate"><span class="pre">run()</span></code> to
+<code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p>
 </section>
 <section id="data-flow">
 <h3>Data flow<a class="headerlink" href="#data-flow" title="Link to this heading">#</a></h3>
@@ -981,6 +1017,13 @@ scripts (<code class="docutils literal notranslate"><span class="pre">scripts/pr
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/developers/architecture.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -1015,16 +1058,28 @@ scripts (<code class="docutils literal notranslate"><span class="pre">scripts/pr
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

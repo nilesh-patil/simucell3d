@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Cell mechanics &#8212; SimuCell3D 2.1.0</title>
+    <title>Cell mechanics &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/02_cell_mechanics';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/02_cell_mechanics.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/user_guide/02_cell_mechanics.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Contact between cells" href="03_contact.html" />
     <link rel="prev" title="Model overview" href="01_model_overview.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Cell mechanics - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/user_guide/02_cell_mechanics.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -603,6 +636,20 @@ slightly compressible cytoplasm. The second lets the cell regulate its area. The
 integral models the tension of the actomyosin cortex and its resistance to bending. <span class="math notranslate nohighlight">\(\gamma\)</span>
 and <span class="math notranslate nohighlight">\(k_b\)</span> are properties of the <a class="reference internal" href="../glossary.html#term-face-type"><span class="xref std std-term">face type</span></a>, so they can differ between apical, lateral
 and basal membrane; <span class="math notranslate nohighlight">\(K\)</span>, <span class="math notranslate nohighlight">\(k_a\)</span> and the target values are properties of the <a class="reference internal" href="../glossary.html#term-cell-type"><span class="xref std std-term">cell type</span></a>.</p>
+<figure class="only-light align-default" id="id1">
+<a class="only-light reference internal image-reference" href="../_images/energy_terms-light.svg"><img alt="Sketch of a triangulated cell touching a neighbour, with numbered markers: 1 pressure acting along the face normals, 2 and 3 surface tension and area elasticity pulling along the surface, 4 a bending hinge, 5 repulsion and node ties at the contact. Below, each term's formula and the direction in which it acts." class="only-light" src="../_images/energy_terms-light.svg" style="width: 440px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The energy terms of one cell: terms 1 to 4 are Eq. (1) of Runser, Vetter &amp; Iber (2024), <a class="reference internal" href="#equation-eq-cell-energy">(1)</a>, and term 5 is the contact model chosen at compile time (<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>).</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="only-dark align-default" id="id2">
+<a class="only-dark reference internal image-reference" href="../_images/energy_terms-dark.svg"><img alt="Sketch of a triangulated cell touching a neighbour, with numbered markers: 1 pressure acting along the face normals, 2 and 3 surface tension and area elasticity pulling along the surface, 4 a bending hinge, 5 repulsion and node ties at the contact. Below, each term's formula and the direction in which it acts." class="only-dark" src="../_images/energy_terms-dark.svg" style="width: 440px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">The energy terms of one cell: terms 1 to 4 are Eq. (1) of Runser, Vetter &amp; Iber (2024), <a class="reference internal" href="#equation-eq-cell-energy">(1)</a>, and term 5 is the contact model chosen at compile time (<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>).</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The nodal forces are the negative gradients of the discretised terms with respect to the node
 positions <span class="math notranslate nohighlight">\(\mathbf r_i\)</span>, except for bending, whose implemented force is not an exact gradient
 (see the section on bending below). They are evaluated once per <a class="reference internal" href="../glossary.html#term-iteration"><span class="xref std std-term">iteration</span></a>, after mesh refinement
@@ -639,9 +686,11 @@ nodes:</p>
 <span class="eqno">(4)<a class="headerlink" href="#equation-eq-pressure-force" title="Link to this equation">#</a></span>\[
 \mathbf f_{p,i} = \frac{1}{3} \sum_{f \ni i} p\, A_f\, \hat{\mathbf n}_f .
 \]</div>
-<p>At the start of a run the target volume of every cell is set to its initial volume, so the
-initial pressure is 0. During the run <span class="math notranslate nohighlight">\(V_0\)</span> changes only through growth and division
-(<a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>).</p>
+<p>At the start of a run the target volume of every cell is set to
+<span class="math notranslate nohighlight">\(V_0 = V\,\exp(p_0/K)\)</span>, which gives the pressure <span class="math notranslate nohighlight">\(p_0\)</span>. The parameter file has no tag for <span class="math notranslate nohighlight">\(p_0\)</span>,
+so it is 0 and <span class="math notranslate nohighlight">\(V_0\)</span> is the initial volume, unless a cell type’s <code class="docutils literal notranslate"><span class="pre">initial_pressure_</span></code> is set
+through the Python interface (<a class="reference internal" href="16_python_interface.html"><span class="doc">Python interface</span></a>). During the run <span class="math notranslate nohighlight">\(V_0\)</span> changes only through growth and division
+(<a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and cell death</span></a>).</p>
 </section>
 <section id="surface-tension-and-area-elasticity">
 <h2>Surface tension and area elasticity<a class="headerlink" href="#surface-tension-and-area-elasticity" title="Link to this heading">#</a></h2>
@@ -688,7 +737,8 @@ U_b = \sum_{e} \bar k_b\, \frac{\lVert\mathbf e\rVert^2}{A_e}
 \theta_e = -\operatorname{sgn}(\hat{\mathbf n}_a \cdot \mathbf e_{il})
            \arccos(-\hat{\mathbf n}_a \cdot \hat{\mathbf n}_b),
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\mathbf e_{il} = \mathbf r_l - \mathbf r_i\)</span>. For a flat hinge <span class="math notranslate nohighlight">\(\theta_e = \pi\)</span> and the
+<p>where <span class="math notranslate nohighlight">\(\mathbf e_{il} = \mathbf r_l - \mathbf r_i\)</span> and the sign is taken as <span class="math notranslate nohighlight">\(+1\)</span> when
+<span class="math notranslate nohighlight">\(\hat{\mathbf n}_a \cdot \mathbf e_{il} = 0\)</span>. For a flat hinge <span class="math notranslate nohighlight">\(\theta_e = \pi\)</span> and the
 term vanishes; the sign separates convex from concave hinges. The force on each of the four
 nodes <span class="math notranslate nohighlight">\(q \in \{i, j, k, l\}\)</span> implemented in 2.1 is</p>
 <div class="math notranslate nohighlight" id="equation-eq-bending-force">
@@ -855,7 +905,7 @@ written as 0.</p>
 <p class="admonition-title">See also</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a> for the forces between cells.</p></li>
-<li><p><a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a> for how <span class="math notranslate nohighlight">\(V_0\)</span> changes.</p></li>
+<li><p><a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and cell death</span></a> for how <span class="math notranslate nohighlight">\(V_0\)</span> changes.</p></li>
 <li><p>Wardetzky, M., Bergou, M., Harmon, D., Zorin, D. &amp; Grinspun, E. Discrete quadratic curvature
 energies. <em>Comput. Aided Geom. Des.</em> <strong>24</strong>, 499-518 (2007).</p></li>
 <li><p><a class="reference internal" href="../api/mesh.html"><span class="doc">Cell meshes</span></a> for the <code class="docutils literal notranslate"><span class="pre">cell</span></code> class.</p></li>
@@ -921,6 +971,13 @@ energies. <em>Comput. Aided Geom. Des.</em> <strong>24</strong>, 499-518 (2007).
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/user_guide/02_cell_mechanics.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -955,16 +1012,28 @@ energies. <em>Comput. Aided Geom. Des.</em> <strong>24</strong>, 499-518 (2007).
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

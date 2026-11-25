@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Parameter screening &#8212; SimuCell3D 2.1.0</title>
+    <title>Parameter screening &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/17_parameter_screening';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/user_guide/17_parameter_screening.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/user_guide/17_parameter_screening.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Parallel performance" href="18_parallel_performance.html" />
     <link rel="prev" title="Python interface" href="16_python_interface.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Parameter screening - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/user_guide/17_parameter_screening.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -591,8 +624,11 @@ build SimuCell3D, submit the runs as a Slurm job array, and collect the results.
 <li><p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/</span></code>: compute summary metrics from the collected results and draw
 dashboards.</p></li>
 </ul>
-<p>The scripts date from release 1.0 and are unchanged in 2.1. They encode the conventions of the
-cluster they were written for (resources, e-mail domain); the sections below say what to adapt.
+<p>The scripts date from release 1.0. Release 2.1 changed how the results are collected (the
+summary folder, and crash detection from the exit status that the launch script records) and
+fixed a variable read before assignment in <code class="docutils literal notranslate"><span class="pre">utils/compute_IoU_euler.py</span></code>. They still encode the
+conventions of the cluster they were written for (resources, e-mail domain); the sections below
+say what to adapt.
 For a few simulations on one machine, a loop over parameter files, or the Python module
 (<a class="reference internal" href="16_python_interface.html"><span class="doc">Python interface</span></a>), is simpler.</p>
 <section id="overview">
@@ -611,6 +647,10 @@ For a few simulations on one machine, a loop over parameter files, or the Python
 <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>scripts/screening_analysis/requirements.txt
 </pre></div>
 </div>
+<p>The requirements file pins package versions from 2023 (for example NumPy 1.25), which do not
+install on Python 3.12 or newer. Create the environment for the analysis with Python 3.11 (it
+was checked with 3.11.14); on Debian 13, whose system Python is 3.13, install 3.11 separately,
+for example with <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">venv</span> <span class="pre">-p</span> <span class="pre">3.11</span></code>.</p>
 </section>
 <section id="the-parameter-table">
 <h2>The parameter table<a class="headerlink" href="#the-parameter-table" title="Link to this heading">#</a></h2>
@@ -780,9 +820,13 @@ writes that line and therefore counts as crashed; its <code class="docutils lite
 <p class="admonition-title">Warning</p>
 <p><code class="docutils literal notranslate"><span class="pre">has_crashed</span></code> is false for a run in which the safeguards removed most of the cells. In 2.1 the
 unstable-cell removal has no limit, and a run whose tissue diverges can exit with status 0 after
-losing almost all of its cells (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>). For each run, also count the
-<code class="docutils literal notranslate"><span class="pre">Removing</span></code> lines in <code class="docutils literal notranslate"><span class="pre">std_out_err/stdout_&lt;i&gt;.txt</span></code>, which holds both output streams, and compare
-them with the cell count before treating a parameter point as a valid result.</p>
+losing almost all of its cells (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>); the shipped <code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code>, run to
+its full duration, ends this way with 18 of its 434 cells (<a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>). For each
+run, also count the <code class="docutils literal notranslate"><span class="pre">Removing</span></code> lines in <code class="docutils literal notranslate"><span class="pre">std_out_err/stdout_&lt;i&gt;.txt</span></code>, which holds both output
+streams, and compare them with the cell count before treating a parameter point as a valid
+result (<a class="reference internal" href="13_running_simulations.html#checking-a-run"><span class="std std-ref">Checking a run</span></a>). Because runs are not
+bit-identical, a parameter effect is meaningful only where it is larger than the spread between
+<a class="reference internal" href="../glossary.html#term-replicate"><span class="xref std std-term">replicates</span></a> (<a class="reference internal" href="../benchmarks/reproducibility.html#benchmarks-reproducibility"><span class="std std-ref">Reproducibility</span></a>).</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -835,8 +879,9 @@ their results to <code class="docutils literal notranslate"><span class="pre">&l
 <li><p><strong>Dashboard, locally.</strong> Copy the screen folder (at least <code class="docutils literal notranslate"><span class="pre">summary_folder/</span></code> and
 <code class="docutils literal notranslate"><span class="pre">dashboard_files/</span></code>) to a workstation and run <code class="docutils literal notranslate"><span class="pre">screening_dashboard.py</span></code>. Set in its
 <code class="docutils literal notranslate"><span class="pre">__main__</span></code> section the metrics (<code class="docutils literal notranslate"><span class="pre">indicators</span></code>, which must include <code class="docutils literal notranslate"><span class="pre">interpenetration</span></code>), the
-screened parameters (<code class="docutils literal notranslate"><span class="pre">parameters</span></code>, names from <code class="docutils literal notranslate"><span class="pre">misc/param2table.json</span></code>, the first one on the
-x-axis), their axis scales (<code class="docutils literal notranslate"><span class="pre">linear</span></code>, <code class="docutils literal notranslate"><span class="pre">log</span></code> or <code class="docutils literal notranslate"><span class="pre">discrete</span></code>), <code class="docutils literal notranslate"><span class="pre">root_dir</span></code> and
+screened parameters (<code class="docutils literal notranslate"><span class="pre">parameters</span></code>, names from <code class="docutils literal notranslate"><span class="pre">misc/param2table.json</span></code>; with one or two
+parameters the first is on the x-axis), their axis scales (<code class="docutils literal notranslate"><span class="pre">axes_scales</span></code>, each <code class="docutils literal notranslate"><span class="pre">linear</span></code>,
+<code class="docutils literal notranslate"><span class="pre">log</span></code> or <code class="docutils literal notranslate"><span class="pre">discrete</span></code>), <code class="docutils literal notranslate"><span class="pre">root_dir</span></code> and
 <code class="docutils literal notranslate"><span class="pre">screening_csv_file_name</span></code>. The plots are written to <code class="docutils literal notranslate"><span class="pre">&lt;screen</span> <span class="pre">folder&gt;/dashboard_plots/</span></code>.</p></li>
 </ol>
 <p>The dashboard depends on the number of screened parameters: one plot per metric against the
@@ -858,7 +903,7 @@ plot for more. Failed runs, runs with interpenetrating cells and outliers are ma
 </figcaption>
 </figure>
 <figure class="align-default" id="id3">
-<img alt="Dashboard with swarm plots of each metric over three or more screened parameters." src="../_images/screening_dashboard_type_3.jpg" />
+<img alt="Dashboard with swarm plots of each metric over three or more screened parameters." src="../_images/screening_dashboard_type_3_opt.jpg" />
 <figcaption>
 <p><span class="caption-text">Dashboard for more than two screened parameters.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
 </figcaption>
@@ -868,8 +913,10 @@ plot for more. Failed runs, runs with interpenetrating cells and outliers are ma
 columns, and <code class="docutils literal notranslate"><span class="pre">misc/param2unitofmeas.json</span></code> with their units.</p>
 <section id="surface-tension-and-adhesion-screens">
 <h3>Surface tension and adhesion screens<a class="headerlink" href="#surface-tension-and-adhesion-screens" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">mech_props_analysis.py</span></code> is a reduced dashboard for screens over <code class="docutils literal notranslate"><span class="pre">surface_tension</span></code> and
-<code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code>. It computes the IoU loss between the initial and the final geometry of
+<p><code class="docutils literal notranslate"><span class="pre">mech_props_analysis.py</span></code> is a reduced dashboard for screens over the apical surface tension and
+adherence strength of the epithelial cells (table columns <code class="docutils literal notranslate"><span class="pre">epi_api_surface_tension</span></code> and
+<code class="docutils literal notranslate"><span class="pre">epi_api_adherence_strength</span></code>). In the default build <code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code> has no effect; it acts
+only with contact model 0 (<a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>). It computes the IoU loss between the initial and the final geometry of
 every run and plots it over the two parameters:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>scripts/screening_analysis
 <span class="gp">$ </span>python3<span class="w"> </span>mech_props_analysis.py<span class="w"> </span>&lt;screen<span class="w"> </span>folder&gt;/simulation_outputs<span class="w"> </span>&lt;screen<span class="w"> </span>folder&gt;/my_screen.csv<span class="w"> </span>&lt;output<span class="w"> </span>folder&gt;
@@ -959,6 +1006,13 @@ selected output files from the cluster.</p>
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/user_guide/17_parameter_screening.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -993,16 +1047,28 @@ selected output files from the cluster.</p>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

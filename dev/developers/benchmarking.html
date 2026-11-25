@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Benchmarking &#8212; SimuCell3D 2.1.0</title>
+    <title>Benchmarking &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'developers/benchmarking';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/developers/benchmarking.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/developers/benchmarking.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Performance internals" href="performance_internals.html" />
     <link rel="prev" title="Continuous integration" href="continuous_integration.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Benchmarking - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/developers/benchmarking.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -576,8 +609,10 @@ document.write(`
 <span id="dev-benchmarking"></span><h1>Benchmarking<a class="headerlink" href="#benchmarking" title="Link to this heading">#</a></h1>
 <p>This page describes how to measure the speed of SimuCell3D and compare two builds or two
 <a class="reference internal" href="../glossary.html#term-scheduling-mode"><span class="xref std std-term">scheduling modes</span></a>: the measurement method, the benchmark driver
-script and the plotting tools. It does not list results; the measurements recorded for a release
-are in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> with their conditions. The code that is being measured is described in
+script, the plotting tools, and how the November 2026 cross-version benchmark was run so that a
+slice of it can be repeated. It does not list results: the benchmark results are on the
+<a class="reference internal" href="../benchmarks/index.html#benchmarks"><span class="std std-ref">Benchmarks</span></a> pages, and the measurements recorded for a release are in <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code> with
+their conditions. The code that is being measured is described in
 <a class="reference internal" href="performance_internals.html#dev-performance-internals"><span class="std std-ref">Performance internals</span></a>.</p>
 <section id="method">
 <h2>Method<a class="headerlink" href="#method" title="Link to this heading">#</a></h2>
@@ -733,7 +768,8 @@ accept that flag.
 <code class="docutils literal notranslate"><span class="pre">metrics/&lt;mode&gt;/{computational,phase_timings,biological,workload}.csv</span></code> and
 <code class="docutils literal notranslate"><span class="pre">metrics/comparison.csv</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">scripts/plot_benchmark_unified.py</span> <span class="pre">DIR</span></code> validates and cleans the data, then writes
-the plots, <code class="docutils literal notranslate"><span class="pre">validation_report.json</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_trail.json</span></code> and <code class="docutils literal notranslate"><span class="pre">manifest.json</span></code> to
+the plots, <code class="docutils literal notranslate"><span class="pre">validation_report.json</span></code>, <code class="docutils literal notranslate"><span class="pre">validation_report.html</span></code>, <code class="docutils literal notranslate"><span class="pre">audit_trail.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">manifest.json</span></code> to
 <code class="docutils literal notranslate"><span class="pre">DIR/plots-unified/</span></code>. Options: <code class="docutils literal notranslate"><span class="pre">--quality</span> <span class="pre">{publication,draft}</span></code> (300 or 150 dpi),
 <code class="docutils literal notranslate"><span class="pre">--plots</span> <span class="pre">{all,biological,computational,&lt;id&gt;,...}</span></code>, <code class="docutils literal notranslate"><span class="pre">--formats</span> <span class="pre">png,pdf,svg</span></code>,
 <code class="docutils literal notranslate"><span class="pre">--validate-only</span></code>, <code class="docutils literal notranslate"><span class="pre">--skip-sim-stats</span></code>, <code class="docutils literal notranslate"><span class="pre">--no-latex</span></code>, <code class="docutils literal notranslate"><span class="pre">--force</span></code>, <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code>, <code class="docutils literal notranslate"><span class="pre">-v</span></code>.</p></li>
@@ -743,11 +779,159 @@ biological (pressure, energy, cell heterogeneity, population dynamics, energy co
 contact fraction, a summary dashboard) and computational (scaling, phase timing, roofline, load
 balance, scheduler comparisons, cache efficiency, iteration-rate timeline). The helper package
 <code class="docutils literal notranslate"><span class="pre">scripts/simucell3d_viz/</span></code> holds its data validation, cleaning and statistics code. The scaling
-plot draws an <span class="math notranslate nohighlight">\(N^{4/3}\)</span> reference curve for comparison; it is not a fit.</p>
-<p><code class="docutils literal notranslate"><span class="pre">generate_visualizations.sh</span> <span class="pre">--legacy</span></code> runs the older <code class="docutils literal notranslate"><span class="pre">plot_benchmark_results.py</span></code> instead, and
-<code class="docutils literal notranslate"><span class="pre">--all-scripts</span></code> runs the legacy, the intermediate <code class="docutils literal notranslate"><span class="pre">plot_benchmark_results_updated.py</span></code> and the
-unified script. <code class="docutils literal notranslate"><span class="pre">scripts/visualization/</span></code> holds single-purpose plotting scripts that take file
+plot (<code class="docutils literal notranslate"><span class="pre">04</span></code>) fits a power law to the time per iteration against the cell count, with 95 %
+prediction intervals and diagnostic panels (Q-Q, residuals, Cook’s distance). It also draws a
+separate <span class="math notranslate nohighlight">\(N^{4/3}\)</span> reference line through the medians; that line is not a fit.</p>
+<p><code class="docutils literal notranslate"><span class="pre">generate_visualizations.sh</span> <span class="pre">--legacy</span></code> runs the two older scripts instead of the unified one:
+<code class="docutils literal notranslate"><span class="pre">plot_benchmark_results.py</span></code> into <code class="docutils literal notranslate"><span class="pre">plots/</span></code> and <code class="docutils literal notranslate"><span class="pre">plot_benchmark_results_updated.py</span></code> into
+<code class="docutils literal notranslate"><span class="pre">plots-updated/</span></code>. <code class="docutils literal notranslate"><span class="pre">--all-scripts</span></code> runs all three. <code class="docutils literal notranslate"><span class="pre">scripts/visualization/</span></code> holds single-purpose plotting scripts that take file
 paths as positional arguments.</p>
+</section>
+<section id="the-november-2026-cross-version-benchmark">
+<span id="dev-benchmarking-bench2"></span><h2>The November 2026 cross-version benchmark<a class="headerlink" href="#the-november-2026-cross-version-benchmark" title="Link to this heading">#</a></h2>
+<p>In November 2026 the releases 1.0, 2.0 and 2.1.0 and four intermediate builds were run on the
+same machines and the same input files. The results, and the canonical description of the
+method, are in <a class="reference internal" href="../benchmarks/method.html#benchmarks-method"><span class="std std-ref">Method</span></a>. This section says how the runs were set up, so that a
+developer can repeat one case on one build. The harness that created the machines, launched the
+runs and copied their output is not part of the repository; everything a single run needs is.</p>
+<section id="builds">
+<h3>Builds<a class="headerlink" href="#builds" title="Link to this heading">#</a></h3>
+<p>Each build is a commit compiled in Release mode, once per set of compile-time switches.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Build</p></th>
+<th class="head"><p>Source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.0</p></td>
+<td><p>tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> (38af451)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.0 with two crash fixes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">v1.0</span></code> plus the local-id resynchronisation after a cell removal (with the fix of the daughter-append race that it needs, as in f61b620) and the face-winding fix of <code class="docutils literal notranslate"><span class="pre">split_edge</span></code> (as in 3a0fd76); the patches are not in the repository</p></td>
+</tr>
+<tr class="row-even"><td><p>2.0</p></td>
+<td><p>tag <code class="docutils literal notranslate"><span class="pre">v2.0</span></code> (343bd98)</p></td>
+</tr>
+<tr class="row-odd"><td><p>four intermediate builds</p></td>
+<td><p>9acfe36, ba74eed, f08df16 (the merge of 1fe5966), a331169</p></td>
+</tr>
+<tr class="row-even"><td><p>2.1.0</p></td>
+<td><p>tag <code class="docutils literal notranslate"><span class="pre">v2.1.0</span></code> (f824dfd)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Build a tagged version from a separate worktree, never by checking out over a working tree with
+changes:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>worktree<span class="w"> </span>add<span class="w"> </span>../simucell3d-v2.1.0<span class="w"> </span>v2.1.0
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>../simucell3d-v2.1.0
+<span class="gp">$ </span>cmake<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>cmake<span class="w"> </span>--build<span class="w"> </span>build<span class="w"> </span>-j
+</pre></div>
+</div>
+<p>1.0 and 2.0 declare an older minimum CMake version; with CMake 4 add
+<code class="docutils literal notranslate"><span class="pre">-DCMAKE_POLICY_VERSION_MINIMUM=3.5</span></code> to the configure command.</p>
+</section>
+<section id="tissues-and-cases">
+<h3>Tissues and cases<a class="headerlink" href="#tissues-and-cases" title="Link to this heading">#</a></h3>
+<p>Five tissues, all with the parameters of the paper or of the files shipped with the code:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tissue</p></th>
+<th class="head"><p>Input</p></th>
+<th class="head"><p>Compile-time switches</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Growth benchmark</p></td>
+<td><p>the lab’s <code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> of 1.0 (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span> <span class="pre">v1.0:parameters_benchmarck.xml</span></code>; not shipped since 2.0), at four time steps: <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> (as shipped), <code class="docutils literal notranslate"><span class="pre">5e-8</span></code>, <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> and <code class="docutils literal notranslate"><span class="pre">1.25e-8</span></code> s</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span> <span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Vesicle, <span class="math notranslate nohighlight">\(\varepsilon\)</span> sweep</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_monolayer.xml</span></code> with no growth and an apical surface tension of <span class="math notranslate nohighlight">\(\varepsilon\)</span> × <code class="docutils literal notranslate"><span class="pre">4e-4</span></code> N/m, for <span class="math notranslate nohighlight">\(\varepsilon\)</span> = 1, 1.5, 2, 3, 4; 100,000 iterations</p></td>
+<td><p>defaults</p></td>
+</tr>
+<tr class="row-even"><td><p>Mono- and multilayer vesicles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code> cut to the paper’s protocol (1,736 iterations), and the two files as shipped (<code class="docutils literal notranslate"><span class="pre">1e-2</span></code> s)</p></td>
+<td><p>defaults</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tube</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_tube.xml</span></code></p></td>
+<td><p>defaults</p></td>
+</tr>
+<tr class="row-even"><td><p>Analytic cases</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">params_single_sphere.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">params_laplace_pressure.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">params_two_spheres_stable.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">params_two_spheres_contact.xml</span></code> in <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/</span></code>, and the two two-sphere files again with a minimum edge length of <code class="docutils literal notranslate"><span class="pre">1.5e-7</span></code> m</p></td>
+<td><p>defaults</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The 20 cases that every build was given are: the growth benchmark at the four time steps, the
+five <span class="math notranslate nohighlight">\(\varepsilon\)</span> values, the four mono- and multilayer files, the tube, and six analytic files.
+The growth benchmark is not the reconstructed configuration <code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>
+(contact model 2) that the release growth run uses (<a class="reference internal" href="release_process.html#dev-release"><span class="std std-ref">Release process</span></a>); do not compare numbers
+from the two.</p>
+<p>For the growth benchmark file with 2.1.0, the recommended time step is <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s: it was clean
+(no cell removed) in three of three 48-hour runs. This is a measurement, not a guarantee; the
+time-step results of every build are in <a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>.</p>
+<p>The edits made to the shipped files (output paths, time steps, sampling periods, the end time of
+the paper protocol, a stray XML tag) are listed in <a class="reference internal" href="../benchmarks/method.html#benchmarks-method"><span class="std std-ref">Method</span></a>. The two-sphere
+variants exist because the shipped two-sphere meshes have edges of 0.18 to 0.31 µm, below the
+shipped minimum edge length of <code class="docutils literal notranslate"><span class="pre">7.5e-7</span></code> m.</p>
+</section>
+<section id="machine-and-launch">
+<h3>Machine and launch<a class="headerlink" href="#machine-and-launch" title="Link to this heading">#</a></h3>
+<p>One run per machine, on Google Cloud <code class="docutils literal notranslate"><span class="pre">c2-standard-16</span></code> instances (8 physical cores, 16 logical
+CPUs, 64 GB), with 8 OpenMP threads, one per physical core. The same pinning was used for
+every build, because 1.0 has no <code class="docutils literal notranslate"><span class="pre">--threads</span></code> option and does not pin its threads:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">8</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="nv">OMP_DYNAMIC</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="nv">OMP_WAIT_POLICY</span><span class="o">=</span>passive
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span><span class="s2">"{0},{1},{2},{3},{4},{5},{6},{7}"</span>
+/usr/bin/time<span class="w"> </span>-v<span class="w"> </span>taskset<span class="w"> </span>-c<span class="w"> </span><span class="m">0</span>-7<span class="w"> </span>stdbuf<span class="w"> </span>-oL<span class="w"> </span>-eL<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>./build/simucell3d<span class="w"> </span>run.xml<span class="w"> </span>--threads<span class="o">=</span><span class="m">8</span><span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-dir<span class="o">=</span><span class="s2">"</span><span class="nv">$OUT</span><span class="s2">"</span><span class="w"> </span>--diagnostics-csv<span class="o">=</span><span class="s2">"</span><span class="nv">$OUT</span><span class="s2">/performance_diagnostics.csv"</span>
+</pre></div>
+</div>
+<p>The flags after <code class="docutils literal notranslate"><span class="pre">run.xml</span></code> are for 2.1.0 and the intermediate builds; 2.0 has no <code class="docutils literal notranslate"><span class="pre">--threads</span></code>
+and gets <code class="docutils literal notranslate"><span class="pre">taskset</span> <span class="pre">-c</span> <span class="pre">0-15</span></code> (it derives its thread count from the affinity mask), and 1.0 takes
+the parameter file as its only argument. On these machines CPUs 0 to 7 are on distinct physical
+cores; check <code class="docutils literal notranslate"><span class="pre">/sys/devices/system/cpu/cpu0/topology/thread_siblings_list</span></code> before reusing the
+command on another machine type. Because <code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code> is set, 2.1.0 prints
+<code class="docutils literal notranslate"><span class="pre">Thread</span> <span class="pre">pinning:</span> <span class="pre">disabled</span></code> and leaves the placement to the OpenMP runtime
+(<a class="reference internal" href="performance_internals.html#dev-performance-internals"><span class="std std-ref">Performance internals</span></a>). Each output line was prefixed with a UTC time stamp, and wall
+times were taken from these stamps, not from a wall-clock limit.</p>
+<p>The stopping rules (150,000 cells or 48 hours for the full growth runs, 3 hours for the
+time-step sweep, a fixed number of iterations for the other tissues) and the replicates are in
+<a class="reference internal" href="../benchmarks/method.html#benchmarks-method"><span class="std std-ref">Method</span></a>. Besides these, a run was stopped as a hang after two hours without
+progress in its log and with the same function in repeated stack samples, and on swap
+thrashing. Failed runs were not restarted: a crash is a
+result.</p>
+</section>
+<section id="outcomes">
+<h3>Outcomes<a class="headerlink" href="#outcomes" title="Link to this heading">#</a></h3>
+<p>A case counts as <strong>completed</strong> when every run of it reached its end, or its planned time cap,
+with no cell removed by the solver. Deaths at the minimum volume and refused divisions do not
+count against it. A run is <strong>usable</strong> when it reaches its last iteration with no cell removed.
+The full definitions are in <a class="reference internal" href="../benchmarks/method.html#benchmarks-method"><span class="std std-ref">Method</span></a>. Read the outcome of a run from:</p>
+<ul class="simple">
+<li><p>the end of <code class="docutils literal notranslate"><span class="pre">run.log</span></code>: an exception message, a signal, or a normal end;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-c</span> <span class="pre">&quot;Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell&quot;</span> <span class="pre">run.log</span></code> and
+<code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-c</span> <span class="pre">&quot;Removing</span> <span class="pre">cell</span> <span class="pre">.*</span> <span class="pre">mesh</span> <span class="pre">refinement</span> <span class="pre">failed&quot;</span> <span class="pre">run.log</span></code>;</p></li>
+<li><p>the last row of <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code> for the cell count and simulated time.</p></li>
+</ul>
+</section>
+<section id="benchmark-workflows">
+<h3>Benchmark workflows<a class="headerlink" href="#benchmark-workflows" title="Link to this heading">#</a></h3>
+<p>No workflow runs on a schedule; there is no nightly or weekly benchmark. Two workflows measure
+performance, and both are informational (<a class="reference internal" href="continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">perf.yml</span></code> times a pull request against its base on the same runner (20 iterations of the
+434-cell vesicle, five repetitions each) and comments the result.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">long.yml</span></code> runs the micro-benchmarks (<code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-L</span> <span class="pre">benchmark</span></code>) in its Release build and writes
+their output to the job summary.</p></li>
+</ul>
+<p>Neither is a substitute for the cross-version benchmark, which needs dedicated machines and
+hours to days per run.</p>
+</section>
 </section>
 <section id="other-benchmark-material">
 <h2>Other benchmark material<a class="headerlink" href="#other-benchmark-material" title="Link to this heading">#</a></h2>
@@ -836,9 +1020,24 @@ paths as positional arguments.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-comparison-of-two-builds">Quick comparison of two builds</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-parallel-benchmark-driver">The parallel benchmark driver</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#processing-and-plots">Processing and plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-november-2026-cross-version-benchmark">The November 2026 cross-version benchmark</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#builds">Builds</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tissues-and-cases">Tissues and cases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-and-launch">Machine and launch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outcomes">Outcomes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-workflows">Benchmark workflows</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-benchmark-material">Other benchmark material</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/developers/benchmarking.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -874,16 +1073,28 @@ paths as positional arguments.</p>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

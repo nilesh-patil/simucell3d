@@ -2,12 +2,12 @@
   {
     "name": "dev",
     "version": "dev",
-    "url": "https://nilesh-patil.github.io/simucell3d/dev/"
+    "url": "https://www.nilesh42.science/simucell3d/dev/"
   },
   {
     "name": "2.1 (stable)",
     "version": "2.1",
-    "url": "https://nilesh-patil.github.io/simucell3d/stable/",
+    "url": "https://www.nilesh42.science/simucell3d/stable/",
     "preferred": true
   }
 ]

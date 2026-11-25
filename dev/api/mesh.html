@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Cell meshes &#8212; SimuCell3D 2.1.0</title>
+    <title>Cell meshes &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,18 +47,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/mesh';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/api/mesh.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/api/mesh.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Cell classes" href="cell_classes.html" />
     <link rel="prev" title="Input and output" href="io.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Cell meshes - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/api/mesh.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -131,6 +142,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -148,14 +167,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -174,23 +193,30 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -209,21 +235,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -356,14 +382,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -382,23 +408,30 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -412,21 +445,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -580,6 +613,51 @@ elasticity and bending (<a class="reference internal" href="../user_guide/02_cel
 full equations of motion, momentum. Faces carry their <a class="reference internal" href="../glossary.html#term-face-type"><span class="xref std std-term">face type</span></a> and, with contact
 models 1 and 2, nodes store their coupling partners on neighbouring cells. The five cell classes
 derived from <a class="reference internal" href="#_CPPv44cell" title="cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">cell</span></code></a> are documented in <a class="reference internal" href="cell_classes.html#api-cell-classes"><span class="std std-ref">Cell classes</span></a>.</p>
+<p>In an iteration, the cell’s own methods update the face types, compute the internal forces
+(<code class="docutils literal notranslate"><span class="pre">cell::apply_internal_forces()</span></code>, after the contact forces) and, in
+<code class="docutils literal notranslate"><span class="pre">solver::remove_dead_cells()</span></code>, report whether the mesh has diverged
+(<a class="reference internal" href="#_CPPv4NK4cell25check_numerical_stabilityEKdKd" title="cell::check_numerical_stability"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">cell::check_numerical_stability()</span></code></a>). The mesh itself is changed only by the
+<a class="reference internal" href="triangulation.html"><span class="doc">Triangulation and division</span></a> classes, and node positions only by the <a class="reference internal" href="time_integration.html"><span class="doc">Time integration</span></a> scheme.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Header</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="#_CPPv44cell" title="cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">cell</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mesh/cell.hpp</span></code></p></td>
+<td><p>Owns its nodes, faces and edges; geometry, internal forces, stability check</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#_CPPv4N4cell16stability_reportE" title="cell::stability_report"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">cell::stability_report</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mesh/cell.hpp</span></code></p></td>
+<td><p>Result of the numerical stability check</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#_CPPv44node" title="node"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">node</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mesh/node.hpp</span></code></p></td>
+<td><p>Position, force, momentum; coupling partners with contact models 1 and 2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#_CPPv44edge" title="edge"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">edge</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mesh/edge.hpp</span></code></p></td>
+<td><p>Two node indices and up to two face indices; used by the mesh refiner</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#_CPPv44face" title="face"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">face</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mesh/face.hpp</span></code></p></td>
+<td><p>Triangle of three node indices, face type, normal and area</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#_CPPv411edge_hasher" title="edge_hasher"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">edge_hasher</span></code></a>, <a class="reference internal" href="#_CPPv415edge_comparator" title="edge_comparator"><code class="xref cpp cpp-struct docutils literal notranslate"><span class="pre">edge_comparator</span></code></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mesh/edge.hpp</span></code></p></td>
+<td><p>Hash and equality functors for edges in unordered containers</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Cells are held through <code class="docutils literal notranslate"><span class="pre">cell_ptr</span></code> (<code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;cell&gt;</span></code>), and a cell refers to its cell type
+through <code class="docutils literal notranslate"><span class="pre">cell_type_param_ptr</span></code> (<code class="docutils literal notranslate"><span class="pre">std::shared_ptr&lt;cell_type_parameters&gt;</span></code>). Nodes and faces are
+values stored in the cell’s vectors; faces refer to their nodes by index. Removed nodes and
+faces leave unused slots that are reused, so loops over them skip entries for which
+<code class="docutils literal notranslate"><span class="pre">is_used()</span></code> is false (<a class="reference internal" href="../developers/architecture.html#dev-architecture"><span class="std std-ref">Architecture</span></a>).</p>
 <section id="cell">
 <h2>Cell<a class="headerlink" href="#cell" title="Link to this heading">#</a></h2>
 <dl class="cpp class">
@@ -1869,6 +1947,21 @@ derived from <a class="reference internal" href="#_CPPv44cell" title="cell"><cod
 </dd></dl>
 
 </section>
+<section id="helper-types">
+<h2>Helper types<a class="headerlink" href="#helper-types" title="Link to this heading">#</a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv411edge_hasher">
+<span id="_CPPv311edge_hasher"></span><span id="_CPPv211edge_hasher"></span><span id="edge_hasher"></span><span class="target" id="structedge__hasher"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">edge_hasher</span></span></span><a class="headerlink" href="#_CPPv411edge_hasher" title="Link to this definition">#</a><br /></dt>
+<dd><p>Hash functor for edges (Cantor pairing of the node ids), for unordered containers. </p>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv415edge_comparator">
+<span id="_CPPv315edge_comparator"></span><span id="_CPPv215edge_comparator"></span><span id="edge_comparator"></span><span class="target" id="structedge__comparator"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">edge_comparator</span></span></span><a class="headerlink" href="#_CPPv415edge_comparator" title="Link to this definition">#</a><br /></dt>
+<dd><p>Equality functor for edges, for unordered containers. </p>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -2101,8 +2194,20 @@ derived from <a class="reference internal" href="#_CPPv44cell" title="cell"><cod
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-types">Helper types</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv411edge_hasher"><code class="docutils literal notranslate"><span class="pre">edge_hasher</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv415edge_comparator"><code class="docutils literal notranslate"><span class="pre">edge_comparator</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/api/mesh.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -2138,16 +2243,28 @@ derived from <a class="reference internal" href="#_CPPv44cell" title="cell"><cod
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

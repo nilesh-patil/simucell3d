@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Release 1.0 &#8212; SimuCell3D 2.1.0</title>
+    <title>Release 1.0 &#8212; SimuCell3D dev</title>
   
   
   
@@ -31,34 +31,47 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=81f007b9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=fc97db16"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'whats_new/v1.0';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/dev/whats_new/v1.0.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/dev/whats_new/v1.0.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Glossary" href="../glossary.html" />
     <link rel="prev" title="Release 2.0" href="v2.0.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Release 1.0 - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/dev/whats_new/v1.0.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/dev/_images/hero_tissues.png">
   </head>
   
   
@@ -131,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -148,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -175,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -209,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -356,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -383,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -412,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -618,13 +653,19 @@ data of the paper are archived separately,
 checked with CMake 3.18 and GCC 10. CMake 4 refuses its <code class="docutils literal notranslate"><span class="pre">cmake_minimum_required(VERSION</span> <span class="pre">3.0)</span></code>;
 with CMake 4, add <code class="docutils literal notranslate"><span class="pre">-DCMAKE_POLICY_VERSION_MINIMUM=3.5</span></code> to the <code class="docutils literal notranslate"><span class="pre">cmake</span></code> line. From the repository
 root (the last line needs the tag, because the archive has no <code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code>):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>mkdir<span class="w"> </span>build
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s|/data/input_meshes/fig_3_vesicle_triangulated.vtk|data/input_meshes/fig_3_vesicle.vtk|'</span><span class="w"> </span>parameters_vesicle.xml
+<span class="gp">$ </span>mkdir<span class="w"> </span>build
 <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
 <span class="gp">$ </span>cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>..
 <span class="gp">$ </span>make<span class="w"> </span>-j4
 <span class="gp">$ </span>./simucell3d<span class="w"> </span>../parameters_vesicle.xml
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">sed</span></code> line is needed because <code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code> of the tag names the input mesh
+<code class="docutils literal notranslate"><span class="pre">/data/input_meshes/fig_3_vesicle_triangulated.vtk</span></code>, which is not in the repository; without it
+the run stops at once with “ERROR: input mesh file … not found”. 2.x ships the corrected path.
+<code class="docutils literal notranslate"><span class="pre">parameters_default_dynamic.xml</span></code>, which is in both snapshots, runs without an edit, but it is
+written for <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">1</span></code>: the default at the archived commit, not at the tag.</p>
 <p>Differences from 2.1 that affect command lines and scripts:</p>
 <ul class="simple">
 <li><p>The parameter files are in the repository root (<code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code>,
@@ -635,7 +676,57 @@ root (the last line needs the tag, because the archive has no <code class="docut
 <li><p>The compile-time options in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code> have the same names
 (<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code>, <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span></code>).</p></li>
 </ul>
-<p>The 1.0 documentation is the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> and <code class="docutils literal notranslate"><span class="pre">doc/</span></code> folder of the tag.</p>
+<p>The 1.0 documentation is the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> and <code class="docutils literal notranslate"><span class="pre">doc/</span></code> folder of the tag. That release’s own
+documentation, re-rendered and not updated, is at <a class="reference external" href="https://www.nilesh42.science/simucell3d/1.0/">https://www.nilesh42.science/simucell3d/1.0/</a>.</p>
+</section>
+<section id="measured-behaviour-of-1-0-november-2026">
+<span id="whatsnew-v1-0-measured"></span><h2>Measured behaviour of 1.0 (November 2026)<a class="headerlink" href="#measured-behaviour-of-1-0-november-2026" title="Link to this heading">#</a></h2>
+<p>The November 2026 benchmark ran the tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> on 8-core cloud machines (GCP c2-standard-16, 8
+threads), with the compile-time switches named in each parameter file, next to later versions
+(<a class="reference internal" href="../benchmarks/index.html#benchmarks"><span class="std std-ref">Benchmarks</span></a>). For someone who wants to reproduce the paper with 1.0, it found:</p>
+<ul class="simple">
+<li><p><strong>The growth benchmark does not reach the regime of Fig. 1e.</strong> With the lab’s benchmark file
+of the tag, <code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> (contact model 1, polarization mode 0), 1.0 stops with
+“The refinement of the mesh of cell N failed. The simulation is unstable.” at 126 to 165 cells,
+after about <span class="math notranslate nohighlight">\(10^{-4}\)</span> s of simulated time, at each of four time steps from <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s to
+<code class="docutils literal notranslate"><span class="pre">1.25e-8</span></code> s. 1.0 with two crash fixes (the local-id resynchronisation and the
+face-orientation fix of 2.1) follows the same growth curve and then stops with the same error,
+at 25,129, 22,719 and 42,335 cells in three runs at <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s.</p></li>
+<li><p><strong>The single-cell test files do not start.</strong> On the one- and two-cell files of
+<code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/</span></code> in 2.x, which use only parameter tags that 1.0 reads, 1.0
+stops at iteration 0 with the same error.</p></li>
+<li><p><strong>Some parameter values never complete.</strong> Of five values of the apical-to-lateral tension
+ratio on the Fig. 3 vesicle (without growth), 1.0 completes only one; with the two crash fixes,
+the lowest and highest values failed in all three attempts each. Of the 20 cases of the
+benchmark, 1.0 completes 6; each of the others ends with the mesh-refinement error
+(<a class="reference internal" href="../benchmarks/completion.html#benchmarks-completion"><span class="std std-ref">Which cases complete</span></a>).</p></li>
+<li><p><strong>Where 1.0 runs, its results are close to those of 2.1.0, except in two cases.</strong> Most of these
+comparisons use 1.0 with two crash fixes, because 1.0 itself completes only one vesicle ratio.</p>
+<ul>
+<li><p>At ratios 1.5 and 2, 1.0 with two crash fixes and 2.1.0 agree to within 0.5% in pressure and
+0.1% in sphericity.</p></li>
+<li><p>On the tube and on the multilayer vesicle, the end states of 1.0 and 2.1.0 agree to within
+the spread between builds.</p></li>
+<li><p>At ratio 3, the mean pressure is 444-446 Pa in 1.0 with two crash fixes, against 348-355 Pa
+in every 2.x build. 1.0 itself stops at about iteration 48,000 there, but its pressure up to
+that point matches the crash-fixed build.</p></li>
+<li><p>In the monolayer vesicle, the mean pressure is 20 Pa in 1.0 against 25-27 Pa in 2.x.</p></li>
+<li><p>In both differing cases, 1.0 detects less contact area from the first iterations: a
+contact-area fraction of 0.71 against 0.76 at ratio 3, and 0.03 against 0.06 in the
+monolayer.</p></li>
+</ul>
+</li>
+</ul>
+<p>A likely cause of the two differences, not yet confirmed, is the closest-point error of 1.0. In
+<code class="docutils literal notranslate"><span class="pre">src/contact_models/contact_model_abstract.cpp:237</span></code> (function <code class="docutils literal notranslate"><span class="pre">compute_node_triangle_distance</span></code>,
+the same in the Zenodo archive) the closest point in the interior of a triangle is computed as</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">cpa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ab</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ac</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">w</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>with the vertex <code class="docutils literal notranslate"><span class="pre">a</span></code> added twice. The point is displaced by the position vector of <code class="docutils literal notranslate"><span class="pre">a</span></code>, so a
+contact in the interior of a face falls outside the cutoff and is not detected. 2.0 corrected the
+line (<a class="reference internal" href="v2.1.html"><span class="doc">Release 2.1</span></a>). This is an inference from the outputs: the deciding test, 1.0 with only that
+line changed and rerun on the two cases, has not been run.</p>
 </section>
 </section>
 
@@ -687,8 +778,16 @@ root (the last line needs the tag, because the archive has no <code class="docut
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obtaining-1-0">Obtaining 1.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-and-running-1-0">Building and running 1.0</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measured-behaviour-of-1-0-november-2026">Measured behaviour of 1.0 (November 2026)</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/edit/main/doc/whats_new/v1.0.md">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -724,16 +823,28 @@ root (the last line needs the tag, because the archive has no <code class="docut
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Development version (main branch, last release 2.1.0).
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   
