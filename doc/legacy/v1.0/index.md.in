@@ -1,0 +1,96 @@
+# SimuCell3D 1.0 documentation (archived)
+
+:::{important}
+These pages are the documentation of release 1.0, re-rendered as it was written in 2024. They
+have not been updated. For the current release, read the
+**[current documentation]({{SITE}}stable/)**.
+:::
+
+## This release
+
+Release
+: SimuCell3D 1.0, the code published with the article
+
+Authors
+: Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich)
+
+Tag
+: `v1.0`, commit `38af451`, 26 June 2024
+
+Zenodo archive cited by the article
+: [doi:10.5281/zenodo.10796908](https://doi.org/10.5281/zenodo.10796908), commit `5342bf8`, 8 March 2024
+
+Article
+: Runser, S., Vetter, R. & Iber, D. SimuCell3D: three-dimensional simulation of tissue mechanics with cell polarization. *Nat. Comput. Sci.* **4**, 299-309 (2024). [doi:10.1038/s43588-024-00620-9](https://doi.org/10.1038/s43588-024-00620-9)
+
+Original repository
+: [git.bsse.ethz.ch/iber/Publications/2024_runser_simucell3d](https://git.bsse.ethz.ch/iber/Publications/2024_runser_simucell3d)
+
+The pages below are the `README.md` and the `doc/` folder of tag `v1.0`, plus the README files
+under `scripts/` and `src/mesh/`. They were written by Steve Runser as part of the release. The
+documentation files are the same in the Zenodo archive and in the tag. At the time the project
+was called DCM.
+
+Use 1.0 to reproduce or compare with the figures of the article. Later releases change
+simulation results; the
+[release notes of 1.0]({{SITE}}stable/whats_new/v1.0.html)
+compare the two 1.0 snapshots, and the
+[release notes of 2.1]({{SITE}}stable/whats_new/v2.1.html) list
+what changed since 1.0, including defects of 1.0 found later.
+
+## Obtaining and building 1.0
+
+The tag is in the repository of the 2.x releases:
+
+```console
+$ git clone https://github.com/nilesh-patil/simucell3d.git
+$ cd simucell3d
+$ git checkout v1.0      # the tag; or: git checkout 5342bf8 for the archived commit
+```
+
+Build from the repository root. Release 1.0 needs a C++17 compiler with OpenMP and CMake; it
+declares `cmake_minimum_required(VERSION 3.0)`, which CMake 3.x accepts with a deprecation
+warning and CMake 4 refuses. With CMake 4, add `-DCMAKE_POLICY_VERSION_MINIMUM=3.5` to the
+`cmake` line.
+
+```console
+$ sed -i 's|/data/input_meshes/fig_3_vesicle_triangulated.vtk|data/input_meshes/fig_3_vesicle.vtk|' parameters_vesicle.xml
+$ mkdir build
+$ cd build
+$ cmake -DCMAKE_BUILD_TYPE=Release ..
+$ make -j4
+$ ./simucell3d ../parameters_vesicle.xml
+```
+
+The executable takes one argument, the parameter file. The parameter files are in the
+repository root. Each one names, in a comment at its top, the compile-time settings it needs in
+`include/global_configuration.hpp`. `parameters_vesicle.xml` needs `POLARIZATION_MODE_INDEX 1`,
+`CONTACT_MODEL_INDEX 2` and `DYNAMIC_MODEL_INDEX 0`, which are the defaults of the tag, so a
+default build runs it.
+
+:::{note}
+The `sed` line is needed because `parameters_vesicle.xml` of the tag names the input mesh
+`/data/input_meshes/fig_3_vesicle_triangulated.vtk`, which is not in the tag; without it the run
+stops at once with "input mesh file ... not found". Other files need a different build:
+`parameters_default_dynamic.xml`, for example, is written for `CONTACT_MODEL_INDEX 1`, the default
+of the archived commit `5342bf8` but not of the tag. Change the setting in
+`include/global_configuration.hpp` and rebuild before you run such a file.
+:::
+
+## Pages
+
+{{PAGE_TABLE}}
+
+The [licence and notice](licence.md) page reproduces the licence of the release.
+
+## Changes made for rendering
+
+The text of every page is as written at tag `v1.0`. Only the following changes were made so that
+the pages render as a website:
+
+{{EDITS}}
+
+In addition, images that the pages include with HTML `<img>` tags are copied from the tag to the
+same relative location.
+
+{{TOCTREES}}

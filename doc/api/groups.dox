@@ -3,7 +3,8 @@
  * Doxygen group definitions for the SimuCell3D C++ API reference.
  *
  * Each header in include/ assigns its file and classes to one of these groups
- * with @ingroup. The groups match the pages under doc/api/.
+ * with @ingroup. Each group has one page under doc/api/; the group core is the page
+ * solver.md, and the Python wrapper classes (also in core) are shown on python.md.
  */
 
 /** @defgroup core Solver and configuration

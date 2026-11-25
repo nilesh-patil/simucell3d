@@ -18,6 +18,25 @@ models 0 and 1 ignore the parameter and always use the uniform spatial partition
 the same strategy interface on a USPG but is not queried by the contact models during a
 simulation. The narrative description is in {doc}`/user_guide/03_contact`.
 
+The contact model runs once per iteration, after mesh refinement and before the internal
+forces: `solver::run_iteration()` calls `contact_model_abstract::run()` with the whole cell
+list, outside any parallel region; the model parallelises over cells itself. It may throw
+{cpp:class}`unstable_simulation_exception` when the domain has diverged.
+
+| Class | Header | Role |
+|---|---|---|
+| {cpp:class}`contact_model_abstract` | `contact_model_abstract.hpp` | Base class: face bounding boxes, the model's own USPG, node-triangle distance |
+| {cpp:class}`contact_face_face_via_coupling` | `contact_face_face_via_coupling.hpp` | Contact model 2 (default) |
+| {cpp:class}`contact_node_node_via_coupling` | `contact_node_node_via_coupling.hpp` | Contact model 1 |
+| {cpp:class}`contact_node_face_via_spring` | `contact_node_face_via_spring.hpp` | Contact model 0 |
+| {cpp:class}`contact_detection_strategy` | `contact_detection_strategy.hpp` | Interface of the broad-phase strategies; {cpp:struct}`aabb` |
+| {cpp:class}`contact_detection_sap_strategy` | `contact_detection_sap_strategy.hpp` | Sweep and prune (contact model 2 only) |
+| {cpp:class}`contact_detection_uspg_strategy` | `contact_detection_uspg_strategy.hpp` | USPG strategy; not queried during a simulation |
+
+The threshold of the adaptive algorithm is the constant {cpp:var}`ADAPTIVE_SAP_CELL_THRESHOLD`
+({doc}`solver`). Force accumulation in contact models 0 and 1 is not thread-safe in 2.1.0; see
+the known issues in `CHANGELOG.md` and {ref}`dev-performance-internals`.
+
 ## Contact models
 
 ```{doxygenclass} contact_model_abstract

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fmem-light-t fmem-light-d" viewBox="0 0 720 380" width="720" height="380" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"><!-- drawn for a transparent ground over the page background: #ffffff --><title id="fmem-light-t">Peak memory against peak cell count, growth benchmark</title><desc id="fmem-light-d">Peak resident memory grows linearly with cell count: about 0.130 GiB per 1,000 cells in 2.1.0, 18.6 to 19.2 GiB at 143 to 149 thousand cells, and about 0.21 GiB per 1,000 cells in 1.0 with two crash fixes. Three intermediate builds leak memory and reach the machine's 61.6 GiB limit before 140 thousand cells.</desc>
+<line x1="70.0" y1="320.0" x2="70.0" y2="24.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<line x1="66.0" y1="320.0" x2="70.0" y2="320.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="63.0" y="324.0" fill="#222832" font-size="11" text-anchor="end" font-weight="normal">0</text>
+<line x1="66.0" y1="246.0" x2="70.0" y2="246.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="63.0" y="250.0" fill="#222832" font-size="11" text-anchor="end" font-weight="normal">16</text>
+<line x1="66.0" y1="172.0" x2="70.0" y2="172.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="63.0" y="176.0" fill="#222832" font-size="11" text-anchor="end" font-weight="normal">32</text>
+<line x1="66.0" y1="98.0" x2="70.0" y2="98.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="63.0" y="102.0" fill="#222832" font-size="11" text-anchor="end" font-weight="normal">48</text>
+<line x1="66.0" y1="24.0" x2="70.0" y2="24.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="63.0" y="28.0" fill="#222832" font-size="11" text-anchor="end" font-weight="normal">64</text>
+<text x="63.0" y="12.0" fill="#222832" font-size="11" text-anchor="start" font-weight="normal">peak memory, GiB</text>
+<line x1="70.0" y1="320.0" x2="600.0" y2="320.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<line x1="70.0" y1="320.0" x2="70.0" y2="324.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="70.0" y="337.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">0</text>
+<line x1="202.5" y1="320.0" x2="202.5" y2="324.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="202.5" y="337.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">40k</text>
+<line x1="335.0" y1="320.0" x2="335.0" y2="324.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="335.0" y="337.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">80k</text>
+<line x1="467.5" y1="320.0" x2="467.5" y2="324.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="467.5" y="337.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">120k</text>
+<line x1="600.0" y1="320.0" x2="600.0" y2="324.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="600.0" y="337.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">160k</text>
+<text x="70.0" y="354.0" fill="#222832" font-size="11" text-anchor="start" font-weight="normal">peak cells in the run</text>
+<line x1="70.0" y1="35.1" x2="600.0" y2="35.1" stroke="#8b929c" stroke-width="1.0" stroke-dasharray="5 4"/>
+<text x="76.6" y="29.1" fill="#222832" font-size="11" text-anchor="start" font-weight="normal">61.6 GiB: all the memory of the machine</text>
+<polyline points="70.0,320.0 583.4,227.1" fill="none" stroke="#0b6b7c" stroke-width="1.0" stroke-linejoin="round" stroke-opacity="1.0" stroke-dasharray="2 3"/>
+<circle cx="133.8" cy="288.1" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="134.5" cy="287.0" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="133.5" cy="289.0" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="133.4" cy="308.0" r="2.6" fill="#8b929c"/>
+<circle cx="136.3" cy="307.7" r="3.6" fill="#0b6b7c"/>
+<rect x="104.1" y="306.3" width="6.8" height="6.8" fill="#9a6700"/>
+<circle cx="520.5" cy="34.8" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="527.6" cy="34.8" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="522.4" cy="34.9" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="545.3" cy="233.6" r="2.6" fill="#8b929c"/>
+<circle cx="551.4" cy="232.8" r="3.6" fill="#0b6b7c"/>
+<rect x="149.9" y="291.8" width="6.8" height="6.8" fill="#9a6700"/>
+<rect x="142.0" y="294.4" width="6.8" height="6.8" fill="#9a6700"/>
+<rect x="207.0" y="274.0" width="6.8" height="6.8" fill="#9a6700"/>
+<circle cx="564.3" cy="231.2" r="3.6" fill="#0b6b7c"/>
+<circle cx="542.6" cy="233.9" r="3.6" fill="#0b6b7c"/>
+<circle cx="269.4" cy="178.8" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="269.8" cy="183.3" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="269.5" cy="158.9" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="269.7" cy="164.5" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="269.6" cy="172.3" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="269.4" cy="162.0" r="3.4" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<circle cx="270.4" cy="283.1" r="2.6" fill="#8b929c"/>
+<circle cx="270.0" cy="283.3" r="2.6" fill="#8b929c"/>
+<text x="566.9" y="202.1" fill="#0b6b7c" font-size="12" text-anchor="end" font-weight="bold">2.1.0:</text>
+<text x="566.9" y="217.1" fill="#0b6b7c" font-size="12" text-anchor="end" font-weight="normal">0.130 GiB per 1,000 cells</text>
+<text x="169.4" y="255.2" fill="#9a6700" font-size="12" text-anchor="start" font-weight="normal">1.0 with two crash fixes (squares):</text>
+<text x="169.4" y="270.2" fill="#9a6700" font-size="12" text-anchor="start" font-weight="normal">0.21 GiB per 1,000 cells</text>
+<text x="280.4" y="176.0" fill="#222832" font-size="12" text-anchor="start" font-weight="normal">three intermediate builds that leak</text>
+<text x="280.4" y="191.0" fill="#222832" font-size="12" text-anchor="start" font-weight="normal">(hollow): 30 to 35 GiB at 60k cells</text>
+<text x="282.0" y="305.2" fill="#222832" font-size="12" text-anchor="start" font-weight="normal">fourth intermediate build (small solid grey): on the 2.1.0 line</text>
+</svg>

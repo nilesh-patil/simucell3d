@@ -9,7 +9,10 @@ parameter file, input meshes, running simulations, output files, visualisation, 
 interface, parameter screening and parallel performance.
 
 The equations follow the Methods of Runser, Vetter & Iber (2024) and its Supplementary
-Information. Where the 2.1 code differs from the paper, the chapters say so in a note.
+Information. Where the 2.1 code differs from the paper, the chapters say so in a note. Where a
+chapter quotes a measured limit of the model (a stable time step, a share of refused divisions
+or unlogged deaths), the measurement comes from the November 2026 benchmark and is stated in
+full in {ref}`benchmarks`.
 
 **Model.** Read in order for an understanding of what a simulation computes:
 
@@ -18,8 +21,8 @@ Information. Where the 2.1 code differs from the paper, the chapters say so in a
 2. {doc}`02_cell_mechanics`: the cell energy, pressure, surface tension, area elasticity, bending
    and their nodal forces.
 3. {doc}`03_contact`: the three contact models, contact detection and the coupling of nodes.
-4. {doc}`04_time_integration`: the dynamic and overdamped equations of motion, the time step and
-   output intervals.
+4. {doc}`04_time_integration`: the dynamic and overdamped equations of motion, choosing and
+   checking the time step, output intervals.
 5. {doc}`05_mesh_refinement`: edge-length bounds, split, collapse and swap, the initial
    triangulation.
 6. {doc}`06_growth_division_removal`: growth of the target volume, division along the longest

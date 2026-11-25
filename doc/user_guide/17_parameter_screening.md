@@ -11,8 +11,11 @@ scheduler:
 - `scripts/screening_analysis/`: compute summary metrics from the collected results and draw
   dashboards.
 
-The scripts date from release 1.0 and are unchanged in 2.1. They encode the conventions of the
-cluster they were written for (resources, e-mail domain); the sections below say what to adapt.
+The scripts date from release 1.0. Release 2.1 changed how the results are collected (the
+summary folder, and crash detection from the exit status that the launch script records) and
+fixed a variable read before assignment in `utils/compute_IoU_euler.py`. They still encode the
+conventions of the cluster they were written for (resources, e-mail domain); the sections below
+say what to adapt.
 For a few simulations on one machine, a loop over parameter files, or the Python module
 ({doc}`/user_guide/16_python_interface`), is simpler.
 
@@ -34,6 +37,11 @@ Install the Python packages that the scripts need (pandas and NumPy for the scre
 $ pip install pandas numpy
 $ pip install -r scripts/screening_analysis/requirements.txt
 ```
+
+The requirements file pins package versions from 2023 (for example NumPy 1.25), which do not
+install on Python 3.12 or newer. Create the environment for the analysis with Python 3.11 (it
+was checked with 3.11.14); on Debian 13, whose system Python is 3.13, install 3.11 separately,
+for example with `uv venv -p 3.11`.
 
 ## The parameter table
 
@@ -178,9 +186,13 @@ writes that line and therefore counts as crashed; its `file_count` shows how far
 :::{warning}
 `has_crashed` is false for a run in which the safeguards removed most of the cells. In 2.1 the
 unstable-cell removal has no limit, and a run whose tissue diverges can exit with status 0 after
-losing almost all of its cells ({doc}`09_safeguards`). For each run, also count the
-`Removing` lines in `std_out_err/stdout_<i>.txt`, which holds both output streams, and compare
-them with the cell count before treating a parameter point as a valid result.
+losing almost all of its cells ({doc}`09_safeguards`); the shipped `fig3e_monolayer.xml`, run to
+its full duration, ends this way with 18 of its 434 cells ({ref}`benchmarks-validity`). For each
+run, also count the `Removing` lines in `std_out_err/stdout_<i>.txt`, which holds both output
+streams, and compare them with the cell count before treating a parameter point as a valid
+result ([Checking a run](13_running_simulations.md#checking-a-run)). Because runs are not
+bit-identical, a parameter effect is meaningful only where it is larger than the spread between
+{term}`replicates <replicate>` ({ref}`benchmarks-reproducibility`).
 :::
 
 :::{note}
@@ -215,8 +227,9 @@ The analysis has two steps.
 2. **Dashboard, locally.** Copy the screen folder (at least `summary_folder/` and
    `dashboard_files/`) to a workstation and run `screening_dashboard.py`. Set in its
    `__main__` section the metrics (`indicators`, which must include `interpenetration`), the
-   screened parameters (`parameters`, names from `misc/param2table.json`, the first one on the
-   x-axis), their axis scales (`linear`, `log` or `discrete`), `root_dir` and
+   screened parameters (`parameters`, names from `misc/param2table.json`; with one or two
+   parameters the first is on the x-axis), their axis scales (`axes_scales`, each `linear`,
+   `log` or `discrete`), `root_dir` and
    `screening_csv_file_name`. The plots are written to `<screen folder>/dashboard_plots/`.
 
 The dashboard depends on the number of screened parameters: one plot per metric against the
@@ -236,7 +249,7 @@ Dashboard for one screened parameter.
 Dashboard for two screened parameters.
 :::
 
-:::{figure} /images/screening_dashboard_type_3.jpg
+:::{figure} /images/screening_dashboard_type_3_opt.jpg
 :alt: Dashboard with swarm plots of each metric over three or more screened parameters.
 
 Dashboard for more than two screened parameters.
@@ -248,8 +261,10 @@ columns, and `misc/param2unitofmeas.json` with their units.
 
 ### Surface tension and adhesion screens
 
-`mech_props_analysis.py` is a reduced dashboard for screens over `surface_tension` and
-`adherence_strength`. It computes the IoU loss between the initial and the final geometry of
+`mech_props_analysis.py` is a reduced dashboard for screens over the apical surface tension and
+adherence strength of the epithelial cells (table columns `epi_api_surface_tension` and
+`epi_api_adherence_strength`). In the default build `adherence_strength` has no effect; it acts
+only with contact model 0 ({doc}`10_compile_time_configuration`). It computes the IoU loss between the initial and the final geometry of
 every run and plots it over the two parameters:
 
 ```console

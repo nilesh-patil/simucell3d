@@ -110,7 +110,7 @@ Pushing the tag starts two workflows:
   `SHA256SUMS`, then built and tested from the tarball), and `publish` (the GitHub
   release, with notes from `scripts/ci/changelog_section.py`).
 - `docs.yml`: builds the documentation and deploys it to `/X.Y/` and, for the newest
-  release, `/stable/` on <https://nilesh-patil.github.io/simucell3d/>, and updates the
+  release, `/stable/` on <https://www.nilesh42.science/simucell3d/>, and updates the
   version switcher.
 
 Watch both runs until they finish.

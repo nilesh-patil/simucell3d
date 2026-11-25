@@ -55,7 +55,7 @@ to either the full equations of motion with viscous damping or their overdamped 
 
 Between force evaluations the {term}`local mesh refiner` keeps every edge length within
 $[l_{\min}, 3\,l_{\min}]$ (chapter {doc}`05_mesh_refinement`). Cells grow by increasing their
-target volume, divide when their volume reaches a division volume, and are removed when their
+target volume, divide when their volume reaches a division volume, and die when their
 volume falls below a minimum (chapter {doc}`06_growth_division_removal`).
 
 ## One iteration of the solver
@@ -71,11 +71,31 @@ iteration performs these steps, in this order:
  5. detect contacts and compute contact forces (or node couplings)
  6. polarization mode 2 only: label faces from a voxel map of the tissue
  7. polarization mode 1 with contact models 1 and 2: relabel faces from their couplings;
-    compute the internal forces of every cell (pressure, tension, area elasticity, bending)
+    for every cell, grow the target volume by one time step and compute the internal forces
+    (pressure, tension, area elasticity, bending); with contact models 1 and 2, update the
+    curvature and normal of every node
  8. integrate the equations of motion; advance the simulation time by the time step
  9. every 50 iterations: append to the statistics CSV
     every 100 iterations: append to the diagnostics CSV
-10. remove cells below their minimum volume and numerically unstable cells
+10. delete cells below their minimum volume (deaths) and numerically unstable cells
+```
+
+```{figure} ../images/iteration_pipeline-light.svg
+:figclass: only-light
+:class: only-light
+:alt: Flow chart of one solver iteration in four groups. Mesh and topology: write mesh files, divide cells every 5th iteration, update face types, refine meshes, remove cells whose refinement failed. Forces: contacts, polarization, internal forces. Motion: integrate and advance the time. Output and clean-up: write CSV rows, delete dead and unstable cells. An arrow loops back to the start.
+:width: 440px
+
+One iteration of the 2.1 solver: topology changes and mesh refinement come before the forces, and the time integration comes before the deletion of dead and unstable cells. The loop repeats while the simulated time is below `simulation_duration` and at least one cell remains.
+```
+
+```{figure} ../images/iteration_pipeline-dark.svg
+:figclass: only-dark
+:class: only-dark
+:alt: Flow chart of one solver iteration in four groups. Mesh and topology: write mesh files, divide cells every 5th iteration, update face types, refine meshes, remove cells whose refinement failed. Forces: contacts, polarization, internal forces. Motion: integrate and advance the time. Output and clean-up: write CSV rows, delete dead and unstable cells. An arrow loops back to the start.
+:width: 440px
+
+One iteration of the 2.1 solver: topology changes and mesh refinement come before the forces, and the time integration comes before the deletion of dead and unstable cells. The loop repeats while the simulated time is below `simulation_duration` and at least one cell remains.
 ```
 
 Most steps run in parallel over cells with OpenMP. The time integration with contact model 2
@@ -135,7 +155,7 @@ differences listed in the notes of the following chapters. The main ones are:
 :::{important}
 Results differ from 1.0. A simulation run with SimuCell3D 2.1 does not reproduce the numbers
 produced by 1.0, the code published with the paper. Several 1.0 bugs changed the physics (the
-contact distance to a face interior, the time step of every node with contact model 2, the
+contact distance to a face interior, the integration scheme of every node with contact model 2, the
 choice of coupling partner, the face orientation after an edge split), and fixing them changes
 trajectories. 2.1 also adds safeguards that remove or repair cells that 1.0 kept or crashed on.
 To compare with the published figures, run release 1.0. The full list is in {doc}`/whats_new/v2.1`.

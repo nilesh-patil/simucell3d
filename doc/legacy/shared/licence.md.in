@@ -1,0 +1,18 @@
+(legacy-licence)=
+# Licence and notice
+
+SimuCell3D release 1.0 was distributed by its authors, Steve Runser, Roman Vetter and Dagmar Iber
+(Iber Lab, ETH Zurich), under the 3-Clause BSD License. The documentation on this site is
+reproduced from the release tag under that licence. Its text is the file `License` of tag `v1.0`,
+reproduced verbatim below; the file names no copyright holder.
+
+```text
+{{LICENSE_V1}}
+```
+
+The `NOTICE` file of the current release states the authorship of SimuCell3D and of the changes
+made since 1.0:
+
+```text
+{{NOTICE_MAIN}}
+```

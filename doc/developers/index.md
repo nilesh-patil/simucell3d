@@ -25,19 +25,23 @@ with the model ({doc}`/user_guide/index`).
   tags.
 
 {ref}`dev-benchmarking`
-: How to measure and compare performance, the benchmark driver and the plotting tools.
+: How to measure and compare performance, the benchmark driver and the plotting tools, and how
+  the November 2026 cross-version benchmark was run.
 
 {ref}`dev-performance-internals`
-: Thread placement, loop scheduling, synchronisation, the performance monitor and profiling.
+: Thread placement, loop scheduling, where the speed-ups since 1.0 came from, memory use,
+  synchronisation, the performance monitor and profiling.
 
 {ref}`dev-debugging`
-: Reading the logs, sanitizer builds, gdb, and debugging the Python bindings.
+: Reading the logs, the failure signatures seen in long runs and their causes, sanitizer builds,
+  gdb, and debugging the Python bindings.
 
 {ref}`dev-coding-style`
 : Formatting, naming, C++ usage and comment conventions.
 
 {ref}`dev-writing-docs`
-: Building this site, where content goes, and the writing conventions.
+: Building this site, the published versions, where content goes, theme-aware figures and the
+  writing conventions.
 
 {ref}`dev-release`
 : The release checklist, from the version bump to the published release and documentation.

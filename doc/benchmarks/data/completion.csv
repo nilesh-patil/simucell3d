@@ -1,0 +1,22 @@
+# Outcome of each of the 20 common cases in each build (worst run of the case), and clean runs over runs. Codes and columns: see README.txt in this folder.
+case,B0,B1,B2,B3,B4,B5,B6,B7,B0_runs_clean,B1_runs_clean,B2_runs_clean,B3_runs_clean,B4_runs_clean,B5_runs_clean,B6_runs_clean,B7_runs_clean
+T1_dt1.25e-08,abort,clean-at-cap,crash,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,0/1,1/1,0/1,1/1,1/1,1/1,1/1,1/1
+T1_dt1e-07,abort,abort,crash,hang,degraded-removals,hang,degraded-removals,degraded-removals,0/2,0/2,0/3,0/3,0/3,0/3,0/3,1/4
+T1_dt2.5e-08,abort,abort,crash,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,0/1,1/4,0/1,4/4,4/4,4/4,4/4,4/4
+T1_dt5e-08,abort,abort,crash,clean-at-cap,clean-at-cap,tissue-lost,degraded-removals,clean-at-cap,0/1,0/1,0/1,1/1,1/1,0/1,0/1,1/1
+T2_eps1.0,abort,abort,clean,clean,clean,clean,clean,clean,0/1,0/3,1/1,1/1,1/1,1/1,1/1,3/3
+T2_eps1.5,abort,clean,clean,clean,clean,clean,clean,clean,0/1,3/3,1/1,1/1,1/1,1/1,1/1,3/3
+T2_eps2.0,clean,clean,clean,clean,clean,clean,clean,clean,1/1,3/3,1/1,1/1,1/1,1/1,1/1,3/3
+T2_eps3.0,abort,abort,clean,clean,clean,clean,clean,clean,0/1,2/3,1/1,1/1,1/1,1/1,1/1,3/3
+T2_eps4.0,abort,abort,clean,clean,clean,clean,clean,clean,0/1,0/3,1/1,1/1,1/1,1/1,1/1,3/3
+T3_long,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,clean-at-cap,1/1,1/1,1/1,1/1,1/1,1/1,1/1,1/1
+T3_monolayer,clean,clean,clean,clean,clean,clean,clean,clean,1/1,1/1,1/1,1/1,1/1,1/1,1/1,1/1
+T3_monolayer_long,abort,abort,crash,tissue-lost,tissue-lost,tissue-lost,tissue-lost,tissue-lost,0/1,0/1,0/1,0/1,0/1,0/1,0/1,0/1
+T3_multilayer,clean,clean,clean,clean,clean,clean,clean,clean,1/1,1/1,1/1,1/1,1/1,1/1,1/1,1/1
+T4_tube,clean,clean,clean,clean,clean,clean,clean,clean,1/1,1/1,1/1,1/1,1/1,1/1,1/1,1/1
+T5_2sph_contact,abort,abort,crash,tissue-lost,tissue-lost,tissue-lost,clean,clean,0/1,0/1,0/1,0/1,0/1,0/1,1/1,1/1
+T5_2sph_contact_l15,abort,abort,abort,tissue-lost,tissue-lost,tissue-lost,tissue-lost,tissue-lost,0/1,0/1,0/1,0/1,0/1,0/1,0/1,0/1
+T5_2sph_stable,abort,abort,clean,clean,clean,clean,clean,clean,0/1,0/1,1/1,1/1,1/1,1/1,1/1,1/1
+T5_2sph_stable_l15,clean,clean,clean,clean,clean,clean,clean,clean,1/1,1/1,1/1,1/1,1/1,1/1,1/1,1/1
+T5_laplace,abort,abort,clean,clean,clean,clean,clean,clean,0/1,0/1,1/1,1/1,1/1,1/1,1/1,1/1
+T5_sphere,abort,abort,clean,clean,clean,clean,clean,clean,0/1,0/1,1/1,1/1,1/1,1/1,1/1,1/1

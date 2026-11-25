@@ -27,7 +27,7 @@ in Fig. 3c ($\tilde\gamma = 0.16$, not 0.016).
 ## Software version
 
 State the version used, because results differ between releases ({doc}`whats_new/index`). The
-program prints it with `simucell3d --version`, together with the git commit it was built from.
+program prints it, from 2.1.0 on, with `simucell3d --version`, together with the git commit it was built from.
 
 - **Release 1.0**, the code published with the article, is archived on Zenodo:
   Runser, S. Source code of SimuCell3D. *Zenodo* (2024).
@@ -45,7 +45,8 @@ program prints it with `simucell3d --version`, together with the git commit it w
 
 ## Data
 
-The raw data generated for the article are archived on Zenodo:
-Runser, S., Vetter, R. & Iber, D. Raw data generated for the article "SimuCell3D: 3D Simulation of
-Tissue Mechanics with Cell Polarization". *Zenodo* (2024).
+The raw data generated for the article are archived on Zenodo; the article cites them (its
+ref. 75) as:
+Runser, S. Raw data generated for the article: "SimuCell3D: 3D Simulation of Tissue Mechanics
+with Cell Polarization", Steve Runser, Roman Vetter, Dagmar Iber. *Zenodo* (2024).
 [doi:10.5281/zenodo.10797576](https://doi.org/10.5281/zenodo.10797576).

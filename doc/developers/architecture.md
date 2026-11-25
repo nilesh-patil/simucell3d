@@ -40,8 +40,8 @@ Other top-level directories:
 | `scripts/` | Python and shell tools: plotting, mesh conversion, parameter screening, benchmarking, run launchers. |
 | `doc/` | This documentation (Sphinx). |
 
-Project classes live in the global namespace; the exceptions are the free functions in
-`cpu_topology` and the vendored eigen solver in `gte`. Header
+Project classes live in the global namespace; the exceptions are the thread-placement types
+and functions in `cpu_topology` and the vendored eigen solver in `gte`. Header
 guards are named `DEF_<NAME>` ({ref}`dev-coding-style`).
 
 The top-level `CMakeLists.txt` sets C++17, reads the version from
@@ -66,8 +66,9 @@ values ({doc}`/user_guide/10_compile_time_configuration`).
 | `WRITE_NORMALS_IN_OUTPUT_MESH_FILE` | `true` | normals in the VTK output |
 
 Code that depends on these macros must compile for every documented
-combination; `#if CONTACT_MODEL_INDEX == ...` blocks appear in `solver.cpp`,
-`time_integration.cpp` and `cell.cpp`.
+combination; `#if CONTACT_MODEL_INDEX == ...` blocks appear in thirteen files, among them
+`solver.cpp`, `time_integration.cpp`, `cell.cpp`, `node.hpp`, the three contact models and
+`mesh_data.hpp`.
 
 ## Program flow
 
@@ -107,6 +108,7 @@ combination; `#if CONTACT_MODEL_INDEX == ...` blocks appear in `solver.cpp`,
 - Initial target volumes: $V_0 = V\,\exp(p_0/K)$ from the initial pressure $p_0$ and bulk
   modulus $K$ of the cell type ($V_0 = V$ when $K = 0$).
 
+(dev-architecture-main-loop)=
 ### Main loop
 
 `solver::run()` calls `run_iteration()` while the simulation time is below
@@ -135,7 +137,8 @@ timed, the timer name (the phase name in the {term}`diagnostics CSV`) is given i
    (`cell::special_polarization_update()`, `cell::apply_internal_forces()`, parallel over cells)
    [`polarization_and_internal_forces`].
 9. Integrate node positions and advance the time by $\Delta t$
-   (`time_integration_scheme::update_nodes_positions()`, parallel over cells)
+   (`time_integration_scheme::update_nodes_positions()`; parallel over cells with contact models
+   0 and 1, on one thread with contact model 2)
    [`time_integration`].
 10. Every 50 iterations, write a statistics row (`statistics_writer::write_data()`) and update
     the workload estimate and the phase-based schedule (`update_workload_heterogeneity()`,
@@ -158,8 +161,9 @@ Errors are reported in two ways. Problems confined to one cell remove that cell 
 line to standard error (`Removing numerically unstable cell ...`, `Removing cell ... mesh
 refinement failed: ...`). Problems that invalidate the run throw an exception from
 `custom_exception.hpp` (for example `unstable_simulation_exception` when more than
-max(10, 1 % of the cells) refinements fail in one iteration, or when the contact grid cannot be
-built); the exception propagates out of `run()` to `main()`.
+max(10, 1 % of the cells) refinements fail in one iteration or every cell's refinement fails,
+or when the contact grid cannot be built); the exception propagates out of `run()` to
+`main()`.
 
 ### Data flow
 

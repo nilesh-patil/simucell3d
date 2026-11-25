@@ -29,7 +29,8 @@ import simucell3d_python_wrapper as sc
 ```
 
 :::{note}
-The Python module is not built by the continuous integration workflows.
+The `bindings` job of the CI workflow builds the module and imports it on every pull request
+({ref}`dev-ci`). No test runs a simulation through it.
 :::
 
 ## Running a simulation
@@ -42,7 +43,7 @@ else:
     print(outputs.error_message_)
 ```
 
-The constructor of {py:class}`simucell3d_wrapper` performs the whole simulation: it creates the
+The constructor of {py:class}`~simucell3d_python_wrapper.simucell3d_wrapper` performs the whole simulation: it creates the
 cells from the input mesh and the cell types, runs the solver until `simulation_duration_`, and
 stores the result. Errors do not raise Python exceptions; they set `RETURN_CODE_` and
 `error_message_`. Pressing Ctrl-C stops the run at the start of the next iteration and is
@@ -52,7 +53,7 @@ Differences from a run of the `simucell3d` executable:
 
 - The contact detection algorithm cannot be chosen: Python runs always use the uniform spatial
   partitioning grid (USPG).
-- Per-cell statistics are returned in {py:attr}`simulation_outputs.cell_statistics_` instead of
+- Per-cell statistics are returned in {py:attr}`~simucell3d_python_wrapper.simulation_outputs.cell_statistics_` instead of
   being written to `simulation_statistics.csv`. The output meshes (`cell_data/`,
   `face_data/`) and `performance_diagnostics.csv` are still written to
   `output_folder_path_`, and that folder is deleted at the start of the run.
@@ -65,6 +66,15 @@ Differences from a run of the `simucell3d` executable:
 
 Attribute names end with an underscore, as the C++ members do. All parameter classes have a
 constructor without arguments; set attributes one by one after construction. Units are SI.
+
+| Class | Role |
+|---|---|
+| `global_simulation_parameters` | Numerical parameters (the numerical section of the parameter file) |
+| `cell_type_parameters` | One cell type, with its face types |
+| `face_type_parameters` | One face type |
+| `simucell3d_wrapper` | Runs the simulation in its constructor |
+| `simulation_outputs` | Return code, error message, statistics and final cells |
+| `cell` | Read-only view of a cell at the end of the run |
 
 ```{py:module} simucell3d_python_wrapper
 ```
@@ -339,7 +349,8 @@ Message of the exception that stopped the run; empty on success.
 :type: str
 
 Per-cell statistics in CSV format, with the same columns as `simulation_statistics.csv`
-({doc}`/user_guide/14_output_files`): one row per cell every 50 iterations. Empty if the run failed.
+({doc}`/user_guide/14_output_files`): one row per cell every 50 iterations and once at the end of
+the run. Empty if the run failed.
 ```
 
 ```{py:attribute} cell_lst_
@@ -399,3 +410,21 @@ Node coordinates as a list of `[x, y, z]` lists, m.
 Faces as a list of `[i, j, k]` lists of indices into {py:meth}`get_node_coord_lst`.
 ```
 ````
+
+## C++ side
+
+The module is a thin layer over the C++ classes. {cpp:class}`simucell3d_wrapper` builds the
+cells with {cpp:class}`simulation_initializer` and runs a {cpp:class}`solver_python_wrapper`,
+a {cpp:class}`solver` that checks for a pending Python signal before each iteration and
+collects the statistics in a {cpp:class}`string_statistics_writer`. Both headers are in
+`include/python_bindings/`.
+
+```{doxygenclass} simucell3d_wrapper
+:project: simucell3d
+:members:
+```
+
+```{doxygenclass} solver_python_wrapper
+:project: simucell3d
+:members:
+```

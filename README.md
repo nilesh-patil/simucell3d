@@ -1,7 +1,7 @@
 # SimuCell3D
 
 [![CI](https://github.com/nilesh-patil/simucell3d/actions/workflows/ci.yml/badge.svg)](https://github.com/nilesh-patil/simucell3d/actions/workflows/ci.yml)
-[![Documentation](https://img.shields.io/badge/docs-stable-blue)](https://nilesh-patil.github.io/simucell3d/stable/)
+[![Documentation](https://img.shields.io/badge/docs-stable-blue)](https://www.nilesh42.science/simucell3d/stable/)
 [![License: BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue)](./LICENSE)
 [![Paper](https://img.shields.io/badge/paper-Nat.%20Comput.%20Sci.%202024-orange)](https://doi.org/10.1038/s43588-024-00620-9)
 
@@ -27,7 +27,7 @@ reviewed or endorsed by the authors of the article, the Iber Lab or ETH Zurich.
   <img src="./doc/images/tissue_topologies.png" alt="Tissues of several topologies simulated with SimuCell3D" width="80%">
 </p>
 
-**Documentation: <https://nilesh-patil.github.io/simucell3d/>**
+**Documentation: <https://www.nilesh42.science/simucell3d/>**
 
 > **Results differ from 1.0.** SimuCell3D 2.1 fixes bugs in the 1.0 code published with the
 > paper, and these fixes change simulation results. It also adds safeguards that remove
@@ -60,7 +60,7 @@ make -j4
 
 The executable is `build/simucell3d`. The Python module is built with
 `-DENABLE_PYTHON_BINDINGS=TRUE`. Docker and other options are described in the
-[installation guide](https://nilesh-patil.github.io/simucell3d/stable/install.html).
+[installation guide](https://www.nilesh42.science/simucell3d/stable/install.html).
 
 ## Run a simulation
 
@@ -96,16 +96,16 @@ written for in its header comment.
 
 ## Documentation
 
-- [Installation](https://nilesh-patil.github.io/simucell3d/stable/install.html)
-- [Getting started](https://nilesh-patil.github.io/simucell3d/stable/getting_started.html):
+- [Installation](https://www.nilesh42.science/simucell3d/stable/install.html)
+- [Getting started](https://www.nilesh42.science/simucell3d/stable/getting_started.html):
   a first simulation and its output
-- [User guide](https://nilesh-patil.github.io/simucell3d/stable/user_guide/index.html):
+- [User guide](https://www.nilesh42.science/simucell3d/stable/user_guide/index.html):
   the model, the parameter file, input meshes, output files, the Python module
-- [Examples](https://nilesh-patil.github.io/simucell3d/stable/examples/index.html):
+- [Examples](https://www.nilesh42.science/simucell3d/stable/examples/index.html):
   one page per shipped parameter file
-- [API reference](https://nilesh-patil.github.io/simucell3d/stable/api/index.html)
-- [Developer guide](https://nilesh-patil.github.io/simucell3d/stable/developers/index.html)
-- [Release history](https://nilesh-patil.github.io/simucell3d/stable/whats_new/index.html)
+- [API reference](https://www.nilesh42.science/simucell3d/stable/api/index.html)
+- [Developer guide](https://www.nilesh42.science/simucell3d/stable/developers/index.html)
+- [Release history](https://www.nilesh42.science/simucell3d/stable/whats_new/index.html)
   and [CHANGELOG.md](./CHANGELOG.md)
 
 The documentation sources are in [`doc/`](./doc/).

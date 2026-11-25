@@ -29,7 +29,11 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  SITE_URL: https://nilesh-patil.github.io/simucell3d
+  # Public address of the site (no trailing slash). The pages, the switcher and
+  # switcher.json must share this origin: the browser fetches switcher.json and a
+  # cross-origin fetch (for example through a redirecting host) is blocked. A fork
+  # sets the repository variable DOCS_SITE_URL.
+  SITE_URL: ${{ vars.DOCS_SITE_URL || 'https://www.nilesh42.science/simucell3d' }}
 
 jobs:
   build:
@@ -37,6 +41,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.version.outputs.version }}
+      canonical: ${{ steps.version.outputs.canonical }}
     steps:
       - uses: actions/checkout@v5
 
@@ -44,11 +49,27 @@ jobs:
         id: version
         shell: bash
         run: |
+          set -euo pipefail
           if [[ "${GITHUB_REF}" =~ ^refs/tags/v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            echo "version=${BASH_REMATCH[1]}.${BASH_REMATCH[2]}" >> "$GITHUB_OUTPUT"
+            version="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
           else
-            echo "version=dev" >> "$GITHUB_OUTPUT"
+            version="dev"
           fi
+          # Canonical location: the newest release (highest X.Y among the vX.Y.Z
+          # tags) is deployed to /X.Y/ and /stable/, and both copies declare
+          # /stable/ as canonical. Older releases and dev are canonical to
+          # themselves. The deploy job makes the same "newest" decision from the
+          # release directories on gh-pages.
+          canonical="$version"
+          if [ "$version" != "dev" ]; then
+            newest=$(git ls-remote --tags --refs origin 'v*' \
+              | sed -n 's#.*refs/tags/v\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.[0-9][0-9]*$#\1.\2#p' \
+              | sort -t. -k1,1n -k2,2n | tail -n 1)
+            if [ "$version" = "$newest" ]; then canonical="stable"; fi
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "canonical=${canonical}" >> "$GITHUB_OUTPUT"
+          echo "Docs version ${version}, canonical /${canonical}/"
 
       - uses: actions/setup-python@v5
         with:
@@ -73,6 +94,8 @@ jobs:
         working-directory: doc
         env:
           SIMUCELL3D_DOCS_VERSION: ${{ steps.version.outputs.version }}
+          SIMUCELL3D_DOCS_CANONICAL_VERSION: ${{ steps.version.outputs.canonical }}
+          SIMUCELL3D_DOCS_BASE_URL: ${{ env.SITE_URL }}
           SIMUCELL3D_REQUIRE_DOXYGEN: "1"
         run: make html-strict
 
@@ -123,33 +146,54 @@ jobs:
         run: |
           set -euo pipefail
           targets=$(python3 - <<'PY'
-          import json, os, pathlib
+          import json, os, pathlib, re
 
           site = pathlib.Path("site")
           version = os.environ["VERSION"]
-          url = os.environ["SITE_URL"]
+          url = os.environ["SITE_URL"].rstrip("/")
           path = site / "switcher.json"
           seed = pathlib.Path("src/doc/_static/switcher.json")
-          entries = json.loads((path if path.exists() else seed).read_text())
+
+          # Releases known to the deployed switcher.json and to the seed in the
+          # source tree (which lists the legacy 2.0 and 1.0 sites). A release is
+          # listed only if its directory exists on gh-pages, or is being deployed
+          # now, so that the switcher never links to a missing site.
+          entries = json.loads(seed.read_text())
+          if path.exists():
+              entries += json.loads(path.read_text())
+          release_re = re.compile(r"^[0-9]+\.[0-9]+$")
 
           def key(v):
               return tuple(int(x) for x in v.split("."))
 
-          releases = {e["version"] for e in entries if e["version"] != "dev"}
-          targets = [version]
+          releases = {e["version"] for e in entries
+                      if release_re.match(str(e.get("version", "")))}
           if version != "dev":
               releases.add(version)
-              newest = max(releases, key=key)
-              if version == newest:
-                  targets.append("stable")
-          else:
-              newest = max(releases, key=key) if releases else None
+          releases = {v for v in releases if v == version or (site / v).is_dir()}
+          newest = max(releases, key=key) if releases else None
 
-          out = [{"name": "dev", "version": "dev", "url": f"{url}/dev/"}]
+          targets = [version]
+          if version != "dev" and version == newest:
+              targets.append("stable")
+          # Directories that will exist after this deploy.
+          have_dev = version == "dev" or (site / "dev").is_dir()
+          have_stable = "stable" in targets or (site / "stable").is_dir()
+
+          # The newest release is the one entry marked preferred (the theme's
+          # version banner needs exactly one). It is listed as "X.Y (stable)" at
+          # /stable/ once /stable/ exists, else at its own /X.Y/. dev is listed
+          # only once /dev/ exists.
+          out = []
+          if have_dev:
+              out.append({"name": "dev", "version": "dev", "url": f"{url}/dev/"})
           for v in sorted(releases, key=key, reverse=True):
-              if v == newest:
+              if v == newest and have_stable:
                   out.append({"name": f"{v} (stable)", "version": v,
                               "url": f"{url}/stable/", "preferred": True})
+              elif v == newest:
+                  out.append({"name": v, "version": v,
+                              "url": f"{url}/{v}/", "preferred": True})
               else:
                   out.append({"name": v, "version": v, "url": f"{url}/{v}/"})
           path.write_text(json.dumps(out, indent=2) + "\n")
@@ -164,11 +208,21 @@ jobs:
             cp -a html/. "site/${dir}/"
           done
           touch site/.nojekyll
+          docs_base="${SITE_URL%/}"
           # The site root redirects to /stable/ once a release exists, else to /dev/.
           root="dev"
           if [ -d site/stable ]; then root="stable"; fi
           printf '<!DOCTYPE html>\n<meta charset="utf-8">\n<title>SimuCell3D documentation</title>\n<meta http-equiv="refresh" content="0; url=%s/">\n<link rel="canonical" href="%s/%s/">\n<a href="%s/">SimuCell3D documentation</a>\n' \
-            "$root" "$SITE_URL" "$root" "$root" > site/index.html
+            "$root" "$docs_base" "$root" "$root" > site/index.html
+          # GitHub Pages serves the 404.html at the root of the branch for every
+          # missing path, so it is a standalone page with absolute links. The
+          # URL is substituted in Python, not sed, so "&" or "#" in it are literal.
+          DOCS_BASE="$docs_base" python3 - <<'PY'
+          import os, pathlib
+          src = pathlib.Path("src/doc/_templates/404-root.html").read_text(encoding="utf-8")
+          pathlib.Path("site/404.html").write_text(
+              src.replace("@SITE_URL@", os.environ["DOCS_BASE"]), encoding="utf-8")
+          PY
           cat site/switcher.json
 
       - name: Commit and push

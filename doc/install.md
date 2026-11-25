@@ -14,8 +14,8 @@ There are two ways to install it:
 | Requirement | Version | Notes |
 |---|---|---|
 | Operating system | Linux | On Windows, use [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). Other platforms are not tested. |
-| C++ compiler | C++17, with OpenMP | GCC 10 or newer. |
-| CMake | 3.10 or newer | CMake 4 is supported. |
+| C++ compiler | C++17, with OpenMP | GCC 10 or newer; GCC 10, 13 and 14 are tested. |
+| CMake | 3.10 or newer; 3.12 or newer to run the end-to-end tests | CMake 4 is supported. |
 | OpenMP | | Required by every module (`find_package(OpenMP REQUIRED)`). GCC ships it as `libgomp`. |
 | git | | To obtain the source. |
 | Python 3 | | Only for the optional Python module and the analysis scripts in `scripts/`. |
@@ -29,6 +29,30 @@ On Debian or Ubuntu the build tools are installed with:
 ```console
 $ sudo apt-get install build-essential cmake git
 ```
+
+For the optional Python module, add the Python headers, and for the analysis scripts a way to
+create a virtual environment:
+
+```console
+$ sudo apt-get install python3-dev python3-venv
+```
+
+On Debian 12 and 13 and on recent Ubuntu releases, the system Python refuses `pip install`
+outside a virtual environment (`error: externally-managed-environment`). Install the Python
+packages that the scripts need into a virtual environment:
+
+```console
+$ python3 -m venv ~/.venvs/simucell3d
+$ . ~/.venvs/simucell3d/bin/activate
+$ pip install pandas matplotlib numpy tqdm
+```
+
+The `pip install` commands elsewhere in this documentation assume such an environment is
+active. Without the `python3-venv` package, `python3 -m venv` fails with a message about
+`ensurepip`.
+
+These instructions were checked for 2.1.0 on Debian 13 with GCC 14.2 and CMake 3.31. The
+continuous-integration builds use GCC 10 (Debian 11) and GCC 13 (Ubuntu 24.04).
 
 (install-source)=
 ## Building from source
@@ -119,7 +143,7 @@ container based on the `python:3.10` image. It requires [Docker](https://docs.do
 ```console
 $ git clone https://github.com/nilesh-patil/simucell3d.git
 $ cd simucell3d
-$ docker build -t simucell3d_docker_img .
+$ docker build -t simucell3d .
 ```
 
 The source tree is copied to `/app` in the image and built in `/app/container_build`, which is
@@ -129,8 +153,8 @@ Run a simulation from the repository root with:
 
 ```console
 $ mkdir -p simulation_results
-$ docker run -it -v "$(pwd)/simulation_results":/app/simulation_results \
-    simucell3d_docker_img:latest ../parameters/core/parameters_vesicle_quick.xml
+$ docker run --rm -v "$(pwd)/simulation_results":/app/simulation_results \
+    simucell3d ../parameters/core/parameters_vesicle_quick.xml
 ```
 
 - The parameter file path is relative to `/app/container_build`. Only files that were in the

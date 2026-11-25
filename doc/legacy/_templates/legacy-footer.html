@@ -1,0 +1,16 @@
+{#- Footer of the archived 1.0 and 2.0 sites (doc/legacy/build_legacy.py). -#}
+<p class="copyright legacy-footer">
+{%- if legacy_version == "1.0" %}
+  SimuCell3D 1.0 by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  These pages are the documentation of tag <code>{{ legacy_tag }}</code> (commit <code>{{ legacy_commit }}</code>),
+  reproduced unchanged under the 3-Clause BSD License of that release
+  (<a href="{{ pathto('licence') }}">licence and notice</a>).
+{%- else %}
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>{{ legacy_tag }}</code> (commit <code>{{ legacy_commit }}</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="{{ pathto('licence') }}">licence and notice</a>).
+{%- endif %}
+  <a href="{{ current_docs }}">Current documentation</a>.
+</p>

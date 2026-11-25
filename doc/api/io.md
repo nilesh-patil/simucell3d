@@ -12,6 +12,23 @@ cell and face meshes, and a statistics writer writes one row per cell per sample
 output meshes are defined by the data mappers in `mesh_data.hpp`; adding a mapper there adds
 an array to every output file ({doc}`/user_guide/14_output_files`).
 
+Reading happens once, before the solver is constructed. During the run, the solver calls
+{cpp:func}`mesh_writer::write` when a sampling period has elapsed (first step of an
+iteration) and `abstract_statistics_writer::write_data()` every 50 iterations and once at the
+end.
+
+| Class or type | Header | Role |
+|---|---|---|
+| {cpp:class}`parameter_reader` | `io/parameter_reader.hpp` | XML parameter file to parameter structures |
+| {cpp:class}`mesh_reader` | `io/mesh_reader.hpp` | Legacy VTK input mesh to one {cpp:struct}`mesh` per cell |
+| {cpp:class}`simulation_initializer` | `io/simulation_initializer.hpp` | Builds the cell objects and the parameters passed to the solver |
+| {cpp:class}`mesh_writer` | `io/mesh_writer.hpp` | Writes `cell_data/` and `face_data/` |
+| {cpp:class}`abstract_statistics_writer` | `io/statistics_writer.hpp` | Interface of the statistics writers |
+| {cpp:class}`csv_file_statistics_writer` | `io/statistics_writer.hpp` | Writes `simulation_statistics.csv` (command-line runs) |
+| {cpp:class}`string_statistics_writer` | `io/statistics_writer.hpp` | Collects the statistics in memory (Python module) |
+| {cpp:struct}`cell_data_mapper`, {cpp:struct}`face_data_mapper`, {cpp:struct}`node_data_mapper` | `io/mesh_data_mappers.hpp` | One output array or statistics column each |
+| mapper lists | `io/mesh_data.hpp` | The arrays and columns actually written |
+
 ## Reading input
 
 ```{doxygenclass} parameter_reader

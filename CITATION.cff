@@ -21,7 +21,7 @@ version: 2.1.0
 date-released: '2026-11-18'
 license: BSD-3-Clause
 repository-code: "https://github.com/nilesh-patil/simucell3d"
-url: "https://nilesh-patil.github.io/simucell3d/"
+url: "https://www.nilesh42.science/simucell3d/"
 keywords:
   - tissue mechanics
   - cell-based model

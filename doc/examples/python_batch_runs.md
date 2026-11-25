@@ -6,11 +6,14 @@ their statistics in a pandas data frame. The module runs the same solver as the 
 program, but takes its parameters from Python objects instead of an XML file.
 
 **Files**: `scripts/python_bindings/launch_simulation_example.py`,
-`data/input_meshes/big_sphere.vtk` (one cell).
+`data/input_meshes/big_sphere.vtk` (one cell). \
+**Compile-time configuration**: the module is compiled with the same
+`include/global_configuration.hpp` as the program; these scripts use the defaults. \
+**Length**: $10^{-3}$ s of simulated time at a time step of `1e-7` s (10,000 iterations) for each
+run. \
+**Measured run time**: not measured. \
 **Requirements**: a build with the Python module (`-DENABLE_PYTHON_BINDINGS=TRUE`,
 {doc}`/install`) in the `build/` directory of the repository, and the Python package `pandas`.
-**Compile-time configuration**: the module is compiled with the same
-`include/global_configuration.hpp` as the program; these scripts use the defaults.
 
 ## The example script
 

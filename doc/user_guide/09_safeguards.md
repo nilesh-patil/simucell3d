@@ -15,7 +15,7 @@ A safeguard changes the simulated tissue: a removed cell disappears with its vol
 neighbours relax into the gap. Count the safeguard events of every run and report them with the
 results. A run with many events is not a faithful solution of the model.
 
-The unstable-cell removal has no limit: a run whose tissue diverges can lose almost all of its
+The unstable-cell {term}`removal` has no limit: a run whose tissue diverges can lose almost all of its
 cells and still exit with status 0 (see {ref}`ug-safeguards-known-issues`). The exit status alone
 does not show that a run succeeded.
 :::
@@ -35,8 +35,8 @@ does not show that a run succeeded.
 All log lines go to standard error. The diagnostics CSV is `performance_diagnostics.csv` in the
 output folder, or the file given with `--diagnostics-csv` ({doc}`14_output_files`); it has one row
 per 100 iterations, and `unstable_cells_removed` counts the removals in that window. Removals in
-the last, incomplete window of a run are not written, and a run shorter than 100 iterations
-writes no diagnostics CSV at all; the run total is not printed. The standard error log is
+the last, incomplete window of a run are not written, and a run of 100 iterations or fewer
+writes no diagnostics CSV at all (the first row is written after the 101st iteration); the run total is not printed. The standard error log is
 therefore the complete record.
 
 ## Unstable-cell removal
@@ -55,7 +55,11 @@ is unstable if
 The two volume tests use the signed volume of the last force evaluation and are not applied to
 ECM and static cells ({doc}`08_cell_classes`).
 
-**Action.** The cell is removed in the same step as the cells below their minimum volume. There
+**Action.** The cell is removed in the same step as the cells below their minimum volume, which
+die as part of the model ({term}`minimum-volume death`) and are not counted as removals. The
+minimum-volume test comes first: a cell whose volume is already below its minimum is deleted as a
+death without the stability tests, so an unstable cell in that state (for example one turned
+inside out with a small volume) leaves no log line and no count. There
 is no limit on the number of cells removed in one iteration or in a run, unlike the
 refinement-failure removal below.
 
@@ -210,6 +214,27 @@ change its exit status however many cells it removes, and
 `scripts/parameter_screening/collect_screening_data.py` treats every run with exit status 0 as a
 success ({doc}`17_parameter_screening`).
 
+### A run that exits with status 0 after losing its tissue
+
+At the end of a run 2.1.0 writes a final snapshot to the statistics CSV (one row per remaining
+cell), prints its performance report
+and exits with status 0. It prints no total of removed cells, and no line about cells that died
+at their minimum volume ({doc}`06_growth_division_removal`). A run can therefore end "successfully"
+with almost nothing left. Measured with 2.1.0 in November 2026, the shipped file
+`parameters/benchmarks/fig3e_monolayer.xml`, run for its full simulated time of $10^{-2}$ s,
+ended with 18 of its 434 cells and exited with status 0. It had removed 400 cells as numerically
+unstable; the other 16 disappeared without a log line, at their minimum volume. Every build tested fails this file: 1.0 stops with a mesh refinement error, 2.0 crashes,
+and the later builds remove most of the cells ({ref}`benchmarks-validity`).
+
+To detect it, check at least:
+
+- the number of `Removing numerically unstable cell` and `mesh refinement failed` lines in
+  standard error;
+- the `nb cells` of the last `Progression` line on standard output, or the `cells` column of the
+  last row of `performance_diagnostics.csv`, against the number of cells at the start;
+- for growing tissues, the deaths counted from the cell identifiers
+  ({doc}`06_growth_division_removal`).
+
 ## Conditions that still stop a run
 
 - More refinement failures in one iteration than the limit above, or all cells failing.
@@ -224,13 +249,15 @@ success ({doc}`17_parameter_screening`).
 (ug-safeguards-known-issues)=
 ## Known issues
 
-The CHANGELOG of 2.1 lists these known issues; they concern the safeguards or the events they
-handle.
+These known issues concern the safeguards or the events they handle. The CHANGELOG of 2.1 lists
+all but the last two, which come from the November 2026 benchmark.
 
 - **No limit on unstable-cell removal; a diverged run exits with status 0.** In a review run of
-  `parameters_vesicle_quick.xml` with the time step raised to $5\times10^{-7}$ s, all 432
-  epithelial cells were removed within 8 iterations, and the run exited with status 0. Count the
-  removals of every run as described above.
+  `parameters_vesicle_quick.xml` with the time step raised to `5e-7` s, all 432
+  epithelial cells were removed within 8 iterations, and the run exited with status 0. The shipped
+  monolayer file does the same at its shipped settings (see
+  [above](#a-run-that-exits-with-status-0-after-losing-its-tissue)). Count the removals of every
+  run as described above ([#118](https://github.com/nilesh-patil/simucell3d/issues/118)).
 - **Nested cut loops in divisions.** The divider cuts along the longest intersection loop and does
   not check whether another loop lies inside it. For a cup-shaped or invaginated cell, the
   interface then spans the cavity: in a review test with a dimpled cylinder, 20 of 20 divisions
@@ -249,8 +276,12 @@ handle.
 - **Stale coupling links** ({doc}`03_contact`).
 - **Contact models 0 and 1 can lose contact forces with more than one thread**, because they add
   forces to other cells' nodes without an atomic add. They are the two models described in the
-  paper. Run them with `--threads=1`, or use model 2 ({doc}`03_contact`).
+  paper. Run them with `--threads=1`, or use model 2 ({doc}`03_contact`,
+  [#120](https://github.com/nilesh-patil/simucell3d/issues/120)).
 - **Multi-threaded runs are not bit-reproducible** ({doc}`04_time_integration`).
+- **Deaths at the minimum volume are not logged or counted** ({doc}`06_growth_division_removal`).
+- **The Delaunay step of the divider has no iteration limit** and can hang a run
+  ({doc}`06_growth_division_removal`).
 
 :::{seealso}
 - {doc}`/whats_new/v2.1` for the full list of changes in 2.1.

@@ -64,7 +64,8 @@ parameter reader accepts 0, which then divides by zero.
 :::{note}
 The source comments of the time integrator mention a third scheme (index 2, improved Euler).
 It is not implemented: with contact model 2 the build fails, and with contact models 0 and 1
-the nodes do not move. Use index 0 or 1.
+the integrator throws an error at the first time step, from inside a parallel loop, which ends
+the program. Use index 0 or 1.
 :::
 
 ## Coupled nodes
@@ -97,8 +98,8 @@ the momentum first and move every node, and every coupled group, with the new mo
 
 For a mode of stiffness $k$, one forward Euler step damps it as if the damping coefficient were
 $\zeta - k\,\Delta t$ instead of $\zeta$. Modes stiffer than $\zeta/\Delta t$ were therefore
-anti-damped in 1.0: with $\Delta t = 10^{-7}$ s and $\zeta = 2.5	imes10^{-10}$ kg/s, that is
-$k > 2.5	imes10^{-3}$ N/m. The relaxation of every cell surface, not only of cell-cell
+anti-damped in 1.0: with a time step of `1e-7` s and $\zeta = 2.5\times10^{-10}$ kg/s, that is
+$k > 2.5\times10^{-3}$ N/m. The relaxation of every cell surface, not only of cell-cell
 contacts, changes compared with 1.0, so 2.1 does not reproduce the dynamics of results
 computed with 1.0 in this configuration, which is the default build.
 :::
@@ -123,22 +124,62 @@ The node mass falls with the mesh resolution (smaller $l_{\min}$ means more node
 a finer mesh needs a smaller time step. In practice, check a configuration by halving the time
 step and comparing the results.
 
-All shipped parameter files use $\Delta t = 10^{-7}$ s, the value of the paper's Table 2, except
-`parameters/core/parameters_vesicle_quick.xml` ($5\times10^{-7}$ s, a short smoke test). The
-damping coefficients are $2.5\times10^{-10}$ to $2\times10^{-9}$ kg/s with the dynamic model and
+All shipped parameter files use a time step of `1e-7` s, the value of the paper's Table 2,
+including the short smoke test `parameters/core/parameters_vesicle_quick.xml` (200 iterations).
+The damping coefficients are $2.5\times10^{-10}$ to $2\times10^{-9}$ kg/s with the dynamic model and
 $3\times10^{-9}$ kg/s in `parameters_default_overdamped.xml`; Table 2 gives
 $2.5\times10^{-10}$ kg/s (dynamic) and $3\times10^{-9}$ kg/s (overdamped).
 
 A diverging simulation shows up as cells that stretch to many times their size or nodes with
 non-finite coordinates. 2.1 removes such cells and logs them ({doc}`09_safeguards`); frequent
-removals are a sign that the time step is too large or a parameter is out of range. The
+{term}`removals <removal>` are a sign that the time step is too large or a parameter is out of range. The
 CHANGELOG also lists rare single-node blow-ups of unknown cause as a known issue.
+
+(ug-time-step-measured)=
+### What the November 2026 benchmark measured
+
+The shipped step of `1e-7` s is not stable for every configuration. Measured with 2.1.0 in
+November 2026 on 8-core cloud machines (GCP c2-standard-16, 8 threads):
+
+- **The lab's growth benchmark** (`parameters_benchmarck.xml` of 1.0, contact model 1; the file
+  is not shipped with 2.1.0, see {doc}`/examples/growth_from_one_cell`). The published step of
+  `1e-7` s is unstable in every build tested, 1.0 included. 2.1.0 still reaches 150,000 cells at
+  that step, but removes 93,310 cells as numerically unstable on the way. At
+  `2.5e-8` s, 2.1.0 ran without a single removal in three of three 48-hour runs, to
+  142,000 to 149,000 cells. The largest step at which it stayed clean was `5e-8` s, in a
+  single 3-hour run to about 34,000 cells. For this file, `2.5e-8` s is the recommended step: it
+  is the largest one with clean full-length runs, which is a measurement, not a guarantee for
+  other runs.
+- **Vesicles and tube.** At their shipped step of `1e-7` s, these ran clean: the vesicle sweep
+  and the paper-protocol runs (about 1,700 iterations) built from `fig3e_monolayer.xml` and
+  `fig3e_multilayer.xml`, the multilayer file in a 48-hour run toward its full duration (87,084 of
+  100,000 iterations), and the tube of
+  `parameters_tube.xml`. One case failed: `fig3e_monolayer.xml` run for its full duration of
+  `1e-2` s loses most of its cells in every build; see {doc}`09_safeguards`.
+
+The numbers per tissue and build are in {ref}`benchmarks-time-step`. A configuration that differs
+from these, in particular a finer mesh or a stiffer contact law, needs its own check.
+
+### Checking the time step of a run
+
+An unstable step does not stop the run. In 2.1 it shows up as removals of numerically unstable
+cells: at `1e-7` s in the growth benchmark almost all of them were removed for an extent beyond
+the limit, and a few had nodes with non-finite coordinates. To check a configuration:
+
+1. Capture standard error and count both kinds of removal, `Removing numerically unstable cell`
+   and `mesh refinement failed` ({ref}`ug-safeguards-counting`). A clean run has none. The column
+   `unstable_cells_removed` of the diagnostics CSV counts both and shows when they happen, except
+   in the last incomplete 100-iteration window.
+2. Compare the final cell count with the number of removals; the exit status is 0 either way.
+3. Repeat a short run at half the step and compare the readouts that matter for the study. With
+   divisions the runs are not identical even at the same step (see
+   [Reproducibility](#reproducibility)), so compare them statistically.
 
 ## Time step, sampling period and other intervals
 
 | Interval | Set by | What happens |
 |---|---|---|
-| every iteration | `time_step` | refinement, contact, forces, integration, removal of dead cells |
+| every iteration | `time_step` | refinement, contact, forces, integration, minimum-volume deaths and safeguard removals |
 | every 5 iterations | fixed | division of the cells that are ready to divide |
 | every 50 iterations | fixed | one row per cell appended to the statistics CSV |
 | every 100 iterations | fixed | one row appended to the diagnostics CSV |
@@ -165,7 +206,8 @@ runs that use them differ even on one thread:
 - the surface sampling of the initial triangulation (`perform_initial_triangulation`).
 
 A run on one thread is repeatable only when none of these is used, which excludes any run in
-which cells divide. Compare runs statistically, not iteration by iteration.
+which cells divide. Compare runs statistically, not iteration by iteration. How much {term}`replicates <replicate>`
+differed in the November 2026 benchmark is in {ref}`benchmarks-reproducibility`.
 
 :::{note}
 The `kinetic_energy` value written to the output is $\sum p_i^2/(2m)$ with the dynamic model.

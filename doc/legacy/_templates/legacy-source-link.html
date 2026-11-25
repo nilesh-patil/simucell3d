@@ -1,0 +1,8 @@
+{#- Right-hand sidebar of the archived sites: the old page's file at the release tag. -#}
+{%- if pagename in legacy_pages %}
+  <div class="tocsection page-source-link">
+    <a href="{{ repo_url }}/blob/{{ legacy_tag }}/{{ pagename }}.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag {{ legacy_tag }}
+    </a>
+  </div>
+{%- endif %}

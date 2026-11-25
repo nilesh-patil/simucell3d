@@ -47,6 +47,130 @@ reproduction cheaper:
   calls the failing function directly reproduces the problem in milliseconds. The cell divider
   tests in `test/test_triangulation_modules/test_cell_divider/` follow this pattern.
 
+(dev-debugging-signatures)=
+## Failure signatures from long runs
+
+The defects below first showed up in 8-core growth runs of the reconstructed configuration
+(`parameters/longrun_fast_growth.xml`) between September and November 2026, at thousands to tens
+of thousands of cells. All are fixed in 2.1.0, and each has a regression test. This list is a
+guide for a failure that looks similar: the signature, the cause that was found, the fix, and
+the tests to start from.
+
+### Crash soon after the first cell removal
+
+Signature
+: A segmentation fault a few iterations after the first cell was removed at its minimum volume (at 2,709 cells, in `epithelial_cell::special_polarization_update`).
+
+Cause
+: After a cell was erased from `cell_lst_`, the cells behind it kept their old local ids, so the contact model indexed the wrong cell, or one past the end.
+
+Fix
+: f61b620: local ids are reassigned after every removal.
+
+Tests
+: `solver_test_local_ids_resynced_after_cell_removal`.
+
+### Mass removal of exploded cells
+
+Signature
+: Mass removal of cells from about 13,000 cells; removal lines with extents of metres or more, nodes moved far outside the tissue in one step.
+
+Cause
+: The bending force divides by the triangle area and was guarded only against an area of exactly zero; one sliver triangle gave a force about $2 \times 10^6$ times the normal scale.
+
+Fix
+: 8fd9e2b: the force is bounded on degenerate triangles.
+
+Tests
+: `stability_degenerate_hinge_force_bounded`, `stability_degenerate_hinge_force_saturates`, `stability_healthy_mesh_untouched_by_guard`.
+
+### Inside-out patches on cells
+
+Signature
+: Inside-out patches on 8 % of the cells at 26,000 cells; swollen cells or long, thin cells.
+
+Cause
+: Edge splitting chose the winding of the new triangles from the normal stored on the old face, which can be stale.
+
+Fix
+: 3a0fd76: the winding is taken from the node cycle of the replaced face; 3287dd1 checks the winding after every refinement.
+
+Tests
+: `triangulation_modules_local_mesh_refiner_refine_mesh_keeps_winding_consistent`, `triangulation_modules_local_mesh_refiner_winding_self_check` (mesh `split_edge_winding_daughter.vtk`).
+
+### Mother cells that never divide
+
+Signature
+: 12,700 to 149,000 failed-division lines per run ending in `is not properly triangulated.`; the same mother cells fail again at every division check.
+
+Cause
+: The division plane met the surface in several loops (a thin tendril) and the divider traced only one.
+
+Fix
+: fc0e29c: every loop is traced and the cell is cut along the longest; c949e4e: a cut face that the Delaunay triangulation does not cover is refused.
+
+Tests
+: `triangulation_modules_cell_divider_divide_cell_multi_loop_plane_test` (meshes `stuck_mother_45093.vtk`, `stuck_mother_60905.vtk` captured from the runs), `..._refuses_uncovered_interface_test`, `..._run_keeps_refused_mother_test`.
+
+### Silent stall in contact detection
+
+Signature
+: No output for 20 hours at 15,800 cells; the process at full load inside contact detection.
+
+Cause
+: One cell's nodes diverged to about $10^{19}$ m; the voxel count of the spatial grid overflowed to 0, and contact detection degenerated into a scan of all nodes against all faces.
+
+Fix
+: 9acfe36: diverged cells are removed (`Removing numerically unstable cell`), and the grid refuses a non-finite or oversized domain with `unstable_simulation_exception`.
+
+Tests
+: `solver_test_unstable_cell_removed`, `solver_test_contact_model_throws_on_diverged_domain`, `uspg_4d_diverged_domain_test`, `uspg_3d_diverged_domain_test`, `uspg_3d_large_grid_index_overflow_test`.
+
+### Run ended by one damaged cell
+
+Signature
+: The run ended at 79,635 cells with an uncaught `std::bad_optional_access`.
+
+Cause
+: An error in the refinement of one damaged cell left the parallel loop and reached `main()`.
+
+Fix
+: 60cacc8: the cell is removed (`Removing cell <id> at iteration <i>: mesh refinement failed: ...`).
+
+Tests
+: `solver_test_refinement_failure_end_to_end` (committed failing before the fix, e193669), `solver_test_refinement_failure_removed`, `solver_test_refinement_failure_limit`, `solver_test_refinement_failure_all_cells_stop`.
+
+### Threads sharing physical cores
+
+Signature
+: On a 4-core, 8-thread machine, the 4 threads ran on two physical cores.
+
+Cause
+: With `OMP_PROC_BIND=close` and no `OMP_PLACES`, libgomp placed consecutive threads on sibling hyperthreads.
+
+Fix
+: 27cbf72: the solver pins one thread per physical core itself.
+
+Tests
+: `test_cpu_topology_placement_4c8t`, `solver_test_thread_placement`.
+
+### How they were narrowed down
+
+1. **Log lines and counts first.** The cell id, iteration and extent in the removal lines, and
+   the count of `Cell division failed` lines, located the cell and the iteration.
+2. **The last mesh frames.** The VTK frames before the failure showed the inverted patches and
+   the tendrils; the mothers that never divided were extracted from a frame into the test
+   meshes above.
+3. **gdb for crashes, sampling for stalls.** A core dump located the stale local id (the last
+   cell had `local_id_` equal to the size of the cell list). For the stall, backtraces of the
+   running process placed it in contact detection, and the bounds of the grid's domain
+   ($-4 \times 10^{19}$ to $2 \times 10^{19}$ m) pointed to a diverged cell.
+4. **A failing test before the fix.** Each cause was reproduced in a unit test, on a captured
+   mesh where one existed, and the test was committed before the fix.
+
+The thread placement problem leaves no error at all; it shows in the start-up line
+`Thread pinning: ...` and in the share of cores in use (`/usr/bin/time -v`, or `top`).
+
 ## Debug and sanitizer builds
 
 A Debug build enables the `assert` statements, which catch many invariant violations close to

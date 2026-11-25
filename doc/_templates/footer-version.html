@@ -1,0 +1,10 @@
+{#- Footer, right: which version of the documentation this is. -#}
+<p class="footer-version">
+  {%- if docs_version == "dev" %}
+  Development version (main branch, last release {{ code_release }}).
+  {%- else %}
+  Documentation for SimuCell3D {{ code_release }}.
+  {%- endif %}
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p>

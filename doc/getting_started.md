@@ -31,7 +31,7 @@ This tutorial uses `parameters/core/parameters_vesicle_quick.xml`. Its numerical
 :end-at: </numerical_parameters>
 ```
 
-The run covers $2\times10^{-5}$ s of simulated time with a time step of $10^{-7}$ s, that is 200
+The run covers $2\times10^{-5}$ s of simulated time with a time step of `1e-7` s, that is 200
 {term}`iterations <iteration>`, and writes the tissue every $5\times10^{-6}$ s. The input mesh,
 `data/input_meshes/fig_3_vesicle.vtk`, contains 434 cells: 432 epithelial cells, one ECM surface
 and one lumen. It is the initial tissue of Fig. 3a in Runser, Vetter & Iber (2024).
@@ -88,8 +88,8 @@ Progression 0%, iteration: 1, file number 1, nb cells 434
 
 `file number` is the number of the last mesh files written, and `nb cells` the current number of
 cells. The run ends when the simulated time reaches `<simulation_duration>`.
-Each iteration of this 434-cell tissue takes about a second or more, so the run takes a few
-minutes. The last progress line is
+Each iteration of this 434-cell tissue takes about half a second on four cores, so the run
+takes two to three minutes. The last progress line is
 `Progression 100%, iteration: 199, file number 4, nb cells 434`. At the end the program prints a table of the
 average time spent in each phase of an iteration (polarization and internal forces, contact
 detection, mesh refinement, time integration).
@@ -156,9 +156,12 @@ lumen are labelled apical ({doc}`/user_guide/07_polarization`).
 
 `scripts/data_plotting/plot_data.py` plots the geometry and energies over time from
 `simulation_statistics.csv`. It needs the Python packages `pandas`, `matplotlib`, `numpy` and
-`tqdm`. From the repository root:
+`tqdm`. Activate the Python environment in which you installed them ({doc}`install`), then run
+the script from the repository root:
 
 ```console
+$ . ~/.venvs/simucell3d/bin/activate
+$ cd ..
 $ python3 scripts/data_plotting/plot_data.py simulation_results/simulation_vesicle
 ```
 
@@ -171,14 +174,15 @@ volumes are much larger than those of the epithelial cells.
 ## Change a parameter
 
 Parameters are changed by editing a copy of the parameter file. For example, to see the effect
-of the surface tension of the apical faces, copy the file and change the apical
-`<surface_tension>` of the epithelial cell type from `1e-3` to `1e-5` (N/m), and give the copy its
-own output folder:
+of the surface tension of the apical faces, go back to the `build/` directory and copy the file:
 
 ```console
+$ cd build
 $ cp ../parameters/core/parameters_vesicle_quick.xml ../parameters/core/my_vesicle.xml
-$ ./simucell3d ../parameters/core/my_vesicle.xml --output-dir=../simulation_results/my_vesicle
 ```
+
+In `parameters/core/my_vesicle.xml`, change the apical `<surface_tension>` of the epithelial
+cell type (the first `<cell_type>` block) from `1e-3` to `1e-5` (N/m):
 
 ```{code-block} xml
 :caption: the apical face type in my_vesicle.xml
@@ -190,6 +194,12 @@ $ ./simucell3d ../parameters/core/my_vesicle.xml --output-dir=../simulation_resu
     <surface_tension>1e-5</surface_tension>
     <bending_modulus>0</bending_modulus>
 </face_type>
+```
+
+Then run the copy with its own output folder, so that the first run is kept:
+
+```console
+$ ./simucell3d ../parameters/core/my_vesicle.xml --output-dir=../simulation_results/my_vesicle
 ```
 
 A run of 200 iterations shows only the start of the tissue's response. The

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fsens-light-t fsens-light-d" viewBox="0 0 720 352" width="720" height="352" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"><!-- drawn for a transparent ground over the page background: #ffffff --><title id="fsens-light-t">Vesicle readouts: parameter response against replicate noise, 2.1.0</title><desc id="fsens-light-d">For each readout of the vesicle sweep in 2.1.0, the smallest change between two neighbouring epsilon values, divided by the replicate standard deviation. Sphericity (26) and contact-area fraction (13) are far above 2; mean pressure and volume over target volume are at about 2; the aspect ratios, the share of cells off both surfaces, layer number and neighbour count are below 2.</desc>
+<line x1="397.5" y1="22.0" x2="397.5" y2="276.0" stroke="#8b929c" stroke-width="1.0" stroke-dasharray="5 4"/>
+<text x="403.5" y="18.0" fill="#222832" font-size="11" text-anchor="start" font-weight="normal">2 standard deviations</text>
+<text x="660.0" y="18.0" fill="#222832" font-size="11" text-anchor="end" font-weight="normal">step</text>
+<text x="714.0" y="18.0" fill="#222832" font-size="11" text-anchor="end" font-weight="normal">range</text>
+<text x="238.0" y="38.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">sphericity</text>
+<line x1="250.0" y1="34.0" x2="523.2" y2="34.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="523.2" cy="34.0" r="4.5" fill="#0b6b7c"/>
+<text x="660.0" y="38.0" fill="#0b6b7c" font-size="12" text-anchor="end" font-weight="normal">26</text>
+<text x="714.0" y="38.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">224</text>
+<text x="238.0" y="66.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">contact-area fraction</text>
+<line x1="250.0" y1="62.0" x2="488.2" y2="62.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="488.2" cy="62.0" r="4.5" fill="#0b6b7c"/>
+<text x="660.0" y="66.0" fill="#0b6b7c" font-size="12" text-anchor="end" font-weight="normal">13</text>
+<text x="714.0" y="66.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">435</text>
+<text x="238.0" y="94.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">volume / target volume</text>
+<line x1="250.0" y1="90.0" x2="403.1" y2="90.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="403.1" cy="90.0" r="4.5" fill="#0b6b7c"/>
+<text x="660.0" y="94.0" fill="#0b6b7c" font-size="12" text-anchor="end" font-weight="normal">2.2</text>
+<text x="714.0" y="94.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">80</text>
+<text x="238.0" y="122.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">mean cell pressure</text>
+<line x1="250.0" y1="118.0" x2="402.2" y2="118.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="402.2" cy="118.0" r="4.5" fill="#0b6b7c"/>
+<text x="660.0" y="122.0" fill="#0b6b7c" font-size="12" text-anchor="end" font-weight="normal">2.2</text>
+<text x="714.0" y="122.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">80</text>
+<text x="238.0" y="150.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">share of cells off both surfaces</text>
+<line x1="250.0" y1="146.0" x2="393.8" y2="146.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="393.8" cy="146.0" r="4.5" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<text x="660.0" y="150.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">1.9</text>
+<text x="714.0" y="150.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">9</text>
+<text x="238.0" y="178.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">apico-basal aspect ratio</text>
+<line x1="250.0" y1="174.0" x2="389.3" y2="174.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="389.3" cy="174.0" r="4.5" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<text x="660.0" y="178.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">1.7</text>
+<text x="714.0" y="178.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">8</text>
+<text x="238.0" y="206.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">bounding-box aspect ratio</text>
+<line x1="250.0" y1="202.0" x2="381.3" y2="202.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="381.3" cy="202.0" r="4.5" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<text x="660.0" y="206.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">1.4</text>
+<text x="714.0" y="206.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">9</text>
+<text x="238.0" y="234.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">layer number</text>
+<line x1="250.0" y1="230.0" x2="318.5" y2="230.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="318.5" cy="230.0" r="4.5" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<text x="660.0" y="234.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">0.4</text>
+<text x="714.0" y="234.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">9</text>
+<text x="238.0" y="262.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">contact neighbours</text>
+<line x1="250.0" y1="258.0" x2="261.2" y2="258.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<circle cx="261.2" cy="258.0" r="4.5" fill="none" stroke="#8b929c" stroke-width="1.4"/>
+<text x="660.0" y="262.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">0.13</text>
+<text x="714.0" y="262.0" fill="#222832" font-size="12" text-anchor="end" font-weight="normal">9</text>
+<line x1="250.0" y1="276.0" x2="590.0" y2="276.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<line x1="250.0" y1="276.0" x2="250.0" y2="280.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="250.0" y="293.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">0.1</text>
+<line x1="363.3" y1="276.0" x2="363.3" y2="280.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="363.3" y="293.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">1</text>
+<line x1="476.7" y1="276.0" x2="476.7" y2="280.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="476.7" y="293.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">10</text>
+<line x1="590.0" y1="276.0" x2="590.0" y2="280.0" stroke="#222832" stroke-width="1.0" aria-hidden="true"/>
+<text x="590.0" y="293.0" fill="#222832" font-size="11" text-anchor="middle" font-weight="normal">100</text>
+<text x="250.0" y="310.0" fill="#222832" font-size="11" text-anchor="start" font-weight="normal">smallest step between neighbouring epsilon values,</text>
+<text x="250.0" y="324.0" fill="#222832" font-size="11" text-anchor="start" font-weight="normal">in replicate standard deviations (log scale)</text>
+</svg>

@@ -26,6 +26,24 @@ integral models the tension of the actomyosin cortex and its resistance to bendi
 and $k_b$ are properties of the {term}`face type`, so they can differ between apical, lateral
 and basal membrane; $K$, $k_a$ and the target values are properties of the {term}`cell type`.
 
+```{figure} ../images/energy_terms-light.svg
+:figclass: only-light
+:class: only-light
+:alt: Sketch of a triangulated cell touching a neighbour, with numbered markers: 1 pressure acting along the face normals, 2 and 3 surface tension and area elasticity pulling along the surface, 4 a bending hinge, 5 repulsion and node ties at the contact. Below, each term's formula and the direction in which it acts.
+:width: 440px
+
+The energy terms of one cell: terms 1 to 4 are Eq. (1) of Runser, Vetter & Iber (2024), {eq}`eq-cell-energy`, and term 5 is the contact model chosen at compile time ({doc}`03_contact`).
+```
+
+```{figure} ../images/energy_terms-dark.svg
+:figclass: only-dark
+:class: only-dark
+:alt: Sketch of a triangulated cell touching a neighbour, with numbered markers: 1 pressure acting along the face normals, 2 and 3 surface tension and area elasticity pulling along the surface, 4 a bending hinge, 5 repulsion and node ties at the contact. Below, each term's formula and the direction in which it acts.
+:width: 440px
+
+The energy terms of one cell: terms 1 to 4 are Eq. (1) of Runser, Vetter & Iber (2024), {eq}`eq-cell-energy`, and term 5 is the contact model chosen at compile time ({doc}`03_contact`).
+```
+
 The nodal forces are the negative gradients of the discretised terms with respect to the node
 positions $\mathbf r_i$, except for bending, whose implemented force is not an exact gradient
 (see the section on bending below). They are evaluated once per {term}`iteration`, after mesh refinement
@@ -66,8 +84,10 @@ $$
 \mathbf f_{p,i} = \frac{1}{3} \sum_{f \ni i} p\, A_f\, \hat{\mathbf n}_f .
 $$ (eq-pressure-force)
 
-At the start of a run the target volume of every cell is set to its initial volume, so the
-initial pressure is 0. During the run $V_0$ changes only through growth and division
+At the start of a run the target volume of every cell is set to
+$V_0 = V\,\exp(p_0/K)$, which gives the pressure $p_0$. The parameter file has no tag for $p_0$,
+so it is 0 and $V_0$ is the initial volume, unless a cell type's `initial_pressure_` is set
+through the Python interface ({doc}`16_python_interface`). During the run $V_0$ changes only through growth and division
 ({doc}`06_growth_division_removal`).
 
 ## Surface tension and area elasticity
@@ -119,7 +139,8 @@ U_b = \sum_{e} \bar k_b\, \frac{\lVert\mathbf e\rVert^2}{A_e}
            \arccos(-\hat{\mathbf n}_a \cdot \hat{\mathbf n}_b),
 $$ (eq-bending-energy)
 
-where $\mathbf e_{il} = \mathbf r_l - \mathbf r_i$. For a flat hinge $\theta_e = \pi$ and the
+where $\mathbf e_{il} = \mathbf r_l - \mathbf r_i$ and the sign is taken as $+1$ when
+$\hat{\mathbf n}_a \cdot \mathbf e_{il} = 0$. For a flat hinge $\theta_e = \pi$ and the
 term vanishes; the sign separates convex from concave hinges. The force on each of the four
 nodes $q \in \{i, j, k, l\}$ implemented in 2.1 is
 
