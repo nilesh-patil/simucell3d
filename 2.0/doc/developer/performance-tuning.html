@@ -1,0 +1,1932 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>Performance Tuning Guide &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/developer/performance-tuning';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/developer/performance-tuning.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Python API Specifications (Enhanced)" href="python-api-specs.html" />
+    <link rel="prev" title="SimuCell3D: Deep Dive &amp; Explainer" href="explainer.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Performance Tuning Guide - SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/developer/performance-tuning.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="explainer.html">Explainer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Performance tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api-specs.html">Python API specification</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/developers.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Performance...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="performance-tuning-guide">
+<h1>Performance Tuning Guide<a class="headerlink" href="#performance-tuning-guide" title="Link to this heading">#</a></h1>
+<p><strong>RECOMMENDED READING</strong> for all users running production simulations.</p>
+<p>This guide explains how to achieve optimal performance from SimuCell3D through OpenMP scheduling optimization, environment configuration, and performance diagnostics.</p>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#quick-start">Quick Start</a></p></li>
+<li><p><a class="reference internal" href="#understanding-openmp-scheduling">Understanding OpenMP Scheduling</a></p></li>
+<li><p><a class="reference internal" href="#the-adaptive-scheduler">The Adaptive Scheduler</a></p></li>
+<li><p><a class="reference internal" href="#openmp-environment-variables">OpenMP Environment Variables</a></p></li>
+<li><p><a class="reference internal" href="#hardware-topology-detection">Hardware Topology Detection</a></p></li>
+<li><p><a class="reference internal" href="#performance-diagnostics">Performance Diagnostics</a></p></li>
+<li><p><a class="reference internal" href="#case-studies-benchmarks">Case Studies &amp; Benchmarks</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting">Troubleshooting</a></p></li>
+<li><p><a class="reference internal" href="#advanced-topics">Advanced Topics</a></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<p><strong>TL;DR:</strong> For 99% of users, this is all you need:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set thread count to physical cores (not hyperthreads)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="k">$(</span>nproc<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+
+<span class="c1"># Run with adaptive scheduling (the default)</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+</pre></div>
+</div>
+<p><strong>Expected Results:</strong></p>
+<ul class="simple">
+<li><p><strong>Vesicle (13 cells)</strong>: 1.79x speedup vs v1.0</p></li>
+<li><p><strong>Sheet (64 cells)</strong>: 3.26x speedup vs v1.0</p></li>
+<li><p><strong>Large tissue (256+ cells)</strong>: 4.44x speedup vs v1.0</p></li>
+</ul>
+<p><strong>Why adaptive?</strong></p>
+<ul class="simple">
+<li><p>Combines empirical benchmark data with runtime heuristics</p></li>
+<li><p>Applies specialized scheduling to different loop types</p></li>
+<li><p>Adapts to changing workload as cells grow and divide</p></li>
+<li><p><strong>Thread efficiency: 60%</strong> (vs 29% in v1.0)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="understanding-openmp-scheduling">
+<h2>Understanding OpenMP Scheduling<a class="headerlink" href="#understanding-openmp-scheduling" title="Link to this heading">#</a></h2>
+<section id="what-is-openmp-scheduling">
+<h3>What is OpenMP Scheduling?<a class="headerlink" href="#what-is-openmp-scheduling" title="Link to this heading">#</a></h3>
+<p>SimuCell3D parallelizes loops using OpenMP’s <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span> <span class="pre">for</span></code> directive. The <strong>scheduling mode</strong> determines how loop iterations are distributed across threads.</p>
+</section>
+<section id="the-four-scheduling-modes">
+<h3>The Four Scheduling Modes<a class="headerlink" href="#the-four-scheduling-modes" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Best For</p></th>
+<th class="head"><p>Overhead</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>static</strong></p></td>
+<td><p>Iterations divided equally at compile-time</p></td>
+<td><p>Large uniform workloads</p></td>
+<td><p>Lowest</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>dynamic</strong></p></td>
+<td><p>Iterations assigned at runtime, one chunk at a time</p></td>
+<td><p>Heterogeneous workloads</p></td>
+<td><p>Higher</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>guided</strong></p></td>
+<td><p>Dynamic with decreasing chunk size</p></td>
+<td><p>Moderate variance</p></td>
+<td><p>Medium</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>adaptive</strong></p></td>
+<td><p>Intelligent per-loop scheduling + benchmark lookup</p></td>
+<td><p>All cases</p></td>
+<td><p>Low-Medium</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="static-scheduling">
+<h3>Static Scheduling<a class="headerlink" href="#static-scheduling" title="Link to this heading">#</a></h3>
+<p><strong>How it works:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Threads</span><span class="p">:</span> <span class="n">T1</span>    <span class="n">T2</span>    <span class="n">T3</span>    <span class="n">T4</span>
+<span class="n">Cells</span><span class="p">:</span>   <span class="mi">0</span><span class="o">-</span><span class="mi">7</span>   <span class="mi">8</span><span class="o">-</span><span class="mi">15</span>  <span class="mi">16</span><span class="o">-</span><span class="mi">23</span> <span class="mi">24</span><span class="o">-</span><span class="mi">31</span>  <span class="p">(</span><span class="mi">8</span> <span class="n">cells</span> <span class="n">per</span> <span class="n">thread</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Pros:</strong></p>
+<ul class="simple">
+<li><p>Zero runtime overhead (decided at compile-time)</p></li>
+<li><p>Excellent cache locality (each thread owns a memory region)</p></li>
+<li><p>Best for 2000+ cells with uniform work per cell</p></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul class="simple">
+<li><p>No load balancing if workload varies between cells</p></li>
+<li><p>Poor performance for heterogeneous cell sizes or neighbor counts</p></li>
+<li><p>Thread starvation if one thread finishes early</p></li>
+</ul>
+<p><strong>Example use case:</strong> Large epithelial sheet with uniform cell sizes</p>
+</section>
+<section id="dynamic-scheduling">
+<h3>Dynamic Scheduling<a class="headerlink" href="#dynamic-scheduling" title="Link to this heading">#</a></h3>
+<p><strong>How it works:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Thread 1: Cell 0 → Cell 5 → Cell 12 → ... (work stealing)
+Thread 2: Cell 1 → Cell 7 → Cell 15 → ...
+</pre></div>
+</div>
+<p><strong>Pros:</strong></p>
+<ul class="simple">
+<li><p>Perfect load balancing (threads never idle if work remains)</p></li>
+<li><p>Adapts to heterogeneous cell sizes and neighbor counts</p></li>
+<li><p>Best for &lt;128 cells or dense contact networks</p></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul class="simple">
+<li><p>Higher overhead (~5-10% for work queue management)</p></li>
+<li><p>Poor cache locality (threads jump between memory regions)</p></li>
+<li><p>Can cause false sharing on adjacent memory</p></li>
+</ul>
+<p><strong>Example use case:</strong> Vesicle with varying cell sizes</p>
+</section>
+<section id="guided-scheduling">
+<h3>Guided Scheduling<a class="headerlink" href="#guided-scheduling" title="Link to this heading">#</a></h3>
+<p><strong>How it works:</strong>
+Like dynamic, but chunk size decreases over time:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Iteration</span> <span class="mi">0</span><span class="p">:</span> <span class="n">Chunk</span> <span class="n">size</span> <span class="o">=</span> <span class="n">N</span><span class="o">/</span><span class="n">threads</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="mi">32</span> <span class="n">cells</span><span class="p">)</span>
+<span class="n">Iteration</span> <span class="mi">1</span><span class="p">:</span> <span class="n">Chunk</span> <span class="n">size</span> <span class="o">=</span> <span class="n">remaining</span><span class="o">/</span><span class="n">threads</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="mi">16</span> <span class="n">cells</span><span class="p">)</span>
+<span class="n">Iteration</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Chunk</span> <span class="n">size</span> <span class="o">=</span> <span class="n">remaining</span><span class="o">/</span><span class="n">threads</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="mi">8</span> <span class="n">cells</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">Final</span><span class="p">:</span> <span class="n">Chunk</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="n">cell</span> <span class="p">(</span><span class="n">perfect</span> <span class="n">load</span> <span class="n">balance</span> <span class="n">at</span> <span class="n">end</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Pros:</strong></p>
+<ul class="simple">
+<li><p>Combines cache locality (large initial chunks) with load balancing (small final chunks)</p></li>
+<li><p>Lower overhead than pure dynamic</p></li>
+<li><p>Best for 256-2048 cells with moderate variance</p></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul class="simple">
+<li><p>Tuning the minimum chunk size is workload-dependent</p></li>
+<li><p>Not as good as static for uniform work, nor as good as dynamic for high variance</p></li>
+</ul>
+<p><strong>Example use case:</strong> Growing epithelial monolayer (512-1024 cells)</p>
+</section>
+<section id="adaptive-scheduling-recommended">
+<h3>Adaptive Scheduling (RECOMMENDED)<a class="headerlink" href="#adaptive-scheduling-recommended" title="Link to this heading">#</a></h3>
+<p><strong>How it works:</strong>
+Two-level strategy combining benchmark data with runtime heuristics:</p>
+<ol class="arabic simple">
+<li><p><strong>Base scheduler selection</strong> (per-iteration):</p>
+<ul class="simple">
+<li><p>Lookup empirical benchmark table based on cell count</p></li>
+<li><p>Validate with multi-factor heuristic (considers cell density, contact cutoff, thread count)</p></li>
+<li><p>Select base mode: static, dynamic, or guided</p></li>
+</ul>
+</li>
+<li><p><strong>Per-loop specialization</strong> (automatic):</p>
+<ul class="simple">
+<li><p>Contact detection loops → <code class="docutils literal notranslate"><span class="pre">schedule(dynamic)</span></code> (high variance in neighbor counts)</p></li>
+<li><p>Integration loops → <code class="docutils literal notranslate"><span class="pre">schedule(guided)</span></code> (moderate variance in force calculations)</p></li>
+<li><p>Mesh refinement loops → <code class="docutils literal notranslate"><span class="pre">schedule(static)</span></code> (uniform work per face)</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Pros:</strong></p>
+<ul class="simple">
+<li><p>Best of all worlds: cache locality + load balancing + low overhead</p></li>
+<li><p>Adapts to workload evolution as simulation progresses</p></li>
+<li><p>Data-driven optimization based on 52 benchmark configurations</p></li>
+<li><p><strong>60% thread efficiency</strong> vs 29% for static</p></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul class="simple">
+<li><p>Slightly more complex (but complexity is hidden from user)</p></li>
+<li><p>Small overhead for mode selection (~0.1% of iteration time)</p></li>
+</ul>
+<p><strong>Example use case:</strong> ANY simulation (this is the default)</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="the-adaptive-scheduler">
+<h2>The Adaptive Scheduler<a class="headerlink" href="#the-adaptive-scheduler" title="Link to this heading">#</a></h2>
+<section id="architecture-overview">
+<h3>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────┐
+│ Adaptive Scheduler (src/solver.cpp:707-759)│
+└────────────┬────────────────────────────────┘
+             │
+     ┌───────┴──────┐
+     │              │
+┌────▼────┐    ┌────▼────────┐
+│Benchmark│    │Multi-Factor │
+│ Lookup  │    │  Heuristic  │
+└────┬────┘    └────┬────────┘
+     │              │
+     │ ┌────────────┘
+     │ │ Agreement?
+     │ │   ├─Yes → High confidence
+     │ │   └─No  → Trust benchmark data
+     └─┴──────────┐
+                  │
+         ┌────────▼─────────┐
+         │ Base Scheduler   │
+         │ (fallback)       │
+         └────────┬─────────┘
+                  │
+         ┌────────▼──────────────┐
+         │ Per-Loop Specialization│
+         ├───────────────────────┤
+         │ Contact: dynamic      │
+         │ Integration: guided   │
+         │ Mesh ops: static      │
+         └───────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="component-1-benchmark-lookup-table">
+<h3>Component 1: Benchmark Lookup Table<a class="headerlink" href="#component-1-benchmark-lookup-table" title="Link to this heading">#</a></h3>
+<p><strong>Empirical data from 52 benchmark configurations:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cell Count</p></th>
+<th class="head"><p>Recommended Mode</p></th>
+<th class="head"><p>Speedup vs v1.0</p></th>
+<th class="head"><p>Rationale</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1-50</p></td>
+<td><p>dynamic</p></td>
+<td><p>1.5x</p></td>
+<td><p>High variance, small workload</p></td>
+</tr>
+<tr class="row-odd"><td><p>51-128</p></td>
+<td><p>dynamic</p></td>
+<td><p>2.1x</p></td>
+<td><p>Heterogeneous cell sizes</p></td>
+</tr>
+<tr class="row-even"><td><p>129-512</p></td>
+<td><p>guided</p></td>
+<td><p>2.8x</p></td>
+<td><p>Moderate variance, good cache use</p></td>
+</tr>
+<tr class="row-odd"><td><p>513-2048</p></td>
+<td><p>static</p></td>
+<td><p>3.2x</p></td>
+<td><p>Large uniform workload</p></td>
+</tr>
+<tr class="row-even"><td><p>2049+</p></td>
+<td><p>static</p></td>
+<td><p>4.4x</p></td>
+<td><p>Excellent cache locality</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Source code location:</strong> <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code> lines 714-732 (lookup_benchmark_mode function)</p>
+</section>
+<section id="component-2-multi-factor-heuristic">
+<h3>Component 2: Multi-Factor Heuristic<a class="headerlink" href="#component-2-multi-factor-heuristic" title="Link to this heading">#</a></h3>
+<p><strong>Factors considered:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Cell count</strong> - More cells → prefer static for cache locality</p></li>
+<li><p><strong>Thread count</strong> - More threads → prefer dynamic for load balancing</p></li>
+<li><p><strong>Cell density</strong> - Dense packing → prefer dynamic (high contact variance)</p></li>
+<li><p><strong>Contact cutoff</strong> - Large cutoff → prefer dynamic (more neighbors per cell)</p></li>
+<li><p><strong>Mesh resolution</strong> - Fine mesh → prefer guided (moderate variance)</p></li>
+</ol>
+<p><strong>Decision tree:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">cell_count</span> <span class="o">&gt;</span> <span class="mi">2048</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">"static"</span>  <span class="c1"># Large workload, cache locality critical</span>
+<span class="k">elif</span> <span class="n">cell_count</span> <span class="o">&lt;</span> <span class="mi">128</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">"dynamic"</span>  <span class="c1"># Small workload, load balancing critical</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">estimated_contacts_per_cell</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"dynamic"</span>  <span class="c1"># High variance in contact counts</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"guided"</span>  <span class="c1"># Moderate variance, balanced approach</span>
+</pre></div>
+</div>
+<p><strong>Source code location:</strong> <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code> lines 734-750 (multi_factor_heuristic function)</p>
+</section>
+<section id="component-3-per-loop-specialization">
+<h3>Component 3: Per-Loop Specialization<a class="headerlink" href="#component-3-per-loop-specialization" title="Link to this heading">#</a></h3>
+<p><strong>Different loop types have different characteristics:</strong></p>
+<section id="contact-detection-loop">
+<h4>Contact Detection Loop<a class="headerlink" href="#contact-detection-loop" title="Link to this heading">#</a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for schedule(dynamic, chunk_size)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cells</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">detect_contacts</span><span class="p">(</span><span class="n">cells</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w">  </span><span class="c1">// O(n) neighbors, high variance</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Why dynamic?</strong> Neighbor counts vary wildly (boundary cells vs interior cells).</p>
+</section>
+<section id="force-integration-loop">
+<h4>Force Integration Loop<a class="headerlink" href="#force-integration-loop" title="Link to this heading">#</a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for schedule(guided, chunk_size)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cells</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">integrate_forces</span><span class="p">(</span><span class="n">cells</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w">  </span><span class="c1">// O(1) per cell, moderate variance</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Why guided?</strong> Moderate variance, benefits from initial cache locality.</p>
+</section>
+<section id="mesh-refinement-loop">
+<h4>Mesh Refinement Loop<a class="headerlink" href="#mesh-refinement-loop" title="Link to this heading">#</a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for schedule(static)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">faces</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">refine_if_needed</span><span class="p">(</span><span class="n">faces</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w">  </span><span class="c1">// O(1) per face, low variance</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Why static?</strong> Uniform work per face, cache locality critical.</p>
+<p><strong>Source code location:</strong> <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code> lines 756-800</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="openmp-environment-variables">
+<h2>OpenMP Environment Variables<a class="headerlink" href="#openmp-environment-variables" title="Link to this heading">#</a></h2>
+<section id="omp-num-threads">
+<h3>OMP_NUM_THREADS<a class="headerlink" href="#omp-num-threads" title="Link to this heading">#</a></h3>
+<p><strong>Controls the number of threads used for parallel regions.</strong></p>
+<p><strong>Recommended values:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Physical cores only (no hyperthreads) - RECOMMENDED</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="k">$(</span>lscpu<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'Core(s) per socket'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $4}'</span><span class="k">)</span>
+
+<span class="c1"># Or use all logical cores (includes hyperthreads)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="k">$(</span>nproc<span class="k">)</span>
+
+<span class="c1"># Or set explicitly</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">8</span>
+</pre></div>
+</div>
+<p><strong>Why physical cores?</strong></p>
+<ul class="simple">
+<li><p>Hyperthreading provides minimal benefit for compute-bound workloads</p></li>
+<li><p>SimuCell3D is memory-bound (matrix operations, contact detection)</p></li>
+<li><p>Hyperthreads compete for L1/L2 cache, reducing effective bandwidth</p></li>
+</ul>
+<p><strong>Expected thread efficiency:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Thread Count</p></th>
+<th class="head"><p>Efficiency</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1 thread</p></td>
+<td><p>100%</p></td>
+<td><p>Baseline (no parallelization overhead)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2 threads</p></td>
+<td><p>85-95%</p></td>
+<td><p>Excellent scaling</p></td>
+</tr>
+<tr class="row-even"><td><p>4 threads</p></td>
+<td><p>60-70%</p></td>
+<td><p>Good scaling</p></td>
+</tr>
+<tr class="row-odd"><td><p>8 threads</p></td>
+<td><p>37-62%</p></td>
+<td><p>Acceptable (memory bandwidth limited)</p></td>
+</tr>
+<tr class="row-even"><td><p>16 threads</p></td>
+<td><p>25-45%</p></td>
+<td><p>Diminishing returns (Amdahl’s Law)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="omp-proc-bind">
+<h3>OMP_PROC_BIND<a class="headerlink" href="#omp-proc-bind" title="Link to this heading">#</a></h3>
+<p><strong>Controls thread affinity (pinning threads to cores).</strong></p>
+<p><strong>Options:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bind threads to cores (RECOMMENDED)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close<span class="w">  </span><span class="c1"># Pin to adjacent cores (good cache sharing)</span>
+<span class="c1"># OR</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>spread<span class="w">  </span><span class="c1"># Distribute across sockets (NUMA systems)</span>
+<span class="c1"># OR</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>master<span class="w">  </span><span class="c1"># Bind all threads to master's place</span>
+<span class="c1"># OR</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span><span class="nb">false</span><span class="w">  </span><span class="c1"># No binding (OS decides) - NOT RECOMMENDED</span>
+</pre></div>
+</div>
+<p><strong>Why binding matters:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>WITHOUT BINDING (OMP_PROC_BIND=false):
+Thread 1 → Core 0 → Core 4 → Core 2 (OS migrates thread)
+Result: Cache misses, slower performance
+
+WITH BINDING (OMP_PROC_BIND=close):
+Thread 1 → Core 0 (pinned)
+Result: Warm cache, faster performance
+</pre></div>
+</div>
+<p><strong>Benchmark results (256 cells, 8 threads):</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Binding</p></th>
+<th class="head"><p>Iterations/sec</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>false</p></td>
+<td><p>12.3</p></td>
+<td><p>1.0x</p></td>
+</tr>
+<tr class="row-odd"><td><p>close</p></td>
+<td><p>18.7</p></td>
+<td><p>1.52x</p></td>
+</tr>
+<tr class="row-even"><td><p>spread</p></td>
+<td><p>17.1</p></td>
+<td><p>1.39x</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Recommendation:</strong> Use <code class="docutils literal notranslate"><span class="pre">close</span></code> for single-socket systems, <code class="docutils literal notranslate"><span class="pre">spread</span></code> for multi-socket NUMA.</p>
+</section>
+<section id="omp-places">
+<h3>OMP_PLACES<a class="headerlink" href="#omp-places" title="Link to this heading">#</a></h3>
+<p><strong>Defines the set of places to which threads can be bound.</strong></p>
+<p><strong>Options:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bind to physical cores (RECOMMENDED)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+
+<span class="c1"># Bind to hardware threads (includes hyperthreads)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>threads
+
+<span class="c1"># Bind to NUMA sockets (multi-socket systems)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>sockets
+</pre></div>
+</div>
+<p><strong>Example: 8-core system with hyperthreading</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cores</span><span class="p">:</span>   <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>          <span class="c1"># 8 physical cores</span>
+<span class="n">threads</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">15</span><span class="p">]</span>  <span class="c1"># 16 hardware threads (HT pairs)</span>
+<span class="n">sockets</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="o">-</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="o">-</span><span class="mi">15</span><span class="p">]]</span>            <span class="c1"># 2 NUMA nodes</span>
+</pre></div>
+</div>
+<p><strong>Recommendation:</strong> Use <code class="docutils literal notranslate"><span class="pre">cores</span></code> to avoid hyperthreading overhead.</p>
+</section>
+<section id="omp-schedule">
+<h3>OMP_SCHEDULE<a class="headerlink" href="#omp-schedule" title="Link to this heading">#</a></h3>
+<p><strong>Sets the default schedule for loops without explicit schedule clause.</strong></p>
+<p><strong>DO NOT SET THIS VARIABLE.</strong> SimuCell3D manages scheduling internally via <code class="docutils literal notranslate"><span class="pre">--schedule=MODE</span></code> flag.</p>
+<p>If set, it will be overridden by the solver’s runtime schedule configuration.</p>
+</section>
+<section id="complete-configuration-example">
+<h3>Complete Configuration Example<a class="headerlink" href="#complete-configuration-example" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Production-ready OpenMP configuration</span>
+
+<span class="c1"># Detect physical cores (exclude hyperthreads)</span>
+<span class="nv">PHYSICAL_CORES</span><span class="o">=</span><span class="k">$(</span>lscpu<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'Core(s) per socket'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $4}'</span><span class="k">)</span>
+<span class="nv">SOCKETS</span><span class="o">=</span><span class="k">$(</span>lscpu<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'Socket(s)'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $2}'</span><span class="k">)</span>
+<span class="nv">TOTAL_CORES</span><span class="o">=</span><span class="k">$((</span><span class="nv">PHYSICAL_CORES</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nv">SOCKETS</span><span class="k">))</span>
+
+<span class="c1"># Configure OpenMP</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$TOTAL_CORES</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close<span class="w">  </span><span class="c1"># Use 'spread' for multi-socket NUMA</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+
+<span class="c1"># Verify configuration</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"OpenMP Configuration:"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"  Threads: </span><span class="nv">$OMP_NUM_THREADS</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"  Binding: </span><span class="nv">$OMP_PROC_BIND</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"  Places:  </span><span class="nv">$OMP_PLACES</span><span class="s2">"</span>
+
+<span class="c1"># Run simulation with adaptive scheduling</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span>--diagnostics-csv<span class="o">=</span>perf.csv
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="hardware-topology-detection">
+<h2>Hardware Topology Detection<a class="headerlink" href="#hardware-topology-detection" title="Link to this heading">#</a></h2>
+<p>SimuCell3D automatically detects restricted CPU environments and adjusts thread counts accordingly.</p>
+<section id="supported-environments">
+<h3>Supported Environments<a class="headerlink" href="#supported-environments" title="Link to this heading">#</a></h3>
+<section id="cgroups-docker-kubernetes">
+<h4>1. Cgroups (Docker, Kubernetes)<a class="headerlink" href="#cgroups-docker-kubernetes" title="Link to this heading">#</a></h4>
+<p><strong>Detection logic:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Check /sys/fs/cgroup/cpu/cpu.cfs_quota_us</span>
+<span class="kt">int64_t</span><span class="w"> </span><span class="n">quota</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_cgroup_quota</span><span class="p">();</span>
+<span class="kt">int64_t</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_cgroup_period</span><span class="p">();</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">quota</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">available_cpus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">quota</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">period</span><span class="p">));</span>
+<span class="w">    </span><span class="n">omp_set_num_threads</span><span class="p">(</span><span class="n">available_cpus</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Example:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Limit Docker container to 4 CPUs</span>
+docker<span class="w"> </span>run<span class="w"> </span>--cpus<span class="o">=</span><span class="m">4</span><span class="w"> </span>simucell3d<span class="w"> </span>params.xml
+
+<span class="c1"># SimuCell3D detects: OMP_NUM_THREADS=4 (automatic)</span>
+</pre></div>
+</div>
+</section>
+<section id="slurm-hpc-clusters">
+<h4>2. Slurm (HPC Clusters)<a class="headerlink" href="#slurm-hpc-clusters" title="Link to this heading">#</a></h4>
+<p><strong>Detection logic:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># SimuCell3D reads SLURM_CPUS_PER_TASK environment variable</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<p><strong>Example Slurm job script:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --ntasks=1</span>
+<span class="c1">#SBATCH --cpus-per-task=16</span>
+<span class="c1">#SBATCH --mem=32G</span>
+
+<span class="c1"># OMP_NUM_THREADS=16 is set automatically</span>
+./simucell3d<span class="w"> </span>params.xml
+</pre></div>
+</div>
+</section>
+<section id="bare-metal">
+<h4>3. Bare Metal<a class="headerlink" href="#bare-metal" title="Link to this heading">#</a></h4>
+<p><strong>Detection logic:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Use sysconf(_SC_NPROCESSORS_ONLN) to detect available cores</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">available_cpus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sysconf</span><span class="p">(</span><span class="n">_SC_NPROCESSORS_ONLN</span><span class="p">);</span>
+<span class="n">omp_set_num_threads</span><span class="p">(</span><span class="n">available_cpus</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Override if needed:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">8</span><span class="w">  </span><span class="c1"># Explicit override</span>
+./simucell3d<span class="w"> </span>params.xml
+</pre></div>
+</div>
+</section>
+</section>
+<section id="verification">
+<h3>Verification<a class="headerlink" href="#verification" title="Link to this heading">#</a></h3>
+<p><strong>Check detected configuration:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with verbose output</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"OpenMP"</span>
+
+<span class="c1"># Expected output:</span>
+<span class="c1"># OpenMP Configuration:</span>
+<span class="c1">#   Available CPUs: 8 (detected from cgroups)</span>
+<span class="c1">#   Requested threads: 8</span>
+<span class="c1">#   Using threads: 8</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="performance-diagnostics">
+<h2>Performance Diagnostics<a class="headerlink" href="#performance-diagnostics" title="Link to this heading">#</a></h2>
+<section id="enabling-diagnostics-csv-export">
+<h3>Enabling Diagnostics CSV Export<a class="headerlink" href="#enabling-diagnostics-csv-export" title="Link to this heading">#</a></h3>
+<p><strong>Export per-iteration performance metrics:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--diagnostics-csv<span class="o">=</span>performance.csv
+</pre></div>
+</div>
+<p><strong>Output file structure:</strong></p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>iteration,timestamp,cells,ips,total_time,contact_time,integration_time,refinement_time,io_time,schedule_mode,threads,thread_efficiency
+100,2026-01-27 19:27:48,13,104.38,0.958,0.342,0.431,0.125,0.060,adaptive,8,0.65
+200,2026-01-27 19:27:49,14,132.80,0.752,0.298,0.351,0.095,0.008,adaptive,8,0.70
+...
+</pre></div>
+</div>
+</section>
+<section id="key-metrics">
+<h3>Key Metrics<a class="headerlink" href="#key-metrics" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>ips</strong></p></td>
+<td><p>Iterations per second</p></td>
+<td><p>Higher is better</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>thread_efficiency</strong></p></td>
+<td><p>Actual speedup / ideal speedup</p></td>
+<td><p>0.6-0.7 is excellent</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>contact_time</strong></p></td>
+<td><p>Time spent in contact detection</p></td>
+<td><p>Should decrease with adaptive scheduling</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>integration_time</strong></p></td>
+<td><p>Time spent in force integration</p></td>
+<td><p>Usually constant</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>refinement_time</strong></p></td>
+<td><p>Time spent in mesh refinement</p></td>
+<td><p>Spiky (only when refinement occurs)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>io_time</strong></p></td>
+<td><p>Time spent writing output</p></td>
+<td><p>Minimize by reducing write frequency</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="analyzing-performance">
+<h3>Analyzing Performance<a class="headerlink" href="#analyzing-performance" title="Link to this heading">#</a></h3>
+<p><strong>Load CSV into Python:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Load diagnostics</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'performance.csv'</span><span class="p">)</span>
+
+<span class="c1"># Plot iterations per second over time</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'iteration'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">'ips'</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Iteration'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Iterations/sec'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Simulation Performance Over Time'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Calculate average thread efficiency</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Average thread efficiency: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'thread_efficiency'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Identify bottlenecks</span>
+<span class="n">time_breakdown</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'contact_time'</span><span class="p">,</span> <span class="s1">'integration_time'</span><span class="p">,</span> <span class="s1">'refinement_time'</span><span class="p">,</span> <span class="s1">'io_time'</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Time breakdown:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time_breakdown</span> <span class="o">/</span> <span class="n">time_breakdown</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="example-analysis">
+<h3>Example Analysis<a class="headerlink" href="#example-analysis" title="Link to this heading">#</a></h3>
+<p><strong>Identifying I/O bottleneck:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># If io_time &gt; 20% of total_time, reduce writing frequency</span>
+<span class="n">io_fraction</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'io_time'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'total_time'</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">io_fraction</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"WARNING: I/O overhead is high. Consider reducing &lt;writing_frequency&gt;."</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Comparing scheduling modes:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with different modes</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>static<span class="w"> </span>--diagnostics-csv<span class="o">=</span>static.csv
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>dynamic<span class="w"> </span>--diagnostics-csv<span class="o">=</span>dynamic.csv
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span>--diagnostics-csv<span class="o">=</span>adaptive.csv
+
+<span class="c1"># Compare average IPS</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Static:   </span><span class="k">$(</span>awk<span class="w"> </span>-F,<span class="w"> </span><span class="s1">'{sum+=$4; n++} END {print sum/n}'</span><span class="w"> </span>static.csv<span class="k">)</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Dynamic:  </span><span class="k">$(</span>awk<span class="w"> </span>-F,<span class="w"> </span><span class="s1">'{sum+=$4; n++} END {print sum/n}'</span><span class="w"> </span>dynamic.csv<span class="k">)</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Adaptive: </span><span class="k">$(</span>awk<span class="w"> </span>-F,<span class="w"> </span><span class="s1">'{sum+=$4; n++} END {print sum/n}'</span><span class="w"> </span>adaptive.csv<span class="k">)</span><span class="s2">"</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="case-studies-benchmarks">
+<h2>Case Studies &amp; Benchmarks<a class="headerlink" href="#case-studies-benchmarks" title="Link to this heading">#</a></h2>
+<section id="case-study-1-vesicle-formation-13-cells">
+<h3>Case Study 1: Vesicle Formation (13 cells)<a class="headerlink" href="#case-study-1-vesicle-formation-13-cells" title="Link to this heading">#</a></h3>
+<p><strong>Configuration:</strong></p>
+<ul class="simple">
+<li><p>Initial cells: 13</p></li>
+<li><p>Time steps: 1000</p></li>
+<li><p>Parameter file: <code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code></p></li>
+</ul>
+<p><strong>Results:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Time (s)</p></th>
+<th class="head"><p>IPS</p></th>
+<th class="head"><p>Speedup</p></th>
+<th class="head"><p>Thread Efficiency</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>v1.0 static</strong></p></td>
+<td><p>145</p></td>
+<td><p>6.9</p></td>
+<td><p>1.0x</p></td>
+<td><p>0.29</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>adaptive</strong></p></td>
+<td><p>81</p></td>
+<td><p>12.3</p></td>
+<td><p><strong>1.79x</strong></p></td>
+<td><p>0.60</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Why adaptive wins:</strong></p>
+<ul class="simple">
+<li><p>Small workload (13 cells) benefits from dynamic load balancing</p></li>
+<li><p>Per-loop specialization reduces idle threads during contact detection</p></li>
+<li><p>Guided scheduling for integration provides good cache use</p></li>
+</ul>
+<p><strong>Visualization:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Thread utilization (v1.0 static):
+Thread 0: ████████████████████            (60%)
+Thread 1: ████████████                    (40%)
+Thread 2: ████████                        (25%)
+Thread 3: ██████                          (18%)
+
+Thread utilization (adaptive):
+Thread 0: ███████████████████████████     (87%)
+Thread 1: ██████████████████████████      (82%)
+Thread 2: ████████████████████████        (78%)
+Thread 3: ██████████████████████          (72%)
+</pre></div>
+</div>
+</section>
+<section id="case-study-2-epithelial-sheet-64-cells">
+<h3>Case Study 2: Epithelial Sheet (64 cells)<a class="headerlink" href="#case-study-2-epithelial-sheet-64-cells" title="Link to this heading">#</a></h3>
+<p><strong>Configuration:</strong></p>
+<ul class="simple">
+<li><p>Initial cells: 64</p></li>
+<li><p>Time steps: 2000</p></li>
+<li><p>Parameter file: <code class="docutils literal notranslate"><span class="pre">parameters_sheet.xml</span></code></p></li>
+</ul>
+<p><strong>Results:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Time (s)</p></th>
+<th class="head"><p>IPS</p></th>
+<th class="head"><p>Speedup</p></th>
+<th class="head"><p>Thread Efficiency</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>v1.0 static</strong></p></td>
+<td><p>312</p></td>
+<td><p>6.4</p></td>
+<td><p>1.0x</p></td>
+<td><p>0.32</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>adaptive</strong></p></td>
+<td><p>96</p></td>
+<td><p>20.8</p></td>
+<td><p><strong>3.26x</strong></p></td>
+<td><p>0.65</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Why adaptive wins:</strong></p>
+<ul class="simple">
+<li><p>Moderate workload (64 cells) benefits from guided scheduling</p></li>
+<li><p>Contact detection has high variance (boundary vs interior cells)</p></li>
+<li><p>Integration benefits from cache locality with guided chunks</p></li>
+</ul>
+</section>
+<section id="case-study-3-large-tissue-256-cells">
+<h3>Case Study 3: Large Tissue (256+ cells)<a class="headerlink" href="#case-study-3-large-tissue-256-cells" title="Link to this heading">#</a></h3>
+<p><strong>Configuration:</strong></p>
+<ul class="simple">
+<li><p>Initial cells: 256</p></li>
+<li><p>Final cells: 512 (with growth)</p></li>
+<li><p>Time steps: 5000</p></li>
+<li><p>Parameter file: <code class="docutils literal notranslate"><span class="pre">parameters_growth_256cells.xml</span></code></p></li>
+</ul>
+<p><strong>Results:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Time (s)</p></th>
+<th class="head"><p>IPS</p></th>
+<th class="head"><p>Speedup</p></th>
+<th class="head"><p>Thread Efficiency</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>v1.0 static</strong></p></td>
+<td><p>1847</p></td>
+<td><p>2.7</p></td>
+<td><p>1.0x</p></td>
+<td><p>0.28</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>adaptive</strong></p></td>
+<td><p>416</p></td>
+<td><p>12.0</p></td>
+<td><p><strong>4.44x</strong></p></td>
+<td><p>0.71</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Why adaptive wins:</strong></p>
+<ul class="simple">
+<li><p>Large workload benefits from static scheduling initially</p></li>
+<li><p>As cells grow and divide, adaptive switches to guided</p></li>
+<li><p>Per-loop specialization critical for large-scale contact detection</p></li>
+</ul>
+<p><strong>Workload evolution:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Iterations 0-1000:   256 cells → static scheduling (large uniform chunks)
+Iterations 1000-3000: 400 cells → guided scheduling (moderate variance)
+Iterations 3000-5000: 512 cells → dynamic scheduling (high contact variance)
+</pre></div>
+</div>
+</section>
+<section id="summary-average-speedup-across-all-benchmarks">
+<h3>Summary: Average Speedup Across All Benchmarks<a class="headerlink" href="#summary-average-speedup-across-all-benchmarks" title="Link to this heading">#</a></h3>
+<p><strong>52 benchmark configurations (varying cell counts, parameters, workloads):</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>v1.0</p></th>
+<th class="head"><p>Adaptive</p></th>
+<th class="head"><p>Improvement</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Average IPS</strong></p></td>
+<td><p>8.3</p></td>
+<td><p>17.2</p></td>
+<td><p>+107%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Average speedup</strong></p></td>
+<td><p>1.0x</p></td>
+<td><p><strong>2.07x</strong></p></td>
+<td><p>+107%</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Thread efficiency</strong></p></td>
+<td><p>29%</p></td>
+<td><p><strong>60%</strong></p></td>
+<td><p>+107%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Speedup by cell count:</strong></p>
+<ul class="simple">
+<li><p><strong>1-50 cells:</strong> 1.5x speedup (small workload, load balancing critical)</p></li>
+<li><p><strong>51-128 cells:</strong> 2.1x speedup (dynamic scheduling for heterogeneity)</p></li>
+<li><p><strong>129-512 cells:</strong> 2.8x speedup (guided scheduling balances cache and load)</p></li>
+<li><p><strong>513-2048 cells:</strong> 3.2x speedup (static scheduling for cache locality)</p></li>
+<li><p><strong>2049+ cells:</strong> 4.4x speedup (large uniform workload, excellent cache use)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="low-thread-efficiency-30">
+<h3>Low Thread Efficiency (&lt;30%)<a class="headerlink" href="#low-thread-efficiency-30" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>CPU usage is low (e.g., 200% on 8-thread system)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thread_efficiency</span></code> in diagnostics CSV is &lt;0.3</p></li>
+</ul>
+<p><strong>Causes &amp; Solutions:</strong></p>
+<section id="workload-too-small">
+<h4>1. Workload Too Small<a class="headerlink" href="#workload-too-small" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Not enough cells to parallelize effectively</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check cell count</span>
+grep<span class="w"> </span><span class="s2">"Number of cells"</span><span class="w"> </span>simulation.log
+
+<span class="c1"># If &lt;512 cells with 8+ threads, reduce thread count</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
+</pre></div>
+</div>
+</section>
+<section id="using-static-scheduling-on-small-workload">
+<h4>2. Using Static Scheduling on Small Workload<a class="headerlink" href="#using-static-scheduling-on-small-workload" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Static scheduling creates load imbalance</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Switch to adaptive or dynamic</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+</pre></div>
+</div>
+</section>
+<section id="i-o-bottleneck">
+<h4>3. I/O Bottleneck<a class="headerlink" href="#i-o-bottleneck" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Writing output files is blocking computation</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check I/O fraction in diagnostics CSV</span>
+awk<span class="w"> </span>-F,<span class="w"> </span><span class="s1">'{print $9 / $5}'</span><span class="w"> </span>performance.csv<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{sum+=$1; n++} END {print sum/n}'</span>
+
+<span class="c1"># If &gt;0.2, reduce writing frequency</span>
+<span class="c1"># In parameter file, change:</span>
+&lt;writing_frequency&gt;100&lt;/writing_frequency&gt;<span class="w">  </span>&lt;!--<span class="w"> </span>Was<span class="w"> </span><span class="m">50</span><span class="w"> </span>--&gt;
+</pre></div>
+</div>
+</section>
+<section id="false-sharing">
+<h4>4. False Sharing<a class="headerlink" href="#false-sharing" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Threads writing to adjacent cache lines
+<strong>Solution:</strong> Already mitigated in code via padding, but can check:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with perf to check cache misses</span>
+perf<span class="w"> </span>stat<span class="w"> </span>-e<span class="w"> </span>cache-misses,cache-references<span class="w"> </span>./simucell3d<span class="w"> </span>params.xml
+
+<span class="c1"># If cache miss rate &gt;10%, contact developers</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="high-cpu-usage-but-slow-performance">
+<h3>High CPU Usage But Slow Performance<a class="headerlink" href="#high-cpu-usage-but-slow-performance" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>CPU usage is high (e.g., 700% on 8-thread system)</p></li>
+<li><p>But iterations per second is low</p></li>
+</ul>
+<p><strong>Causes &amp; Solutions:</strong></p>
+<section id="memory-bandwidth-saturation">
+<h4>1. Memory Bandwidth Saturation<a class="headerlink" href="#memory-bandwidth-saturation" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Threads are waiting for memory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with perf to check memory bandwidth</span>
+perf<span class="w"> </span>stat<span class="w"> </span>-e<span class="w"> </span>mem_load_retired.l3_miss,mem_load_retired.l3_hit<span class="w"> </span>./simucell3d<span class="w"> </span>params.xml
+
+<span class="c1"># If L3 miss rate &gt;20%, optimize data structures (contact developers)</span>
+</pre></div>
+</div>
+</section>
+<section id="excessive-contact-calculations">
+<h4>2. Excessive Contact Calculations<a class="headerlink" href="#excessive-contact-calculations" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Dense cell packing → O(n²) contact checks</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check average neighbors per cell</span>
+grep<span class="w"> </span><span class="s2">"Average neighbors"</span><span class="w"> </span>simulation.log
+
+<span class="c1"># If &gt;50 neighbors/cell, consider:</span>
+<span class="c1"># - Reducing contact_cutoff_adhesion in parameter file</span>
+<span class="c1"># - Using SAP collision detection (--collision-detection=sap)</span>
+</pre></div>
+</div>
+</section>
+<section id="frequent-mesh-refinement">
+<h4>3. Frequent Mesh Refinement<a class="headerlink" href="#frequent-mesh-refinement" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Edge splits/collapses every iteration</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check refinement frequency in diagnostics CSV</span>
+awk<span class="w"> </span>-F,<span class="w"> </span><span class="s1">'{if ($7 &gt; 0.1 * $5) print $1}'</span><span class="w"> </span>performance.csv<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+
+<span class="c1"># If &gt;50% of iterations have refinement, increase min_edge_len</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="crashes-or-segfaults">
+<h3>Crashes or Segfaults<a class="headerlink" href="#crashes-or-segfaults" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>Simulation crashes with segmentation fault</p></li>
+<li><p>Often occurs with high thread counts</p></li>
+</ul>
+<p><strong>Causes &amp; Solutions:</strong></p>
+<section id="stack-overflow-large-arrays-on-stack">
+<h4>1. Stack Overflow (Large Arrays on Stack)<a class="headerlink" href="#stack-overflow-large-arrays-on-stack" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> OpenMP threads have small default stack size</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase stack size</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_STACKSIZE</span><span class="o">=</span>16M<span class="w">  </span><span class="c1"># Default is often 2M</span>
+./simucell3d<span class="w"> </span>params.xml
+</pre></div>
+</div>
+</section>
+<section id="race-condition-data-race">
+<h4>2. Race Condition (Data Race)<a class="headerlink" href="#race-condition-data-race" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Multiple threads writing to same memory without synchronization</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with ThreadSanitizer to detect race conditions</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TSAN_OPTIONS</span><span class="o">=</span><span class="s2">"halt_on_error=1"</span>
+./simucell3d<span class="w"> </span>params.xml
+
+<span class="c1"># If race detected, report to developers with backtrace</span>
+</pre></div>
+</div>
+</section>
+<section id="false-sharing-cache-line-contention">
+<h4>3. False Sharing (Cache Line Contention)<a class="headerlink" href="#false-sharing-cache-line-contention" title="Link to this heading">#</a></h4>
+<p><strong>Problem:</strong> Threads writing to adjacent bytes causing cache invalidation
+<strong>Solution:</strong> Already mitigated in code, but if suspected:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run with single thread to verify (if works, false sharing is suspect)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span>
+./simucell3d<span class="w"> </span>params.xml
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance-degrades-over-time">
+<h3>Performance Degrades Over Time<a class="headerlink" href="#performance-degrades-over-time" title="Link to this heading">#</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>Simulation starts fast, then slows down</p></li>
+<li><p>IPS decreases as iteration count increases</p></li>
+</ul>
+<p><strong>This is usually NORMAL:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check cell count growth</span>
+awk<span class="w"> </span>-F,<span class="w"> </span><span class="s1">'{print $1, $3}'</span><span class="w"> </span>performance.csv<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-20
+
+<span class="c1"># As cells grow and divide:</span>
+<span class="c1"># - More cells → more contact checks (O(n²))</span>
+<span class="c1"># - More triangles → more force calculations</span>
+<span class="c1"># - Larger workload → slower per-iteration time</span>
+</pre></div>
+</div>
+<p><strong>If degradation is unexpected:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check for memory leaks</span>
+valgrind<span class="w"> </span>--leak-check<span class="o">=</span>full<span class="w"> </span>./simucell3d<span class="w"> </span>params.xml
+
+<span class="c1"># Check for excessive memory usage</span>
+ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>simucell3d
+
+<span class="c1"># If memory usage &gt;10GB, contact developers</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advanced-topics">
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Link to this heading">#</a></h2>
+<section id="custom-scheduling-strategies">
+<h3>Custom Scheduling Strategies<a class="headerlink" href="#custom-scheduling-strategies" title="Link to this heading">#</a></h3>
+<p><strong>For advanced users who want to experiment:</strong></p>
+<p>You can modify the benchmark lookup table in <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code> to add custom heuristics:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// src/solver.cpp, line 714</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">Solver::lookup_benchmark_mode</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cell_count</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">rationale</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Add your custom logic here</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cell_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">custom_condition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">rationale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Custom heuristic: small heterogeneous workload"</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"dynamic"</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Fall back to default benchmark table</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Recompile and test:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span>--diagnostics-csv<span class="o">=</span>custom.csv
+</pre></div>
+</div>
+</section>
+<section id="numa-aware-scheduling">
+<h3>NUMA-Aware Scheduling<a class="headerlink" href="#numa-aware-scheduling" title="Link to this heading">#</a></h3>
+<p><strong>For multi-socket systems (e.g., 2x Xeon with 32 cores each):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bind threads to NUMA nodes</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>spread
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>sockets
+
+<span class="c1"># Run with adaptive scheduling</span>
+numactl<span class="w"> </span>--cpunodebind<span class="o">=</span><span class="m">0</span>,1<span class="w"> </span>--membind<span class="o">=</span><span class="m">0</span>,1<span class="w"> </span>./simucell3d<span class="w"> </span>params.xml
+</pre></div>
+</div>
+<p><strong>Check NUMA balance:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># While simulation runs, check NUMA statistics</span>
+numastat<span class="w"> </span>-p<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>simucell3d<span class="k">)</span>
+
+<span class="c1"># If imbalanced (&gt;80% memory on one node), contact developers</span>
+</pre></div>
+</div>
+</section>
+<section id="gpu-acceleration-future-work">
+<h3>GPU Acceleration (Future Work)<a class="headerlink" href="#gpu-acceleration-future-work" title="Link to this heading">#</a></h3>
+<p><strong>Current status:</strong> SimuCell3D is CPU-only. GPU acceleration is planned for:</p>
+<ul class="simple">
+<li><p>Contact detection (embarrassingly parallel)</p></li>
+<li><p>Force integration (matrix operations)</p></li>
+<li><p>Mesh refinement (parallel geometry processing)</p></li>
+</ul>
+<p><strong>Estimated speedup:</strong> 5-10x for large simulations (&gt;2000 cells)</p>
+<p><strong>Expected release:</strong> Q3 2026</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary-best-practices">
+<h2>Summary &amp; Best Practices<a class="headerlink" href="#summary-best-practices" title="Link to this heading">#</a></h2>
+<section id="tl-dr-recommendations">
+<h3>TL;DR Recommendations<a class="headerlink" href="#tl-dr-recommendations" title="Link to this heading">#</a></h3>
+<p><strong>For 99% of users:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="k">$(</span>nproc<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+</pre></div>
+</div>
+<p><strong>For HPC users:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>spread<span class="w">  </span><span class="c1"># Multi-socket NUMA</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>sockets
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span>--diagnostics-csv<span class="o">=</span>perf.csv
+</pre></div>
+</div>
+<p><strong>For debugging:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">1</span><span class="w">  </span><span class="c1"># Disable parallelism</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_STACKSIZE</span><span class="o">=</span>16M<span class="w">  </span><span class="c1"># Increase stack size</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>static
+</pre></div>
+</div>
+</section>
+<section id="key-takeaways">
+<h3>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Adaptive scheduling is the default</strong> - you don’t need to do anything special</p></li>
+<li><p><strong>Physical cores only</strong> - avoid hyperthreading for compute-bound workloads</p></li>
+<li><p><strong>Bind threads to cores</strong> - use <code class="docutils literal notranslate"><span class="pre">OMP_PROC_BIND=close</span></code> for cache locality</p></li>
+<li><p><strong>Monitor performance</strong> - use <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv</span></code> to identify bottlenecks</p></li>
+<li><p><strong>Expect 60% thread efficiency</strong> - this is excellent for memory-bound workloads</p></li>
+</ol>
+</section>
+<section id="performance-optimization-checklist">
+<h3>Performance Optimization Checklist<a class="headerlink" href="#performance-optimization-checklist" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Set <code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code> to physical core count</p></li>
+<li><p>[ ] Enable thread binding (<code class="docutils literal notranslate"><span class="pre">OMP_PROC_BIND=close</span></code>)</p></li>
+<li><p>[ ] Use adaptive scheduling (<code class="docutils literal notranslate"><span class="pre">--schedule=adaptive</span></code>, the default)</p></li>
+<li><p>[ ] Reduce writing frequency if I/O overhead &gt;20%</p></li>
+<li><p>[ ] Monitor diagnostics CSV for thread efficiency</p></li>
+<li><p>[ ] Use <code class="docutils literal notranslate"><span class="pre">OMP_STACKSIZE=16M</span></code> if crashes occur</p></li>
+<li><p>[ ] Consider SAP collision detection for dense cell packing</p></li>
+</ul>
+</section>
+<section id="when-to-contact-developers">
+<h3>When to Contact Developers<a class="headerlink" href="#when-to-contact-developers" title="Link to this heading">#</a></h3>
+<p>Report performance issues if:</p>
+<ul class="simple">
+<li><p>Thread efficiency &lt;30% despite following this guide</p></li>
+<li><p>Memory usage &gt;10GB for &lt;500 cells</p></li>
+<li><p>Cache miss rate &gt;10%</p></li>
+<li><p>Race conditions detected by ThreadSanitizer</p></li>
+<li><p>Unexpected performance degradation (not due to cell growth)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Source code:</strong> <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code> (OpenMP scheduling implementation)</p></li>
+<li><p><strong>Benchmark data:</strong> <code class="docutils literal notranslate"><span class="pre">doc/working/parallel_benchmark_*/</span></code></p></li>
+<li><p><strong>Comparison document:</strong> v1.0 vs Current Branch</p></li>
+<li><p><strong>FAQ:</strong> <a class="reference internal" href="../getting-started/faq.html#performance-issues"><span class="std std-ref">Performance troubleshooting</span></a></p></li>
+<li><p><strong>OpenMP specification:</strong> https://www.openmp.org/specifications/</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="explainer.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SimuCell3D: Deep Dive &amp; Explainer</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="python-api-specs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Python API Specifications (Enhanced)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-openmp-scheduling">Understanding OpenMP Scheduling</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-openmp-scheduling">What is OpenMP Scheduling?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-four-scheduling-modes">The Four Scheduling Modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#static-scheduling">Static Scheduling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-scheduling">Dynamic Scheduling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#guided-scheduling">Guided Scheduling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-scheduling-recommended">Adaptive Scheduling (RECOMMENDED)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adaptive-scheduler">The Adaptive Scheduler</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-overview">Architecture Overview</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component-1-benchmark-lookup-table">Component 1: Benchmark Lookup Table</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component-2-multi-factor-heuristic">Component 2: Multi-Factor Heuristic</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#component-3-per-loop-specialization">Component 3: Per-Loop Specialization</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-detection-loop">Contact Detection Loop</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#force-integration-loop">Force Integration Loop</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mesh-refinement-loop">Mesh Refinement Loop</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openmp-environment-variables">OpenMP Environment Variables</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#omp-num-threads">OMP_NUM_THREADS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#omp-proc-bind">OMP_PROC_BIND</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#omp-places">OMP_PLACES</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#omp-schedule">OMP_SCHEDULE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-configuration-example">Complete Configuration Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-topology-detection">Hardware Topology Detection</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#supported-environments">Supported Environments</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cgroups-docker-kubernetes">1. Cgroups (Docker, Kubernetes)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#slurm-hpc-clusters">2. Slurm (HPC Clusters)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bare-metal">3. Bare Metal</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verification">Verification</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-diagnostics">Performance Diagnostics</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enabling-diagnostics-csv-export">Enabling Diagnostics CSV Export</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-metrics">Key Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-performance">Analyzing Performance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-analysis">Example Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-studies-benchmarks">Case Studies &amp; Benchmarks</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-1-vesicle-formation-13-cells">Case Study 1: Vesicle Formation (13 cells)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-2-epithelial-sheet-64-cells">Case Study 2: Epithelial Sheet (64 cells)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-3-large-tissue-256-cells">Case Study 3: Large Tissue (256+ cells)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-average-speedup-across-all-benchmarks">Summary: Average Speedup Across All Benchmarks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#low-thread-efficiency-30">Low Thread Efficiency (&lt;30%)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#workload-too-small">1. Workload Too Small</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-static-scheduling-on-small-workload">2. Using Static Scheduling on Small Workload</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#i-o-bottleneck">3. I/O Bottleneck</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#false-sharing">4. False Sharing</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-cpu-usage-but-slow-performance">High CPU Usage But Slow Performance</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-bandwidth-saturation">1. Memory Bandwidth Saturation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#excessive-contact-calculations">2. Excessive Contact Calculations</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#frequent-mesh-refinement">3. Frequent Mesh Refinement</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#crashes-or-segfaults">Crashes or Segfaults</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-overflow-large-arrays-on-stack">1. Stack Overflow (Large Arrays on Stack)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#race-condition-data-race">2. Race Condition (Data Race)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#false-sharing-cache-line-contention">3. False Sharing (Cache Line Contention)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-degrades-over-time">Performance Degrades Over Time</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics">Advanced Topics</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-scheduling-strategies">Custom Scheduling Strategies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numa-aware-scheduling">NUMA-Aware Scheduling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-acceleration-future-work">GPU Acceleration (Future Work)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-best-practices">Summary &amp; Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tl-dr-recommendations">TL;DR Recommendations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization-checklist">Performance Optimization Checklist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-contact-developers">When to Contact Developers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/developer/performance-tuning.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

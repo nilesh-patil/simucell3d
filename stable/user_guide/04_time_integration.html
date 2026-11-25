@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/04_time_integration';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/04_time_integration.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/user_guide/04_time_integration.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Mesh refinement" href="05_mesh_refinement.html" />
     <link rel="prev" title="Contact between cells" href="03_contact.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Time integration - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/user_guide/04_time_integration.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -638,7 +671,8 @@ parameter reader accepts 0, which then divides by zero.</p>
 <p class="admonition-title">Note</p>
 <p>The source comments of the time integrator mention a third scheme (index 2, improved Euler).
 It is not implemented: with contact model 2 the build fails, and with contact models 0 and 1
-the nodes do not move. Use index 0 or 1.</p>
+the integrator throws an error at the first time step, from inside a parallel loop, which ends
+the program. Use index 0 or 1.</p>
 </div>
 </section>
 <section id="coupled-nodes">
@@ -668,8 +702,8 @@ the momentum first and move every node, and every coupled group, with the new mo
 <a class="reference internal" href="#equation-eq-semi-implicit-euler">(3)</a>. Contact models 0 and 1 were already semi-implicit in 1.0.</p>
 <p>For a mode of stiffness <span class="math notranslate nohighlight">\(k\)</span>, one forward Euler step damps it as if the damping coefficient were
 <span class="math notranslate nohighlight">\(\zeta - k\,\Delta t\)</span> instead of <span class="math notranslate nohighlight">\(\zeta\)</span>. Modes stiffer than <span class="math notranslate nohighlight">\(\zeta/\Delta t\)</span> were therefore
-anti-damped in 1.0: with <span class="math notranslate nohighlight">\(\Delta t = 10^{-7}\)</span> s and <span class="math notranslate nohighlight">\(\zeta = 2.5	imes10^{-10}\)</span> kg/s, that is
-<span class="math notranslate nohighlight">\(k &gt; 2.5	imes10^{-3}\)</span> N/m. The relaxation of every cell surface, not only of cell-cell
+anti-damped in 1.0: with a time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s and <span class="math notranslate nohighlight">\(\zeta = 2.5\times10^{-10}\)</span> kg/s, that is
+<span class="math notranslate nohighlight">\(k &gt; 2.5\times10^{-3}\)</span> N/m. The relaxation of every cell surface, not only of cell-cell
 contacts, changes compared with 1.0, so 2.1 does not reproduce the dynamics of results
 computed with 1.0 in this configuration, which is the default build.</p>
 </div>
@@ -691,15 +725,55 @@ standard linear stability estimates are</p>
 <p>The node mass falls with the mesh resolution (smaller <span class="math notranslate nohighlight">\(l_{\min}\)</span> means more nodes per cell), so
 a finer mesh needs a smaller time step. In practice, check a configuration by halving the time
 step and comparing the results.</p>
-<p>All shipped parameter files use <span class="math notranslate nohighlight">\(\Delta t = 10^{-7}\)</span> s, the value of the paper’s Table 2, except
-<code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code> (<span class="math notranslate nohighlight">\(5\times10^{-7}\)</span> s, a short smoke test). The
-damping coefficients are <span class="math notranslate nohighlight">\(2.5\times10^{-10}\)</span> to <span class="math notranslate nohighlight">\(2\times10^{-9}\)</span> kg/s with the dynamic model and
+<p>All shipped parameter files use a time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s, the value of the paper’s Table 2,
+including the short smoke test <code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle_quick.xml</span></code> (200 iterations).
+The damping coefficients are <span class="math notranslate nohighlight">\(2.5\times10^{-10}\)</span> to <span class="math notranslate nohighlight">\(2\times10^{-9}\)</span> kg/s with the dynamic model and
 <span class="math notranslate nohighlight">\(3\times10^{-9}\)</span> kg/s in <code class="docutils literal notranslate"><span class="pre">parameters_default_overdamped.xml</span></code>; Table 2 gives
 <span class="math notranslate nohighlight">\(2.5\times10^{-10}\)</span> kg/s (dynamic) and <span class="math notranslate nohighlight">\(3\times10^{-9}\)</span> kg/s (overdamped).</p>
 <p>A diverging simulation shows up as cells that stretch to many times their size or nodes with
 non-finite coordinates. 2.1 removes such cells and logs them (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>); frequent
-removals are a sign that the time step is too large or a parameter is out of range. The
+<a class="reference internal" href="../glossary.html#term-removal"><span class="xref std std-term">removals</span></a> are a sign that the time step is too large or a parameter is out of range. The
 CHANGELOG also lists rare single-node blow-ups of unknown cause as a known issue.</p>
+<section id="what-the-november-2026-benchmark-measured">
+<span id="ug-time-step-measured"></span><h3>What the November 2026 benchmark measured<a class="headerlink" href="#what-the-november-2026-benchmark-measured" title="Link to this heading">#</a></h3>
+<p>The shipped step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s is not stable for every configuration. Measured with 2.1.0 in
+November 2026 on 8-core cloud machines (GCP c2-standard-16, 8 threads):</p>
+<ul class="simple">
+<li><p><strong>The lab’s growth benchmark</strong> (<code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> of 1.0, contact model 1; the file
+is not shipped with 2.1.0, see <a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>). The published step of
+<code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s is unstable in every build tested, 1.0 included. 2.1.0 still reaches 150,000 cells at
+that step, but removes 93,310 cells as numerically unstable on the way. At
+<code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s, 2.1.0 ran without a single removal in three of three 48-hour runs, to
+142,000 to 149,000 cells. The largest step at which it stayed clean was <code class="docutils literal notranslate"><span class="pre">5e-8</span></code> s, in a
+single 3-hour run to about 34,000 cells. For this file, <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s is the recommended step: it
+is the largest one with clean full-length runs, which is a measurement, not a guarantee for
+other runs.</p></li>
+<li><p><strong>Vesicles and tube.</strong> At their shipped step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s, these ran clean: the vesicle sweep
+and the paper-protocol runs (about 1,700 iterations) built from <code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code> and
+<code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code>, the multilayer file in a 48-hour run toward its full duration (87,084 of
+100,000 iterations), and the tube of
+<code class="docutils literal notranslate"><span class="pre">parameters_tube.xml</span></code>. One case failed: <code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code> run for its full duration of
+<code class="docutils literal notranslate"><span class="pre">1e-2</span></code> s loses most of its cells in every build; see <a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>.</p></li>
+</ul>
+<p>The numbers per tissue and build are in <a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>. A configuration that differs
+from these, in particular a finer mesh or a stiffer contact law, needs its own check.</p>
+</section>
+<section id="checking-the-time-step-of-a-run">
+<h3>Checking the time step of a run<a class="headerlink" href="#checking-the-time-step-of-a-run" title="Link to this heading">#</a></h3>
+<p>An unstable step does not stop the run. In 2.1 it shows up as removals of numerically unstable
+cells: at <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s in the growth benchmark almost all of them were removed for an extent beyond
+the limit, and a few had nodes with non-finite coordinates. To check a configuration:</p>
+<ol class="arabic simple">
+<li><p>Capture standard error and count both kinds of removal, <code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell</span></code>
+and <code class="docutils literal notranslate"><span class="pre">mesh</span> <span class="pre">refinement</span> <span class="pre">failed</span></code> (<a class="reference internal" href="09_safeguards.html#ug-safeguards-counting"><span class="std std-ref">Counting safeguard events</span></a>). A clean run has none. The column
+<code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code> of the diagnostics CSV counts both and shows when they happen, except
+in the last incomplete 100-iteration window.</p></li>
+<li><p>Compare the final cell count with the number of removals; the exit status is 0 either way.</p></li>
+<li><p>Repeat a short run at half the step and compare the readouts that matter for the study. With
+divisions the runs are not identical even at the same step (see
+<a class="reference internal" href="#reproducibility">Reproducibility</a>), so compare them statistically.</p></li>
+</ol>
+</section>
 </section>
 <section id="time-step-sampling-period-and-other-intervals">
 <h2>Time step, sampling period and other intervals<a class="headerlink" href="#time-step-sampling-period-and-other-intervals" title="Link to this heading">#</a></h2>
@@ -713,7 +787,7 @@ CHANGELOG also lists rare single-node blow-ups of unknown cause as a known issue
 <tbody>
 <tr class="row-even"><td><p>every iteration</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">time_step</span></code></p></td>
-<td><p>refinement, contact, forces, integration, removal of dead cells</p></td>
+<td><p>refinement, contact, forces, integration, minimum-volume deaths and safeguard removals</p></td>
 </tr>
 <tr class="row-odd"><td><p>every 5 iterations</p></td>
 <td><p>fixed</p></td>
@@ -749,13 +823,14 @@ partners varies. In addition, several random generators are seeded from the syst
 runs that use them differ even on one thread:</p>
 <ul class="simple">
 <li><p>the growth rate and division volume of each cell, when their standard deviation is not zero
-(<a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>);</p></li>
+(<a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and cell death</span></a>);</p></li>
 <li><p>the point sampling that triangulates the division interface, whenever a cell divides,
 whatever the standard deviations;</p></li>
 <li><p>the surface sampling of the initial triangulation (<code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code>).</p></li>
 </ul>
 <p>A run on one thread is repeatable only when none of these is used, which excludes any run in
-which cells divide. Compare runs statistically, not iteration by iteration.</p>
+which cells divide. Compare runs statistically, not iteration by iteration. How much <a class="reference internal" href="../glossary.html#term-replicate"><span class="xref std std-term">replicates</span></a>
+differed in the November 2026 benchmark is in <a class="reference internal" href="../benchmarks/reproducibility.html#benchmarks-reproducibility"><span class="std std-ref">Reproducibility</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">kinetic_energy</span></code> value written to the output is <span class="math notranslate nohighlight">\(\sum p_i^2/(2m)\)</span> with the dynamic model.
@@ -869,12 +944,23 @@ energy in the physical sense.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-model-index-0-default">Dynamic model (index 0, default)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overdamped-model-index-1">Overdamped model (index 1)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coupled-nodes">Coupled nodes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-time-step">Choosing the time step</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-time-step">Choosing the time step</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-the-november-2026-benchmark-measured">What the November 2026 benchmark measured</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-the-time-step-of-a-run">Checking the time step of a run</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-step-sampling-period-and-other-intervals">Time step, sampling period and other intervals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/user_guide/04_time_integration.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -910,16 +996,28 @@ energy in the physical sense.</p>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

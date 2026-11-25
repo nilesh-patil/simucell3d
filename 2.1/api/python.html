@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/python';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/api/python.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/api/python.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Developer guide" href="../developers/index.html" />
     <link rel="prev" title="Runtime support" href="runtime.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Python module - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/api/python.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -176,23 +195,30 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -384,23 +410,30 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -599,7 +632,8 @@ directory to <code class="docutils literal notranslate"><span class="pre">sys.pa
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The Python module is not built by the continuous integration workflows.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">bindings</span></code> job of the CI workflow builds the module and imports it on every pull request
+(<a class="reference internal" href="../developers/continuous_integration.html#dev-ci"><span class="std std-ref">Continuous integration</span></a>). No test runs a simulation through it.</p>
 </div>
 </section>
 <section id="running-a-simulation">
@@ -611,7 +645,7 @@ directory to <code class="docutils literal notranslate"><span class="pre">sys.pa
     <span class="nb">print</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">error_message_</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The constructor of <code class="xref py py-class docutils literal notranslate"><span class="pre">simucell3d_wrapper</span></code> performs the whole simulation: it creates the
+<p>The constructor of <a class="reference internal" href="#simucell3d_python_wrapper.simucell3d_wrapper" title="simucell3d_python_wrapper.simucell3d_wrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">simucell3d_wrapper</span></code></a> performs the whole simulation: it creates the
 cells from the input mesh and the cell types, runs the solver until <code class="docutils literal notranslate"><span class="pre">simulation_duration_</span></code>, and
 stores the result. Errors do not raise Python exceptions; they set <code class="docutils literal notranslate"><span class="pre">RETURN_CODE_</span></code> and
 <code class="docutils literal notranslate"><span class="pre">error_message_</span></code>. Pressing Ctrl-C stops the run at the start of the next iteration and is
@@ -620,7 +654,7 @@ reported the same way.</p>
 <ul class="simple">
 <li><p>The contact detection algorithm cannot be chosen: Python runs always use the uniform spatial
 partitioning grid (USPG).</p></li>
-<li><p>Per-cell statistics are returned in <code class="xref py py-attr docutils literal notranslate"><span class="pre">simulation_outputs.cell_statistics_</span></code> instead of
+<li><p>Per-cell statistics are returned in <a class="reference internal" href="#simucell3d_python_wrapper.simulation_outputs.cell_statistics_" title="simucell3d_python_wrapper.simulation_outputs.cell_statistics_"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cell_statistics_</span></code></a> instead of
 being written to <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code>. The output meshes (<code class="docutils literal notranslate"><span class="pre">cell_data/</span></code>,
 <code class="docutils literal notranslate"><span class="pre">face_data/</span></code>) and <code class="docutils literal notranslate"><span class="pre">performance_diagnostics.csv</span></code> are still written to
 <code class="docutils literal notranslate"><span class="pre">output_folder_path_</span></code>, and that folder is deleted at the start of the run.</p></li>
@@ -634,6 +668,34 @@ to avoid this.</p></li>
 <h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
 <p>Attribute names end with an underscore, as the C++ members do. All parameter classes have a
 constructor without arguments; set attributes one by one after construction. Units are SI.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">global_simulation_parameters</span></code></p></td>
+<td><p>Numerical parameters (the numerical section of the parameter file)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_type_parameters</span></code></p></td>
+<td><p>One cell type, with its face types</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">face_type_parameters</span></code></p></td>
+<td><p>One face type</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simucell3d_wrapper</span></code></p></td>
+<td><p>Runs the simulation in its constructor</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">simulation_outputs</span></code></p></td>
+<td><p>Return code, error message, statistics and final cells</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell</span></code></p></td>
+<td><p>Read-only view of a cell at the end of the run</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <dl class="py class" id="module-simucell3d_python_wrapper">
 <dt class="sig sig-object py" id="simucell3d_python_wrapper.global_simulation_parameters">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">simucell3d_python_wrapper.</span></span><span class="sig-name descname"><span class="pre">global_simulation_parameters</span></span><a class="headerlink" href="#simucell3d_python_wrapper.global_simulation_parameters" title="Link to this definition">#</a></dt>
@@ -916,7 +978,8 @@ core.</p></li>
 <dt class="sig sig-object py" id="simucell3d_python_wrapper.simulation_outputs.cell_statistics_">
 <span class="sig-name descname"><span class="pre">cell_statistics_</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#simucell3d_python_wrapper.simulation_outputs.cell_statistics_" title="Link to this definition">#</a></dt>
 <dd><p>Per-cell statistics in CSV format, with the same columns as <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code>
-(<a class="reference internal" href="../user_guide/14_output_files.html"><span class="doc">Output files</span></a>): one row per cell every 50 iterations. Empty if the run failed.</p>
+(<a class="reference internal" href="../user_guide/14_output_files.html"><span class="doc">Output files</span></a>): one row per cell every 50 iterations and once at the end of
+the run. Empty if the run failed.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -986,6 +1049,73 @@ constructed from Python. C++ type <a class="reference internal" href="mesh.html#
 <dd><p>Faces as a list of <code class="docutils literal notranslate"><span class="pre">[i,</span> <span class="pre">j,</span> <span class="pre">k]</span></code> lists of indices into <a class="reference internal" href="#simucell3d_python_wrapper.cell.get_node_coord_lst" title="simucell3d_python_wrapper.cell.get_node_coord_lst"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_node_coord_lst()</span></code></a>.</p>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="c-side">
+<h2>C++ side<a class="headerlink" href="#c-side" title="Link to this heading">#</a></h2>
+<p>The module is a thin layer over the C++ classes. <a class="reference internal" href="#_CPPv418simucell3d_wrapper" title="simucell3d_wrapper"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">simucell3d_wrapper</span></code></a> builds the
+cells with <a class="reference internal" href="io.html#_CPPv422simulation_initializer" title="simulation_initializer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">simulation_initializer</span></code></a> and runs a <a class="reference internal" href="#_CPPv421solver_python_wrapper" title="solver_python_wrapper"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">solver_python_wrapper</span></code></a>,
+a <a class="reference internal" href="solver.html#_CPPv46solver" title="solver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">solver</span></code></a> that checks for a pending Python signal before each iteration and
+collects the statistics in a <a class="reference internal" href="io.html#_CPPv424string_statistics_writer" title="string_statistics_writer"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">string_statistics_writer</span></code></a>. Both headers are in
+<code class="docutils literal notranslate"><span class="pre">include/python_bindings/</span></code>.</p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv418simucell3d_wrapper">
+<span id="_CPPv318simucell3d_wrapper"></span><span id="_CPPv218simucell3d_wrapper"></span><span id="simucell3d_wrapper"></span><span class="target" id="classsimucell3d__wrapper"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">simucell3d_wrapper</span></span></span><a class="headerlink" href="#_CPPv418simucell3d_wrapper" title="Link to this definition">#</a><br /></dt>
+<dd><p>Runs a complete simulation in its constructor; exposed to Python as <code class="docutils literal notranslate"><a class="reference internal" href="#classsimucell3d__wrapper"><span class="std std-ref"><span class="pre">simucell3d_wrapper</span></span></a></code>. </p>
+<p>Built only with <code class="docutils literal notranslate"><span class="pre">-DENABLE_PYTHON_BINDINGS=TRUE</span></code>. The per-cell statistics are collected in a string instead of <code class="docutils literal notranslate"><span class="pre">simulation_statistics.csv</span></code>; the output meshes are still written. The Python reference is in the documentation page “Python module”. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N18simucell3d_wrapper18simucell3d_wrapperERK28global_simulation_parametersRKNSt6vectorI20cell_type_parametersEEKbKi">
+<span id="_CPPv3N18simucell3d_wrapper18simucell3d_wrapperERK28global_simulation_parametersRKNSt6vectorI20cell_type_parametersEEKbKi"></span><span id="_CPPv2N18simucell3d_wrapper18simucell3d_wrapperERK28global_simulation_parametersRKNSt6vectorI20cell_type_parametersEEKbKi"></span><span id="simucell3d_wrapper::simucell3d_wrapper__global_simulation_parametersCR.std::vector:cell_type_parameters:CR.bC.iC"></span><span class="target" id="classsimucell3d__wrapper_1a4ae815277a6f6276199b2b3f802890ee"></span><span class="sig-name descname"><span class="n"><span class="pre">simucell3d_wrapper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="solver.html#_CPPv420cell_type_parameters" title="cell_type_parameters"><span class="n"><span class="pre">cell_type_parameters</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_type_param_lst</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_threads</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N18simucell3d_wrapper18simucell3d_wrapperERK28global_simulation_parametersRKNSt6vectorI20cell_type_parametersEEKbKi" title="Link to this definition">#</a><br /></dt>
+<dd><p>Create the cells, run the simulation and store the result. </p>
+<p>Exceptions are not propagated: any std::exception, including a Ctrl-C from Python, sets <code class="docutils literal notranslate"><span class="pre">RETURN_CODE_</span></code> to 1 and <code class="docutils literal notranslate"><span class="pre">error_message_</span></code> in the result. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sim_parameters</strong> – Numerical parameters of the simulation. </p></li>
+<li><p><strong>cell_type_param_lst</strong> – Cell types, indexed by the <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> of the input mesh. </p></li>
+<li><p><strong>verbose</strong> – Print the progress of the simulation. </p></li>
+<li><p><strong>nb_threads</strong> – Number of OpenMP threads; 0 or less uses one thread per physical core. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK18simucell3d_wrapper22get_simulation_outputsEv">
+<span id="_CPPv3NK18simucell3d_wrapper22get_simulation_outputsEv"></span><span id="_CPPv2NK18simucell3d_wrapper22get_simulation_outputsEv"></span><span id="simucell3d_wrapper::get_simulation_outputsC"></span><span class="target" id="classsimucell3d__wrapper_1a0f3fed3167f63fbacefcd90461e1b211"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv418simulation_outputs" title="simulation_outputs"><span class="n"><span class="pre">simulation_outputs</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_simulation_outputs</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4NK18simucell3d_wrapper22get_simulation_outputsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Return a copy of the result: return code, error message, per-cell statistics and final cells. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv421solver_python_wrapper">
+<span id="_CPPv321solver_python_wrapper"></span><span id="_CPPv221solver_python_wrapper"></span><span id="solver_python_wrapper"></span><span class="target" id="classsolver__python__wrapper"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">solver_python_wrapper</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv46solver" title="solver"><span class="n"><span class="pre">solver</span></span></a><a class="headerlink" href="#_CPPv421solver_python_wrapper" title="Link to this definition">#</a><br /></dt>
+<dd><p>Solver used by <a class="reference internal" href="#classsimucell3d__wrapper"><span class="std std-ref">simucell3d_wrapper</span></a>: checks for a Python interrupt (Ctrl-C) before every iteration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21solver_python_wrapper21solver_python_wrapperERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibb">
+<span id="_CPPv3N21solver_python_wrapper21solver_python_wrapperERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibb"></span><span id="_CPPv2N21solver_python_wrapper21solver_python_wrapperERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibb"></span><span id="solver_python_wrapper::solver_python_wrapper__global_simulation_parametersCR.std::vector:cell_ptr:CR.i.b.b"></span><span class="target" id="classsolver__python__wrapper_1a662700087e7917ffe0641f5456b8c8b4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">solver_python_wrapper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="solver.html#_CPPv428global_simulation_parameters" title="global_simulation_parameters"><span class="n"><span class="pre">global_simulation_parameters</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sim_parameters</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">cell_ptr</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">cell_lst</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_threads</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">write_cell_stats_in_string_</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">verbose</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">true</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#_CPPv4N21solver_python_wrapper21solver_python_wrapperERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Construct the base solver with the default scheduling mode (<code class="docutils literal notranslate"><span class="pre">adaptive</span></code>) and diagnostics path. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N21solver_python_wrapper13run_iterationEv">
+<span id="_CPPv3N21solver_python_wrapper13run_iterationEv"></span><span id="_CPPv2N21solver_python_wrapper13run_iterationEv"></span><span id="solver_python_wrapper::run_iteration"></span><span class="target" id="classsolver__python__wrapper_1a4f323e97e53abe2daaf00533edabe786"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">run_iteration</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">false</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N21solver_python_wrapper13run_iterationEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Run one iteration unless Python has a pending signal. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">pybind11</span><span class="p">::</span><span class="n">error_already_set</span></span></span> – If the user pressed Ctrl-C. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </dd></dl>
 
 </section>
@@ -1108,8 +1238,28 @@ constructed from Python. C++ type <a class="reference internal" href="mesh.html#
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#c-side">C++ side</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv418simucell3d_wrapper"><code class="docutils literal notranslate"><span class="pre">simucell3d_wrapper</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N18simucell3d_wrapper18simucell3d_wrapperERK28global_simulation_parametersRKNSt6vectorI20cell_type_parametersEEKbKi"><code class="docutils literal notranslate"><span class="pre">simucell3d_wrapper::simucell3d_wrapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK18simucell3d_wrapper22get_simulation_outputsEv"><code class="docutils literal notranslate"><span class="pre">simucell3d_wrapper::get_simulation_outputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv421solver_python_wrapper"><code class="docutils literal notranslate"><span class="pre">solver_python_wrapper</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21solver_python_wrapper21solver_python_wrapperERK28global_simulation_parametersRKNSt6vectorI8cell_ptrEEibb"><code class="docutils literal notranslate"><span class="pre">solver_python_wrapper::solver_python_wrapper()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N21solver_python_wrapper13run_iterationEv"><code class="docutils literal notranslate"><span class="pre">solver_python_wrapper::run_iteration()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/api/python.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -1145,16 +1295,28 @@ constructed from Python. C++ type <a class="reference internal" href="mesh.html#
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

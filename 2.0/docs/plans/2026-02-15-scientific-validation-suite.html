@@ -1,0 +1,1174 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>Scientific Validation Suite Implementation Plan &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/plans/2026-02-15-scientific-validation-suite';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/docs/plans/2026-02-15-scientific-validation-suite.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Phase 3: Stability &amp; Convergence Testing Implementation Plan" href="2026-02-15-stability-convergence-testing.html" />
+    <link rel="prev" title="Phase 4: CI/CD Integration &amp; Engineering Quality Implementation Plan" href="2026-02-15-ci-cd-integration.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Scientific Validation Suite Implementation Plan - SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/docs/plans/2026-02-15-scientific-validation-suite.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2026-02-15-ci-cd-integration.html">CI/CD integration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Scientific validation suite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2026-02-15-stability-convergence-testing.html">Stability and convergence testing</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/plans.html" class="nav-link">Development plans (docs/plans)</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Scientific...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="scientific-validation-suite-implementation-plan">
+<h1>Scientific Validation Suite Implementation Plan<a class="headerlink" href="#scientific-validation-suite-implementation-plan" title="Link to this heading">#</a></h1>
+<p><strong>Goal:</strong> Implement 15 scientific correctness tests and Nature paper reproduction scripts for the SimuCell3D benchmarking system (Phase 2).</p>
+<p><strong>Architecture:</strong> Tests use the existing custom cassert-based framework (return 0=pass, 1=fail). Each test creates a solver with controlled parameters, runs a short simulation, and validates physics invariants. Parameter files are XML, test data uses existing VTK meshes. Nature reproduction scripts are bash wrappers around <code class="docutils literal notranslate"><span class="pre">simucell3d</span></code> with custom parameter files.</p>
+<p><strong>Tech Stack:</strong> C++17, OpenMP, CMake 3.0+, custom test framework, XML parameters, VTK mesh files, bash scripts, Git LFS for baselines.</p>
+<hr class="docutils" />
+<section id="task-1-create-test-directory-structure-and-cmake-scaffolding">
+<h2>Task 1: Create test directory structure and CMake scaffolding<a class="headerlink" href="#task-1-create-test-directory-structure-and-cmake-scaffolding" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/CMakeLists.txt</span></code></p></li>
+<li><p>Modify: <code class="docutils literal notranslate"><span class="pre">test/CMakeLists.txt:16</span></code> (add subdirectory)</p></li>
+</ul>
+<p><strong>Step 1: Create the test CMakeLists.txt</strong></p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.0</span><span class="p">)</span>
+
+<span class="c"># Use C++17 standard</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">17</span><span class="p">)</span>
+
+<span class="c"># Indicate to the test source the path to project source directory</span>
+<span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DPROJECT_SOURCE_DIR=</span><span class="s2">"${PROJECT_SOURCE_DIR}"</span><span class="p">)</span>
+
+<span class="c"># Energy conservation benchmark</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">test_energy_conservation</span><span class="w"> </span><span class="s">energy_conservation_benchmark.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test_energy_conservation</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">src</span><span class="w"> </span><span class="s">mesh</span><span class="w"> </span><span class="s">io</span><span class="w"> </span><span class="s">contact_models</span><span class="w"> </span><span class="s">time_integration</span><span class="w"> </span><span class="s">triangulation_modules</span><span class="p">)</span>
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="s">test_energy_conservation</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/mesh"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/io"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/contact_models"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/time_integration"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/triangulation_modules"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/math_modules"</span>
+<span class="p">)</span>
+
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_energy_conservation_single_cell</span><span class="w">      </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_energy_conservation</span><span class="w"> </span><span class="s">test_energy_conservation_single_cell</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_energy_conservation_two_cells</span><span class="w">         </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_energy_conservation</span><span class="w"> </span><span class="s">test_energy_conservation_two_cells</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_energy_monotonic_dissipation</span><span class="w">          </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_energy_conservation</span><span class="w"> </span><span class="s">test_energy_monotonic_dissipation</span><span class="p">)</span>
+
+<span class="c"># Pressure validation benchmark</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">test_pressure_validation</span><span class="w"> </span><span class="s">pressure_validation_benchmark.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test_pressure_validation</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">src</span><span class="w"> </span><span class="s">mesh</span><span class="w"> </span><span class="s">io</span><span class="w"> </span><span class="s">contact_models</span><span class="w"> </span><span class="s">time_integration</span><span class="w"> </span><span class="s">triangulation_modules</span><span class="p">)</span>
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="s">test_pressure_validation</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/mesh"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/io"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/contact_models"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/time_integration"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/triangulation_modules"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/math_modules"</span>
+<span class="p">)</span>
+
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_pressure_physiological_range</span><span class="w">          </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_pressure_validation</span><span class="w"> </span><span class="s">test_pressure_physiological_range</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_pressure_bulk_modulus_response</span><span class="w">         </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_pressure_validation</span><span class="w"> </span><span class="s">test_pressure_bulk_modulus_response</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_laplace_pressure</span><span class="w">                      </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_pressure_validation</span><span class="w"> </span><span class="s">test_laplace_pressure</span><span class="p">)</span>
+
+<span class="c"># Volume and geometry validation benchmark</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">geometry_validation_benchmark.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">src</span><span class="w"> </span><span class="s">mesh</span><span class="w"> </span><span class="s">io</span><span class="w"> </span><span class="s">contact_models</span><span class="w"> </span><span class="s">time_integration</span><span class="w"> </span><span class="s">triangulation_modules</span><span class="p">)</span>
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/mesh"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/io"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/contact_models"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/time_integration"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/triangulation_modules"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/math_modules"</span>
+<span class="p">)</span>
+
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_volume_preservation</span><span class="w">                   </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">test_volume_preservation</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_mesh_quality</span><span class="w">                          </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">test_mesh_quality</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_face_normal_consistency</span><span class="w">               </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">test_face_normal_consistency</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_manifoldness</span><span class="w">                          </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">test_manifoldness</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_isoperimetric_ratio</span><span class="w">                   </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_geometry_validation</span><span class="w"> </span><span class="s">test_isoperimetric_ratio</span><span class="p">)</span>
+
+<span class="c"># Contact mechanics validation benchmark</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">test_contact_validation</span><span class="w"> </span><span class="s">contact_validation_benchmark.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test_contact_validation</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">src</span><span class="w"> </span><span class="s">mesh</span><span class="w"> </span><span class="s">io</span><span class="w"> </span><span class="s">contact_models</span><span class="w"> </span><span class="s">time_integration</span><span class="w"> </span><span class="s">triangulation_modules</span><span class="p">)</span>
+<span class="nb">target_include_directories</span><span class="p">(</span><span class="s">test_contact_validation</span><span class="w"> </span><span class="s">PUBLIC</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/mesh"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/io"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/contact_models"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/time_integration"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/triangulation_modules"</span>
+<span class="w">    </span><span class="s2">"${PROJECT_SOURCE_DIR}/include/math_modules"</span>
+<span class="p">)</span>
+
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_contact_reciprocity</span><span class="w">                   </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_contact_validation</span><span class="w"> </span><span class="s">test_contact_reciprocity</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_force_balance_equilibrium</span><span class="w">             </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_contact_validation</span><span class="w"> </span><span class="s">test_force_balance_equilibrium</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_momentum_conservation</span><span class="w">                 </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_contact_validation</span><span class="w"> </span><span class="s">test_momentum_conservation</span><span class="p">)</span>
+<span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">scientific_contact_area_fraction</span><span class="w">                 </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">test_contact_validation</span><span class="w"> </span><span class="s">test_contact_area_fraction</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 2: Add subdirectory to parent CMakeLists.txt</strong></p>
+<p>Add after line 15 in <code class="docutils literal notranslate"><span class="pre">test/CMakeLists.txt</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">test_scientific_benchmarks</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Step 3: Verify build</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-B</span> <span class="pre">build</span> <span class="pre">-DCMAKE_BUILD_TYPE=Release</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">build</span> <span class="pre">-j$(nproc)</span> <span class="pre">2&gt;&amp;1</span> <span class="pre">|</span> <span class="pre">tail</span> <span class="pre">-5</span></code>
+Expected: Build errors about missing .cpp files (expected at this stage)</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>test/test_scientific_benchmarks/CMakeLists.txt<span class="w"> </span>test/CMakeLists.txt
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): add CMake scaffolding for scientific validation tests"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-2-create-test-parameter-files-for-scientific-benchmarks">
+<h2>Task 2: Create test parameter files for scientific benchmarks<a class="headerlink" href="#task-2-create-test-parameter-files-for-scientific-benchmarks" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/params_single_sphere.xml</span></code> (single cell, no growth, no division)</p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/params_two_spheres_contact.xml</span></code> (two cells in contact)</p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/params_laplace_pressure.xml</span></code> (single cell for Laplace test)</p></li>
+</ul>
+<p><strong>Step 1: Create single sphere parameter file</strong></p>
+<p>This parameter file creates a minimal simulation with one epithelial cell (no growth, no division, short duration) to test energy conservation and volume preservation. Uses <code class="docutils literal notranslate"><span class="pre">sphere.vtk</span></code> as input mesh.</p>
+<p>Key settings:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code>: 1e-4 (100 microseconds - very short for fast testing)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_step</span></code>: 1e-7 (same as production)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code>: 0 (no growth to test energy conservation)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code>: inf (no division)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">surface_tension</span></code>: 1e-3 (standard value)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bulk_modulus</span></code>: 2500 (standard value)</p></li>
+<li><p>Uses relative path <code class="docutils literal notranslate"><span class="pre">data/input_meshes/sphere.vtk</span></code></p></li>
+</ul>
+<p><strong>Step 2: Create two spheres contact parameter file</strong></p>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">test/test_io/test_simulation_initializer/2_spheres.vtk</span></code> for contact reciprocity tests. Same short duration but with adhesion/repulsion active.</p>
+<p><strong>Step 3: Create Laplace pressure parameter file</strong></p>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">data/input_meshes/sphere.vtk</span></code>. Key: set known surface tension γ, let cell equilibrate, check P = 2γ/R.</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>test/test_scientific_benchmarks/params_*.xml
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): add parameter files for scientific validation tests"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-3-implement-energy-conservation-benchmark">
+<h2>Task 3: Implement energy conservation benchmark<a class="headerlink" href="#task-3-implement-energy-conservation-benchmark" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/energy_conservation_benchmark.cpp</span></code></p></li>
+</ul>
+<p><strong>Step 1: Write the energy conservation test</strong></p>
+<p>The test:</p>
+<ol class="arabic simple">
+<li><p>Loads a single cell from <code class="docutils literal notranslate"><span class="pre">sphere.vtk</span></code> with no growth/division</p></li>
+<li><p>Creates a solver and runs N iterations</p></li>
+<li><p>At each statistics sampling point, records total energy = kinetic + pressure + surface_tension + bending</p></li>
+<li><p>Validates: |E(t) - E(0)| / E(0) &lt; 1% (relative energy drift)</p></li>
+</ol>
+<p>Physics rationale: With no external forces and damping, total mechanical energy should be approximately conserved or monotonically dissipated (damped system). The 1% threshold accounts for numerical dissipation in the semi-implicit Euler scheme.</p>
+<p>Implementation approach:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">test_solver</span></code> derived class (same pattern as existing test_solver.cpp) to expose <code class="docutils literal notranslate"><span class="pre">run_iteration()</span></code></p></li>
+<li><p>After each iteration, sum energy components from all cells</p></li>
+<li><p>Track max relative drift from initial energy</p></li>
+</ul>
+<p>Tests:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">test_energy_conservation_single_cell</span></code>: Single cell, |ΔE/E₀| &lt; 1%</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test_energy_conservation_two_cells</span></code>: Two cells in contact, |ΔE/E₀| &lt; 5% (contact adds noise)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test_energy_monotonic_dissipation</span></code>: For damped system, total energy should not increase between consecutive samplings (allow 0.1% tolerance for numerical noise)</p></li>
+</ul>
+<p><strong>Step 2: Run tests to verify they fail (no implementation yet - actually this IS the implementation)</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_energy</span> <span class="pre">-V</span></code>
+Expected: All 3 tests PASS</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>test/test_scientific_benchmarks/energy_conservation_benchmark.cpp
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): implement energy conservation scientific tests"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-4-implement-pressure-validation-benchmark">
+<h2>Task 4: Implement pressure validation benchmark<a class="headerlink" href="#task-4-implement-pressure-validation-benchmark" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/pressure_validation_benchmark.cpp</span></code></p></li>
+</ul>
+<p><strong>Step 1: Write the pressure validation tests</strong></p>
+<p>The tests validate:</p>
+<ol class="arabic simple">
+<li><p><strong>Physiological range</strong> (300-2200 Pa):</p>
+<ul class="simple">
+<li><p>Load cells, run short sim, check all pressures are in [0, 10000] Pa range</p></li>
+<li><p>For epithelial cells with standard bulk_modulus=2500 Pa, pressure = -K * ln(V/V_target)</p></li>
+<li><p>At equilibrium V ≈ V_target, so P ≈ 0 initially, grows as cell volume changes</p></li>
+</ul>
+</li>
+<li><p><strong>Bulk modulus response</strong>:</p>
+<ul class="simple">
+<li><p>Pressure should respond to volume changes: if V &lt; V_target, P &gt; 0 (expansion)</p></li>
+<li><p>if V &gt; V_target, P &lt; 0 (compression)</p></li>
+<li><p>Validate sign convention: pressure_ = -K * ln(V/V_target)</p></li>
+</ul>
+</li>
+<li><p><strong>Laplace pressure</strong> (ΔP = 2γ/R):</p>
+<ul class="simple">
+<li><p>For a single spherical cell at equilibrium:</p>
+<ul>
+<li><p>Surface tension γ is set in parameters</p></li>
+<li><p>Radius R can be computed from cell volume: R = (3V/(4π))^(1/3)</p></li>
+<li><p>Expected Laplace pressure: ΔP = 2γ/R</p></li>
+<li><p>Actual pressure comes from bulk modulus: P = -K * ln(V/V_target)</p></li>
+<li><p>At equilibrium, these should approximately balance</p></li>
+</ul>
+</li>
+<li><p>Relative error &lt; 5% (relaxed from 2% due to mesh discretization effects)</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Step 2: Build and run</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_pressure</span> <span class="pre">-V</span></code>
+Expected: All 3 tests PASS</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>test/test_scientific_benchmarks/pressure_validation_benchmark.cpp
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): implement pressure validation scientific tests"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-5-implement-geometry-validation-benchmark">
+<h2>Task 5: Implement geometry validation benchmark<a class="headerlink" href="#task-5-implement-geometry-validation-benchmark" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/geometry_validation_benchmark.cpp</span></code></p></li>
+</ul>
+<p><strong>Step 1: Write the geometry validation tests</strong></p>
+<p>5 tests:</p>
+<ol class="arabic simple">
+<li><p><strong>Volume preservation</strong>:</p>
+<ul class="simple">
+<li><p>Run short sim (no growth), track volume of each cell</p></li>
+<li><p>|V(t) - V(0)| / V(0) &lt; 5% after 1000 iterations</p></li>
+<li><p>Volume drift indicates instability in time integration</p></li>
+</ul>
+</li>
+<li><p><strong>Mesh quality</strong>:</p>
+<ul class="simple">
+<li><p>After simulation, check triangle aspect ratios</p></li>
+<li><p>No degenerate triangles (aspect ratio &gt; 100 means degenerate)</p></li>
+<li><p>At least 90% of faces have aspect ratio &lt; 5 (reasonable quality)</p></li>
+<li><p>Aspect ratio = longest_edge / shortest_altitude</p></li>
+</ul>
+</li>
+<li><p><strong>Face normal consistency</strong>:</p>
+<ul class="simple">
+<li><p>All face normals should point outward (away from centroid)</p></li>
+<li><p>dot(face_normal, face_center - cell_centroid) &gt; 0 for all faces</p></li>
+<li><p>Threshold: &gt; 95% of faces pass (mesh refinement may create transient inversions)</p></li>
+</ul>
+</li>
+<li><p><strong>Manifoldness</strong>:</p>
+<ul class="simple">
+<li><p>All cells should be manifold at all times (cell::is_manifold() returns true)</p></li>
+<li><p>Run sim, check manifoldness after initialization and after N iterations</p></li>
+</ul>
+</li>
+<li><p><strong>Isoperimetric ratio bounds</strong>:</p>
+<ul class="simple">
+<li><p>IR = Area^3 / (36π * Volume^2) should be &gt;= 1 (sphere = 1)</p></li>
+<li><p>For biological cells, typically IR &lt; 50 (elongated cells &lt; 100)</p></li>
+<li><p>Validate IR stays in [0.8, 500] throughout simulation</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Step 2: Build and run</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_geometry</span> <span class="pre">-V</span></code>
+Expected: All 5 tests PASS</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>test/test_scientific_benchmarks/geometry_validation_benchmark.cpp
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): implement geometry validation scientific tests"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-6-implement-contact-mechanics-validation-benchmark">
+<h2>Task 6: Implement contact mechanics validation benchmark<a class="headerlink" href="#task-6-implement-contact-mechanics-validation-benchmark" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">test/test_scientific_benchmarks/contact_validation_benchmark.cpp</span></code></p></li>
+</ul>
+<p><strong>Step 1: Write the contact mechanics tests</strong></p>
+<p>4 tests:</p>
+<ol class="arabic simple">
+<li><p><strong>Contact reciprocity</strong> (Newton’s 3rd law):</p>
+<ul class="simple">
+<li><p>Run two cells in contact</p></li>
+<li><p>Sum all forces on cell 1 nodes = F1</p></li>
+<li><p>Sum all forces on cell 2 nodes = F2</p></li>
+<li><p>At equilibrium-ish (after N iterations): |F1 + F2| should be small relative to |F1|</p></li>
+<li><p>Threshold: |F1 + F2| / max(|F1|, |F2|) &lt; 10% (contact model has numerical asymmetry)</p></li>
+</ul>
+</li>
+<li><p><strong>Force balance at equilibrium</strong>:</p>
+<ul class="simple">
+<li><p>Single cell at equilibrium: net force on all nodes → 0</p></li>
+<li><p>Run sim until “converged” (many iterations with damping)</p></li>
+<li><p>Sum all node forces: |ΣF| &lt; threshold * N_nodes * typical_force</p></li>
+<li><p>Threshold: average force per node &lt; 1% of initial average force</p></li>
+</ul>
+</li>
+<li><p><strong>Momentum conservation</strong>:</p>
+<ul class="simple">
+<li><p>Total momentum P = Σ(m_i * v_i) for all nodes across all cells</p></li>
+<li><p>For system with no external forces: dP/dt ≈ 0 (modulo damping)</p></li>
+<li><p>Track total momentum vector, verify it stays bounded</p></li>
+<li><p>|P(t)| / |P(0)| &lt; 10 (momentum shouldn’t blow up)</p></li>
+</ul>
+</li>
+<li><p><strong>Contact area fraction</strong>:</p>
+<ul class="simple">
+<li><p>Two cells in contact should have reasonable contact area fraction</p></li>
+<li><p>For epithelial cells: contact fraction in [0.01, 0.8]</p></li>
+<li><p>Not 0 (cells are touching) and not 1 (not fully engulfing)</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>Step 2: Build and run</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_contact</span> <span class="pre">-V</span></code>
+Expected: All 4 tests PASS</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>test/test_scientific_benchmarks/contact_validation_benchmark.cpp
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): implement contact mechanics validation tests"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-7-build-run-all-15-tests-fix-any-failures">
+<h2>Task 7: Build, run all 15 tests, fix any failures<a class="headerlink" href="#task-7-build-run-all-15-tests-fix-any-failures" title="Link to this heading">#</a></h2>
+<p><strong>Step 1: Full rebuild</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-B</span> <span class="pre">build</span> <span class="pre">-DCMAKE_BUILD_TYPE=Release</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">build</span> <span class="pre">-j$(nproc)</span></code>
+Expected: Clean build</p>
+<p><strong>Step 2: Run all scientific tests</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_</span> <span class="pre">--output-on-failure</span></code>
+Expected: All 15 tests PASS</p>
+<p><strong>Step 3: Fix any failures</strong></p>
+<p>Debug and fix any test that fails. Common issues:</p>
+<ul class="simple">
+<li><p>Threshold too tight (relax if physics justifies it)</p></li>
+<li><p>Parameter file path wrong (check PROJECT_SOURCE_DIR)</p></li>
+<li><p>Cell initialization issues (verify parameter XML matches compile-time config)</p></li>
+</ul>
+<p><strong>Step 4: Commit fixes if any</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span>test/test_scientific_benchmarks/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"fix(benchmarks): resolve scientific test failures"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-8-create-nature-paper-reproduction-parameter-files">
+<h2>Task 8: Create Nature paper reproduction parameter files<a class="headerlink" href="#task-8-create-nature-paper-reproduction-parameter-files" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_monolayer.xml</span></code> (Fig 3e - low γ̃, monolayer)</p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_multilayer.xml</span></code> (Fig 3e - high γ̃, multilayer)</p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig4c_pseudostratified.xml</span></code> (Fig 4c-d)</p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig1e_scaling.xml</span></code> (Fig 1e - 125K cell scaling)</p></li>
+</ul>
+<p><strong>Step 1: Create Fig 3e parameter files</strong></p>
+<p>Fig 3e from the Nature paper shows the monolayer-to-multilayer transition as a function of the dimensionless surface tension ratio γ̃ = γ_apical/γ_lateral.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code>: γ̃ &lt; 0.05 (monolayer regime). Uses <code class="docutils literal notranslate"><span class="pre">fig_3_vesicle.vtk</span></code> input mesh.
+Key: γ_apical = 4e-4, γ_lateral = 4e-4 (γ̃ ≈ 1.0, but low enough adhesion to stay monolayer)
+Actually, the transition is controlled by the ratio of surface tension to adhesion.
+Use existing vesicle parameters as base, adjust surface tensions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code>: γ̃ &gt; 0.05 (multilayer regime). Higher apical/basal surface tension.</p></li>
+</ul>
+<p><strong>Step 2: Create Fig 4c-d parameter files</strong></p>
+<p>Pseudostratified epithelium validation. Uses vesicle mesh with nucleus cells enabled.</p>
+<p><strong>Step 3: Create Fig 1e parameter file</strong></p>
+<p>Large-scale simulation (125K cells target). Uses <code class="docutils literal notranslate"><span class="pre">big_sphere.vtk</span></code> with aggressive growth rates.
+Note: This is a long-running benchmark (24hr), not a CI test.</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>parameters/benchmarks/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): add Nature paper reproduction parameter files"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-9-create-nature-paper-reproduction-scripts">
+<h2>Task 9: Create Nature paper reproduction scripts<a class="headerlink" href="#task-9-create-nature-paper-reproduction-scripts" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">scripts/benchmarking/scientific/reproduce_fig3e.sh</span></code></p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">scripts/benchmarking/scientific/reproduce_fig4cd.sh</span></code></p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">scripts/benchmarking/scientific/reproduce_fig1e.sh</span></code></p></li>
+</ul>
+<p><strong>Step 1: Create Fig 3e reproduction script</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="c1"># Reproduce Nature paper Figure 3e: Monolayer/Multilayer transition</span>
+<span class="c1"># Expected: layering transition at γ̃ ≈ 0.05</span>
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+<span class="nv">SCRIPT_DIR</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span><span class="s2">"</span>
+<span class="nv">PROJECT_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$SCRIPT_DIR</span><span class="s2">/../../.."</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">pwd</span><span class="k">)</span><span class="s2">"</span>
+<span class="nv">SIMUCELL3D</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PROJECT_ROOT</span><span class="s2">/build/simucell3d"</span>
+<span class="nv">RESULTS_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PROJECT_ROOT</span><span class="s2">/simulation_results/nature_fig3e"</span>
+<span class="c1"># ... runs monolayer and multilayer configs, validates output</span>
+</pre></div>
+</div>
+<p><strong>Step 2: Create Fig 4c-d reproduction script</strong></p>
+<p>Similar structure, runs pseudostratified epithelium simulation.</p>
+<p><strong>Step 3: Create Fig 1e scaling script</strong></p>
+<p>Long-running benchmark script with progress monitoring.</p>
+<p><strong>Step 4: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>scripts/benchmarking/scientific/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): add Nature paper reproduction scripts"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-10-create-baselines-directory-and-golden-master-placeholder">
+<h2>Task 10: Create baselines directory and golden master placeholder<a class="headerlink" href="#task-10-create-baselines-directory-and-golden-master-placeholder" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">baselines/nature_paper/.gitkeep</span></code></p></li>
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">baselines/nature_paper/README.md</span></code></p></li>
+</ul>
+<p><strong>Step 1: Create baselines directory</strong></p>
+<p>The golden master VTK files will be generated by running the Nature reproduction scripts and stored here via Git LFS (already configured for .vtk files).</p>
+<p><strong>Step 2: Create README with instructions</strong></p>
+<p>Document how to generate and update golden masters.</p>
+<p><strong>Step 3: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>baselines/nature_paper/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): create baselines directory for Nature paper golden masters"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-11-create-scientific-validation-documentation">
+<h2>Task 11: Create scientific validation documentation<a class="headerlink" href="#task-11-create-scientific-validation-documentation" title="Link to this heading">#</a></h2>
+<p><strong>Files:</strong></p>
+<ul class="simple">
+<li><p>Create: <code class="docutils literal notranslate"><span class="pre">doc/benchmarking/scientific-validation.md</span></code></p></li>
+</ul>
+<p><strong>Step 1: Write documentation</strong></p>
+<p>Cover:</p>
+<ul class="simple">
+<li><p>Overview of the 15 scientific tests and their physics rationale</p></li>
+<li><p>How to run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_</span></code></p></li>
+<li><p>Physics background for each test category (energy, pressure, geometry, contact)</p></li>
+<li><p>Nature paper reproduction instructions</p></li>
+<li><p>Threshold justification table</p></li>
+<li><p>How to update golden masters</p></li>
+</ul>
+<p><strong>Step 2: Commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>doc/benchmarking/scientific-validation.md
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"docs(benchmarks): add scientific validation guide"</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="task-12-final-verification-all-15-tests-pass">
+<h2>Task 12: Final verification - all 15 tests pass<a class="headerlink" href="#task-12-final-verification-all-15-tests-pass" title="Link to this heading">#</a></h2>
+<p><strong>Step 1: Clean rebuild</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-B</span> <span class="pre">build</span> <span class="pre">-DCMAKE_BUILD_TYPE=Release</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">build</span> <span class="pre">-j$(nproc)</span></code></p>
+<p><strong>Step 2: Run all scientific tests with timing</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">time</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_</span> <span class="pre">--output-on-failure</span></code>
+Expected: All 15 tests PASS, total time &lt; 5 minutes</p>
+<p><strong>Step 3: Verify test count</strong></p>
+<p>Run: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span> <span class="pre">-R</span> <span class="pre">scientific_</span> <span class="pre">-N</span> <span class="pre">|</span> <span class="pre">tail</span> <span class="pre">-1</span></code>
+Expected: “Total Tests: 15”</p>
+<p><strong>Step 4: Final commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>-A
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(benchmarks): complete Phase 2 scientific validation suite (15 tests)"</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="2026-02-15-ci-cd-integration.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Phase 4: CI/CD Integration &amp; Engineering Quality Implementation Plan</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="2026-02-15-stability-convergence-testing.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Phase 3: Stability &amp; Convergence Testing Implementation Plan</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-1-create-test-directory-structure-and-cmake-scaffolding">Task 1: Create test directory structure and CMake scaffolding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-2-create-test-parameter-files-for-scientific-benchmarks">Task 2: Create test parameter files for scientific benchmarks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-3-implement-energy-conservation-benchmark">Task 3: Implement energy conservation benchmark</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-4-implement-pressure-validation-benchmark">Task 4: Implement pressure validation benchmark</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-5-implement-geometry-validation-benchmark">Task 5: Implement geometry validation benchmark</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-6-implement-contact-mechanics-validation-benchmark">Task 6: Implement contact mechanics validation benchmark</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-7-build-run-all-15-tests-fix-any-failures">Task 7: Build, run all 15 tests, fix any failures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-8-create-nature-paper-reproduction-parameter-files">Task 8: Create Nature paper reproduction parameter files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-9-create-nature-paper-reproduction-scripts">Task 9: Create Nature paper reproduction scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-10-create-baselines-directory-and-golden-master-placeholder">Task 10: Create baselines directory and golden master placeholder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-11-create-scientific-validation-documentation">Task 11: Create scientific validation documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task-12-final-verification-all-15-tests-pass">Task 12: Final verification - all 15 tests pass</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/docs/plans/2026-02-15-scientific-validation-suite.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

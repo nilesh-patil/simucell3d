@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="7.25 3.50 49.50 49.50" width="64" height="64" role="img" aria-label="SimuCell3D">
+<title>SimuCell3D</title>
+<style>svg{color:#0b6b7c}@media (prefers-color-scheme:dark){svg{color:#62c7d8}}</style>
+<polygon points="32.00,25.00 20.74,31.50 9.48,25.00 9.48,12.00 20.74,5.50 32.00,12.00" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>
+<polygon points="54.52,25.00 43.26,31.50 32.00,25.00 32.00,12.00 43.26,5.50 54.52,12.00" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>
+<polygon points="43.26,44.50 32.00,51.00 20.74,44.50 20.74,31.50 32.00,25.00 43.26,31.50" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>
+</svg>

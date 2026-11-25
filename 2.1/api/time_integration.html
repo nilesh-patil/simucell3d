@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -47,18 +47,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/time_integration';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/api/time_integration.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/api/time_integration.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Triangulation and division" href="triangulation.html" />
     <link rel="prev" title="Contact models" href="contact_models.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Time integration - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/api/time_integration.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -131,6 +142,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -148,14 +167,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -174,23 +193,30 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -209,21 +235,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -356,14 +382,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -382,23 +408,30 @@ document.write(`
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -412,21 +445,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -579,6 +612,11 @@ forces accumulated on them. <code class="docutils literal notranslate"><span cla
 overdamped equations with the forward Euler scheme. With contact models 1 and 2, coupled nodes
 on neighbouring cells are moved together. The narrative description is in
 <a class="reference internal" href="../user_guide/04_time_integration.html"><span class="doc">Time integration</span></a>.</p>
+<p>The integrator runs once per iteration, after the contact and internal forces, and advances
+the simulation time by one time step. It skips static cells (<a class="reference internal" href="cell_classes.html#_CPPv48ecm_cell" title="ecm_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ecm_cell</span></code></a> and
+<a class="reference internal" href="cell_classes.html#_CPPv411static_cell" title="static_cell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">static_cell</span></code></a>). With contact models 1 and 2 it uses the local ids of the cells to
+decide which cell of a coupled group moves the group, so those ids must equal the cells’
+positions in the cell list (<a class="reference internal" href="../developers/architecture.html#dev-architecture"><span class="std std-ref">Architecture</span></a>).</p>
 <section id="integrator">
 <h2>Integrator<a class="headerlink" href="#integrator" title="Link to this heading">#</a></h2>
 <dl class="cpp class">
@@ -697,6 +735,13 @@ on neighbouring cells are moved together. The narrative description is in
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/api/time_integration.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -731,16 +776,28 @@ on neighbouring cells are moved together. The narrative description is in
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

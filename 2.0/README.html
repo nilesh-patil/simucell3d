@@ -1,0 +1,1407 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>SimuCell3D &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fc97db16"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'README';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/README.html" />
+    <link rel="icon" href="_static/favicon.svg"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SimuCell3D Documentation" href="doc/README.html" />
+    <link rel="prev" title="Overview" href="sections/overview.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/README.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/README.html">Documentation index</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="sections/overview.html" class="nav-link">Overview</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SimuCell3D</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simucell3d">
+<h1>SimuCell3D<a class="headerlink" href="#simucell3d" title="Link to this heading">#</a></h1>
+<p align="center">
+    <img src="./doc/assets/img/simucell_topolgy_example.png" alt="SimuCell3D Topology Example">
+</p>
+<p><a class="reference external" href="https://github.com/nilesh-patil/simucell3d"><img alt="Build Status" src="https://img.shields.io/badge/build-passing-brightgreen" /></a>
+<a class="reference external" href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-BSD--3-blue" /></a>
+<a class="reference external" href="https://doi.org/10.1038/s43588-024-00620-9"><img alt="Paper" src="https://img.shields.io/badge/paper-Nature%20Comp%20Sci%202024-orange" /></a></p>
+<hr class="docutils" />
+<section id="quick-navigation">
+<h2>Quick Navigation<a class="headerlink" href="#quick-navigation" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>New here?</p></th>
+<th class="head"><p>Start with</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Run first simulation</strong></p></td>
+<td><p><a class="reference internal" href="doc/getting-started/quick-start.html"><span class="std std-doc">Quick Start</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Install on your platform</strong></p></td>
+<td><p><a class="reference internal" href="doc/getting-started/quick-start.html"><span class="std std-doc">Quick Start</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Fix a problem</strong></p></td>
+<td><p><a class="reference internal" href="doc/getting-started/faq.html"><span class="std std-doc">FAQ</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Contribute code</strong></p></td>
+<td><p><a class="reference internal" href="doc/getting-started/contributing.html"><span class="std std-doc">Contributing</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>All documentation</strong></p></td>
+<td><p><a class="reference internal" href="doc/README.html"><span class="std std-doc">doc/README.md</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#current-biological-capabilities">Current Biological Capabilities</a></p></li>
+<li><p><a class="reference internal" href="#validated-applications">Validated Applications</a></p></li>
+<li><p><a class="reference internal" href="#fork-performance-improvements">Fork Performance Improvements</a></p></li>
+<li><p><a class="reference internal" href="#quick-start">Quick Start</a></p></li>
+<li><p><a class="reference internal" href="#production-usage">Production Usage</a></p></li>
+<li><p><a class="reference internal" href="#documentation">Documentation</a></p></li>
+<li><p><a class="reference internal" href="#development-roadmap">Development Roadmap</a></p></li>
+<li><p><a class="reference internal" href="#citation">Citation</a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p><strong>SimuCell3D</strong> is a high-performance C++ framework for simulating 3D tissue mechanics at <strong>subcellular resolution</strong>.</p>
+<p>Published in <a class="reference external" href="https://doi.org/10.1038/s43588-024-00620-9">Nature Computational Science (2024)</a>, it enables researchers to model complex biological phenomena including cell division, polarization, adhesion, and morphogenesis with experimental validation.</p>
+<p><strong>This is a performance-focused fork</strong> that extends the published SimuCell3D with OpenMP scheduling optimizations. The fork improves parallel efficiency from 29% to 60% while maintaining full backward compatibility with the original codebase.</p>
+</section>
+<hr class="docutils" />
+<section id="current-biological-capabilities">
+<h2>Current Biological Capabilities<a class="headerlink" href="#current-biological-capabilities" title="Link to this heading">#</a></h2>
+<p>These features are <strong>validated and implemented</strong> in the Nature Computational Science 2024 publication.</p>
+<section id="biophysical-model">
+<h3>Biophysical Model<a class="headerlink" href="#biophysical-model" title="Link to this heading">#</a></h3>
+<p>SimuCell3D implements a 3D <strong>Deformable Cell Model (DCM)</strong> with the following energy potential:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">KV</span><span class="p">(</span><span class="n">ln</span><span class="p">(</span><span class="n">V</span><span class="o">/</span><span class="n">V0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ka</span><span class="o">/</span><span class="mi">2</span><span class="p">)(</span><span class="n">A</span><span class="o">/</span><span class="n">A0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">integral</span><span class="p">(</span><span class="n">gamma</span> <span class="o">+</span> <span class="n">kb</span><span class="o">/</span><span class="mi">2</span><span class="p">(</span><span class="mi">2</span><span class="n">H</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="n">dS</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Term</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Biological Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>KV</strong></p></td>
+<td><p>Bulk modulus</p></td>
+<td><p>Volume homeostasis (osmotic pressure)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ka</strong></p></td>
+<td><p>Area stiffness</p></td>
+<td><p>Membrane area control</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>gamma</strong></p></td>
+<td><p>Surface tension</p></td>
+<td><p>Cortical tension (anisotropic: apical/basal/lateral)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>kb</strong></p></td>
+<td><p>Bending rigidity</p></td>
+<td><p>Curvature resistance</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>H</strong></p></td>
+<td><p>Mean curvature</p></td>
+<td><p>Local surface geometry</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="cell-types-and-geometry">
+<h3>Cell Types and Geometry<a class="headerlink" href="#cell-types-and-geometry" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Triangulated surfaces</strong></p></td>
+<td><p>~121 nodes, ~238 faces per cell</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>5 cell types</strong></p></td>
+<td><p>Epithelial, lumen, ECM, nucleus, static</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Nucleus compartmentalization</strong></p></td>
+<td><p>Separate nucleus mesh with envelope mechanics</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Mesh quality control</strong></p></td>
+<td><p>Local refinement maintains edge length bounds</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="biological-processes">
+<h3>Biological Processes<a class="headerlink" href="#biological-processes" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Capability</p></th>
+<th class="head"><p>Implementation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Automatic polarization</strong></p></td>
+<td><p>Hoshen-Kopelman clustering detects apical/basal/lateral domains</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Anisotropic surface tension</strong></p></td>
+<td><p>Different gamma values for apical, basal, and lateral faces</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Cell division</strong></p></td>
+<td><p>Volume threshold triggers mesh subdivision (Hertwig’s rule)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Cell death</strong></p></td>
+<td><p>Instant removal when volume falls below minimum threshold</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Pressure-driven volume</strong></p></td>
+<td><p>Bulk modulus KV maintains volume homeostasis</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="contact-models">
+<h3>Contact Models<a class="headerlink" href="#contact-models" title="Link to this heading">#</a></h3>
+<p>Two validated contact models are available (selected at compile time):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Validation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Spring-based</strong></p></td>
+<td><p>0</p></td>
+<td><p>Node-face contacts via springs</p></td>
+<td><p>Basic contact mechanics</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Coupling-based</strong></p></td>
+<td><p>2</p></td>
+<td><p>Face-face contacts via coupling</p></td>
+<td><p>Young-Dupre equation validated</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="time-integration">
+<h3>Time Integration<a class="headerlink" href="#time-integration" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Index</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Use Case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Semi-implicit Euler</strong></p></td>
+<td><p>0</p></td>
+<td><p>Full equations of motion</p></td>
+<td><p>Default, accurate dynamics</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Forward Euler</strong></p></td>
+<td><p>1</p></td>
+<td><p>Overdamped equations</p></td>
+<td><p>Faster equilibration</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="performance-baseline-from-paper">
+<h3>Performance Baseline (from Paper)<a class="headerlink" href="#performance-baseline-from-paper" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Cells/day</strong></p></td>
+<td><p>125,000</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Time complexity</strong></p></td>
+<td><p>O(N^{4/3})</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Parallel efficiency</strong></p></td>
+<td><p>53-66% (Amdahl’s law)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Hardware tested</strong></p></td>
+<td><p>Intel Xeon W-2245 (8 cores)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="comparison-with-other-3d-dcms-table-1-from-paper">
+<h3>Comparison with Other 3D DCMs (Table 1 from paper)<a class="headerlink" href="#comparison-with-other-3d-dcms-table-1-from-paper" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>SimuCell3D</p></th>
+<th class="head"><p>IAS</p></th>
+<th class="head"><p>SAV</p></th>
+<th class="head"><p>CHASTE</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Cells/day</strong></p></td>
+<td><p>125,000</p></td>
+<td><p>4</p></td>
+<td><p>100</p></td>
+<td><p>1,000</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Subcellular resolution</strong></p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Nucleus compartment</strong></p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Automatic polarization</strong></p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Cell division</strong></p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Open source</strong></p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="validated-applications">
+<h2>Validated Applications<a class="headerlink" href="#validated-applications" title="Link to this heading">#</a></h2>
+<p>These biological scenarios are <strong>validated in the Nature paper</strong> (Figures 3-4):</p>
+<section id="cell-doublet-mechanics">
+<h3>Cell Doublet Mechanics<a class="headerlink" href="#cell-doublet-mechanics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Young-Dupre equation validation</p></li>
+<li><p>Contact angle measurements match experimental data</p></li>
+<li><p>Demonstrates face-face coupling model accuracy</p></li>
+</ul>
+</section>
+<section id="monolayer-vs-multilayer-transition">
+<h3>Monolayer vs Multilayer Transition<a class="headerlink" href="#monolayer-vs-multilayer-transition" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Epithelial sheet mechanics</p></li>
+<li><p>Pressure-dependent tissue organization</p></li>
+<li><p>Validated against experimental observations</p></li>
+</ul>
+</section>
+<section id="pseudostratified-epithelia-formation">
+<h3>Pseudostratified Epithelia Formation<a class="headerlink" href="#pseudostratified-epithelia-formation" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Nuclear positioning during interkinetic nuclear migration</p></li>
+<li><p>Apicobasal polarity establishment</p></li>
+<li><p>Comparison with mouse lung imaging data</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="fork-performance-improvements">
+<h2>Fork Performance Improvements<a class="headerlink" href="#fork-performance-improvements" title="Link to this heading">#</a></h2>
+<p>This fork focuses <strong>exclusively on OpenMP scheduling optimizations</strong>. No new scientific features have been added.</p>
+<section id="performance-gains">
+<h3>Performance Gains<a class="headerlink" href="#performance-gains" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Paper v1.0</p></th>
+<th class="head"><p>This Fork</p></th>
+<th class="head"><p>Improvement</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Thread efficiency</strong></p></td>
+<td><p>29%</p></td>
+<td><p>60%</p></td>
+<td><p>+107%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Scheduling modes</strong></p></td>
+<td><p>1 (compile-time)</p></td>
+<td><p>4 (runtime)</p></td>
+<td><p>Flexible selection</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Auto-scheduler</strong></p></td>
+<td><p>None</p></td>
+<td><p>Yes</p></td>
+<td><p>1.5-4.5x speedup</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Per-loop optimization</strong></p></td>
+<td><p>None</p></td>
+<td><p>Yes</p></td>
+<td><p>+15% additional</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="implemented-enhancements">
+<h3>Implemented Enhancements<a class="headerlink" href="#implemented-enhancements" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Adaptive scheduling</strong></p></td>
+<td><p>Intelligent mode selection based on 52 empirical benchmarks</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Runtime mode selection</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--schedule=adaptive|static|dynamic|guided</span></code> flag</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Hardware topology detection</strong></p></td>
+<td><p>NUMA awareness, hyperthreading detection, taskset/cgroup handling</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Per-loop custom scheduling</strong></p></td>
+<td><p>Phase-specific schedules (contact=dynamic, integration=guided, mesh=static)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Performance monitoring</strong></p></td>
+<td><p>CSV diagnostics export via <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv</span></code> flag</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Unified benchmark framework</strong></p></td>
+<td><p>Crash recovery, live monitoring, HTML reports</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="what-this-fork-does-not-include">
+<h3>What This Fork Does NOT Include<a class="headerlink" href="#what-this-fork-does-not-include" title="Link to this heading">#</a></h3>
+<p>The following are <strong>not implemented</strong> in this fork:</p>
+<ul class="simple">
+<li><p>No SIMD vectorization (vec3 operations remain scalar)</p></li>
+<li><p>No BVH spatial acceleration (still uses USPG)</p></li>
+<li><p>No GPU/CUDA code</p></li>
+<li><p>No MPI distributed computing</p></li>
+<li><p>No new biological models (viscoelasticity, active tension, etc.)</p></li>
+</ul>
+<p>See doc/v1.0_vs_current_comparison.md for technical details.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h3>
+<section id="option-1-docker-recommended">
+<h4>Option 1: Docker (Recommended)<a class="headerlink" href="#option-1-docker-recommended" title="Link to this heading">#</a></h4>
+<p>Works on Linux, Windows (WSL), and macOS.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/nilesh-patil/simucell3d.git
+<span class="nb">cd</span><span class="w"> </span>simucell3d
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>simucell3d_docker_img<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="option-2-manual-build-linux-wsl">
+<h4>Option 2: Manual Build (Linux/WSL)<a class="headerlink" href="#option-2-manual-build-linux-wsl" title="Link to this heading">#</a></h4>
+<p>Requires GCC 9+, CMake 3.0+, and OpenMP.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/nilesh-patil/simucell3d.git
+<span class="nb">cd</span><span class="w"> </span>simucell3d
+mkdir<span class="w"> </span>-p<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>..<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-a-simulation">
+<h3>Running a Simulation<a class="headerlink" href="#running-a-simulation" title="Link to this heading">#</a></h3>
+<p><strong>Using Docker:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>simulation_results
+docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/simulation_results"</span>:/app/simulation_results<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>simucell3d_docker_img:latest<span class="w"> </span>../parameters/core/parameters_default_dynamic.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+</pre></div>
+</div>
+<p><strong>Using Manual Build (Basic):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+./simucell3d<span class="w"> </span>../parameters/core/parameters_default_dynamic.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+</pre></div>
+</div>
+<p><strong>Production Run (Optimized):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="k">$(</span>nproc<span class="k">)</span><span class="w">  </span><span class="c1"># Use all available physical cores</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close<span class="w">       </span><span class="c1"># Bind threads to cores for better cache locality</span>
+./simucell3d<span class="w"> </span>../parameters/core/parameters_default_dynamic.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Note:</strong> The <code class="docutils literal notranslate"><span class="pre">--schedule=adaptive</span></code> flag enables intelligent scheduling that adapts to your workload. Omitting it still works (backward compatible) but may be slower. See <a class="reference internal" href="#production-usage">Production Usage</a> below for advanced configuration.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="production-usage">
+<h2>Production Usage<a class="headerlink" href="#production-usage" title="Link to this heading">#</a></h2>
+<p>For production simulations with maximum performance, configure OpenMP environment variables to dedicate all system resources.</p>
+<section id="recommended-production-configuration">
+<h3>Recommended Production Configuration<a class="headerlink" href="#recommended-production-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+
+<span class="c1"># Configure OpenMP for optimal performance</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">16</span><span class="w">                </span><span class="c1"># Set to your physical core count (not hyperthreaded)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close<span class="w">              </span><span class="c1"># Bind threads to cores for cache locality</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores<span class="w">                 </span><span class="c1"># Use physical cores only</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_WAIT_POLICY</span><span class="o">=</span>passive<span class="w">          </span><span class="c1"># Reduce CPU spinning when idle</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OMP_DYNAMIC</span><span class="o">=</span><span class="nb">false</span><span class="w">                </span><span class="c1"># Disable dynamic thread adjustment</span>
+
+<span class="c1"># Run with auto-scheduler (recommended)</span>
+./simucell3d<span class="w"> </span>../parameters/core/parameters_default_dynamic.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+</pre></div>
+</div>
+</section>
+<section id="finding-your-physical-core-count">
+<h3>Finding Your Physical Core Count<a class="headerlink" href="#finding-your-physical-core-count" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Quick method</span>
+nproc<span class="w"> </span>--all<span class="w">  </span><span class="c1"># Shows logical cores (includes hyperthreading)</span>
+
+<span class="c1"># Get physical cores only</span>
+<span class="nb">echo</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="k">$(</span>lscpu<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"^Core(s) per socket:"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $4}'</span><span class="k">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">$(</span>lscpu<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"^Socket(s):"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $2}'</span><span class="k">)</span><span class="w"> </span><span class="k">))</span>
+</pre></div>
+</div>
+</section>
+<section id="scheduling-modes">
+<h3>Scheduling Modes<a class="headerlink" href="#scheduling-modes" title="Link to this heading">#</a></h3>
+<p>SimuCell3D supports four OpenMP scheduling modes via <code class="docutils literal notranslate"><span class="pre">--schedule=MODE</span></code>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Best For</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adaptive</span></code></p></td>
+<td><p><strong>Recommended for most cases</strong></p></td>
+<td><p>Intelligently selects optimal mode based on 52 empirical benchmarks covering 1-16,384+ cells. Adapts to workload heterogeneity.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">static</span></code></p></td>
+<td><p>Large uniform workloads (4096+ cells)</p></td>
+<td><p>Fixed work distribution, best cache locality. Similar to v1.0 behavior.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dynamic</span></code></p></td>
+<td><p>Small heterogeneous workloads (64-256 cells)</p></td>
+<td><p>Adaptive load balancing, handles imbalanced work well.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">guided</span></code></p></td>
+<td><p>Medium workloads (512-2048 cells)</p></td>
+<td><p>Balances cache locality with load distribution.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="performance-monitoring">
+<h3>Performance Monitoring<a class="headerlink" href="#performance-monitoring" title="Link to this heading">#</a></h3>
+<p>Track performance metrics during simulation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Export detailed diagnostics to CSV</span>
+./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span>--diagnostics-csv<span class="o">=</span>performance_metrics.csv
+
+<span class="c1"># Use GNU time for resource monitoring</span>
+/usr/bin/time<span class="w"> </span>-v<span class="w"> </span>./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive
+
+<span class="c1"># Long-running background simulation with logging</span>
+nohup<span class="w"> </span>/usr/bin/time<span class="w"> </span>-v<span class="w"> </span>./simucell3d<span class="w"> </span>params.xml<span class="w"> </span>--schedule<span class="o">=</span>adaptive<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--diagnostics-csv<span class="o">=</span>metrics.csv<span class="w"> </span>&gt;<span class="w"> </span>simulation.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># Monitor progress</span>
+tail<span class="w"> </span>-f<span class="w"> </span>simulation.log
+</pre></div>
+</div>
+</section>
+<section id="available-parameter-files">
+<h3>Available Parameter Files<a class="headerlink" href="#available-parameter-files" title="Link to this heading">#</a></h3>
+<p><strong>Core configurations</strong> (<code class="docutils literal notranslate"><span class="pre">parameters/core/</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters_default_dynamic.xml</span></code> - General purpose tissue dynamics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code> - Vesicle formation (~13 cells, good test case)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters_tube.xml</span></code> - Tube morphogenesis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters_sheet.xml</span></code> - Sheet formation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters_default_overdamped.xml</span></code> - Faster overdamped dynamics</p></li>
+</ul>
+<p><strong>Scalability benchmarks</strong> (<code class="docutils literal notranslate"><span class="pre">parameters/scalability/</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">parameters_growth_64cells.xml</span></code> through <code class="docutils literal notranslate"><span class="pre">parameters_growth_32768cells.xml</span></code></p></li>
+<li><p>Tests algorithmic scaling matching Nature paper Figure 1e</p></li>
+</ul>
+</section>
+<section id="expected-performance">
+<h3>Expected Performance<a class="headerlink" href="#expected-performance" title="Link to this heading">#</a></h3>
+<p>With auto-scheduler + per-loop scheduling on a 16-core system:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Workload</p></th>
+<th class="head"><p>Time</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Vesicle (~13 cells, quick test)</p></td>
+<td><p>~20-30 seconds</p></td>
+<td><p>Good for testing setup</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vesicle (10k iterations)</p></td>
+<td><p>~2.9 hours</p></td>
+<td><p>45-50% faster than v1.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CPU utilization</p></td>
+<td><p>1400-1600% (14-16 cores)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Thread efficiency</p></td>
+<td><p>60% (vs 29% in v1.0)</p></td>
+</tr>
+<tr class="row-even"><td><p>Memory</p></td>
+<td><p>200MB-2GB depending on cell count</p></td>
+</tr>
+<tr class="row-odd"><td><p>Speedup vs v1.0</p></td>
+<td><p>1.5-4.5x depending on configuration</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<section id="user-guides">
+<h3>User Guides<a class="headerlink" href="#user-guides" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference internal" href="doc/user-guide/parameter-reference.html"><span class="std std-doc">Parameter Configuration</span></a></strong>: Detailed guide on XML parameter files.</p></li>
+<li><p><strong><a class="reference internal" href="doc/user-guide/input-mesh-format.html"><span class="std std-doc">Input Mesh Format</span></a></strong>: How to prepare initial geometries.</p></li>
+<li><p><strong><a class="reference internal" href="doc/user-guide/output-format.html"><span class="std std-doc">Output Statistics</span></a></strong>: Understanding the simulation results.</p></li>
+<li><p><strong><a class="reference internal" href="doc/user-guide/mesh-generation.html"><span class="std std-doc">Mesh Generation</span></a></strong>: Creating custom initial meshes.</p></li>
+<li><p><strong><a class="reference internal" href="doc/user-guide/python-bindings.html"><span class="std std-doc">Python Support</span></a></strong>: Using Python bindings.</p></li>
+</ul>
+</section>
+<section id="performance-and-advanced-usage">
+<h3>Performance and Advanced Usage<a class="headerlink" href="#performance-and-advanced-usage" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference internal" href="doc/developer/performance-tuning.html"><span class="std std-doc">Performance Tuning Guide</span></a></strong>: <strong>(RECOMMENDED)</strong> Detailed instructions on OpenMP scheduling modes, auto-scheduler usage, thread control, and optimization strategies.</p></li>
+<li><p><strong><a class="reference internal" href="doc/benchmarking/openmp-benchmarks.html"><span class="std std-doc">Benchmarking Guide</span></a></strong>: Comprehensive performance analysis with empirical results from 52 benchmark runs.</p></li>
+<li><p><strong><a class="reference internal" href="doc/benchmarking/openmp-benchmarks.html#benchmark-framework-overview"><span class="std std-ref">Unified Benchmark Framework</span></a></strong>: Using <code class="docutils literal notranslate"><span class="pre">benchmark_unified.sh</span></code> for systematic performance testing.</p></li>
+<li><p><strong>v1.0 vs Current Comparison</strong>: Technical deep-dive into code-level differences and performance improvements.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Backward Compatibility Note:</strong> All v1.0 commands work without modification. The <code class="docutils literal notranslate"><span class="pre">--schedule=adaptive</span></code> flag and other new features are optional enhancements that can be adopted incrementally.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="development-roadmap">
+<h2>Development Roadmap<a class="headerlink" href="#development-roadmap" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Important:</strong> The items below are <strong>proposed improvements</strong> described in roadmap.md. They are <strong>NOT yet implemented</strong>. The roadmap represents aspirational goals for future development.</p>
+</div></blockquote>
+<section id="high-priority-proposed-features-not-implemented">
+<h3>High-Priority Proposed Features (Not Implemented)<a class="headerlink" href="#high-priority-proposed-features-not-implemented" title="Link to this heading">#</a></h3>
+<p><strong>Computational:</strong></p>
+<ul class="simple">
+<li><p>SIMD vectorization for vec3 operations (AVX2/512)</p></li>
+<li><p>BVH spatial acceleration structure</p></li>
+<li><p>GPU contact detection (CUDA)</p></li>
+<li><p>MPI domain decomposition</p></li>
+</ul>
+<p><strong>Scientific:</strong></p>
+<ul class="simple">
+<li><p>Viscoelasticity model (Kelvin-Voigt)</p></li>
+<li><p>Active tension (actomyosin contractility)</p></li>
+<li><p>Mechanotransduction (YAP/TAZ-like signaling)</p></li>
+<li><p>Cell migration and chemotaxis</p></li>
+<li><p>Reaction-diffusion morphogen coupling</p></li>
+<li><p>ECM remodeling</p></li>
+</ul>
+<p><strong>Architecture:</strong></p>
+<ul class="simple">
+<li><p>Expression templates for vec3</p></li>
+<li><p>Structure-of-Arrays memory layout</p></li>
+<li><p>GoogleTest migration</p></li>
+</ul>
+<p>See roadmap.md for the full list of 27 proposed improvements with effort estimates and implementation details.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">#</a></h2>
+<p>If you use SimuCell3D in your research, please cite:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">runser2024simucell3d</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{SimuCell3D: three-dimensional simulation of tissue mechanics with cell polarization}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Runser, Adrien and others}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="p">=</span><span class="s">{Nature Computational Science}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2024}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">publisher</span><span class="p">=</span><span class="s">{Nature Publishing Group}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading">#</a></h2>
+<p>See <a class="reference external" href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/LICENSE">LICENSE</a> file for details.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sections/overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="doc/README.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SimuCell3D Documentation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-navigation">Quick Navigation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-biological-capabilities">Current Biological Capabilities</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biophysical-model">Biophysical Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-types-and-geometry">Cell Types and Geometry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#biological-processes">Biological Processes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-models">Contact Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-integration">Time Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-baseline-from-paper">Performance Baseline (from Paper)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-other-3d-dcms-table-1-from-paper">Comparison with Other 3D DCMs (Table 1 from paper)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validated-applications">Validated Applications</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-doublet-mechanics">Cell Doublet Mechanics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monolayer-vs-multilayer-transition">Monolayer vs Multilayer Transition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudostratified-epithelia-formation">Pseudostratified Epithelia Formation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-performance-improvements">Fork Performance Improvements</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-gains">Performance Gains</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implemented-enhancements">Implemented Enhancements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-fork-does-not-include">What This Fork Does NOT Include</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-docker-recommended">Option 1: Docker (Recommended)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-manual-build-linux-wsl">Option 2: Manual Build (Linux/WSL)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-a-simulation">Running a Simulation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#production-usage">Production Usage</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-production-configuration">Recommended Production Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-your-physical-core-count">Finding Your Physical Core Count</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scheduling-modes">Scheduling Modes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-monitoring">Performance Monitoring</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#available-parameter-files">Available Parameter Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-performance">Expected Performance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-guides">User Guides</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-and-advanced-usage">Performance and Advanced Usage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-roadmap">Development Roadmap</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-priority-proposed-features-not-implemented">High-Priority Proposed Features (Not Implemented)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citation">Citation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/README.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

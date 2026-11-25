@@ -1,0 +1,1204 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>SimuCell3D Physics Model: Equation-to-Code Mapping &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/scientific/physics-model';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/scientific/physics-model.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SimuCell3D Parameter Guide: Biological Interpretation" href="parameter-guide.html" />
+    <link rel="prev" title="Scientific Documentation" href="README.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="SimuCell3D Physics Model: Equation-to-Code Mapping">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/scientific/physics-model.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Physics model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter-guide.html">Parameter guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing-paper-results.html">Reproducing paper results</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/science.html" class="nav-link">Scientific background</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SimuCell3D...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simucell3d-physics-model-equation-to-code-mapping">
+<h1>SimuCell3D Physics Model: Equation-to-Code Mapping<a class="headerlink" href="#simucell3d-physics-model-equation-to-code-mapping" title="Link to this heading">#</a></h1>
+<p>This document maps the mathematical equations from the <a class="reference external" href="https://doi.org/10.1038/s43588-024-00620-9">Nature Computational Science paper</a> to their implementations in the SimuCell3D codebase.</p>
+<hr class="docutils" />
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>SimuCell3D implements a <strong>Deformable Cell Model (DCM)</strong> where each cell is represented as a closed triangulated surface. The total potential energy of a cell is:</p>
+<div class="math notranslate nohighlight">
+\[U = U_{volume} + U_{area} + U_{surface} + U_{bending}\]</div>
+<p>Or from the paper (Equation 1):</p>
+<div class="math notranslate nohighlight">
+\[U = KV\left(\ln\frac{V}{V_0} - 1\right) + \frac{k_a}{2}\left(\frac{A}{A_0} - 1\right)^2 + \int_{\partial\Omega}\left(\gamma + \frac{k_b}{2}(2H)^2\right)dS\]</div>
+</section>
+<hr class="docutils" />
+<section id="energy-terms-and-code-implementation">
+<h2>Energy Terms and Code Implementation<a class="headerlink" href="#energy-terms-and-code-implementation" title="Link to this heading">#</a></h2>
+<section id="volume-energy-pressure">
+<h3>1. Volume Energy (Pressure)<a class="headerlink" href="#volume-energy-pressure" title="Link to this heading">#</a></h3>
+<p><strong>Paper Equation:</strong>
+<div class="math notranslate nohighlight">
+\[U_{volume} = KV\left(\ln\frac{V}{V_0} - 1\right)\]</div>
+</p>
+<p><strong>Derived Pressure:</strong>
+<div class="math notranslate nohighlight">
+\[p = \frac{dW}{dV} = -K\ln\frac{V}{V_0}\]</div>
+</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp:1291-1303</span></code></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// cell::update_pressure()</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">cell::update_pressure</span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Equation: p = -K * ln(V/V0)</span>
+<span class="w">    </span><span class="n">pressure_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cell_type_</span><span class="o">-&gt;</span><span class="n">bulk_modulus_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="n">volume_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">target_volume_</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Cap pressure to maximum if specified</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">pressure_</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">cell_type_</span><span class="o">-&gt;</span><span class="n">max_pressure_</span><span class="p">)</span>
+<span class="w">        </span><span class="n">pressure_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cell_type_</span><span class="o">-&gt;</span><span class="n">max_pressure_</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Energy: U = K * V * (ln(V/V0) - 1)</span>
+<span class="w">    </span><span class="n">pressure_energy_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">cell_type_</span><span class="o">-&gt;</span><span class="n">bulk_modulus_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">volume_</span><span class="w"> </span><span class="o">*</span>
+<span class="w">                               </span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="n">volume_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">target_volume_</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Parameters (from XML):</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Code Variable</p></th>
+<th class="head"><p>Typical Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bulk modulus</p></td>
+<td><p>K</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bulk_modulus_</span></code></p></td>
+<td><p>2500</p></td>
+<td><p>Pa</p></td>
+</tr>
+<tr class="row-odd"><td><p>Target volume</p></td>
+<td><p>V₀</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">target_volume_</span></code></p></td>
+<td><p>1.4×10⁻¹⁵</p></td>
+<td><p>m³</p></td>
+</tr>
+<tr class="row-even"><td><p>Max pressure</p></td>
+<td><p>p_max</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_pressure_</span></code></p></td>
+<td><p>2500</p></td>
+<td><p>Pa</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Pressure Force on Nodes:</strong> <code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp:1310-1342</span></code></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// cell::apply_pressure_on_surface()</span>
+<span class="c1">// For each face: F_pressure = p * A * n̂ / 3  (distributed to 3 nodes)</span>
+<span class="k">const</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">face_pressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">face_normal</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pressure_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">face_area</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">3.</span><span class="p">;</span>
+<span class="n">n1</span><span class="p">.</span><span class="n">add_force</span><span class="p">(</span><span class="n">face_pressure</span><span class="p">);</span>
+<span class="n">n2</span><span class="p">.</span><span class="n">add_force</span><span class="p">(</span><span class="n">face_pressure</span><span class="p">);</span>
+<span class="n">n3</span><span class="p">.</span><span class="n">add_force</span><span class="p">(</span><span class="n">face_pressure</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="area-elasticity-energy">
+<h3>2. Area Elasticity Energy<a class="headerlink" href="#area-elasticity-energy" title="Link to this heading">#</a></h3>
+<p><strong>Paper Equation:</strong>
+<div class="math notranslate nohighlight">
+\[U_{area} = \frac{k_a}{2}\left(\frac{A}{A_0} - 1\right)^2\]</div>
+</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp:1350-1408</span></code></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// cell::apply_surface_tension_and_membrane_elasticity()</span>
+
+<span class="c1">// Target area from isoperimetric ratio: A0 = (Q0 * V^2)^(1/3)</span>
+<span class="n">target_area_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cbrt</span><span class="p">(</span><span class="n">cell_type_</span><span class="o">-&gt;</span><span class="n">target_isoperimetric_ratio_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">volume_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">volume_</span><span class="p">);</span>
+
+<span class="c1">// Membrane elasticity factor: -(ka/A0) * (A/A0 - 1)</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">membrane_elasticity_factor</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">-</span><span class="p">(</span><span class="n">cell_type_</span><span class="o">-&gt;</span><span class="n">area_elasticity_modulus_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">target_area_</span><span class="p">)</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="p">((</span><span class="n">area_</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">target_area_</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Force Calculation:</strong>
+The force on each node is derived from the area gradient:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{f}_{s,i} = -\sum_{f \in \mathcal{F}_i} \gamma_f \nabla_i A_f\]</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Area gradient for node n1: ∇A = -0.5 * n̂ × (r2 - r3)</span>
+<span class="k">const</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">grad_pos_n1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">get_normal</span><span class="p">().</span><span class="n">cross</span><span class="p">(</span><span class="n">n2</span><span class="p">.</span><span class="n">pos_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">n3</span><span class="p">.</span><span class="n">pos_</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">-0.5</span><span class="p">);</span>
+
+<span class="c1">// Combined force factor (surface tension + membrane elasticity)</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">force_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">face_type</span><span class="p">.</span><span class="n">surface_tension_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">membrane_elasticity_factor</span><span class="p">;</span>
+
+<span class="c1">// Apply force: F = area_gradient * force_factor</span>
+<span class="k">const</span><span class="w"> </span><span class="n">vec3</span><span class="w"> </span><span class="n">force_n1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grad_pos_n1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">force_factor</span><span class="p">;</span>
+<span class="n">n1</span><span class="p">.</span><span class="n">add_force</span><span class="p">(</span><span class="n">force_n1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Parameters:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Code Variable</p></th>
+<th class="head"><p>Typical Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Area elasticity</p></td>
+<td><p>k_a</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus_</span></code></p></td>
+<td><p>10⁻¹⁵</p></td>
+<td><p>J</p></td>
+</tr>
+<tr class="row-odd"><td><p>Isoperimetric ratio</p></td>
+<td><p>Q₀</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio_</span></code></p></td>
+<td><p>250</p></td>
+<td><p>-</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="surface-tension-energy">
+<h3>3. Surface Tension Energy<a class="headerlink" href="#surface-tension-energy" title="Link to this heading">#</a></h3>
+<p><strong>Paper Equation:</strong>
+<div class="math notranslate nohighlight">
+\[U_{surface} = \int_{\partial\Omega} \gamma \, dS = \sum_f \gamma_f A_f\]</div>
+</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp:1350-1408</span></code> (same function as area elasticity)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Surface tension energy accumulation</span>
+<span class="n">surface_tension_energy_</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">face_type</span><span class="p">.</span><span class="n">surface_tension_</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">get_area</span><span class="p">();</span>
+
+<span class="c1">// Force from surface tension (included in force_factor above)</span>
+<span class="c1">// F_tension = -γ * ∇A</span>
+</pre></div>
+</div>
+<p><strong>Key Feature: Polarization-Dependent Surface Tension</strong></p>
+<p>Different face types (apical, basal, lateral) can have different surface tensions:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get face-specific surface tension from face type</span>
+<span class="k">const</span><span class="w"> </span><span class="n">face_type_parameters</span><span class="o">&amp;</span><span class="w"> </span><span class="n">face_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cell_type_</span><span class="o">-&gt;</span><span class="n">face_types_</span><span class="p">[</span><span class="n">f</span><span class="p">.</span><span class="n">type_id_</span><span class="p">];</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">gamma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">face_type</span><span class="p">.</span><span class="n">surface_tension_</span><span class="p">;</span><span class="w">  </span><span class="c1">// Can vary by face type</span>
+</pre></div>
+</div>
+<p><strong>Parameters:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Code Variable</p></th>
+<th class="head"><p>Typical Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Surface tension</p></td>
+<td><p>γ</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">surface_tension_</span></code></p></td>
+<td><p>0.001</p></td>
+<td><p>N/m</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="bending-energy">
+<h3>4. Bending Energy<a class="headerlink" href="#bending-energy" title="Link to this heading">#</a></h3>
+<p><strong>Paper Equation (Discrete Bending Energy):</strong>
+<div class="math notranslate nohighlight">
+\[U_b \approx \sum_{(i,j)} \bar{k}_b \frac{\|e_{ij}\|^2}{A_{ij}} \left(2\cos\frac{\theta_{ij}}{2}\right)^2\]</div>
+</p>
+<p>Where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\bar{k}_b\)</span> = average bending stiffness of adjacent faces</p></li>
+<li><p><span class="math notranslate nohighlight">\(e_{ij}\)</span> = edge vector from node i to j</p></li>
+<li><p><span class="math notranslate nohighlight">\(A_{ij}\)</span> = sum of areas of two adjacent faces</p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta_{ij}\)</span> = dihedral angle between faces</p></li>
+</ul>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp:1413-1542</span></code></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// cell::apply_bending_forces()</span>
+<span class="c1">// Based on: Wardetzky et al., CAGD 24, 499 (2007)</span>
+
+<span class="c1">// Average bending stiffness of adjacent faces</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">avg_bending_stiffness</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="p">(</span><span class="n">face_type_1</span><span class="p">.</span><span class="n">bending_modulus_</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">face_type_2</span><span class="p">.</span><span class="n">bending_modulus_</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.</span><span class="p">;</span>
+
+<span class="c1">// Sum of face areas</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">sum_face_areas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f1</span><span class="p">.</span><span class="n">get_area</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f2</span><span class="p">.</span><span class="n">get_area</span><span class="p">();</span>
+
+<span class="c1">// Dihedral angle calculation using face normals</span>
+<span class="c1">// θ = arccos(-n1 · n2) with sign from edge orientation</span>
+</pre></div>
+</div>
+<p><strong>Parameters:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Code Variable</p></th>
+<th class="head"><p>Typical Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bending rigidity</p></td>
+<td><p>k_b</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bending_modulus_</span></code></p></td>
+<td><p>2×10⁻¹⁸</p></td>
+<td><p>J</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="contact-forces">
+<h2>Contact Forces<a class="headerlink" href="#contact-forces" title="Link to this heading">#</a></h2>
+<section id="spring-based-contact-model-contact-model-index-0">
+<h3>Spring-Based Contact Model (Contact Model Index = 0)<a class="headerlink" href="#spring-based-contact-model-contact-model-index-0" title="Link to this heading">#</a></h3>
+<p><strong>Paper Equation (2):</strong>
+<div class="math notranslate nohighlight">
+\[\begin{split}\sigma_{ab} = \begin{cases}
+\xi d_{ab} &amp; \text{if } d_{ab} \in [-c, 0) \text{ (repulsion)} \\
+\omega d_{ab} &amp; \text{if } d_{ab} \in [0, c/2) \text{ (adhesion)} \\
+\omega(c - d_{ab}) &amp; \text{if } d_{ab} \in [c/2, c] \text{ (detachment)}
+\end{cases}\end{split}\]</div>
+</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/contact_models/contact_node_face_via_springs.cpp</span></code></p>
+</section>
+<section id="face-face-coupling-model-contact-model-index-2">
+<h3>Face-Face Coupling Model (Contact Model Index = 2)<a class="headerlink" href="#face-face-coupling-model-contact-model-index-2" title="Link to this heading">#</a></h3>
+<p><strong>Tight Coupling:</strong> Nodes from adjacent cells within distance <code class="docutils literal notranslate"><span class="pre">c</span></code> are coupled to move together.</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/contact_models/contact_face_face_via_coupling.cpp</span></code></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Node coupling: relocate to average position</span>
+<span class="c1">// r_new = (r_a + r_b) / 2</span>
+<span class="c1">// f_shared = (f_a + f_b) / 2</span>
+</pre></div>
+</div>
+<p><strong>Parameters:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Code Variable</p></th>
+<th class="head"><p>Typical Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Repulsion strength</p></td>
+<td><p>ξ</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">repulsion_strength_</span></code></p></td>
+<td><p>10⁹</p></td>
+<td><p>Pa/m</p></td>
+</tr>
+<tr class="row-odd"><td><p>Adhesion strength</p></td>
+<td><p>ω</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">adherence_strength_</span></code></p></td>
+<td><p>10⁹</p></td>
+<td><p>Pa/m</p></td>
+</tr>
+<tr class="row-even"><td><p>Contact cutoff</p></td>
+<td><p>c</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">contact_cutoff_</span></code></p></td>
+<td><p>2×10⁻⁷</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-odd"><td><p>Max coupling curvature</p></td>
+<td><p>H_max</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max_coupling_curvature_</span></code></p></td>
+<td><p>5×10⁶</p></td>
+<td><p>m⁻¹</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="time-integration">
+<h2>Time Integration<a class="headerlink" href="#time-integration" title="Link to this heading">#</a></h2>
+<section id="semi-implicit-euler-dynamic-model-index-0">
+<h3>Semi-Implicit Euler (Dynamic Model Index = 0)<a class="headerlink" href="#semi-implicit-euler-dynamic-model-index-0" title="Link to this heading">#</a></h3>
+<p><strong>Equations of Motion:</strong>
+<div class="math notranslate nohighlight">
+\[m\ddot{\mathbf{r}}_i + \zeta\dot{\mathbf{r}}_i = \mathbf{f}_i\]</div>
+</p>
+<p><strong>Integration Scheme:</strong>
+<div class="math notranslate nohighlight">
+\[\mathbf{p}_i \leftarrow \mathbf{p}_i + \Delta t(\mathbf{f}_i - \zeta\mathbf{p}_i/m)\]</div>
+
+<div class="math notranslate nohighlight">
+\[\mathbf{r}_i \leftarrow \mathbf{r}_i + \Delta t \mathbf{p}_i/m\]</div>
+</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/time_integration/time_integration.cpp</span></code></p>
+</section>
+<section id="overdamped-dynamic-model-index-1">
+<h3>Overdamped (Dynamic Model Index = 1)<a class="headerlink" href="#overdamped-dynamic-model-index-1" title="Link to this heading">#</a></h3>
+<p><strong>Simplified Equation (neglecting inertia):</strong>
+<div class="math notranslate nohighlight">
+\[\mathbf{r}_i \leftarrow \mathbf{r}_i + \Delta t \mathbf{f}_i/\zeta\]</div>
+</p>
+<p><strong>Parameters:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Code Variable</p></th>
+<th class="head"><p>Typical Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Time step</p></td>
+<td><p>Δt</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">time_step_</span></code></p></td>
+<td><p>10⁻⁷</p></td>
+<td><p>s</p></td>
+</tr>
+<tr class="row-odd"><td><p>Damping</p></td>
+<td><p>ζ</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">damping_</span></code></p></td>
+<td><p>2.5×10⁻¹⁰</p></td>
+<td><p>kg/s</p></td>
+</tr>
+<tr class="row-even"><td><p>Mass density</p></td>
+<td><p>ρ</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mass_density_</span></code></p></td>
+<td><p>1000</p></td>
+<td><p>kg/m³</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cell-polarization">
+<h2>Cell Polarization<a class="headerlink" href="#cell-polarization" title="Link to this heading">#</a></h2>
+<p>SimuCell3D supports automatic detection of cell membrane regions:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Face Type</p></th>
+<th class="head"><p>Location</p></th>
+<th class="head"><p>Biological Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Apical</p></td>
+<td><p>Facing lumen</p></td>
+<td><p>Specialized for secretion/absorption</p></td>
+</tr>
+<tr class="row-odd"><td><p>Basal</p></td>
+<td><p>Facing ECM/exterior</p></td>
+<td><p>Attachment, signaling</p></td>
+</tr>
+<tr class="row-even"><td><p>Lateral</p></td>
+<td><p>Contacting other cells</p></td>
+<td><p>Cell-cell adhesion</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/automatic_polarization/</span></code></p>
+<p>Each face type can have independent parameters:</p>
+<ul class="simple">
+<li><p>Surface tension (γ)</p></li>
+<li><p>Bending modulus (k_b)</p></li>
+<li><p>Adhesion strength (ω)</p></li>
+<li><p>Repulsion strength (ξ)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="cell-division">
+<h2>Cell Division<a class="headerlink" href="#cell-division" title="Link to this heading">#</a></h2>
+<p><strong>Trigger Condition:</strong>
+<div class="math notranslate nohighlight">
+\[V &gt; V_{max}\]</div>
+</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/triangulation_modules/cell_divider.cpp</span></code></p>
+<p>Division plane options:</p>
+<ol class="arabic simple">
+<li><p>Random orientation</p></li>
+<li><p>Perpendicular to longest axis (Hertwig’s rule)</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="volume-and-area-calculation">
+<h2>Volume and Area Calculation<a class="headerlink" href="#volume-and-area-calculation" title="Link to this heading">#</a></h2>
+<p><strong>Volume (3D Shoelace Formula):</strong>
+<div class="math notranslate nohighlight">
+\[V = \frac{1}{6}\left|\sum_{f \in \mathcal{M}} \det\begin{pmatrix} \mathbf{r}_i &amp; \mathbf{r}_j &amp; \mathbf{r}_k \end{pmatrix}\right|\]</div>
+</p>
+<p><strong>Code Location:</strong> <code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp</span></code> (volume calculation in geometry updates)</p>
+<p><strong>Surface Area:</strong>
+<div class="math notranslate nohighlight">
+\[A = \sum_{f \in \mathcal{M}} A_f = \sum_{f \in \mathcal{M}} \frac{1}{2}\|\mathbf{n}_f\|\]</div>
+</p>
+</section>
+<hr class="docutils" />
+<section id="compile-time-configuration">
+<h2>Compile-Time Configuration<a class="headerlink" href="#compile-time-configuration" title="Link to this heading">#</a></h2>
+<p>Physics model selection is done in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#define CONTACT_MODEL_INDEX 2      </span><span class="c1">// 0=springs, 1=node-node, 2=face-face</span>
+<span class="cp">#define DYNAMIC_MODEL_INDEX 0      </span><span class="c1">// 0=semi-implicit Euler, 1=overdamped</span>
+<span class="cp">#define POLARIZATION_MODE_INDEX 1  </span><span class="c1">// 0=none, 1=contact-based, 2=spatial</span>
+</pre></div>
+</div>
+<p><strong>Changes require full rebuild:</strong> <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">*</span> <span class="pre">&amp;&amp;</span> <span class="pre">cmake</span> <span class="pre">..</span> <span class="pre">&amp;&amp;</span> <span class="pre">make</span></code></p>
+</section>
+<hr class="docutils" />
+<section id="key-files-reference">
+<h2>Key Files Reference<a class="headerlink" href="#key-files-reference" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Header</p></th>
+<th class="head"><p>Implementation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cell mechanics</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/mesh/cell.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Contact (springs)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/contact_models/contact_node_face_via_springs.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/contact_models/contact_node_face_via_springs.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Contact (coupling)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/contact_models/contact_face_face_via_coupling.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/contact_models/contact_face_face_via_coupling.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Time integration</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/time_integration/time_integration.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/time_integration/time_integration.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Polarization</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/automatic_polarization/automatic_polarizer.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/automatic_polarization/automatic_polarizer.cpp</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cell division</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/triangulation_modules/cell_divider.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/triangulation_modules/cell_divider.cpp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Solver loop</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">include/solver.hpp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.1038/s43588-024-00620-9">SimuCell3D Paper</a> - Full mathematical derivations</p></li>
+<li><p><a class="reference internal" href="../user-guide/parameter-reference.html"><span class="std std-doc">Parameter Reference</span></a> - XML parameter reference</p></li>
+<li><p><a class="reference internal" href="parameter-guide.html"><span class="std std-doc">parameter-guide.md</span></a> - Biological interpretation of parameters</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="README.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Scientific Documentation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="parameter-guide.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SimuCell3D Parameter Guide: Biological Interpretation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-terms-and-code-implementation">Energy Terms and Code Implementation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-energy-pressure">1. Volume Energy (Pressure)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#area-elasticity-energy">2. Area Elasticity Energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surface-tension-energy">3. Surface Tension Energy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bending-energy">4. Bending Energy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-forces">Contact Forces</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spring-based-contact-model-contact-model-index-0">Spring-Based Contact Model (Contact Model Index = 0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#face-face-coupling-model-contact-model-index-2">Face-Face Coupling Model (Contact Model Index = 2)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-integration">Time Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#semi-implicit-euler-dynamic-model-index-0">Semi-Implicit Euler (Dynamic Model Index = 0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overdamped-dynamic-model-index-1">Overdamped (Dynamic Model Index = 1)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-polarization">Cell Polarization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-division">Cell Division</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-and-area-calculation">Volume and Area Calculation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-time-configuration">Compile-Time Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-files-reference">Key Files Reference</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/scientific/physics-model.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,503 @@
+/*
+ * SimuCell3D documentation: adjustments to the PyData Sphinx theme (0.15).
+ * Values follow docs2/DESIGN_DEFAULTS.md (orchestrator decisions).
+ *
+ * Work through the theme's CSS variables where one exists; add rules only for
+ * what the variables do not cover. Sections:
+ *   1. Colour: primary (links, active nav, focus) and secondary (hover)
+ *   2. Header and navigation
+ *   3. Running text and headings
+ *   4. Tables (wide tables scroll inside their container)
+ *   5. Code blocks, admonitions, figures, charts
+ *   6. Sidebars and footer
+ *   7. Landing page (index.md)
+ *
+ * Contrast (WCAG 2.x, text) against the theme backgrounds #ffffff / #14181e:
+ *   primary   light #0b6b7c 6.2:1   dark #62c7d8 9.1:1
+ *   secondary light #a8432b 6.0:1   dark #f09a7a 8.2:1
+ * Primary on the -bg tints: light on #e6f3f5 5.4:1, dark on #10292e 7.8:1;
+ * on the surface grey: light on #f3f4f5 5.6:1, dark on #29313d 6.7:1.
+ */
+
+/* 1. Colour ------------------------------------------------------------- */
+
+html[data-theme="light"] {
+  --pst-color-primary: #0b6b7c;
+  --pst-color-primary-bg: #e6f3f5;
+  --pst-color-primary-highlight: #08515e;
+  --pst-color-primary-text: #ffffff;
+  --pst-color-secondary: #a8432b;
+  --pst-color-secondary-bg: #f8e9e4;
+  --pst-color-secondary-highlight: #873521;
+  --pst-color-secondary-text: #ffffff;
+  --pst-color-link: var(--pst-color-primary);
+  --pst-color-link-hover: var(--pst-color-secondary);
+  --pst-color-inline-code-links: var(--pst-color-primary);
+  /* The theme's warning orange #f66a0a gives the warning/important admonition
+     icon 2.4:1 on its #f8e3d0 title band; the theme's own darker warning shade
+     #ad4a06 gives 4.5:1 there and 5.6:1 on white. */
+  --pst-color-warning: #ad4a06;
+  /* No violet row hover and no zebra stripes: neutral greys only. */
+  --pst-color-table-row-hover-bg: var(--pst-color-surface);
+  --pst-color-table-row-zebra-low-bg: transparent;
+  --pst-color-table-row-zebra-high-bg: transparent;
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: #62c7d8;
+  --pst-color-primary-bg: #10292e;
+  --pst-color-primary-highlight: #8fd8e4;
+  --pst-color-primary-text: #14181e;
+  --pst-color-secondary: #f09a7a;
+  --pst-color-secondary-bg: #3a1d14;
+  --pst-color-secondary-highlight: #f5b8a1;
+  --pst-color-secondary-text: #14181e;
+  --pst-color-link: var(--pst-color-primary);
+  --pst-color-link-hover: var(--pst-color-secondary);
+  --pst-color-inline-code-links: var(--pst-color-primary);
+  --pst-color-table-row-hover-bg: var(--pst-color-surface);
+  --pst-color-table-row-zebra-low-bg: transparent;
+  --pst-color-table-row-zebra-high-bg: transparent;
+}
+
+/* Visible keyboard focus everywhere, in the primary colour. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+pre:focus-visible,
+[tabindex]:focus-visible,
+.sd-card:focus-within {
+  outline: 3px solid var(--pst-color-primary);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* Active navbar item: primary text (theme), secondary underline. */
+.bd-header ul.navbar-nav > li.nav-item.current > .nav-link::before {
+  border-bottom-color: var(--pst-color-secondary);
+}
+
+/* 2. Header and navigation --------------------------------------------- */
+
+/* Logo mark next to the text title. */
+.navbar-brand img.logo__image {
+  height: 1.9rem;
+  width: auto;
+  margin-right: 0.15rem;
+}
+
+.navbar-brand .logo__title {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Eight section links, "More", the version switcher and three icons fit on
+   one row at 1280 px: slightly tighter spacing than the theme default. */
+@media (min-width: 960px) {
+  .bd-header ul.navbar-nav > li.nav-item {
+    margin-inline: 0;
+  }
+
+  .bd-header ul.navbar-nav > li.nav-item > .nav-link {
+    padding-inline: 0.45rem;
+    white-space: nowrap;
+  }
+
+  .bd-header .navbar-header-items__start .navbar-item {
+    margin-right: 0.75rem;
+  }
+
+  .bd-header .navbar-header-items__end {
+    gap: 0.25rem;
+  }
+}
+
+/* Below 1440 px the search field drops its Ctrl+K hint (the shortcut still
+   works) so that the navigation stays on one row down to 1280 px. */
+@media (max-width: 1439.98px) {
+  .bd-header .search-button-field .search-button__kbd-shortcut {
+    display: none;
+  }
+}
+
+/* The version switcher button: a compact pill. */
+.version-switcher__button {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  white-space: nowrap;
+}
+
+/* 3. Running text and headings ---------------------------------------- */
+
+.bd-article {
+  line-height: 1.65;
+}
+
+/* Keep paragraphs and lists at a readable measure; tables, code and figures
+   may use the full width of the article. */
+.bd-article > section p,
+.bd-article > section li,
+.bd-article > section dd {
+  max-width: 46rem;
+}
+
+.bd-article h1,
+.bd-article h2,
+.bd-article h3,
+.bd-article h4 {
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.bd-article h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.bd-article h2 {
+  font-size: 1.5rem;
+  margin-top: 2.25rem;
+}
+
+.bd-article h3 {
+  font-size: 1.2rem;
+  margin-top: 1.75rem;
+}
+
+.bd-article h4 {
+  font-size: 1.05rem;
+}
+
+/* 4. Tables ------------------------------------------------------------ */
+
+/* The theme wraps every table in .pst-scrollable-table-container (overflow
+   auto). A wide table keeps usable column widths and scrolls sideways inside
+   that container on a phone; the page itself never scrolls. */
+.bd-article .pst-scrollable-table-container {
+  margin-bottom: 1.25rem;
+}
+
+.bd-article table.table {
+  min-width: 100%;
+  font-size: 0.925rem;
+  line-height: 1.5;
+  border-collapse: collapse;
+}
+
+/* Header row weight 600 with a thin rule under it; thin rules between rows;
+   no zebra stripes (see the colour variables) and no outer box. */
+.bd-article table.table th {
+  font-weight: 600;
+  vertical-align: bottom;
+  background-color: transparent;
+}
+
+.bd-article table.table thead th,
+.bd-article table.table thead td {
+  border-bottom: 1px solid var(--pst-color-border);
+}
+
+.bd-article table.table td,
+.bd-article table.table th {
+  padding: 0.45rem 0.65rem;
+  vertical-align: top;
+  white-space: normal;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  /* Room for a short number such as 1e-7 without a break at its hyphen. */
+  min-width: 3.75rem;
+}
+
+.bd-article table.table tbody td {
+  border-bottom: 1px solid var(--pst-color-table-inner-border);
+}
+
+.bd-article table.table {
+  border: 0;
+}
+
+/* Numbers: right-aligned, tabular figures. table-wrap.js marks cells whose
+   whole content is a number (with optional sign, exponent, unit-free). */
+.bd-article table.table td.num,
+.bd-article table.table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Never split a number such as 2.5e-10 at its hyphen (body cells only:
+   header labels of numeric columns may still wrap). */
+.bd-article table.table td.num {
+  white-space: nowrap;
+}
+
+/* Long inline code may wrap; short tokens never do. table-wrap.js marks code
+   spans of 20+ characters (or 12+ with "_", "/", ".", ":") as .wrap-ok and adds
+   break opportunities after those characters; "anywhere" is the last resort
+   for a segment still wider than the column. Everything else keeps Sphinx's
+   nowrap, so 2.5e-8 is never split at its hyphen. Applies to prose and tables
+   (section 3 has no separate rule). */
+.bd-article code span.pre.wrap-ok {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* On a phone, columns keep a usable minimum width and a table that is still
+   too wide scrolls inside its container; prose columns keep room for
+   sentences. */
+@media (max-width: 720px) {
+  .bd-article table.table {
+    font-size: 0.875rem;
+  }
+
+  .bd-article table.table td,
+  .bd-article table.table th {
+    min-width: 5rem;
+  }
+
+  .bd-article table.table td:first-child,
+  .bd-article table.table th:first-child {
+    min-width: 8rem;
+  }
+
+  /* Only columns of sentences (marked .prose by table-wrap.js) get a wide
+     minimum; short-value columns size to their content. */
+  .bd-article table.table td.prose {
+    min-width: 14rem;
+  }
+}
+
+/* 5. Code blocks, admonitions, figures ------------------------------- */
+
+.bd-article div.highlight,
+.bd-article div[class*="highlight-"] pre {
+  border-radius: 0.375rem;
+}
+
+.bd-article div.highlight pre {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border: 1px solid var(--pst-color-border);
+  box-shadow: none;
+}
+
+.bd-article .code-block-caption {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--pst-color-text-muted);
+}
+
+/* Admonitions: thin neutral border on three sides, the theme's coloured bar
+   on the left (border-left-color is left to the theme's per-type rule), no
+   shadow (the theme sets it with !important). */
+.bd-article .admonition,
+.bd-article div.admonition {
+  box-shadow: none !important;
+  border-top: 1px solid var(--pst-color-border);
+  border-right: 1px solid var(--pst-color-border);
+  border-bottom: 1px solid var(--pst-color-border);
+  border-left-width: 0.25rem;
+  border-left-style: solid;
+  border-radius: 0.375rem;
+  margin: 1.25rem 0;
+}
+
+.bd-article .admonition > .admonition-title {
+  font-size: 0.95rem;
+}
+
+.bd-article .admonition p {
+  max-width: none;
+}
+
+/* Figures: centred, captions smaller and muted, images with rounded corners
+   so renders on a white background sit calmly in the dark theme. */
+.bd-article figure img {
+  border-radius: 0.375rem;
+}
+
+.bd-article figure figcaption,
+.bd-article figure .caption {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--pst-color-text-muted);
+  max-width: 44rem;
+  margin: 0.6rem auto 0;
+  text-align: left;
+}
+
+.bd-article figure figcaption p {
+  max-width: none;
+}
+
+/* Dark theme: the theme puts a white plate (and a brightness filter) behind
+   every content image without .only-dark or .dark-light, which suits old
+   opaque screenshots. Only the plate corners are matched to the figures here;
+   the theme rule itself is left alone. */
+html[data-theme="dark"] .bd-content img:not(.only-dark, .dark-light) {
+  border-radius: 0.375rem;
+}
+
+/* Example gallery (examples/index.md): every thumbnail sits in one 2:1 frame
+   on the surface colour, so a tall render does not stretch its card. */
+.sd-card-img-top.example-thumb {
+  aspect-ratio: 2 / 1;
+  object-fit: contain;
+  padding: 0.5rem;
+  background-color: var(--pst-color-surface);
+  border-radius: 0.375rem 0.375rem 0 0;
+}
+
+/* Charts (benchmark SVGs, figclass "chart-figure"): below about 600 px the
+   image keeps a 560 px minimum width, so its labels stay legible, and scrolls
+   sideways inside the figure; the caption stays at the column width and the
+   page does not scroll. Renders and photos keep scaling to the column. */
+.bd-article figure.chart-figure {
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  .bd-article figure.chart-figure {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bd-article figure.chart-figure img {
+    min-width: 560px;
+    max-width: none;
+  }
+
+  .bd-article figure.chart-figure figcaption {
+    position: sticky;
+    left: 0;
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+/* 6. Sidebars and footer ---------------------------------------------- */
+
+html {
+  --pst-sidebar-header-font-size: 0.8rem;
+}
+
+.bd-sidebar-primary .bd-links__title {
+  font-size: var(--pst-sidebar-header-font-size);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pst-color-text-muted);
+}
+
+.bd-sidebar-primary .bd-links .nav li > a {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  line-height: 1.35;
+}
+
+.bd-sidebar-secondary .page-source-link a {
+  color: var(--pst-color-text-muted);
+  font-size: 0.875rem;
+}
+
+.bd-sidebar-secondary .page-source-link a:hover {
+  color: var(--pst-color-link-hover);
+}
+
+.bd-footer .footer-items__start,
+.bd-footer .footer-items__center,
+.bd-footer .footer-items__end {
+  font-size: 0.85rem;
+}
+
+.bd-footer .footer-links a,
+.bd-footer .footer-version a {
+  color: var(--pst-color-text-muted);
+}
+
+.bd-footer .footer-links a:hover,
+.bd-footer .footer-version a:hover {
+  color: var(--pst-color-link-hover);
+}
+
+.bd-footer .footer-links span {
+  margin: 0 0.35rem;
+  color: var(--pst-color-text-muted);
+}
+
+/* Phone: the three footer columns stack, left-aligned. */
+@media (max-width: 720px) {
+  .bd-footer .bd-footer__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .bd-footer .footer-items__start,
+  .bd-footer .footer-items__center,
+  .bd-footer .footer-items__end {
+    text-align: start;
+    align-items: flex-start;
+  }
+}
+
+/* 7. Landing page ------------------------------------------------------ */
+
+/* The one-sentence statement under the title. */
+.bd-article p.landing-lead {
+  font-size: 1.3rem;
+  line-height: 1.45;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.bd-article figure.landing-hero {
+  margin: 1.5rem auto 2rem;
+}
+
+.bd-article figure.landing-hero img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* The "results differ from 1.0" note is a plain theme note; it only sits a
+   little closer to the cards above it. */
+.bd-article .landing-cards + .admonition.note,
+.bd-article .landing-cards ~ .admonition.note {
+  margin-top: 1.75rem;
+}
+
+/* Task cards: equal height, a quiet border, secondary colour on hover. */
+.landing-cards .sd-card {
+  height: 100%;
+  border: 1px solid var(--pst-color-border);
+  box-shadow: none;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.landing-cards .sd-card:hover {
+  border-color: var(--pst-color-secondary);
+}
+
+.landing-cards .sd-card-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--pst-color-text-base);
+}
+
+.landing-cards .sd-card-title svg,
+.landing-cards .sd-card-title i {
+  color: var(--pst-color-primary);
+  margin-right: 0.35rem;
+}
+
+.landing-cards .sd-card-text {
+  font-size: 0.925rem;
+  color: var(--pst-color-text-muted);
+}
+
+/* Other card grids keep equal heights too. */
+.sd-card {
+  height: 100%;
+}

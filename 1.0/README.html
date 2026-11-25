@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>SimuCell3D &#8212; SimuCell3D 1.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=2882ecd3"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fc97db16"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'README';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/1.0/README.html" />
+    <link rel="icon" href="_static/favicon.svg"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to configure a simulation?" href="doc/parameter_file_doc.html" />
+    <link rel="prev" title="Documentation of release 1.0" href="sections/documentation.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 1.0 (tag v1.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 1.0 (tag v1.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/1.0/README.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/1.0/doc/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="sections/documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/notes-in-the-source-tree.html">
+    Notes in the source tree
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="licence.html">
+    Licence
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="sections/documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/notes-in-the-source-tree.html">
+    Notes in the source tree
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="licence.html">
+    Licence
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/parameter_file_doc.html">Configuring a simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/input_mesh_format.html">Input mesh format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/mesh_generation.html">Mesh generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/output_statistics.html">Simulation statistics</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="doc/parameter_screen.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="doc/python_support.html">Running from Python</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="sections/documentation.html" class="nav-link">Documentation of release 1.0</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SimuCell3D</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simucell3d">
+<h1>SimuCell3D<a class="headerlink" href="#simucell3d" title="Link to this heading">#</a></h1>
+<p>SimuCell3D is a C++ cell-based simulation framework designed to simulate tissues in 3 dimensions with high geometrical resolution.</p>
+<p align="center">
+    <img src="./doc/img/simucell_topolgy_example.png">
+</p>
+<br>
+<section id="manual-installation-on-linux-and-windows">
+<h2>Manual installation on linux and Windows<a class="headerlink" href="#manual-installation-on-linux-and-windows" title="Link to this heading">#</a></h2>
+<p>Windows users can manually install SimuCell3D on their machines via a Windows Linux Subsystem (<a class="reference external" href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a>).</p>
+<section id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>GCC compiler at version 9 or higher</p></li>
+<li><p>CMake at version 3.0 or higher</p></li>
+</ul>
+<br>
+<strong>1.</strong> Clone this git repository
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">git</span><span class="o">.</span><span class="n">bsse</span><span class="o">.</span><span class="n">ethz</span><span class="o">.</span><span class="n">ch</span><span class="o">/</span><span class="n">iber</span><span class="o">/</span><span class="n">Publications</span><span class="o">/</span><span class="mi">2024</span><span class="n">_runser_simucell3d</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<br>
+<strong>2.</strong> Create a build folder in the repository
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">SimuCell3D</span><span class="o">/</span><span class="n">build</span> <span class="o">&amp;&amp;</span> <span class="n">cd</span> <span class="s2">"$_"</span>
+</pre></div>
+</div>
+<br>
+<strong>3.</strong> Compile the code
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Release</span> <span class="o">..</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="o">-</span><span class="n">j4</span>
+</pre></div>
+</div>
+<br>
+</section>
+</section>
+<section id="automatic-installation-on-any-operating-system-with-docker">
+<h2>Automatic installation on any operating system with Docker<a class="headerlink" href="#automatic-installation-on-any-operating-system-with-docker" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Requirements<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Docker</p></li>
+</ul>
+<br>
+<strong>1.</strong> Clone this git repository
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">git</span><span class="o">.</span><span class="n">bsse</span><span class="o">.</span><span class="n">ethz</span><span class="o">.</span><span class="n">ch</span><span class="o">/</span><span class="n">iber</span><span class="o">/</span><span class="n">Publications</span><span class="o">/</span><span class="mi">2024</span><span class="n">_runser_simucell3d</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">SimuCell3D</span><span class="o">/</span>
+</pre></div>
+</div>
+<br>
+<strong>2.</strong> Create a docker image
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">simucell3d_docker_img</span> <span class="o">.</span>
+</pre></div>
+</div>
+<br>
+<strong>3.</strong> Create a folder to store the simulation results
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="n">simulation_results</span>
+</pre></div>
+</div>
+<br>
+</section>
+</section>
+<section id="how-to-launch-a-simulation">
+<h2>How to launch a simulation?<a class="headerlink" href="#how-to-launch-a-simulation" title="Link to this heading">#</a></h2>
+<p>SimuCell3D needs 2 input files to initialize the simulations:<br />
+      <strong>1.</strong> A parameter file at the XML format (ex: path/to/SimuCell3D/parameters.xml)</p>
+<p>      <strong>2.</strong> An initial mesh geometry in the VTK format  (ex: path/to/SimuCell3D/data/input_meshes/cube.vtk)
+<br>
+More information on the structure of these files can be found at <a class="reference internal" href="doc/parameter_file_doc.html"><span class="std std-doc">here</span></a> and <a class="reference internal" href="doc/parameter_file_doc.html"><span class="std std-doc">here</span></a></p>
+<br>
+<section id="if-simucell3d-has-been-installed-manually">
+<h3>If SimuCell3D has been installed manually:<a class="headerlink" href="#if-simucell3d-has-been-installed-manually" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">SimuCell3D</span><span class="o">/</span><span class="n">build</span>
+<span class="o">./</span><span class="n">simucell3d</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">parameter</span><span class="o">/</span><span class="n">file</span> <span class="c1">#ex: ./simucell3d ../parameters_default_dynamic.xml</span>
+</pre></div>
+</div>
+<p>The output files will be saved based on the output folder path specified in the parameter file.</p>
+<br>
+</section>
+<section id="if-simucell3d-has-been-installed-with-docker">
+<h3>If SimuCell3D has been installed with Docker:<a class="headerlink" href="#if-simucell3d-has-been-installed-with-docker" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">v</span> <span class="s2">"$(pwd)/simulation_results"</span><span class="p">:</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">simulation_results</span>  <span class="n">simucell3d_docker_img</span><span class="p">:</span><span class="n">latest</span> <span class="o">../</span><span class="n">parameters_default_dynamic</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+<p>In this second case, note that the parameter file path is relative to the build folder and only files in the repository can be accessed from the container. To add a file to the container, it must be added to the repository and then the container must be rebuilt. The simulation results will be saved in the simulation_results folder.</p>
+<br>
+</section>
+</section>
+<section id="what-output-files-does-simucell3d-create">
+<h2>What output files does SimuCell3D create?<a class="headerlink" href="#what-output-files-does-simucell3d-create" title="Link to this heading">#</a></h2>
+<p>The output files of a simulation are structured in the following way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>
+<span class="o">|--</span> 
+<span class="o">|</span>   <span class="o">|--</span> <span class="n">output_folder_path</span>
+<span class="o">|</span>		<span class="o">|--</span> <span class="n">simulation_statistics</span><span class="o">.</span><span class="n">csv</span>
+<span class="o">|</span>		<span class="o">|--</span> <span class="n">cell_data</span>
+<span class="o">|</span>			<span class="o">|--</span> <span class="n">result_0</span><span class="o">.</span><span class="n">vtk</span>
+<span class="o">|</span>			<span class="o">|--</span> <span class="n">result_1</span><span class="o">.</span><span class="n">vtk</span>
+<span class="o">|</span>			<span class="o">|--</span> <span class="o">...</span>
+<span class="o">|</span>		<span class="o">|--</span> <span class="n">face_data</span>
+<span class="o">|</span>			<span class="o">|--</span> <span class="n">result_0</span><span class="o">.</span><span class="n">vtk</span>
+<span class="o">|</span>			<span class="o">|--</span> <span class="n">result_1</span><span class="o">.</span><span class="n">vtk</span>
+<span class="o">|</span>			<span class="o">|--</span> <span class="o">...</span>
+<span class="o">|</span>   <span class="o">|--</span> <span class="o">...</span>
+<span class="o">|...</span>
+</pre></div>
+</div>
+<p>The output folder path can be specified in the <code class="docutils literal notranslate"><span class="pre">parameter.xml</span></code> file.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">simulation</span> <span class="pre">_statistics.csv</span></code> file contains simulation statistics such as the cell areas and volumes over time. More information on this file can be found <a class="reference internal" href="doc/output_statistics.html"><span class="std std-doc">here</span></a>.</p>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">cell_data</span></code> and <code class="docutils literal notranslate"><span class="pre">face_data</span></code> folders contain meshes of the tissue at different iterations. The <code class="docutils literal notranslate"><span class="pre">cell_data</span></code> meshes can be used to visualize the cell attributes (ex: volume, pressure etc). Whereas, the <code class="docutils literal notranslate"><span class="pre">face_data</span></code> meshes are used to visualize the atributes of the faces of the cells (triangle area, adhesion energy etc).</p>
+<p>Both type of meshes can be visualized with the rendering software <a class="reference external" href="https://www.paraview.org/download/">Paraview</a>.</p>
+<br>
+</section>
+<section id="additional-documentation">
+<h2>Additional documentation<a class="headerlink" href="#additional-documentation" title="Link to this heading">#</a></h2>
+<p>Several tutorials have been added to this repository to explain how to launch simulations or edit the framework:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="doc/parameter_file_doc.html"><span class="std std-doc">How to configure the parameters of a simulation?</span></a></p></li>
+<li><p><a class="reference internal" href="doc/input_mesh_format.html"><span class="std std-doc">How are input meshes formatted?</span></a></p></li>
+<li><p><a class="reference internal" href="doc/mesh_generation.html"><span class="std std-doc">How to generate initial geometries?</span></a></p></li>
+<li><p><a class="reference internal" href="doc/output_statistics.html"><span class="std std-doc">What are the files saved by SimuCell3D?</span></a></p></li>
+<li><p><a class="reference internal" href="doc/parameter_screen.html"><span class="std std-doc">How to run a parameter screen on a cluster?</span></a></p></li>
+<li><p><a class="reference internal" href="doc/python_support.html"><span class="std std-doc">How to run SimuCell3D from python?</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sections/documentation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Documentation of release 1.0</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="doc/parameter_file_doc.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">How to configure a simulation?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-installation-on-linux-and-windows">Manual installation on linux and Windows</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-installation-on-any-operating-system-with-docker">Automatic installation on any operating system with Docker</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-launch-a-simulation">How to launch a simulation?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-simucell3d-has-been-installed-manually">If SimuCell3D has been installed manually:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-simucell3d-has-been-installed-with-docker">If SimuCell3D has been installed with Docker:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-output-files-does-simucell3d-create">What output files does SimuCell3D create?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-documentation">Additional documentation</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v1.0/README.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v1.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D 1.0 by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  These pages are the documentation of tag <code>v1.0</code> (commit <code>38af451</code>),
+  reproduced unchanged under the 3-Clause BSD License of that release
+  (<a href="licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

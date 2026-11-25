@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/18_parallel_performance';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/18_parallel_performance.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/user_guide/18_parallel_performance.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Examples" href="../examples/index.html" />
     <link rel="prev" title="Parameter screening" href="17_parameter_screening.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Parallel performance - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/user_guide/18_parallel_performance.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -614,7 +647,8 @@ Thread pinning: enabled, thread i -&gt; CPU 0,1,2,3,4,5,6,7
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 2.1: </span>Thread pinning and the physical-core default. Before 2.1, threads could end up in pairs on
-the two hyperthreads of one core while other cores were idle.</p>
+the two hyperthreads of one core while other cores were idle: on a machine with 4 cores and
+8 hardware threads, runs used two of the four cores.</p>
 </div>
 <section id="several-runs-on-one-machine">
 <h3>Several runs on one machine<a class="headerlink" href="#several-runs-on-one-machine" title="Link to this heading">#</a></h3>
@@ -637,22 +671,27 @@ operating system distribute them.</p>
 <h2>Scheduling modes<a class="headerlink" href="#scheduling-modes" title="Link to this heading">#</a></h2>
 <p>The loops over cells are not balanced: cells differ in size, number of faces and number of
 contacts. The OpenMP schedule decides how the cells are distributed over the threads. It is set
-with <code class="docutils literal notranslate"><span class="pre">--schedule</span></code>:</p>
+with <code class="docutils literal notranslate"><span class="pre">--schedule</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--schedule</span></code> governs only the loops whose schedule is chosen at run time. Several loops have a
+fixed schedule that no option changes: in the default build (contact model 2 with the spatial
+grid), the contact-detection loops and the division loop are fixed, and the time integration
+runs on one thread. With contact models 0 and 1, or with <code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code>, the option also
+governs contact detection and time integration.</p>
 <dl class="simple myst">
-<dt><code class="docutils literal notranslate"><span class="pre">adaptive</span></code> (default)</dt><dd><p>Every phase of an iteration sets its own schedule for its parallel loops: dynamic for contact detection, guided for
-polarization, internal forces and time integration, static for the face-type update and the
-mesh refinement, and dynamic with small chunks for the division check. A base schedule for
-the remaining loops is chosen at start from the number of cells and an estimate of how
-unequal the work per cell is, and is changed when the run moves between the phases
-<code class="docutils literal notranslate"><span class="pre">INITIALIZATION</span></code> (fewer than 10 cells), <code class="docutils literal notranslate"><span class="pre">GROWTH</span></code> (more than 1% of the cells divided in the
-last 50 iterations) and <code class="docutils literal notranslate"><span class="pre">HOMEOSTASIS</span></code>. Messages starting with <code class="docutils literal notranslate"><span class="pre">[Iteration</span> <span class="pre">N]</span></code> on standard
-output report these changes.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">adaptive</span></code> (default)</dt><dd><p>Each phase of an iteration gets its own schedule: dynamic for contact detection, guided for
+polarization, internal forces and time integration, and static for the face-type update and
+the mesh refinement. A base schedule for the remaining loops is chosen at start from the
+number of cells and an estimate of how unequal the work per cell is, and is changed when the
+run moves between the phases <code class="docutils literal notranslate"><span class="pre">INITIALIZATION</span></code> (fewer than 10 cells), <code class="docutils literal notranslate"><span class="pre">GROWTH</span></code> (more than 1% of
+the cells divided in the last 50 iterations) and <code class="docutils literal notranslate"><span class="pre">HOMEOSTASIS</span></code>. Messages starting with
+<code class="docutils literal notranslate"><span class="pre">[Iteration</span> <span class="pre">N]</span></code> on standard output report these changes.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">dynamic</span></code>, <code class="docutils literal notranslate"><span class="pre">guided</span></code></dt><dd><p>One OpenMP schedule of that kind for all loops. For <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> and <code class="docutils literal notranslate"><span class="pre">guided</span></code>, the chunk size is
-recomputed every 50 iterations from the number of cells and the workload estimate, and
-reduced temporarily after many divisions.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">static</span></code>, <code class="docutils literal notranslate"><span class="pre">dynamic</span></code>, <code class="docutils literal notranslate"><span class="pre">guided</span></code></dt><dd><p>One OpenMP schedule of that kind for all loops whose schedule is chosen at run time.</p>
 </dd>
 </dl>
+<p>In every mode the chunk size is adjusted on the iteration after cells divide, and halved when
+more than 10% of the cells divided at once. With <code class="docutils literal notranslate"><span class="pre">dynamic</span></code> and <code class="docutils literal notranslate"><span class="pre">guided</span></code> it is also recomputed
+every 50 iterations when the workload estimate has changed by more than 20%.</p>
 <p>The workload estimate is the coefficient of variation of a per-cell cost model (number of
 faces, contacts, growth and other terms). It is written as <code class="docutils literal notranslate"><span class="pre">cov</span></code> in the
 <a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a> (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p>
@@ -675,7 +714,9 @@ It is chosen with <code class="docutils literal notranslate"><span class="pre">&
 binned into the voxels that its bounding box (enlarged by the contact cutoff) overlaps, and
 only faces that share a voxel are compared.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code></dt><dd><p>Sweep-and-Prune on the bounding boxes of the faces, sorted along the coordinate axes.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code></dt><dd><p>Sweep-and-Prune on the bounding boxes of the cells (enlarged by the contact cutoff), sorted
+along one axis, to find pairs of cells that may touch; only the faces of those pairs are then
+compared.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">adaptive</span></code></dt><dd><p>The grid below 500 cells and Sweep-and-Prune from 500 cells on.</p>
 </dd>
@@ -689,38 +730,128 @@ the default. Which algorithm is faster depends on the tissue; compare them on a 
 <h2>What determines the cost of an iteration<a class="headerlink" href="#what-determines-the-cost-of-an-iteration" title="Link to this heading">#</a></h2>
 <p>The work per iteration grows with the number of cells and with the number of faces per cell.</p>
 <ul class="simple">
-<li><p><strong>Number of cells.</strong> Runser, Vetter &amp; Iber (2024) report that the total time complexity of a
-growth simulation is <span class="math notranslate nohighlight">\(\mathcal{O}(N_c^{4/3})\)</span> in the number of cells <span class="math notranslate nohighlight">\(N_c\)</span>.</p></li>
+<li><p><strong>Number of cells.</strong> In the growth benchmark the wall time of one iteration grows as about
+<span class="math notranslate nohighlight">\(N^{1.10}\)</span> in the number of cells <span class="math notranslate nohighlight">\(N\)</span>, and the cumulative wall time to reach <span class="math notranslate nohighlight">\(N\)</span> cells as
+<span class="math notranslate nohighlight">\(N^{1.333}\)</span> (see <a class="reference internal" href="#measured-run-times">Measured run times</a>). The second exponent matches the
+<span class="math notranslate nohighlight">\(\mathcal{O}(N^{4/3})\)</span> that Runser, Vetter &amp; Iber (2024) report for a growth simulation; the
+two differ because a growing tissue needs more iterations per doubling as it gets larger.</p></li>
 <li><p><strong>Faces per cell.</strong> The mesh refiner keeps edge lengths between <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> and three
 times that value (<a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>), so the number of faces of a cell
 of area <span class="math notranslate nohighlight">\(A\)</span> grows as <span class="math notranslate nohighlight">\(A / l_{\min}^2\)</span>. Halving <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> roughly quadruples the
 faces per cell and the cost per cell.</p></li>
-<li><p><strong>Contacts.</strong> Larger contact cutoffs give more candidate pairs per face.</p></li>
-<li><p><strong>Time step.</strong> The run needs <code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">time_step</span></code> iterations. The largest
-stable time step depends on the mechanical parameters and the mesh resolution; a time step
-that is too large shows up as unstable cells being removed
-(<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></li>
+<li><p><strong>Contacts.</strong> Larger contact cutoffs give more candidate pairs per face. Contact detection is
+the largest phase: in the growth benchmark it takes about 60% of the timed iteration at
+100 cells and 75% at 145,000 cells.</p></li>
+<li><p><strong>Time step.</strong> The run needs <code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">time_step</span></code> iterations, so the wall time per
+simulated second is close to proportional to <span class="math notranslate nohighlight">\(1/\Delta t\)</span>. The largest stable time step
+depends on the tissue and the mesh resolution; a time step that is too large shows up as
+unstable cells being removed. See <a class="reference internal" href="13_running_simulations.html#time-step"><span class="std std-ref">Time step</span></a> and
+<a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>.</p></li>
 <li><p><strong>Output.</strong> Every mesh pair is written as ASCII text; a short <code class="docutils literal notranslate"><span class="pre">sampling_period</span></code> slows the run
 and fills the disk (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p></li>
 </ul>
-<section id="reference-figures">
-<h3>Reference figures<a class="headerlink" href="#reference-figures" title="Link to this heading">#</a></h3>
-<p>The measurements below are the only ones given for this purpose; they come with their
-conditions and are not guarantees for other machines.</p>
+<section id="measured-run-times">
+<span id="ug-parallel-measured"></span><span id="reference-figures"></span><h3>Measured run times<a class="headerlink" href="#measured-run-times" title="Link to this heading">#</a></h3>
+<p>The November 2026 benchmark measured 2.1.0 on 8-core cloud machines (GCP c2-standard-16,
+8 threads on 8 physical cores, 64 GB of memory, one run per machine). The figures below come
+from it; they hold for that hardware and those files, and are not guarantees for other
+machines. The full tables, the method and the comparison with earlier versions are in
+<a class="reference internal" href="../benchmarks/performance.html#benchmarks-performance"><span class="std std-ref">Wall time, scaling and memory</span></a>.</p>
+<p><strong>Growth benchmark</strong> (the lab’s <code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> of release 1.0, contact model 1,
+time step <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s; three runs):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head text-right"><p>2.1.0, measured</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Wall time to 10,000 cells</p></td>
+<td class="text-right"><p>1.28 ± 0.01 h</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wall time to 125,000 cells</p></td>
+<td class="text-right"><p>37.7 ± 0.8 h</p></td>
+</tr>
+<tr class="row-even"><td><p>Cumulative wall time to <span class="math notranslate nohighlight">\(N\)</span> cells, from 10,000 cells on</p></td>
+<td class="text-right"><p>grows as <span class="math notranslate nohighlight">\(N^{1.333 \pm 0.010}\)</span>; locally <span class="math notranslate nohighlight">\(N^{1.36}\)</span> above 30,000 cells</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wall time per iteration</p></td>
+<td class="text-right"><p>about 2.6 s at 10,000 cells, about 44 s at 140,000 cells; grows as <span class="math notranslate nohighlight">\(N^{1.10}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Memory (maximum resident set)</p></td>
+<td class="text-right"><p>0.13 GiB per 1,000 cells; 18.9 GiB at 145,000 cells</p></td>
+</tr>
+<tr class="row-odd"><td><p>Share of the 8 cores kept busy over a 48 h run</p></td>
+<td class="text-right"><p>83%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Fixed-length tissues</strong> (contact model 2, shipped meshes, time step <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Run</p></th>
+<th class="head text-right"><p>2.1.0, measured</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Vesicle, 100,000 iterations (434 cells)</p></td>
+<td class="text-right"><p>6.20 ± 0.95 h</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tube, 100,000 iterations (192 cells)</p></td>
+<td class="text-right"><p>3.7 h</p></td>
+</tr>
+<tr class="row-even"><td><p>Mono- or multilayer vesicle, 1,736 iterations (paper protocol)</p></td>
+<td class="text-right"><p>0.18 h</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="sizing-a-run">
+<h3>Sizing a run<a class="headerlink" href="#sizing-a-run" title="Link to this heading">#</a></h3>
+<p>These rules of thumb are fitted to the measurements above. Use them to choose a machine and a
+wall-time limit, then check them with a short run of your own file.</p>
 <ul class="simple">
-<li><p>Runser, Vetter &amp; Iber (2024), with release 1.0: growth from one cell to 125,000 cells in one
-day of computation on an Intel Xeon W-2245 (eight cores, 3.9 GHz) with 16 threads, for cells
-with 121 nodes and 238 triangular faces on average. The paper reports that the parallel
-efficiency follows Amdahl’s law (its Supplementary Fig. 6).</p></li>
-<li><p>2.1 (from <code class="docutils literal notranslate"><span class="pre">CHANGELOG.md</span></code>): the compact face grid of face-face contact halves the contact
-step, from 1,059 to 500 ms per iteration at 2.6k cells with 4 threads. In 8-core runs of the
-reconstructed paper-like growth configuration (<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, not the
-lab’s configuration; <a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>), 2.1 needs
-44-46% less time per iteration at 30k cells than the development builds that preceded it,
-and reaches 30k cells in about 4 hours.</p></li>
+<li><p><strong>Wall time of a growth run.</strong> On the benchmark hardware, the growth benchmark at
+<code class="docutils literal notranslate"><span class="pre">time_step</span></code> <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s needs about <span class="math notranslate nohighlight">\(T(N) \approx 1.28\ \text{h} \times (N/10{,}000)^{4/3}\)</span>
+to reach <span class="math notranslate nohighlight">\(N\)</span> cells: about 5.5 h for 30,000 cells, 14 h for 60,000 and 37 h for 125,000. At
+another time step, multiply by <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s divided by your <code class="docutils literal notranslate"><span class="pre">time_step</span></code>. A different tissue, mesh
+resolution or contact model changes the prefactor; measure it from the first few thousand
+cells of your run and extrapolate with the same exponent.</p></li>
+<li><p><strong>Wall time of a fixed-length run.</strong> Measure the wall time per iteration from two rows of the
+<a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a> (difference of <code class="docutils literal notranslate"><span class="pre">wall_epoch</span></code> divided by 100) and multiply by
+<code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">time_step</span></code>. For a tissue that does not grow, the cost per iteration
+stays nearly constant.</p></li>
+<li><p><strong>Memory.</strong> Allow about 0.13 GiB per 1,000 cells of the benchmark tissue (about 140 KB per
+cell), plus room for the operating system. The largest measured point, 18.9 GiB at 145,000
+cells, used less than a third of the 64 GB machine. Cells with more faces (a smaller <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>) need proportionally more.</p></li>
+<li><p><strong>Disk.</strong> Each mesh pair is written in full; estimate the size of one pair from the first
+output file and multiply by <code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">sampling_period</span></code>
+(<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p></li>
+<li><p><strong>Cores in use.</strong> <code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span> <span class="pre">-v</span></code> reports “Percent of CPU this job got”. Divided by the
+number of threads, it gives the share of the cores kept busy; 2.1.0 reached 83% on 8 threads in
+the growth benchmark. A much lower value points to other processes on the same cores (see
+<a class="reference internal" href="#several-runs-on-one-machine">Several runs on one machine</a>).</p></li>
 </ul>
-<p>Because 2.1 also changes the physics (<a class="reference internal" href="../whats_new/v2.1.html"><span class="doc">Release 2.1</span></a>), run times of 1.0 and 2.1 are not
-a like-for-like comparison.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The benchmark ran every case with 8 threads, so it does not measure how the run time changes
+with the thread count. Runser, Vetter &amp; Iber (2024) report, for release 1.0, that the parallel
+efficiency follows Amdahl’s law (their Supplementary Fig. 6) and that growth from one cell to
+125,000 cells took one day on an Intel Xeon W-2245 (eight cores, 3.9 GHz) with 16 threads and a
+time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s. That configuration is not stable in 2.1.0 on the benchmark file
+(<a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>), and the machine, thread count and time step differ from the
+benchmark’s, so the two figures are not a like-for-like comparison.</p>
+</div>
+<p>Where the speed of 2.x comes from, as measured: compared with 1.0 with two crash fixes, 2.1.0
+reaches 10,000 cells in about half the wall time (1.28 h against 2.53 h), mostly because it
+keeps 83% of the cores busy against 49%, and it needs 39% less memory per cell. On the vesicle
+and tube (contact model 2), 2.0 was 1.5-1.8 times faster than 1.0 with two crash fixes, and the
+2.1 change to face-face contact (the compact face grid) added a further factor of 1.4 on the
+vesicle and 1.2 on the tube. That change does not affect contact model 1, which the growth
+benchmark uses. Because 2.x also changes the physics (<a class="reference internal" href="../whats_new/v2.1.html"><span class="doc">Release 2.1</span></a>), these are
+comparisons of cost for the same input files, not of identical computations.</p>
 </section>
 </section>
 <section id="finding-where-the-time-goes">
@@ -739,22 +870,36 @@ of these phases.</p></li>
 per-phase times.</p>
 </section>
 <section id="reproducibility">
-<h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Link to this heading">#</a></h2>
+<span id="ug-parallel-reproducibility"></span><h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Link to this heading">#</a></h2>
+<p>Runs of more than one cell are not bit-identical from one run to the next, in 1.0 as in 2.1.
+There are two sources:</p>
 <ul class="simple">
-<li><p>With more than one thread, two runs with the same input are not bit-identical: contact
-forces are summed in an order that depends on the thread timing, and the rounding
-differences grow over time.</p></li>
-<li><p>Growth rates and division volumes with a non-zero standard deviation are drawn from a random
-generator seeded from the clock, so runs that use them differ even on one thread.</p></li>
-<li><p>Cell division (to triangulate the division interface) and the initial triangulation sample
-points with a generator that is also seeded from the clock. A run in which cells divide therefore differs from one run to the
-next even with <code class="docutils literal notranslate"><span class="pre">--threads=1</span></code> and standard deviations of 0: in a test with
-<code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code> on one thread, two runs were identical up to the first division and
-differed afterwards (per-cell volumes by up to 0.5% after 6,000 iterations).</p></li>
+<li><p><strong>A clock-seeded random generator.</strong> The surface sampling of the initial triangulation and of
+every division interface, and the growth rates and division volumes when their standard
+deviation is not zero, are drawn from generators seeded from the system clock. A run that
+uses any of them differs from the next one even with <code class="docutils literal notranslate"><span class="pre">--threads=1</span></code>.</p></li>
+<li><p><strong>Threading.</strong> With more than one thread, runs differ even when nothing random is drawn. The
+likely cause is the order in which contact forces are added, which depends on thread timing;
+the mechanism has not been isolated.</p></li>
 </ul>
-<p>A run on one thread is repeatable value by value only when cells do not divide, the standard
-deviations are 0 and <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> is off (see
-<a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a> and <a class="reference internal" href="../faq.html"><span class="doc">Frequently asked questions</span></a>). Compare runs with divisions statistically.</p>
+<p>A run is repeatable value by value only on one thread, without divisions, with standard
+deviations of 0 and with <code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code> off (see <a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a>
+and <a class="reference internal" href="../faq.html"><span class="doc">Frequently asked questions</span></a>).</p>
+<p>The November 2026 benchmark measured the size of the differences with three
+<a class="reference internal" href="../glossary.html#term-replicate"><span class="xref std std-term">replicates</span></a> per case on 8 threads (<a class="reference internal" href="../benchmarks/reproducibility.html#benchmarks-reproducibility"><span class="std std-ref">Reproducibility</span></a>):</p>
+<ul class="simple">
+<li><p>Growth benchmark: replicates differ from the first iteration, because the initial
+triangulation draws random points. The wall time to 60,000 cells varies by up to 2.1% between
+replicates, and the final cell count of 48 h runs by about 2%.</p></li>
+<li><p>Vesicle (no division, no random draws): replicates differ from the second sampled iteration
+on. Mean pressure varies by 0.1-1.0% between replicates and median sphericity by less than
+0.1%.</p></li>
+<li><p>Single-cell analytic cases (no initial triangulation, no division, standard deviations 0):
+the statistics files were identical byte for byte in every 2.x build. The benchmark did not
+repeat these runs within one build.</p></li>
+</ul>
+<p>Compare runs statistically, with at least three replicates for any effect of the order of a few
+percent.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <ul class="simple">
@@ -821,13 +966,21 @@ implemented.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scheduling-modes">Scheduling modes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-detection-algorithm">Contact detection algorithm</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-determines-the-cost-of-an-iteration">What determines the cost of an iteration</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-figures">Reference figures</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#measured-run-times">Measured run times</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sizing-a-run">Sizing a run</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-where-the-time-goes">Finding where the time goes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/user_guide/18_parallel_performance.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -863,16 +1016,28 @@ implemented.</p></li>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

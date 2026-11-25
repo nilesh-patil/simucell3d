@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/growth_from_one_cell';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/examples/growth_from_one_cell.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/examples/growth_from_one_cell.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Batch runs from Python" href="python_batch_runs.html" />
     <link rel="prev" title="Growing cell: full and overdamped dynamics" href="single_cell_dynamic_overdamped.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Tissue growth from a single cell - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/examples/growth_from_one_cell.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -578,17 +611,30 @@ computation on an eight-core Intel Xeon W-2245 with 16 threads, for cells with 1
 faces on average. The parameter file of this example is not the lab’s configuration: it was
 reconstructed for 2.x from Table 2 of the paper and is called the <em>reconstructed paper-like
 configuration</em> in these pages (<a class="reference internal" href="#ex-growth-reconstruction"><span class="std std-ref">Differences from the paper</span></a>). It is the long-run test case of
-release 2.1.</p>
+release 2.1. The lab’s own benchmark file of release 1.0 uses another contact model; it is not
+shipped with 2.1.0, and the November 2026 benchmark ran it instead of this file
+(<a class="reference internal" href="#ex-growth-lab-file"><span class="std std-ref">The lab’s benchmark file</span></a>). The measurements on this page therefore come from two sources, and
+each is labelled with the file it belongs to.</p>
 <p><strong>Files</strong>: <code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>, <code class="docutils literal notranslate"><span class="pre">data/input_meshes/paper_sphere.vtk</span></code> (one cell,
-about 12 µm in diameter, volume about <span class="math notranslate nohighlight">\(10^{-15}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>); launcher <code class="docutils literal notranslate"><span class="pre">scripts/runs/launch_longrun_20k.sh</span></code>.
+about 12 µm in diameter, volume about <span class="math notranslate nohighlight">\(10^{-15}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>); launcher <code class="docutils literal notranslate"><span class="pre">scripts/runs/launch_longrun_20k.sh</span></code>. <br />
 <strong>Compile-time configuration</strong>: the defaults (<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>,
-<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>).
-<strong>Length</strong>: very long. <span class="math notranslate nohighlight">\(2\times10^{-3}\)</span> s of simulated time at a time step of <span class="math notranslate nohighlight">\(10^{-7}\)</span> s
-(<span class="math notranslate nohighlight">\(2\times10^4\)</span> iterations), with a cost per iteration that grows with the number of cells.</p>
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>). <br />
+<strong>Length</strong>: very long. <span class="math notranslate nohighlight">\(2\times10^{-3}\)</span> s of simulated time at a time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s (20,000
+iterations), with a cost per iteration that grows with the number of cells. <br />
+<strong>Measured run time</strong>: 30,000 cells in about 4 hours; stopped at 150,498 cells after 13,947
+iterations and 52.9 hours, well before the end of the file. Release candidate of 2.1 on an
+8-core cloud machine (GCP c2-standard-16, 8 threads), November 2026 (<a class="reference internal" href="#ex-growth-expect"><span class="std std-ref">What to expect from this file</span></a>).</p>
+<figure class="align-default" id="id1">
+<a class="dark-light reference internal image-reference" href="../_images/example_growth.png"><img alt="A spherical cluster of about two thousand round cells in 3D, and its cross-section, in which many round cell outlines lie on top of each other." class="dark-light" src="../_images/example_growth.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">This page’s file (the reconstructed paper-like configuration, contact model 2) at 1,934 cells, run with a pre-release build of 2.1, not 2.1.0: 3D view (left, bar 25 µm) and mid-plane cut (right, bar 10 µm). Fills are translucent; the darker areas of the cut are where cell profiles overlap, the interpenetration described under <a class="reference internal" href="#ex-growth-expect"><span class="std std-ref">What to expect from this file</span></a>.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <section id="the-parameter-file">
 <h2>The parameter file<a class="headerlink" href="#the-parameter-file" title="Link to this heading">#</a></h2>
-<div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">parameters/longrun_fast_growth.xml (numerical parameters)</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">parameters/longrun_fast_growth.xml (numerical parameters)</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;numerical_parameters&gt;</span>
 <span class="w">    </span><span class="cm">&lt;!-- Single paper-sized cell (V=1.0e-15 m^3) for exponential growth --&gt;</span>
 <span class="w">    </span><span class="nt">&lt;input_mesh_file_path&gt;</span>data/input_meshes/paper_sphere.vtk<span class="nt">&lt;/input_mesh_file_path&gt;</span>
@@ -728,15 +774,9 @@ basal face type and <code class="docutils literal notranslate"><span class="pre"
 </tbody>
 </table>
 </div>
-<p>Release 1.0 shipped the lab’s own benchmark file, <code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> (contact model 1,
-polarization mode 0, <span class="math notranslate nohighlight">\(l_{\min} = 6\times10^{-7}\)</span> m and <span class="math notranslate nohighlight">\(c = 5\times10^{-7}\)</span> m, among other
-differences from Table 2). It was removed in 2.0 without a note and can be obtained with
-<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span> <span class="pre">v1.0:parameters_benchmarck.xml</span></code>. It was run once per setting on 8 cores in November
-2026, with its compile-time switches. At its shipped time step of <span class="math notranslate nohighlight">\(10^{-7}\)</span> s, 2.1 removed
-blown-up cells in large numbers from about 9,000 cells on (4,456 of 157,716 cells created) and was
-stopped at 28,600 cells; at <span class="math notranslate nohighlight">\(2.5\times10^{-8}\)</span> s it grew to 18,300 cells without removals before
-it was stopped. 1.0 stopped with a mesh refinement error at about 170 cells at <span class="math notranslate nohighlight">\(10^{-7}\)</span> s. These
-are single runs, not a validation.</p>
+<p>Release 1.0 shipped the lab’s own benchmark file, <code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code>, which is
+closer to the paper’s benchmark in its contact model but also differs from Table 2
+(<a class="reference internal" href="#ex-growth-lab-file"><span class="std std-ref">The lab’s benchmark file</span></a>).</p>
 </section>
 </section>
 <section id="run">
@@ -747,27 +787,31 @@ and writes the log, which contains the safeguard messages, to
 <code class="docutils literal notranslate"><span class="pre">simulation_results/longrun_20k_fast_growth_logs/run.log</span></code> (outside the output folder, which the
 program deletes at start). It also deletes the previous output and log folders and stops a
 running instance with the same output folder. From the repository root:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>scripts/runs/launch_longrun_20k.sh
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>bash<span class="w"> </span>scripts/runs/launch_longrun_20k.sh
 <span class="gp">$ </span>tail<span class="w"> </span>-f<span class="w"> </span>simulation_results/longrun_20k_fast_growth_logs/run.log
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">THREADS=N</span> <span class="pre">scripts/runs/launch_longrun_20k.sh</span></code> passes <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code>. The launcher uses
+<p><code class="docutils literal notranslate"><span class="pre">THREADS=N</span> <span class="pre">bash</span> <span class="pre">scripts/runs/launch_longrun_20k.sh</span></code> passes <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code>. The launcher uses
 <code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span></code> and <code class="docutils literal notranslate"><span class="pre">stdbuf</span></code>, which are part of the GNU <code class="docutils literal notranslate"><span class="pre">time</span></code> and <code class="docutils literal notranslate"><span class="pre">coreutils</span></code> packages.
 Without the launcher, the equivalent foreground run is, from <code class="docutils literal notranslate"><span class="pre">build/</span></code>:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./simucell3d<span class="w"> </span>../parameters/longrun_fast_growth.xml<span class="w"> </span>--output-dir<span class="o">=</span>../simulation_results/longrun_20k_fast_growth
 </pre></div>
 </div>
 </section>
-<section id="what-to-expect">
-<h2>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h2>
-<p>The CHANGELOG reports these measurements for 2.1 with this configuration:</p>
+<section id="what-to-expect-from-this-file">
+<span id="ex-growth-expect"></span><h2>What to expect from this file<a class="headerlink" href="#what-to-expect-from-this-file" title="Link to this heading">#</a></h2>
+<p>These measurements were made in October and November 2026 with release candidates of 2.1, on
+8-core cloud machines (GCP c2-standard-16, 8 threads), one run per setting. They are reported in
+the CHANGELOG of 2.1.0; they are single runs, not a validation.</p>
 <ul class="simple">
-<li><p>On 8 cores, the run reaches 30,000 cells in about 4 hours.</p></li>
-<li><p>In an 8-core run from 1 to 150,498 cells, 14% of division attempts were refused (5% below
-30,000 cells, 21% between 125,000 and 150,000 cells). A refused mother tries again at the next
-division check; each refusal is logged with the cell id.</p></li>
-<li><p>Isolated cells are removed by the safeguards during long runs, sometimes in small groups after
-a single node is thrown far from its cell. Each removal is logged, and counted in the
+<li><p>The run reaches 30,000 cells in about 4 hours. In one run from 1 cell, 150,498 cells were
+reached at iteration 13,945, and the run was stopped at iteration 13,947 after 52.9 hours.</p></li>
+<li><p>In that run, 14% of division attempts were refused (5% below 30,000 cells, 21% between
+125,000 and 150,000 cells). A refused mother tries again at the next division check; each
+refusal is logged with the cell id.</p></li>
+<li><p>The safeguards removed 50 cells in that run, sometimes in small groups after a single node was
+thrown far from its cell (8 cells in one iteration, 4 with the same extent of
+<span class="math notranslate nohighlight">\(1.5\times10^{9}\)</span> m in another). Each removal is logged, and counted in the
 <code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code> column of <code class="docutils literal notranslate"><span class="pre">performance_diagnostics.csv</span></code>.</p></li>
 <li><p>Cells interpenetrate, with 2.1 and with 1.0. One possible cause is the contact cutoff of
 <span class="math notranslate nohighlight">\(2\times10^{-7}\)</span> m, five times smaller than the minimum edge length of this file; Table 2 of
@@ -778,14 +822,75 @@ that diverges can lose most of its cells and still exit with status 0
 </ul>
 <p>See <a class="reference internal" href="../whats_new/v2.1.html#whatsnew-v2-1-known-issues"><span class="std std-ref">Known issues</span></a> and <a class="reference internal" href="../user_guide/09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
 </section>
+<section id="the-lab-s-benchmark-file">
+<span id="ex-growth-lab-file"></span><h2>The lab’s benchmark file<a class="headerlink" href="#the-lab-s-benchmark-file" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> is the growth benchmark that the lab shipped with release 1.0. It
+uses contact model 1 (node-node coupling, described in the paper) and polarization mode 0, a
+smaller sphere (<code class="docutils literal notranslate"><span class="pre">data/input_meshes/sphere.vtk</span></code>), <span class="math notranslate nohighlight">\(l_{\min} = 6\times10^{-7}\)</span> m,
+<span class="math notranslate nohighlight">\(c = 5\times10^{-7}\)</span> m, a bulk modulus of <span class="math notranslate nohighlight">\(6\times10^{3}\)</span> Pa and a division volume of
+<span class="math notranslate nohighlight">\(2\times10^{-16}\)</span> m<span class="math notranslate nohighlight">\(^3\)</span>, among other differences from Table 2. Release 2.0 removed it without a
+note, and 2.1.0 does not ship it: <code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/</span></code> contains only the two Fig. 3e files
+(<a class="reference external" href="https://github.com/nilesh-patil/simucell3d/issues/122">#122</a>). The November 2026 benchmark ran
+this file, not <code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code>, in every version (<a class="reference internal" href="../benchmarks/method.html#benchmarks-method"><span class="std std-ref">Method</span></a>).</p>
+<p>To run it with 2.1.0, extract it from the tag and set the compile-time switches of its header
+(<code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span> <span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">0</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>) in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>, then
+rebuild. Its shipped time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s is not stable (see below). The recommended time step
+is <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s: all three 48-hour runs of 2.1.0 at that step removed no cell. This is a measurement
+on this file, not a guarantee for other files (<a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>). From the repository
+root:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>show<span class="w"> </span>v1.0:parameters_benchmarck.xml<span class="w"> </span>&gt;<span class="w"> </span>benchmark_lab.xml
+<span class="gp">$ </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s|&lt;time_step&gt;1e-07&lt;/time_step&gt;|&lt;time_step&gt;2.5e-08&lt;/time_step&gt;|'</span><span class="w"> </span>benchmark_lab.xml
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>-j8
+<span class="gp">$ </span>./simucell3d<span class="w"> </span>../benchmark_lab.xml<span class="w"> </span>--output-dir<span class="o">=</span>../simulation_results/benchmark_lab
+</pre></div>
+</div>
+<p>The file sets <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> to 1 s, far longer than any run; stop the run when it has
+reached the cell count you need. Restore the default switches and rebuild afterwards.</p>
+<p>Measured with 2.1.0 on 8-core cloud machines (GCP c2-standard-16, 8 threads), November 2026,
+three runs per time step unless stated:</p>
+<ul class="simple">
+<li><p><strong>At <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s</strong> no cell was removed in any run. The three runs reached 144,919,
+148,914 and 142,314 cells when they were stopped at 48 hours. 10,000 cells took
+<span class="math notranslate nohighlight">\(1.28 \pm 0.01\)</span> h and 125,000 cells <span class="math notranslate nohighlight">\(37.7 \pm 0.8\)</span> h; cumulative wall time grew as <span class="math notranslate nohighlight">\(N^{1.33}\)</span>,
+the exponent of the fit in Fig. 1e of the paper (<a class="reference internal" href="../benchmarks/performance.html#benchmarks-performance"><span class="std std-ref">Wall time, scaling and memory</span></a>). The paper
+reports one day for 125,000 cells on 16 threads at <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s; machine, thread count and time
+step all differ.</p></li>
+<li><p><strong>At <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s</strong>, the shipped value and that of Table 2, the file is unstable in every
+version tested. One 2.1.0 run reached 150,000 cells in 21.7 hours, but the safeguards removed
+93,310 cells on the way: the first at 4,800 cells, then in large numbers from about 13,800
+cells. Only the log and the <code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code> column show this
+(<a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>).</p></li>
+<li><p><strong>Beyond about 5,000 cells the aggregate is not a packed tissue</strong>, in every version that grows
+past that size. It is packed up to about 1,000 cells in every run and up to about 4,000 cells
+in 2.1.0; in one run of 1.0 with two crash fixes the overlap began at about 2,000 cells. The core
+comes to hold more cell volume than space, because pairs of cells come to occupy the same place
+(<a class="reference internal" href="../glossary.html#term-cell-superposition"><span class="xref std std-term">cell superposition</span></a>); at 136,043 cells this was 39% of all cells. Treat cell counts above that
+size as a measure of throughput and cost, and per-cell statistics as valid only in the outer
+shell of the aggregate (<a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>).</p></li>
+<li><p>About a third of all cells ever created die by falling below the minimum volume, a
+<a class="reference internal" href="../glossary.html#term-minimum-volume-death"><span class="xref std std-term">minimum-volume death</span></a> (35.7% by
+144,000 living cells). These deaths are part of the model, but no output reports them; count
+them from the cell ids (<a class="reference internal" href="../whats_new/v2.1.html#whatsnew-v2-1-known-issues"><span class="std std-ref">Known issues</span></a>).</p></li>
+<li><p>About a quarter of division attempts are refused (21% below 30,000 cells, 27% between 125,000
+and 150,000), about 170,000 refusals in a 48-hour run.</p></li>
+<li><p>The runs used 8 threads, although contact model 1 adds contact forces without an atomic add
+(<a class="reference external" href="https://github.com/nilesh-patil/simucell3d/issues/120">#120</a>). <a class="reference internal" href="../glossary.html#term-replicate"><span class="xref std std-term">Replicates</span></a> agreed to within 2% in
+final cell count; the size of the effect itself was not measured.</p></li>
+<li><p>Release 1.0 stops on this file with the error “The refinement of the mesh of cell N failed” at
+126 to 165 cells, at each of four time steps from <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s to <code class="docutils literal notranslate"><span class="pre">1.25e-8</span></code> s
+(<a class="reference internal" href="../whats_new/v1.0.html"><span class="doc">Release 1.0</span></a>).</p></li>
+</ul>
+</section>
 <section id="what-to-look-at">
 <h2>What to look at<a class="headerlink" href="#what-to-look-at" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">cells</span></code> column of <code class="docutils literal notranslate"><span class="pre">performance_diagnostics.csv</span></code> (every 100 iterations) gives the number of
 cells, and <code class="docutils literal notranslate"><span class="pre">total_iteration_ms</span></code> the wall time per iteration, for a plot of cost against cell
 count as in Fig. 1e of the paper.</p></li>
-<li><p>With <code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> <span class="math notranslate nohighlight">\(10^{-4}\)</span> s the run writes a pair of mesh files every 1000 iterations.
-Colour <code class="docutils literal notranslate"><span class="pre">cell_data/result_*.vtk</span></code> by <code class="docutils literal notranslate"><span class="pre">cell_volume</span></code> or <code class="docutils literal notranslate"><span class="pre">cell_pressure</span></code> in ParaView.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code> writes a pair of mesh files every 1,000 iterations
+(<code class="docutils literal notranslate"><span class="pre">&lt;sampling_period&gt;</span></code> <span class="math notranslate nohighlight">\(10^{-4}\)</span> s at <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s). The lab’s file writes one every 1,200 iterations
+(<code class="docutils literal notranslate"><span class="pre">3e-5</span></code> s at <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s). Colour <code class="docutils literal notranslate"><span class="pre">cell_data/result_*.vtk</span></code> by <code class="docutils literal notranslate"><span class="pre">cell_volume</span></code> or <code class="docutils literal notranslate"><span class="pre">cell_pressure</span></code> in ParaView.</p></li>
 </ul>
 </section>
 <section id="variant">
@@ -856,11 +961,19 @@ parameter files.</p></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">Run</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">What to expect</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect-from-this-file">What to expect from this file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lab-s-benchmark-file">The lab’s benchmark file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-look-at">What to look at</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variant">Variant</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/examples/growth_from_one_cell.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -896,16 +1009,28 @@ parameter files.</p></li>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

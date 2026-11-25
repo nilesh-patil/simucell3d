@@ -1,0 +1,1121 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>Contributing to SimuCell3D &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/getting-started/contributing';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/getting-started/contributing.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="User guide" href="../../sections/user-guide.html" />
+    <link rel="prev" title="SimuCell3D FAQ" href="faq.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Contributing to SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/getting-started/contributing.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="quick-start.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contributing</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/getting-started.html" class="nav-link">Getting started</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Contributing...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="contributing-to-simucell3d">
+<h1>Contributing to SimuCell3D<a class="headerlink" href="#contributing-to-simucell3d" title="Link to this heading">#</a></h1>
+<p>Thank you for your interest in contributing to SimuCell3D! This document provides guidelines for contributing code, documentation, and bug reports.</p>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#getting-started">Getting Started</a></p></li>
+<li><p><a class="reference internal" href="#development-workflow">Development Workflow</a></p></li>
+<li><p><a class="reference internal" href="#code-style-guide">Code Style Guide</a></p></li>
+<li><p><a class="reference internal" href="#testing-requirements">Testing Requirements</a></p></li>
+<li><p><a class="reference internal" href="#pull-request-process">Pull Request Process</a></p></li>
+<li><p><a class="reference internal" href="#documentation">Documentation</a></p></li>
+<li><p><a class="reference internal" href="#reporting-issues">Reporting Issues</a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h2>
+<section id="set-up-development-environment">
+<h3>1. Set Up Development Environment<a class="headerlink" href="#set-up-development-environment" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/nilesh-patil/simucell3d.git
+<span class="nb">cd</span><span class="w"> </span>SimuCell3D
+
+<span class="c1"># Create a feature branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/your-feature-name
+
+<span class="c1"># Build in Debug mode for development</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Debug<span class="w"> </span>..
+make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
+
+<span class="c1"># Run tests to verify setup</span>
+ctest
+</pre></div>
+</div>
+</section>
+<section id="understand-the-architecture">
+<h3>2. Understand the Architecture<a class="headerlink" href="#understand-the-architecture" title="Link to this heading">#</a></h3>
+<p>Before contributing, familiarize yourself with:</p>
+<ul class="simple">
+<li><p><strong><a class="reference internal" href="../developer/explainer.html"><span class="std std-doc">explainer.md</span></a></strong> - Technical overview</p></li>
+<li><p><strong><a class="reference internal" href="../user-guide/parameter-reference.html"><span class="std std-doc">Parameter Reference</span></a></strong> - Parameter system</p></li>
+</ul>
+</section>
+<section id="key-directories">
+<h3>Key Directories<a class="headerlink" href="#key-directories" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Directory</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">include/</span></code></p></td>
+<td><p>Header files (public interfaces)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">src/</span></code></p></td>
+<td><p>Implementation files</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">test/</span></code></p></td>
+<td><p>Unit tests organized by module</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters/</span></code></p></td>
+<td><p>XML configuration files</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scripts/</span></code></p></td>
+<td><p>Build and benchmark scripts</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="development-workflow">
+<h2>Development Workflow<a class="headerlink" href="#development-workflow" title="Link to this heading">#</a></h2>
+<section id="branch-naming">
+<h3>Branch Naming<a class="headerlink" href="#branch-naming" title="Link to this heading">#</a></h3>
+<p>Use descriptive branch names with prefixes:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Prefix</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">feature/</span></code></p></td>
+<td><p>New functionality</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">feature/gpu-acceleration</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fix/</span></code></p></td>
+<td><p>Bug fixes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fix/contact-force-calculation</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">docs/</span></code></p></td>
+<td><p>Documentation only</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docs/parameter-guide</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">perf/</span></code></p></td>
+<td><p>Performance improvements</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perf/openmp-tuning</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">refactor/</span></code></p></td>
+<td><p>Code restructuring</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">refactor/mesh-module</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="commit-messages">
+<h3>Commit Messages<a class="headerlink" href="#commit-messages" title="Link to this heading">#</a></h3>
+<p>Follow conventional commit format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">scope</span><span class="p">):</span> <span class="n">brief</span> <span class="n">description</span>
+
+<span class="n">Longer</span> <span class="n">explanation</span> <span class="k">if</span> <span class="n">needed</span><span class="o">.</span>
+
+<span class="n">Refs</span><span class="p">:</span> <span class="c1">#issue-number</span>
+</pre></div>
+</div>
+<p><strong>Types:</strong> <code class="docutils literal notranslate"><span class="pre">feat</span></code>, <code class="docutils literal notranslate"><span class="pre">fix</span></code>, <code class="docutils literal notranslate"><span class="pre">docs</span></code>, <code class="docutils literal notranslate"><span class="pre">perf</span></code>, <code class="docutils literal notranslate"><span class="pre">refactor</span></code>, <code class="docutils literal notranslate"><span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">chore</span></code></p>
+<p><strong>Examples:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feat</span><span class="p">(</span><span class="n">contact</span><span class="p">):</span> <span class="n">add</span> <span class="n">face</span><span class="o">-</span><span class="n">face</span> <span class="n">friction</span> <span class="n">forces</span>
+
+<span class="n">Implements</span> <span class="n">tangential</span> <span class="n">friction</span> <span class="n">forces</span> <span class="k">for</span> <span class="n">the</span> <span class="n">face</span><span class="o">-</span><span class="n">face</span> <span class="n">coupling</span>
+<span class="n">contact</span> <span class="n">model</span><span class="o">.</span> <span class="n">Uses</span> <span class="n">Coulomb</span> <span class="n">friction</span> <span class="k">with</span> <span class="n">configurable</span> <span class="n">coefficient</span><span class="o">.</span>
+
+<span class="n">Refs</span><span class="p">:</span> <span class="c1">#123</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fix</span><span class="p">(</span><span class="n">mesh</span><span class="p">):</span> <span class="n">prevent</span> <span class="n">edge</span> <span class="n">collapse</span> <span class="n">creating</span> <span class="n">degenerate</span> <span class="n">triangles</span>
+
+<span class="n">Adds</span> <span class="n">validation</span> <span class="n">check</span> <span class="n">before</span> <span class="n">edge</span> <span class="n">collapse</span> <span class="n">to</span> <span class="n">ensure</span> <span class="n">resulting</span>
+<span class="n">faces</span> <span class="n">have</span> <span class="n">non</span><span class="o">-</span><span class="n">zero</span> <span class="n">area</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="code-style-guide">
+<h2>Code Style Guide<a class="headerlink" href="#code-style-guide" title="Link to this heading">#</a></h2>
+<section id="c-formatting">
+<h3>C++ Formatting<a class="headerlink" href="#c-formatting" title="Link to this heading">#</a></h3>
+<p><strong>General:</strong></p>
+<ul class="simple">
+<li><p>C++17 standard</p></li>
+<li><p>4 spaces for indentation (no tabs)</p></li>
+<li><p>100 character line limit</p></li>
+<li><p>Opening braces on same line</p></li>
+</ul>
+<p><strong>Naming Conventions:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Classes: PascalCase</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CellDivider</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span>
+
+<span class="c1">// Functions: snake_case</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">compute_contact_forces</span><span class="p">();</span>
+
+<span class="c1">// Variables: snake_case</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">cell_volume</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+
+<span class="c1">// Member variables: trailing underscore</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">volume_</span><span class="p">;</span>
+<span class="n">Vec3</span><span class="w"> </span><span class="n">position_</span><span class="p">;</span>
+
+<span class="c1">// Constants: UPPER_SNAKE_CASE</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">MAX_EDGE_LENGTH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-5</span><span class="p">;</span>
+
+<span class="c1">// Macros: UPPER_SNAKE_CASE</span>
+<span class="cp">#define CONTACT_MODEL_INDEX 2</span>
+</pre></div>
+</div>
+<p><strong>Headers:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef SIMUCELL3D_MODULE_NAME_HPP</span>
+<span class="cp">#define SIMUCELL3D_MODULE_NAME_HPP</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;standard_library&gt;</span><span class="w">    </span><span class="c1">// Standard library first</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"project_headers.hpp"</span><span class="w"> </span><span class="c1">// Project headers second</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">simucell3d</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Code here</span>
+<span class="p">}</span>
+
+<span class="cp">#endif </span><span class="c1">// SIMUCELL3D_MODULE_NAME_HPP</span>
+</pre></div>
+</div>
+</section>
+<section id="example-well-formatted-function">
+<h3>Example: Well-Formatted Function<a class="headerlink" href="#example-well-formatted-function" title="Link to this heading">#</a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> * @brief Compute pressure force on a cell node.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Calculates the internal pressure force based on deviation from</span>
+<span class="cm"> * target volume using the logarithmic equation of state.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param cell The cell containing this node</span>
+<span class="cm"> * @param node_index Index of the node within the cell</span>
+<span class="cm"> * @return Force vector in Newtons</span>
+<span class="cm"> */</span>
+<span class="n">Vec3</span><span class="w"> </span><span class="nf">compute_pressure_force</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Cell</span><span class="o">&amp;</span><span class="w"> </span><span class="n">cell</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">node_index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Calculate pressure from volume deviation</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">volume_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cell</span><span class="p">.</span><span class="n">volume</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cell</span><span class="p">.</span><span class="n">target_volume</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">pressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">cell</span><span class="p">.</span><span class="n">bulk_modulus</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="n">volume_ratio</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Get face contribution for this node</span>
+<span class="w">    </span><span class="n">Vec3</span><span class="w"> </span><span class="n">force</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Face</span><span class="o">*</span><span class="w"> </span><span class="n">face</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">cell</span><span class="p">.</span><span class="n">faces_containing_node</span><span class="p">(</span><span class="n">node_index</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">force</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">pressure</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">face</span><span class="o">-&gt;</span><span class="n">area</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">face</span><span class="o">-&gt;</span><span class="n">normal</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">3.0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">force</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="openmp-guidelines">
+<h3>OpenMP Guidelines<a class="headerlink" href="#openmp-guidelines" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span> <span class="pre">for</span></code> for parallelizable loops</p></li>
+<li><p>Prefer <code class="docutils literal notranslate"><span class="pre">schedule(runtime)</span></code> to allow runtime selection</p></li>
+<li><p>Document thread-safety assumptions in comments</p></li>
+<li><p>Test with <code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS=1</span></code> to verify correctness</p></li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Good: Runtime scheduling allows user control</span>
+<span class="cp">#pragma omp parallel for schedule(runtime)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cells</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cells</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">update_forces</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="testing-requirements">
+<h2>Testing Requirements<a class="headerlink" href="#testing-requirements" title="Link to this heading">#</a></h2>
+<section id="running-tests">
+<h3>Running Tests<a class="headerlink" href="#running-tests" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build
+ctest<span class="w">                    </span><span class="c1"># Run all tests</span>
+ctest<span class="w"> </span>-V<span class="w">                 </span><span class="c1"># Verbose output</span>
+ctest<span class="w"> </span>-R<span class="w"> </span>test_mesh<span class="w">       </span><span class="c1"># Run specific test</span>
+ctest<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span><span class="w">         </span><span class="c1"># Parallel execution</span>
+</pre></div>
+</div>
+</section>
+<section id="writing-tests">
+<h3>Writing Tests<a class="headerlink" href="#writing-tests" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add tests to <code class="docutils literal notranslate"><span class="pre">test/test_&lt;module&gt;/</span></code></p></li>
+<li><p>Follow existing test patterns</p></li>
+<li><p>Test edge cases and error conditions</p></li>
+</ul>
+<p><strong>Test Template:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;gtest/gtest.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"module_to_test.hpp"</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ModuleTest</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="o">::</span><span class="n">testing</span><span class="o">::</span><span class="n">Test</span><span class="w"> </span><span class="p">{</span>
+<span class="k">protected</span><span class="o">:</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">SetUp</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Setup code</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="n">TEST_F</span><span class="p">(</span><span class="n">ModuleTest</span><span class="p">,</span><span class="w"> </span><span class="n">FunctionDoesExpectedBehavior</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Arrange</span>
+<span class="w">    </span><span class="n">MyClass</span><span class="w"> </span><span class="n">obj</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Act</span>
+<span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obj</span><span class="p">.</span><span class="n">function_under_test</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Assert</span>
+<span class="w">    </span><span class="n">EXPECT_DOUBLE_EQ</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="test-coverage-requirements">
+<h3>Test Coverage Requirements<a class="headerlink" href="#test-coverage-requirements" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>New features must include unit tests</p></li>
+<li><p>Bug fixes should include regression tests</p></li>
+<li><p>Performance-critical code should have benchmarks</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="pull-request-process">
+<h2>Pull Request Process<a class="headerlink" href="#pull-request-process" title="Link to this heading">#</a></h2>
+<section id="before-submitting">
+<h3>Before Submitting<a class="headerlink" href="#before-submitting" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Rebase on main:</strong> <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">origin</span> <span class="pre">&amp;&amp;</span> <span class="pre">git</span> <span class="pre">rebase</span> <span class="pre">origin/main</span></code></p></li>
+<li><p><strong>Run tests:</strong> <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build</span> <span class="pre">&amp;&amp;</span> <span class="pre">ctest</span></code></p></li>
+<li><p><strong>Check formatting:</strong> Review code style compliance</p></li>
+<li><p><strong>Update documentation:</strong> If adding new features</p></li>
+</ol>
+</section>
+<section id="pr-template">
+<h3>PR Template<a class="headerlink" href="#pr-template" title="Link to this heading">#</a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gu">## Summary</span>
+Brief description of changes.
+
+<span class="gu">## Type of Change</span>
+<span class="k">- [ ]</span> Bug fix
+<span class="k">- [ ]</span> New feature
+<span class="k">- [ ]</span> Performance improvement
+<span class="k">- [ ]</span> Documentation
+<span class="k">- [ ]</span> Refactoring
+
+<span class="gu">## Testing</span>
+<span class="k">- [ ]</span> All existing tests pass
+<span class="k">- [ ]</span> Added new tests for new functionality
+<span class="k">- [ ]</span> Tested manually with: [describe scenario]
+
+<span class="gu">## Checklist</span>
+<span class="k">- [ ]</span> Code follows style guide
+<span class="k">- [ ]</span> Documentation updated
+<span class="k">- [ ]</span> No new compiler warnings
+<span class="k">- [ ]</span> Performance impact considered
+</pre></div>
+</div>
+</section>
+<section id="review-process">
+<h3>Review Process<a class="headerlink" href="#review-process" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Create PR with clear description</p></li>
+<li><p>CI pipeline runs tests automatically</p></li>
+<li><p>Maintainer reviews code</p></li>
+<li><p>Address feedback, update PR</p></li>
+<li><p>Merge when approved</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<section id="what-to-document">
+<h3>What to Document<a class="headerlink" href="#what-to-document" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>New features:</strong> Add to relevant doc file</p></li>
+<li><p><strong>API changes:</strong> Update developer docs and header comments</p></li>
+<li><p><strong>Bug fixes:</strong> Note in CHANGELOG.md (if significant)</p></li>
+</ul>
+</section>
+<section id="documentation-style">
+<h3>Documentation Style<a class="headerlink" href="#documentation-style" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Use Markdown for all documentation</p></li>
+<li><p>Include code examples for complex features</p></li>
+<li><p>Link to related documentation</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reporting-issues">
+<h2>Reporting Issues<a class="headerlink" href="#reporting-issues" title="Link to this heading">#</a></h2>
+<section id="bug-reports">
+<h3>Bug Reports<a class="headerlink" href="#bug-reports" title="Link to this heading">#</a></h3>
+<p>Include:</p>
+<ol class="arabic simple">
+<li><p><strong>SimuCell3D version</strong> (git commit or release)</p></li>
+<li><p><strong>Operating system</strong> and compiler version</p></li>
+<li><p><strong>Steps to reproduce</strong></p></li>
+<li><p><strong>Expected vs actual behavior</strong></p></li>
+<li><p><strong>Relevant logs/output</strong> (use code blocks)</p></li>
+<li><p><strong>Parameter file</strong> (if applicable)</p></li>
+</ol>
+</section>
+<section id="feature-requests">
+<h3>Feature Requests<a class="headerlink" href="#feature-requests" title="Link to this heading">#</a></h3>
+<p>Include:</p>
+<ol class="arabic simple">
+<li><p><strong>Use case description</strong></p></li>
+<li><p><strong>Proposed solution</strong></p></li>
+<li><p><strong>Alternatives considered</strong></p></li>
+<li><p><strong>Impact on existing functionality</strong></p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="questions">
+<h2>Questions?<a class="headerlink" href="#questions" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Check <a class="reference internal" href="faq.html"><span class="std std-doc">faq.md</span></a> for common questions</p></li>
+<li><p>Review existing issues for similar topics</p></li>
+<li><p>Open a discussion for general questions</p></li>
+</ul>
+<p>Thank you for contributing to SimuCell3D!</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="faq.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SimuCell3D FAQ</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../sections/user-guide.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">User guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting Started</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-development-environment">1. Set Up Development Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understand-the-architecture">2. Understand the Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-directories">Key Directories</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-workflow">Development Workflow</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#branch-naming">Branch Naming</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-style-guide">Code Style Guide</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-formatting">C++ Formatting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-well-formatted-function">Example: Well-Formatted Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#openmp-guidelines">OpenMP Guidelines</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-requirements">Testing Requirements</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-tests">Running Tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-tests">Writing Tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-coverage-requirements">Test Coverage Requirements</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-request-process">Pull Request Process</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#before-submitting">Before Submitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pr-template">PR Template</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#review-process">Review Process</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-document">What to Document</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-style">Documentation Style</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reporting-issues">Reporting Issues</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-reports">Bug Reports</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-requests">Feature Requests</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">Questions?</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/getting-started/contributing.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

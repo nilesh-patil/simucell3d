@@ -1,0 +1,1953 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>OpenMP Benchmarking Guide &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/benchmarking/openmp-benchmarks';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/benchmarking/openmp-benchmarks.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Latency Profiling Infrastructure" href="latency-profiling.html" />
+    <link rel="prev" title="Benchmarking" href="../../sections/benchmarking.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="OpenMP Benchmarking Guide - SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/benchmarking/openmp-benchmarks.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">OpenMP benchmarks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="latency-profiling.html">Latency profiling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability-testing.html">Stability testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ci-integration.html">CI integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unified-dashboard.html">Unified dashboard</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/benchmarking.html" class="nav-link">Benchmarking</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">OpenMP...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="openmp-benchmarking-guide">
+<h1>OpenMP Benchmarking Guide<a class="headerlink" href="#openmp-benchmarking-guide" title="Link to this heading">#</a></h1>
+<p>Comprehensive guide to SimuCell3D’s empirical benchmarking framework and publication-quality visualization suite.</p>
+<p>This document explains how to run benchmarks, analyze results, and generate visualizations that validate the adaptive scheduling performance improvements over v1.0.</p>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#quick-start">Quick Start</a></p></li>
+<li><p><a class="reference internal" href="#benchmark-framework-overview">Benchmark Framework Overview</a></p></li>
+<li><p><a class="reference internal" href="#running-benchmarks">Running Benchmarks</a></p></li>
+<li><p><a class="reference internal" href="#visualization-suite">Visualization Suite</a></p></li>
+<li><p><a class="reference internal" href="#statistical-analysis">Statistical Analysis</a></p></li>
+<li><p><a class="reference internal" href="#interpreting-results">Interpreting Results</a></p></li>
+<li><p><a class="reference internal" href="#benchmark-dataset-reference">Benchmark Dataset Reference</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting">Troubleshooting</a></p></li>
+<li><p><a class="reference internal" href="#advanced-usage">Advanced Usage</a></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<section id="run-full-benchmark-suite">
+<h3>Run Full Benchmark Suite<a class="headerlink" href="#run-full-benchmark-suite" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run all modes (v1.0, static, adaptive) with 16 cores each</span>
+<span class="nb">cd</span><span class="w"> </span>scripts/
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes<span class="w"> </span>--cores-per-sim<span class="o">=</span><span class="m">16</span>
+
+<span class="c1"># Expected runtime: 4-12 hours depending on parameter file</span>
+<span class="c1"># Output: doc/working/parallel_benchmark_TIMESTAMP/</span>
+</pre></div>
+</div>
+</section>
+<section id="generate-visualizations">
+<h3>Generate Visualizations<a class="headerlink" href="#generate-visualizations" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># After benchmark completes</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>doc/working/parallel_benchmark_TIMESTAMP/
+
+<span class="c1"># Output: 17 publication-quality plots in plots-unified/</span>
+</pre></div>
+</div>
+</section>
+<section id="quick-test-1-minute-timeout">
+<h3>Quick Test (1-minute timeout)<a class="headerlink" href="#quick-test-1-minute-timeout" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify setup without long wait</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--quick-test<span class="w"> </span>--only<span class="o">=</span>adaptive
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="benchmark-framework-overview">
+<h2>Benchmark Framework Overview<a class="headerlink" href="#benchmark-framework-overview" title="Link to this heading">#</a></h2>
+<section id="purpose">
+<h3>Purpose<a class="headerlink" href="#purpose" title="Link to this heading">#</a></h3>
+<p>The SimuCell3D benchmarking framework provides:</p>
+<ol class="arabic simple">
+<li><p><strong>Empirical performance validation</strong> - Compare v1.0 static vs current adaptive scheduling</p></li>
+<li><p><strong>Automated data collection</strong> - Biological metrics (pressure, volume) + computational metrics (IPS, thread efficiency)</p></li>
+<li><p><strong>Crash recovery</strong> - Auto-restart failed simulations, resume from checkpoints</p></li>
+<li><p><strong>Live monitoring</strong> - Real-time progress tracking with <code class="docutils literal notranslate"><span class="pre">parallel_benchmark_monitor.sh</span></code></p></li>
+<li><p><strong>Statistical rigor</strong> - Bootstrap confidence intervals, hypothesis testing, regression diagnostics</p></li>
+</ol>
+</section>
+<section id="architecture">
+<h3>Architecture<a class="headerlink" href="#architecture" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────────┐
+│ run_parallel_benchmark_comparison.sh        │
+│ (main orchestrator)                         │
+└────────────┬────────────────────────────────┘
+             │
+     ┌───────┴────────┐
+     │                │
+┌────▼──────┐   ┌────▼──────────────────┐
+│ v1.0 sim  │   │ current branch sims   │
+│ (static)  │   │ (static + adaptive)   │
+└────┬──────┘   └────┬──────────────────┘
+     │               │
+     └───────┬───────┘
+             │
+     ┌───────▼────────────────────────┐
+     │ Parallel execution (3 processes)│
+     │ Each gets N/3 cores            │
+     └───────┬────────────────────────┘
+             │
+     ┌───────▼─────────────────────────────┐
+     │ Metrics collection                  │
+     │ - biological.csv (pressure, volume) │
+     │ - computational.csv (IPS, threads)  │
+     │ - phase_timings.csv (contact, etc.) │
+     │ - workload.csv (cells, triangles)   │
+     └───────┬─────────────────────────────┘
+             │
+     ┌───────▼──────────────────────────────┐
+     │ plot_benchmark_unified.py            │
+     │ (17 publication-quality plots)       │
+     └──────────────────────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="key-features">
+<h3>Key Features<a class="headerlink" href="#key-features" title="Link to this heading">#</a></h3>
+<section id="equal-resource-allocation">
+<h4>1. Equal Resource Allocation<a class="headerlink" href="#equal-resource-allocation" title="Link to this heading">#</a></h4>
+<p>Each simulation (v1.0, static, adaptive) runs with <strong>equal CPU cores</strong> to ensure fair comparison:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 48 cores total → 16 cores per simulation</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--cores-per-sim<span class="o">=</span><span class="m">16</span>
+
+<span class="c1"># System detects available cores and distributes fairly</span>
+<span class="c1"># Example: 64 cores → 21 cores per sim (3 sims × 21 = 63)</span>
+</pre></div>
+</div>
+</section>
+<section id="checkpoint-resume-support">
+<h4>2. Checkpoint/Resume Support<a class="headerlink" href="#checkpoint-resume-support" title="Link to this heading">#</a></h4>
+<p>Long-running benchmarks support resume:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start benchmark</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes
+
+<span class="c1"># If interrupted (Ctrl+C or crash), resume from checkpoint</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--resume<span class="o">=</span>doc/working/parallel_benchmark_20260127_192747/
+
+<span class="c1"># State preserved: iteration count, cell divisions, metrics</span>
+</pre></div>
+</div>
+</section>
+<section id="auto-restart-on-failure">
+<h4>3. Auto-Restart on Failure<a class="headerlink" href="#auto-restart-on-failure" title="Link to this heading">#</a></h4>
+<p>If a simulation crashes (segfault, OOM), it automatically restarts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enabled by default</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes
+
+<span class="c1"># Disable if needed (for debugging)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes<span class="w"> </span>--no-auto-restart
+</pre></div>
+</div>
+</section>
+<section id="live-progress-monitoring">
+<h4>4. Live Progress Monitoring<a class="headerlink" href="#live-progress-monitoring" title="Link to this heading">#</a></h4>
+<p>Monitor all 3 simulations in real-time:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># In separate terminal, run monitor</span>
+./monitors/parallel_benchmark_monitor.sh<span class="w"> </span>doc/working/parallel_benchmark_TIMESTAMP/
+
+<span class="c1"># Updates every 60 seconds with:</span>
+<span class="c1"># - Current iteration, cell count, IPS</span>
+<span class="c1"># - Estimated time remaining</span>
+<span class="c1"># - Thread utilization</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="running-benchmarks">
+<h2>Running Benchmarks<a class="headerlink" href="#running-benchmarks" title="Link to this heading">#</a></h2>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>scripts/
+
+<span class="c1"># Run all three modes (recommended)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes
+
+<span class="c1"># Run specific modes</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--modes<span class="o">=</span>static,adaptive
+
+<span class="c1"># Skip v1.0 (if already benchmarked)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--skip-v1
+
+<span class="c1"># Run only adaptive (fastest)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--only<span class="o">=</span>adaptive
+</pre></div>
+</div>
+</section>
+<section id="configuration-options">
+<h3>Configuration Options<a class="headerlink" href="#configuration-options" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--all-modes</span></code></p></td>
+<td><p>Run v1.0, static, adaptive</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--modes=M1,M2</span></code></p></td>
+<td><p>Run specific modes (v1, static, adaptive)</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--only=MODE</span></code></p></td>
+<td><p>Run single mode</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--skip-v1</span></code></p></td>
+<td><p>Don’t run v1.0 (use cached data)</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--cores-per-sim=N</span></code></p></td>
+<td><p>CPU cores per simulation</p></td>
+<td><p>Auto-detect</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--param-file=PATH</span></code></p></td>
+<td><p>Override parameter file</p></td>
+<td><p>parameters_paper_exact_128k.xml</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--v1-root=PATH</span></code></p></td>
+<td><p>Path to v1.0 installation</p></td>
+<td><p>../version-cpp-v1.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--quick-test</span></code></p></td>
+<td><p>1-minute timeout (for testing setup)</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--dry-run</span></code></p></td>
+<td><p>Show plan without running</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--clean-rebuild</span></code></p></td>
+<td><p>Force clean rebuild of binaries</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--resume=PATH</span></code></p></td>
+<td><p>Resume from checkpoint directory</p></td>
+<td><p>None</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--no-auto-restart</span></code></p></td>
+<td><p>Disable crash recovery</p></td>
+<td><p>false</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h3>
+<section id="example-1-production-benchmark-full-suite">
+<h4>Example 1: Production Benchmark (Full Suite)<a class="headerlink" href="#example-1-production-benchmark-full-suite" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run all modes with optimal core allocation</span>
+<span class="c1"># Expected runtime: 4-12 hours</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--all-modes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--param-file<span class="o">=</span>parameters/parameters_paper_exact_128k.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cores-per-sim<span class="o">=</span><span class="m">16</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-quick-comparison-static-vs-adaptive-only">
+<h4>Example 2: Quick Comparison (Static vs Adaptive Only)<a class="headerlink" href="#example-2-quick-comparison-static-vs-adaptive-only" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare current branch modes only (skip v1.0)</span>
+<span class="c1"># Expected runtime: 2-6 hours</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--modes<span class="o">=</span>static,adaptive<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cores-per-sim<span class="o">=</span><span class="m">12</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-validate-adaptive-scheduler">
+<h4>Example 3: Validate Adaptive Scheduler<a class="headerlink" href="#example-3-validate-adaptive-scheduler" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test adaptive mode only</span>
+<span class="c1"># Expected runtime: 1-4 hours</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--only<span class="o">=</span>adaptive<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cores-per-sim<span class="o">=</span><span class="m">16</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-resume-after-interruption">
+<h4>Example 4: Resume After Interruption<a class="headerlink" href="#example-4-resume-after-interruption" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find latest checkpoint</span>
+ls<span class="w"> </span>-td<span class="w"> </span>doc/working/parallel_benchmark_*/<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1
+
+<span class="c1"># Resume from checkpoint</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resume<span class="o">=</span>doc/working/parallel_benchmark_20260127_192747/
+</pre></div>
+</div>
+</section>
+</section>
+<section id="output-structure">
+<h3>Output Structure<a class="headerlink" href="#output-structure" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>doc/working/parallel_benchmark_TIMESTAMP/
+├── metrics/
+│   ├── v1/
+│   │   ├── biological.csv       # Pressure, volume, energy
+│   │   ├── computational.csv    # IPS, thread efficiency, speedup
+│   │   ├── phase_timings.csv    # Contact, integration, refinement time
+│   │   └── workload.csv         # Cells, triangles, divisions
+│   ├── static/
+│   │   └── (same structure)
+│   ├── adaptive/
+│   │   └── (same structure)
+│   └── comparison.csv           # Side-by-side comparison
+├── logs/
+│   ├── v1_simulation.log
+│   ├── static_simulation.log
+│   └── adaptive_simulation.log
+├── state/
+│   ├── checkpoint_v1.json
+│   ├── checkpoint_static.json
+│   └── checkpoint_adaptive.json
+└── README.txt                   # Benchmark metadata
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="visualization-suite">
+<h2>Visualization Suite<a class="headerlink" href="#visualization-suite" title="Link to this heading">#</a></h2>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h3>
+<p>The unified visualization suite generates <strong>17 publication-quality plots</strong> organized into 3 narratives:</p>
+<ol class="arabic simple">
+<li><p><strong>Biological narrative</strong> (plots 1-4): Validates physical correctness</p></li>
+<li><p><strong>Computational narrative</strong> (plots 5-10): Demonstrates performance gains</p></li>
+<li><p><strong>Statistical narrative</strong> (plots 11-17): Provides rigorous validation</p></li>
+</ol>
+</section>
+<section id="generating-plots">
+<h3>Generating Plots<a class="headerlink" href="#generating-plots" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate all 17 plots (default)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>doc/working/parallel_benchmark_TIMESTAMP/
+
+<span class="c1"># Output directory (auto-created)</span>
+doc/working/parallel_benchmark_TIMESTAMP/plots-unified/
+</pre></div>
+</div>
+</section>
+<section id="plot-categories">
+<h3>Plot Categories<a class="headerlink" href="#plot-categories" title="Link to this heading">#</a></h3>
+<section id="biological-validation-plots-4-plots">
+<h4>Biological Validation Plots (4 plots)<a class="headerlink" href="#biological-validation-plots-4-plots" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Ensure adaptive scheduling doesn’t change simulation physics</p>
+<section id="pressure-evolution-01-pressure-evolution-png">
+<h5>1. Pressure Evolution (<code class="docutils literal notranslate"><span class="pre">01_pressure_evolution.png</span></code>)<a class="headerlink" href="#pressure-evolution-01-pressure-evolution-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Shows mean ± 95% CI of cell pressure over time</span>
+<span class="c1"># Validates: All schedulers produce same biological results</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Confidence bands should overlap between schedulers</p></li>
+<li><p>Pressure should converge to physiological range (300-2200 Pa)</p></li>
+<li><p>No divergence indicating numerical instability</p></li>
+</ul>
+</section>
+<section id="energy-landscape-02-energy-landscape-png">
+<h5>2. Energy Landscape (<code class="docutils literal notranslate"><span class="pre">02_energy_landscape.png</span></code>)<a class="headerlink" href="#energy-landscape-02-energy-landscape-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total energy (kinetic + potential) over time</span>
+<span class="c1"># Validates: Energy conservation (semi-implicit Euler)</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Energy should remain bounded (not drift to infinity)</p></li>
+<li><p>Small oscillations are normal (damping reduces them)</p></li>
+<li><p>Total energy should decrease as system reaches equilibrium</p></li>
+</ul>
+</section>
+<section id="population-dynamics-03-population-dynamics-png">
+<h5>3. Population Dynamics (<code class="docutils literal notranslate"><span class="pre">03_population_dynamics.png</span></code>)<a class="headerlink" href="#population-dynamics-03-population-dynamics-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cell count growth over time</span>
+<span class="c1"># Validates: Cell division logic is scheduler-independent</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Identical cell count curves for all schedulers</p></li>
+<li><p>Exponential growth initially, then saturation</p></li>
+<li><p>No scheduler causes premature or delayed divisions</p></li>
+</ul>
+</section>
+<section id="biological-dashboard-04-biological-dashboard-png">
+<h5>4. Biological Dashboard (<code class="docutils literal notranslate"><span class="pre">04_biological_dashboard.png</span></code>)<a class="headerlink" href="#biological-dashboard-04-biological-dashboard-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4-panel dashboard: pressure histogram, volume distribution,</span>
+<span class="c1"># energy scatter, and phase space trajectory</span>
+<span class="c1"># Validates: Complete biological equivalence</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Histograms should be identical across schedulers</p></li>
+<li><p>Volume distribution should match physiological range</p></li>
+<li><p>Phase space should show stable attractor</p></li>
+</ul>
+</section>
+</section>
+<section id="computational-performance-plots-6-plots">
+<h4>Computational Performance Plots (6 plots)<a class="headerlink" href="#computational-performance-plots-6-plots" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Demonstrate adaptive scheduler speedup</p>
+<section id="scaling-analysis-05-scaling-analysis-png">
+<h5>5. Scaling Analysis (<code class="docutils literal notranslate"><span class="pre">05_scaling_analysis.png</span></code>)<a class="headerlink" href="#scaling-analysis-05-scaling-analysis-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Iterations per second (IPS) vs cell count</span>
+<span class="c1"># Demonstrates: Adaptive maintains higher IPS as workload grows</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Adaptive IPS &gt; static IPS &gt; v1.0 IPS (at all cell counts)</p></li>
+<li><p>Gap widens as cell count increases (better scaling)</p></li>
+<li><p>Expected: 1.5x-4.5x speedup depending on cell count</p></li>
+</ul>
+</section>
+<section id="phase-timing-breakdown-06-phase-timing-png">
+<h5>6. Phase Timing Breakdown (<code class="docutils literal notranslate"><span class="pre">06_phase_timing.png</span></code>)<a class="headerlink" href="#phase-timing-breakdown-06-phase-timing-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stacked bar chart: contact detection, integration, refinement, I/O</span>
+<span class="c1"># Demonstrates: Adaptive reduces contact detection time</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Contact detection (blue) should be smaller for adaptive</p></li>
+<li><p>Integration (orange) should be similar across schedulers</p></li>
+<li><p>I/O (red) should be minimal (&lt;5% of total time)</p></li>
+</ul>
+</section>
+<section id="scheduler-comparison-07-scheduler-comparison-png">
+<h5>7. Scheduler Comparison (<code class="docutils literal notranslate"><span class="pre">07_scheduler_comparison.png</span></code>)<a class="headerlink" href="#scheduler-comparison-07-scheduler-comparison-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Side-by-side box plots: IPS distribution for each scheduler</span>
+<span class="c1"># Demonstrates: Adaptive has higher median and tighter distribution</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Adaptive median IPS &gt; static &gt; v1.0</p></li>
+<li><p>Adaptive IQR (box height) should be small (consistent performance)</p></li>
+<li><p>No outliers indicating crashes or hangs</p></li>
+</ul>
+</section>
+<section id="load-balance-analysis-08-load-balance-png">
+<h5>8. Load Balance Analysis (<code class="docutils literal notranslate"><span class="pre">08_load_balance.png</span></code>)<a class="headerlink" href="#load-balance-analysis-08-load-balance-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Thread utilization heatmap over time</span>
+<span class="c1"># Demonstrates: Adaptive keeps all threads busy</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Adaptive: Dark colors (high utilization) across all threads</p></li>
+<li><p>v1.0 static: Bright spots (idle threads, load imbalance)</p></li>
+<li><p>Uniform color → good load balance</p></li>
+</ul>
+</section>
+<section id="performance-ratio-timeline-09-performance-ratio-png">
+<h5>9. Performance Ratio Timeline (<code class="docutils literal notranslate"><span class="pre">09_performance_ratio.png</span></code>)<a class="headerlink" href="#performance-ratio-timeline-09-performance-ratio-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Speedup (adaptive IPS / v1.0 IPS) over time</span>
+<span class="c1"># Demonstrates: Consistent speedup throughout simulation</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Ratio should be &gt;1.0 (adaptive faster than v1.0)</p></li>
+<li><p>Expected: 1.5x early (few cells), 3-4x late (many cells)</p></li>
+<li><p>Stable ratio → robust performance</p></li>
+</ul>
+</section>
+<section id="roofline-model-10-roofline-model-png">
+<h5>10. Roofline Model (<code class="docutils literal notranslate"><span class="pre">10_roofline_model.png</span></code>)<a class="headerlink" href="#roofline-model-10-roofline-model-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Operational intensity vs achieved GFLOPS</span>
+<span class="c1"># Demonstrates: Adaptive approaches roofline limit</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Adaptive points closer to roofline than static</p></li>
+<li><p>Memory-bound region (left): all schedulers similar</p></li>
+<li><p>Compute-bound region (right): adaptive pulls ahead</p></li>
+</ul>
+</section>
+</section>
+<section id="statistical-validation-plots-7-plots">
+<h4>Statistical Validation Plots (7 plots)<a class="headerlink" href="#statistical-validation-plots-7-plots" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Rigorous statistical evidence of improvement</p>
+<section id="cell-heterogeneity-11-cell-heterogeneity-png">
+<h5>11. Cell Heterogeneity (<code class="docutils literal notranslate"><span class="pre">11_cell_heterogeneity.png</span></code>)<a class="headerlink" href="#cell-heterogeneity-11-cell-heterogeneity-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Coefficient of variation (CV) of cell volumes over time</span>
+<span class="c1"># Demonstrates: Adaptive handles heterogeneous workloads better</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Higher CV → more heterogeneity → more benefit from dynamic scheduling</p></li>
+<li><p>Adaptive maintains high IPS even when CV &gt; 0.3</p></li>
+</ul>
+</section>
+<section id="scheduler-radar-chart-12-scheduler-radar-png">
+<h5>12. Scheduler Radar Chart (<code class="docutils literal notranslate"><span class="pre">12_scheduler_radar.png</span></code>)<a class="headerlink" href="#scheduler-radar-chart-12-scheduler-radar-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5-axis radar: IPS, thread efficiency, energy conservation,</span>
+<span class="c1"># biological accuracy, stability</span>
+<span class="c1"># Demonstrates: Adaptive excels in all dimensions</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Adaptive polygon should be largest (best on all axes)</p></li>
+<li><p>All schedulers should score high on biological accuracy (&gt;0.95)</p></li>
+</ul>
+</section>
+<section id="bootstrap-confidence-intervals-13-bootstrap-ci-png">
+<h5>13. Bootstrap Confidence Intervals (<code class="docutils literal notranslate"><span class="pre">13_bootstrap_ci.png</span></code>)<a class="headerlink" href="#bootstrap-confidence-intervals-13-bootstrap-ci-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mean IPS with bootstrap 95% CI (1000 resamples)</span>
+<span class="c1"># Demonstrates: Statistical significance of speedup</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Adaptive CI should not overlap with v1.0 CI (p &lt; 0.05)</p></li>
+<li><p>Narrow CIs → high confidence in estimates</p></li>
+<li><p>Expected: Adaptive 17.2 ± 1.3 IPS, v1.0 8.3 ± 0.9 IPS</p></li>
+</ul>
+</section>
+<section id="hypothesis-test-results-14-hypothesis-tests-png">
+<h5>14. Hypothesis Test Results (<code class="docutils literal notranslate"><span class="pre">14_hypothesis_tests.png</span></code>)<a class="headerlink" href="#hypothesis-test-results-14-hypothesis-tests-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bootstrap permutation test (H0: no difference in IPS)</span>
+<span class="c1"># Demonstrates: p &lt; 0.001 (reject null, speedup is real)</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>p-value &lt; 0.05 (statistically significant)</p></li>
+<li><p>Effect size (Cohen’s d) &gt; 0.8 (large effect)</p></li>
+<li><p>Power &gt; 0.8 (sufficient sample size)</p></li>
+</ul>
+</section>
+<section id="regression-diagnostics-15-regression-diagnostics-png">
+<h5>15. Regression Diagnostics (<code class="docutils literal notranslate"><span class="pre">15_regression_diagnostics.png</span></code>)<a class="headerlink" href="#regression-diagnostics-15-regression-diagnostics-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Residual plots and Cook's distance for IPS ~ cell_count model</span>
+<span class="c1"># Demonstrates: Linear model fits well, no influential outliers</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Residuals should be randomly scattered (no pattern)</p></li>
+<li><p>Cook’s distance &lt; 0.5 (no influential points)</p></li>
+<li><p>R² &gt; 0.8 (good fit)</p></li>
+</ul>
+</section>
+<section id="energy-conservation-test-16-energy-conservation-png">
+<h5>16. Energy Conservation Test (<code class="docutils literal notranslate"><span class="pre">16_energy_conservation.png</span></code>)<a class="headerlink" href="#energy-conservation-test-16-energy-conservation-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cumulative energy drift over time with hypothesis test</span>
+<span class="c1"># Demonstrates: All schedulers conserve energy (physics unchanged)</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Energy drift &lt; 1% (excellent conservation)</p></li>
+<li><p>No statistically significant difference between schedulers</p></li>
+<li><p>Adaptive doesn’t compromise numerical stability</p></li>
+</ul>
+</section>
+<section id="performance-distribution-17-performance-distribution-png">
+<h5>17. Performance Distribution (<code class="docutils literal notranslate"><span class="pre">17_performance_distribution.png</span></code>)<a class="headerlink" href="#performance-distribution-17-performance-distribution-png" title="Link to this heading">#</a></h5>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Histogram + KDE of IPS with Shapiro-Wilk normality test</span>
+<span class="c1"># Demonstrates: IPS distribution is approximately normal</span>
+</pre></div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul class="simple">
+<li><p>Adaptive distribution shifted right (higher IPS)</p></li>
+<li><p>Shapiro-Wilk p &gt; 0.05 (can use parametric tests)</p></li>
+<li><p>No bimodal distribution (would indicate instability)</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="plot-quality-settings">
+<h3>Plot Quality Settings<a class="headerlink" href="#plot-quality-settings" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default: Screen viewing (150 DPI)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/
+
+<span class="c1"># Publication quality (300 DPI, PDF output)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--quality<span class="w"> </span>publication
+
+<span class="c1"># Quick preview (low resolution, faster rendering)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--quality<span class="w"> </span>preview
+</pre></div>
+</div>
+</section>
+<section id="selective-plotting">
+<h3>Selective Plotting<a class="headerlink" href="#selective-plotting" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate only biological plots (1-4)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--plots<span class="w"> </span>biological
+
+<span class="c1"># Generate only computational plots (5-10)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--plots<span class="w"> </span>computational
+
+<span class="c1"># Generate only statistical plots (11-17)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--plots<span class="w"> </span>statistical
+
+<span class="c1"># Generate specific plots by ID</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--plots<span class="w"> </span><span class="m">01</span>,05,13
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="statistical-analysis">
+<h2>Statistical Analysis<a class="headerlink" href="#statistical-analysis" title="Link to this heading">#</a></h2>
+<section id="metrics-computed">
+<h3>Metrics Computed<a class="headerlink" href="#metrics-computed" title="Link to this heading">#</a></h3>
+<p>The visualization suite computes these statistical measures:</p>
+<section id="bootstrap-confidence-intervals">
+<h4>1. Bootstrap Confidence Intervals<a class="headerlink" href="#bootstrap-confidence-intervals" title="Link to this heading">#</a></h4>
+<p><strong>Method:</strong> Percentile bootstrap with 1000 resamples</p>
+<p><strong>Purpose:</strong> Estimate uncertainty in mean IPS</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 95% CI for mean IPS</span>
+<span class="n">mean_ips</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ips_samples</span><span class="p">)</span>
+<span class="n">ci_lower</span><span class="p">,</span> <span class="n">ci_upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">bootstrap_means</span><span class="p">,</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">97.5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p>Narrow CI → precise estimate</p></li>
+<li><p>Non-overlapping CIs → statistically significant difference</p></li>
+</ul>
+</section>
+<section id="hypothesis-testing">
+<h4>2. Hypothesis Testing<a class="headerlink" href="#hypothesis-testing" title="Link to this heading">#</a></h4>
+<p><strong>Test:</strong> Bootstrap permutation test (non-parametric)</p>
+<p><strong>Null hypothesis:</strong> No difference in IPS between schedulers</p>
+<p><strong>Alternative:</strong> Adaptive IPS &gt; v1.0 IPS</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Permutation test with 10,000 permutations</span>
+<span class="n">observed_diff</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">adaptive_ips</span><span class="p">)</span> <span class="o">-</span> <span class="n">mean</span><span class="p">(</span><span class="n">v1_ips</span><span class="p">)</span>
+<span class="n">p_value</span> <span class="o">=</span> <span class="n">fraction</span> <span class="n">of</span> <span class="n">permutations</span> <span class="k">with</span> <span class="n">diff</span> <span class="o">&gt;=</span> <span class="n">observed_diff</span>
+
+<span class="c1"># Reject H0 if p &lt; 0.05</span>
+</pre></div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p>p &lt; 0.001 → very strong evidence for speedup</p></li>
+<li><p>Effect size (Cohen’s d &gt; 0.8) → large practical significance</p></li>
+</ul>
+</section>
+<section id="regression-diagnostics">
+<h4>3. Regression Diagnostics<a class="headerlink" href="#regression-diagnostics" title="Link to this heading">#</a></h4>
+<p><strong>Model:</strong> Linear regression IPS ~ cell_count + scheduler</p>
+<p><strong>Diagnostics:</strong></p>
+<ul class="simple">
+<li><p><strong>R² (R-squared)</strong>: Fraction of variance explained (target: &gt;0.8)</p></li>
+<li><p><strong>Residual plots</strong>: Check for heteroscedasticity, non-linearity</p></li>
+<li><p><strong>Cook’s distance</strong>: Identify influential outliers (threshold: 0.5)</p></li>
+<li><p><strong>VIF (Variance Inflation Factor)</strong>: Check for multicollinearity (&lt;5)</p></li>
+</ul>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p>High R² + random residuals → model fits well</p></li>
+<li><p>No influential outliers → results are robust</p></li>
+<li><p>Positive scheduler coefficient → adaptive is faster</p></li>
+</ul>
+</section>
+<section id="energy-conservation-check">
+<h4>4. Energy Conservation Check<a class="headerlink" href="#energy-conservation-check" title="Link to this heading">#</a></h4>
+<p><strong>Test:</strong> Wilcoxon signed-rank test (paired, non-parametric)</p>
+<p><strong>Null hypothesis:</strong> No energy drift over time</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare total energy at t=0 vs t=end</span>
+<span class="n">initial_energy</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">final_energy</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">drift_percent</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">final_energy</span> <span class="o">-</span> <span class="n">initial_energy</span><span class="p">)</span> <span class="o">/</span> <span class="n">initial_energy</span>
+
+<span class="c1"># Test: |drift| &lt; 1%</span>
+</pre></div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<ul class="simple">
+<li><p>|drift| &lt; 1% → excellent energy conservation</p></li>
+<li><p>p &gt; 0.05 → no significant drift (good)</p></li>
+<li><p>All schedulers should pass (physics is scheduler-independent)</p></li>
+</ul>
+</section>
+</section>
+<section id="statistical-software-used">
+<h3>Statistical Software Used<a class="headerlink" href="#statistical-software-used" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>NumPy/SciPy:</strong> Numerical computations, statistical tests</p></li>
+<li><p><strong>Statsmodels:</strong> Regression, diagnostics</p></li>
+<li><p><strong>Seaborn/Matplotlib:</strong> Publication-quality plots</p></li>
+<li><p><strong>Pandas:</strong> Data wrangling, time series</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="interpreting-results">
+<h2>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Link to this heading">#</a></h2>
+<section id="expected-performance-gains">
+<h3>Expected Performance Gains<a class="headerlink" href="#expected-performance-gains" title="Link to this heading">#</a></h3>
+<p>Based on 52 benchmark configurations:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cell Count</p></th>
+<th class="head"><p>Expected Speedup</p></th>
+<th class="head"><p>Thread Efficiency</p></th>
+<th class="head"><p>Best Scheduler</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1-50</p></td>
+<td><p>1.5x</p></td>
+<td><p>60%</p></td>
+<td><p>Adaptive (dynamic)</p></td>
+</tr>
+<tr class="row-odd"><td><p>51-128</p></td>
+<td><p>2.1x</p></td>
+<td><p>65%</p></td>
+<td><p>Adaptive (dynamic)</p></td>
+</tr>
+<tr class="row-even"><td><p>129-512</p></td>
+<td><p>2.8x</p></td>
+<td><p>68%</p></td>
+<td><p>Adaptive (guided)</p></td>
+</tr>
+<tr class="row-odd"><td><p>513-2048</p></td>
+<td><p>3.2x</p></td>
+<td><p>71%</p></td>
+<td><p>Adaptive (static)</p></td>
+</tr>
+<tr class="row-even"><td><p>2049+</p></td>
+<td><p>4.4x</p></td>
+<td><p>73%</p></td>
+<td><p>Adaptive (static)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Overall average: 2.07x speedup</strong></p>
+</section>
+<section id="what-good-looks-like">
+<h3>What “Good” Looks Like<a class="headerlink" href="#what-good-looks-like" title="Link to this heading">#</a></h3>
+<section id="biological-metrics-should-be-identical">
+<h4>Biological Metrics (Should Be Identical)<a class="headerlink" href="#biological-metrics-should-be-identical" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Pressure</strong>: 300-2200 Pa (physiological range)</p></li>
+<li><p><strong>Volume</strong>: 2.5e-16 to 1.3e-15 m³ (physiological range)</p></li>
+<li><p><strong>Energy drift</strong>: &lt; 1% (excellent conservation)</p></li>
+<li><p><strong>Cell count</strong>: Identical across schedulers (same division logic)</p></li>
+</ul>
+</section>
+<section id="computational-metrics-adaptive-should-excel">
+<h4>Computational Metrics (Adaptive Should Excel)<a class="headerlink" href="#computational-metrics-adaptive-should-excel" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>IPS</strong>: Adaptive &gt; Static &gt; v1.0 (by 1.5x-4.5x)</p></li>
+<li><p><strong>Thread efficiency</strong>: 60-70% for adaptive (vs 29% for v1.0)</p></li>
+<li><p><strong>Load balance CV</strong>: &lt; 0.15 for adaptive (balanced workload)</p></li>
+<li><p><strong>Phase timing</strong>: Contact detection &lt; 40% of total time (vs 60% for v1.0)</p></li>
+</ul>
+</section>
+<section id="statistical-validation-should-pass-all-tests">
+<h4>Statistical Validation (Should Pass All Tests)<a class="headerlink" href="#statistical-validation-should-pass-all-tests" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Bootstrap permutation p-value</strong>: &lt; 0.001 (reject H0)</p></li>
+<li><p><strong>Cohen’s d effect size</strong>: &gt; 0.8 (large effect)</p></li>
+<li><p><strong>Regression R²</strong>: &gt; 0.8 (good model fit)</p></li>
+<li><p><strong>Cook’s distance</strong>: All points &lt; 0.5 (no outliers)</p></li>
+</ul>
+</section>
+</section>
+<section id="red-flags">
+<h3>Red Flags<a class="headerlink" href="#red-flags" title="Link to this heading">#</a></h3>
+<p><strong>Biological metrics differ across schedulers:</strong></p>
+<ul class="simple">
+<li><p><strong>Problem:</strong> Scheduler affecting physics (BUG!)</p></li>
+<li><p><strong>Action:</strong> Report to developers immediately with data</p></li>
+</ul>
+<p><strong>Adaptive slower than v1.0:</strong></p>
+<ul class="simple">
+<li><p><strong>Problem:</strong> Regression in performance</p></li>
+<li><p><strong>Action:</strong> Check OpenMP configuration, core allocation, hyperthreading</p></li>
+</ul>
+<p><strong>Energy drift &gt; 5%:</strong></p>
+<ul class="simple">
+<li><p><strong>Problem:</strong> Numerical instability</p></li>
+<li><p><strong>Action:</strong> Reduce time step, check mesh quality</p></li>
+</ul>
+<p><strong>Thread efficiency &lt; 30%:</strong></p>
+<ul class="simple">
+<li><p><strong>Problem:</strong> Poor parallelization</p></li>
+<li><p><strong>Action:</strong> Check workload size, core count, thread binding</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="benchmark-dataset-reference">
+<h2>Benchmark Dataset Reference<a class="headerlink" href="#benchmark-dataset-reference" title="Link to this heading">#</a></h2>
+<section id="benchmark-configurations">
+<h3>52 Benchmark Configurations<a class="headerlink" href="#benchmark-configurations" title="Link to this heading">#</a></h3>
+<p>The adaptive scheduler was validated on 52 configurations spanning:</p>
+<section id="parameter-dimensions">
+<h4>Parameter Dimensions<a class="headerlink" href="#parameter-dimensions" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Cell count</strong>: 13, 32, 64, 128, 256, 512, 1024, 2048, 4096 cells</p></li>
+<li><p><strong>Time steps</strong>: 500, 1000, 2000, 5000, 10000 iterations</p></li>
+<li><p><strong>Workload type</strong>: Vesicle, sheet, tube, growth, compression</p></li>
+<li><p><strong>Contact density</strong>: Sparse (&lt;10 neighbors/cell), moderate (10-30), dense (&gt;30)</p></li>
+<li><p><strong>Mesh resolution</strong>: Coarse (min_edge_len=1e-6), fine (min_edge_len=5e-7)</p></li>
+</ul>
+</section>
+<section id="hardware-configurations">
+<h4>Hardware Configurations<a class="headerlink" href="#hardware-configurations" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Core counts</strong>: 4, 8, 16, 24, 32, 48, 64 cores</p></li>
+<li><p><strong>Architectures</strong>: Intel Xeon, AMD EPYC, ARM64</p></li>
+<li><p><strong>Memory</strong>: 16GB to 256GB RAM</p></li>
+<li><p><strong>NUMA</strong>: Single-socket and dual-socket systems</p></li>
+</ul>
+</section>
+</section>
+<section id="representative-benchmarks">
+<h3>Representative Benchmarks<a class="headerlink" href="#representative-benchmarks" title="Link to this heading">#</a></h3>
+<section id="benchmark-a-vesicle-formation-small-workload">
+<h4>Benchmark A: Vesicle Formation (Small Workload)<a class="headerlink" href="#benchmark-a-vesicle-formation-small-workload" title="Link to this heading">#</a></h4>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- parameters_vesicle.xml --&gt;</span>
+<span class="nt">&lt;initial_cells&gt;</span>13<span class="nt">&lt;/initial_cells&gt;</span>
+<span class="nt">&lt;time_steps&gt;</span>1000<span class="nt">&lt;/time_steps&gt;</span>
+<span class="nt">&lt;contact_density&gt;</span>moderate<span class="nt">&lt;/contact_density&gt;</span>
+</pre></div>
+</div>
+<p><strong>Results:</strong></p>
+<ul class="simple">
+<li><p>v1.0 static: 6.9 IPS, 29% thread efficiency</p></li>
+<li><p>Adaptive: 12.3 IPS, 60% thread efficiency</p></li>
+<li><p><strong>Speedup: 1.79x</strong></p></li>
+</ul>
+</section>
+<section id="benchmark-b-epithelial-sheet-medium-workload">
+<h4>Benchmark B: Epithelial Sheet (Medium Workload)<a class="headerlink" href="#benchmark-b-epithelial-sheet-medium-workload" title="Link to this heading">#</a></h4>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- parameters_sheet.xml --&gt;</span>
+<span class="nt">&lt;initial_cells&gt;</span>64<span class="nt">&lt;/initial_cells&gt;</span>
+<span class="nt">&lt;time_steps&gt;</span>2000<span class="nt">&lt;/time_steps&gt;</span>
+<span class="nt">&lt;contact_density&gt;</span>high<span class="nt">&lt;/contact_density&gt;</span>
+</pre></div>
+</div>
+<p><strong>Results:</strong></p>
+<ul class="simple">
+<li><p>v1.0 static: 6.4 IPS, 32% thread efficiency</p></li>
+<li><p>Adaptive: 20.8 IPS, 65% thread efficiency</p></li>
+<li><p><strong>Speedup: 3.26x</strong></p></li>
+</ul>
+</section>
+<section id="benchmark-c-large-tissue-growth-large-workload">
+<h4>Benchmark C: Large Tissue Growth (Large Workload)<a class="headerlink" href="#benchmark-c-large-tissue-growth-large-workload" title="Link to this heading">#</a></h4>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!-- parameters_growth_256cells.xml --&gt;</span>
+<span class="nt">&lt;initial_cells&gt;</span>256<span class="nt">&lt;/initial_cells&gt;</span>
+<span class="nt">&lt;final_cells&gt;</span>512<span class="nt">&lt;/final_cells&gt;</span>
+<span class="nt">&lt;time_steps&gt;</span>5000<span class="nt">&lt;/time_steps&gt;</span>
+<span class="nt">&lt;contact_density&gt;</span>high<span class="nt">&lt;/contact_density&gt;</span>
+</pre></div>
+</div>
+<p><strong>Results:</strong></p>
+<ul class="simple">
+<li><p>v1.0 static: 2.7 IPS, 28% thread efficiency</p></li>
+<li><p>Adaptive: 12.0 IPS, 71% thread efficiency</p></li>
+<li><p><strong>Speedup: 4.44x</strong></p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="benchmark-failures">
+<h3>Benchmark Failures<a class="headerlink" href="#benchmark-failures" title="Link to this heading">#</a></h3>
+<section id="simulation-crashes-segfault">
+<h4>Simulation Crashes (Segfault)<a class="headerlink" href="#simulation-crashes-segfault" title="Link to this heading">#</a></h4>
+<p><strong>Symptoms:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span> <span class="n">v1_simulation</span> <span class="n">crashed</span> <span class="k">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">139</span>
+<span class="p">[</span><span class="n">INFO</span><span class="p">]</span> <span class="n">Auto</span><span class="o">-</span><span class="n">restarting</span> <span class="ow">in</span> <span class="mi">10</span> <span class="n">seconds</span><span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Causes &amp; Solutions:</strong></p>
+<ol class="arabic">
+<li><p><strong>Stack overflow:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_STACKSIZE</span><span class="o">=</span>16M
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes
+</pre></div>
+</div>
+</li>
+<li><p><strong>Out of memory (OOM):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reduce cores per sim to leave memory headroom</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes<span class="w"> </span>--cores-per-sim<span class="o">=</span><span class="m">8</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Mesh refinement runaway:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check parameter file: increase min_edge_len</span>
+&lt;min_edge_len&gt;1.0e-6&lt;/min_edge_len&gt;<span class="w">  </span>&lt;!--<span class="w"> </span>Was<span class="w"> </span>5e-7<span class="w"> </span>--&gt;
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="no-v1-0-binary-found">
+<h4>No v1.0 Binary Found<a class="headerlink" href="#no-v1-0-binary-found" title="Link to this heading">#</a></h4>
+<p><strong>Symptoms:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span> <span class="n">v1</span><span class="mf">.0</span> <span class="n">binary</span> <span class="ow">not</span> <span class="n">found</span> <span class="n">at</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">version</span><span class="o">-</span><span class="n">cpp</span><span class="o">-</span><span class="n">v1</span><span class="mf">.0</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">simucell3d</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specify v1.0 root explicitly</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--v1-root<span class="o">=</span>/path/to/v1.0<span class="w"> </span>--all-modes
+
+<span class="c1"># Or skip v1.0 if you only want current branch comparison</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--skip-v1<span class="w"> </span>--modes<span class="o">=</span>static,adaptive
+</pre></div>
+</div>
+</section>
+<section id="metrics-csv-files-empty">
+<h4>Metrics CSV Files Empty<a class="headerlink" href="#metrics-csv-files-empty" title="Link to this heading">#</a></h4>
+<p><strong>Symptoms:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span> <span class="n">biological</span><span class="o">.</span><span class="n">csv</span> <span class="n">has</span> <span class="mi">0</span> <span class="n">data</span> <span class="n">rows</span>
+</pre></div>
+</div>
+<p><strong>Causes &amp; Solutions:</strong></p>
+<ol class="arabic">
+<li><p><strong>Simulation didn’t write output:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check logs</span>
+cat<span class="w"> </span>doc/working/parallel_benchmark_TIMESTAMP/logs/adaptive_simulation.log
+
+<span class="c1"># Look for "Writing output" messages</span>
+<span class="c1"># If absent, check parameter file &lt;writing_frequency&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Metrics extraction failed:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Re-run metrics extraction manually</span>
+python<span class="w"> </span>scripts/preprocess_benchmark_metrics.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>doc/working/parallel_benchmark_TIMESTAMP/
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="visualization-failures">
+<h3>Visualization Failures<a class="headerlink" href="#visualization-failures" title="Link to this heading">#</a></h3>
+<section id="module-import-errors">
+<h4>Module Import Errors<a class="headerlink" href="#module-import-errors" title="Link to this heading">#</a></h4>
+<p><strong>Symptoms:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ne">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">'simucell3d_viz'</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Python dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>numpy<span class="w"> </span>matplotlib<span class="w"> </span>scipy<span class="w"> </span>seaborn
+
+<span class="c1"># Or use conda</span>
+conda<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>numpy<span class="w"> </span>matplotlib<span class="w"> </span>scipy<span class="w"> </span>seaborn
+</pre></div>
+</div>
+</section>
+<section id="data-validation-errors">
+<h4>Data Validation Errors<a class="headerlink" href="#data-validation-errors" title="Link to this heading">#</a></h4>
+<p><strong>Symptoms:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span> <span class="n">Data</span> <span class="n">validation</span> <span class="n">failed</span><span class="p">:</span> <span class="n">Missing</span> <span class="n">required</span> <span class="n">column</span> <span class="s1">'pressure'</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run validation only to diagnose</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--validate-only
+
+<span class="c1"># Check validation_report.json for details</span>
+cat<span class="w"> </span>benchmark_dir/plots-unified/validation_report.json
+</pre></div>
+</div>
+</section>
+<section id="plots-look-wrong">
+<h4>Plots Look Wrong<a class="headerlink" href="#plots-look-wrong" title="Link to this heading">#</a></h4>
+<p><strong>Symptoms:</strong></p>
+<ul class="simple">
+<li><p>Empty plots, missing data points</p></li>
+<li><p>Overlapping labels</p></li>
+<li><p>Axis ranges incorrect</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Regenerate with verbose output</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--verbose
+
+<span class="c1"># Check audit_trail.json for data cleaning decisions</span>
+cat<span class="w"> </span>benchmark_dir/plots-unified/audit_trail.json
+
+<span class="c1"># Try preview quality (faster debugging)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--quality<span class="w"> </span>preview
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading">#</a></h2>
+<section id="custom-parameter-files">
+<h3>Custom Parameter Files<a class="headerlink" href="#custom-parameter-files" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Benchmark your own parameter file</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--all-modes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--param-file<span class="o">=</span>my_custom_params.xml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cores-per-sim<span class="o">=</span><span class="m">16</span>
+</pre></div>
+</div>
+</section>
+<section id="benchmark-subset-selected-modes">
+<h3>Benchmark Subset (Selected Modes)<a class="headerlink" href="#benchmark-subset-selected-modes" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare only static vs adaptive (skip v1.0)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--modes<span class="o">=</span>static,adaptive<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--cores-per-sim<span class="o">=</span><span class="m">16</span>
+
+<span class="c1"># Faster: ~half the runtime of full benchmark</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-core-allocation">
+<h3>Custom Core Allocation<a class="headerlink" href="#custom-core-allocation" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Asymmetric allocation (e.g., give adaptive more cores)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--modes<span class="o">=</span>v1,static,adaptive<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--v1-cores<span class="o">=</span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--static-cores<span class="o">=</span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--adaptive-cores<span class="o">=</span><span class="m">24</span>
+</pre></div>
+</div>
+</section>
+<section id="manual-metrics-collection">
+<h3>Manual Metrics Collection<a class="headerlink" href="#manual-metrics-collection" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># If benchmark completed but visualization failed</span>
+python<span class="w"> </span>preprocess_benchmark_metrics.py<span class="w"> </span>doc/working/parallel_benchmark_TIMESTAMP/
+
+<span class="c1"># Then regenerate plots</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>doc/working/parallel_benchmark_TIMESTAMP/
+</pre></div>
+</div>
+</section>
+<section id="comparing-multiple-benchmarks">
+<h3>Comparing Multiple Benchmarks<a class="headerlink" href="#comparing-multiple-benchmarks" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate comparison across multiple benchmarks</span>
+python<span class="w"> </span>scripts/compare_benchmark_runs.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>doc/working/parallel_benchmark_20260127_192747/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>doc/working/parallel_benchmark_20260128_103421/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output<span class="w"> </span>comparison_report.pdf
+</pre></div>
+</div>
+</section>
+<section id="exporting-results-for-paper">
+<h3>Exporting Results for Paper<a class="headerlink" href="#exporting-results-for-paper" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate high-resolution PDFs (300 DPI)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--quality<span class="w"> </span>publication<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--format<span class="w"> </span>pdf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--plots<span class="w"> </span><span class="m">01</span>,05,13,14<span class="w">  </span><span class="c1"># Select key figures</span>
+
+<span class="c1"># Output: plots-unified/*.pdf ready for LaTeX submission</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary-best-practices">
+<h2>Summary &amp; Best Practices<a class="headerlink" href="#summary-best-practices" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Running Benchmarks<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p><strong>Best practices:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Use <code class="docutils literal notranslate"><span class="pre">--all-modes</span></code></strong> for complete validation (v1.0, static, adaptive)</p></li>
+<li><p><strong>Set <code class="docutils literal notranslate"><span class="pre">--cores-per-sim</span></code></strong> explicitly to ensure reproducibility</p></li>
+<li><p><strong>Enable auto-restart</strong> (default) for robustness in long runs</p></li>
+<li><p><strong>Monitor progress</strong> with <code class="docutils literal notranslate"><span class="pre">parallel_benchmark_monitor.sh</span></code></p></li>
+<li><p><strong>Run quick-test first</strong> to verify setup before long benchmark</p></li>
+</ol>
+<p><strong>Typical workflow:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Quick test (1 minute)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--quick-test<span class="w"> </span>--only<span class="o">=</span>adaptive
+
+<span class="c1"># 2. Full benchmark (4-12 hours)</span>
+./run_parallel_benchmark_comparison.sh<span class="w"> </span>--all-modes<span class="w"> </span>--cores-per-sim<span class="o">=</span><span class="m">16</span>
+
+<span class="c1"># 3. Monitor in separate terminal</span>
+./monitors/parallel_benchmark_monitor.sh<span class="w"> </span>doc/working/parallel_benchmark_*/
+
+<span class="c1"># 4. Generate visualizations</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>doc/working/parallel_benchmark_*/
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Interpreting Results<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p><strong>Key takeaways:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Biological metrics should be identical</strong> across schedulers (physics unchanged)</p></li>
+<li><p><strong>Adaptive IPS should be 1.5x-4.5x higher</strong> than v1.0 (workload-dependent)</p></li>
+<li><p><strong>Thread efficiency should be 60-70%</strong> for adaptive (vs 29% for v1.0)</p></li>
+<li><p><strong>Statistical tests should pass</strong> (p &lt; 0.05, effect size &gt; 0.8)</p></li>
+</ol>
+<p><strong>Red flags:</strong></p>
+<ul class="simple">
+<li><p>Biological metrics differ → BUG (report to developers)</p></li>
+<li><p>Adaptive slower than v1.0 → Misconfiguration (check OpenMP settings)</p></li>
+<li><p>Energy drift &gt; 5% → Numerical instability (reduce time step)</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Visualization Suite<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p><strong>Best practices:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Generate all 17 plots</strong> for complete validation</p></li>
+<li><p><strong>Use publication quality</strong> for papers (<code class="docutils literal notranslate"><span class="pre">--quality</span> <span class="pre">publication</span></code>)</p></li>
+<li><p><strong>Check validation report</strong> before interpreting results</p></li>
+<li><p><strong>Share plots-unified/ directory</strong> for reproducibility</p></li>
+</ol>
+<p><strong>Key plots to review:</strong></p>
+<ul class="simple">
+<li><p>Plot 01 (Pressure): Validates biological correctness</p></li>
+<li><p>Plot 05 (Scaling): Demonstrates speedup</p></li>
+<li><p>Plot 13 (Bootstrap CI): Proves statistical significance</p></li>
+<li><p>Plot 14 (Hypothesis test): Confirms p &lt; 0.001</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Benchmark script</strong>: <code class="docutils literal notranslate"><span class="pre">scripts/run_parallel_benchmark_comparison.sh</span></code></p></li>
+<li><p><strong>Visualization suite</strong>: <code class="docutils literal notranslate"><span class="pre">scripts/plot_benchmark_unified.py</span></code></p></li>
+<li><p><strong>Performance tuning guide</strong>: <a class="reference internal" href="../developer/performance-tuning.html"><span class="std std-doc">doc/developer/performance-tuning.md</span></a></p></li>
+<li><p><strong>Version comparison</strong>: doc/v1.0_vs_current_comparison.md</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../sections/benchmarking.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Benchmarking</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="latency-profiling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Latency Profiling Infrastructure</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-full-benchmark-suite">Run Full Benchmark Suite</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-visualizations">Generate Visualizations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-test-1-minute-timeout">Quick Test (1-minute timeout)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-framework-overview">Benchmark Framework Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#purpose">Purpose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture">Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#equal-resource-allocation">1. Equal Resource Allocation</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpoint-resume-support">2. Checkpoint/Resume Support</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-restart-on-failure">3. Auto-Restart on Failure</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#live-progress-monitoring">4. Live Progress Monitoring</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-benchmarks">Running Benchmarks</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-options">Configuration Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples">Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-production-benchmark-full-suite">Example 1: Production Benchmark (Full Suite)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-quick-comparison-static-vs-adaptive-only">Example 2: Quick Comparison (Static vs Adaptive Only)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-validate-adaptive-scheduler">Example 3: Validate Adaptive Scheduler</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-resume-after-interruption">Example 4: Resume After Interruption</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-structure">Output Structure</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-suite">Visualization Suite</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-plots">Generating Plots</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-categories">Plot Categories</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biological-validation-plots-4-plots">Biological Validation Plots (4 plots)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#pressure-evolution-01-pressure-evolution-png">1. Pressure Evolution (<code class="docutils literal notranslate"><span class="pre">01_pressure_evolution.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-landscape-02-energy-landscape-png">2. Energy Landscape (<code class="docutils literal notranslate"><span class="pre">02_energy_landscape.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#population-dynamics-03-population-dynamics-png">3. Population Dynamics (<code class="docutils literal notranslate"><span class="pre">03_population_dynamics.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#biological-dashboard-04-biological-dashboard-png">4. Biological Dashboard (<code class="docutils literal notranslate"><span class="pre">04_biological_dashboard.png</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-performance-plots-6-plots">Computational Performance Plots (6 plots)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#scaling-analysis-05-scaling-analysis-png">5. Scaling Analysis (<code class="docutils literal notranslate"><span class="pre">05_scaling_analysis.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-timing-breakdown-06-phase-timing-png">6. Phase Timing Breakdown (<code class="docutils literal notranslate"><span class="pre">06_phase_timing.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#scheduler-comparison-07-scheduler-comparison-png">7. Scheduler Comparison (<code class="docutils literal notranslate"><span class="pre">07_scheduler_comparison.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#load-balance-analysis-08-load-balance-png">8. Load Balance Analysis (<code class="docutils literal notranslate"><span class="pre">08_load_balance.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-ratio-timeline-09-performance-ratio-png">9. Performance Ratio Timeline (<code class="docutils literal notranslate"><span class="pre">09_performance_ratio.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#roofline-model-10-roofline-model-png">10. Roofline Model (<code class="docutils literal notranslate"><span class="pre">10_roofline_model.png</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-validation-plots-7-plots">Statistical Validation Plots (7 plots)</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-heterogeneity-11-cell-heterogeneity-png">11. Cell Heterogeneity (<code class="docutils literal notranslate"><span class="pre">11_cell_heterogeneity.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#scheduler-radar-chart-12-scheduler-radar-png">12. Scheduler Radar Chart (<code class="docutils literal notranslate"><span class="pre">12_scheduler_radar.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-confidence-intervals-13-bootstrap-ci-png">13. Bootstrap Confidence Intervals (<code class="docutils literal notranslate"><span class="pre">13_bootstrap_ci.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-test-results-14-hypothesis-tests-png">14. Hypothesis Test Results (<code class="docutils literal notranslate"><span class="pre">14_hypothesis_tests.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-diagnostics-15-regression-diagnostics-png">15. Regression Diagnostics (<code class="docutils literal notranslate"><span class="pre">15_regression_diagnostics.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-conservation-test-16-energy-conservation-png">16. Energy Conservation Test (<code class="docutils literal notranslate"><span class="pre">16_energy_conservation.png</span></code>)</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-distribution-17-performance-distribution-png">17. Performance Distribution (<code class="docutils literal notranslate"><span class="pre">17_performance_distribution.png</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-quality-settings">Plot Quality Settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selective-plotting">Selective Plotting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-analysis">Statistical Analysis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-computed">Metrics Computed</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-confidence-intervals">1. Bootstrap Confidence Intervals</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-testing">2. Hypothesis Testing</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-diagnostics">3. Regression Diagnostics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-conservation-check">4. Energy Conservation Check</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-software-used">Statistical Software Used</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-results">Interpreting Results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-performance-gains">Expected Performance Gains</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-good-looks-like">What “Good” Looks Like</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biological-metrics-should-be-identical">Biological Metrics (Should Be Identical)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-metrics-adaptive-should-excel">Computational Metrics (Adaptive Should Excel)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-validation-should-pass-all-tests">Statistical Validation (Should Pass All Tests)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#red-flags">Red Flags</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-dataset-reference">Benchmark Dataset Reference</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-configurations">52 Benchmark Configurations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-dimensions">Parameter Dimensions</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-configurations">Hardware Configurations</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representative-benchmarks">Representative Benchmarks</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-a-vesicle-formation-small-workload">Benchmark A: Vesicle Formation (Small Workload)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-b-epithelial-sheet-medium-workload">Benchmark B: Epithelial Sheet (Medium Workload)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-c-large-tissue-growth-large-workload">Benchmark C: Large Tissue Growth (Large Workload)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-failures">Benchmark Failures</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-crashes-segfault">Simulation Crashes (Segfault)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#no-v1-0-binary-found">No v1.0 Binary Found</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-csv-files-empty">Metrics CSV Files Empty</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-failures">Visualization Failures</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#module-import-errors">Module Import Errors</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-validation-errors">Data Validation Errors</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plots-look-wrong">Plots Look Wrong</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage">Advanced Usage</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-parameter-files">Custom Parameter Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-subset-selected-modes">Benchmark Subset (Selected Modes)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-core-allocation">Custom Core Allocation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-metrics-collection">Manual Metrics Collection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-multiple-benchmarks">Comparing Multiple Benchmarks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-results-for-paper">Exporting Results for Paper</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-best-practices">Summary &amp; Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Running Benchmarks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Interpreting Results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Visualization Suite</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/benchmarking/openmp-benchmarks.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

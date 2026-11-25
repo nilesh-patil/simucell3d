@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Growth, division and removal &#8212; SimuCell3D 2.1.0</title>
+    <title>Growth, division and cell death &#8212; SimuCell3D 2.1.0</title>
   
   
   
@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/06_growth_division_removal';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/06_growth_division_removal.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/user_guide/06_growth_division_removal.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Polarization" href="07_polarization.html" />
     <link rel="prev" title="Mesh refinement" href="05_mesh_refinement.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Growth, division and cell death - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/user_guide/06_growth_division_removal.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Growth, division and removal</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -579,11 +612,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="growth-division-and-removal">
-<span id="ug-growth-division"></span><h1>Growth, division and removal<a class="headerlink" href="#growth-division-and-removal" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="growth-division-and-cell-death">
+<span id="ug-growth-division"></span><h1>Growth, division and cell death<a class="headerlink" href="#growth-division-and-cell-death" title="Link to this heading">#</a></h1>
 <p>The number and size of cells change during a run. Cells grow by increasing their
-<a class="reference internal" href="../glossary.html#term-target-volume"><span class="xref std std-term">target volume</span></a>, epithelial cells divide when they reach a division volume, and cells are
-removed when their volume falls below a minimum. This chapter describes each rule as
+<a class="reference internal" href="../glossary.html#term-target-volume"><span class="xref std std-term">target volume</span></a>, epithelial cells divide when they reach a division volume, and cells die when their volume
+falls below a minimum (a <a class="reference internal" href="../glossary.html#term-minimum-volume-death"><span class="xref std std-term">minimum-volume death</span></a>, part of the model). This chapter describes each rule as
 implemented in 2.1, with its parameters, and the divisions that 2.1 refuses.</p>
 <section id="growth">
 <h2>Growth<a class="headerlink" href="#growth" title="Link to this heading">#</a></h2>
@@ -642,7 +675,7 @@ consists of more than one closed loop.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 2.1: </span>Every loop is traced, the cell is cut along the longest one, and the two daughters are separated
 by a flood fill over the surface that does not cross the cut. In 1.0 only one loop was followed,
-the division failed, and the cell retried at every iteration.</p>
+the division failed, and the cell tried again at every division check (every 5 iterations).</p>
 </div>
 </section>
 <section id="refused-divisions">
@@ -664,26 +697,46 @@ paper-like configuration (<code class="docutils literal notranslate"><span class
 <a class="reference internal" href="../examples/growth_from_one_cell.html"><span class="doc">Tissue growth from a single cell</span></a>) from 1 to 150,498 cells, 14% of division attempts were refused (5% below 30,000 cells, 21% between
 125,000 and 150,000 cells); a refused mother was refused 1.75 times on average, at most 31 times.
 A cell with a fixed shape can be refused every time until its shape changes. Refused divisions
-therefore delay some divisions; they do not lose cells. The CHANGELOG lists them as a known issue.</p>
+therefore delay some divisions; they do not lose cells. The CHANGELOG lists them as a known issue.
+The lab’s growth benchmark (contact model 1) refuses more: in the November 2026 benchmark, 2.1.0
+refused about 21% of division attempts below 30,000 cells and 27% between 125,000 and 150,000
+cells, about 170,000 refusals in a 48-hour run (<a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>).</p>
+<p>The two-dimensional Delaunay step itself has no iteration limit: its edge-flipping loop runs
+until the triangulation is legal. Two intermediate development builds hung there in the
+November 2026 benchmark; no 2.1.0 run did, but the code is unchanged. A run that stops
+printing progress lines while a division check is due may be stuck in this loop.</p>
 <p>Other errors during a division (for example a cut that does not split the surface in two) are
 logged with the same <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">division</span> <span class="pre">failed</span> <span class="pre">for</span> <span class="pre">cell</span> <span class="pre">&lt;id&gt;:</span></code> prefix, and the mother also retries at
 the next division check.</p>
 </section>
 </section>
-<section id="removal">
-<h2>Removal<a class="headerlink" href="#removal" title="Link to this heading">#</a></h2>
-<p>At the end of every iteration, a cell is removed if its volume is below its minimum volume:</p>
+<section id="cell-death-at-the-minimum-volume">
+<span id="ug-min-volume-death"></span><h2>Cell death at the minimum volume<a class="headerlink" href="#cell-death-at-the-minimum-volume" title="Link to this heading">#</a></h2>
+<p>At the end of every iteration, a cell is deleted if its volume is below its minimum volume:</p>
 <div class="math notranslate nohighlight">
 \[
 V &lt; V_{\min}.
 \]</div>
-<p>This models cell death (apoptosis) in the paper. The removal applies to every cell class and is
-not logged. Because the target volume never falls below <span class="math notranslate nohighlight">\(V_{\min}\)</span> (<a class="reference internal" href="#equation-eq-growth">(1)</a>), shrinkage
-alone brings a cell only down to about <span class="math notranslate nohighlight">\(V_{\min}\)</span>.</p>
+<p>This <a class="reference internal" href="../glossary.html#term-minimum-volume-death"><span class="xref std std-term">minimum-volume death</span></a> models cell death (apoptosis) in the paper. It applies to every
+cell class and is not logged: no log line, no counter, and no column of the diagnostics CSV records it. Because the
+target volume never falls below <span class="math notranslate nohighlight">\(V_{\min}\)</span> (<a class="reference internal" href="#equation-eq-growth">(1)</a>), shrinkage alone brings a cell only
+down to about <span class="math notranslate nohighlight">\(V_{\min}\)</span>; cells die when their neighbours compress them.</p>
+<p>These deaths can be numerous. In the lab’s growth benchmark, measured with 2.1.0 in
+November 2026, 360,009 cells had died by the time 144,000 were alive, 36% of all cells ever born
+(<a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>). To count them, use the <code class="docutils literal notranslate"><span class="pre">cell_id</span></code> column of the statistics CSV:
+identifiers are given in sequence from 0, so <span class="math notranslate nohighlight">\(N_\mathrm{created}\)</span>, the largest identifier plus
+one, counts every cell ever created, and each division adds two cells, so there were
+<span class="math notranslate nohighlight">\((N_\mathrm{created} - N_\mathrm{initial})/2\)</span> divisions. The deaths are then
+<span class="math notranslate nohighlight">\(N_\mathrm{created} - N_\mathrm{alive} - N_\mathrm{divisions} - N_\mathrm{safeguard}\)</span>, where
+<span class="math notranslate nohighlight">\(N_\mathrm{safeguard}\)</span> counts the safeguard <a class="reference internal" href="../glossary.html#term-removal"><span class="xref std std-term">removals</span></a> in the log
+(<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p>
+</section>
+<section id="removal-of-unstable-cells">
+<h2>Removal of unstable cells<a class="headerlink" href="#removal-of-unstable-cells" title="Link to this heading">#</a></h2>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 2.1: </span>The same step also removes numerically unstable cells, and a cell whose mesh refinement fails is
-removed earlier in the iteration. These are <a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a> that are not part of the
-published model; see <a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
+removed earlier in the iteration. These <a class="reference internal" href="../glossary.html#term-removal"><span class="xref std std-term">removals</span></a> are <a class="reference internal" href="../glossary.html#term-safeguard"><span class="xref std std-term">safeguards</span></a>,
+not part of the published model, and unlike deaths they are logged; see <a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>.</p>
 </div>
 </section>
 <section id="parameters">
@@ -726,7 +779,7 @@ published model; see <a class="reference internal" href="09_safeguards.html"><sp
 <td><p><span class="math notranslate nohighlight">\(V_{\min}\)</span></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code></p></td>
 <td><p>m³</p></td>
-<td><p>Volume below which the cell is removed; lower bound of <span class="math notranslate nohighlight">\(V_0\)</span></p></td>
+<td><p>Volume below which the cell dies; lower bound of <span class="math notranslate nohighlight">\(V_0\)</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -740,13 +793,16 @@ these values with standard deviations of 10% of the means.</p>
 <ul class="simple">
 <li><p><strong>Growth rate and time step.</strong> The target volume grows by <span class="math notranslate nohighlight">\(g\Delta t\)</span> per iteration. With the
 Table 2 values, a cell takes <span class="math notranslate nohighlight">\((V_\mathrm{div} - V_\mathrm{div}/2)/g = 7\times10^{-5}\)</span> s, or 700
-iterations at <span class="math notranslate nohighlight">\(\Delta t = 10^{-7}\)</span> s, from birth to division. The paper describes this rate as
+iterations at a time step of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s, from birth to division. The paper describes this rate as
 “pushed to the limit” for its growth benchmark; the volume can lag behind the target volume at
 such rates.</p></li>
-<li><p><strong>Random draws.</strong> The generators are seeded from the system clock, so with non-zero standard
+<li><p><strong>Random draws.</strong> The generators are seeded from the wall clock, so with non-zero standard
 deviations two runs never draw the same values. The point sampling that triangulates the division
-interface is also seeded from the clock, so runs in which cells divide differ even with standard deviations of 0
-and one thread.</p></li>
+interface is also seeded from the clock, so runs in which cells divide differ even with standard
+deviations of 0 and one thread. There is no parameter for a fixed seed, so a growth run cannot be
+repeated bit for bit. In the November 2026 benchmark, repeats of the growth benchmark differed
+from the first iteration on, while there was still one cell, because its initial triangulation
+is sampled the same way (<a class="reference internal" href="../benchmarks/reproducibility.html#benchmarks-reproducibility"><span class="std std-ref">Reproducibility</span></a>).</p></li>
 <li><p><strong>Synchronous divisions.</strong> With standard deviations of 0, cells born together grow at the same
 rate and tend to divide at the same division check, which produces bursts of divisions and of
 mesh operations.</p></li>
@@ -817,11 +873,19 @@ mesh operations.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refused-divisions">Refused divisions</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#removal">Removal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-death-at-the-minimum-volume">Cell death at the minimum volume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#removal-of-unstable-cells">Removal of unstable cells</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters">Parameters</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-guidance">Practical guidance</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/user_guide/06_growth_division_removal.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -857,16 +921,28 @@ mesh operations.</p></li>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/15_visualization';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/15_visualization.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/user_guide/15_visualization.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Python interface" href="16_python_interface.html" />
     <link rel="prev" title="Output files" href="14_output_files.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Visualization - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/user_guide/15_visualization.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -690,22 +723,27 @@ cell against simulation time, most on a logarithmic axis.</p>
 </dd>
 </dl>
 <figure class="align-default" id="id1">
-<img alt="Six line plots against simulation time: number of cells, cell volume, deviation from" src="../_images/geometry_data.png" />
+<img alt="Six line plots against simulation time from 0 to 0.01 s for the 192-cell tube: number of" src="../_images/geometry_data_v21.png" />
 <figcaption>
-<p><span class="caption-text">target volume, cell area, deviation from target area and cell pressure.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-text">cells (constant at 192), cell volume, deviation from target volume, cell area, deviation from
+target area and cell pressure (about 285 Pa), each mean with a shaded band of one standard
+deviation.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 <div class="legend">
-<p>Geometry plots for a two-cell run, made with an earlier version of the script. The current
-script plots the absolute deviations <span class="math notranslate nohighlight">\(|V - V_0|/V_0\)</span> and <span class="math notranslate nohighlight">\(|A - A_0|/A_0\)</span>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sim_geometry_data.png</span></code> written by <code class="docutils literal notranslate"><span class="pre">plot_data.py</span></code> for the tube example
+(<code class="docutils literal notranslate"><span class="pre">parameters_tube.xml</span></code>, 192 cells, <code class="docutils literal notranslate"><span class="pre">1e-2</span></code> s) with 2.1.0. The shaded band is one standard
+deviation over the cells. The tube settles within about 1 ms and then stays at constant
+volume, area and pressure.</p>
 </div>
 </figcaption>
 </figure>
 <figure class="align-default" id="id2">
-<img alt="Line plots of mean kinetic, surface tension, membrane elasticity, pressure and total" src="../_images/energy_data.png" />
+<img alt="Five plots against simulation time for the same run: kinetic, surface tension, membrane" src="../_images/energy_data_v21.png" />
 <figcaption>
-<p><span class="caption-text">energy per cell against simulation time.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+<p><span class="caption-text">elasticity, pressure and total energy per cell, mean with a shaded band of one standard
+deviation; the membrane elasticity panel is flat at zero.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 <div class="legend">
-<p>Energy plots for the same run, made with an earlier version of the script, in which the
-pressure and total energy panels were empty; the current script plots both.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sim_energy_data.png</span></code> for the same run. The energies level off after the first millisecond.
+The membrane elasticity energy is 0 because <code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code> is 0 in the tube file.</p>
 </div>
 </figcaption>
 </figure>
@@ -794,6 +832,13 @@ spends its time. The columns are described in
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/user_guide/15_visualization.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -828,16 +873,28 @@ spends its time. The columns are described in
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

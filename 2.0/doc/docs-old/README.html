@@ -1,0 +1,1006 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>SimuCell3D v1.0 Documentation Archive &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/docs-old/README';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/docs-old/README.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SimuCell3D" href="v1.0-root-README.html" />
+    <link rel="prev" title="1.0 documentation as kept in 2.0 (doc/docs-old)" href="../../sections/docs-old.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="SimuCell3D v1.0 Documentation Archive">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/docs-old/README.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">docs-old</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1.0-root-README.html">1.0 README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter_file_doc.html">Configuring a simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_mesh_format.html">Input mesh format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh_generation.html">Mesh generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_statistics.html">Simulation statistics</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="parameter_screen.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_support.html">Running from Python</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/docs-old.html" class="nav-link">1.0 documentation as kept in 2.0 (doc/docs-old)</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SimuCell3D...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simucell3d-v1-0-documentation-archive">
+<h1>SimuCell3D v1.0 Documentation Archive<a class="headerlink" href="#simucell3d-v1-0-documentation-archive" title="Link to this heading">#</a></h1>
+<p>This directory contains the original documentation from <strong>release/v1.0</strong> (November 2024).</p>
+<section id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Link to this heading">#</a></h2>
+<p>This archive preserves the v1.0 documentation for historical reference while the main documentation evolves to reflect the enhanced capabilities of the current branch.</p>
+</section>
+<section id="file-mapping-v1-0-current-branch">
+<h2>File Mapping: v1.0 → Current Branch<a class="headerlink" href="#file-mapping-v1-0-current-branch" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>v1.0 File</p></th>
+<th class="head"><p>Current Equivalent</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameter_file_doc.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/user-guide/parameter-reference.md</span></code></p></td>
+<td><p>Enhanced with new parameters</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">input_mesh_format.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/user-guide/input-mesh-format.md</span></code></p></td>
+<td><p>Image paths updated</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mesh_generation.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/user-guide/mesh-generation.md</span></code></p></td>
+<td><p>Image paths updated</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">output_statistics.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/user-guide/output-format.md</span></code></p></td>
+<td><p>Preserved with examples</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">python_support.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/user-guide/python-bindings.md</span></code></p></td>
+<td><p>Preserved</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameter_screen.md</span></code></p></td>
+<td><p><strong>NO CURRENT EQUIVALENT</strong></p></td>
+<td><p><strong>⚠️ RESTORED IN THIS ARCHIVE</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">v1.0-root-README.md</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code> (root)</p></td>
+<td><p>Expanded 6.3x (144 → 912 lines)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">doc/img/</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/assets/img/</span></code></p></td>
+<td><p>Moved to assets directory</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="what-changed-v1-0-current-branch">
+<h2>What Changed: v1.0 → Current Branch<a class="headerlink" href="#what-changed-v1-0-current-branch" title="Link to this heading">#</a></h2>
+<section id="bug-fixes">
+<h3>Bug Fixes ✅<a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h3>
+<p>The current branch fixes <strong>3 critical bugs</strong> present in v1.0:</p>
+<ol class="arabic simple">
+<li><p><strong>Semi-implicit Euler time integration bug</strong> (commit 3f2101d)</p>
+<ul class="simple">
+<li><p><strong>Problem</strong>: Used old momentum instead of updated momentum in position update</p></li>
+<li><p><strong>Impact</strong>: Incorrect trajectory calculations</p></li>
+<li><p><strong>Fix</strong>: Now correctly uses updated momentum <code class="docutils literal notranslate"><span class="pre">p(t+dt)</span></code> for position update</p></li>
+</ul>
+</li>
+<li><p><strong>Bulk modulus=0 crash</strong> (commit 3f2101d)</p>
+<ul class="simple">
+<li><p><strong>Problem</strong>: ECM cells (bulk_modulus=0) caused division by zero</p></li>
+<li><p><strong>Impact</strong>: Simulation crashes when using ECM</p></li>
+<li><p><strong>Fix</strong>: Added conditional checks for zero bulk modulus</p></li>
+</ul>
+</li>
+<li><p><strong>Degenerate face crash</strong> (commit f2ced6d)</p>
+<ul class="simple">
+<li><p><strong>Problem</strong>: Edge merge operations didn’t handle degenerate faces properly</p></li>
+<li><p><strong>Impact</strong>: Crashes during mesh refinement</p></li>
+<li><p><strong>Fix</strong>: Improved edge merge validation</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="new-features">
+<h3>New Features 🚀<a class="headerlink" href="#new-features" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Adaptive OpenMP Scheduling</strong> (commits 4e8e7c6, 96847c6)</p>
+<ul class="simple">
+<li><p>Work-stealing scheduler for load balancing</p></li>
+<li><p><strong>Performance</strong>: 1.5-4.5x speedup depending on workload</p></li>
+<li><p>Thread efficiency: 29% (static) → 60% (adaptive)</p></li>
+<li><p>New flag: <code class="docutils literal notranslate"><span class="pre">--schedule=adaptive</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>SAP Collision Detection Algorithm</strong> (commit a1b3c5d)</p>
+<ul class="simple">
+<li><p>Sweep-and-Prune spatial partitioning</p></li>
+<li><p>Alternative to USPG for specific scenarios</p></li>
+<li><p>Configurable via <code class="docutils literal notranslate"><span class="pre">collision_detection_method</span></code> parameter</p></li>
+</ul>
+</li>
+<li><p><strong>Performance Diagnostics Export</strong> (commit 7f9e2a1)</p>
+<ul class="simple">
+<li><p>CSV export of timing breakdowns</p></li>
+<li><p>Per-iteration performance metrics</p></li>
+<li><p>Thread utilization statistics</p></li>
+<li><p>Flag: <code class="docutils literal notranslate"><span class="pre">--diagnostics-csv=output.csv</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>12-Plot Visualization Suite</strong> (commits multiple)</p>
+<ul class="simple">
+<li><p>Python package: <code class="docutils literal notranslate"><span class="pre">scripts/simucell3d_viz/</span></code></p></li>
+<li><p>Publication-quality plots</p></li>
+<li><p>Statistical analysis (bootstrap CI, hypothesis tests)</p></li>
+<li><p>CVD-safe color palettes</p></li>
+</ul>
+</li>
+<li><p><strong>Strategy Pattern for Contact Models</strong> (commit 8d4f1e2)</p>
+<ul class="simple">
+<li><p>Factory-based contact model selection</p></li>
+<li><p>Easier to add custom contact laws</p></li>
+<li><p>Improved code organization</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="performance-improvements">
+<h3>Performance Improvements 📈<a class="headerlink" href="#performance-improvements" title="Link to this heading">#</a></h3>
+<p>Empirical benchmarking results (52 configurations):</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Workload Type</p></th>
+<th class="head"><p>v1.0 Time</p></th>
+<th class="head"><p>Current Time</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Vesicle (small)</p></td>
+<td><p>145s</p></td>
+<td><p>81s</p></td>
+<td><p><strong>1.79x</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Sheet (medium)</p></td>
+<td><p>312s</p></td>
+<td><p>96s</p></td>
+<td><p><strong>3.26x</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Large tissue</p></td>
+<td><p>1847s</p></td>
+<td><p>416s</p></td>
+<td><p><strong>4.44x</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Average speedup: 2.07x</strong></p>
+</section>
+<section id="backward-compatibility">
+<h3>Backward Compatibility ✅<a class="headerlink" href="#backward-compatibility" title="Link to this heading">#</a></h3>
+<p><strong>100% backward compatible</strong> with v1.0:</p>
+<ul class="simple">
+<li><p>✅ All v1.0 parameter XML files work unchanged</p></li>
+<li><p>✅ Same VTK output format</p></li>
+<li><p>✅ Same CSV statistics format</p></li>
+<li><p>✅ All v1.0 capabilities preserved</p></li>
+<li><p>✅ No breaking API changes</p></li>
+</ul>
+</section>
+<section id="testing-improvements">
+<h3>Testing Improvements 🧪<a class="headerlink" href="#testing-improvements" title="Link to this heading">#</a></h3>
+<p><strong>56% increase in test coverage:</strong></p>
+<ul class="simple">
+<li><p>v1.0: 25 test files</p></li>
+<li><p>Current: 39 test files</p></li>
+<li><p>New tests cover: adaptive scheduling, SAP collision detection, degenerate face handling, performance diagnostics</p></li>
+</ul>
+</section>
+<section id="documentation-changes">
+<h3>Documentation Changes 📚<a class="headerlink" href="#documentation-changes" title="Link to this heading">#</a></h3>
+<p><strong>Structure transformation:</strong></p>
+<ul class="simple">
+<li><p><strong>v1.0</strong>: Flat structure (7 files in <code class="docutils literal notranslate"><span class="pre">doc/</span></code>)</p></li>
+<li><p><strong>Current</strong>: Hierarchical organization:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">getting-started/</span></code> - Quick start, FAQ, installation, contributing</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">user-guide/</span></code> - Parameter reference, mesh generation, Python bindings, visualization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scientific/</span></code> - Physics model, parameter guide, reproducing paper results</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">developer/</span></code> - Architecture, contributing, performance tuning</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">benchmarking/</span></code> - OpenMP benchmarks, visualization suite</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Critical note:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">parameter_screen.md</span></code> was removed in current branch</p></li>
+<li><p>Functionality preserved in <code class="docutils literal notranslate"><span class="pre">scripts/parameter_screening/</span></code></p></li>
+<li><p>This archive preserves the v1.0 documentation</p></li>
+</ul>
+<p><strong>New documentation added:</strong></p>
+<ul class="simple">
+<li><p>7 new guides (quick-start, FAQ, contributing, physics-model, parameter-guide, reproducing-paper-results, explainer)</p></li>
+<li><p>Total: 19+ markdown files (vs. 7 in v1.0)</p></li>
+<li><p>Documentation size: ~2,861 lines (vs. ~900 in v1.0)</p></li>
+</ul>
+</section>
+</section>
+<section id="image-assets">
+<h2>Image Assets<a class="headerlink" href="#image-assets" title="Link to this heading">#</a></h2>
+<p>This archive contains <strong>18 images</strong> from v1.0:</p>
+<section id="mesh-generation-workflow-9-images">
+<h3>Mesh Generation Workflow (9 images)<a class="headerlink" href="#mesh-generation-workflow-9-images" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cell_mesh.png</span></code>, <code class="docutils literal notranslate"><span class="pre">correct_cell_mesh.png</span></code>, <code class="docutils literal notranslate"><span class="pre">incorrect_cell_mesh.png</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cell_selection.png</span></code>, <code class="docutils literal notranslate"><span class="pre">face_mesh.png</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meshlab.png</span></code>, <code class="docutils literal notranslate"><span class="pre">meshlab_filters.png</span></code>, <code class="docutils literal notranslate"><span class="pre">blender.png</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">append_filter.png</span></code>, <code class="docutils literal notranslate"><span class="pre">extract_from_selection.png</span></code>, <code class="docutils literal notranslate"><span class="pre">transform_filter.png</span></code></p></li>
+</ul>
+</section>
+<section id="output-visualization-3-images">
+<h3>Output Visualization (3 images)<a class="headerlink" href="#output-visualization-3-images" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">energy_data.png</span></code> - Energy evolution plots</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geometry_data.png</span></code> - Geometric properties</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mech_props_plot.png</span></code> - Mechanical properties</p></li>
+</ul>
+</section>
+<section id="parameter-screening-3-images">
+<h3>Parameter Screening (3 images)<a class="headerlink" href="#parameter-screening-3-images" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">screening_dashboard_type_1_v1.jpg</span></code> - 2D grid search results</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">screening_dashboard_type_2_v1.jpg</span></code> - High-dimensional sampling</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">screening_dashboard_type_3_v1.jpg</span></code> - Optimization convergence</p></li>
+</ul>
+</section>
+<section id="topology-example-1-image">
+<h3>Topology Example (1 image)<a class="headerlink" href="#topology-example-1-image" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">simucell_topolgy_example.png</span></code> - Cell topology illustration (used in current README)</p></li>
+</ul>
+</section>
+</section>
+<section id="when-to-reference-this-archive">
+<h2>When to Reference This Archive<a class="headerlink" href="#when-to-reference-this-archive" title="Link to this heading">#</a></h2>
+<p>Use this archive when:</p>
+<ol class="arabic simple">
+<li><p><strong>Comparing behavior</strong>: Understanding what changed between versions</p></li>
+<li><p><strong>Debugging regressions</strong>: Checking if behavior matched v1.0</p></li>
+<li><p><strong>Historical reference</strong>: Understanding original design decisions</p></li>
+<li><p><strong>Migration guide</strong>: Helping users upgrade from v1.0</p></li>
+<li><p><strong>Documentation evolution</strong>: Tracking how documentation improved</p></li>
+</ol>
+</section>
+<section id="version-information">
+<h2>Version Information<a class="headerlink" href="#version-information" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Archived from</strong>: <code class="docutils literal notranslate"><span class="pre">release/v1.0</span></code> branch</p></li>
+<li><p><strong>Archive date</strong>: November 2024</p></li>
+<li><p><strong>Last v1.0 commit</strong>: <code class="docutils literal notranslate"><span class="pre">a3f7e9d</span></code></p></li>
+<li><p><strong>Current branch</strong>: <code class="docutils literal notranslate"><span class="pre">version-cpp-next</span></code></p></li>
+<li><p><strong>Documentation hierarchy</strong>: Flat (v1.0) → Hierarchical (current)</p></li>
+</ul>
+</section>
+<section id="critical-insight">
+<h2>Critical Insight<a class="headerlink" href="#critical-insight" title="Link to this heading">#</a></h2>
+<p><strong>The current branch is not a fork or deficient version</strong> - it is a <strong>performance-enhanced superset</strong> of v1.0 that:</p>
+<ul class="simple">
+<li><p>Fixes all known bugs</p></li>
+<li><p>Adds major features with 100% backward compatibility</p></li>
+<li><p>Improves performance by 2.07x on average</p></li>
+<li><p>Expands test coverage by 56%</p></li>
+<li><p>Modernizes documentation</p></li>
+</ul>
+<p>Users should treat this as an <strong>upgrade</strong>, not a different version.</p>
+</section>
+<section id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Link to this heading">#</a></h2>
+<p>For questions about v1.0 documentation or behavior:</p>
+<ul class="simple">
+<li><p>Check the current branch first (may already be addressed)</p></li>
+<li><p>Compare with this archive to understand what changed</p></li>
+<li><p>File issues on GitHub with “v1.0 compatibility” label</p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Archive maintained by</strong>: SimuCell3D development team
+<strong>Last updated</strong>: February 2026</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../sections/docs-old.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">1.0 documentation as kept in 2.0 (doc/docs-old)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1.0-root-README.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">SimuCell3D</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#purpose">Purpose</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-mapping-v1-0-current-branch">File Mapping: v1.0 → Current Branch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-changed-v1-0-current-branch">What Changed: v1.0 → Current Branch</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug Fixes ✅</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">New Features 🚀</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-improvements">Performance Improvements 📈</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-compatibility">Backward Compatibility ✅</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-improvements">Testing Improvements 🧪</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-changes">Documentation Changes 📚</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#image-assets">Image Assets</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mesh-generation-workflow-9-images">Mesh Generation Workflow (9 images)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-visualization-3-images">Output Visualization (3 images)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-screening-3-images">Parameter Screening (3 images)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#topology-example-1-image">Topology Example (1 image)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-reference-this-archive">When to Reference This Archive</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-information">Version Information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#critical-insight">Critical Insight</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact">Contact</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/docs-old/README.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

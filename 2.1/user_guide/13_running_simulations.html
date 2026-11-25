@@ -31,34 +31,47 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=fc97db16"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/13_running_simulations';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/13_running_simulations.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/user_guide/13_running_simulations.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Output files" href="14_output_files.html" />
     <link rel="prev" title="Input meshes" href="12_input_meshes.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Running simulations - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/user_guide/13_running_simulations.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -131,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -148,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -175,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -209,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -356,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -383,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -412,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -507,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -747,8 +782,9 @@ of the run and, if you collect diagnostics across restarts, the <code class="doc
 </section>
 <section id="what-a-run-prints">
 <h2>What a run prints<a class="headerlink" href="#what-a-run-prints" title="Link to this heading">#</a></h2>
-<p>Standard output reports the set-up and then one progress line per iteration. Abridged output
-of <code class="docutils literal notranslate"><span class="pre">parameters_vesicle_quick.xml</span></code> with <code class="docutils literal notranslate"><span class="pre">--threads=4</span></code>:</p>
+<p>The program reports the set-up and then one progress line per iteration. Abridged output of
+<code class="docutils literal notranslate"><span class="pre">parameters_vesicle_quick.xml</span></code> with <code class="docutils literal notranslate"><span class="pre">--threads=4</span></code>, both streams together (the two <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>
+lines about the mesh path are on standard error, the rest on standard output):</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>WARNING: the absolute mesh file path: data/input_meshes/fig_3_vesicle.vtk was not found
 The program will try instead the relative path: &lt;source directory&gt;/data/input_meshes/fig_3_vesicle.vtk
 
@@ -811,7 +847,7 @@ output folder:</p>
 <td><p>0</p></td>
 <td><p>As above. A run can also end normally after the safeguards removed most of its cells: the exit status does not reflect removals (<a class="reference internal" href="09_safeguards.html"><span class="doc">Safeguards</span></a>).</p></td>
 </tr>
-<tr class="row-even"><td><p>An error: invalid input, a diverged domain (“the contact grid refuses a diverged domain”), mesh refinement failing for too many cells in one iteration, a non-finite coordinate when a mesh file is written, a full disk</p></td>
+<tr class="row-even"><td><p>An error: invalid input, a diverged domain (for example “The contact grid would need more than 1e10 voxels: at least one cell has diverged.” or “The mesh is too large, the simulation is probably unstable. Reducing the time step might help.”), mesh refinement failing for too many cells in one iteration, a non-finite coordinate when a mesh file is written, a full disk</p></td>
 <td><p>1</p></td>
 <td><p>The error message on standard error. Output written up to that point is kept.</p></td>
 </tr>
@@ -832,6 +868,99 @@ write an extra mesh file when it ends.</p>
 earlier run, use its last <code class="docutils literal notranslate"><span class="pre">cell_data/result_&lt;n&gt;.vtk</span></code> as the input mesh of a new run
 (<a class="reference internal" href="12_input_meshes.html#reusing-simulation-output"><span class="std std-ref">Reusing simulation output</span></a>). The new run
 starts at simulation time 0 and with new random growth rates.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Exit status 0 means that the program reached <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> (or ran out of cells). It does
+not mean that the tissue survived. In the November 2026 benchmark, the shipped
+<code class="docutils literal notranslate"><span class="pre">parameters/benchmarks/fig3e_monolayer.xml</span></code>, run to its full duration with 2.1.0, ended with
+status 0 and 18 of its 434 cells. Check every run as described in
+<a class="reference internal" href="#checking-a-run">Checking a run</a> and <a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>.</p>
+</div>
+</section>
+<section id="time-step">
+<span id="ug-running-time-step"></span><h2>Time step<a class="headerlink" href="#time-step" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">time_step</span></code> is the setting that most often decides whether a run is usable. A step that is too
+large does not stop the run: cells blow up and are removed one by one, and the run continues.
+The November 2026 benchmark measured, with 2.1.0 (<a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>):</p>
+<ul class="simple">
+<li><p>The vesicle (at five apical surface tensions), the multilayer vesicle and the tube, built
+from the shipped files, and the single-cell test cases run without removals at
+<code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s. Two cases complete in no version: the full-length
+monolayer file <code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code>, which loses most of its cells in 2.1.0, and one two-cell
+contact case, which loses a cell (<a class="reference internal" href="../benchmarks/completion.html#benchmarks-completion"><span class="std std-ref">Which cases complete</span></a>).</p></li>
+<li><p>The lab’s growth benchmark (<code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> of 1.0, contact model 1) is <strong>not</strong>
+stable at its published <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s in any version. With 2.1.0 the first cell is removed at
+about 4,800 cells and removals become massive from about 13,800 cells. The recommended step
+for this file is <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s: with 2.1.0 it was clean in three of three 48 h runs, which grew
+to 142,314-148,914 cells with no removal. This is a measurement, not a guarantee for other
+machines or longer runs.</p></li>
+</ul>
+<p>For a new parameter file, run a few thousand iterations, count the removals
+(<a class="reference internal" href="#checking-a-run">Checking a run</a>) and halve the time step until there are none. The cost of a
+run is close to proportional to <span class="math notranslate nohighlight">\(1/\Delta t\)</span> (<a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>). The stability
+limits themselves are explained in <a class="reference internal" href="04_time_integration.html#choosing-the-time-step"><span class="std std-ref">Choosing the time step</span></a>.</p>
+</section>
+<section id="checking-a-run">
+<span id="ug-running-checking"></span><h2>Checking a run<a class="headerlink" href="#checking-a-run" title="Link to this heading">#</a></h2>
+<p>Five things can happen to cells during a run. Only the first two are logged; count them in the
+standard error of every run.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Event</p></th>
+<th class="head"><p>Logged as</p></th>
+<th class="head"><p>Counted in</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../glossary.html#term-removal"><span class="xref std std-term">Removal</span></a> of a numerically unstable cell</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell</span> <span class="pre">N</span> <span class="pre">at</span> <span class="pre">iteration</span> <span class="pre">I:</span> <span class="pre">...</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code> of the <a class="reference internal" href="../glossary.html#term-diagnostics-CSV"><span class="xref std std-term">diagnostics CSV</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Removal of a cell whose mesh refinement failed</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">cell</span> <span class="pre">N</span> <span class="pre">at</span> <span class="pre">iteration</span> <span class="pre">I:</span> <span class="pre">mesh</span> <span class="pre">refinement</span> <span class="pre">failed:</span> <span class="pre">...</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unstable_cells_removed</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../glossary.html#term-refused-division"><span class="xref std std-term">Refused division</span></a>: the mother is kept and tries again</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">division</span> <span class="pre">failed</span> <span class="pre">for</span> <span class="pre">cell</span> <span class="pre">N:</span> <span class="pre">...</span> <span class="pre">division</span> <span class="pre">refused</span></code></p></td>
+<td><p>not counted</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../glossary.html#term-minimum-volume-death"><span class="xref std std-term">Minimum-volume death</span></a>: a cell below <code class="docutils literal notranslate"><span class="pre">min_vol</span></code> is deleted</p></td>
+<td><p>nothing</p></td>
+<td><p>not counted</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../glossary.html#term-cell-superposition"><span class="xref std std-term">Cell superposition</span></a>: two cells end up in nearly the same place</p></td>
+<td><p>nothing</p></td>
+<td><p>not counted</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>./simucell3d<span class="w"> </span>../parameters/core/parameters_vesicle_quick.xml<span class="w"> </span>&gt;<span class="w"> </span>run.log<span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>run.err
+<span class="gp">$ </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">"Removing"</span><span class="w"> </span>run.err<span class="w">          </span><span class="c1"># removals, both kinds</span>
+<span class="gp">$ </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">"division refused"</span><span class="w"> </span>run.err<span class="w">  </span><span class="c1"># refused divisions</span>
+</pre></div>
+</div>
+<p>A clean run has no removals. Any removal means that the run is no longer a faithful solution
+of the model at that time step, usually because the time step is too large or a parameter is
+out of range; when removals continue or rise with the number of cells, the tissue that is left
+is no longer the model’s answer, even if the run ends with status 0
+(<a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>). Some refusals are normal in growing tissues;
+in the benchmark they rose from about 21% of division attempts below 30,000 cells to about 27%
+above 125,000.</p>
+<p>Minimum-volume deaths are part of the model, but they are silent. Estimate them from the cell
+identifiers in the <a class="reference internal" href="../glossary.html#term-statistics-CSV"><span class="xref std std-term">statistics CSV</span></a>: each division gives two new identifiers, so with
+<span class="math notranslate nohighlight">\(n_0\)</span> cells in the input mesh, <span class="math notranslate nohighlight">\(N\)</span> cells now and <span class="math notranslate nohighlight">\(M\)</span> the largest <code class="docutils literal notranslate"><span class="pre">cell_id</span></code> seen so far, about
+<span class="math notranslate nohighlight">\(D = (M + 1 - n_0)/2\)</span> divisions have happened and <span class="math notranslate nohighlight">\(n_0 + D - N\)</span> cells have been removed or have
+died. Subtract the logged removals to get the deaths. In the growth benchmark, 35.7% of all
+cells ever born had died at the minimum volume by 144,000 live cells, with a similar rate in
+1.0.</p>
+<p>Cell superposition limits large aggregates: in the growth benchmark (contact model 1) the core
+of the tissue holds more cell volume than space beyond about 5,000 cells, in every version.
+Per-cell statistics of such a run are valid only for the outer cells. The vesicle and tube
+(contact model 2) showed none. See <a class="reference internal" href="../benchmarks/validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>.</p>
+<p>Two runs of the same file are not identical; differences of a few percent between
+<a class="reference internal" href="../glossary.html#term-replicate"><span class="xref std std-term">replicates</span></a> are expected (<a class="reference internal" href="18_parallel_performance.html#reproducibility"><span class="std std-ref">Reproducibility</span></a>,
+<a class="reference internal" href="../benchmarks/reproducibility.html#benchmarks-reproducibility"><span class="std std-ref">Reproducibility</span></a>).</p>
 </section>
 <section id="long-runs">
 <h2>Long runs<a class="headerlink" href="#long-runs" title="Link to this heading">#</a></h2>
@@ -853,7 +982,8 @@ nohup<span class="w"> </span>/usr/bin/time<span class="w"> </span>-v<span class=
 file is written in blocks of a few kilobytes, which on a large tissue can mean many minutes
 between updates.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span> <span class="pre">-v</span></code> adds the peak memory use and the CPU time to the end of the log.</p></li>
-<li><p>The script deletes and re-creates <code class="docutils literal notranslate"><span class="pre">$OUT</span></code> and its log folder before starting. Set
+<li><p>The script first kills a run of the same launcher that is still writing to <code class="docutils literal notranslate"><span class="pre">$OUT</span></code>, then
+deletes and re-creates <code class="docutils literal notranslate"><span class="pre">$OUT</span></code> and its log folder. Set
 <code class="docutils literal notranslate"><span class="pre">THREADS=N</span></code> in the environment to pass <code class="docutils literal notranslate"><span class="pre">--threads=N</span></code>.</p></li>
 </ul>
 <p>Monitor such a run with <code class="docutils literal notranslate"><span class="pre">tail</span> <span class="pre">-f</span></code> on the log, and with the diagnostics CSV, which gains one row
@@ -950,10 +1080,19 @@ image. Thread count and pinning follow the CPUs that Docker gives the container
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-directory-and-paths">Working directory and paths</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-run-prints">What a run prints</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-a-run-ends">How a run ends</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-step">Time step</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-a-run">Checking a run</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#long-runs">Long runs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-in-docker">Running in Docker</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/user_guide/13_running_simulations.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -989,16 +1128,28 @@ image. Thread count and pinning follow the CPUs that Docker gives the container
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

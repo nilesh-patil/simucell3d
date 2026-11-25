@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/11_parameter_file';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/11_parameter_file.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/user_guide/11_parameter_file.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Input meshes" href="12_input_meshes.html" />
     <link rel="prev" title="Compile-time configuration" href="10_compile_time_configuration.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Parameter file reference - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/user_guide/11_parameter_file.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_polarization.html">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -666,12 +699,13 @@ those comments is wrong:</p>
 </section>
 </section>
 <section id="numerical-parameters">
-<h2>Numerical parameters<a class="headerlink" href="#numerical-parameters" title="Link to this heading">#</a></h2>
+<span id="ug-parameter-file-numerical"></span><h2>Numerical parameters<a class="headerlink" href="#numerical-parameters" title="Link to this heading">#</a></h2>
 <p>Section <code class="docutils literal notranslate"><span class="pre">&lt;numerical_parameters&gt;</span></code>. These apply to the whole simulation.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>XML tag</p></th>
-<th class="head"><p>Value</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
 <th class="head"><p>Valid values</p></th>
 <th class="head"><p>Meaning</p></th>
 </tr>
@@ -679,61 +713,73 @@ those comments is wrong:</p>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code></p></td>
 <td><p>path</p></td>
+<td><p></p></td>
 <td><p>an existing legacy VTK file</p></td>
 <td><p>Input mesh with the initial cells. See <a class="reference internal" href="#paths">Paths</a> and <a class="reference internal" href="12_input_meshes.html"><span class="doc">Input meshes</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">output_mesh_folder_path</span></code></p></td>
 <td><p>path</p></td>
+<td><p></p></td>
 <td><p>a folder that may be deleted</p></td>
 <td><p>Folder for all output. <strong>Deleted and re-created at start.</strong> Overridden by <code class="docutils literal notranslate"><span class="pre">--output-dir</span></code>. See <a class="reference internal" href="#paths">Paths</a> and <a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">perform_initial_triangulation</span></code></p></td>
 <td><p>switch</p></td>
+<td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> or any other integer</p></td>
 <td><p>If on, every cell surface is re-triangulated before the first iteration, with edge lengths between <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code> and 3 x <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>. If off, the input mesh must already consist of triangles. See <a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_edge_swap_operation</span></code></p></td>
 <td><p>switch</p></td>
+<td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> or any other integer</p></td>
 <td><p>If on, the local mesh refiner also swaps the longest edge of badly shaped triangles.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">damping_coefficient</span></code></p></td>
-<td><p>real, kg/s</p></td>
+<td><p>real</p></td>
+<td><p>kg/s</p></td>
 <td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
 <td><p>Damping coefficient <span class="math notranslate nohighlight">\(\zeta\)</span> of the equations of motion. See <a class="reference internal" href="04_time_integration.html"><span class="doc">Time integration</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code></p></td>
-<td><p>real, s</p></td>
+<td><p>real</p></td>
+<td><p>s</p></td>
 <td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
 <td><p>Simulated time. The run stops when the simulation time reaches this value, or earlier if no cell is left.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">time_step</span></code></p></td>
-<td><p>real, s</p></td>
+<td><p>real</p></td>
+<td><p>s</p></td>
 <td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
 <td><p>Time step <span class="math notranslate nohighlight">\(\Delta t\)</span> of the integrator. The number of iterations is <code class="docutils literal notranslate"><span class="pre">simulation_duration</span> <span class="pre">/</span> <span class="pre">time_step</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sampling_period</span></code></p></td>
-<td><p>real, s</p></td>
+<td><p>real</p></td>
+<td><p>s</p></td>
 <td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span> and <span class="math notranslate nohighlight">\(\ge\)</span> <code class="docutils literal notranslate"><span class="pre">time_step</span></code></p></td>
 <td><p>Simulated time between two output mesh files.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code></p></td>
-<td><p>real, m</p></td>
+<td><p>real</p></td>
+<td><p>m</p></td>
 <td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
 <td><p>Minimum edge length of the cell meshes. The maximum edge length is not a parameter: it is 3 x <code class="docutils literal notranslate"><span class="pre">min_edge_length</span></code>. See <a class="reference internal" href="05_mesh_refinement.html"><span class="doc">Mesh refinement</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion</span></code></p></td>
-<td><p>real, m</p></td>
+<td><p>real</p></td>
+<td><p>m</p></td>
 <td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
 <td><p>Distance between two cell surfaces above which there is no adhesion. See <a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">contact_cutoff_repulsion</span></code></p></td>
-<td><p>real, m</p></td>
+<td><p>real</p></td>
+<td><p>m</p></td>
 <td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
 <td><p>Distance between two cell surfaces above which there is no repulsion.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contact_detection_algorithm</span></code></p></td>
 <td><p>word</p></td>
+<td><p></p></td>
 <td><p>Optional, default <code class="docutils literal notranslate"><span class="pre">uspg</span></code>; <code class="docutils literal notranslate"><span class="pre">uspg</span></code>, <code class="docutils literal notranslate"><span class="pre">sweep_and_prune</span></code>, <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> (case-insensitive)</p></td>
 <td><p>Broad-phase contact detection. Used only with contact model 2 (face-face coupling, the default build); contact models 0 and 1 always use the uniform spatial partitioning grid (USPG). <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> uses the grid below 500 cells and Sweep-and-Prune from 500 cells on. See <a class="reference internal" href="18_parallel_performance.html"><span class="doc">Parallel performance</span></a>.</p></td>
 </tr>
@@ -823,110 +869,110 @@ spatial grid.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>File</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\Delta t\)</span> (s)</p></th>
-<th class="head"><p>Duration (s)</p></th>
-<th class="head"><p>Sampling period (s)</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(l_{\min}\)</span> (m)</p></th>
-<th class="head"><p>Cutoffs (m)</p></th>
-<th class="head"><p><span class="math notranslate nohighlight">\(\zeta\)</span> (kg/s)</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\Delta t\)</span> (s)</p></th>
+<th class="head text-right"><p>Duration (s)</p></th>
+<th class="head text-right"><p>Sampling period (s)</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(l_{\min}\)</span> (m)</p></th>
+<th class="head text-right"><p>Cutoffs (m)</p></th>
+<th class="head text-right"><p><span class="math notranslate nohighlight">\(\zeta\)</span> (kg/s)</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle_quick.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>2e-5</p></td>
-<td><p>5e-6</p></td>
-<td><p>4e-7</p></td>
-<td><p>2e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>2e-5</p></td>
+<td class="text-right"><p>5e-6</p></td>
+<td class="text-right"><p>4e-7</p></td>
+<td class="text-right"><p>2e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>1e-2</p></td>
-<td><p>1e-6</p></td>
-<td><p>4e-7</p></td>
-<td><p>2e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>1e-2</p></td>
+<td class="text-right"><p>1e-6</p></td>
+<td class="text-right"><p>4e-7</p></td>
+<td class="text-right"><p>2e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_vesicle_realistic_biology.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>0.5</p></td>
-<td><p>0.01</p></td>
-<td><p>4e-7</p></td>
-<td><p>2e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>0.5</p></td>
+<td class="text-right"><p>0.01</p></td>
+<td class="text-right"><p>4e-7</p></td>
+<td class="text-right"><p>2e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_sheet.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>1e-2</p></td>
-<td><p>1e-6</p></td>
-<td><p>4e-7</p></td>
-<td><p>2.5e-7</p></td>
-<td><p>2e-9</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>1e-2</p></td>
+<td class="text-right"><p>1e-6</p></td>
+<td class="text-right"><p>4e-7</p></td>
+<td class="text-right"><p>2.5e-7</p></td>
+<td class="text-right"><p>2e-9</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_tube.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>1e-2</p></td>
-<td><p>1e-6</p></td>
-<td><p>4e-7</p></td>
-<td><p>2.5e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>1e-2</p></td>
+<td class="text-right"><p>1e-6</p></td>
+<td class="text-right"><p>4e-7</p></td>
+<td class="text-right"><p>2.5e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_default_dynamic.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>1e-2</p></td>
-<td><p>1e-6</p></td>
-<td><p>7.5e-7</p></td>
-<td><p>5e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>1e-2</p></td>
+<td class="text-right"><p>1e-6</p></td>
+<td class="text-right"><p>7.5e-7</p></td>
+<td class="text-right"><p>5e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_default_overdamped.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>1e-2</p></td>
-<td><p>5e-6</p></td>
-<td><p>7.5e-7</p></td>
-<td><p>5e-7</p></td>
-<td><p>3e-9</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>1e-2</p></td>
+<td class="text-right"><p>5e-6</p></td>
+<td class="text-right"><p>7.5e-7</p></td>
+<td class="text-right"><p>5e-7</p></td>
+<td class="text-right"><p>3e-9</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fig3e_monolayer.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>1e-2</p></td>
-<td><p>1e-4</p></td>
-<td><p>4e-7</p></td>
-<td><p>2e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>1e-2</p></td>
+<td class="text-right"><p>1e-4</p></td>
+<td class="text-right"><p>4e-7</p></td>
+<td class="text-right"><p>2e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fig3e_multilayer.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>1e-2</p></td>
-<td><p>1e-4</p></td>
-<td><p>4e-7</p></td>
-<td><p>2e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>1e-2</p></td>
+<td class="text-right"><p>1e-4</p></td>
+<td class="text-right"><p>4e-7</p></td>
+<td class="text-right"><p>2e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>2e-3</p></td>
-<td><p>1e-4</p></td>
-<td><p>1e-6</p></td>
-<td><p>2e-7</p></td>
-<td><p>2.5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>2e-3</p></td>
+<td class="text-right"><p>1e-4</p></td>
+<td class="text-right"><p>1e-6</p></td>
+<td class="text-right"><p>2e-7</p></td>
+<td class="text-right"><p>2.5e-10</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>5e-2</p></td>
-<td><p>1e-4</p></td>
-<td><p>7.5e-7</p></td>
-<td><p>5e-7</p></td>
-<td><p>5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>5e-2</p></td>
+<td class="text-right"><p>1e-4</p></td>
+<td class="text-right"><p>7.5e-7</p></td>
+<td class="text-right"><p>5e-7</p></td>
+<td class="text-right"><p>5e-10</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parameters_paper_exact_fast_growth.xml</span></code></p></td>
-<td><p>1e-7</p></td>
-<td><p>100.0</p></td>
-<td><p>1.0</p></td>
-<td><p>1e-6</p></td>
-<td><p>5e-7</p></td>
-<td><p>2.5e-10</p></td>
+<td class="text-right"><p>1e-7</p></td>
+<td class="text-right"><p>100.0</p></td>
+<td class="text-right"><p>1.0</p></td>
+<td class="text-right"><p>1e-6</p></td>
+<td class="text-right"><p>5e-7</p></td>
+<td class="text-right"><p>2.5e-10</p></td>
 </tr>
 </tbody>
 </table>
@@ -938,13 +984,14 @@ the meshes are in <code class="docutils literal notranslate"><span class="pre">d
 </section>
 </section>
 <section id="cell-types">
-<h2>Cell types<a class="headerlink" href="#cell-types" title="Link to this heading">#</a></h2>
+<span id="ug-parameter-file-cell-types"></span><h2>Cell types<a class="headerlink" href="#cell-types" title="Link to this heading">#</a></h2>
 <p>Section <code class="docutils literal notranslate"><span class="pre">&lt;cell_types&gt;</span></code>, one <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code> block per cell type. At least one cell type must be
 defined, and each must have at least one face type.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>XML tag</p></th>
-<th class="head"><p>Value</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
 <th class="head"><p>Valid values</p></th>
 <th class="head"><p>Meaning</p></th>
 </tr>
@@ -952,71 +999,85 @@ defined, and each must have at least one face type.</p>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_type_name</span></code></p></td>
 <td><p>text</p></td>
+<td><p></p></td>
 <td><p>any</p></td>
 <td><p>Name used in log and error messages.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code></p></td>
 <td><p>integer</p></td>
+<td><p></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">4</span></code></p></td>
 <td><p>Selects the <a class="reference internal" href="../glossary.html#term-cell-class"><span class="xref std std-term">cell class</span></a>: 0 epithelial, 1 extracellular matrix (ECM), 2 lumen, 3 nucleus, 4 static. Written to the output as <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> (cell meshes) and <code class="docutils literal notranslate"><span class="pre">type_id</span></code> (statistics CSV). See <a class="reference internal" href="08_cell_classes.html"><span class="doc">Cell classes</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cell_mass_density</span></code></p></td>
-<td><p>real, kg/m³</p></td>
+<td><p>real</p></td>
+<td><p>kg/m³</p></td>
 <td><p>not checked</p></td>
 <td><p>Mass density <span class="math notranslate nohighlight">\(\rho\)</span>; node masses follow from it and the cell volume. Enters the full equations of motion (dynamic model 0) and, in both dynamic models, the kinetic energy written to the output.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_bulk_modulus</span></code></p></td>
-<td><p>real, Pa</p></td>
+<td><p>real</p></td>
+<td><p>Pa</p></td>
 <td><p>not checked</p></td>
 <td><p>Bulk modulus <span class="math notranslate nohighlight">\(K\)</span> in the pressure <span class="math notranslate nohighlight">\(p = -K \ln(V/V_0)\)</span>. With 0 the cell has no pressure. See <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_inner_pressure</span></code></p></td>
-<td><p>real or <code class="docutils literal notranslate"><span class="pre">inf</span></code>, Pa</p></td>
+<td><p>real or <code class="docutils literal notranslate"><span class="pre">inf</span></code></p></td>
+<td><p>Pa</p></td>
 <td><p>not checked</p></td>
 <td><p>Upper bound on the pressure <span class="math notranslate nohighlight">\(p\)</span>. <code class="docutils literal notranslate"><span class="pre">inf</span></code> means no bound.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus</span></code></p></td>
-<td><p>real, J</p></td>
+<td><p>real</p></td>
+<td><p>J</p></td>
 <td><p>not checked</p></td>
 <td><p>Area elasticity modulus <span class="math notranslate nohighlight">\(k_a\)</span>. See the unit note above.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio</span></code></p></td>
-<td><p>real, dimensionless</p></td>
+<td><p>real</p></td>
+<td><p>1</p></td>
 <td><p><span class="math notranslate nohighlight">\(&gt; 0\)</span></p></td>
 <td><p>Target isoperimetric ratio <span class="math notranslate nohighlight">\(A^3/V^2\)</span>; with the cell volume it sets the target area <span class="math notranslate nohighlight">\(A_0\)</span>. A sphere has <span class="math notranslate nohighlight">\(36\pi \approx 113\)</span>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">angle_regularization_factor</span></code></p></td>
-<td><p>real, J</p></td>
+<td><p>real</p></td>
+<td><p>J</p></td>
 <td><p>not checked</p></td>
 <td><p>Strength of a force that drives the angles of each triangle towards 60 degrees. 0 disables it; all shipped files use 0.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code></p></td>
-<td><p>real, m³/s</p></td>
+<td><p>real</p></td>
+<td><p>m³/s</p></td>
 <td><p>not checked</p></td>
-<td><p>Mean of the normal distribution from which each cell draws its growth rate. The target volume grows by <code class="docutils literal notranslate"><span class="pre">growth_rate</span> <span class="pre">x</span> <span class="pre">time_step</span></code> every iteration. See <a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and removal</span></a>.</p></td>
+<td><p>Mean of the normal distribution from which each cell draws its growth rate. The target volume grows by <code class="docutils literal notranslate"><span class="pre">growth_rate</span> <span class="pre">x</span> <span class="pre">time_step</span></code> every iteration. See <a class="reference internal" href="06_growth_division_removal.html"><span class="doc">Growth, division and cell death</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code></p></td>
-<td><p>real, m³/s</p></td>
+<td><p>real</p></td>
+<td><p>m³/s</p></td>
 <td><p>not checked</p></td>
 <td><p>Standard deviation of that distribution. Drawn values are limited to the mean <span class="math notranslate nohighlight">\(\pm\)</span> 3 standard deviations; 0 gives every cell the mean.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code></p></td>
-<td><p>real or <code class="docutils literal notranslate"><span class="pre">inf</span></code>, m³</p></td>
+<td><p>real or <code class="docutils literal notranslate"><span class="pre">inf</span></code></p></td>
+<td><p>m³</p></td>
 <td><p>not checked</p></td>
 <td><p>Mean of the normal distribution from which each cell draws the volume at which it divides. <code class="docutils literal notranslate"><span class="pre">inf</span></code> disables division.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">std_division_volume</span></code></p></td>
-<td><p>real, m³</p></td>
+<td><p>real</p></td>
+<td><p>m³</p></td>
 <td><p>not checked</p></td>
 <td><p>Standard deviation of that distribution, limited as for the growth rate. Ignored when <code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code> is <code class="docutils literal notranslate"><span class="pre">inf</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">min_vol</span></code></p></td>
-<td><p>real, m³</p></td>
+<td><p>real</p></td>
+<td><p>m³</p></td>
 <td><p>not checked</p></td>
 <td><p>A cell whose volume falls below this value is removed. The target volume is never set below it.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">surface_coupling_max_curvature</span></code></p></td>
-<td><p>real, 1/m</p></td>
+<td><p>real</p></td>
+<td><p>1/m</p></td>
 <td><p>not checked (see note)</p></td>
 <td><p>A node whose absolute mean curvature exceeds this value is not coupled to another cell. Used by contact models 1 and 2. See <a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>.</p></td>
 </tr>
@@ -1039,8 +1100,10 @@ into the list of <code class="docutils literal notranslate"><span class="pre">&l
 file</strong>: <code class="docutils literal notranslate"><span class="pre">cell_type_id</span> <span class="pre">0</span></code> is the first block, <code class="docutils literal notranslate"><span class="pre">1</span></code> the second, and so on. The <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>
 of that block then selects the cell class. A <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> equal to or larger than the number
 of cell types stops the run with “The cell type id of cell N (X) is not valid”.</p>
-<p>All shipped parameter files define their cell types in the order of their <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>
-(epithelial 0, ECM 1, lumen 2, nucleus 3, static 4), so in these files the input-mesh
+<p>All shipped parameter files define their cell types in the order of their <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code>:
+either all five (epithelial 0, ECM 1, lumen 2, nucleus 3, static 4) or, in
+<code class="docutils literal notranslate"><span class="pre">longrun_fast_growth.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">parameters_paper_exact_fast_growth.xml</span></code>, the epithelial type
+alone. In these files the input-mesh
 <code class="docutils literal notranslate"><span class="pre">cell_type_id</span></code> and the <code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> coincide. If you reorder the blocks, or define
 several cell types of the same class, they no longer coincide.</p>
 <p><code class="docutils literal notranslate"><span class="pre">global_cell_id</span></code> itself is checked only when a cell of that type is created: a value outside
@@ -1050,12 +1113,13 @@ input mesh uses is never checked.</p>
 </section>
 </section>
 <section id="face-types">
-<h2>Face types<a class="headerlink" href="#face-types" title="Link to this heading">#</a></h2>
+<span id="ug-parameter-file-face-types"></span><h2>Face types<a class="headerlink" href="#face-types" title="Link to this heading">#</a></h2>
 <p>Inside each <code class="docutils literal notranslate"><span class="pre">&lt;cell_type&gt;</span></code>, the <code class="docutils literal notranslate"><span class="pre">&lt;face_types&gt;</span></code> block holds one or more <code class="docutils literal notranslate"><span class="pre">&lt;face_type&gt;</span></code> entries.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>XML tag</p></th>
-<th class="head"><p>Value</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
 <th class="head"><p>Valid values</p></th>
 <th class="head"><p>Meaning</p></th>
 </tr>
@@ -1063,31 +1127,37 @@ input mesh uses is never checked.</p>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">face_type_name</span></code></p></td>
 <td><p>text</p></td>
+<td><p></p></td>
 <td><p>any</p></td>
 <td><p>Name used in error messages.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">global_face_id</span></code></p></td>
 <td><p>integer</p></td>
+<td><p></p></td>
 <td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
 <td><p>Identifier written to the face meshes as <code class="docutils literal notranslate"><span class="pre">face_type_id</span></code>. It is not used by the model; give each face type in the file a distinct value so that the output can be told apart.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">surface_tension</span></code></p></td>
-<td><p>real, N/m</p></td>
+<td><p>real</p></td>
+<td><p>N/m</p></td>
 <td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
 <td><p>Surface tension <span class="math notranslate nohighlight">\(\gamma\)</span> of faces of this type. See <a class="reference internal" href="02_cell_mechanics.html"><span class="doc">Cell mechanics</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bending_modulus</span></code></p></td>
-<td><p>real, J</p></td>
+<td><p>real</p></td>
+<td><p>J</p></td>
 <td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
 <td><p>Bending modulus <span class="math notranslate nohighlight">\(k_b\)</span>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code></p></td>
-<td><p>real, N/m³</p></td>
+<td><p>real</p></td>
+<td><p>N/m³</p></td>
 <td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
 <td><p>Adhesion strength <span class="math notranslate nohighlight">\(\omega\)</span> between this face and the surface of another cell. See <a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">repulsion_strength</span></code></p></td>
-<td><p>real, N/m³</p></td>
+<td><p>real</p></td>
+<td><p>N/m³</p></td>
 <td><p><span class="math notranslate nohighlight">\(\ge 0\)</span></p></td>
 <td><p>Repulsion strength <span class="math notranslate nohighlight">\(\xi\)</span>.</p></td>
 </tr>
@@ -1106,9 +1176,9 @@ apical, lateral, basal, as in every shipped file. See <a class="reference intern
 <p>Paths in the parameter file and on the command line are resolved as follows.</p>
 <dl class="simple myst">
 <dt>The parameter file</dt><dd><p>The path on the command line is opened as given: an absolute path, or a path relative to
-the current working directory. The error message “The path to the parameter file must be an
-absolute path” is printed for any file that cannot be opened or is not well-formed XML;
-relative paths work.</p>
+the current working directory. It is not tried relative to the source directory. A file that
+does not exist, cannot be read or is not well-formed XML stops the program with one of the
+messages in <a class="reference internal" href="#error-messages">Error messages</a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">input_mesh_file_path</span></code></dt><dd><p>First opened as given (absolute, or relative to the working directory). If that fails, it
 is opened relative to the source directory of the SimuCell3D checkout that the executable
@@ -1132,9 +1202,9 @@ and copy the results of a run elsewhere before running the same parameter file a
 </div>
 </section>
 <section id="error-messages">
-<h2>Error messages<a class="headerlink" href="#error-messages" title="Link to this heading">#</a></h2>
+<span id="ug-parameter-file-errors"></span><h2>Error messages<a class="headerlink" href="#error-messages" title="Link to this heading">#</a></h2>
 <p>The parameter file is read before any output is written. A problem stops the program with
-exit status 1 and one line on the standard error stream. The most common messages are:</p>
+exit status 1 and a message on the standard error stream. The most common messages are:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Message</p></th>
@@ -1155,7 +1225,7 @@ exit status 1 and one line on the standard error stream. The most common message
 <td><p>Missing or misspelled section (<code class="docutils literal notranslate"><span class="pre">cell_types</span></code> likewise).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">xml</span> <span class="pre">markup</span> <span class="pre">&quot;&lt;tag&gt;&quot;</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">parameter</span> <span class="pre">file.</span></code></p></td>
-<td><p>A required numerical parameter is missing or misspelled. The cell-type and face-type messages add the name of the cell type or face type.</p></td>
+<td><p>A required numerical parameter is missing or misspelled. The cell-type and face-type messages add the name of the cell type or face type. A missing <code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code> is reported under the name <code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stod</span></code> or <code class="docutils literal notranslate"><span class="pre">stoi</span></code></p></td>
 <td><p>A value is not a number.</p></td>
@@ -1180,7 +1250,7 @@ exit status 1 and one line on the standard error stream. The most common message
 </div>
 </section>
 <section id="shipped-parameter-files">
-<h2>Shipped parameter files<a class="headerlink" href="#shipped-parameter-files" title="Link to this heading">#</a></h2>
+<span id="ug-parameter-file-shipped"></span><h2>Shipped parameter files<a class="headerlink" href="#shipped-parameter-files" title="Link to this heading">#</a></h2>
 <p>All files are in <code class="docutils literal notranslate"><span class="pre">parameters/</span></code>. Each file’s header comment states the compile-time
 configuration it assumes; running it with a different build gives a different model.</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -1254,6 +1324,22 @@ configuration it assumes; running it with a different build gives a different mo
 </tr>
 </tbody>
 </table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The lab’s own growth benchmark, <code class="docutils literal notranslate"><span class="pre">parameters_benchmarck.xml</span></code> of release 1.0, is not shipped with
+2.x; it is the file of the November 2026 benchmark (<a class="reference internal" href="../benchmarks/method.html#benchmarks-method"><span class="std std-ref">Method</span></a>). To run it,
+extract it from the <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> tag and build with the switches in its header comment
+(<code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">WRITE_NORMALS_IN_OUTPUT_MESH_FILE</span> <span class="pre">false</span></code>):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>show<span class="w"> </span>v1.0:parameters_benchmarck.xml<span class="w"> </span>&gt;<span class="w"> </span>parameters/parameters_benchmarck.xml
+</pre></div>
+</div>
+<p>Its <code class="docutils literal notranslate"><span class="pre">time_step</span></code> of <code class="docutils literal notranslate"><span class="pre">1e-7</span></code> s is not stable with this file in any version. The recommended step
+is <code class="docutils literal notranslate"><span class="pre">2.5e-8</span></code> s, which was clean in three of three 48 h runs of 2.1.0
+(<a class="reference internal" href="../benchmarks/time_step.html#benchmarks-time-step"><span class="std std-ref">Stable time step</span></a>). Its <code class="docutils literal notranslate"><span class="pre">simulation_duration</span></code> of 1 s is far
+longer than any measured run, so stop the run at the cell count you need. Contact model 1 can
+lose contact forces with more than one thread
+(<a class="reference internal" href="10_compile_time_configuration.html#threads-and-contact-models-0-and-1"><span class="std std-ref">Compile-time configuration</span></a>).</p>
 </div>
 <p>The safest way to write a new parameter file is to copy the shipped file closest to the
 intended simulation, check its header comment against your build, and change one value at a
@@ -1335,6 +1421,13 @@ time.</p>
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/user_guide/11_parameter_file.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -1369,16 +1462,28 @@ time.</p>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

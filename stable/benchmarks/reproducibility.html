@@ -1,0 +1,888 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reproducibility &#8212; SimuCell3D 2.1.0</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'benchmarks/reproducibility';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/benchmarks/reproducibility.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API reference" href="../api/index.html" />
+    <link rel="prev" title="Limits of the model" href="validity.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Reproducibility - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/benchmarks/reproducibility.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Get started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Releases
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../faq.html">
+    FAQ
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../citing.html">
+    Citing
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../about.html">
+    About
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../install.html">
+    Install
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting_started.html">
+    Get started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../developers/index.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../whats_new/index.html">
+    Releases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../glossary.html">
+    Glossary
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../faq.html">
+    FAQ
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../citing.html">
+    Citing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="method.html">Method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="completion.html">Which cases complete</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Wall time, scaling and memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time_step.html">Stable time step</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validity.html">Limits of the model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Reproducibility</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Benchmarks</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Reproducibility</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reproducibility">
+<span id="benchmarks-reproducibility"></span><h1>Reproducibility<a class="headerlink" href="#reproducibility" title="Link to this heading">#</a></h1>
+<p>Scalar readouts of repeated runs agree to about a percent; topological readouts are noisier. No
+multi-cell run is bit-identical to its repeat, in 1.0 or in 2.1.0. All values below come from the
+November 2026 benchmark, three runs per build where stated (<a class="reference internal" href="method.html#benchmarks-method"><span class="std std-ref">Method</span></a>).</p>
+<section id="replicate-spread">
+<h2>Replicate spread<a class="headerlink" href="#replicate-spread" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Readout</p></th>
+<th class="head"><p>Spread between repeats of one build</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Growth benchmark, wall time to 60,000 cells</p></td>
+<td><p>0 to 2.1% (coefficient of variation, per build)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Growth benchmark, final cell count after 48 h, 2.1.0</p></td>
+<td><p>about 2% (144,919, 148,914 and 142,314 cells)</p></td>
+</tr>
+<tr class="row-even"><td><p>Vesicle, mean cell pressure</p></td>
+<td><p>0.1 to 1.0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vesicle, median sphericity, 2.1.0</p></td>
+<td><p>under 0.1%</p></td>
+</tr>
+<tr class="row-even"><td><p>Vesicle, share of cells touching neither lumen nor shell</p></td>
+<td><p>3 to 25%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Whether this noise matters depends on the size of the effect being measured. On the vesicle
+sweep, sphericity and contact-area fraction separate neighbouring values of ε by many replicate
+standard deviations; aspect ratios, layer number and neighbour count respond to ε across the
+sweep but cannot reliably tell neighbouring values apart from one run per value.</p>
+<figure class="only-light chart-figure align-default" id="id1">
+<a class="only-light reference internal image-reference" href="../_images/vesicle_sensitivity-light.svg"><img alt="Dot plot of nine vesicle readouts. The smallest change between neighbouring epsilon values, in replicate standard deviations, is 26 for sphericity, 13 for contact-area fraction, 2.2 for volume over target volume and for mean pressure, and below 2 for the share of cells off both surfaces, the two aspect ratios, layer number and neighbour count." class="only-light" src="../_images/vesicle_sensitivity-light.svg" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Parameter response against replicate noise, vesicle sweep, 2.1.0, five values of ε with three
+runs each. For each readout, the smallest change between neighbouring ε values divided by the
+pooled replicate standard deviation; the right column is the whole range over the same standard
+deviation. Above 2 (dashed), one run per value usually orders two neighbouring values correctly.
+Sphericity and contact-area fraction clear it by far; the shape and topology readouts do not.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="only-dark chart-figure align-default" id="id2">
+<a class="only-dark reference internal image-reference" href="../_images/vesicle_sensitivity-dark.svg"><img alt="Dot plot of nine vesicle readouts. The smallest change between neighbouring epsilon values, in replicate standard deviations, is 26 for sphericity, 13 for contact-area fraction, 2.2 for volume over target volume and for mean pressure, and below 2 for the share of cells off both surfaces, the two aspect ratios, layer number and neighbour count." class="only-dark" src="../_images/vesicle_sensitivity-dark.svg" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Parameter response against replicate noise, vesicle sweep, 2.1.0, five values of ε with three
+runs each. For each readout, the smallest change between neighbouring ε values divided by the
+pooled replicate standard deviation; the right column is the whole range over the same standard
+deviation. Above 2 (dashed), one run per value usually orders two neighbouring values correctly.
+Sphericity and contact-area fraction clear it by far; the shape and topology readouts do not.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="two-sources-of-non-determinism">
+<h2>Two sources of non-determinism<a class="headerlink" href="#two-sources-of-non-determinism" title="Link to this heading">#</a></h2>
+<p><strong>A random generator seeded from the wall clock.</strong> <code class="docutils literal notranslate"><span class="pre">std::minstd_rand</span></code> is seeded from
+<code class="docutils literal notranslate"><span class="pre">std::chrono::system_clock</span></code> in <code class="docutils literal notranslate"><span class="pre">src/mesh/cell.cpp</span></code> (lines 178 and 192 at 2.1.0) and in
+<code class="docutils literal notranslate"><span class="pre">src/triangulation_modules/poisson_sampling.cpp</span></code> (lines 133 and 205), in 1.0 as in 2.1.0. The
+sampling places the points of the initial triangulation and of every new division interface
+(called from <code class="docutils literal notranslate"><span class="pre">src/triangulation_modules/cell_divider.cpp</span></code>, line 642). Repeats of the growth
+benchmark therefore differ from iteration 0, while there is still one cell. The benchmark files
+ask for no random growth rates or division volumes; the randomness is in the meshing.</p>
+<p><strong>Threading.</strong> Runs differ even where nothing random is drawn. The vesicle starts from a given
+mesh and has no division, yet its repeats differ in mean pressure from the second sampled
+iteration (iteration 50). The likely cause is the order in which contact forces from several
+threads are summed, which changes the floating-point result; the mechanism has not been isolated.
+Force accumulation in contact models 0 and 1 is in addition not thread-safe
+(<a class="reference internal" href="validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>).</p>
+<p><strong>What is identical.</strong> The single-cell analytic cases, which ran once per build, write
+byte-identical statistics across 2.0, the four intermediate builds and 2.1.0. No multi-cell case is
+byte-identical between
+repeats.</p>
+<p>To compare two configurations, run replicates and compare the difference with the replicate
+spread. There is no option in 2.1.0 to fix the seed.</p>
+</section>
+<section id="agreement-between-1-0-and-2-x">
+<h2>Agreement between 1.0 and 2.x<a class="headerlink" href="#agreement-between-1-0-and-2-x" title="Link to this heading">#</a></h2>
+<p>The same model, run by 1.0 (or 1.0 with two crash fixes, where 1.0 stops) and by the 2.x builds:</p>
+<p>Growth benchmark at 10,000 cells, three runs per build:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Readout</p></th>
+<th class="head"><p>1.0 with two crash fixes</p></th>
+<th class="head"><p>2.1.0</p></th>
+<th class="head"><p>Change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Simulated time to reach it, cell cycles</p></td>
+<td><p>25.33</p></td>
+<td><p>25.48</p></td>
+<td><p>+0.6%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mean pressure, Pa</p></td>
+<td><p>2,362</p></td>
+<td><p>2,374</p></td>
+<td><p>+0.5%</p></td>
+</tr>
+<tr class="row-even"><td><p>Volume / target volume</p></td>
+<td><p>0.568</p></td>
+<td><p>0.545</p></td>
+<td><p>−4.0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sphericity</p></td>
+<td><p>0.918</p></td>
+<td><p>0.913</p></td>
+<td><p>−0.5%</p></td>
+</tr>
+<tr class="row-even"><td><p>Deaths per birth</p></td>
+<td><p>0.247</p></td>
+<td><p>0.236</p></td>
+<td><p>−4.6%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The four intermediate builds sit with 2.1.0, so the offset lies between 1.0 and the later builds,
+not in 2.1.0 specifically. 2.0 never reaches 10,000 cells. At this size 2 to 8% of the cells are
+already superposed in both versions (<a class="reference internal" href="validity.html#benchmarks-validity"><span class="std std-ref">Limits of the model</span></a>), so the table compares versions
+like for like; it is not a measurement of a packed tissue.</p>
+<p>Vesicle and other tissues:</p>
+<ul class="simple">
+<li><p>At ε = 1.5 and 2.0, 1.0 with two crash fixes and 2.1.0 agree to within 0.5% in pressure and 0.1%
+in sphericity. That is still more than the replicate spread for some readouts: median
+sphericity at ε = 2.0 differs by about three standard deviations.</p></li>
+<li><p>The multilayer vesicle and the tube, which ran once per build, agree at the end to within the
+spread between builds. On the way the multilayer differs: 393 Pa in 1.0 at iteration 1,000
+against 488 to 497 Pa in 2.x.</p></li>
+<li><p><strong>Two cases differ at the end.</strong> At ε = 3.0 the mean pressure is 444 to 446 Pa in 1.0 with two
+crash fixes (449 Pa in 1.0 when it stopped at iteration 48,097) and 348 to 355 Pa in every 2.x
+build, a gap of 93 Pa, about 30 times the replicate noise of 2.1.0. In the
+monolayer vesicle it is 20 Pa in 1.0 and in 1.0 with two crash fixes, against 25 to 27 Pa in 2.x.</p></li>
+</ul>
+<p><strong>A possible cause (inference, not tested).</strong> In 1.0, <code class="docutils literal notranslate"><span class="pre">compute_node_triangle_distance</span></code>
+(<code class="docutils literal notranslate"><span class="pre">src/contact_models/contact_model_abstract.cpp</span></code>, line 237 at the <code class="docutils literal notranslate"><span class="pre">v1.0</span></code> tag) adds vertex <code class="docutils literal notranslate"><span class="pre">a</span></code>
+twice when the closest point lies inside a triangle (<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">ab</span> <span class="pre">*</span> <span class="pre">v</span> <span class="pre">+</span> <span class="pre">a</span> <span class="pre">+</span> <span class="pre">ac</span> <span class="pre">*</span> <span class="pre">w</span></code>). The computed
+point is displaced by the position vector of that vertex, so contacts in face interiors fall
+outside the cutoff and are not detected. 2.0 corrected the formula and tests it. In both cases that
+differ, 1.0 detects less contact area from the first iterations: a contact-area fraction of 0.71
+against 0.76 at ε = 3.0, and 0.03 against 0.06 in the monolayer. The deciding experiment, 1.0 with
+only that line changed and rerun on those two cases, has not been run.</p>
+</section>
+<section id="analytic-checks">
+<h2>Analytic checks<a class="headerlink" href="#analytic-checks" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Single cell under surface tension.</strong> The pressure settles at 745.6 Pa. That matches the exact
+force balance for its polyhedral mesh to the four digits the output carries, and is 1.24% above
+2γ/R for a sphere, the sphericity deficit of a 58-node mesh. The value is identical from 2.0 to
+2.1.0.</p></li>
+<li><p><strong>Cell doublet.</strong> With the literature parameter set the contact angle settles at 122.7° by a
+sphere-fit estimate, against 120° from the Young–Dupré relation. At about 70 nodes per cell, two
+other estimators of the angle give 135 to 150°, so the result is close to 120° and no more
+precise than that.</p></li>
+<li><p>1.0 cannot start these files: it stops at iteration 0 with the refinement error.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="validity.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Limits of the model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../api/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replicate-spread">Replicate spread</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sources-of-non-determinism">Two sources of non-determinism</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agreement-between-1-0-and-2-x">Agreement between 1.0 and 2.x</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analytic-checks">Analytic checks</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/benchmarks/reproducibility.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026, Nilesh Patil (changes since SimuCell3D 1.0; see NOTICE).
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

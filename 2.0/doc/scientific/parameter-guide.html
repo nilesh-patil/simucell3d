@@ -1,0 +1,1282 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>SimuCell3D Parameter Guide: Biological Interpretation &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/scientific/parameter-guide';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/scientific/parameter-guide.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Reproducing Nature Paper Results" href="reproducing-paper-results.html" />
+    <link rel="prev" title="SimuCell3D Physics Model: Equation-to-Code Mapping" href="physics-model.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="SimuCell3D Parameter Guide: Biological Interpretation">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/scientific/parameter-guide.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics-model.html">Physics model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Parameter guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproducing-paper-results.html">Reproducing paper results</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/science.html" class="nav-link">Scientific background</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SimuCell3D...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simucell3d-parameter-guide-biological-interpretation">
+<h1>SimuCell3D Parameter Guide: Biological Interpretation<a class="headerlink" href="#simucell3d-parameter-guide-biological-interpretation" title="Link to this heading">#</a></h1>
+<p>This guide explains what each simulation parameter means biologically and how to choose appropriate values for your system.</p>
+<hr class="docutils" />
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>SimuCell3D parameters can be grouped into four categories:</p>
+<ol class="arabic simple">
+<li><p><strong>Cell Volume Parameters</strong> - Control cell compressibility, growth, and division</p></li>
+<li><p><strong>Cell Surface Parameters</strong> - Control membrane mechanics and shape</p></li>
+<li><p><strong>Contact Parameters</strong> - Control cell-cell interactions</p></li>
+<li><p><strong>Numerical Parameters</strong> - Control simulation accuracy and stability</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="cell-volume-parameters">
+<h2>Cell Volume Parameters<a class="headerlink" href="#cell-volume-parameters" title="Link to this heading">#</a></h2>
+<section id="bulk-modulus-k">
+<h3>Bulk Modulus (K)<a class="headerlink" href="#bulk-modulus-k" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> K | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">bulk_modulus_</span></code> | <strong>Unit:</strong> Pa</p>
+<p><strong>Biological Meaning:</strong>
+The bulk modulus controls how resistant a cell is to volume changes. It represents the combined effect of:</p>
+<ul class="simple">
+<li><p>Cytoplasmic incompressibility</p></li>
+<li><p>Internal osmotic pressure</p></li>
+<li><p>Cytoskeletal resistance to compression</p></li>
+</ul>
+<p><strong>Biological Context:</strong></p>
+<ul class="simple">
+<li><p>Cells are mostly water (~70%) and thus nearly incompressible</p></li>
+<li><p>The cytoskeleton provides additional resistance</p></li>
+<li><p>Measured values: 2000-3000 Pa for most epithelial cells</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cell Type</p></th>
+<th class="head"><p>Typical K (Pa)</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Soft cells (embryonic)</p></td>
+<td><p>1000-2000</p></td>
+<td><p>Less cytoskeletal structure</p></td>
+</tr>
+<tr class="row-odd"><td><p>Epithelial cells</p></td>
+<td><p>2000-3000</p></td>
+<td><p>Default for most simulations</p></td>
+</tr>
+<tr class="row-even"><td><p>Stiff cells (chondrocytes)</p></td>
+<td><p>3000-5000</p></td>
+<td><p>More cytoskeletal crosslinking</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Effect of Changing K:</strong></p>
+<ul class="simple">
+<li><p><strong>Increase K</strong> → Cells resist compression more, maintain volume better</p></li>
+<li><p><strong>Decrease K</strong> → Cells are more compressible, can be squeezed more easily</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="maximum-pressure-p-max">
+<h3>Maximum Pressure (p_max)<a class="headerlink" href="#maximum-pressure-p-max" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> p_max | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">max_pressure_</span></code> | <strong>Unit:</strong> Pa</p>
+<p><strong>Biological Meaning:</strong>
+Caps the internal pressure a cell can generate. This represents:</p>
+<ul class="simple">
+<li><p>Maximum osmotic pressure difference cells can sustain</p></li>
+<li><p>Limit before membrane damage occurs</p></li>
+</ul>
+<p><strong>Measured Values:</strong></p>
+<ul class="simple">
+<li><p>Interstitial pressure: 300-2200 Pa</p></li>
+<li><p>Typical simulation value: 2500 Pa</p></li>
+</ul>
+<p><strong>When to Adjust:</strong></p>
+<ul class="simple">
+<li><p>If cells “explode” numerically → increase p_max or reduce growth rate</p></li>
+<li><p>For modeling high-pressure environments (e.g., tumors) → adjust accordingly</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="division-volume-v-max">
+<h3>Division Volume (V_max)<a class="headerlink" href="#division-volume-v-max" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> V_max | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">avg_division_volume_</span></code> | <strong>Unit:</strong> m³</p>
+<p><strong>Biological Meaning:</strong>
+The volume threshold that triggers cell division. Represents:</p>
+<ul class="simple">
+<li><p>Completion of cell cycle checkpoints</p></li>
+<li><p>Sufficient resource accumulation for division</p></li>
+</ul>
+<p><strong>Measured Values:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cell Type</p></th>
+<th class="head"><p>Division Volume (m³)</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Small epithelial</p></td>
+<td><p>0.9×10⁻¹⁵</p></td>
+<td><p>~900 μm³</p></td>
+</tr>
+<tr class="row-odd"><td><p>Typical epithelial</p></td>
+<td><p>1.4×10⁻¹⁵</p></td>
+<td><p>~1400 μm³ (default)</p></td>
+</tr>
+<tr class="row-even"><td><p>Large cells</p></td>
+<td><p>2.0×10⁻¹⁵</p></td>
+<td><p>~2000 μm³</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Effect of Changing:</strong></p>
+<ul class="simple">
+<li><p><strong>Increase V_max</strong> → Larger cells, fewer divisions</p></li>
+<li><p><strong>Decrease V_max</strong> → Smaller cells, more frequent divisions</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="growth-rate-g">
+<h3>Growth Rate (g)<a class="headerlink" href="#growth-rate-g" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> g | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">avg_growth_rate_</span></code> | <strong>Unit:</strong> m³/s</p>
+<p><strong>Biological Meaning:</strong>
+Rate of cell volume increase per unit time. Represents:</p>
+<ul class="simple">
+<li><p>Protein synthesis rate</p></li>
+<li><p>Nutrient uptake and metabolism</p></li>
+<li><p>Cell cycle duration</p></li>
+</ul>
+<p><strong>Biological Context:</strong></p>
+<ul class="simple">
+<li><p>Typical cell cycle: 12-24 hours</p></li>
+<li><p>Default growth rate: 10⁻¹¹ m³/s corresponds to ~12h doubling time</p></li>
+</ul>
+<p><strong>Choosing Growth Rate:</strong>
+<div class="math notranslate nohighlight">
+\[g = \frac{V_{division} - V_{initial}}{t_{cycle}}\]</div>
+</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>g (m³/s)</p></th>
+<th class="head"><p>Doubling Time</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Slow growth</p></td>
+<td><p>10⁻¹²</p></td>
+<td><p>~5-7 days</p></td>
+</tr>
+<tr class="row-odd"><td><p>Normal growth</p></td>
+<td><p>10⁻¹¹</p></td>
+<td><p>~12-24 hours</p></td>
+</tr>
+<tr class="row-even"><td><p>Fast growth</p></td>
+<td><p>10⁻²⁰</p></td>
+<td><p>~6 hours</p></td>
+</tr>
+<tr class="row-odd"><td><p>Exponential benchmark</p></td>
+<td><p>10⁻¹¹</p></td>
+<td><p>~12 hours</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cell-surface-parameters">
+<h2>Cell Surface Parameters<a class="headerlink" href="#cell-surface-parameters" title="Link to this heading">#</a></h2>
+<section id="surface-tension">
+<h3>Surface Tension (γ)<a class="headerlink" href="#surface-tension" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> γ | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">surface_tension_</span></code> | <strong>Unit:</strong> N/m</p>
+<p><strong>Biological Meaning:</strong>
+Surface tension represents the contractile force of the actomyosin cortex - a meshwork of actin and myosin II beneath the plasma membrane.</p>
+<p><strong>Biological Context:</strong></p>
+<ul class="simple">
+<li><p>The cortex constantly contracts, minimizing cell surface area</p></li>
+<li><p>This is why isolated cells are roughly spherical</p></li>
+<li><p>Higher cortical tension → more spherical cells</p></li>
+<li><p>Measured values: 0.0005-0.0025 N/m</p></li>
+</ul>
+<p><strong>Effect on Cell Shape:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>γ Value (N/m)</p></th>
+<th class="head"><p>Cell Shape</p></th>
+<th class="head"><p>Biological Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.0005</p></td>
+<td><p>Spread/flat</p></td>
+<td><p>Low cortical activity</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.001</p></td>
+<td><p>Moderate rounding</p></td>
+<td><p>Normal epithelial</p></td>
+</tr>
+<tr class="row-even"><td><p>0.002</p></td>
+<td><p>Very round</p></td>
+<td><p>High contractility</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Polarization Effects:</strong>
+Different membrane regions can have different tensions:</p>
+<ul class="simple">
+<li><p><strong>Apical</strong> (γ_apical): Often higher, specialized surface</p></li>
+<li><p><strong>Basal</strong> (γ_basal): Intermediate, anchored to ECM</p></li>
+<li><p><strong>Lateral</strong> (γ_lateral): Usually lower, contact with neighbors</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="bending-rigidity-k-b">
+<h3>Bending Rigidity (k_b)<a class="headerlink" href="#bending-rigidity-k-b" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> k_b | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">bending_modulus_</span></code> | <strong>Unit:</strong> J</p>
+<p><strong>Biological Meaning:</strong>
+Resistance of the cell membrane to bending. Represents:</p>
+<ul class="simple">
+<li><p>Lipid bilayer bending stiffness</p></li>
+<li><p>Cortex rigidity</p></li>
+<li><p>Membrane-cytoskeleton coupling</p></li>
+</ul>
+<p><strong>Measured Values:</strong></p>
+<ul class="simple">
+<li><p>Pure lipid bilayer: ~10⁻¹⁹ J</p></li>
+<li><p>Cell membrane + cortex: 1-3×10⁻¹⁸ J</p></li>
+</ul>
+<p><strong>Effect on Morphology:</strong></p>
+<ul class="simple">
+<li><p><strong>Higher k_b</strong> → Smoother cell surfaces, resists local curvature</p></li>
+<li><p><strong>Lower k_b</strong> → More irregular surfaces, allows membrane wrinkles</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="area-elasticity-k-a">
+<h3>Area Elasticity (k_a)<a class="headerlink" href="#area-elasticity-k-a" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> k_a | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">area_elasticity_modulus_</span></code> | <strong>Unit:</strong> J</p>
+<p><strong>Biological Meaning:</strong>
+Penalizes deviations of cell surface area from a target value. Represents:</p>
+<ul class="simple">
+<li><p>Membrane tension regulation</p></li>
+<li><p>Cytoskeletal remodeling capability</p></li>
+<li><p>Endocytosis/exocytosis capacity</p></li>
+</ul>
+<p><strong>Default Value:</strong> 10⁻¹⁵ J</p>
+<p><strong>Effect:</strong></p>
+<ul class="simple">
+<li><p><strong>Higher k_a</strong> → Cell maintains constant surface area, resists stretching</p></li>
+<li><p><strong>Lower k_a</strong> → Surface area can vary more freely</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="target-isoperimetric-ratio-q0">
+<h3>Target Isoperimetric Ratio (Q₀)<a class="headerlink" href="#target-isoperimetric-ratio-q0" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> Q₀ | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">target_isoperimetric_ratio_</span></code> | <strong>Dimensionless</strong></p>
+<p><strong>Biological Meaning:</strong>
+Defines the target relationship between cell volume and surface area:
+<div class="math notranslate nohighlight">
+\[A_0 = \sqrt[3]{Q_0 \cdot V^2}\]</div>
+</p>
+<p>For a sphere: Q₀ = 36π ≈ 113</p>
+<p><strong>Typical Values:</strong></p>
+<ul class="simple">
+<li><p>Q₀ = 250: Default, allows some deviation from spherical</p></li>
+<li><p>Q₀ = 300: Measured in some epithelia</p></li>
+<li><p>Q₀ = 113: Perfectly spherical target</p></li>
+</ul>
+<p><strong>Effect:</strong></p>
+<ul class="simple">
+<li><p><strong>Higher Q₀</strong> → Cells can have more surface area relative to volume (elongated shapes)</p></li>
+<li><p><strong>Lower Q₀</strong> → Cells tend toward more compact/spherical shapes</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="contact-parameters">
+<h2>Contact Parameters<a class="headerlink" href="#contact-parameters" title="Link to this heading">#</a></h2>
+<section id="adhesion-strength">
+<h3>Adhesion Strength (ω)<a class="headerlink" href="#adhesion-strength" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> ω | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">adherence_strength_</span></code> | <strong>Unit:</strong> Pa/m</p>
+<p><strong>Biological Meaning:</strong>
+Strength of cell-cell adhesion. Represents:</p>
+<ul class="simple">
+<li><p>Cadherin-mediated adhesion (E-cadherin in epithelia)</p></li>
+<li><p>Tight junctions and desmosomes</p></li>
+<li><p>Overall cell-cell cohesion</p></li>
+</ul>
+<p><strong>Biological Context:</strong></p>
+<ul class="simple">
+<li><p>E-cadherin: Primary adhesion molecule in epithelia</p></li>
+<li><p>N-cadherin: Neural tissues</p></li>
+<li><p>Loss of cadherins → metastasis in cancer</p></li>
+</ul>
+<p><strong>Effect on Tissue:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ω Value (Pa/m)</p></th>
+<th class="head"><p>Tissue Behavior</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10⁷</p></td>
+<td><p>Weak adhesion, cells easily separate</p></td>
+</tr>
+<tr class="row-odd"><td><p>10⁸</p></td>
+<td><p>Moderate adhesion, tissue cohesion</p></td>
+</tr>
+<tr class="row-even"><td><p>10⁹</p></td>
+<td><p>Strong adhesion (default), tight epithelium</p></td>
+</tr>
+<tr class="row-odd"><td><p>10¹⁰</p></td>
+<td><p>Very strong, minimal cell rearrangement</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Key Insight from Paper:</strong>
+The competition between surface tension (γ) and adhesion strength (ω) determines:</p>
+<ul class="simple">
+<li><p>Whether tissue stays monolayer or becomes multilayer</p></li>
+<li><p>Cell-cell contact areas</p></li>
+<li><p>Tissue fluidity vs. solidity</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="repulsion-strength">
+<h3>Repulsion Strength (ξ)<a class="headerlink" href="#repulsion-strength" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> ξ | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">repulsion_strength_</span></code> | <strong>Unit:</strong> Pa/m</p>
+<p><strong>Biological Meaning:</strong>
+Prevents cells from overlapping (volume exclusion). Represents:</p>
+<ul class="simple">
+<li><p>Physical incompatibility of occupying same space</p></li>
+<li><p>Glycocalyx and steric repulsion</p></li>
+<li><p>Contact inhibition (partial)</p></li>
+</ul>
+<p><strong>Default Value:</strong> 10⁹ Pa/m</p>
+<p><strong>Typically:</strong> Keep ξ = ω (equal repulsion and adhesion strength)</p>
+</section>
+<hr class="docutils" />
+<section id="contact-cutoff-distance-c">
+<h3>Contact Cutoff Distance (c)<a class="headerlink" href="#contact-cutoff-distance-c" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> c | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">contact_cutoff_distance_</span></code> | <strong>Unit:</strong> m</p>
+<p><strong>Biological Meaning:</strong>
+Maximum distance at which cells can sense and interact. Represents:</p>
+<ul class="simple">
+<li><p>Cadherin extracellular domain length</p></li>
+<li><p>Glycocalyx thickness</p></li>
+<li><p>Signaling range</p></li>
+</ul>
+<p><strong>Default Value:</strong> 2×10⁻⁷ m (200 nm)</p>
+<p><strong>Biological Context:</strong></p>
+<ul class="simple">
+<li><p>E-cadherin ectodomain: ~20-25 nm</p></li>
+<li><p>Cell-cell gap in epithelia: 10-30 nm</p></li>
+<li><p>Default is larger to account for mesh discretization</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="polarization-parameters">
+<h2>Polarization Parameters<a class="headerlink" href="#polarization-parameters" title="Link to this heading">#</a></h2>
+<section id="face-types">
+<h3>Face Types<a class="headerlink" href="#face-types" title="Link to this heading">#</a></h3>
+<p>SimuCell3D automatically classifies membrane faces into:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Face Type</p></th>
+<th class="head"><p>XML ID</p></th>
+<th class="head"><p>Faces…</p></th>
+<th class="head"><p>Biological Features</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Apical</p></td>
+<td><p>0</p></td>
+<td><p>Lumen</p></td>
+<td><p>Microvilli, secretory</p></td>
+</tr>
+<tr class="row-odd"><td><p>Basal</p></td>
+<td><p>1</p></td>
+<td><p>ECM/exterior</p></td>
+<td><p>Integrins, focal adhesions</p></td>
+</tr>
+<tr class="row-even"><td><p>Lateral</p></td>
+<td><p>2</p></td>
+<td><p>Other cells</p></td>
+<td><p>Cadherins, tight junctions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each face type can have independent mechanical parameters, enabling realistic epithelial modeling.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="numerical-parameters">
+<h2>Numerical Parameters<a class="headerlink" href="#numerical-parameters" title="Link to this heading">#</a></h2>
+<section id="time-step-t">
+<h3>Time Step (Δt)<a class="headerlink" href="#time-step-t" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> Δt | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">time_step_</span></code> | <strong>Unit:</strong> s</p>
+<p><strong>Choosing Time Step:</strong></p>
+<ul class="simple">
+<li><p>Must be small enough for numerical stability</p></li>
+<li><p>Too small → simulation takes forever</p></li>
+<li><p>Too large → simulation crashes (SIGSEGV)</p></li>
+</ul>
+<p><strong>Guidelines:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Scenario</p></th>
+<th class="head"><p>Recommended Δt</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Initial testing</p></td>
+<td><p>10⁻⁷ s</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stable simulation</p></td>
+<td><p>10⁻⁷ to 5×10⁻⁷ s</p></td>
+</tr>
+<tr class="row-even"><td><p>Unstable/crashing</p></td>
+<td><p>Try 5×10⁻⁸ s</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="damping-coefficient">
+<h3>Damping Coefficient (ζ)<a class="headerlink" href="#damping-coefficient" title="Link to this heading">#</a></h3>
+<p><strong>Symbol:</strong> ζ | <strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">damping_</span></code> | <strong>Unit:</strong> kg/s</p>
+<p><strong>Biological Meaning:</strong>
+Represents viscous dissipation from:</p>
+<ul class="simple">
+<li><p>Cytoplasmic viscosity</p></li>
+<li><p>Friction with surrounding medium</p></li>
+<li><p>Energy dissipation in cytoskeleton</p></li>
+</ul>
+<p><strong>Effect:</strong></p>
+<ul class="simple">
+<li><p><strong>Higher ζ</strong> → Slower dynamics, more stable</p></li>
+<li><p><strong>Lower ζ</strong> → Faster dynamics, may become unstable</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="minimum-edge-length">
+<h3>Minimum Edge Length<a class="headerlink" href="#minimum-edge-length" title="Link to this heading">#</a></h3>
+<p><strong>Code:</strong> <code class="docutils literal notranslate"><span class="pre">min_edge_len_</span></code> | <strong>Unit:</strong> m</p>
+<p><strong>Effect on Resolution:</strong></p>
+<ul class="simple">
+<li><p>Smaller → Higher resolution, more triangles, slower</p></li>
+<li><p>Larger → Lower resolution, fewer triangles, faster</p></li>
+</ul>
+<p><strong>Rule of Thumb:</strong>
+<div class="math notranslate nohighlight">
+\[l_{min} \approx \frac{1}{10} \times \text{cell diameter}\]</div>
+</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="parameter-tuning-workflow">
+<h2>Parameter Tuning Workflow<a class="headerlink" href="#parameter-tuning-workflow" title="Link to this heading">#</a></h2>
+<section id="start-with-defaults">
+<h3>1. Start with Defaults<a class="headerlink" href="#start-with-defaults" title="Link to this heading">#</a></h3>
+<p>Use the vesicle parameter file as a starting point:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./simucell3d<span class="w"> </span>../parameters/core/parameters_vesicle.xml
+</pre></div>
+</div>
+</section>
+<section id="match-your-biology">
+<h3>2. Match Your Biology<a class="headerlink" href="#match-your-biology" title="Link to this heading">#</a></h3>
+<p>Adjust parameters to match your specific cell type:</p>
+<ol class="arabic simple">
+<li><p><strong>Cell size</strong>: Adjust <code class="docutils literal notranslate"><span class="pre">avg_division_volume_</span></code></p></li>
+<li><p><strong>Growth rate</strong>: Match to observed doubling time</p></li>
+<li><p><strong>Stiffness</strong>: Adjust <code class="docutils literal notranslate"><span class="pre">bulk_modulus_</span></code> based on cell type</p></li>
+<li><p><strong>Adhesion</strong>: Set <code class="docutils literal notranslate"><span class="pre">adherence_strength_</span></code> based on cadherin expression</p></li>
+</ol>
+</section>
+<section id="test-stability">
+<h3>3. Test Stability<a class="headerlink" href="#test-stability" title="Link to this heading">#</a></h3>
+<p>Run short simulations to check:</p>
+<ul class="simple">
+<li><p>No SIGSEGV crashes (reduce time_step if needed)</p></li>
+<li><p>Cells don’t explode (reduce growth_rate or increase damping)</p></li>
+<li><p>Tissue stays cohesive (increase adhesion if cells separate)</p></li>
+</ul>
+</section>
+<section id="validate-against-experiments">
+<h3>4. Validate Against Experiments<a class="headerlink" href="#validate-against-experiments" title="Link to this heading">#</a></h3>
+<p>Compare simulation outputs to:</p>
+<ul class="simple">
+<li><p>Cell shape measurements (sphericity, aspect ratio)</p></li>
+<li><p>Tissue organization (layer number, contact areas)</p></li>
+<li><p>Dynamics (rearrangement rates, response to perturbation)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="common-parameter-combinations">
+<h2>Common Parameter Combinations<a class="headerlink" href="#common-parameter-combinations" title="Link to this heading">#</a></h2>
+<section id="vesicle-formation-default">
+<h3>Vesicle Formation (Default)<a class="headerlink" href="#vesicle-formation-default" title="Link to this heading">#</a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;bulk_modulus&gt;</span>2500<span class="nt">&lt;/bulk_modulus&gt;</span>
+<span class="nt">&lt;surface_tension&gt;</span>0.001<span class="nt">&lt;/surface_tension&gt;</span>
+<span class="nt">&lt;adherence_strength&gt;</span>1e9<span class="nt">&lt;/adherence_strength&gt;</span>
+<span class="nt">&lt;avg_growth_rate&gt;</span>1e-11<span class="nt">&lt;/avg_growth_rate&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="stiff-epithelium">
+<h3>Stiff Epithelium<a class="headerlink" href="#stiff-epithelium" title="Link to this heading">#</a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;bulk_modulus&gt;</span>4000<span class="nt">&lt;/bulk_modulus&gt;</span>
+<span class="nt">&lt;surface_tension&gt;</span>0.002<span class="nt">&lt;/surface_tension&gt;</span>
+<span class="nt">&lt;adherence_strength&gt;</span>2e9<span class="nt">&lt;/adherence_strength&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="soft-embryonic-tissue">
+<h3>Soft/Embryonic Tissue<a class="headerlink" href="#soft-embryonic-tissue" title="Link to this heading">#</a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;bulk_modulus&gt;</span>1500<span class="nt">&lt;/bulk_modulus&gt;</span>
+<span class="nt">&lt;surface_tension&gt;</span>0.0005<span class="nt">&lt;/surface_tension&gt;</span>
+<span class="nt">&lt;adherence_strength&gt;</span>5e8<span class="nt">&lt;/adherence_strength&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="physics-model.html"><span class="std std-doc">physics-model.md</span></a> - Equation-to-code mapping</p></li>
+<li><p><a class="reference internal" href="../user-guide/parameter-reference.html"><span class="std std-doc">Parameter Reference</span></a> - Complete XML reference</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.1038/s43588-024-00620-9">SimuCell3D.pdf</a> - Paper with measured values (Table 2)</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="physics-model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SimuCell3D Physics Model: Equation-to-Code Mapping</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="reproducing-paper-results.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reproducing Nature Paper Results</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-volume-parameters">Cell Volume Parameters</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bulk-modulus-k">Bulk Modulus (K)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximum-pressure-p-max">Maximum Pressure (p_max)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#division-volume-v-max">Division Volume (V_max)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#growth-rate-g">Growth Rate (g)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-surface-parameters">Cell Surface Parameters</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surface-tension">Surface Tension (γ)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bending-rigidity-k-b">Bending Rigidity (k_b)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#area-elasticity-k-a">Area Elasticity (k_a)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#target-isoperimetric-ratio-q0">Target Isoperimetric Ratio (Q₀)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-parameters">Contact Parameters</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adhesion-strength">Adhesion Strength (ω)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repulsion-strength">Repulsion Strength (ξ)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contact-cutoff-distance-c">Contact Cutoff Distance (c)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polarization-parameters">Polarization Parameters</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#face-types">Face Types</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-parameters">Numerical Parameters</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-step-t">Time Step (Δt)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#damping-coefficient">Damping Coefficient (ζ)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-edge-length">Minimum Edge Length</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-tuning-workflow">Parameter Tuning Workflow</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#start-with-defaults">1. Start with Defaults</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#match-your-biology">2. Match Your Biology</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-stability">3. Test Stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-against-experiments">4. Validate Against Experiments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-parameter-combinations">Common Parameter Combinations</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vesicle-formation-default">Vesicle Formation (Default)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stiff-epithelium">Stiff Epithelium</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft-embryonic-tissue">Soft/Embryonic Tissue</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">See Also</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/scientific/parameter-guide.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

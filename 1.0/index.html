@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>SimuCell3D 1.0 documentation (archived) &#8212; SimuCell3D 1.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=2882ecd3"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fc97db16"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/1.0/index.html" />
+    <link rel="icon" href="_static/favicon.svg"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Documentation of release 1.0" href="sections/documentation.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 1.0 (tag v1.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="SimuCell3D 1.0 documentation (archived)">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 1.0 (tag v1.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/1.0/index.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/1.0/doc/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/notes-in-the-source-tree.html">
+    Notes in the source tree
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="licence.html">
+    Licence
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/documentation.html">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="sections/notes-in-the-source-tree.html">
+    Notes in the source tree
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="licence.html">
+    Licence
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simucell3d-1-0-documentation-archived">
+<h1>SimuCell3D 1.0 documentation (archived)<a class="headerlink" href="#simucell3d-1-0-documentation-archived" title="Link to this heading">#</a></h1>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>These pages are the documentation of release 1.0, re-rendered as it was written in 2024. They
+have not been updated. For the current release, read the
+<strong><a class="reference external" href="https://www.nilesh42.science/simucell3d/stable/">current documentation</a></strong>.</p>
+</div>
+<section id="this-release">
+<h2>This release<a class="headerlink" href="#this-release" title="Link to this heading">#</a></h2>
+<dl class="simple myst">
+<dt>Release</dt><dd><p>SimuCell3D 1.0, the code published with the article</p>
+</dd>
+<dt>Authors</dt><dd><p>Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich)</p>
+</dd>
+<dt>Tag</dt><dd><p><code class="docutils literal notranslate"><span class="pre">v1.0</span></code>, commit <code class="docutils literal notranslate"><span class="pre">38af451</span></code>, 26 June 2024</p>
+</dd>
+<dt>Zenodo archive cited by the article</dt><dd><p><a class="reference external" href="https://doi.org/10.5281/zenodo.10796908">doi:10.5281/zenodo.10796908</a>, commit <code class="docutils literal notranslate"><span class="pre">5342bf8</span></code>, 8 March 2024</p>
+</dd>
+<dt>Article</dt><dd><p>Runser, S., Vetter, R. &amp; Iber, D. SimuCell3D: three-dimensional simulation of tissue mechanics with cell polarization. <em>Nat. Comput. Sci.</em> <strong>4</strong>, 299-309 (2024). <a class="reference external" href="https://doi.org/10.1038/s43588-024-00620-9">doi:10.1038/s43588-024-00620-9</a></p>
+</dd>
+<dt>Original repository</dt><dd><p><a class="reference external" href="https://git.bsse.ethz.ch/iber/Publications/2024_runser_simucell3d">git.bsse.ethz.ch/iber/Publications/2024_runser_simucell3d</a></p>
+</dd>
+</dl>
+<p>The pages below are the <code class="docutils literal notranslate"><span class="pre">README.md</span></code> and the <code class="docutils literal notranslate"><span class="pre">doc/</span></code> folder of tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code>, plus the README files
+under <code class="docutils literal notranslate"><span class="pre">scripts/</span></code> and <code class="docutils literal notranslate"><span class="pre">src/mesh/</span></code>. They were written by Steve Runser as part of the release. The
+documentation files are the same in the Zenodo archive and in the tag. At the time the project
+was called DCM.</p>
+<p>Use 1.0 to reproduce or compare with the figures of the article. Later releases change
+simulation results; the
+<a class="reference external" href="https://www.nilesh42.science/simucell3d/stable/whats_new/v1.0.html">release notes of 1.0</a>
+compare the two 1.0 snapshots, and the
+<a class="reference external" href="https://www.nilesh42.science/simucell3d/stable/whats_new/v2.1.html">release notes of 2.1</a> list
+what changed since 1.0, including defects of 1.0 found later.</p>
+</section>
+<section id="obtaining-and-building-1-0">
+<h2>Obtaining and building 1.0<a class="headerlink" href="#obtaining-and-building-1-0" title="Link to this heading">#</a></h2>
+<p>The tag is in the repository of the 2.x releases:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/nilesh-patil/simucell3d.git
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>simucell3d
+<span class="gp">$ </span>git<span class="w"> </span>checkout<span class="w"> </span>v1.0<span class="w">      </span><span class="c1"># the tag; or: git checkout 5342bf8 for the archived commit</span>
+</pre></div>
+</div>
+<p>Build from the repository root. Release 1.0 needs a C++17 compiler with OpenMP and CMake; it
+declares <code class="docutils literal notranslate"><span class="pre">cmake_minimum_required(VERSION</span> <span class="pre">3.0)</span></code>, which CMake 3.x accepts with a deprecation
+warning and CMake 4 refuses. With CMake 4, add <code class="docutils literal notranslate"><span class="pre">-DCMAKE_POLICY_VERSION_MINIMUM=3.5</span></code> to the
+<code class="docutils literal notranslate"><span class="pre">cmake</span></code> line.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'s|/data/input_meshes/fig_3_vesicle_triangulated.vtk|data/input_meshes/fig_3_vesicle.vtk|'</span><span class="w"> </span>parameters_vesicle.xml
+<span class="gp">$ </span>mkdir<span class="w"> </span>build
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>build
+<span class="gp">$ </span>cmake<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span>..
+<span class="gp">$ </span>make<span class="w"> </span>-j4
+<span class="gp">$ </span>./simucell3d<span class="w"> </span>../parameters_vesicle.xml
+</pre></div>
+</div>
+<p>The executable takes one argument, the parameter file. The parameter files are in the
+repository root. Each one names, in a comment at its top, the compile-time settings it needs in
+<code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>. <code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code> needs <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span> <span class="pre">1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code> and <code class="docutils literal notranslate"><span class="pre">DYNAMIC_MODEL_INDEX</span> <span class="pre">0</span></code>, which are the defaults of the tag, so a
+default build runs it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sed</span></code> line is needed because <code class="docutils literal notranslate"><span class="pre">parameters_vesicle.xml</span></code> of the tag names the input mesh
+<code class="docutils literal notranslate"><span class="pre">/data/input_meshes/fig_3_vesicle_triangulated.vtk</span></code>, which is not in the tag; without it the run
+stops at once with “input mesh file … not found”. Other files need a different build:
+<code class="docutils literal notranslate"><span class="pre">parameters_default_dynamic.xml</span></code>, for example, is written for <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">1</span></code>, the default
+of the archived commit <code class="docutils literal notranslate"><span class="pre">5342bf8</span></code> but not of the tag. Change the setting in
+<code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code> and rebuild before you run such a file.</p>
+</div>
+</section>
+<section id="pages">
+<h2>Pages<a class="headerlink" href="#pages" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Section</p></th>
+<th class="head"><p>Page</p></th>
+<th class="head"><p>File at tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="sections/documentation.html"><span class="doc">Documentation</span></a></p></td>
+<td><p><a class="reference internal" href="README.html"><span class="doc">README</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">README.md</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sections/documentation.html"><span class="doc">Documentation</span></a></p></td>
+<td><p><a class="reference internal" href="doc/parameter_file_doc.html"><span class="doc">Configuring a simulation</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/parameter_file_doc.md</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sections/documentation.html"><span class="doc">Documentation</span></a></p></td>
+<td><p><a class="reference internal" href="doc/input_mesh_format.html"><span class="doc">Input mesh format</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/input_mesh_format.md</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sections/documentation.html"><span class="doc">Documentation</span></a></p></td>
+<td><p><a class="reference internal" href="doc/mesh_generation.html"><span class="doc">Mesh generation</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/mesh_generation.md</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sections/documentation.html"><span class="doc">Documentation</span></a></p></td>
+<td><p><a class="reference internal" href="doc/output_statistics.html"><span class="doc">Simulation statistics</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/output_statistics.md</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sections/documentation.html"><span class="doc">Documentation</span></a></p></td>
+<td><p><a class="reference internal" href="doc/parameter_screen.html"><span class="doc">Parameter screening</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/parameter_screen.md</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sections/documentation.html"><span class="doc">Documentation</span></a></p></td>
+<td><p><a class="reference internal" href="doc/python_support.html"><span class="doc">Running from Python</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">doc/python_support.md</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sections/notes-in-the-source-tree.html"><span class="doc">Notes in the source tree</span></a></p></td>
+<td><p><a class="reference internal" href="scripts/parameter_screening/README.html"><span class="doc">scripts/parameter_screening</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">scripts/parameter_screening/README.md</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="sections/notes-in-the-source-tree.html"><span class="doc">Notes in the source tree</span></a></p></td>
+<td><p><a class="reference internal" href="scripts/screening_analysis/README.html"><span class="doc">scripts/screening_analysis</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/README.md</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="sections/notes-in-the-source-tree.html"><span class="doc">Notes in the source tree</span></a></p></td>
+<td><p><a class="reference internal" href="src/mesh/README.html"><span class="doc">src/mesh</span></a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">src/mesh/README.md</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <a class="reference internal" href="licence.html"><span class="std std-doc">licence and notice</span></a> page reproduces the licence of the release.</p>
+</section>
+<section id="changes-made-for-rendering">
+<h2>Changes made for rendering<a class="headerlink" href="#changes-made-for-rendering" title="Link to this heading">#</a></h2>
+<p>The text of every page is as written at tag <code class="docutils literal notranslate"><span class="pre">v1.0</span></code>. Only the following changes were made so that
+the pages render as a website:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Change</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/README.md</span></code></p></td>
+<td><p>image <code class="docutils literal notranslate"><span class="pre">https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/screening_dashboard_type_1_v1.jpg</span></code> (former repository, no longer public) shown from <code class="docutils literal notranslate"><span class="pre">doc/img/screening_dashboard_type_1_v1.jpg</span></code> of the tag</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/README.md</span></code></p></td>
+<td><p>image <code class="docutils literal notranslate"><span class="pre">https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/screening_dashboard_type_2_v1.jpg</span></code> (former repository, no longer public) shown from <code class="docutils literal notranslate"><span class="pre">doc/img/screening_dashboard_type_2_v1.jpg</span></code> of the tag</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/README.md</span></code></p></td>
+<td><p>image <code class="docutils literal notranslate"><span class="pre">https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/screening_dashboard_type_3_v1.jpg</span></code> (former repository, no longer public) shown from <code class="docutils literal notranslate"><span class="pre">doc/img/screening_dashboard_type_3_v1.jpg</span></code> of the tag</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">scripts/screening_analysis/README.md</span></code></p></td>
+<td><p>image <code class="docutils literal notranslate"><span class="pre">https://github.com/SteveRunser/SimuCell3D_v2/blob/dev/doc/img/mech_props_plot.png</span></code> (former repository, no longer public) shown from <code class="docutils literal notranslate"><span class="pre">doc/img/mech_props_plot.png</span></code> of the tag</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">src/mesh/README.md</span></code></p></td>
+<td><p>the page has no heading; its file path is used as the title</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In addition, images that the pages include with HTML <code class="docutils literal notranslate"><span class="pre">&lt;img&gt;</span></code> tags are copied from the tag to the
+same relative location.</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="sections/documentation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Documentation of release 1.0</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#this-release">This release</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#obtaining-and-building-1-0">Obtaining and building 1.0</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pages">Pages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-made-for-rendering">Changes made for rendering</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D 1.0 by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  These pages are the documentation of tag <code>v1.0</code> (commit <code>38af451</code>),
+  reproduced unchanged under the 3-Clause BSD License of that release
+  (<a href="licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

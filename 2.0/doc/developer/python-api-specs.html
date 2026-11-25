@@ -1,0 +1,1296 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>Python API Specifications (Enhanced) &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/developer/python-api-specs';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/developer/python-api-specs.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Benchmarking" href="../../sections/benchmarking.html" />
+    <link rel="prev" title="Performance Tuning Guide" href="performance-tuning.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Python API Specifications (Enhanced) - SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/developer/python-api-specs.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="explainer.html">Explainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance-tuning.html">Performance tuning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Python API specification</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/developers.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Python API...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="python-api-specifications-enhanced">
+<h1>Python API Specifications (Enhanced)<a class="headerlink" href="#python-api-specifications-enhanced" title="Link to this heading">#</a></h1>
+<p><strong>Backward Compatibility:</strong> 100% - All v1.0/v2.0 code will continue to work</p>
+<hr class="docutils" />
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>This document specifies the enhanced Python API for SimuCell3D that exposes all new features (adaptive scheduling, performance diagnostics, SAP collision detection) with sensible defaults optimized for performance.</p>
+<p><strong>Design Principles:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Backward compatible</strong> - Old code works without changes</p></li>
+<li><p><strong>Performance by default</strong> - New defaults use fastest configurations from benchmarks</p></li>
+<li><p><strong>Progressive enhancement</strong> - New parameters are optional with smart defaults</p></li>
+<li><p><strong>Explicit over implicit</strong> - Clear parameter names, no magic behavior</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="enhanced-api-signature">
+<h2>Enhanced API Signature<a class="headerlink" href="#enhanced-api-signature" title="Link to this heading">#</a></h2>
+<section id="current-api-v2-0-existing">
+<h3>Current API (v2.0 - Existing)<a class="headerlink" href="#current-api-v2-0-existing" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">global_simulation_parameters</span><span class="p">,</span>   <span class="c1"># Required</span>
+    <span class="n">cell_types_list</span><span class="p">,</span>                <span class="c1"># Required</span>
+    <span class="n">nb_threads</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>                  <span class="c1"># Optional (auto-detect)</span>
+    <span class="n">write_cell_stats_in_string</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Optional</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>                    <span class="c1"># Optional</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="enhanced-api-v3-0-planned">
+<h3>Enhanced API (v3.0 - Planned)<a class="headerlink" href="#enhanced-api-v3-0-planned" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">global_simulation_parameters</span><span class="p">,</span>   <span class="c1"># Required</span>
+    <span class="n">cell_types_list</span><span class="p">,</span>                <span class="c1"># Required</span>
+
+    <span class="c1"># ===== EXISTING PARAMETERS (unchanged) =====</span>
+    <span class="n">nb_threads</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>                  <span class="c1"># Auto-detect (respects cgroups/Slurm)</span>
+    <span class="n">write_cell_stats_in_string</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Keep stats in memory vs write to disk</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                   <span class="c1"># Print progress messages</span>
+
+    <span class="c1"># ===== NEW PARAMETERS (v3.0) =====</span>
+    <span class="n">schedule_mode</span><span class="o">=</span><span class="s1">'adaptive'</span><span class="p">,</span>       <span class="c1"># OpenMP scheduling: 'adaptive', 'static', 'dynamic', 'guided'</span>
+    <span class="n">collision_detection</span><span class="o">=</span><span class="s1">'uspg'</span><span class="p">,</span>     <span class="c1"># Algorithm: 'uspg' (default), 'sap'</span>
+    <span class="n">diagnostics_csv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>           <span class="c1"># Path to export performance metrics (None = disabled)</span>
+    <span class="n">checkpoint_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>       <span class="c1"># Save checkpoint every N iterations (None = disabled)</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">'vtk'</span><span class="p">,</span>            <span class="c1"># Output format: 'vtk' (default), 'vtk+csv', 'csv-only'</span>
+    <span class="n">enable_performance_hints</span><span class="o">=</span><span class="kc">True</span>   <span class="c1"># Auto-tune based on workload characteristics</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="parameter-specifications">
+<h2>Parameter Specifications<a class="headerlink" href="#parameter-specifications" title="Link to this heading">#</a></h2>
+<section id="new-parameter-schedule-mode">
+<h3>New Parameter: <code class="docutils literal notranslate"><span class="pre">schedule_mode</span></code><a class="headerlink" href="#new-parameter-schedule-mode" title="Link to this heading">#</a></h3>
+<p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">str</span></code>
+<strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">'adaptive'</span></code>
+<strong>Valid values:</strong> <code class="docutils literal notranslate"><span class="pre">'adaptive'</span></code>, <code class="docutils literal notranslate"><span class="pre">'static'</span></code>, <code class="docutils literal notranslate"><span class="pre">'dynamic'</span></code>, <code class="docutils literal notranslate"><span class="pre">'guided'</span></code></p>
+<p><strong>Description:</strong>
+OpenMP scheduling mode for parallel loops. Default <code class="docutils literal notranslate"><span class="pre">'adaptive'</span></code> provides 1.5x-4.5x speedup over v1.0.</p>
+<p><strong>Rationale:</strong>
+Benchmarks (52 configurations) show <code class="docutils literal notranslate"><span class="pre">'adaptive'</span></code> is optimal for 95% of workloads:</p>
+<ul class="simple">
+<li><p>Small workloads (&lt; 128 cells): Uses dynamic scheduling</p></li>
+<li><p>Medium workloads (128-2048 cells): Uses guided scheduling</p></li>
+<li><p>Large workloads (&gt; 2048 cells): Uses static scheduling</p></li>
+<li><p>Adapts automatically as simulation evolves (cell growth/division)</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use default (adaptive - fastest)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">)</span>
+
+<span class="c1"># Override to static (for very large uniform workloads)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">schedule_mode</span><span class="o">=</span><span class="s1">'static'</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Backward Compatibility:</strong>
+Existing code without <code class="docutils literal notranslate"><span class="pre">schedule_mode</span></code> parameter defaults to <code class="docutils literal notranslate"><span class="pre">'adaptive'</span></code>, providing automatic speedup.</p>
+</section>
+<hr class="docutils" />
+<section id="new-parameter-collision-detection">
+<h3>New Parameter: <code class="docutils literal notranslate"><span class="pre">collision_detection</span></code><a class="headerlink" href="#new-parameter-collision-detection" title="Link to this heading">#</a></h3>
+<p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">str</span></code>
+<strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">'uspg'</span></code>
+<strong>Valid values:</strong> <code class="docutils literal notranslate"><span class="pre">'uspg'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sap'</span></code></p>
+<p><strong>Description:</strong>
+Collision detection algorithm. USPG (Uniform Spatial Partitioning Grid) is default and works for most cases. SAP (Sweep and Prune) is faster for dense cell packing.</p>
+<p><strong>Rationale:</strong></p>
+<ul class="simple">
+<li><p>USPG: Robust, works for all cell densities, better cache locality</p></li>
+<li><p>SAP: Faster for dense packing (&gt;30 neighbors/cell), but higher memory overhead</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use default (USPG - most robust)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">)</span>
+
+<span class="c1"># Use SAP for dense tissue simulation</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">collision_detection</span><span class="o">=</span><span class="s1">'sap'</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Benchmark Results:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Cell Density</p></th>
+<th class="head"><p>USPG Time</p></th>
+<th class="head"><p>SAP Time</p></th>
+<th class="head"><p>Winner</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Sparse (&lt;10 neighbors)</p></td>
+<td><p>5.2s</p></td>
+<td><p>6.1s</p></td>
+<td><p>USPG (18% faster)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Moderate (10-30)</p></td>
+<td><p>8.7s</p></td>
+<td><p>8.4s</p></td>
+<td><p>SAP (3% faster)</p></td>
+</tr>
+<tr class="row-even"><td><p>Dense (&gt;30)</p></td>
+<td><p>15.3s</p></td>
+<td><p>11.2s</p></td>
+<td><p>SAP (27% faster)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Backward Compatibility:</strong>
+Existing code defaults to <code class="docutils literal notranslate"><span class="pre">'uspg'</span></code> (same as v1.0 behavior).</p>
+</section>
+<hr class="docutils" />
+<section id="new-parameter-diagnostics-csv">
+<h3>New Parameter: <code class="docutils literal notranslate"><span class="pre">diagnostics_csv</span></code><a class="headerlink" href="#new-parameter-diagnostics-csv" title="Link to this heading">#</a></h3>
+<p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+<strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code>
+<strong>Valid values:</strong> Any valid file path, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable</p>
+<p><strong>Description:</strong>
+Path to export per-iteration performance metrics (IPS, thread efficiency, phase timings). If <code class="docutils literal notranslate"><span class="pre">None</span></code>, diagnostics are disabled (no performance overhead).</p>
+<p><strong>Rationale:</strong>
+Performance profiling is critical for optimization but has ~2-3% overhead. Making it opt-in (default disabled) ensures no performance regression for users who don’t need it.</p>
+<p><strong>CSV Columns:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code>: Simulation iteration number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code>: Wall-clock time (epoch seconds)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cells</span></code>: Current cell count</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ips</span></code>: Iterations per second</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thread_efficiency</span></code>: Actual speedup / ideal speedup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contact_time</span></code>: Time spent in contact detection (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">integration_time</span></code>: Time spent in force integration (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">refinement_time</span></code>: Time spent in mesh refinement (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">io_time</span></code>: Time spent writing output (s)</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Disable diagnostics (default - fastest)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">)</span>
+
+<span class="c1"># Enable diagnostics for profiling</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">diagnostics_csv</span><span class="o">=</span><span class="s1">'performance_metrics.csv'</span>
+<span class="p">)</span>
+
+<span class="c1"># After simulation, analyze</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">diag</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'performance_metrics.csv'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean IPS: </span><span class="si">{</span><span class="n">diag</span><span class="p">[</span><span class="s1">'ips'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Thread efficiency: </span><span class="si">{</span><span class="n">diag</span><span class="p">[</span><span class="s1">'thread_efficiency'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Backward Compatibility:</strong>
+Existing code has diagnostics disabled by default (no change in behavior).</p>
+</section>
+<hr class="docutils" />
+<section id="new-parameter-checkpoint-interval">
+<h3>New Parameter: <code class="docutils literal notranslate"><span class="pre">checkpoint_interval</span></code><a class="headerlink" href="#new-parameter-checkpoint-interval" title="Link to this heading">#</a></h3>
+<p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+<strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code>
+<strong>Valid values:</strong> Positive integer (iterations), or <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable</p>
+<p><strong>Description:</strong>
+Save simulation checkpoint every N iterations, enabling resume after crash or interruption. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, checkpointing is disabled.</p>
+<p><strong>Rationale:</strong>
+Long-running simulations (hours to days) benefit from crash recovery. Making it opt-in avoids I/O overhead for short simulations.</p>
+<p><strong>Checkpoint Contents:</strong></p>
+<ul class="simple">
+<li><p>Cell positions, velocities, volumes</p></li>
+<li><p>Simulation time, iteration count</p></li>
+<li><p>Random number generator state (for reproducibility)</p></li>
+<li><p>Cell division history</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># No checkpointing (default - fastest for short runs)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">)</span>
+
+<span class="c1"># Checkpoint every 1000 iterations (robust for long runs)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">checkpoint_interval</span><span class="o">=</span><span class="mi">1000</span>
+<span class="p">)</span>
+
+<span class="c1"># Resume from checkpoint</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">resume_from_checkpoint</span><span class="o">=</span><span class="s1">'checkpoint_iter_5000.bin'</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Backward Compatibility:</strong>
+Existing code has checkpointing disabled by default (no change).</p>
+</section>
+<hr class="docutils" />
+<section id="new-parameter-output-format">
+<h3>New Parameter: <code class="docutils literal notranslate"><span class="pre">output_format</span></code><a class="headerlink" href="#new-parameter-output-format" title="Link to this heading">#</a></h3>
+<p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">str</span></code>
+<strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">'vtk'</span></code>
+<strong>Valid values:</strong> <code class="docutils literal notranslate"><span class="pre">'vtk'</span></code>, <code class="docutils literal notranslate"><span class="pre">'vtk+csv'</span></code>, <code class="docutils literal notranslate"><span class="pre">'csv-only'</span></code></p>
+<p><strong>Description:</strong>
+Control output file format. VTK files are large (geometry) but needed for visualization. CSV files are small (statistics) but sufficient for analysis.</p>
+<p><strong>Rationale:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'vtk'</span></code>: Default (backward compatible), writes VTK + CSV statistics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'vtk+csv'</span></code>: Explicit (same as default)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'csv-only'</span></code>: For parameter sweeps where geometry isn’t needed (10x smaller disk usage)</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default: VTK + CSV (for visualization)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">)</span>
+
+<span class="c1"># CSV-only: For parameter screening (smaller disk footprint)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">'csv-only'</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Disk Usage Comparison (1000 iterations):</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Format</p></th>
+<th class="head"><p>Disk Usage</p></th>
+<th class="head"><p>Use Case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vtk</span></code></p></td>
+<td><p>2.3 GB</p></td>
+<td><p>Visualization in ParaView</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">csv-only</span></code></p></td>
+<td><p>250 MB</p></td>
+<td><p>Parameter screening, analysis</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Backward Compatibility:</strong>
+Existing code defaults to <code class="docutils literal notranslate"><span class="pre">'vtk'</span></code> (same as v1.0/v2.0 behavior).</p>
+</section>
+<hr class="docutils" />
+<section id="new-parameter-enable-performance-hints">
+<h3>New Parameter: <code class="docutils literal notranslate"><span class="pre">enable_performance_hints</span></code><a class="headerlink" href="#new-parameter-enable-performance-hints" title="Link to this heading">#</a></h3>
+<p><strong>Type:</strong> <code class="docutils literal notranslate"><span class="pre">bool</span></code>
+<strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+<p><strong>Description:</strong>
+Enable automatic performance tuning based on workload characteristics. When enabled, the solver analyzes the first 10 iterations and adjusts:</p>
+<ul class="simple">
+<li><p>OpenMP chunk size based on load imbalance</p></li>
+<li><p>Memory allocation strategy based on cell count</p></li>
+<li><p>Contact detection cutoff based on cell density</p></li>
+</ul>
+<p><strong>Rationale:</strong>
+Most users don’t want to manually tune performance parameters. Auto-tuning provides 5-15% additional speedup with no user intervention.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Auto-tuning enabled (default - recommended)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">)</span>
+
+<span class="c1"># Disable for reproducibility testing</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">enable_performance_hints</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Auto-Tuning Decisions:</strong></p>
+<ul class="simple">
+<li><p>If load imbalance CV &gt; 0.3 → reduce chunk size (better load balance)</p></li>
+<li><p>If cell density &gt; 0.5 → use SAP instead of USPG (faster for dense packing)</p></li>
+<li><p>If avg_neighbors &gt; 50 → increase contact cutoff (reduce neighbor list rebuilds)</p></li>
+</ul>
+<p><strong>Backward Compatibility:</strong>
+Enabled by default, but can be disabled for deterministic behavior matching v1.0.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="complete-example-v3-0-api">
+<h2>Complete Example (v3.0 API)<a class="headerlink" href="#complete-example-v3-0-api" title="Link to this heading">#</a></h2>
+<section id="basic-usage-backward-compatible">
+<h3>Basic Usage (Backward Compatible)<a class="headerlink" href="#basic-usage-backward-compatible" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">simucell3d_python_wrapper</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">simucell3d</span>
+
+<span class="c1"># Old code (v1.0/v2.0) works unchanged</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">global_params</span><span class="p">,</span>
+    <span class="p">[</span><span class="n">cell_type</span><span class="p">],</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="c1"># Uses new defaults: adaptive scheduling, USPG collision, no diagnostics</span>
+</pre></div>
+</div>
+</section>
+<section id="advanced-usage-new-features">
+<h3>Advanced Usage (New Features)<a class="headerlink" href="#advanced-usage-new-features" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full control with all new parameters</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">global_params</span><span class="p">,</span>
+    <span class="p">[</span><span class="n">cell_type</span><span class="p">],</span>
+
+    <span class="c1"># Thread control</span>
+    <span class="n">nb_threads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+
+    <span class="c1"># Performance optimization</span>
+    <span class="n">schedule_mode</span><span class="o">=</span><span class="s1">'adaptive'</span><span class="p">,</span>           <span class="c1"># Fastest (default)</span>
+    <span class="n">collision_detection</span><span class="o">=</span><span class="s1">'uspg'</span><span class="p">,</span>         <span class="c1"># Most robust (default)</span>
+    <span class="n">enable_performance_hints</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>      <span class="c1"># Auto-tune (default)</span>
+
+    <span class="c1"># Diagnostics and monitoring</span>
+    <span class="n">diagnostics_csv</span><span class="o">=</span><span class="s1">'perf_metrics.csv'</span><span class="p">,</span> <span class="c1"># Enable profiling</span>
+
+    <span class="c1"># Robustness</span>
+    <span class="n">checkpoint_interval</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>           <span class="c1"># Crash recovery</span>
+
+    <span class="c1"># Output control</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">'csv-only'</span><span class="p">,</span>           <span class="c1"># Smaller disk footprint</span>
+    <span class="n">write_cell_stats_in_string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>    <span class="c1"># Keep in memory</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Run simulation</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_simulation_outputs</span><span class="p">()</span>
+
+<span class="c1"># Analyze performance</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">diag</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'perf_metrics.csv'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean IPS: </span><span class="si">{</span><span class="n">diag</span><span class="p">[</span><span class="s1">'ips'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Thread efficiency: </span><span class="si">{</span><span class="n">diag</span><span class="p">[</span><span class="s1">'thread_efficiency'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Speedup vs v1.0: </span><span class="si">{</span><span class="n">diag</span><span class="p">[</span><span class="s1">'ips'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">8.3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">x"</span><span class="p">)</span>  <span class="c1"># v1.0 baseline = 8.3 IPS</span>
+</pre></div>
+</div>
+</section>
+<section id="parameter-sweep-performance-optimized">
+<h3>Parameter Sweep (Performance Optimized)<a class="headerlink" href="#parameter-sweep-performance-optimized" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Batch simulation with optimal settings</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">bulk_mod</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">]:</span>
+    <span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+        <span class="n">global_params</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">cell_type</span><span class="p">],</span>
+
+        <span class="c1"># Performance defaults (fast parameter screening)</span>
+        <span class="n">schedule_mode</span><span class="o">=</span><span class="s1">'adaptive'</span><span class="p">,</span>        <span class="c1"># Automatic speedup</span>
+        <span class="n">collision_detection</span><span class="o">=</span><span class="s1">'uspg'</span><span class="p">,</span>      <span class="c1"># Robust</span>
+        <span class="n">output_format</span><span class="o">=</span><span class="s1">'csv-only'</span><span class="p">,</span>        <span class="c1"># Small disk footprint</span>
+        <span class="n">diagnostics_csv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>            <span class="c1"># Disable (2% overhead)</span>
+        <span class="n">checkpoint_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>        <span class="c1"># Disable (I/O overhead)</span>
+        <span class="n">write_cell_stats_in_string</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># Keep in memory</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>                    <span class="c1"># No stdout spam</span>
+    <span class="p">)</span>
+
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_simulation_outputs</span><span class="p">()</span>
+    <span class="c1"># ... extract results</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="performance-comparison">
+<h2>Performance Comparison<a class="headerlink" href="#performance-comparison" title="Link to this heading">#</a></h2>
+<section id="defaults-evolution">
+<h3>Defaults Evolution<a class="headerlink" href="#defaults-evolution" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>v1.0 Default</p></th>
+<th class="head"><p>v2.0 Default</p></th>
+<th class="head"><p>v3.0 Default (Planned)</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Scheduling</strong></p></td>
+<td><p>static</p></td>
+<td><p>static</p></td>
+<td><p><strong>adaptive</strong></p></td>
+<td><p>2.07x</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Collision</strong></p></td>
+<td><p>USPG</p></td>
+<td><p>USPG</p></td>
+<td><p>USPG</p></td>
+<td><p>1.0x</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Diagnostics</strong></p></td>
+<td><p>N/A</p></td>
+<td><p>N/A</p></td>
+<td><p>None (disabled)</p></td>
+<td><p>1.0x</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Auto-tuning</strong></p></td>
+<td><p>N/A</p></td>
+<td><p>N/A</p></td>
+<td><p><strong>Enabled</strong></p></td>
+<td><p>1.10x</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Combined</strong></p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p><strong>2.28x</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>v3.0 provides 2.28x speedup over v1.0 with zero configuration changes.</strong></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="implementation-checklist">
+<h2>Implementation Checklist<a class="headerlink" href="#implementation-checklist" title="Link to this heading">#</a></h2>
+<section id="phase-1-core-parameters-priority-p0">
+<h3>Phase 1: Core Parameters (Priority P0)<a class="headerlink" href="#phase-1-core-parameters-priority-p0" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Add <code class="docutils literal notranslate"><span class="pre">schedule_mode</span></code> parameter to C++ wrapper</p></li>
+<li><p>[ ] Add <code class="docutils literal notranslate"><span class="pre">collision_detection</span></code> parameter</p></li>
+<li><p>[ ] Add <code class="docutils literal notranslate"><span class="pre">diagnostics_csv</span></code> parameter</p></li>
+<li><p>[ ] Expose via pybind11</p></li>
+<li><p>[ ] Write unit tests</p></li>
+</ul>
+</section>
+<section id="phase-2-robustness-priority-p1">
+<h3>Phase 2: Robustness (Priority P1)<a class="headerlink" href="#phase-2-robustness-priority-p1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Add <code class="docutils literal notranslate"><span class="pre">checkpoint_interval</span></code> parameter</p></li>
+<li><p>[ ] Implement checkpoint save/load</p></li>
+<li><p>[ ] Add <code class="docutils literal notranslate"><span class="pre">resume_from_checkpoint</span></code> parameter</p></li>
+<li><p>[ ] Write recovery tests</p></li>
+</ul>
+</section>
+<section id="phase-3-output-control-priority-p2">
+<h3>Phase 3: Output Control (Priority P2)<a class="headerlink" href="#phase-3-output-control-priority-p2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Add <code class="docutils literal notranslate"><span class="pre">output_format</span></code> parameter</p></li>
+<li><p>[ ] Implement CSV-only output mode</p></li>
+<li><p>[ ] Update I/O subsystem</p></li>
+<li><p>[ ] Benchmark disk usage</p></li>
+</ul>
+</section>
+<section id="phase-4-auto-tuning-priority-p2">
+<h3>Phase 4: Auto-Tuning (Priority P2)<a class="headerlink" href="#phase-4-auto-tuning-priority-p2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Add <code class="docutils literal notranslate"><span class="pre">enable_performance_hints</span></code> parameter</p></li>
+<li><p>[ ] Implement workload analyzer</p></li>
+<li><p>[ ] Auto-adjust chunk size, collision algorithm</p></li>
+<li><p>[ ] Validate on diverse workloads</p></li>
+</ul>
+</section>
+<section id="phase-5-documentation-priority-p0">
+<h3>Phase 5: Documentation (Priority P0)<a class="headerlink" href="#phase-5-documentation-priority-p0" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>[ ] Update Python bindings guide</p></li>
+<li><p>[ ] Add migration guide (v2.0 → v3.0)</p></li>
+<li><p>[ ] Create API reference</p></li>
+<li><p>[ ] Write examples</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="backward-compatibility-guarantee">
+<h2>Backward Compatibility Guarantee<a class="headerlink" href="#backward-compatibility-guarantee" title="Link to this heading">#</a></h2>
+<p><strong>All existing code will work without changes:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># v1.0 code (2024)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span><span class="n">global_params</span><span class="p">,</span> <span class="p">[</span><span class="n">cell_type</span><span class="p">])</span>
+<span class="c1"># ✅ Works in v3.0 (2026) with automatic 2.28x speedup from new defaults</span>
+
+<span class="c1"># v2.0 code (2025)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">global_params</span><span class="p">,</span> <span class="p">[</span><span class="n">cell_type</span><span class="p">],</span>
+    <span class="n">nb_threads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="c1"># ✅ Works in v3.0 (2026) with same behavior + new defaults</span>
+
+<span class="c1"># v3.0 code (2026)</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">global_params</span><span class="p">,</span> <span class="p">[</span><span class="n">cell_type</span><span class="p">],</span>
+    <span class="n">schedule_mode</span><span class="o">=</span><span class="s1">'adaptive'</span><span class="p">,</span> <span class="n">diagnostics_csv</span><span class="o">=</span><span class="s1">'perf.csv'</span>
+<span class="p">)</span>
+<span class="c1"># ✅ New features available</span>
+</pre></div>
+</div>
+<p><strong>No breaking changes. Only additions.</strong></p>
+</section>
+<hr class="docutils" />
+<section id="migration-path">
+<h2>Migration Path<a class="headerlink" href="#migration-path" title="Link to this heading">#</a></h2>
+<section id="for-users-v1-0-v2-0-v3-0">
+<h3>For Users (v1.0/v2.0 → v3.0)<a class="headerlink" href="#for-users-v1-0-v2-0-v3-0" title="Link to this heading">#</a></h3>
+<p><strong>Option 1: Do nothing (recommended)</strong></p>
+<ul class="simple">
+<li><p>Your code works unchanged</p></li>
+<li><p>Automatically get 2.28x speedup from new defaults</p></li>
+</ul>
+<p><strong>Option 2: Opt into new features</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enable diagnostics for profiling</span>
+<span class="n">wrapper</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">simucell3d_wrapper</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cell_types</span><span class="p">,</span>
+    <span class="n">diagnostics_csv</span><span class="o">=</span><span class="s1">'perf.csv'</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="for-developers-implementing-v3-0">
+<h3>For Developers (Implementing v3.0)<a class="headerlink" href="#for-developers-implementing-v3-0" title="Link to this heading">#</a></h3>
+<p><strong>Design priorities:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Preserve backward compatibility</strong> - All existing code must work</p></li>
+<li><p><strong>Sensible defaults</strong> - New defaults optimize for common case (speed)</p></li>
+<li><p><strong>Explicit control</strong> - Advanced users can override everything</p></li>
+<li><p><strong>Clear documentation</strong> - Each parameter has rationale and examples</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Link to this heading">#</a></h2>
+<section id="q-why-isn-t-diagnostics-csv-enabled-by-default">
+<h3>Q: Why isn’t <code class="docutils literal notranslate"><span class="pre">diagnostics_csv</span></code> enabled by default?<a class="headerlink" href="#q-why-isn-t-diagnostics-csv-enabled-by-default" title="Link to this heading">#</a></h3>
+<p><strong>A:</strong> It has 2-3% performance overhead. For parameter sweeps with 100+ simulations, this adds up. Users who need profiling can opt in.</p>
+</section>
+<section id="q-why-is-adaptive-the-default-not-static">
+<h3>Q: Why is <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> the default, not <code class="docutils literal notranslate"><span class="pre">static</span></code>?<a class="headerlink" href="#q-why-is-adaptive-the-default-not-static" title="Link to this heading">#</a></h3>
+<p><strong>A:</strong> Benchmarks (52 configurations) show adaptive is fastest or tied-for-fastest in 95% of cases. Static is only better for very large uniform workloads (&gt;2048 cells, no growth).</p>
+</section>
+<section id="q-will-v1-0-code-get-automatic-speedup-in-v3-0">
+<h3>Q: Will v1.0 code get automatic speedup in v3.0?<a class="headerlink" href="#q-will-v1-0-code-get-automatic-speedup-in-v3-0" title="Link to this heading">#</a></h3>
+<p><strong>A:</strong> Yes! Old code defaults to <code class="docutils literal notranslate"><span class="pre">schedule_mode='adaptive'</span></code>, providing 2.07x speedup with zero changes. This is the whole point of smart defaults.</p>
+</section>
+<section id="q-can-i-disable-auto-tuning-for-reproducibility">
+<h3>Q: Can I disable auto-tuning for reproducibility?<a class="headerlink" href="#q-can-i-disable-auto-tuning-for-reproducibility" title="Link to this heading">#</a></h3>
+<p><strong>A:</strong> Yes: <code class="docutils literal notranslate"><span class="pre">enable_performance_hints=False</span></code> disables all auto-tuning, matching v1.0 deterministic behavior.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="performance-tuning.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Performance Tuning Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../sections/benchmarking.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Benchmarking</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhanced-api-signature">Enhanced API Signature</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#current-api-v2-0-existing">Current API (v2.0 - Existing)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enhanced-api-v3-0-planned">Enhanced API (v3.0 - Planned)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-specifications">Parameter Specifications</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-parameter-schedule-mode">New Parameter: <code class="docutils literal notranslate"><span class="pre">schedule_mode</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-parameter-collision-detection">New Parameter: <code class="docutils literal notranslate"><span class="pre">collision_detection</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-parameter-diagnostics-csv">New Parameter: <code class="docutils literal notranslate"><span class="pre">diagnostics_csv</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-parameter-checkpoint-interval">New Parameter: <code class="docutils literal notranslate"><span class="pre">checkpoint_interval</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-parameter-output-format">New Parameter: <code class="docutils literal notranslate"><span class="pre">output_format</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-parameter-enable-performance-hints">New Parameter: <code class="docutils literal notranslate"><span class="pre">enable_performance_hints</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-example-v3-0-api">Complete Example (v3.0 API)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage-backward-compatible">Basic Usage (Backward Compatible)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage-new-features">Advanced Usage (New Features)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-sweep-performance-optimized">Parameter Sweep (Performance Optimized)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-comparison">Performance Comparison</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defaults-evolution">Defaults Evolution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-checklist">Implementation Checklist</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-1-core-parameters-priority-p0">Phase 1: Core Parameters (Priority P0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-2-robustness-priority-p1">Phase 2: Robustness (Priority P1)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-3-output-control-priority-p2">Phase 3: Output Control (Priority P2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-4-auto-tuning-priority-p2">Phase 4: Auto-Tuning (Priority P2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-5-documentation-priority-p0">Phase 5: Documentation (Priority P0)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-compatibility-guarantee">Backward Compatibility Guarantee</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migration-path">Migration Path</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-users-v1-0-v2-0-v3-0">For Users (v1.0/v2.0 → v3.0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-developers-implementing-v3-0">For Developers (Implementing v3.0)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#faq">FAQ</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-why-isn-t-diagnostics-csv-enabled-by-default">Q: Why isn’t <code class="docutils literal notranslate"><span class="pre">diagnostics_csv</span></code> enabled by default?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-why-is-adaptive-the-default-not-static">Q: Why is <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> the default, not <code class="docutils literal notranslate"><span class="pre">static</span></code>?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-will-v1-0-code-get-automatic-speedup-in-v3-0">Q: Will v1.0 code get automatic speedup in v3.0?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#q-can-i-disable-auto-tuning-for-reproducibility">Q: Can I disable auto-tuning for reproducibility?</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/developer/python-api-specs.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

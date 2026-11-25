@@ -1,0 +1,1581 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>Visualization Package Guide &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/user-guide/visualization';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/user-guide/visualization.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Parameter Screening Guide" href="parameter-screening.html" />
+    <link rel="prev" title="Simulation statistics" href="output-format.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Visualization Package Guide - SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/user-guide/visualization.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="parameter-reference.html">Parameter reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input-mesh-format.html">Input mesh format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh-generation.html">Mesh generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output-format.html">Simulation statistics</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter-screening.html">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-bindings.html">Python bindings</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/user-guide.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Visualizatio...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="visualization-package-guide">
+<h1>Visualization Package Guide<a class="headerlink" href="#visualization-package-guide" title="Link to this heading">#</a></h1>
+<p>Comprehensive guide to the <strong>SimuCell3D Visualization Package</strong> (<code class="docutils literal notranslate"><span class="pre">simucell3d_viz</span></code>) - a Python library for publication-quality benchmark visualization and statistical analysis.</p>
+<p>This package turns raw simulation CSV files into 17 publication-ready plots with automatic data validation, cleaning, and statistical testing.</p>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#overview">Overview</a></p></li>
+<li><p><a class="reference internal" href="#installation">Installation</a></p></li>
+<li><p><a class="reference internal" href="#quick-start">Quick Start</a></p></li>
+<li><p><a class="reference internal" href="#package-structure">Package Structure</a></p></li>
+<li><p><a class="reference internal" href="#data-loading">Data Loading</a></p></li>
+<li><p><a class="reference internal" href="#statistical-analysis">Statistical Analysis</a></p></li>
+<li><p><a class="reference internal" href="#visualization-examples">Visualization Examples</a></p></li>
+<li><p><a class="reference internal" href="#advanced-usage">Advanced Usage</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting">Troubleshooting</a></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<section id="what-is-simucell3d-viz">
+<h3>What is simucell3d_viz?<a class="headerlink" href="#what-is-simucell3d-viz" title="Link to this heading">#</a></h3>
+<p>A Python package providing:</p>
+<ol class="arabic simple">
+<li><p><strong>Automatic scheduler detection</strong> - Supports any number of schedulers (v1, static, adaptive, custom)</p></li>
+<li><p><strong>Data validation &amp; cleaning</strong> - Removes invalid data with audit trail</p></li>
+<li><p><strong>17 publication-quality plots</strong> - Biological, computational, and statistical narratives</p></li>
+<li><p><strong>Statistical analysis</strong> - Bootstrap CI, hypothesis tests, regression diagnostics</p></li>
+<li><p><strong>CVD-safe color palettes</strong> - Colorblind-friendly plots</p></li>
+<li><p><strong>Tufte-style design</strong> - Minimal ink, maximum clarity</p></li>
+</ol>
+</section>
+<section id="key-features">
+<h3>Key Features<a class="headerlink" href="#key-features" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Auto-validation</strong></p></td>
+<td><p>Detects missing columns, invalid values, outliers</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Audit trail</strong></p></td>
+<td><p>JSON log of all cleaning decisions</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Type-safe API</strong></p></td>
+<td><p>Dataclasses prevent runtime errors</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Flexible plotting</strong></p></td>
+<td><p>Generate all 17 plots or select specific ones</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Publication-ready</strong></p></td>
+<td><p>300 DPI, PDF export, journal-standard dimensions</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Statistical rigor</strong></p></td>
+<td><p>Bootstrap resampling, permutation tests, regression</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="when-to-use-this-package">
+<h3>When to Use This Package<a class="headerlink" href="#when-to-use-this-package" title="Link to this heading">#</a></h3>
+<p><strong>Use simucell3d_viz when you:</strong></p>
+<ul class="simple">
+<li><p>Ran benchmarks with <code class="docutils literal notranslate"><span class="pre">run_parallel_benchmark_comparison.sh</span></code></p></li>
+<li><p>Have CSV files in <code class="docutils literal notranslate"><span class="pre">metrics/*/</span></code> directories</p></li>
+<li><p>Want publication-quality visualizations</p></li>
+<li><p>Need statistical validation of performance claims</p></li>
+<li><p>Want to compare multiple schedulers</p></li>
+</ul>
+<p><strong>Don’t use this for:</strong></p>
+<ul class="simple">
+<li><p>Single simulation visualization (use ParaView for VTK files)</p></li>
+<li><p>Real-time monitoring (use <code class="docutils literal notranslate"><span class="pre">parallel_benchmark_monitor.sh</span></code>)</p></li>
+<li><p>Interactive exploration (use Jupyter with pandas/seaborn)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<p><strong>Python 3.8+</strong> with the following packages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Core dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>matplotlib<span class="w"> </span>seaborn
+
+<span class="c1"># Or use conda</span>
+conda<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>matplotlib<span class="w"> </span>seaborn
+</pre></div>
+</div>
+</section>
+<section id="package-installation">
+<h3>Package Installation<a class="headerlink" href="#package-installation" title="Link to this heading">#</a></h3>
+<p>The package is located at <code class="docutils literal notranslate"><span class="pre">scripts/simucell3d_viz/</span></code> and doesn’t need installation - it’s used directly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run from scripts/ directory</span>
+<span class="nb">cd</span><span class="w"> </span>scripts/
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>../doc/working/parallel_benchmark_TIMESTAMP/
+</pre></div>
+</div>
+</section>
+<section id="verify-installation">
+<h3>Verify Installation<a class="headerlink" href="#verify-installation" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check dependencies</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import pandas, numpy, scipy, matplotlib, seaborn; print('✓ All dependencies installed')"</span>
+
+<span class="c1"># Run validation test</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>--help
+</pre></div>
+</div>
+</section>
+<section id="optional-dependencies">
+<h3>Optional Dependencies<a class="headerlink" href="#optional-dependencies" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For LaTeX rendering in plots (publication quality)</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>texlive-latex-base<span class="w"> </span>texlive-fonts-recommended<span class="w"> </span>cm-super<span class="w"> </span>dvipng
+
+<span class="c1"># For faster numerical operations</span>
+pip<span class="w"> </span>install<span class="w"> </span>numba
+
+<span class="c1"># For interactive notebooks</span>
+pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>ipywidgets
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<section id="basic-usage-cli">
+<h3>Basic Usage (CLI)<a class="headerlink" href="#basic-usage-cli" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate all 17 plots</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>/path/to/benchmark_dir/
+
+<span class="c1"># Output: benchmark_dir/plots-unified/*.png</span>
+</pre></div>
+</div>
+</section>
+<section id="publication-quality">
+<h3>Publication Quality<a class="headerlink" href="#publication-quality" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 300 DPI, PDF output, optimized for paper submission</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--quality<span class="w"> </span>publication
+
+<span class="c1"># Output: benchmark_dir/plots-unified/*.pdf</span>
+</pre></div>
+</div>
+</section>
+<section id="selective-plotting">
+<h3>Selective Plotting<a class="headerlink" href="#selective-plotting" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate only biological plots (01-04)</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--plots<span class="w"> </span>biological
+
+<span class="c1"># Generate specific plots by ID</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--plots<span class="w"> </span><span class="m">01</span>,05,13
+</pre></div>
+</div>
+</section>
+<section id="validation-only">
+<h3>Validation Only<a class="headerlink" href="#validation-only" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check data quality without generating plots</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--validate-only
+
+<span class="c1"># Output: validation_report.json</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="package-structure">
+<h2>Package Structure<a class="headerlink" href="#package-structure" title="Link to this heading">#</a></h2>
+<section id="directory-layout">
+<h3>Directory Layout<a class="headerlink" href="#directory-layout" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>simucell3d_viz/
+├── __init__.py              # Package entry point
+├── data/                    # Data loading and validation
+│   ├── accessor.py          # Type-safe data access API
+│   ├── cleaner.py           # Data cleaning with audit trail
+│   ├── scheduler_detector.py # Automatic scheduler detection
+│   └── validator.py         # Data validation rules
+├── stats/                   # Statistical analysis
+│   ├── confidence_intervals.py   # Bootstrap CI computation
+│   ├── hypothesis_tests.py       # Permutation tests, energy conservation
+│   └── regression_diagnostics.py # Linear models, Cook's distance
+└── utils/                   # Utility functions
+    └── time_utils.py        # Timestamp parsing, time series alignment
+</pre></div>
+</div>
+</section>
+<section id="module-overview">
+<h3>Module Overview<a class="headerlink" href="#module-overview" title="Link to this heading">#</a></h3>
+<section id="data-accessor">
+<h4>data.accessor<a class="headerlink" href="#data-accessor" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Type-safe, validated access to benchmark data</p>
+<p><strong>Key classes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SchedulerDataAccessor</span></code> - Main API for data retrieval</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TimeSeriesData</span></code> - Validated time series with uncertainty</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StatsSummary</span></code> - Statistical summary of data columns</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.data.accessor</span><span class="w"> </span><span class="kn">import</span> <span class="n">SchedulerDataAccessor</span>
+
+<span class="n">accessor</span> <span class="o">=</span> <span class="n">SchedulerDataAccessor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">'adaptive'</span><span class="p">,</span> <span class="s1">'computational'</span><span class="p">)</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="n">get_time_series</span><span class="p">([</span><span class="s1">'ips'</span><span class="p">,</span> <span class="s1">'iterations_per_second'</span><span class="p">],</span> <span class="n">min_points</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">ts</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean IPS: </span><span class="si">{</span><span class="n">ts</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Std IPS: </span><span class="si">{</span><span class="n">ts</span><span class="o">.</span><span class="n">std</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="data-validator">
+<h4>data.validator<a class="headerlink" href="#data-validator" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Validate benchmark data structure and content</p>
+<p><strong>Key functions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">validate_benchmark(benchmark_dir)</span></code> - Check directory structure, CSV files, column names</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ValidationReport</span></code> - Dataclass with validation results (errors, warnings)</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.data.validator</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_benchmark</span>
+
+<span class="n">report</span> <span class="o">=</span> <span class="n">validate_benchmark</span><span class="p">(</span><span class="s1">'/path/to/benchmark/'</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">report</span><span class="o">.</span><span class="n">is_valid</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ Data is valid"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✗ Validation failed: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">errors</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="data-cleaner">
+<h4>data.cleaner<a class="headerlink" href="#data-cleaner" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Clean invalid data with audit trail</p>
+<p><strong>Key functions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">load_and_clean_data(benchmark_dir)</span></code> - Load CSVs, remove invalid values, generate audit trail</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AuditTrail</span></code> - JSON log of cleaning decisions</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.data.cleaner</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_and_clean_data</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_and_clean_data</span><span class="p">(</span><span class="s1">'/path/to/benchmark/'</span><span class="p">)</span>
+
+<span class="c1"># Check audit trail</span>
+<span class="n">audit</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'audit_trail'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Removed </span><span class="si">{</span><span class="n">audit</span><span class="o">.</span><span class="n">num_invalid_rows</span><span class="si">}</span><span class="s2"> invalid rows"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cleaned </span><span class="si">{</span><span class="n">audit</span><span class="o">.</span><span class="n">num_outliers</span><span class="si">}</span><span class="s2"> outliers"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="stats-confidence-intervals">
+<h4>stats.confidence_intervals<a class="headerlink" href="#stats-confidence-intervals" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Bootstrap confidence interval computation</p>
+<p><strong>Key functions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_parametric_ci(data,</span> <span class="pre">confidence=0.95)</span></code> - Parametric CI (assumes normality)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_bootstrap_ci(data,</span> <span class="pre">n_bootstrap=1000,</span> <span class="pre">confidence=0.95)</span></code> - Non-parametric bootstrap</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.confidence_intervals</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_bootstrap_ci</span>
+
+<span class="n">mean</span><span class="p">,</span> <span class="n">ci_lower</span><span class="p">,</span> <span class="n">ci_upper</span> <span class="o">=</span> <span class="n">compute_bootstrap_ci</span><span class="p">(</span><span class="n">ips_data</span><span class="p">,</span> <span class="n">n_bootstrap</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean IPS: </span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">ci_lower</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">ci_upper</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="stats-hypothesis-tests">
+<h4>stats.hypothesis_tests<a class="headerlink" href="#stats-hypothesis-tests" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Statistical hypothesis testing</p>
+<p><strong>Key functions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bootstrap_permutation_test(group1,</span> <span class="pre">group2,</span> <span class="pre">n_perm=10000)</span></code> - Non-parametric test</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test_energy_conservation(energy_series,</span> <span class="pre">threshold=0.01)</span></code> - Check energy drift</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.hypothesis_tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">bootstrap_permutation_test</span>
+
+<span class="c1"># Test if adaptive is faster than v1.0</span>
+<span class="n">p_value</span><span class="p">,</span> <span class="n">effect_size</span> <span class="o">=</span> <span class="n">bootstrap_permutation_test</span><span class="p">(</span><span class="n">adaptive_ips</span><span class="p">,</span> <span class="n">v1_ips</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">p_value</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Adaptive is significantly faster (p=</span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, d=</span><span class="si">{</span><span class="n">effect_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="stats-regression-diagnostics">
+<h4>stats.regression_diagnostics<a class="headerlink" href="#stats-regression-diagnostics" title="Link to this heading">#</a></h4>
+<p><strong>Purpose:</strong> Linear regression validation</p>
+<p><strong>Key functions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_power_law_fit(x,</span> <span class="pre">y)</span></code> - Fit power law relationship</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_cooks_distance(model,</span> <span class="pre">threshold=0.5)</span></code> - Identify influential outliers</p></li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.regression_diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_power_law_fit</span>
+
+<span class="c1"># Fit IPS ~ cell_count^alpha</span>
+<span class="n">alpha</span><span class="p">,</span> <span class="n">r_squared</span><span class="p">,</span> <span class="n">residuals</span> <span class="o">=</span> <span class="n">compute_power_law_fit</span><span class="p">(</span><span class="n">cell_counts</span><span class="p">,</span> <span class="n">ips_values</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Scaling exponent: </span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, R²: </span><span class="si">{</span><span class="n">r_squared</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="data-loading">
+<h2>Data Loading<a class="headerlink" href="#data-loading" title="Link to this heading">#</a></h2>
+<section id="benchmark-data-structure">
+<h3>Benchmark Data Structure<a class="headerlink" href="#benchmark-data-structure" title="Link to this heading">#</a></h3>
+<p>The visualization package expects this directory structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>benchmark_dir/
+├── metrics/
+│   ├── v1/
+│   │   ├── biological.csv
+│   │   ├── computational.csv
+│   │   ├── phase_timings.csv
+│   │   └── workload.csv
+│   ├── static/
+│   │   └── (same files)
+│   ├── adaptive/
+│   │   └── (same files)
+│   └── comparison.csv
+└── README.txt
+</pre></div>
+</div>
+</section>
+<section id="csv-file-formats">
+<h3>CSV File Formats<a class="headerlink" href="#csv-file-formats" title="Link to this heading">#</a></h3>
+<section id="biological-csv">
+<h4>biological.csv<a class="headerlink" href="#biological-csv" title="Link to this heading">#</a></h4>
+<p><strong>Columns:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code> - Simulation iteration number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code> - Epoch seconds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_pressure</span></code> - Mean cell pressure (Pa)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std_pressure</span></code> - Std dev of pressure</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_volume</span></code> - Mean cell volume (m³)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_energy</span></code> - System total energy (J)</p></li>
+</ul>
+</section>
+<section id="computational-csv">
+<h4>computational.csv<a class="headerlink" href="#computational-csv" title="Link to this heading">#</a></h4>
+<p><strong>Columns:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code> - Simulation iteration number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code> - Epoch seconds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ips</span></code> - Iterations per second</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thread_efficiency</span></code> - Actual/ideal speedup</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">speedup</span></code> - vs single-threaded baseline</p></li>
+</ul>
+</section>
+<section id="phase-timings-csv">
+<h4>phase_timings.csv<a class="headerlink" href="#phase-timings-csv" title="Link to this heading">#</a></h4>
+<p><strong>Columns:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code> - Simulation iteration number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contact_time</span></code> - Contact detection time (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">integration_time</span></code> - Force integration time (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">refinement_time</span></code> - Mesh refinement time (s)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">io_time</span></code> - Output writing time (s)</p></li>
+</ul>
+</section>
+<section id="workload-csv">
+<h4>workload.csv<a class="headerlink" href="#workload-csv" title="Link to this heading">#</a></h4>
+<p><strong>Columns:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iteration</span></code> - Simulation iteration number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_cells</span></code> - Current cell count</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_triangles</span></code> - Total triangle count</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_divisions</span></code> - Cumulative cell divisions</p></li>
+</ul>
+</section>
+</section>
+<section id="loading-data-programmatically">
+<h3>Loading Data Programmatically<a class="headerlink" href="#loading-data-programmatically" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># Add package to path</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">'scripts/'</span><span class="p">)))</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.data.cleaner</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_and_clean_data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.data.scheduler_detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_schedulers</span>
+
+<span class="c1"># Load benchmark data</span>
+<span class="n">benchmark_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'doc/working/parallel_benchmark_20260127_192747/'</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_and_clean_data</span><span class="p">(</span><span class="n">benchmark_dir</span><span class="p">)</span>
+
+<span class="c1"># Detect schedulers</span>
+<span class="n">schedulers</span> <span class="o">=</span> <span class="n">detect_schedulers</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">schedulers</span><span class="p">)</span><span class="si">}</span><span class="s2"> schedulers: </span><span class="si">{</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">schedulers</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Access data for specific scheduler</span>
+<span class="n">adaptive_bio</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'adaptive'</span><span class="p">][</span><span class="s1">'biological'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Adaptive IPS: </span><span class="si">{</span><span class="n">adaptive_bio</span><span class="p">[</span><span class="s1">'ips'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="handling-missing-data">
+<h3>Handling Missing Data<a class="headerlink" href="#handling-missing-data" title="Link to this heading">#</a></h3>
+<p>The cleaner automatically handles missing data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Missing columns are detected</span>
+<span class="c1"># Invalid values (NaN, Inf, negative pressure) are removed</span>
+<span class="c1"># Audit trail records all decisions</span>
+
+<span class="n">audit</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'audit_trail'</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cleaning summary:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Valid rows: </span><span class="si">{</span><span class="n">audit</span><span class="o">.</span><span class="n">num_valid_rows</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Invalid rows removed: </span><span class="si">{</span><span class="n">audit</span><span class="o">.</span><span class="n">num_invalid_rows</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Outliers removed: </span><span class="si">{</span><span class="n">audit</span><span class="o">.</span><span class="n">num_outliers</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Columns imputed: </span><span class="si">{</span><span class="n">audit</span><span class="o">.</span><span class="n">num_imputed_columns</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Save audit trail</span>
+<span class="n">audit_path</span> <span class="o">=</span> <span class="n">benchmark_dir</span> <span class="o">/</span> <span class="s1">'plots-unified'</span> <span class="o">/</span> <span class="s1">'audit_trail.json'</span>
+<span class="n">audit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">audit_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="statistical-analysis">
+<h2>Statistical Analysis<a class="headerlink" href="#statistical-analysis" title="Link to this heading">#</a></h2>
+<section id="bootstrap-confidence-intervals">
+<h3>Bootstrap Confidence Intervals<a class="headerlink" href="#bootstrap-confidence-intervals" title="Link to this heading">#</a></h3>
+<p><strong>When to use:</strong> Estimate uncertainty in mean IPS without assuming normality</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.confidence_intervals</span><span class="w"> </span><span class="kn">import</span> <span class="n">compute_bootstrap_ci</span>
+
+<span class="c1"># Compute 95% CI with 1000 bootstrap resamples</span>
+<span class="n">mean_ips</span><span class="p">,</span> <span class="n">ci_lower</span><span class="p">,</span> <span class="n">ci_upper</span> <span class="o">=</span> <span class="n">compute_bootstrap_ci</span><span class="p">(</span>
+    <span class="n">ips_data</span><span class="p">,</span>
+    <span class="n">n_bootstrap</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">confidence</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Mean IPS: </span><span class="si">{</span><span class="n">mean_ips</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"95% CI: [</span><span class="si">{</span><span class="n">ci_lower</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">ci_upper</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+
+<span class="c1"># Interpretation:</span>
+<span class="c1"># - Narrow CI → precise estimate</span>
+<span class="c1"># - CI not overlapping with baseline → statistically significant improvement</span>
+</pre></div>
+</div>
+</section>
+<section id="hypothesis-testing">
+<h3>Hypothesis Testing<a class="headerlink" href="#hypothesis-testing" title="Link to this heading">#</a></h3>
+<p><strong>When to use:</strong> Test if adaptive is significantly faster than v1.0</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.hypothesis_tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">bootstrap_permutation_test</span>
+
+<span class="c1"># Test H0: no difference in IPS</span>
+<span class="c1"># H1: adaptive IPS &gt; v1.0 IPS</span>
+<span class="n">p_value</span><span class="p">,</span> <span class="n">effect_size</span> <span class="o">=</span> <span class="n">bootstrap_permutation_test</span><span class="p">(</span>
+    <span class="n">group1</span><span class="o">=</span><span class="n">adaptive_ips</span><span class="p">,</span>
+    <span class="n">group2</span><span class="o">=</span><span class="n">v1_ips</span><span class="p">,</span>
+    <span class="n">n_permutations</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">alternative</span><span class="o">=</span><span class="s1">'greater'</span><span class="p">,</span>  <span class="c1"># one-tailed test</span>
+    <span class="n">random_seed</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"p-value: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Effect size (Cohen's d): </span><span class="si">{</span><span class="n">effect_size</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Interpretation:</span>
+<span class="c1"># - p &lt; 0.05 → reject H0 (statistically significant)</span>
+<span class="c1"># - |d| &gt; 0.8 → large effect (practically significant)</span>
+
+<span class="k">if</span> <span class="n">p_value</span> <span class="o">&lt;</span> <span class="mf">0.05</span> <span class="ow">and</span> <span class="n">effect_size</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ Adaptive is significantly and substantially faster"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="energy-conservation-check">
+<h3>Energy Conservation Check<a class="headerlink" href="#energy-conservation-check" title="Link to this heading">#</a></h3>
+<p><strong>When to use:</strong> Validate that scheduler doesn’t affect physics</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.hypothesis_tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_energy_conservation</span>
+
+<span class="c1"># Check energy drift &lt; 1%</span>
+<span class="n">drift_percent</span><span class="p">,</span> <span class="n">is_conserved</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">test_energy_conservation</span><span class="p">(</span>
+    <span class="n">energy_series</span><span class="o">=</span><span class="n">total_energy</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span>  <span class="c1"># 1% drift threshold</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Energy drift: </span><span class="si">{</span><span class="n">drift_percent</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Conserved: </span><span class="si">{</span><span class="n">is_conserved</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"p-value: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Interpretation:</span>
+<span class="c1"># - |drift| &lt; 1% → excellent conservation</span>
+<span class="c1"># - p &gt; 0.05 → no significant drift (good)</span>
+<span class="c1"># - All schedulers should pass</span>
+</pre></div>
+</div>
+</section>
+<section id="regression-diagnostics">
+<h3>Regression Diagnostics<a class="headerlink" href="#regression-diagnostics" title="Link to this heading">#</a></h3>
+<p><strong>When to use:</strong> Validate IPS ~ cell_count model</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.regression_diagnostics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">compute_power_law_fit</span><span class="p">,</span>
+    <span class="n">compute_cooks_distance</span>
+<span class="p">)</span>
+
+<span class="c1"># Fit power law: IPS = a * cell_count^alpha</span>
+<span class="n">alpha</span><span class="p">,</span> <span class="n">r_squared</span><span class="p">,</span> <span class="n">residuals</span> <span class="o">=</span> <span class="n">compute_power_law_fit</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">cell_counts</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">ips_values</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Scaling exponent: </span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"R²: </span><span class="si">{</span><span class="n">r_squared</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Check for influential outliers</span>
+<span class="n">cooks_d</span> <span class="o">=</span> <span class="n">compute_cooks_distance</span><span class="p">(</span><span class="n">residuals</span><span class="p">)</span>
+<span class="n">outliers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cooks_d</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"✓ No influential outliers"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"⚠ </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span><span class="si">}</span><span class="s2"> outliers with Cook's D &gt; 0.5"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="visualization-examples">
+<h2>Visualization Examples<a class="headerlink" href="#visualization-examples" title="Link to this heading">#</a></h2>
+<section id="example-1-pressure-evolution-plot">
+<h3>Example 1: Pressure Evolution Plot<a class="headerlink" href="#example-1-pressure-evolution-plot" title="Link to this heading">#</a></h3>
+<p><strong>Purpose:</strong> Show mean pressure ± 95% CI over time</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.data.accessor</span><span class="w"> </span><span class="kn">import</span> <span class="n">SchedulerDataAccessor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.stats.confidence_intervals</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_ci_band</span>
+
+<span class="c1"># Load data for adaptive scheduler</span>
+<span class="n">accessor</span> <span class="o">=</span> <span class="n">SchedulerDataAccessor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">'adaptive'</span><span class="p">,</span> <span class="s1">'biological'</span><span class="p">)</span>
+<span class="n">pressure_ts</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="n">get_time_series</span><span class="p">(</span>
+    <span class="n">value_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'avg_pressure'</span><span class="p">,</span> <span class="s1">'pressure'</span><span class="p">],</span>
+    <span class="n">std_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'std_pressure'</span><span class="p">],</span>
+    <span class="n">min_points</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="c1"># Plot with confidence band</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pressure_ts</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">pressure_ts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Adaptive'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'#2E86AB'</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">pressure_ts</span><span class="o">.</span><span class="n">std</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">add_ci_band</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">pressure_ts</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">pressure_ts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pressure_ts</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Time (s)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Pressure (Pa)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'pressure_evolution.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-scheduler-comparison-boxplot">
+<h3>Example 2: Scheduler Comparison Boxplot<a class="headerlink" href="#example-2-scheduler-comparison-boxplot" title="Link to this heading">#</a></h3>
+<p><strong>Purpose:</strong> Compare IPS distribution across schedulers</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1"># Extract IPS for all schedulers</span>
+<span class="n">ips_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sched_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'v1'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">,</span> <span class="s1">'adaptive'</span><span class="p">]:</span>
+    <span class="n">accessor</span> <span class="o">=</span> <span class="n">SchedulerDataAccessor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sched_name</span><span class="p">,</span> <span class="s1">'computational'</span><span class="p">)</span>
+    <span class="n">ips_ts</span> <span class="o">=</span> <span class="n">accessor</span><span class="o">.</span><span class="n">get_time_series</span><span class="p">([</span><span class="s1">'ips'</span><span class="p">],</span> <span class="n">min_points</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ips_ts</span><span class="p">:</span>
+        <span class="n">ips_data</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+            <span class="p">{</span><span class="s1">'Scheduler'</span><span class="p">:</span> <span class="n">sched_name</span><span class="p">,</span> <span class="s1">'IPS'</span><span class="p">:</span> <span class="n">val</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">ips_ts</span><span class="o">.</span><span class="n">values</span>
+        <span class="p">])</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ips_data</span><span class="p">)</span>
+
+<span class="c1"># Boxplot with CVD-safe colors</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'Scheduler'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'IPS'</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">'colorblind'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Scheduler Performance Comparison'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'scheduler_comparison.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-scaling-analysis">
+<h3>Example 3: Scaling Analysis<a class="headerlink" href="#example-3-scaling-analysis" title="Link to this heading">#</a></h3>
+<p><strong>Purpose:</strong> Show IPS vs cell count for each scheduler</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Collect data</span>
+<span class="n">scaling_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sched_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'v1'</span><span class="p">,</span> <span class="s1">'static'</span><span class="p">,</span> <span class="s1">'adaptive'</span><span class="p">]:</span>
+    <span class="n">comp</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">sched_name</span><span class="p">][</span><span class="s1">'computational'</span><span class="p">]</span>
+    <span class="n">work</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">sched_name</span><span class="p">][</span><span class="s1">'workload'</span><span class="p">]</span>
+
+    <span class="n">scaling_data</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+        <span class="p">{</span>
+            <span class="s1">'Scheduler'</span><span class="p">:</span> <span class="n">sched_name</span><span class="p">,</span>
+            <span class="s1">'Cell Count'</span><span class="p">:</span> <span class="n">cells</span><span class="p">,</span>
+            <span class="s1">'IPS'</span><span class="p">:</span> <span class="n">ips</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">cells</span><span class="p">,</span> <span class="n">ips</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">work</span><span class="p">[</span><span class="s1">'num_cells'</span><span class="p">],</span> <span class="n">comp</span><span class="p">[</span><span class="s1">'ips'</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">cells</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ips</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">])</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaling_data</span><span class="p">)</span>
+
+<span class="c1"># Scatter plot with regression lines</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">sched</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Scheduler'</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s1">'Cell Count'</span><span class="p">],</span> <span class="n">group</span><span class="p">[</span><span class="s1">'IPS'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">sched</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Fit power law</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">compute_power_law_fit</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s1">'Cell Count'</span><span class="p">],</span> <span class="n">group</span><span class="p">[</span><span class="s1">'IPS'</span><span class="p">])</span>
+    <span class="n">x_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s1">'Cell Count'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span>
+                         <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s1">'Cell Count'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y_fit</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">'IPS'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_fit</span> <span class="o">/</span> <span class="n">group</span><span class="p">[</span><span class="s1">'Cell Count'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">**</span><span class="n">alpha</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_fit</span><span class="p">,</span> <span class="n">y_fit</span><span class="p">,</span> <span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">sched</span><span class="si">}</span><span class="s1"> fit (α=</span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Cell Count'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Iterations/sec'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'scaling_analysis.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading">#</a></h2>
+<section id="custom-plot-styling">
+<h3>Custom Plot Styling<a class="headerlink" href="#custom-plot-styling" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use CVD-safe color palette</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cycler</span><span class="w"> </span><span class="kn">import</span> <span class="n">cycler</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'#2E86AB'</span><span class="p">,</span> <span class="s1">'#A23B72'</span><span class="p">,</span> <span class="s1">'#F18F01'</span><span class="p">,</span> <span class="s1">'#C73E1D'</span><span class="p">,</span> <span class="s1">'#6A994E'</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">'axes'</span><span class="p">,</span> <span class="n">prop_cycle</span><span class="o">=</span><span class="n">cycler</span><span class="p">(</span><span class="s1">'color'</span><span class="p">,</span> <span class="n">colors</span><span class="p">))</span>
+
+<span class="c1"># Tufte-style minimal design</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">'axes'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'#333333'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">'xtick'</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">'out'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">'ytick'</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">'out'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">'grid'</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">':'</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="batch-processing">
+<h3>Batch Processing<a class="headerlink" href="#batch-processing" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># Process multiple benchmarks</span>
+<span class="n">benchmark_dirs</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'doc/working/'</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'parallel_benchmark_*/'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">bench_dir</span> <span class="ow">in</span> <span class="n">benchmark_dirs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Processing </span><span class="si">{</span><span class="n">bench_dir</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
+
+    <span class="c1"># Generate plots</span>
+    <span class="err">!</span><span class="n">python</span> <span class="n">plot_benchmark_unified</span><span class="o">.</span><span class="n">py</span> <span class="p">{</span><span class="n">bench_dir</span><span class="p">}</span> <span class="o">--</span><span class="n">quality</span> <span class="n">publication</span> <span class="o">--</span><span class="n">plots</span> <span class="mi">01</span><span class="p">,</span><span class="mi">05</span><span class="p">,</span><span class="mi">13</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"✓ Plots saved to </span><span class="si">{</span><span class="n">bench_dir</span><span class="si">}</span><span class="s2">/plots-unified/"</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="jupyter-integration">
+<h3>Jupyter Integration<a class="headerlink" href="#jupyter-integration" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In Jupyter notebook</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">simucell3d_viz.data.cleaner</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_and_clean_data</span>
+
+<span class="c1"># Load data interactively</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_and_clean_data</span><span class="p">(</span><span class="s1">'path/to/benchmark/'</span><span class="p">)</span>
+
+<span class="c1"># Explore interactively</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'adaptive'</span><span class="p">][</span><span class="s1">'computational'</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+<span class="c1"># Quick plot</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'iteration'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'ips'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Adaptive IPS over time'</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="module-import-errors">
+<h3>Module Import Errors<a class="headerlink" href="#module-import-errors" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">'simucell3d_viz'</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure you're running from scripts/ directory</span>
+<span class="nb">cd</span><span class="w"> </span>scripts/
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>../doc/working/benchmark_dir/
+
+<span class="c1"># Or add to PYTHONPATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span><span class="s2">:</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/scripts"</span>
+</pre></div>
+</div>
+</section>
+<section id="missing-csv-files">
+<h3>Missing CSV Files<a class="headerlink" href="#missing-csv-files" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">FileNotFoundError</span><span class="p">:</span> <span class="n">metrics</span><span class="o">/</span><span class="n">adaptive</span><span class="o">/</span><span class="n">biological</span><span class="o">.</span><span class="n">csv</span> <span class="ow">not</span> <span class="n">found</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check benchmark structure</span>
+ls<span class="w"> </span>-R<span class="w"> </span>path/to/benchmark/metrics/
+
+<span class="c1"># If metrics/ is empty, simulation didn't write output</span>
+<span class="c1"># Check parameter file: &lt;writing_frequency&gt; should be &gt; 0</span>
+
+<span class="c1"># Re-extract metrics from simulation output</span>
+python<span class="w"> </span>preprocess_benchmark_metrics.py<span class="w"> </span>path/to/benchmark/
+</pre></div>
+</div>
+</section>
+<section id="invalid-data-errors">
+<h3>Invalid Data Errors<a class="headerlink" href="#invalid-data-errors" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">All</span> <span class="n">data</span> <span class="ow">is</span> <span class="n">invalid</span> <span class="n">after</span> <span class="n">cleaning</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run validation to diagnose</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--validate-only
+
+<span class="c1"># Check validation_report.json</span>
+cat<span class="w"> </span>benchmark_dir/plots-unified/validation_report.json
+
+<span class="c1"># Common issues:</span>
+<span class="c1"># - Simulation crashed early (&lt; 10 data points)</span>
+<span class="c1"># - Column names don't match expected (check CSV headers)</span>
+<span class="c1"># - All values are NaN/Inf (simulation diverged)</span>
+</pre></div>
+</div>
+</section>
+<section id="plot-rendering-issues">
+<h3>Plot Rendering Issues<a class="headerlink" href="#plot-rendering-issues" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong> Plots look wrong, labels overlap, axes incorrect</p>
+<p><strong>Solution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Try different backend</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg<span class="w">  </span><span class="c1"># Non-interactive backend</span>
+
+<span class="c1"># Clear matplotlib cache</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/.cache/matplotlib/
+
+<span class="c1"># Update matplotlib</span>
+pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>matplotlib
+
+<span class="c1"># Use preview quality for debugging</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--quality<span class="w"> </span>preview
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<section id="key-takeaways">
+<h3>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>simucell3d_viz</strong> automates benchmark visualization with 17 publication-quality plots</p></li>
+<li><p><strong>Data validation &amp; cleaning</strong> ensures robust analysis with audit trail</p></li>
+<li><p><strong>Statistical rigor</strong> provides bootstrap CI, hypothesis tests, regression diagnostics</p></li>
+<li><p><strong>Type-safe API</strong> (<code class="docutils literal notranslate"><span class="pre">SchedulerDataAccessor</span></code>) prevents runtime errors</p></li>
+<li><p><strong>CVD-safe &amp; Tufte-style</strong> design for accessible, minimal-ink plots</p></li>
+</ol>
+</section>
+<section id="common-workflows">
+<h3>Common Workflows<a class="headerlink" href="#common-workflows" title="Link to this heading">#</a></h3>
+<p><strong>Workflow 1: Generate all plots (default)</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/
+</pre></div>
+</div>
+<p><strong>Workflow 2: Publication-quality subset</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--quality<span class="w"> </span>publication<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--plots<span class="w"> </span><span class="m">01</span>,05,13,14
+</pre></div>
+</div>
+<p><strong>Workflow 3: Validate before plotting</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--validate-only
+<span class="c1"># Check validation_report.json</span>
+python<span class="w"> </span>plot_benchmark_unified.py<span class="w"> </span>benchmark_dir/<span class="w"> </span>--plots<span class="w"> </span>biological
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h3>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Benchmarking guide</strong>: <a class="reference internal" href="../benchmarking/openmp-benchmarks.html"><span class="std std-doc">doc/benchmarking/openmp-benchmarks.md</span></a></p></li>
+<li><p><strong>Performance tuning</strong>: <a class="reference internal" href="../developer/performance-tuning.html"><span class="std std-doc">doc/developer/performance-tuning.md</span></a></p></li>
+<li><p><strong>Python bindings</strong>: <a class="reference internal" href="python-bindings.html"><span class="std std-doc">doc/user-guide/python-bindings.md</span></a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="output-format.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulation statistics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="parameter-screening.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Parameter Screening Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-simucell3d-viz">What is simucell3d_viz?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-this-package">When to Use This Package</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#package-installation">Package Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-installation">Verify Installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-dependencies">Optional Dependencies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage-cli">Basic Usage (CLI)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#publication-quality">Publication Quality</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selective-plotting">Selective Plotting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-only">Validation Only</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-structure">Package Structure</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directory-layout">Directory Layout</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#module-overview">Module Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-accessor">data.accessor</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-validator">data.validator</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaner">data.cleaner</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stats-confidence-intervals">stats.confidence_intervals</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stats-hypothesis-tests">stats.hypothesis_tests</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stats-regression-diagnostics">stats.regression_diagnostics</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loading">Data Loading</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-data-structure">Benchmark Data Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-file-formats">CSV File Formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#biological-csv">biological.csv</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-csv">computational.csv</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-timings-csv">phase_timings.csv</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#workload-csv">workload.csv</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data-programmatically">Loading Data Programmatically</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-missing-data">Handling Missing Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-analysis">Statistical Analysis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-confidence-intervals">Bootstrap Confidence Intervals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hypothesis-testing">Hypothesis Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#energy-conservation-check">Energy Conservation Check</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-diagnostics">Regression Diagnostics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-examples">Visualization Examples</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-pressure-evolution-plot">Example 1: Pressure Evolution Plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-scheduler-comparison-boxplot">Example 2: Scheduler Comparison Boxplot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-scaling-analysis">Example 3: Scaling Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage">Advanced Usage</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-plot-styling">Custom Plot Styling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-processing">Batch Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-integration">Jupyter Integration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#module-import-errors">Module Import Errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-csv-files">Missing CSV Files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#invalid-data-errors">Invalid Data Errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-rendering-issues">Plot Rendering Issues</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflows">Common Workflows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/user-guide/visualization.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

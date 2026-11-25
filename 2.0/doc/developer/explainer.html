@@ -1,0 +1,860 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>SimuCell3D: Deep Dive &amp; Explainer &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/developer/explainer';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/developer/explainer.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Performance Tuning Guide" href="performance-tuning.html" />
+    <link rel="prev" title="Developer guide" href="../../sections/developers.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="SimuCell3D: Deep Dive &amp; Explainer">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/developer/explainer.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Explainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance-tuning.html">Performance tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-api-specs.html">Python API specification</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/developers.html" class="nav-link">Developer guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SimuCell3D:...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simucell3d-deep-dive-explainer">
+<h1>SimuCell3D: Deep Dive &amp; Explainer<a class="headerlink" href="#simucell3d-deep-dive-explainer" title="Link to this heading">#</a></h1>
+<p>This document explains the <strong>SimuCell3D</strong> codebase in the context of the scientific simulations described in the paper <em>“SimuCell3D: three-dimensional simulation of tissue mechanics with cell polarization”</em> (Runser et al., Nature Computational Science 2024).</p>
+<section id="introduction-to-simucell3d">
+<h2>1. Introduction to SimuCell3D<a class="headerlink" href="#introduction-to-simucell3d" title="Link to this heading">#</a></h2>
+<p><strong>Scientific Goal</strong>: To simulate the mechanics of biological tissues at <strong>subcellular resolution</strong>. Unlike vertex models (which approximate cells as polygons), SimuCell3D uses a <strong>Deformable Cell Model (DCM)</strong> where each cell surface is a triangulated mesh. This allows for realistic shapes, bending, and complex cell-cell interactions.</p>
+<p><strong>Codebase Core</strong>: The project is a high-performance C++ engine. The entry point is <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>, which initializes a <code class="docutils literal notranslate"><span class="pre">solver</span></code>. The core logic resides in <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">src/contact_models/</span></code>, using OpenMP for parallelization.</p>
+</section>
+<hr class="docutils" />
+<section id="the-deformable-cell-model-dcm">
+<h2>2. The Deformable Cell Model (DCM)<a class="headerlink" href="#the-deformable-cell-model-dcm" title="Link to this heading">#</a></h2>
+<section id="science">
+<h3>Science<a class="headerlink" href="#science" title="Link to this heading">#</a></h3>
+<p>Real cells are 3D objects with fluid interiors, elastic membranes, and internal pressure. They can squeeze, flatten, and bend.</p>
+</section>
+<section id="codebase-implementation">
+<h3>Codebase Implementation<a class="headerlink" href="#codebase-implementation" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Mesh</strong>: Each cell is an instance of the <code class="docutils literal notranslate"><span class="pre">cell</span></code> class (implied from <code class="docutils literal notranslate"><span class="pre">cell_ptr</span></code>), composed of <code class="docutils literal notranslate"><span class="pre">node</span></code>s (vertices) and <code class="docutils literal notranslate"><span class="pre">face</span></code>s (triangles).</p></li>
+<li><p><strong>Refinement</strong>: To maintain numerical stability during deformation, the mesh is constantly refined.</p>
+<ul>
+<li><p><strong>File</strong>: <code class="docutils literal notranslate"><span class="pre">src/mesh/local_mesh_refiner.cpp</span></code> (managed by <code class="docutils literal notranslate"><span class="pre">lmr_ptr_</span></code> in <code class="docutils literal notranslate"><span class="pre">solver.cpp</span></code>).</p></li>
+<li><p><strong>Logic</strong>: In <code class="docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code>, <code class="docutils literal notranslate"><span class="pre">lmr_ptr_-&gt;refine_meshes(cell_lst_)</span></code> splits long edges and collapses short ones to keep triangles regular.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="simulation-epithelial-sheet-mechanics">
+<h2>3. Simulation: Epithelial Sheet Mechanics<a class="headerlink" href="#simulation-epithelial-sheet-mechanics" title="Link to this heading">#</a></h2>
+<p>This is a fundamental simulation often shown in Figure 1 of such papers (referencing <code class="docutils literal notranslate"><span class="pre">data/input_meshes/fig_1_sheet_geometry.vtk</span></code>).</p>
+<section id="step-1-configuration-parameters-core-parameters-sheet-xml">
+<h3>Step 1: Configuration (<code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_sheet.xml</span></code>)<a class="headerlink" href="#step-1-configuration-parameters-core-parameters-sheet-xml" title="Link to this heading">#</a></h3>
+<p>The simulation is defined by an XML file setting the physics:</p>
+<ul class="simple">
+<li><p><strong>Cell Types</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">epithelial</span></code> (ID 0): The main building block.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ecm</span></code> (Extracellular Matrix, ID 1) or <code class="docutils literal notranslate"><span class="pre">static_cell</span></code>: Provides a substrate.</p></li>
+</ul>
+</li>
+<li><p><strong>Mechanical Properties</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_bulk_modulus&gt;2.5e3&lt;/cell_bulk_modulus&gt;</span></code>: Controls how hard it is to change cell volume (compressibility).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;surface_tension&gt;1e-3&lt;/surface_tension&gt;</span></code>: Controls the contractility of the membrane.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="step-2-physics-engine-contact-model">
+<h3>Step 2: Physics Engine (Contact Model)<a class="headerlink" href="#step-2-physics-engine-contact-model" title="Link to this heading">#</a></h3>
+<p>For a sheet to stay together, cells must adhere.</p>
+<ul class="simple">
+<li><p><strong>Code</strong>: <code class="docutils literal notranslate"><span class="pre">src/contact_models/contact_face_face_via_coupling.cpp</span></code> (selected by <code class="docutils literal notranslate"><span class="pre">CONTACT_MODEL_INDEX</span> <span class="pre">2</span></code> in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>).</p></li>
+<li><p><strong>Algorithm</strong>:</p>
+<ol class="arabic simple">
+<li><p><strong>Broad Phase</strong>: The space is divided into a grid (USPG - Uniform Space Partitioning Grid) to find nearby faces.</p></li>
+<li><p><strong>Narrow Phase</strong>: The code calculates the distance between faces.</p></li>
+<li><p><strong>Forces</strong>: If distance &lt; <code class="docutils literal notranslate"><span class="pre">contact_cutoff_adhesion</span></code>, an attractive force is applied (simulating Cadherins). If distance is very small, a repulsive force prevents overlap.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="step-3-time-evolution">
+<h3>Step 3: Time Evolution<a class="headerlink" href="#step-3-time-evolution" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code> loop moves the simulation forward:</p>
+<ol class="arabic simple">
+<li><p><strong>Forces</strong>: Calculates Pressure + Surface Tension + Contact Forces.</p></li>
+<li><p><strong>Integration</strong>: Updates node positions using <code class="docutils literal notranslate"><span class="pre">time_integrator_ptr_-&gt;update_nodes_positions</span></code>.</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="simulation-cell-polarization">
+<h2>4. Simulation: Cell Polarization<a class="headerlink" href="#simulation-cell-polarization" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Science<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Epithelial cells are polarized: they have an <strong>Apical</strong> side (top, facing lumen), <strong>Basal</strong> side (bottom, facing substrate), and <strong>Lateral</strong> sides (touching neighbors). This polarity dictates mechanical properties (e.g., higher tension apically causes folding).</p>
+</section>
+<section id="id2">
+<h3>Codebase Implementation<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Polarization Mode</strong>: Configured via <code class="docutils literal notranslate"><span class="pre">POLARIZATION_MODE_INDEX</span></code> in <code class="docutils literal notranslate"><span class="pre">include/global_configuration.hpp</span></code>.</p>
+<ul>
+<li><p><strong>Mode 1 (Contact-based)</strong>: Cells detect who they touch. If touching another cell -&gt; Lateral. If touching ECM -&gt; Basal. If touching nothing/lumen -&gt; Apical.</p></li>
+</ul>
+</li>
+<li><p><strong>Face Types</strong>: defined in <code class="docutils literal notranslate"><span class="pre">parameters_sheet.xml</span></code>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;face_type_name&gt;apical&lt;/face_type_name&gt;</span></code>: High surface tension (<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>) to simulate an actin ring.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;face_type_name&gt;lateral&lt;/face_type_name&gt;</span></code>: Lower tension (<code class="docutils literal notranslate"><span class="pre">5e-4</span></code>) but high <code class="docutils literal notranslate"><span class="pre">adherence_strength</span></code> (<code class="docutils literal notranslate"><span class="pre">1e9</span></code>) to keep cells glued.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;face_type_name&gt;basal&lt;/face_type_name&gt;</span></code>: Interacts with the substrate.</p></li>
+</ul>
+</li>
+</ul>
+<p>In <code class="docutils literal notranslate"><span class="pre">solver::run_iteration()</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Polarize the faces based on their contacts</span>
+<span class="n">cell_lst_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">special_polarization_update</span><span class="p">(</span><span class="n">cell_lst_</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>This function dynamically updates the face type (and thus the forces) as cells move and rearrange.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="simulation-pressurized-vesicle-cyst">
+<h2>5. Simulation: Pressurized Vesicle / Cyst<a class="headerlink" href="#simulation-pressurized-vesicle-cyst" title="Link to this heading">#</a></h2>
+<section id="id3">
+<h3>Science<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>A cyst is a hollow sphere of cells surrounding a fluid-filled lumen. The lumen pressure drives expansion.</p>
+</section>
+<section id="id4">
+<h3>Codebase Implementation<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Config</strong>: <code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_vesicle.xml</span></code></p></li>
+<li><p><strong>Lumen Representation</strong>: The lumen is modeled as a “Ghost Cell” (Cell Type 2).</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;cell_type_name&gt;lumen&lt;/cell_type_name&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;max_inner_pressure&gt;INF&lt;/max_inner_pressure&gt;</span></code>: It exerts pressure outward on the epithelial cells.</p></li>
+</ul>
+</li>
+<li><p><strong>Growth</strong>: The simulation typically increases the target volume of the lumen cell or epithelial cells (via <code class="docutils literal notranslate"><span class="pre">&lt;avg_growth_rate&gt;</span></code>) to drive expansion, testing the tissue’s viscoelasticity.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="performance-optimization">
+<h2>6. Performance &amp; Optimization<a class="headerlink" href="#performance-optimization" title="Link to this heading">#</a></h2>
+<p>The paper claims high performance (125k cells/day). This is achieved via <strong>Adaptive OpenMP Scheduling</strong> in <code class="docutils literal notranslate"><span class="pre">src/solver.cpp</span></code>.</p>
+<ul class="simple">
+<li><p><strong>Problem</strong>: Biology is heterogeneous. Some cells divide (high workload), some are static (low workload). Standard parallel loops (<code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span> <span class="pre">for</span></code>) can be inefficient if one thread gets all the hard work.</p></li>
+<li><p><strong>Solution</strong>: The <code class="docutils literal notranslate"><span class="pre">solver</span></code> measures “workload heterogeneity” (<code class="docutils literal notranslate"><span class="pre">calculate_workload_heterogeneity</span></code>) and dynamically switches scheduling strategies:</p>
+<ul>
+<li><p><strong>Static</strong>: Good for uniform meshes (low overhead).</p></li>
+<li><p><strong>Dynamic/Guided</strong>: Good when some cells are dividing or interacting heavily (better load balancing).</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example from solver.cpp</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">heterogeneity_cov</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.6</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// High heterogeneity: smaller chunks for better load balancing</span>
+<span class="w">    </span><span class="n">divisor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This allows the code to simulate massive tissues efficiently.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../sections/developers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Developer guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="performance-tuning.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Performance Tuning Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-simucell3d">1. Introduction to SimuCell3D</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-deformable-cell-model-dcm">2. The Deformable Cell Model (DCM)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#science">Science</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#codebase-implementation">Codebase Implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-epithelial-sheet-mechanics">3. Simulation: Epithelial Sheet Mechanics</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-configuration-parameters-core-parameters-sheet-xml">Step 1: Configuration (<code class="docutils literal notranslate"><span class="pre">parameters/core/parameters_sheet.xml</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-physics-engine-contact-model">Step 2: Physics Engine (Contact Model)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-time-evolution">Step 3: Time Evolution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-cell-polarization">4. Simulation: Cell Polarization</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Science</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Codebase Implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation-pressurized-vesicle-cyst">5. Simulation: Pressurized Vesicle / Cyst</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Science</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Codebase Implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-optimization">6. Performance &amp; Optimization</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/developer/explainer.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

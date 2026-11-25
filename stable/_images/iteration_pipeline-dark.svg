@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 822" width="340" height="822" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+<title id="t">One solver iteration of SimuCell3D 2.1</title>
+<desc id="d">Eleven steps in four groups, top to bottom: write mesh files, divide cells, update face types, refine meshes, remove failed cells; contacts, polarization, internal forces; integrate; write CSV rows, delete dead and unstable cells; then loop back.</desc>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker><marker id="ahg" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#808c99"/></marker><marker id="aho" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f09a7a"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#62c7d8"/></marker><marker id="ahgr" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4f9a64"/></marker></defs>
+<text x="4" y="17" font-size="13" font-weight="700" fill="#62c7d8" text-anchor="start" letter-spacing="0.05em">MESH AND TOPOLOGY</text>
+<rect x="4" y="25" width="300" height="47" rx="7" fill="#62c7d8" fill-opacity="0.13" stroke="#62c7d8" stroke-width="1.6"/>
+<rect x="4" y="25" width="5" height="47" rx="2" fill="#62c7d8"/>
+<text x="19" y="46" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Write mesh files</text>
+<text x="19" y="64" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >when a new sampling period starts</text>
+<line x1="40" y1="73" x2="40" y2="79" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="80" width="300" height="64" rx="7" fill="#62c7d8" fill-opacity="0.13" stroke="#62c7d8" stroke-width="1.6"/>
+<rect x="4" y="80" width="5" height="64" rx="2" fill="#62c7d8"/>
+<text x="19" y="101" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Divide cells</text>
+<text x="19" y="119" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >every 5th iteration, cells past</text>
+<text x="19" y="136" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >their division volume</text>
+<line x1="40" y1="145" x2="40" y2="151" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="152" width="300" height="30" rx="7" fill="#62c7d8" fill-opacity="0.13" stroke="#62c7d8" stroke-width="1.6"/>
+<rect x="4" y="152" width="5" height="30" rx="2" fill="#62c7d8"/>
+<text x="19" y="173" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Update face types</text>
+<line x1="40" y1="183" x2="40" y2="189" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="190" width="300" height="64" rx="7" fill="#62c7d8" fill-opacity="0.13" stroke="#62c7d8" stroke-width="1.6"/>
+<rect x="4" y="190" width="5" height="64" rx="2" fill="#62c7d8"/>
+<text x="19" y="211" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Refine meshes</text>
+<text x="19" y="229" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >split, collapse; swap if enabled;</text>
+<text x="19" y="246" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >edge lengths in [l<tspan dy="3.64" font-size="9.36">min</tspan><tspan dy="-3.64">, 3 l</tspan><tspan dy="3.64" font-size="9.36">min</tspan><tspan dy="-3.64">]</tspan></text>
+<line x1="40" y1="255" x2="40" y2="261" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="262" width="300" height="47" rx="7" fill="#62c7d8" fill-opacity="0.13" stroke="#62c7d8" stroke-width="1.6"/>
+<rect x="4" y="262" width="5" height="47" rx="2" fill="#62c7d8"/>
+<text x="19" y="283" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Remove failed cells</text>
+<text x="19" y="301" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >cells whose refinement failed</text>
+<text x="4" y="332" font-size="13" font-weight="700" fill="#f09a7a" text-anchor="start" letter-spacing="0.05em">FORCES</text>
+<rect x="4" y="340" width="300" height="64" rx="7" fill="#f09a7a" fill-opacity="0.13" stroke="#f09a7a" stroke-width="1.6"/>
+<rect x="4" y="340" width="5" height="64" rx="2" fill="#f09a7a"/>
+<text x="19" y="361" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Contacts</text>
+<text x="19" y="379" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >node-face pairs within the cutoff;</text>
+<text x="19" y="396" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >contact forces or couplings</text>
+<line x1="40" y1="405" x2="40" y2="411" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="412" width="300" height="47" rx="7" fill="#f09a7a" fill-opacity="0.13" stroke="#f09a7a" stroke-width="1.6"/>
+<rect x="4" y="412" width="5" height="47" rx="2" fill="#f09a7a"/>
+<text x="19" y="433" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Polarization</text>
+<text x="19" y="451" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >face types from the contacts</text>
+<line x1="40" y1="460" x2="40" y2="466" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="467" width="300" height="64" rx="7" fill="#f09a7a" fill-opacity="0.13" stroke="#f09a7a" stroke-width="1.6"/>
+<rect x="4" y="467" width="5" height="64" rx="2" fill="#f09a7a"/>
+<text x="19" y="488" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Internal forces</text>
+<text x="19" y="506" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >target-volume growth; pressure,</text>
+<text x="19" y="523" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >tension, area elasticity, bending</text>
+<text x="4" y="554" font-size="13" font-weight="700" fill="#62c7d8" text-anchor="start" letter-spacing="0.05em">MOTION</text>
+<rect x="4" y="562" width="300" height="47" rx="7" fill="#62c7d8" fill-opacity="0.13" stroke="#62c7d8" stroke-width="1.6"/>
+<rect x="4" y="562" width="5" height="47" rx="2" fill="#62c7d8"/>
+<text x="19" y="583" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Integrate</text>
+<text x="19" y="601" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >move the nodes; t ← t + Δt</text>
+<text x="4" y="632" font-size="13" font-weight="700" fill="#808c99" text-anchor="start" letter-spacing="0.05em">OUTPUT AND CLEAN-UP</text>
+<rect x="4" y="640" width="300" height="64" rx="7" fill="#808c99" fill-opacity="0.13" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="640" width="5" height="64" rx="2" fill="#808c99"/>
+<text x="19" y="661" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Write CSV rows</text>
+<text x="19" y="679" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >statistics every 50 iterations,</text>
+<text x="19" y="696" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >performance every 100</text>
+<line x1="40" y1="705" x2="40" y2="711" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="712" width="300" height="64" rx="7" fill="#808c99" fill-opacity="0.13" stroke="#808c99" stroke-width="1.6"/>
+<rect x="4" y="712" width="5" height="64" rx="2" fill="#808c99"/>
+<text x="19" y="733" font-size="15" font-weight="600" fill="#ced6dd" text-anchor="start" >Delete dead and unstable cells</text>
+<text x="19" y="751" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >deaths below the minimum volume;</text>
+<text x="19" y="768" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >unstable cells removed</text>
+<path d="M304,744.0 H326 V48.5 H307" fill="none" stroke="#808c99" stroke-width="1.8" marker-end="url(#ahg)"/>
+<text x="4" y="796" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >Repeat while t &lt; simulation duration</text>
+<text x="4" y="813" font-size="13" font-weight="400" fill="#a7b1bc" text-anchor="start" >and at least one cell remains.</text>
+</svg>

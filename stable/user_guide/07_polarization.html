@@ -31,14 +31,14 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,18 +49,29 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/07_polarization';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/user_guide/07_polarization.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/user_guide/07_polarization.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Cell classes" href="08_cell_classes.html" />
-    <link rel="prev" title="Growth, division and removal" href="06_growth_division_removal.html" />
+    <link rel="prev" title="Growth, division and cell death" href="06_growth_division_removal.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Polarization - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/user_guide/07_polarization.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -133,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -150,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -177,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -211,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -358,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -385,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../developers/index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -414,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -509,7 +542,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_contact.html">Contact between cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_time_integration.html">Time integration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_mesh_refinement.html">Mesh refinement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and removal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_growth_division_removal.html">Growth, division and cell death</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Polarization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_cell_classes.html">Cell classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_safeguards.html">Safeguards</a></li>
@@ -650,8 +683,8 @@ keep local type 0, so these cell types need only one face type.</p>
 </section>
 <section id="polarization-modes">
 <h2>Polarization modes<a class="headerlink" href="#polarization-modes" title="Link to this heading">#</a></h2>
-<p>At the start of every iteration, all faces of every epithelial cell are reset to local type 0
-(apical). The polarization mode then decides which faces become lateral or basal in the same
+<p>In every iteration, after the division check and before mesh refinement, all faces of every
+epithelial cell are reset to local type 0 (apical), whatever the polarization mode. The polarization mode then decides which faces become lateral or basal in the same
 iteration, before the internal forces are computed.</p>
 <section id="mode-0-no-polarization">
 <h3>Mode 0: no polarization<a class="headerlink" href="#mode-0-no-polarization" title="Link to this heading">#</a></h3>
@@ -697,7 +730,7 @@ normal. The first non-boundary voxel it reaches gives the region the face looks 
 </ol>
 <p>In 2.1 a face that looks at exterior space becomes local type 0, and a face that looks at
 cytoplasm or at a lumen becomes local type 1. The voxel map is written at every sampling period
-to <code class="docutils literal notranslate"><span class="pre">region_data/result_&lt;n&gt;.vtk</span></code>, from the second iteration on (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p>
+to <code class="docutils literal notranslate"><span class="pre">region_data/result_&lt;n&gt;.vtk</span></code>, from the third iteration on (<a class="reference internal" href="14_output_files.html"><span class="doc">Output files</span></a>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The paper describes the outcome as lateral (facing another cell), apical (facing an enclosed
@@ -721,8 +754,9 @@ of boundary voxels can also report the exterior for a face that is in contact wi
 touches it (<a class="reference internal" href="03_contact.html"><span class="doc">Contact between cells</span></a>).</p></li>
 </ul>
 <p>A lower lateral than apical surface tension, as in the shipped files, favours large contacts
-between cells: for two coupled cells the contact angle <span class="math notranslate nohighlight">\(\theta\)</span> follows the Young-Dupré relation
-<span class="math notranslate nohighlight">\(\cos\theta = \gamma_l/\gamma_a\)</span> (paper, Supplementary Fig. 5). The paper explores the balance
+between cells: for two coupled cells, the angle <span class="math notranslate nohighlight">\(\theta\)</span> between each free surface and the
+contact plane at the rim follows the Young-Dupré relation <span class="math notranslate nohighlight">\(\cos\theta = \gamma_l/\gamma_a\)</span>
+(paper, Supplementary Fig. 5), because the interface carries the lateral tension of both cells. The paper explores the balance
 between surface tension and adhesion in its Figs. 3 and 4.</p>
 </section>
 <section id="contact-area-fraction">
@@ -752,8 +786,8 @@ column is absent in the other modes (<a class="reference internal" href="14_outp
 </tbody>
 </table>
 </div>
-<p>Every shipped parameter file that states its configuration was written for mode 1
-(<code class="docutils literal notranslate"><span class="pre">fig3e_*.xml</span></code> state none). Changing the mode requires a rebuild (<a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p>
+<p>Every shipped parameter file states its configuration in its header, and all of them were
+written for mode 1. Changing the mode requires a rebuild (<a class="reference internal" href="10_compile_time_configuration.html"><span class="doc">Compile-time configuration</span></a>).</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <ul class="simple">
@@ -780,7 +814,7 @@ column is absent in the other modes (<a class="reference internal" href="14_outp
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Growth, division and removal</p>
+        <p class="prev-next-title">Growth, division and cell death</p>
       </div>
     </a>
     <a class="right-next"
@@ -823,6 +857,13 @@ column is absent in the other modes (<a class="reference internal" href="14_outp
 </ul>
   </nav></div>
 
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/user_guide/07_polarization.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
+
 </div></div>
               
             
@@ -857,16 +898,28 @@ column is absent in the other modes (<a class="reference internal" href="14_outp
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   

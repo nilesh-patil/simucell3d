@@ -1,0 +1,1797 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+
+    <title>Parameter Screening Guide &#8212; SimuCell3D 2.0 documentation (archived)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=d87c9b17" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1fc8a8fd"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=fc97db16"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'doc/user-guide/parameter-screening';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <script defer="defer" src="../../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/2.0/doc/user-guide/parameter-screening.html" />
+    <link rel="icon" href="../../_static/favicon.svg"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Python Bindings Guide" href="python-bindings.html" />
+    <link rel="prev" title="Visualization Package Guide" href="visualization.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../_static/favicon-32.png">
+  <meta name="description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Parameter Screening Guide - SimuCell3D">
+  <meta property="og:description" content="Archived documentation of SimuCell3D 2.0 (tag v2.0), re-rendered unchanged. See the current documentation for the latest release.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/2.0/doc/user-guide/parameter-screening.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/2.0/doc/assets/img/simucell_topolgy_example.png">
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
+  
+    <p class="title logo__title">SimuCell3D</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/overview.html">
+    Overview
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/getting-started.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../sections/user-guide.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/science.html">
+    Science
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/developers.html">
+    Developers
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/benchmarking.html">
+    Benchmarking
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://www.nilesh42.science/simucell3d/stable/">
+    Current docs
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/examples-and-scripts.html">
+    Examples and scripts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/docs-old.html">
+    docs-old
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../sections/plans.html">
+    Plans
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../licence.html">
+    Licence
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/nilesh-patil/simucell3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="parameter-reference.html">Parameter reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input-mesh-format.html">Input mesh format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mesh-generation.html">Mesh generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output-format.html">Simulation statistics</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Parameter screening</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python-bindings.html">Python bindings</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../sections/user-guide.html" class="nav-link">User guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Parameter...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="parameter-screening-guide">
+<h1>Parameter Screening Guide<a class="headerlink" href="#parameter-screening-guide" title="Link to this heading">#</a></h1>
+<p>Comprehensive guide to systematic parameter space exploration for matching SimuCell3D simulations to experimental data.</p>
+<p>This guide covers grid search, Latin hypercube sampling, Bayesian optimization, and visualization techniques for efficient parameter screening.</p>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#overview">Overview</a></p></li>
+<li><p><a class="reference internal" href="#why-screen-parameters">Why Screen Parameters?</a></p></li>
+<li><p><a class="reference internal" href="#quick-start">Quick Start</a></p></li>
+<li><p><a class="reference internal" href="#screening-workflows">Screening Workflows</a></p></li>
+<li><p><a class="reference internal" href="#parameter-space-visualization">Parameter Space Visualization</a></p></li>
+<li><p><a class="reference internal" href="#matching-experimental-data">Matching Experimental Data</a></p></li>
+<li><p><a class="reference internal" href="#best-practices">Best Practices</a></p></li>
+<li><p><a class="reference internal" href="#tools-and-scripts">Tools and Scripts</a></p></li>
+<li><p><a class="reference internal" href="#example-workflows">Example Workflows</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting">Troubleshooting</a></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<section id="what-is-parameter-screening">
+<h3>What is Parameter Screening?<a class="headerlink" href="#what-is-parameter-screening" title="Link to this heading">#</a></h3>
+<p><strong>Parameter screening</strong> is the systematic exploration of parameter space to find values that match experimental observations.</p>
+<p><strong>Key challenges:</strong></p>
+<ul class="simple">
+<li><p>High-dimensional space (10-20 parameters)</p></li>
+<li><p>Expensive simulations (minutes to hours per run)</p></li>
+<li><p>Noisy experimental data (biological variability)</p></li>
+<li><p>Multiple conflicting objectives (pressure, volume, shape)</p></li>
+</ul>
+<p><strong>This guide provides:</strong></p>
+<ul class="simple">
+<li><p>Efficient sampling strategies (grid search, LHS, Bayesian)</p></li>
+<li><p>Automated workflow on HPC clusters</p></li>
+<li><p>Visualization dashboards for parameter sensitivity</p></li>
+<li><p>Objective functions for matching experimental data</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="why-screen-parameters">
+<h2>Why Screen Parameters?<a class="headerlink" href="#why-screen-parameters" title="Link to this heading">#</a></h2>
+<section id="common-use-cases">
+<h3>Common Use Cases<a class="headerlink" href="#common-use-cases" title="Link to this heading">#</a></h3>
+<section id="matching-tissue-morphology">
+<h4>1. Matching Tissue Morphology<a class="headerlink" href="#matching-tissue-morphology" title="Link to this heading">#</a></h4>
+<p><strong>Goal:</strong> Find parameters that reproduce observed epithelial sheet shape</p>
+<p><strong>Parameters to screen:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">surface_tension</span></code> - Controls cell-cell adhesion strength</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bulk_modulus</span></code> - Cell compressibility</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bending_modulus</span></code> - Cell membrane stiffness</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contact_adhesion_strength</span></code> - Cell-cell contact energy</p></li>
+</ul>
+<p><strong>Observables to match:</strong></p>
+<ul class="simple">
+<li><p>Cell shape (aspect ratio, roundness)</p></li>
+<li><p>Tissue thickness</p></li>
+<li><p>Cell packing (hexagonal vs irregular)</p></li>
+<li><p>Apical/basal area ratio</p></li>
+</ul>
+</section>
+<section id="matching-growth-dynamics">
+<h4>2. Matching Growth Dynamics<a class="headerlink" href="#matching-growth-dynamics" title="Link to this heading">#</a></h4>
+<p><strong>Goal:</strong> Find growth rate that matches experimental time-lapse</p>
+<p><strong>Parameters to screen:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_growth_rate</span></code> - Mean volumetric growth rate</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std_growth_rate</span></code> - Growth rate variability</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">avg_division_volume</span></code> - Target volume for division</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std_division_volume</span></code> - Division volume variability</p></li>
+</ul>
+<p><strong>Observables to match:</strong></p>
+<ul class="simple">
+<li><p>Cell count over time</p></li>
+<li><p>Doubling time</p></li>
+<li><p>Growth phase duration</p></li>
+<li><p>Final cell density</p></li>
+</ul>
+</section>
+<section id="matching-mechanical-response">
+<h4>3. Matching Mechanical Response<a class="headerlink" href="#matching-mechanical-response" title="Link to this heading">#</a></h4>
+<p><strong>Goal:</strong> Find stiffness that matches AFM measurements</p>
+<p><strong>Parameters to screen:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epi_bulk_modulus</span></code> - Epithelial cell bulk modulus</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mes_bulk_modulus</span></code> - Mesenchymal cell bulk modulus</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ecm_bulk_modulus</span></code> - ECM bulk modulus</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">damping</span></code> - Viscous damping coefficient</p></li>
+</ul>
+<p><strong>Observables to match:</strong></p>
+<ul class="simple">
+<li><p>Young’s modulus (AFM indentation)</p></li>
+<li><p>Stress-strain curves (compression)</p></li>
+<li><p>Relaxation time (stress relaxation)</p></li>
+<li><p>Viscoelastic ratio</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<section id="method-1-python-bindings-recommended">
+<h3>Method 1: Python Bindings (Recommended)<a class="headerlink" href="#method-1-python-bindings-recommended" title="Link to this heading">#</a></h3>
+<p><strong>Best for:</strong> Small-scale screening (&lt; 100 simulations) on local machine</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">simucell3d</span>
+
+<span class="c1"># Define parameter grid</span>
+<span class="n">bulk_moduli</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">]</span>  <span class="c1"># Pa</span>
+<span class="n">adhesion_strengths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">2e-4</span><span class="p">,</span> <span class="mf">5e-4</span><span class="p">]</span>  <span class="c1"># J/m²</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">bulk_mod</span> <span class="ow">in</span> <span class="n">bulk_moduli</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">adhesion</span> <span class="ow">in</span> <span class="n">adhesion_strengths</span><span class="p">:</span>
+        <span class="c1"># Load base parameter file</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">ParameterSet</span><span class="p">(</span><span class="s1">'parameters_base.xml'</span><span class="p">)</span>
+
+        <span class="c1"># Override parameters</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'epi_bulk_modulus'</span><span class="p">,</span> <span class="n">bulk_mod</span><span class="p">)</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'contact_adhesion_strength'</span><span class="p">,</span> <span class="n">adhesion</span><span class="p">)</span>
+
+        <span class="c1"># Run simulation</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">run_simulation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+        <span class="c1"># Extract observables</span>
+        <span class="n">final_pressure</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_mean_pressure</span><span class="p">(</span><span class="n">iteration</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">final_shape</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_mean_shape_index</span><span class="p">(</span><span class="n">iteration</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'bulk_modulus'</span><span class="p">:</span> <span class="n">bulk_mod</span><span class="p">,</span>
+            <span class="s1">'adhesion'</span><span class="p">:</span> <span class="n">adhesion</span><span class="p">,</span>
+            <span class="s1">'pressure'</span><span class="p">:</span> <span class="n">final_pressure</span><span class="p">,</span>
+            <span class="s1">'shape_index'</span><span class="p">:</span> <span class="n">final_shape</span>
+        <span class="p">})</span>
+
+<span class="c1"># Save results</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'screening_results.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="method-2-hpc-cluster-for-large-screening">
+<h3>Method 2: HPC Cluster (For Large Screening)<a class="headerlink" href="#method-2-hpc-cluster-for-large-screening" title="Link to this heading">#</a></h3>
+<p><strong>Best for:</strong> Large-scale screening (100-10,000 simulations) on Slurm/PBS clusters</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Prepare parameter table (CSV)</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>parameter_table.csv<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">sim_id,input_mesh,bulk_modulus,adhesion</span>
+<span class="s">1,data/cube.vtk,1000,5e-5</span>
+<span class="s">2,data/cube.vtk,2000,5e-5</span>
+<span class="s">3,data/cube.vtk,3000,5e-5</span>
+<span class="s">...</span>
+<span class="s">EOF</span>
+
+<span class="c1"># 2. Launch screening on cluster</span>
+<span class="nb">cd</span><span class="w"> </span>scripts/parameter_screening/
+python3<span class="w"> </span>launch_parameter_screening.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>parameter_table.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>my_screening_name<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/cluster/scratch/username/
+
+<span class="c1"># 3. Collect results after jobs complete</span>
+python3<span class="w"> </span>collect_screening_data.py<span class="w"> </span>/cluster/scratch/username/my_screening_name/
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="screening-workflows">
+<h2>Screening Workflows<a class="headerlink" href="#screening-workflows" title="Link to this heading">#</a></h2>
+<section id="workflow-1-grid-search-exhaustive">
+<h3>Workflow 1: Grid Search (Exhaustive)<a class="headerlink" href="#workflow-1-grid-search-exhaustive" title="Link to this heading">#</a></h3>
+<p><strong>When to use:</strong> Few parameters (2-3), small ranges, need complete coverage</p>
+<p><strong>Pros:</strong></p>
+<ul class="simple">
+<li><p>Guarantees finding global optimum (within grid resolution)</p></li>
+<li><p>Easy to visualize (2D/3D heatmaps)</p></li>
+<li><p>No assumptions about parameter relationships</p></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul class="simple">
+<li><p>Exponential growth in simulations (curse of dimensionality)</p></li>
+<li><p>Wastes effort in uninteresting regions</p></li>
+<li><p>Example: 5 parameters × 10 values each = 100,000 simulations</p></li>
+</ul>
+<p><strong>Example: 2D Grid Search</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Screen bulk_modulus × adhesion_strength</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">bulk_moduli</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>      <span class="c1"># 20 values</span>
+<span class="n">adhesions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>            <span class="c1"># 20 values (log scale)</span>
+
+<span class="c1"># Total: 20 × 20 = 400 simulations</span>
+
+<span class="n">parameter_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">'bulk_modulus'</span><span class="p">:</span> <span class="n">bm</span><span class="p">,</span> <span class="s1">'adhesion'</span><span class="p">:</span> <span class="n">adh</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bulk_moduli</span>
+    <span class="k">for</span> <span class="n">adh</span> <span class="ow">in</span> <span class="n">adhesions</span>
+<span class="p">]</span>
+
+<span class="c1"># Visualize parameter space coverage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameter_grid</span><span class="p">],</span>
+           <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="s1">'adhesion'</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameter_grid</span><span class="p">],</span>
+           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Bulk Modulus (Pa)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Adhesion Strength (J/m²)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'grid_search_coverage.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Visualization:</strong></p>
+<!-- Dashboard visualization (image not available):
+     Figure 1 would show a 2D grid search results heatmap with:
+     - X-axis: Bulk Modulus (Pa)
+     - Y-axis: Adhesion Strength (J/m²)
+     - Color scale: Objective function value (MSE from experimental data)
+     - Red/hot colors indicating best parameter fit regions
+     Use the code example above to generate your own visualization. -->
+<p><em>Figure 1: 2D grid search results showing parameter sensitivity heatmap. Color indicates objective function value (e.g., MSE from experimental data). Red regions show best fit.</em></p>
+</section>
+<section id="workflow-2-latin-hypercube-sampling-efficient">
+<h3>Workflow 2: Latin Hypercube Sampling (Efficient)<a class="headerlink" href="#workflow-2-latin-hypercube-sampling-efficient" title="Link to this heading">#</a></h3>
+<p><strong>When to use:</strong> Many parameters (5-10), large ranges, limited budget</p>
+<p><strong>Pros:</strong></p>
+<ul class="simple">
+<li><p>Space-filling design (covers parameter space evenly)</p></li>
+<li><p>Works in high dimensions (10+ parameters)</p></li>
+<li><p>Only N samples needed for N-dimensional space</p></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul class="simple">
+<li><p>May miss narrow optimal regions</p></li>
+<li><p>Requires surrogate model for optimization</p></li>
+<li><p>Harder to visualize than grid search</p></li>
+</ul>
+<p><strong>Example: 5D Latin Hypercube</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+
+<span class="c1"># Define parameter bounds</span>
+<span class="n">param_bounds</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'bulk_modulus'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">),</span>
+    <span class="s1">'adhesion'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">),</span>
+    <span class="s1">'surface_tension'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">),</span>
+    <span class="s1">'bending_modulus'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-19</span><span class="p">,</span> <span class="mf">1e-17</span><span class="p">),</span>
+    <span class="s1">'damping'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e5</span><span class="p">,</span> <span class="mf">1e7</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Generate 100 samples (efficient for 5D space)</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">param_bounds</span><span class="p">),</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">unit_samples</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+
+<span class="c1"># Scale to parameter bounds</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">pname</span><span class="p">,</span> <span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">param_bounds</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">scaled</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">unit_samples</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
+    <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scaled</span><span class="p">)</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Create parameter table</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">param_bounds</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'sim_id'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'lhs_parameter_table.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generated </span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> samples for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">param_bounds</span><span class="p">)</span><span class="si">}</span><span class="s2">D parameter space"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Grid search would need </span><span class="si">{</span><span class="mi">10</span><span class="o">**</span><span class="nb">len</span><span class="p">(</span><span class="n">param_bounds</span><span class="p">)</span><span class="si">}</span><span class="s2"> samples for similar coverage!"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Visualization:</strong></p>
+<!-- Dashboard visualization (image not available):
+     Figure 2 would show Latin hypercube sampling results with:
+     - Parallel coordinates plot for 5D parameter space
+     - Each vertical axis represents one parameter (normalized 0-1)
+     - Lines connecting parameter values for each simulation
+     - Color-coded by objective function value (green=good, red=poor)
+     Use the parallel coordinates plotting code in "Parameter Space Visualization" section to create your own. -->
+<p><em>Figure 2: Latin hypercube sampling results for 5D parameter space. Parallel coordinates plot shows parameter relationships. Color indicates objective function value.</em></p>
+</section>
+<section id="workflow-3-bayesian-optimization-adaptive">
+<h3>Workflow 3: Bayesian Optimization (Adaptive)<a class="headerlink" href="#workflow-3-bayesian-optimization-adaptive" title="Link to this heading">#</a></h3>
+<p><strong>When to use:</strong> Expensive simulations, smooth objective landscape, sequential budget</p>
+<p><strong>Pros:</strong></p>
+<ul class="simple">
+<li><p>Exploits surrogate model (Gaussian process) to guide search</p></li>
+<li><p>Balances exploration (uncertain regions) vs exploitation (known good regions)</p></li>
+<li><p>Typically finds optimum in 10-50 iterations</p></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul class="simple">
+<li><p>Requires sequential execution (no parallelization)</p></li>
+<li><p>Assumes smooth objective function</p></li>
+<li><p>Can get stuck in local optima</p></li>
+</ul>
+<p><strong>Example: Bayesian Optimization</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bayes_opt</span><span class="w"> </span><span class="kn">import</span> <span class="n">BayesianOptimization</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">objective_function</span><span class="p">(</span><span class="n">bulk_modulus</span><span class="p">,</span> <span class="n">adhesion</span><span class="p">,</span> <span class="n">surface_tension</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Run simulation with given parameters and return objective value.</span>
+<span class="sd">    Lower is better (e.g., MSE from experimental data).</span>
+<span class="sd">    """</span>
+    <span class="c1"># Load base parameters</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">ParameterSet</span><span class="p">(</span><span class="s1">'parameters_base.xml'</span><span class="p">)</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'epi_bulk_modulus'</span><span class="p">,</span> <span class="n">bulk_modulus</span><span class="p">)</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'contact_adhesion_strength'</span><span class="p">,</span> <span class="n">adhesion</span><span class="p">)</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'surface_tension'</span><span class="p">,</span> <span class="n">surface_tension</span><span class="p">)</span>
+
+    <span class="c1"># Run simulation</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">simucell3d</span><span class="o">.</span><span class="n">run_simulation</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+    <span class="c1"># Compute MSE from experimental data</span>
+    <span class="n">exp_pressure</span> <span class="o">=</span> <span class="mi">1200</span>  <span class="c1"># Pa (from experiment)</span>
+    <span class="n">exp_shape_index</span> <span class="o">=</span> <span class="mf">3.8</span>
+
+    <span class="n">sim_pressure</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_mean_pressure</span><span class="p">(</span><span class="n">iteration</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sim_shape_index</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_mean_shape_index</span><span class="p">(</span><span class="n">iteration</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">mse</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim_pressure</span> <span class="o">-</span> <span class="n">exp_pressure</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">sim_shape_index</span> <span class="o">-</span> <span class="n">exp_shape_index</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Bayesian optimization maximizes, so return negative MSE</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">mse</span>
+
+<span class="c1"># Define parameter bounds</span>
+<span class="n">pbounds</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'bulk_modulus'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">),</span>
+    <span class="s1">'adhesion'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">),</span>
+    <span class="s1">'surface_tension'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># Initialize optimizer</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">BayesianOptimization</span><span class="p">(</span>
+    <span class="n">f</span><span class="o">=</span><span class="n">objective_function</span><span class="p">,</span>
+    <span class="n">pbounds</span><span class="o">=</span><span class="n">pbounds</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+
+<span class="c1"># Run optimization (typically 20-50 iterations)</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">maximize</span><span class="p">(</span>
+    <span class="n">init_points</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>    <span class="c1"># Random exploration first</span>
+    <span class="n">n_iter</span><span class="o">=</span><span class="mi">20</span>         <span class="c1"># Then adaptive search</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Best parameters found:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+
+<span class="c1"># Save optimization history</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">optimizer</span><span class="o">.</span><span class="n">res</span><span class="p">)</span>
+<span class="n">history</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'bayesian_optimization_history.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Visualization:</strong></p>
+<!-- Dashboard visualization (image not available):
+     Figure 3 would show Bayesian optimization convergence with:
+     - Top panel: Best objective function value vs iteration number (should show convergence)
+     - Bottom panel: Acquisition function value highlighting exploration/exploitation balance
+     - X-axis: Iteration number (0-50 typical)
+     - Demonstrates how algorithm converges to optimal parameters
+     Bayesian optimization libraries (e.g., bayes_opt) typically include built-in plotting utilities. -->
+<p><em>Figure 3: Bayesian optimization convergence plot. Top: Objective function value over iterations (converging to optimum). Bottom: Acquisition function showing exploration vs exploitation trade-off.</em></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="parameter-space-visualization">
+<h2>Parameter Space Visualization<a class="headerlink" href="#parameter-space-visualization" title="Link to this heading">#</a></h2>
+<section id="d-sensitivity-analysis">
+<h3>1D Sensitivity Analysis<a class="headerlink" href="#d-sensitivity-analysis" title="Link to this heading">#</a></h3>
+<p><strong>Purpose:</strong> Understand effect of single parameter while holding others fixed</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Vary bulk_modulus, fix all others</span>
+<span class="n">bulk_moduli</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">pressures</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bulk_moduli</span><span class="p">:</span>
+    <span class="c1"># Run simulation (pseudocode)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">bulk_modulus</span><span class="o">=</span><span class="n">bm</span><span class="p">)</span>
+    <span class="n">pressures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">mean_pressure</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bulk_moduli</span><span class="p">,</span> <span class="n">pressures</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Bulk Modulus (Pa)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Mean Pressure (Pa)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">1200</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Experimental target'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'1d_sensitivity_bulk_modulus.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="d-heatmaps">
+<h3>2D Heatmaps<a class="headerlink" href="#d-heatmaps" title="Link to this heading">#</a></h3>
+<p><strong>Purpose:</strong> Visualize interaction between two parameters</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1"># Load screening results</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'screening_results.csv'</span><span class="p">)</span>
+
+<span class="c1"># Pivot for heatmap</span>
+<span class="n">pivot</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">'bulk_modulus'</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">'adhesion'</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">'pressure'</span><span class="p">)</span>
+
+<span class="c1"># Plot heatmap</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">pivot</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">'.0f'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Mean Pressure (Pa) vs Bulk Modulus &amp; Adhesion'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'2d_heatmap_pressure.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="parallel-coordinates-plot">
+<h3>Parallel Coordinates Plot<a class="headerlink" href="#parallel-coordinates-plot" title="Link to this heading">#</a></h3>
+<p><strong>Purpose:</strong> Visualize high-dimensional parameter relationships</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pandas.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">parallel_coordinates</span>
+
+<span class="c1"># Load results</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'screening_results.csv'</span><span class="p">)</span>
+
+<span class="c1"># Normalize parameters to [0, 1] for visualization</span>
+<span class="n">df_norm</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># All except objective</span>
+    <span class="n">df_norm</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+
+<span class="c1"># Color by objective value</span>
+<span class="n">df_norm</span><span class="p">[</span><span class="s1">'objective_category'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'objective'</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">'worst'</span><span class="p">,</span> <span class="s1">'bad'</span><span class="p">,</span> <span class="s1">'ok'</span><span class="p">,</span> <span class="s1">'good'</span><span class="p">,</span> <span class="s1">'best'</span><span class="p">])</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">parallel_coordinates</span><span class="p">(</span><span class="n">df_norm</span><span class="p">,</span> <span class="s1">'objective_category'</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">'RdYlGn'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Normalized Parameter Value'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'upper right'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'parallel_coordinates.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="contour-plots">
+<h3>Contour Plots<a class="headerlink" href="#contour-plots" title="Link to this heading">#</a></h3>
+<p><strong>Purpose:</strong> Show objective function landscape in 2D</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">griddata</span>
+
+<span class="c1"># Load results</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'screening_results.csv'</span><span class="p">)</span>
+
+<span class="c1"># Create regular grid for interpolation</span>
+<span class="n">bulk_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">adhesion_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'adhesion'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s1">'adhesion'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">BM</span><span class="p">,</span> <span class="n">ADH</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">bulk_grid</span><span class="p">,</span> <span class="n">adhesion_grid</span><span class="p">)</span>
+
+<span class="c1"># Interpolate objective values onto grid</span>
+<span class="n">objective_grid</span> <span class="o">=</span> <span class="n">griddata</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">'adhesion'</span><span class="p">]),</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'objective'</span><span class="p">],</span>
+    <span class="p">(</span><span class="n">BM</span><span class="p">,</span> <span class="n">ADH</span><span class="p">),</span>
+    <span class="n">method</span><span class="o">=</span><span class="s1">'cubic'</span>
+<span class="p">)</span>
+
+<span class="c1"># Contour plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">contour</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">BM</span><span class="p">,</span> <span class="n">ADH</span><span class="p">,</span> <span class="n">objective_grid</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">'adhesion'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Samples'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Bulk Modulus (Pa)'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Adhesion Strength (J/m²)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">contour</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Objective Function'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'contour_objective.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="matching-experimental-data">
+<h2>Matching Experimental Data<a class="headerlink" href="#matching-experimental-data" title="Link to this heading">#</a></h2>
+<section id="objective-functions">
+<h3>Objective Functions<a class="headerlink" href="#objective-functions" title="Link to this heading">#</a></h3>
+<section id="mean-squared-error-mse">
+<h4>Mean Squared Error (MSE)<a class="headerlink" href="#mean-squared-error-mse" title="Link to this heading">#</a></h4>
+<p><strong>Use case:</strong> Match quantitative measurements (pressure, volume, cell count)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mse_objective</span><span class="p">(</span><span class="n">sim_result</span><span class="p">,</span> <span class="n">exp_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Compute MSE between simulation and experiment.</span>
+<span class="sd">    Lower is better.</span>
+<span class="sd">    """</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Match mean pressure</span>
+    <span class="n">sim_pressure</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_mean_pressure</span><span class="p">()</span>
+    <span class="n">exp_pressure</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'mean_pressure'</span><span class="p">]</span>
+    <span class="n">mse</span> <span class="o">+=</span> <span class="p">(</span><span class="n">sim_pressure</span> <span class="o">-</span> <span class="n">exp_pressure</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Match cell count</span>
+    <span class="n">sim_cells</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_cell_count</span><span class="p">()</span>
+    <span class="n">exp_cells</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'cell_count'</span><span class="p">]</span>
+    <span class="n">mse</span> <span class="o">+=</span> <span class="p">(</span><span class="n">sim_cells</span> <span class="o">-</span> <span class="n">exp_cells</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">mse</span>
+</pre></div>
+</div>
+</section>
+<section id="weighted-mse-multiple-observables">
+<h4>Weighted MSE (Multiple Observables)<a class="headerlink" href="#weighted-mse-multiple-observables" title="Link to this heading">#</a></h4>
+<p><strong>Use case:</strong> Multiple observables with different units and importance</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">weighted_mse_objective</span><span class="p">(</span><span class="n">sim_result</span><span class="p">,</span> <span class="n">exp_data</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Weighted MSE for multiple observables.</span>
+<span class="sd">    """</span>
+    <span class="n">wmse</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Pressure (Pa) - high priority</span>
+    <span class="n">sim_pressure</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_mean_pressure</span><span class="p">()</span>
+    <span class="n">exp_pressure</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'mean_pressure'</span><span class="p">]</span>
+    <span class="n">wmse</span> <span class="o">+=</span> <span class="n">weights</span><span class="p">[</span><span class="s1">'pressure'</span><span class="p">]</span> <span class="o">*</span> <span class="p">((</span><span class="n">sim_pressure</span> <span class="o">-</span> <span class="n">exp_pressure</span><span class="p">)</span> <span class="o">/</span> <span class="n">exp_pressure</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Volume (m³) - medium priority</span>
+    <span class="n">sim_volume</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_mean_volume</span><span class="p">()</span>
+    <span class="n">exp_volume</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'mean_volume'</span><span class="p">]</span>
+    <span class="n">wmse</span> <span class="o">+=</span> <span class="n">weights</span><span class="p">[</span><span class="s1">'volume'</span><span class="p">]</span> <span class="o">*</span> <span class="p">((</span><span class="n">sim_volume</span> <span class="o">-</span> <span class="n">exp_volume</span><span class="p">)</span> <span class="o">/</span> <span class="n">exp_volume</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Cell count - low priority (integer, wide tolerance)</span>
+    <span class="n">sim_cells</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_cell_count</span><span class="p">()</span>
+    <span class="n">exp_cells</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'cell_count'</span><span class="p">]</span>
+    <span class="n">wmse</span> <span class="o">+=</span> <span class="n">weights</span><span class="p">[</span><span class="s1">'cell_count'</span><span class="p">]</span> <span class="o">*</span> <span class="p">((</span><span class="n">sim_cells</span> <span class="o">-</span> <span class="n">exp_cells</span><span class="p">)</span> <span class="o">/</span> <span class="n">exp_cells</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">wmse</span>
+
+<span class="c1"># Example weights</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'pressure'</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>     <span class="c1"># Most important</span>
+    <span class="s1">'volume'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>        <span class="c1"># Moderate importance</span>
+    <span class="s1">'cell_count'</span><span class="p">:</span> <span class="mf">0.1</span>     <span class="c1"># Least important (integer, noisy)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="time-series-mse">
+<h4>Time-Series MSE<a class="headerlink" href="#time-series-mse" title="Link to this heading">#</a></h4>
+<p><strong>Use case:</strong> Match time-lapse data (growth curves, morphogenesis dynamics)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">timeseries_mse_objective</span><span class="p">(</span><span class="n">sim_result</span><span class="p">,</span> <span class="n">exp_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    MSE over time series.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Extract time series</span>
+    <span class="n">sim_times</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_times</span><span class="p">()</span>
+    <span class="n">sim_pressures</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_mean_pressure_timeseries</span><span class="p">()</span>
+
+    <span class="n">exp_times</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'times'</span><span class="p">]</span>
+    <span class="n">exp_pressures</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'pressures'</span><span class="p">]</span>
+
+    <span class="c1"># Interpolate simulation to experimental time points</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
+    <span class="n">sim_interp</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">sim_times</span><span class="p">,</span> <span class="n">sim_pressures</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s1">'extrapolate'</span><span class="p">)</span>
+    <span class="n">sim_at_exp_times</span> <span class="o">=</span> <span class="n">sim_interp</span><span class="p">(</span><span class="n">exp_times</span><span class="p">)</span>
+
+    <span class="c1"># Compute MSE</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">sim_at_exp_times</span> <span class="o">-</span> <span class="n">exp_pressures</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mse</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="uncertainty-quantification">
+<h3>Uncertainty Quantification<a class="headerlink" href="#uncertainty-quantification" title="Link to this heading">#</a></h3>
+<p><strong>Important:</strong> Experimental data has uncertainty - account for it!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">robust_objective_with_uncertainty</span><span class="p">(</span><span class="n">sim_result</span><span class="p">,</span> <span class="n">exp_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Objective function accounting for experimental uncertainty.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Experimental mean ± std</span>
+    <span class="n">exp_pressure_mean</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'pressure_mean'</span><span class="p">]</span>
+    <span class="n">exp_pressure_std</span> <span class="o">=</span> <span class="n">exp_data</span><span class="p">[</span><span class="s1">'pressure_std'</span><span class="p">]</span>
+
+    <span class="c1"># Simulation value</span>
+    <span class="n">sim_pressure</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">get_mean_pressure</span><span class="p">()</span>
+
+    <span class="c1"># Z-score: how many standard deviations away?</span>
+    <span class="n">z_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim_pressure</span> <span class="o">-</span> <span class="n">exp_pressure_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">exp_pressure_std</span>
+
+    <span class="c1"># Penalize based on z-score (squared for smoothness)</span>
+    <span class="n">objective</span> <span class="o">=</span> <span class="n">z_score</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">objective</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<section id="start-with-literature-values">
+<h3>1. Start with Literature Values<a class="headerlink" href="#start-with-literature-values" title="Link to this heading">#</a></h3>
+<p><strong>Don’t screen blindly</strong> - use published parameter ranges:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Literature-informed parameter bounds (from SimuCell3D paper)</span>
+<span class="n">param_ranges</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'epi_bulk_modulus'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">),</span>          <span class="c1"># Pa (epithelial cells)</span>
+    <span class="s1">'mes_bulk_modulus'</span><span class="p">:</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">),</span>           <span class="c1"># Pa (mesenchymal cells)</span>
+    <span class="s1">'surface_tension'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">),</span>           <span class="c1"># J/m² (cell-cell adhesion)</span>
+    <span class="s1">'bending_modulus'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-19</span><span class="p">,</span> <span class="mf">1e-17</span><span class="p">),</span>         <span class="c1"># J·m (membrane stiffness)</span>
+    <span class="s1">'contact_adhesion'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">5e-4</span><span class="p">),</span>          <span class="c1"># J/m² (cell-cell contact)</span>
+    <span class="s1">'damping'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e5</span><span class="p">,</span> <span class="mf">1e7</span><span class="p">),</span>                     <span class="c1"># Pa·s (viscous damping)</span>
+    <span class="s1">'avg_growth_rate'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-12</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">),</span>         <span class="c1"># m³/s (volumetric growth)</span>
+    <span class="s1">'time_step'</span><span class="p">:</span> <span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>                  <span class="c1"># s (numerical stability)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="screen-one-parameter-at-a-time-initially">
+<h3>2. Screen One Parameter at a Time (Initially)<a class="headerlink" href="#screen-one-parameter-at-a-time-initially" title="Link to this heading">#</a></h3>
+<p><strong>Avoid curse of dimensionality</strong> - understand single-parameter effects first:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Phase 1: Individual parameter sensitivity (8 × 10 = 80 simulations)</span>
+<span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span> <span class="ow">in</span> <span class="n">param_ranges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">run_1d_screen</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+
+<span class="c1"># Phase 2: Identify most sensitive parameters (e.g., bulk_modulus, adhesion)</span>
+
+<span class="c1"># Phase 3: 2D grid search on top 2 parameters (20 × 20 = 400 simulations)</span>
+<span class="n">run_2d_grid_search</span><span class="p">(</span><span class="s1">'bulk_modulus'</span><span class="p">,</span> <span class="s1">'adhesion'</span><span class="p">)</span>
+
+<span class="c1"># Phase 4: Refine with Bayesian optimization (50 simulations)</span>
+<span class="n">run_bayesian_optimization</span><span class="p">([</span><span class="s1">'bulk_modulus'</span><span class="p">,</span> <span class="s1">'adhesion'</span><span class="p">,</span> <span class="s1">'surface_tension'</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+<section id="validate-on-multiple-observables">
+<h3>3. Validate on Multiple Observables<a class="headerlink" href="#validate-on-multiple-observables" title="Link to this heading">#</a></h3>
+<p><strong>Don’t overfit to single metric</strong> - ensure physical consistency:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">multi_objective_validation</span><span class="p">(</span><span class="n">sim_result</span><span class="p">,</span> <span class="n">exp_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Check multiple observables, not just one.</span>
+<span class="sd">    """</span>
+    <span class="n">checks</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Primary objective (what you're optimizing)</span>
+    <span class="n">checks</span><span class="p">[</span><span class="s1">'pressure_match'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sim_result</span><span class="o">.</span><span class="n">pressure</span> <span class="o">-</span> <span class="n">exp_data</span><span class="o">.</span><span class="n">pressure</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">100</span>  <span class="c1"># Pa</span>
+
+    <span class="c1"># Secondary checks (constraints)</span>
+    <span class="n">checks</span><span class="p">[</span><span class="s1">'volume_physiological'</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.5e-16</span> <span class="o">&lt;</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">volume</span> <span class="o">&lt;</span> <span class="mf">1.3e-15</span>  <span class="c1"># m³</span>
+    <span class="n">checks</span><span class="p">[</span><span class="s1">'energy_conserved'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">energy_drift</span> <span class="o">&lt;</span> <span class="mf">0.01</span>  <span class="c1"># &lt;1% drift</span>
+    <span class="n">checks</span><span class="p">[</span><span class="s1">'no_crashes'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">completed_successfully</span>
+
+    <span class="c1"># All checks must pass</span>
+    <span class="n">all_valid</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">checks</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">all_valid</span><span class="p">,</span> <span class="n">checks</span>
+</pre></div>
+</div>
+</section>
+<section id="check-physical-consistency">
+<h3>4. Check Physical Consistency<a class="headerlink" href="#check-physical-consistency" title="Link to this heading">#</a></h3>
+<p><strong>Sanity checks</strong> to avoid unphysical parameter combinations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_physical_consistency</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Reject unphysical parameter combinations.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Bulk modulus should be &gt; surface tension (compressibility check)</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">params</span><span class="p">[</span><span class="s1">'surface_tension'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e4</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"Bulk modulus too low relative to surface tension"</span>
+
+    <span class="c1"># Time step must satisfy CFL condition</span>
+    <span class="n">max_velocity</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># m/s (typical)</span>
+    <span class="n">min_edge_len</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">'min_edge_len'</span><span class="p">]</span>
+    <span class="n">max_time_step</span> <span class="o">=</span> <span class="n">min_edge_len</span> <span class="o">/</span> <span class="n">max_velocity</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">'time_step'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_time_step</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Time step </span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="s1">'time_step'</span><span class="p">]</span><span class="si">}</span><span class="s2"> exceeds CFL limit </span><span class="si">{</span><span class="n">max_time_step</span><span class="si">}</span><span class="s2">"</span>
+
+    <span class="c1"># Damping should be sufficient for stability</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">'damping'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">params</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"Damping too low, simulation may be unstable"</span>
+
+    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"Physically consistent"</span>
+</pre></div>
+</div>
+</section>
+<section id="use-resume-able-workflows">
+<h3>5. Use Resume-able Workflows<a class="headerlink" href="#use-resume-able-workflows" title="Link to this heading">#</a></h3>
+<p><strong>Checkpoint progress</strong> for long-running screenings:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save partial results after each simulation</span>
+<span class="n">results_file</span> <span class="o">=</span> <span class="s1">'screening_results.csv'</span>
+
+<span class="c1"># Check if file exists (resuming)</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">results_file</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">results_file</span><span class="p">)</span>
+    <span class="n">completed_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'sim_id'</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Resuming from </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">completed_ids</span><span class="p">)</span><span class="si">}</span><span class="s2"> completed simulations"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">completed_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="c1"># Run only uncompleted simulations</span>
+<span class="k">for</span> <span class="n">sim_id</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parameter_table</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">sim_id</span> <span class="ow">in</span> <span class="n">completed_ids</span><span class="p">:</span>
+        <span class="k">continue</span>  <span class="c1"># Skip already completed</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># Append result immediately (don't wait for all to finish)</span>
+    <span class="n">new_row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">result</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">new_row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">results_file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="tools-and-scripts">
+<h2>Tools and Scripts<a class="headerlink" href="#tools-and-scripts" title="Link to this heading">#</a></h2>
+<section id="hpc-cluster-scripts-slurm">
+<h3>HPC Cluster Scripts (Slurm)<a class="headerlink" href="#hpc-cluster-scripts-slurm" title="Link to this heading">#</a></h3>
+<p>Located in <code class="docutils literal notranslate"><span class="pre">scripts/parameter_screening/</span></code></p>
+<section id="setup-one-time">
+<h4>1. Setup (One-Time)<a class="headerlink" href="#setup-one-time" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load modules (Euler cluster example)</span>
+env2lmod
+module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0<span class="w"> </span>openblas/0.3.20<span class="w"> </span>python/3.11.2<span class="w"> </span>cmake/3.25.0
+
+<span class="c1"># Create virtual environment</span>
+<span class="nb">cd</span><span class="w"> </span>scripts/parameter_screening/
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>--system-site-packages<span class="w"> </span>venv_screening
+
+<span class="c1"># Activate</span>
+<span class="nb">source</span><span class="w"> </span>./venv_screening/bin/activate
+
+<span class="c1"># Install dependencies</span>
+<span class="nv">OPENBLAS</span><span class="o">=</span><span class="nv">$OPENBLAS_ROOT</span>/lib/libopenblas.so<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--ignore-installed<span class="w"> </span>--no-deps<span class="w"> </span><span class="nv">pandas</span><span class="o">==</span><span class="m">1</span>.4.4
+</pre></div>
+</div>
+</section>
+<section id="prepare-parameter-table">
+<h4>2. Prepare Parameter Table<a class="headerlink" href="#prepare-parameter-table" title="Link to this heading">#</a></h4>
+<p><strong>CSV format:</strong></p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>sim_id,input_mesh,time_step,damping,epi_bulk_modulus,surface_tension
+1,./data/cube.vtk,1e-7,1e6,2500,5e-5
+2,./data/cube.vtk,1e-7,1e6,5000,5e-5
+3,./data/cube.vtk,1e-7,1e6,7500,5e-5
+</pre></div>
+</div>
+<p><strong>Important:</strong> Each row = one simulation job</p>
+</section>
+<section id="launch-screening">
+<h4>3. Launch Screening<a class="headerlink" href="#launch-screening" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load modules</span>
+env2lmod
+module<span class="w"> </span>load<span class="w"> </span>gcc/9.3.0<span class="w"> </span>openblas/0.3.20<span class="w"> </span>python/3.11.2<span class="w"> </span>cmake/3.25.0
+
+<span class="c1"># Activate venv</span>
+<span class="nb">cd</span><span class="w"> </span>scripts/parameter_screening/
+<span class="nb">source</span><span class="w"> </span>./venv_screening/bin/activate
+
+<span class="c1"># Launch</span>
+python3<span class="w"> </span>launch_parameter_screening.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>parameter_table.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>my_screening_name<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/cluster/scratch/username/output_dir/
+
+<span class="c1"># This submits N jobs (one per row) with:</span>
+<span class="c1"># - 4 CPUs per job</span>
+<span class="c1"># - 28GB RAM (7GB per CPU)</span>
+<span class="c1"># - 120 hour time limit</span>
+</pre></div>
+</div>
+<p><strong>Customize job resources</strong> by editing <code class="docutils literal notranslate"><span class="pre">launch_parameter_screening.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In launch_parameter_screening.py, modify:</span>
+<span class="n">sbatch_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"sbatch -n 1 --cpus-per-task=8 --time=72:00:00 --mem-per-cpu=8192"</span>
+<span class="c1">#                                        ^^        ^^                  ^^^^</span>
+<span class="c1">#                                      CPUs    Hours                RAM/CPU</span>
+</pre></div>
+</div>
+</section>
+<section id="monitor-progress">
+<h4>4. Monitor Progress<a class="headerlink" href="#monitor-progress" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check job status</span>
+squeue<span class="w"> </span>-u<span class="w"> </span>username
+
+<span class="c1"># Check completed jobs</span>
+ls<span class="w"> </span>/cluster/scratch/username/output_dir/my_screening_name/*/simulation_statistics.csv<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</pre></div>
+</div>
+</section>
+<section id="collect-results">
+<h4>5. Collect Results<a class="headerlink" href="#collect-results" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># After all jobs complete</span>
+python3<span class="w"> </span>collect_screening_data.py<span class="w"> </span>/cluster/scratch/username/output_dir/my_screening_name/
+
+<span class="c1"># Creates summary/ folder with last timestep from each simulation</span>
+ls<span class="w"> </span>/cluster/scratch/username/output_dir/my_screening_name/summary/
+</pre></div>
+</div>
+</section>
+</section>
+<section id="python-bindings-local-screening">
+<h3>Python Bindings (Local Screening)<a class="headerlink" href="#python-bindings-local-screening" title="Link to this heading">#</a></h3>
+<p><strong>For smaller screenings on local machine:</strong></p>
+<p>See <a class="reference internal" href="python-bindings.html"><span class="std std-doc">Python Bindings Guide</span></a> for complete API documentation.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="example-workflows">
+<h2>Example Workflows<a class="headerlink" href="#example-workflows" title="Link to this heading">#</a></h2>
+<section id="example-1-match-epithelial-sheet-pressure">
+<h3>Example 1: Match Epithelial Sheet Pressure<a class="headerlink" href="#example-1-match-epithelial-sheet-pressure" title="Link to this heading">#</a></h3>
+<p><strong>Goal:</strong> Find bulk modulus and adhesion that produce mean pressure = 1200 Pa</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Define parameter grid (2D)</span>
+<span class="n">bulk_moduli</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">]</span>
+<span class="n">adhesions</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5e-5</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">2e-4</span><span class="p">,</span> <span class="mf">5e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">]</span>
+
+<span class="c1"># 2. Run simulations</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">bm</span> <span class="ow">in</span> <span class="n">bulk_moduli</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">adh</span> <span class="ow">in</span> <span class="n">adhesions</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">bulk_modulus</span><span class="o">=</span><span class="n">bm</span><span class="p">,</span> <span class="n">adhesion</span><span class="o">=</span><span class="n">adh</span><span class="p">)</span>
+        <span class="n">pressure</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">mean_pressure</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">pressure</span> <span class="o">-</span> <span class="mi">1200</span><span class="p">)</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">'bulk_modulus'</span><span class="p">:</span> <span class="n">bm</span><span class="p">,</span>
+            <span class="s1">'adhesion'</span><span class="p">:</span> <span class="n">adh</span><span class="p">,</span>
+            <span class="s1">'pressure'</span><span class="p">:</span> <span class="n">pressure</span><span class="p">,</span>
+            <span class="s1">'error'</span><span class="p">:</span> <span class="n">error</span>
+        <span class="p">})</span>
+
+<span class="c1"># 3. Find best match</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="n">best</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'error'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmin</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best parameters:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Bulk modulus: </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span><span class="si">}</span><span class="s2"> Pa"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Adhesion: </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">'adhesion'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> J/m²"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Resulting pressure: </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">'pressure'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> Pa"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Error: </span><span class="si">{</span><span class="n">best</span><span class="p">[</span><span class="s1">'error'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> Pa"</span><span class="p">)</span>
+
+<span class="c1"># 4. Visualize</span>
+<span class="n">pivot</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">'bulk_modulus'</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">'adhesion'</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">'pressure'</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">pivot</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">'.0f'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Mean Pressure (Pa)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'pressure_heatmap.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-match-growth-curve">
+<h3>Example 2: Match Growth Curve<a class="headerlink" href="#example-2-match-growth-curve" title="Link to this heading">#</a></h3>
+<p><strong>Goal:</strong> Find growth rate that matches experimental cell count over time</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Experimental data (from time-lapse microscopy)</span>
+<span class="n">exp_times</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">48</span><span class="p">]</span>  <span class="c1"># hours</span>
+<span class="n">exp_cell_counts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">64</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">115</span><span class="p">,</span> <span class="mi">140</span><span class="p">]</span>  <span class="c1"># cells</span>
+
+<span class="c1"># Convert to seconds</span>
+<span class="n">exp_times_sec</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="o">*</span> <span class="mi">3600</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">exp_times</span><span class="p">]</span>
+
+<span class="c1"># Objective function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">growth_rate</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">avg_growth_rate</span><span class="o">=</span><span class="n">growth_rate</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="mi">48</span><span class="o">*</span><span class="mi">3600</span><span class="p">)</span>
+
+    <span class="c1"># Extract cell count time series</span>
+    <span class="n">sim_times</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_times</span><span class="p">()</span>
+    <span class="n">sim_cell_counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_cell_counts</span><span class="p">()</span>
+
+    <span class="c1"># Interpolate to experimental time points</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
+    <span class="n">sim_interp</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">sim_times</span><span class="p">,</span> <span class="n">sim_cell_counts</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">'linear'</span><span class="p">)</span>
+    <span class="n">sim_at_exp</span> <span class="o">=</span> <span class="n">sim_interp</span><span class="p">(</span><span class="n">exp_times_sec</span><span class="p">)</span>
+
+    <span class="c1"># Compute MSE</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">sim_at_exp</span> <span class="o">-</span> <span class="n">exp_cell_counts</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mse</span>
+
+<span class="c1"># Screen growth rates</span>
+<span class="n">growth_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">objective</span><span class="p">(</span><span class="n">gr</span><span class="p">)</span> <span class="k">for</span> <span class="n">gr</span> <span class="ow">in</span> <span class="n">growth_rates</span><span class="p">]</span>
+
+<span class="c1"># Best growth rate</span>
+<span class="n">best_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">best_growth_rate</span> <span class="o">=</span> <span class="n">growth_rates</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Best growth rate: </span><span class="si">{</span><span class="n">best_growth_rate</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> m³/s"</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Growth rate sensitivity</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">growth_rates</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Growth Rate (m³/s)'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'MSE (cells²)'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">best_growth_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Best'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Best fit vs experiment</span>
+<span class="n">result_best</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">avg_growth_rate</span><span class="o">=</span><span class="n">best_growth_rate</span><span class="p">,</span> <span class="n">max_time</span><span class="o">=</span><span class="mi">48</span><span class="o">*</span><span class="mi">3600</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exp_times</span><span class="p">,</span> <span class="n">exp_cell_counts</span><span class="p">,</span> <span class="s1">'ro-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Experiment'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result_best</span><span class="o">.</span><span class="n">times</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">,</span> <span class="n">result_best</span><span class="o">.</span><span class="n">cell_counts</span><span class="p">,</span> <span class="s1">'b-'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Simulation (best fit)'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Time (hours)'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Cell Count'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'growth_curve_fit.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="screening-jobs-crash">
+<h3>Screening Jobs Crash<a class="headerlink" href="#screening-jobs-crash" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong> Many jobs fail with segfault or timeout</p>
+<p><strong>Diagnosis:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check logs</span>
+tail<span class="w"> </span>-50<span class="w"> </span>/cluster/scratch/username/my_screening_name/1/simulation.log
+
+<span class="c1"># Common errors:</span>
+<span class="c1"># - Segfault: mesh refinement runaway (increase min_edge_len)</span>
+<span class="c1"># - Timeout: time_step too small (increase to 5e-7 or 1e-6)</span>
+<span class="c1"># - OOM: too many cells (reduce max_iterations or increase RAM)</span>
+</pre></div>
+</div>
+<p><strong>Solutions:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Increase min_edge_len to prevent refinement explosion</span>
+&lt;min_edge_len&gt;1.0e-6&lt;/min_edge_len&gt;<span class="w">  </span>&lt;!--<span class="w"> </span>Was<span class="w"> </span>5e-7<span class="w"> </span>--&gt;
+
+<span class="c1"># Increase time_step to reach target time faster</span>
+&lt;time_step&gt;5.0e-7&lt;/time_step&gt;<span class="w">  </span>&lt;!--<span class="w"> </span>Was<span class="w"> </span>1e-7<span class="w"> </span>--&gt;
+
+<span class="c1"># Request more RAM per job</span>
+sbatch<span class="w"> </span>--mem-per-cpu<span class="o">=</span><span class="m">16384</span><span class="w">  </span><span class="c1"># 16GB per CPU</span>
+</pre></div>
+</div>
+</section>
+<section id="objective-function-not-converging">
+<h3>Objective Function Not Converging<a class="headerlink" href="#objective-function-not-converging" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong> Bayesian optimization or grid search doesn’t find good parameters</p>
+<p><strong>Diagnosis:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot objective function landscape</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">'objective'</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Bulk Modulus'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Objective'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Check for:</span>
+<span class="c1"># - Flat landscape (no sensitivity) → change observable</span>
+<span class="c1"># - Multiple minima (multimodal) → use global optimizer</span>
+<span class="c1"># - Noise (rough surface) → run longer simulations</span>
+</pre></div>
+</div>
+<p><strong>Solutions:</strong></p>
+<ul class="simple">
+<li><p><strong>Flat landscape:</strong> Parameter doesn’t affect observable much, try different parameter</p></li>
+<li><p><strong>Multimodal:</strong> Use grid search or multi-start Bayesian optimization</p></li>
+<li><p><strong>Noisy:</strong> Increase <code class="docutils literal notranslate"><span class="pre">max_iterations</span></code> to reduce stochastic noise</p></li>
+</ul>
+</section>
+<section id="unphysical-results">
+<h3>Unphysical Results<a class="headerlink" href="#unphysical-results" title="Link to this heading">#</a></h3>
+<p><strong>Problem:</strong> Best parameters produce weird simulation behavior</p>
+<p><strong>Diagnosis:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check parameter values</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bulk modulus: </span><span class="si">{</span><span class="n">best_params</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Surface tension: </span><span class="si">{</span><span class="n">best_params</span><span class="p">[</span><span class="s1">'surface_tension'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ratio: </span><span class="si">{</span><span class="n">best_params</span><span class="p">[</span><span class="s1">'bulk_modulus'</span><span class="p">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">best_params</span><span class="p">[</span><span class="s1">'surface_tension'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Expected: ratio &gt; 10,000 (bulk &gt;&gt; surface)</span>
+<span class="c1"># If ratio &lt; 1000, cells will be too soft</span>
+</pre></div>
+</div>
+<p><strong>Solutions:</strong></p>
+<ul class="simple">
+<li><p>Add physical constraints to optimization</p></li>
+<li><p>Manually inspect simulation videos of “best” parameters</p></li>
+<li><p>Check energy conservation (should be &lt; 1% drift)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<section id="key-takeaways">
+<h3>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Start simple:</strong> 1D sensitivity → 2D grid → high-D optimization</p></li>
+<li><p><strong>Use literature values:</strong> Don’t screen blindly, use published ranges</p></li>
+<li><p><strong>Validate on multiple observables:</strong> Don’t overfit to single metric</p></li>
+<li><p><strong>Check physical consistency:</strong> Reject unphysical combinations</p></li>
+<li><p><strong>Visualize parameter space:</strong> Heatmaps, parallel coordinates, contours</p></li>
+</ol>
+</section>
+<section id="recommended-workflow">
+<h3>Recommended Workflow<a class="headerlink" href="#recommended-workflow" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Define observables (what to match)
+   ↓
+2. Identify sensitive parameters (literature + 1D screening)
+   ↓
+3. Choose sampling strategy (grid for 2-3D, LHS for 4-8D, Bayesian for &gt;8D)
+   ↓
+4. Run screening (local for &lt;100 sims, HPC for &gt;100 sims)
+   ↓
+5. Visualize results (heatmaps, dashboards, convergence plots)
+   ↓
+6. Validate best parameters (multiple observables, physical consistency)
+   ↓
+7. Refine if needed (zoom into promising region)
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h3>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Python API</strong>: <a class="reference internal" href="python-bindings.html"><span class="std std-doc">python-bindings.md</span></a> for local screening</p></li>
+<li><p><strong>Benchmarking</strong>: <a class="reference internal" href="../benchmarking/openmp-benchmarks.html"><span class="std std-doc">openmp-benchmarks.md</span></a> for performance</p></li>
+<li><p><strong>Parameter reference</strong>: <a class="reference internal" href="parameter-reference.html"><span class="std std-doc">parameter-reference.md</span></a> for all parameters</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="visualization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Visualization Package Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="python-bindings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Python Bindings Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-parameter-screening">What is Parameter Screening?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-screen-parameters">Why Screen Parameters?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-use-cases">Common Use Cases</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#matching-tissue-morphology">1. Matching Tissue Morphology</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#matching-growth-dynamics">2. Matching Growth Dynamics</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#matching-mechanical-response">3. Matching Mechanical Response</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-python-bindings-recommended">Method 1: Python Bindings (Recommended)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2-hpc-cluster-for-large-screening">Method 2: HPC Cluster (For Large Screening)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#screening-workflows">Screening Workflows</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-1-grid-search-exhaustive">Workflow 1: Grid Search (Exhaustive)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-2-latin-hypercube-sampling-efficient">Workflow 2: Latin Hypercube Sampling (Efficient)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-3-bayesian-optimization-adaptive">Workflow 3: Bayesian Optimization (Adaptive)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-space-visualization">Parameter Space Visualization</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-sensitivity-analysis">1D Sensitivity Analysis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-heatmaps">2D Heatmaps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-coordinates-plot">Parallel Coordinates Plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contour-plots">Contour Plots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matching-experimental-data">Matching Experimental Data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objective-functions">Objective Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-squared-error-mse">Mean Squared Error (MSE)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#weighted-mse-multiple-observables">Weighted MSE (Multiple Observables)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-mse">Time-Series MSE</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainty-quantification">Uncertainty Quantification</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#start-with-literature-values">1. Start with Literature Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#screen-one-parameter-at-a-time-initially">2. Screen One Parameter at a Time (Initially)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-on-multiple-observables">3. Validate on Multiple Observables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#check-physical-consistency">4. Check Physical Consistency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-resume-able-workflows">5. Use Resume-able Workflows</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tools-and-scripts">Tools and Scripts</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hpc-cluster-scripts-slurm">HPC Cluster Scripts (Slurm)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-one-time">1. Setup (One-Time)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-parameter-table">2. Prepare Parameter Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-screening">3. Launch Screening</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#monitor-progress">4. Monitor Progress</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-results">5. Collect Results</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-bindings-local-screening">Python Bindings (Local Screening)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-workflows">Example Workflows</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-match-epithelial-sheet-pressure">Example 1: Match Epithelial Sheet Pressure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-match-growth-curve">Example 2: Match Growth Curve</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#screening-jobs-crash">Screening Jobs Crash</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objective-function-not-converging">Objective Function Not Converging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unphysical-results">Unphysical Results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-workflow">Recommended Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/v2.0/doc/user-guide/parameter-screening.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> This page at tag v2.0
+    </a>
+  </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item"><p class="copyright legacy-footer">
+  SimuCell3D was created by Steve Runser, Roman Vetter and Dagmar Iber (Iber Lab, ETH Zurich).
+  Release 2.0 is a maintenance release by Nilesh Patil on a fork; it was not reviewed or endorsed by the authors.
+  These pages are the documentation of tag <code>v2.0</code> (commit <code>343bd98</code>), reproduced unchanged.
+  Changes since 1.0 &copy; 2026 Nilesh Patil, 3-Clause BSD License
+  (<a href="../../licence.html">licence and notice</a>).
+  <a href="https://www.nilesh42.science/simucell3d/stable/">Current documentation</a>.
+</p></div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "dev",
+    "version": "dev",
+    "url": "https://www.nilesh42.science/simucell3d/dev/"
+  },
+  {
+    "name": "2.1 (stable)",
+    "version": "2.1",
+    "url": "https://www.nilesh42.science/simucell3d/stable/",
+    "preferred": true
+  },
+  {
+    "name": "2.0",
+    "version": "2.0",
+    "url": "https://www.nilesh42.science/simucell3d/2.0/"
+  },
+  {
+    "name": "1.0",
+    "version": "1.0",
+    "url": "https://www.nilesh42.science/simucell3d/1.0/"
+  }
+]

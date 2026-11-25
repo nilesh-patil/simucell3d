@@ -31,34 +31,47 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=00353423" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=d87c9b17" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/documentation_options.js?v=c95eb2c2"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=fc97db16"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'developers/debugging';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nilesh-patil.github.io/simucell3d/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://www.nilesh42.science/simucell3d/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.1';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    <link rel="canonical" href="https://nilesh-patil.github.io/simucell3d/2.1/developers/debugging.html" />
+    <script defer="defer" src="../_static/table-wrap.js?v=07eb4f87"></script>
+    <link rel="canonical" href="https://www.nilesh42.science/simucell3d/stable/developers/debugging.html" />
+    <link rel="icon" href="../_static/favicon.svg"/>
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Coding style" href="coding_style.html" />
     <link rel="prev" title="Performance internals" href="performance_internals.html" />
+  
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/favicon-32.png">
+  <meta name="description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  <meta property="og:title" content="Debugging - SimuCell3D">
+  <meta property="og:description" content="Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue mechanics at subcellular resolution: installation, user guide, examples, benchmarks and API reference.">
+  <meta property="og:url" content="https://www.nilesh42.science/simucell3d/stable/developers/debugging.html">
+  <meta property="og:image" content="https://www.nilesh42.science/simucell3d/stable/_images/hero_tissues.png">
   </head>
   
   
@@ -131,6 +144,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo-light.svg" class="logo__image only-light" alt="SimuCell3D documentation home"/>
+    <script>document.write(`<img src="../_static/logo-dark.svg" class="logo__image only-dark" alt="SimuCell3D documentation home"/>`);</script>
+  
   
     <p class="title logo__title">SimuCell3D</p>
   
@@ -148,14 +169,14 @@
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -175,22 +196,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -209,21 +237,21 @@
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -356,14 +384,14 @@ document.write(`
     
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../install.html">
-    Installing SimuCell3D
+    Install
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../getting_started.html">
-    Getting started
+    Get started
   </a>
 </li>
 
@@ -383,22 +411,29 @@ document.write(`
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../benchmarks/index.html">
+    Benchmarks
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api/index.html">
-    API reference
+    API
   </a>
 </li>
 
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
-    Developer guide
+    Developers
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../whats_new/index.html">
-    Release history
+    Releases
   </a>
 </li>
 
@@ -412,21 +447,21 @@ document.write(`
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../faq.html">
-    Frequently asked questions
+    FAQ
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../citing.html">
-    Citing SimuCell3D
+    Citing
   </a>
 </li>
 
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../about.html">
-    About SimuCell3D
+    About
   </a>
 </li>
 
@@ -627,6 +662,123 @@ calls the failing function directly reproduces the problem in milliseconds. The 
 tests in <code class="docutils literal notranslate"><span class="pre">test/test_triangulation_modules/test_cell_divider/</span></code> follow this pattern.</p></li>
 </ul>
 </section>
+<section id="failure-signatures-from-long-runs">
+<span id="dev-debugging-signatures"></span><h2>Failure signatures from long runs<a class="headerlink" href="#failure-signatures-from-long-runs" title="Link to this heading">#</a></h2>
+<p>The defects below first showed up in 8-core growth runs of the reconstructed configuration
+(<code class="docutils literal notranslate"><span class="pre">parameters/longrun_fast_growth.xml</span></code>) between September and November 2026, at thousands to tens
+of thousands of cells. All are fixed in 2.1.0, and each has a regression test. This list is a
+guide for a failure that looks similar: the signature, the cause that was found, the fix, and
+the tests to start from.</p>
+<section id="crash-soon-after-the-first-cell-removal">
+<h3>Crash soon after the first cell removal<a class="headerlink" href="#crash-soon-after-the-first-cell-removal" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt>Signature</dt><dd><p>A segmentation fault a few iterations after the first cell was removed at its minimum volume (at 2,709 cells, in <code class="docutils literal notranslate"><span class="pre">epithelial_cell::special_polarization_update</span></code>).</p>
+</dd>
+<dt>Cause</dt><dd><p>After a cell was erased from <code class="docutils literal notranslate"><span class="pre">cell_lst_</span></code>, the cells behind it kept their old local ids, so the contact model indexed the wrong cell, or one past the end.</p>
+</dd>
+<dt>Fix</dt><dd><p>f61b620: local ids are reassigned after every removal.</p>
+</dd>
+<dt>Tests</dt><dd><p><code class="docutils literal notranslate"><span class="pre">solver_test_local_ids_resynced_after_cell_removal</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="mass-removal-of-exploded-cells">
+<h3>Mass removal of exploded cells<a class="headerlink" href="#mass-removal-of-exploded-cells" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt>Signature</dt><dd><p>Mass removal of cells from about 13,000 cells; removal lines with extents of metres or more, nodes moved far outside the tissue in one step.</p>
+</dd>
+<dt>Cause</dt><dd><p>The bending force divides by the triangle area and was guarded only against an area of exactly zero; one sliver triangle gave a force about <span class="math notranslate nohighlight">\(2 \times 10^6\)</span> times the normal scale.</p>
+</dd>
+<dt>Fix</dt><dd><p>8fd9e2b: the force is bounded on degenerate triangles.</p>
+</dd>
+<dt>Tests</dt><dd><p><code class="docutils literal notranslate"><span class="pre">stability_degenerate_hinge_force_bounded</span></code>, <code class="docutils literal notranslate"><span class="pre">stability_degenerate_hinge_force_saturates</span></code>, <code class="docutils literal notranslate"><span class="pre">stability_healthy_mesh_untouched_by_guard</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="inside-out-patches-on-cells">
+<h3>Inside-out patches on cells<a class="headerlink" href="#inside-out-patches-on-cells" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt>Signature</dt><dd><p>Inside-out patches on 8 % of the cells at 26,000 cells; swollen cells or long, thin cells.</p>
+</dd>
+<dt>Cause</dt><dd><p>Edge splitting chose the winding of the new triangles from the normal stored on the old face, which can be stale.</p>
+</dd>
+<dt>Fix</dt><dd><p>3a0fd76: the winding is taken from the node cycle of the replaced face; 3287dd1 checks the winding after every refinement.</p>
+</dd>
+<dt>Tests</dt><dd><p><code class="docutils literal notranslate"><span class="pre">triangulation_modules_local_mesh_refiner_refine_mesh_keeps_winding_consistent</span></code>, <code class="docutils literal notranslate"><span class="pre">triangulation_modules_local_mesh_refiner_winding_self_check</span></code> (mesh <code class="docutils literal notranslate"><span class="pre">split_edge_winding_daughter.vtk</span></code>).</p>
+</dd>
+</dl>
+</section>
+<section id="mother-cells-that-never-divide">
+<h3>Mother cells that never divide<a class="headerlink" href="#mother-cells-that-never-divide" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt>Signature</dt><dd><p>12,700 to 149,000 failed-division lines per run ending in <code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">not</span> <span class="pre">properly</span> <span class="pre">triangulated.</span></code>; the same mother cells fail again at every division check.</p>
+</dd>
+<dt>Cause</dt><dd><p>The division plane met the surface in several loops (a thin tendril) and the divider traced only one.</p>
+</dd>
+<dt>Fix</dt><dd><p>fc0e29c: every loop is traced and the cell is cut along the longest; c949e4e: a cut face that the Delaunay triangulation does not cover is refused.</p>
+</dd>
+<dt>Tests</dt><dd><p><code class="docutils literal notranslate"><span class="pre">triangulation_modules_cell_divider_divide_cell_multi_loop_plane_test</span></code> (meshes <code class="docutils literal notranslate"><span class="pre">stuck_mother_45093.vtk</span></code>, <code class="docutils literal notranslate"><span class="pre">stuck_mother_60905.vtk</span></code> captured from the runs), <code class="docutils literal notranslate"><span class="pre">..._refuses_uncovered_interface_test</span></code>, <code class="docutils literal notranslate"><span class="pre">..._run_keeps_refused_mother_test</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="silent-stall-in-contact-detection">
+<h3>Silent stall in contact detection<a class="headerlink" href="#silent-stall-in-contact-detection" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt>Signature</dt><dd><p>No output for 20 hours at 15,800 cells; the process at full load inside contact detection.</p>
+</dd>
+<dt>Cause</dt><dd><p>One cell’s nodes diverged to about <span class="math notranslate nohighlight">\(10^{19}\)</span> m; the voxel count of the spatial grid overflowed to 0, and contact detection degenerated into a scan of all nodes against all faces.</p>
+</dd>
+<dt>Fix</dt><dd><p>9acfe36: diverged cells are removed (<code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">numerically</span> <span class="pre">unstable</span> <span class="pre">cell</span></code>), and the grid refuses a non-finite or oversized domain with <code class="docutils literal notranslate"><span class="pre">unstable_simulation_exception</span></code>.</p>
+</dd>
+<dt>Tests</dt><dd><p><code class="docutils literal notranslate"><span class="pre">solver_test_unstable_cell_removed</span></code>, <code class="docutils literal notranslate"><span class="pre">solver_test_contact_model_throws_on_diverged_domain</span></code>, <code class="docutils literal notranslate"><span class="pre">uspg_4d_diverged_domain_test</span></code>, <code class="docutils literal notranslate"><span class="pre">uspg_3d_diverged_domain_test</span></code>, <code class="docutils literal notranslate"><span class="pre">uspg_3d_large_grid_index_overflow_test</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="run-ended-by-one-damaged-cell">
+<h3>Run ended by one damaged cell<a class="headerlink" href="#run-ended-by-one-damaged-cell" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt>Signature</dt><dd><p>The run ended at 79,635 cells with an uncaught <code class="docutils literal notranslate"><span class="pre">std::bad_optional_access</span></code>.</p>
+</dd>
+<dt>Cause</dt><dd><p>An error in the refinement of one damaged cell left the parallel loop and reached <code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p>
+</dd>
+<dt>Fix</dt><dd><p>60cacc8: the cell is removed (<code class="docutils literal notranslate"><span class="pre">Removing</span> <span class="pre">cell</span> <span class="pre">&lt;id&gt;</span> <span class="pre">at</span> <span class="pre">iteration</span> <span class="pre">&lt;i&gt;:</span> <span class="pre">mesh</span> <span class="pre">refinement</span> <span class="pre">failed:</span> <span class="pre">...</span></code>).</p>
+</dd>
+<dt>Tests</dt><dd><p><code class="docutils literal notranslate"><span class="pre">solver_test_refinement_failure_end_to_end</span></code> (committed failing before the fix, e193669), <code class="docutils literal notranslate"><span class="pre">solver_test_refinement_failure_removed</span></code>, <code class="docutils literal notranslate"><span class="pre">solver_test_refinement_failure_limit</span></code>, <code class="docutils literal notranslate"><span class="pre">solver_test_refinement_failure_all_cells_stop</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="threads-sharing-physical-cores">
+<h3>Threads sharing physical cores<a class="headerlink" href="#threads-sharing-physical-cores" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt>Signature</dt><dd><p>On a 4-core, 8-thread machine, the 4 threads ran on two physical cores.</p>
+</dd>
+<dt>Cause</dt><dd><p>With <code class="docutils literal notranslate"><span class="pre">OMP_PROC_BIND=close</span></code> and no <code class="docutils literal notranslate"><span class="pre">OMP_PLACES</span></code>, libgomp placed consecutive threads on sibling hyperthreads.</p>
+</dd>
+<dt>Fix</dt><dd><p>27cbf72: the solver pins one thread per physical core itself.</p>
+</dd>
+<dt>Tests</dt><dd><p><code class="docutils literal notranslate"><span class="pre">test_cpu_topology_placement_4c8t</span></code>, <code class="docutils literal notranslate"><span class="pre">solver_test_thread_placement</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="how-they-were-narrowed-down">
+<h3>How they were narrowed down<a class="headerlink" href="#how-they-were-narrowed-down" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Log lines and counts first.</strong> The cell id, iteration and extent in the removal lines, and
+the count of <code class="docutils literal notranslate"><span class="pre">Cell</span> <span class="pre">division</span> <span class="pre">failed</span></code> lines, located the cell and the iteration.</p></li>
+<li><p><strong>The last mesh frames.</strong> The VTK frames before the failure showed the inverted patches and
+the tendrils; the mothers that never divided were extracted from a frame into the test
+meshes above.</p></li>
+<li><p><strong>gdb for crashes, sampling for stalls.</strong> A core dump located the stale local id (the last
+cell had <code class="docutils literal notranslate"><span class="pre">local_id_</span></code> equal to the size of the cell list). For the stall, backtraces of the
+running process placed it in contact detection, and the bounds of the grid’s domain
+(<span class="math notranslate nohighlight">\(-4 \times 10^{19}\)</span> to <span class="math notranslate nohighlight">\(2 \times 10^{19}\)</span> m) pointed to a diverged cell.</p></li>
+<li><p><strong>A failing test before the fix.</strong> Each cause was reproduced in a unit test, on a captured
+mesh where one existed, and the test was committed before the fix.</p></li>
+</ol>
+<p>The thread placement problem leaves no error at all; it shows in the start-up line
+<code class="docutils literal notranslate"><span class="pre">Thread</span> <span class="pre">pinning:</span> <span class="pre">...</span></code> and in the share of cores in use (<code class="docutils literal notranslate"><span class="pre">/usr/bin/time</span> <span class="pre">-v</span></code>, or <code class="docutils literal notranslate"><span class="pre">top</span></code>).</p>
+</section>
+</section>
 <section id="debug-and-sanitizer-builds">
 <h2>Debug and sanitizer builds<a class="headerlink" href="#debug-and-sanitizer-builds" title="Link to this heading">#</a></h2>
 <p>A Debug build enables the <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements, which catch many invariant violations close to
@@ -782,11 +934,29 @@ script, set breakpoints in the C++ sources and start debugging with F5.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-the-log-first">Read the log first</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-the-failure-smaller">Make the failure smaller</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#failure-signatures-from-long-runs">Failure signatures from long runs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#crash-soon-after-the-first-cell-removal">Crash soon after the first cell removal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-removal-of-exploded-cells">Mass removal of exploded cells</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inside-out-patches-on-cells">Inside-out patches on cells</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mother-cells-that-never-divide">Mother cells that never divide</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#silent-stall-in-contact-detection">Silent stall in contact detection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-ended-by-one-damaged-cell">Run ended by one damaged cell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#threads-sharing-physical-cores">Threads sharing physical cores</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-they-were-narrowed-down">How they were narrowed down</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debug-and-sanitizer-builds">Debug and sanitizer builds</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gdb">gdb</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-bindings-in-vs-code">Python bindings in VS Code</a></li>
 </ul>
   </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection page-source-link">
+    <a href="https://github.com/nilesh-patil/simucell3d/blob/main/doc/developers/debugging.md">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+  </div></div>
 
 </div></div>
               
@@ -822,16 +992,28 @@ script, set breakpoints in the C++ sources and start debugging with F5.</p>
     </div>
   
   
+    <div class="footer-items__center">
+      
+        <div class="footer-item"><p class="footer-links">
+  <a href="https://github.com/nilesh-patil/simucell3d">Source code</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="https://github.com/nilesh-patil/simucell3d/issues">Report an issue</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../citing.html">Cite</a>
+  <span aria-hidden="true">&middot;</span>
+  <a href="../about.html">About and credits</a>
+</p></div>
+      
+    </div>
+  
   
     <div class="footer-items__end">
       
-        <div class="footer-item">
-
-  <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
-    <br/>
-  </p>
-</div>
+        <div class="footer-item"><p class="footer-version">
+  Documentation for SimuCell3D 2.1.0.
+  <br>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> and the
+  <a href="https://pydata-sphinx-theme.readthedocs.io/">PyData theme</a>.
+</p></div>
       
     </div>
   
