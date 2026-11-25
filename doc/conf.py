@@ -169,8 +169,14 @@ html_theme_options = {
 html_context = {
     "default_mode": "auto",
     # Source link (_templates/page-source-link.html): the editor on main for dev
-    # builds, the file at the release tag for release builds.
-    "source_ref": "main" if docs_version == "dev" else f"v{code_release}",
+    # builds, the file at the release tag for release builds. When the pages of a
+    # release are rebuilt from a later commit (a documentation-only update), set
+    # SIMUCELL3D_DOCS_SOURCE_REF to that commit or branch, because pages added
+    # since the tag do not exist at the tag.
+    "source_ref": os.environ.get(
+        "SIMUCELL3D_DOCS_SOURCE_REF",
+        "main" if docs_version == "dev" else f"v{code_release}",
+    ),
     "doc_path": "doc",
     "docs_version": docs_version,
     "canonical_version": canonical_version,
