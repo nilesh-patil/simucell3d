@@ -1,0 +1,18 @@
+{#- Extends the PyData theme layout only to add description and Open Graph metadata. -#}
+{% extends "pydata_sphinx_theme/layout.html" %}
+{%- block extrahead %}
+  {{ super() }}
+  {#- PNG fallback for browsers without SVG favicons (html_favicon is the SVG). #}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ pathto('_static/favicon-32.png', 1) }}">
+  {%- set page_desc = meta_description %}
+  <meta name="description" content="{{ page_desc|e }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SimuCell3D documentation">
+  {%- set clean_title = title|striptags %}
+  <meta property="og:title" content="{{ (clean_title if 'SimuCell3D' in clean_title else clean_title ~ ' - SimuCell3D')|e }}">
+  <meta property="og:description" content="{{ page_desc|e }}">
+  {%- if pageurl %}
+  <meta property="og:url" content="{{ pageurl|e }}">
+  {%- endif %}
+  <meta property="og:image" content="{{ docs_base_url }}/{{ canonical_version or docs_version }}/{{ og_image }}">
+{%- endblock extrahead %}

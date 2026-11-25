@@ -60,6 +60,8 @@ templates_path = ["_templates"]
 
 exclude_patterns = [
     "_build",
+    # Sources of the archived 1.0 and 2.0 sites, built separately (legacy/).
+    "legacy",
     "Thumbs.db",
     ".DS_Store",
 ]
@@ -90,33 +92,69 @@ suppress_warnings = [
 
 # -- HTML output --------------------------------------------------------------
 
-DOCS_BASE_URL = "https://nilesh-patil.github.io/simucell3d/"
+# Public address of the site, without a trailing slash. Every absolute URL of
+# the site (canonical links, the version switcher JSON, the workflow's
+# switcher.json) is built from it. A fork can build against its own host with
+# SIMUCELL3D_DOCS_BASE_URL=https://example.org/simucell3d.
+DOCS_BASE_URL = os.environ.get(
+    "SIMUCELL3D_DOCS_BASE_URL", "https://www.nilesh42.science/simucell3d"
+).rstrip("/")
+GITHUB_URL = "https://github.com/nilesh-patil/simucell3d"
 
-# Name of the deployed version this build is for ("dev", "stable" or "X.Y").
-# The docs workflow sets it; local builds are labelled "dev".
+# Name of the deployed version this build is for ("dev" or "X.Y"). The docs
+# workflow sets it; local builds are labelled "dev".
 docs_version = os.environ.get("SIMUCELL3D_DOCS_VERSION", "dev")
+
+# Release number in CMakeLists.txt (the last release on main, between releases).
+code_release = release
+if docs_version == "dev":
+    # The theme decides whether to show the "development version" banner from
+    # the release string. "2.1.0" would compare equal to the stable "2.1" (and
+    # "2.1.0+dev" too, build metadata is ignored), so no banner would appear on
+    # /dev/. A string that contains "dev" and is not a version number does.
+    release = "dev"
 
 html_theme = "pydata_sphinx_theme"
 html_title = f"SimuCell3D {release}"
 html_short_title = "SimuCell3D"
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
-html_baseurl = DOCS_BASE_URL + docs_version + "/"
+# Break opportunities after "_", "/" and "." in code names inside tables.
+html_js_files = [("table-wrap.js", {"defer": "defer"})]
+html_favicon = "_static/favicon.svg"
+# Canonical location of the pages. The newest release is deployed twice,
+# to /X.Y/ and /stable/; the docs workflow sets SIMUCELL3D_DOCS_CANONICAL_VERSION
+# to "stable" for that build so both copies point search engines at /stable/.
+# Older releases and dev are canonical to themselves.
+canonical_version = os.environ.get("SIMUCELL3D_DOCS_CANONICAL_VERSION", docs_version)
+html_baseurl = f"{DOCS_BASE_URL}/{canonical_version}/"
 html_show_sourcelink = False
 html_last_updated_fmt = None
+html_copy_source = False
 
 html_theme_options = {
-    "logo": {"text": "SimuCell3D"},
-    "github_url": "https://github.com/nilesh-patil/simucell3d",
-    "header_links_before_dropdown": 7,
+    "logo": {
+        "text": "SimuCell3D",
+        "image_light": "_static/logo-light.svg",
+        "image_dark": "_static/logo-dark.svg",
+        "alt_text": "SimuCell3D documentation home",
+    },
+    "github_url": GITHUB_URL,
+    # Eight top-level sections fit on one row at 1280 px with the short titles
+    # given in the root toctree (index.md); the rest go under "More".
+    "header_links_before_dropdown": 8,
+    "header_dropdown_text": "More",
     "navbar_align": "left",
     "navbar_end": ["version-switcher", "theme-switcher", "navbar-icon-links"],
     "show_toc_level": 2,
     "navigation_with_keys": False,
+    # Source link in the right-hand sidebar: _templates/page-source-link.html.
+    "secondary_sidebar_items": ["page-toc", "page-source-link"],
     "switcher": {
-        # One switcher file for all deployed versions, kept at the site root
-        # by the docs workflow. A copy lives in doc/_static/switcher.json.
-        "json_url": DOCS_BASE_URL + "switcher.json",
+        # One switcher file for all deployed versions, kept at the site root by
+        # the docs workflow (seeded from doc/_static/switcher.json). It must be
+        # served from the same origin as the pages: the browser fetches it.
+        "json_url": f"{DOCS_BASE_URL}/switcher.json",
         "version_match": docs_version,
     },
     # The switcher JSON is fetched by the browser; do not fetch it at build time.
@@ -124,11 +162,29 @@ html_theme_options = {
     # Banner on pages of versions other than the one marked "preferred" (stable).
     "show_version_warning_banner": True,
     "footer_start": ["copyright"],
-    "footer_end": ["sphinx-version"],
+    "footer_center": ["footer-links"],
+    "footer_end": ["footer-version"],
 }
 
 html_context = {
     "default_mode": "auto",
+    # Source link (_templates/page-source-link.html): the editor on main for dev
+    # builds, the file at the release tag for release builds.
+    "source_ref": "main" if docs_version == "dev" else f"v{code_release}",
+    "doc_path": "doc",
+    "docs_version": docs_version,
+    "canonical_version": canonical_version,
+    "code_release": code_release,
+    "docs_base_url": DOCS_BASE_URL,
+    "repo_url": GITHUB_URL,
+    # Preview image for link previews; the landing-page figure (index.md), as
+    # copied by Sphinx into _images/. Change both together.
+    "og_image": "_images/hero_tissues.png",
+    "meta_description": (
+        "Documentation of SimuCell3D, a C++ simulator of three-dimensional tissue "
+        "mechanics at subcellular resolution: installation, user guide, examples, "
+        "benchmarks and API reference."
+    ),
 }
 
 # Pages without a left sidebar (single pages and landing pages).

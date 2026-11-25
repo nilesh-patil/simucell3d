@@ -1,0 +1,16 @@
+{#- Link to the Markdown source of the page on GitHub (right-hand sidebar).
+    dev builds link to the editor on main; release builds to the file at the release tag. -#}
+{%- if sourcename is defined and page_source_suffix %}
+  {%- set src = pagename ~ page_source_suffix %}
+  <div class="tocsection page-source-link">
+    {%- if docs_version == "dev" %}
+    <a href="{{ repo_url }}/edit/main/{{ doc_path }}/{{ src }}">
+      <i class="fa-solid fa-pencil" aria-hidden="true"></i> Edit this page on GitHub
+    </a>
+    {%- else %}
+    <a href="{{ repo_url }}/blob/{{ source_ref }}/{{ doc_path }}/{{ src }}">
+      <i class="fa-brands fa-github" aria-hidden="true"></i> View this page's source
+    </a>
+    {%- endif %}
+  </div>
+{%- endif %}
